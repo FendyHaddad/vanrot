@@ -75,14 +75,14 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Check local package tooling with `node --version`, `corepack --version`, and `pnpm --version`.
-- [ ] Create a private root `package.json`.
-- [ ] Set `packageManager` to the exact local `pnpm --version` value.
-- [ ] Add workspace scripts: `build`, `typecheck`, `test`, `lint`, `clean`, and `verify`.
-- [ ] Create `pnpm-workspace.yaml` with workspace globs for `packages/*`, `apps/*`, and `examples/*`.
-- [ ] Create `tsconfig.base.json` with shared strict ESM TypeScript settings.
-- [ ] Create root `tsconfig.json` with references to the four core packages.
-- [ ] Verify the root files contain no package behavior beyond workspace orchestration.
+- [x] Check local package tooling with `node --version`, `corepack --version`, and `pnpm --version`.
+- [x] Create a private root `package.json`.
+- [x] Set `packageManager` to the exact local `pnpm --version` value.
+- [x] Add workspace scripts: `build`, `typecheck`, `test`, `lint`, `clean`, and `verify`.
+- [x] Create `pnpm-workspace.yaml` with workspace globs for `packages/*`, `apps/*`, and `examples/*`.
+- [x] Create `tsconfig.base.json` with shared strict ESM TypeScript settings.
+- [x] Create root `tsconfig.json` with references to the four core packages.
+- [x] Verify the root files contain no package behavior beyond workspace orchestration.
 
 **Acceptance:**
 
@@ -107,13 +107,13 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Create the package directory.
-- [ ] Create the package manifest with name `@vanrot/runtime`.
-- [ ] Configure ESM package output from `src` to `dist`.
-- [ ] Configure public export path for `src/index.ts` compiled output.
-- [ ] Reserve internal export path for `src/internal.ts` compiled output.
-- [ ] Add a smoke test that verifies the package test runner is wired.
-- [ ] Keep `signal`, `computed`, `effect`, `batch`, `untrack`, cleanup scopes, lifecycle, and mounting unimplemented.
+- [x] Create the package directory.
+- [x] Create the package manifest with name `@vanrot/runtime`.
+- [x] Configure ESM package output from `src` to `dist`.
+- [x] Configure public export path for `src/index.ts` compiled output.
+- [x] Reserve internal export path for `src/internal.ts` compiled output.
+- [x] Add a smoke test that verifies the package test runner is wired.
+- [x] Keep `signal`, `computed`, `effect`, `batch`, `untrack`, cleanup scopes, lifecycle, and mounting unimplemented.
 
 **Acceptance:**
 
@@ -132,12 +132,12 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Create the package directory.
-- [ ] Create the package manifest with name `@vanrot/compiler`.
-- [ ] Configure ESM package output from `src` to `dist`.
-- [ ] Add a package-local TypeScript config extending the root base config.
-- [ ] Add a smoke test that verifies the package test runner is wired.
-- [ ] Keep parsing, template compilation, binding compilation, and CSS scoping unimplemented.
+- [x] Create the package directory.
+- [x] Create the package manifest with name `@vanrot/compiler`.
+- [x] Configure ESM package output from `src` to `dist`.
+- [x] Add a package-local TypeScript config extending the root base config.
+- [x] Add a smoke test that verifies the package test runner is wired.
+- [x] Keep parsing, template compilation, binding compilation, and CSS scoping unimplemented.
 
 **Acceptance:**
 
@@ -155,13 +155,13 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Create the package directory.
-- [ ] Create the package manifest with name `@vanrot/vite-plugin`.
-- [ ] Configure ESM package output from `src` to `dist`.
-- [ ] Add a package-local TypeScript config extending the root base config.
-- [ ] Add a smoke test that verifies the package test runner is wired.
-- [ ] Do not add Vite behavior yet.
-- [ ] Do not require a Vite peer dependency until plugin behavior exists.
+- [x] Create the package directory.
+- [x] Create the package manifest with name `@vanrot/vite-plugin`.
+- [x] Configure ESM package output from `src` to `dist`.
+- [x] Add a package-local TypeScript config extending the root base config.
+- [x] Add a smoke test that verifies the package test runner is wired.
+- [x] Do not add Vite behavior yet.
+- [x] Do not require a Vite peer dependency until plugin behavior exists.
 
 **Acceptance:**
 
@@ -179,13 +179,13 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Create the package directory.
-- [ ] Create the package manifest with name `@vanrot/cli`.
-- [ ] Configure ESM package output from `src` to `dist`.
-- [ ] Add a package-local TypeScript config extending the root base config.
-- [ ] Add a smoke test that verifies the package test runner is wired.
-- [ ] Do not expose the `vr` binary until an executable command entrypoint exists.
-- [ ] Keep `vr create`, `vr build`, `vr dev`, `vr generate`, `vr doctor`, and `vr test` unimplemented.
+- [x] Create the package directory.
+- [x] Create the package manifest with name `@vanrot/cli`.
+- [x] Configure ESM package output from `src` to `dist`.
+- [x] Add a package-local TypeScript config extending the root base config.
+- [x] Add a smoke test that verifies the package test runner is wired.
+- [x] Do not expose the `vr` binary until an executable command entrypoint exists.
+- [x] Keep `vr create`, `vr build`, `vr dev`, `vr generate`, `vr doctor`, and `vr test` unimplemented.
 
 **Acceptance:**
 
@@ -205,10 +205,10 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Create `apps/` for future playground or docs apps.
-- [ ] Create `examples/` for future example projects.
-- [ ] Do not create an app package.
-- [ ] Do not create an example package.
+- [x] Create `apps/` for future playground or docs apps.
+- [x] Create `examples/` for future example projects.
+- [x] Do not create an app package.
+- [x] Do not create an example package.
 
 **Acceptance:**
 
@@ -227,9 +227,9 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Run dependency install through pnpm.
-- [ ] Confirm root dev dependencies are installed.
-- [ ] Confirm no package has production dependencies.
+- [x] Run dependency install through pnpm.
+- [x] Confirm root dev dependencies are installed.
+- [x] Confirm no package has production dependencies.
 
 **Acceptance:**
 
@@ -249,12 +249,12 @@ pnpm verify
 
 **Steps:**
 
-- [ ] Run `pnpm build`.
-- [ ] Run `pnpm typecheck`.
-- [ ] Run `pnpm test`.
-- [ ] Run `pnpm verify`.
-- [ ] Confirm all four core packages participate.
-- [ ] Confirm `packages/*/dist/` is generated only as build output.
+- [x] Run `pnpm build`.
+- [x] Run `pnpm typecheck`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm verify`.
+- [x] Confirm all four core packages participate.
+- [x] Confirm `packages/*/dist/` is generated only as build output.
 
 **Acceptance:**
 
@@ -275,10 +275,10 @@ pnpm verify
 
 **Steps:**
 
-- [ ] Find `# 38. Phase Checklist`.
-- [ ] Change Phase 1 from `[ ]` to `[x]`.
-- [ ] Leave Phase 2 and later phases unchecked.
-- [ ] Mention verification commands that passed near the implementation summary or memory observation.
+- [x] Find `# 38. Phase Checklist`.
+- [x] Change Phase 1 from `[ ]` to `[x]`.
+- [x] Leave Phase 2 and later phases unchecked.
+- [x] Mention verification commands that passed near the implementation summary or memory observation.
 
 **Acceptance:**
 

@@ -1745,7 +1745,7 @@ Status:
 | Done | Phase | Create | Tick when |
 |---|---|---|---|
 | [x] | Phase 0 - Vision and first spec | Framework vision in `docs/brainstorm.md` and runtime kernel spec in `docs/superpowers/specs/2026-05-20-vanrot-runtime-kernel-design.md`. | The core identity, package split, MVP order, and runtime boundary rules are written down. |
-| [ ] | Phase 1 - Monorepo foundation | Root workspace, package manager config, shared TypeScript config, build scripts, test scripts, and package folders. | `packages/runtime`, `packages/compiler`, `packages/vite-plugin`, and `packages/cli` exist and can build empty packages. |
+| [x] | Phase 1 - Monorepo foundation | Root workspace, package manager config, shared TypeScript config, build scripts, test scripts, and package folders. | `packages/runtime`, `packages/compiler`, `packages/vite-plugin`, and `packages/cli` exist and can build empty packages. |
 | [ ] | Phase 2 - Runtime kernel | `@vanrot/runtime` with `signal`, `computed`, `effect`, cleanup scopes, `onMount`, `onDestroy`, and `mount`, following `docs/superpowers/specs/2026-05-20-vanrot-runtime-kernel-design.md` and `docs/superpowers/plans/2026-05-20-vanrot-runtime-kernel.md`. | Runtime tests pass, the runtime kernel plan is complete, and minified + gzip size stays within the runtime kernel budget. |
 | [ ] | Phase 3 - Compiler MVP | `@vanrot/compiler` that reads component TypeScript, HTML, and CSS and emits readable JavaScript/CSS output. | A simple component with text binding, event binding, and scoped CSS compiles without hand-written glue. |
 | [ ] | Phase 4 - Vite integration | `@vanrot/vite-plugin` that wires the compiler into dev and build flows. | A Vanrot app runs through Vite and rebuilds after component file changes. |
