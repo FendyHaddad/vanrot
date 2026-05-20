@@ -1,0 +1,8 @@
+[
+  {
+    "name": "@vanrot/runtime (public + internal)",
+    "path": ["dist/index.js", "dist/internal.js"],
+    "limit": "5 KB",
+    "gzip": true
+  }
+]
