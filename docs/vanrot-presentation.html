@@ -1091,15 +1091,15 @@ npm create <span class="fn">vanrot</span>@latest my-app
           <div class="phase-title">Monorepo Foundation</div>
           <div class="phase-status">✅</div>
         </div>
-        <div class="phase-card active-phase">
+        <div class="phase-card done">
           <div class="phase-num">Phase 2</div>
           <div class="phase-title">Runtime Kernel</div>
-          <div class="phase-status" style="color:var(--cyan);">⚡</div>
+          <div class="phase-status">✅</div>
         </div>
-        <div class="phase-card">
+        <div class="phase-card active-phase">
           <div class="phase-num">Phase 3</div>
           <div class="phase-title">Compiler MVP</div>
-          <div class="phase-status" style="color:var(--muted);">○</div>
+          <div class="phase-status" style="color:var(--cyan);">⚡</div>
         </div>
         <div class="phase-card">
           <div class="phase-num">Phase 4</div>
@@ -1143,9 +1143,9 @@ npm create <span class="fn">vanrot</span>@latest my-app
         </div>
       </div>
       <div style="margin-top:20px;display:flex;gap:20px;font-size:13px;">
-        <span style="color:var(--green);">✅ Done: Phase 0</span>
-        <span style="color:var(--cyan);">⚡ Active: Phases 1–2 (runtime kernel)</span>
-        <span style="color:var(--muted);">○ Queued: Phases 3–11</span>
+        <span style="color:var(--green);">✅ Done: Phases 0–2</span>
+        <span style="color:var(--cyan);">⚡ Active: Phase 3 (compiler MVP)</span>
+        <span style="color:var(--muted);">○ Queued: Phases 4–11</span>
       </div>
       <div style="margin-top:14px;color:var(--muted);font-size:12px;line-height:1.6;">
         Phase completion rule: tick <code>docs/brainstorm.md</code>, update this deck, and refresh specs/plans when requirements change.
@@ -1156,58 +1156,58 @@ npm create <span class="fn">vanrot</span>@latest my-app
          SLIDE 13 — RUNTIME KERNEL PLAN
     ──────────────────────────────────────────── -->
     <div class="slide" id="s13">
-      <div class="slide-tag">Current Work — @vanrot/runtime</div>
-      <h2>Kernel Implementation: 9 Phases</h2>
+      <div class="slide-tag">Completed — @vanrot/runtime</div>
+      <h2>Kernel Implementation: Complete</h2>
       <div style="display:flex;flex-direction:column;gap:8px;width:100%;max-width:900px;">
         <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
           <div class="kp-num" style="color:var(--green);">Phase 1</div>
           <div class="kp-name">Monorepo Scaffolding</div>
           <div class="kp-tasks" style="color:var(--green);">Done — root + runtime package init</div>
         </div>
-        <div class="kernel-phase" style="border-color:rgba(56,189,248,0.5);background:rgba(56,189,248,0.05);">
-          <div class="kp-num" style="color:var(--cyan);">Phase 2</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 2</div>
           <div class="kp-name">Reactive Graph Foundation</div>
-          <div class="kp-tasks" style="color:var(--cyan);">Tasks 2–3 — graph.ts + types.ts</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — graph.ts + types.ts</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 3</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 3</div>
           <div class="kp-name">Reactive API</div>
-          <div class="kp-tasks">Tasks 4–8 — signal, effect, untrack, computed, batch</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — signal, effect, untrack, computed, batch</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 4</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 4</div>
           <div class="kp-name">Cleanup Scopes</div>
-          <div class="kp-tasks">Task 9 — WeakMap-backed CleanupScope</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — WeakMap-backed CleanupScope</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 5</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 5</div>
           <div class="kp-name">Lifecycle</div>
-          <div class="kp-tasks">Tasks 10–11 — onDestroy(), onMount()</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — onDestroy(), onMount()</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 6</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 6</div>
           <div class="kp-name">Mounting</div>
-          <div class="kp-tasks">Task 12 — mount() + AppHandle (jsdom)</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — mount() + AppHandle (jsdom)</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 7</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 7</div>
           <div class="kp-name">Events</div>
-          <div class="kp-tasks">Task 13 — listen() internal compiler helper (jsdom)</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — listen() internal compiler helper (jsdom)</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 8</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 8</div>
           <div class="kp-name">Public Exports</div>
-          <div class="kp-tasks">Task 14 — index.ts + internal.ts entrypoints</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — index.ts + internal.ts entrypoints</div>
         </div>
-        <div class="kernel-phase">
-          <div class="kp-num">Phase 9</div>
+        <div class="kernel-phase" style="border-color:rgba(52,211,153,0.5);background:rgba(52,211,153,0.05);">
+          <div class="kp-num" style="color:var(--green);">Phase 9</div>
           <div class="kp-name">Size Budget CI Gate</div>
-          <div class="kp-tasks">Task 15 — .size-limit.json, 5 KB hard fail</div>
+          <div class="kp-tasks" style="color:var(--green);">Done — .size-limit.json, 5 KB hard fail</div>
         </div>
       </div>
       <div style="margin-top:16px;display:flex;gap:16px;font-size:12px;color:var(--muted2);">
-        <span>Stack: TypeScript 5 · Vitest 2 · pnpm workspaces · size-limit 11</span>
-        <span style="color:var(--cyan);">Budget: &lt;3 KB target · 5 KB hard fail</span>
+        <span>Stack: TypeScript 5 · Vitest 4 · pnpm 11 · jsdom 29 · size-limit 12</span>
+        <span style="color:var(--green);">Budget: 1.15 KB gzip · 5 KB hard fail</span>
       </div>
     </div>
 
@@ -1223,59 +1223,59 @@ npm create <span class="fn">vanrot</span>@latest my-app
           <div><div class="task-name">Init monorepo root + runtime pkg</div><div class="task-desc">package.json, pnpm-workspace.yaml, tsconfig.base.json, package smoke tests</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon current">2</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">Reactive graph internals</div><div class="task-desc">graph.ts — activeEffect, trackEffect, triggerEffects, batch queue</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">3</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">Shared types</div><div class="task-desc">types.ts — Signal&lt;T&gt;, WritableSignal&lt;T&gt;, Dispose</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">4</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">signal()</div><div class="task-desc">Read, set(), update(), skip identical values, notify effects</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">5</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">effect()</div><div class="task-desc">Track deps, cleanup fn, dispose, error propagation (sync)</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">6</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">untrack()</div><div class="task-desc">Read signals without subscribing to them</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">7</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">computed()</div><div class="task-desc">Lazy, cached, dirty-tracking, chain support</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">8</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">batch()</div><div class="task-desc">Group writes → single effect flush, flush on throw</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">9</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">CleanupScope primitives</div><div class="task-desc">WeakMap-backed opaque handle, reverse-order cleanup, mount queue</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">10</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">onDestroy()</div><div class="task-desc">Register cleanup with active scope</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">11</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">onMount()</div><div class="task-desc">Deferred callback, cleanup on dispose</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">12</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">mount()</div><div class="task-desc">AppHandle, root cleanup scope, flushMount (jsdom)</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">13</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">listen()</div><div class="task-desc">DOM event + auto-remove on scope dispose (jsdom)</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">14</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">Public entrypoints</div><div class="task-desc">index.ts + internal.ts wired, tsc --noEmit passes</div></div>
         </div>
         <div class="task-item">
-          <div class="task-icon pending">15</div>
+          <div class="task-icon done">✓</div>
           <div><div class="task-name">Size-limit CI gate</div><div class="task-desc">.size-limit.json — 5 KB hard fail on both export paths</div></div>
         </div>
       </div>

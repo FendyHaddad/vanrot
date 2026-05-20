@@ -1,14 +1,14 @@
 # @vanrot/runtime Kernel Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Build `@vanrot/runtime` — the reactive kernel that owns the dependency graph, cleanup ownership, component lifecycle, and top-level mounting.
 
 **Architecture:** Fine-grained reactivity (SolidJS-style) with a shared internal graph module. All reactive APIs read/write the graph through exported functions, not shared mutable state. Cleanup scopes are opaque handles tracked by WeakMap, enabling composable ownership without leaking internals.
 
-**Tech Stack:** TypeScript 5, Vitest 2, pnpm workspaces, size-limit 11
+**Tech Stack:** TypeScript 5, Vitest 4, pnpm 11 workspaces, jsdom 29, size-limit 12
 
-**Spec:** `docs/superpowers/specs/2026-05-20-vanrot-runtime-kernel-design.md`
+**Spec:** `docs/superpowers/specs/Phase-02.md`
 
 ---
 
@@ -53,7 +53,7 @@ packages/
         listen.test.ts     — requires jsdom
     package.json
     tsconfig.json
-    vitest.config.ts
+    .size-limit.json
     .size-limit.json
 tsconfig.base.json
 package.json               — workspace root
@@ -74,7 +74,7 @@ pnpm-workspace.yaml
 - Create: `packages/runtime/tsconfig.json`
 - Create: `packages/runtime/vitest.config.ts`
 
-- [ ] **Step 1: Create workspace root files**
+- [x] **Step 1: Create workspace root files**
 
 `package.json`:
 ```json
@@ -111,7 +111,7 @@ packages:
 }
 ```
 
-- [ ] **Step 2: Create runtime package files**
+- [x] **Step 2: Create runtime package files**
 
 `packages/runtime/package.json`:
 ```json
@@ -172,7 +172,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 3: Install dependencies**
+- [x] **Step 3: Install dependencies**
 
 ```bash
 cd packages/runtime && pnpm install
@@ -180,7 +180,7 @@ cd packages/runtime && pnpm install
 
 Expected: `node_modules/` created, no errors.
 
-- [ ] **Step 4: Verify test runner works**
+- [x] **Step 4: Verify test runner works**
 
 Create `packages/runtime/tests/smoke.test.ts`:
 ```ts
@@ -196,7 +196,7 @@ describe('smoke', () => {
 Run: `cd packages/runtime && pnpm test`
 Expected: `1 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git init
@@ -215,7 +215,7 @@ git commit -m "chore: init monorepo with @vanrot/runtime package scaffold"
 
 The graph module owns all mutable reactive state. All other reactive modules import functions from here — they never manage `activeEffect` or `batchDepth` directly.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/reactive/graph.test.ts`:
 ```ts
@@ -282,7 +282,7 @@ describe('graph', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/graph.test.ts
@@ -290,7 +290,7 @@ cd packages/runtime && pnpm test tests/reactive/graph.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/reactive/graph.js'`
 
-- [ ] **Step 3: Implement graph.ts**
+- [x] **Step 3: Implement graph.ts**
 
 Create `packages/runtime/src/reactive/graph.ts`:
 ```ts
@@ -346,7 +346,7 @@ export function endBatch(): void {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/graph.test.ts
@@ -354,7 +354,7 @@ cd packages/runtime && pnpm test tests/reactive/graph.test.ts
 
 Expected: `6 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/reactive/graph.ts packages/runtime/tests/reactive/graph.test.ts
@@ -370,7 +370,7 @@ git commit -m "feat(@vanrot/runtime): add reactive graph core"
 
 No tests needed — pure type declarations.
 
-- [ ] **Step 1: Create types.ts**
+- [x] **Step 1: Create types.ts**
 
 ```ts
 export type Signal<T> = () => T;
@@ -383,7 +383,7 @@ export type WritableSignal<T> = Signal<T> & {
 export type Dispose = () => void;
 ```
 
-- [ ] **Step 2: Commit**
+- [x] **Step 2: Commit**
 
 ```bash
 git add packages/runtime/src/reactive/types.ts
@@ -400,7 +400,7 @@ git commit -m "feat(@vanrot/runtime): add shared reactive types"
 - Create: `packages/runtime/src/reactive/signal.ts`
 - Create: `packages/runtime/tests/reactive/signal.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/reactive/signal.test.ts`:
 ```ts
@@ -448,7 +448,7 @@ describe('signal', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/signal.test.ts
@@ -456,7 +456,7 @@ cd packages/runtime && pnpm test tests/reactive/signal.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/reactive/signal.js'`
 
-- [ ] **Step 3: Implement signal.ts**
+- [x] **Step 3: Implement signal.ts**
 
 Create `packages/runtime/src/reactive/signal.ts`:
 ```ts
@@ -490,7 +490,7 @@ export function signal<T>(initialValue: T): WritableSignal<T> {
 
 Note: `effect` is imported by the test but not yet implemented — implement Task 5 before running this test suite to completion. Signal tests share the effect import.
 
-- [ ] **Step 4: Commit signal (tests will pass after effect is done)**
+- [x] **Step 4: Commit signal (tests will pass after effect is done)**
 
 ```bash
 git add packages/runtime/src/reactive/signal.ts packages/runtime/tests/reactive/signal.test.ts
@@ -505,7 +505,7 @@ git commit -m "feat(@vanrot/runtime): add signal()"
 - Create: `packages/runtime/src/reactive/effect.ts`
 - Create: `packages/runtime/tests/reactive/effect.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/reactive/effect.test.ts`:
 ```ts
@@ -587,7 +587,7 @@ describe('effect', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/effect.test.ts
@@ -595,7 +595,7 @@ cd packages/runtime && pnpm test tests/reactive/effect.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/reactive/effect.js'`
 
-- [ ] **Step 3: Implement effect.ts**
+- [x] **Step 3: Implement effect.ts**
 
 Create `packages/runtime/src/reactive/effect.ts`:
 ```ts
@@ -646,7 +646,7 @@ export function effect(run: () => void | Dispose): Dispose {
 }
 ```
 
-- [ ] **Step 4: Run effect tests**
+- [x] **Step 4: Run effect tests**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/effect.test.ts
@@ -654,7 +654,7 @@ cd packages/runtime && pnpm test tests/reactive/effect.test.ts
 
 Expected: `8 passed`
 
-- [ ] **Step 5: Run signal tests (now effect is available)**
+- [x] **Step 5: Run signal tests (now effect is available)**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/signal.test.ts
@@ -662,7 +662,7 @@ cd packages/runtime && pnpm test tests/reactive/signal.test.ts
 
 Expected: `5 passed`
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/runtime/src/reactive/effect.ts packages/runtime/tests/reactive/effect.test.ts
@@ -677,7 +677,7 @@ git commit -m "feat(@vanrot/runtime): add effect()"
 - Create: `packages/runtime/src/reactive/untrack.ts`
 - Create: `packages/runtime/tests/reactive/untrack.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/reactive/untrack.test.ts`:
 ```ts
@@ -719,7 +719,7 @@ describe('untrack', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/untrack.test.ts
@@ -727,7 +727,7 @@ cd packages/runtime && pnpm test tests/reactive/untrack.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/reactive/untrack.js'`
 
-- [ ] **Step 3: Implement untrack.ts**
+- [x] **Step 3: Implement untrack.ts**
 
 Create `packages/runtime/src/reactive/untrack.ts`:
 ```ts
@@ -743,7 +743,7 @@ export function untrack<T>(read: () => T): T {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/untrack.test.ts
@@ -751,7 +751,7 @@ cd packages/runtime && pnpm test tests/reactive/untrack.test.ts
 
 Expected: `3 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/reactive/untrack.ts packages/runtime/tests/reactive/untrack.test.ts
@@ -766,7 +766,7 @@ git commit -m "feat(@vanrot/runtime): add untrack()"
 - Create: `packages/runtime/src/reactive/computed.ts`
 - Create: `packages/runtime/tests/reactive/computed.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/reactive/computed.test.ts`:
 ```ts
@@ -831,7 +831,7 @@ describe('computed', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/computed.test.ts
@@ -839,7 +839,7 @@ cd packages/runtime && pnpm test tests/reactive/computed.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/reactive/computed.js'`
 
-- [ ] **Step 3: Implement computed.ts**
+- [x] **Step 3: Implement computed.ts**
 
 Create `packages/runtime/src/reactive/computed.ts`:
 ```ts
@@ -887,7 +887,7 @@ export function computed<T>(compute: () => T): Signal<T> {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/computed.test.ts
@@ -895,7 +895,7 @@ cd packages/runtime && pnpm test tests/reactive/computed.test.ts
 
 Expected: `6 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/reactive/computed.ts packages/runtime/tests/reactive/computed.test.ts
@@ -910,7 +910,7 @@ git commit -m "feat(@vanrot/runtime): add computed()"
 - Create: `packages/runtime/src/reactive/batch.ts`
 - Create: `packages/runtime/tests/reactive/batch.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/reactive/batch.test.ts`:
 ```ts
@@ -961,7 +961,7 @@ describe('batch', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/batch.test.ts
@@ -969,7 +969,7 @@ cd packages/runtime && pnpm test tests/reactive/batch.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/reactive/batch.js'`
 
-- [ ] **Step 3: Implement batch.ts**
+- [x] **Step 3: Implement batch.ts**
 
 Create `packages/runtime/src/reactive/batch.ts`:
 ```ts
@@ -985,7 +985,7 @@ export function batch<T>(run: () => T): T {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/batch.test.ts
@@ -993,7 +993,7 @@ cd packages/runtime && pnpm test tests/reactive/batch.test.ts
 
 Expected: `3 passed`
 
-- [ ] **Step 5: Run full reactive test suite**
+- [x] **Step 5: Run full reactive test suite**
 
 ```bash
 cd packages/runtime && pnpm test tests/reactive/
@@ -1001,7 +1001,7 @@ cd packages/runtime && pnpm test tests/reactive/
 
 Expected: all reactive tests pass.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/runtime/src/reactive/batch.ts packages/runtime/tests/reactive/batch.test.ts
@@ -1020,7 +1020,7 @@ git commit -m "feat(@vanrot/runtime): add batch()"
 
 The cleanup scope is the ownership backbone. Everything in lifecycle (onMount, onDestroy) and events (listen) registers against the active scope.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/lifecycle/cleanup-scope.test.ts`:
 ```ts
@@ -1107,7 +1107,7 @@ describe('cleanup scope', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/lifecycle/cleanup-scope.test.ts
@@ -1115,7 +1115,7 @@ cd packages/runtime && pnpm test tests/lifecycle/cleanup-scope.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/lifecycle/cleanup-scope.js'`
 
-- [ ] **Step 3: Implement cleanup-scope.ts**
+- [x] **Step 3: Implement cleanup-scope.ts**
 
 Create `packages/runtime/src/lifecycle/cleanup-scope.ts`:
 ```ts
@@ -1179,7 +1179,7 @@ export function flushMountCallbacks(scope: CleanupScope): void {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/lifecycle/cleanup-scope.test.ts
@@ -1187,7 +1187,7 @@ cd packages/runtime && pnpm test tests/lifecycle/cleanup-scope.test.ts
 
 Expected: `7 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/lifecycle/cleanup-scope.ts packages/runtime/tests/lifecycle/cleanup-scope.test.ts
@@ -1204,7 +1204,7 @@ git commit -m "feat(@vanrot/runtime): add cleanup scope primitives"
 - Create: `packages/runtime/src/lifecycle/on-destroy.ts`
 - Create: `packages/runtime/tests/lifecycle/on-destroy.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/lifecycle/on-destroy.test.ts`:
 ```ts
@@ -1231,7 +1231,7 @@ describe('onDestroy', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/lifecycle/on-destroy.test.ts
@@ -1239,7 +1239,7 @@ cd packages/runtime && pnpm test tests/lifecycle/on-destroy.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/lifecycle/on-destroy.js'`
 
-- [ ] **Step 3: Implement on-destroy.ts**
+- [x] **Step 3: Implement on-destroy.ts**
 
 Create `packages/runtime/src/lifecycle/on-destroy.ts`:
 ```ts
@@ -1251,7 +1251,7 @@ export function onDestroy(fn: Dispose): void {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/lifecycle/on-destroy.test.ts
@@ -1259,7 +1259,7 @@ cd packages/runtime && pnpm test tests/lifecycle/on-destroy.test.ts
 
 Expected: `2 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/lifecycle/on-destroy.ts packages/runtime/tests/lifecycle/on-destroy.test.ts
@@ -1274,7 +1274,7 @@ git commit -m "feat(@vanrot/runtime): add onDestroy()"
 - Create: `packages/runtime/src/lifecycle/on-mount.ts`
 - Create: `packages/runtime/tests/lifecycle/on-mount.test.ts`
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/lifecycle/on-mount.test.ts`:
 ```ts
@@ -1322,7 +1322,7 @@ describe('onMount', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/lifecycle/on-mount.test.ts
@@ -1330,7 +1330,7 @@ cd packages/runtime && pnpm test tests/lifecycle/on-mount.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/lifecycle/on-mount.js'`
 
-- [ ] **Step 3: Implement on-mount.ts**
+- [x] **Step 3: Implement on-mount.ts**
 
 Create `packages/runtime/src/lifecycle/on-mount.ts`:
 ```ts
@@ -1342,7 +1342,7 @@ export function onMount(fn: () => void | Dispose): void {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/lifecycle/on-mount.test.ts
@@ -1350,7 +1350,7 @@ cd packages/runtime && pnpm test tests/lifecycle/on-mount.test.ts
 
 Expected: `4 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/lifecycle/on-mount.ts packages/runtime/tests/lifecycle/on-mount.test.ts
@@ -1369,7 +1369,7 @@ git commit -m "feat(@vanrot/runtime): add onMount()"
 
 Note: `ComponentType` is a placeholder. The real component contract is defined when `@vanrot/compiler` is built. For now, a component is any class whose constructor runs in a cleanup scope context.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/mounting/mount.test.ts`:
 ```ts
@@ -1446,7 +1446,7 @@ describe('mount', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/mounting/mount.test.ts
@@ -1454,7 +1454,7 @@ cd packages/runtime && pnpm test tests/mounting/mount.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/mounting/mount.js'`
 
-- [ ] **Step 3: Implement mount.ts**
+- [x] **Step 3: Implement mount.ts**
 
 Create `packages/runtime/src/mounting/mount.ts`:
 ```ts
@@ -1497,7 +1497,7 @@ export function mount(Component: ComponentType, _target: Element): AppHandle {
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/mounting/mount.test.ts
@@ -1505,7 +1505,7 @@ cd packages/runtime && pnpm test tests/mounting/mount.test.ts
 
 Expected: `5 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/mounting/mount.ts packages/runtime/tests/mounting/mount.test.ts
@@ -1524,7 +1524,7 @@ git commit -m "feat(@vanrot/runtime): add mount()"
 
 `listen()` is internal and compiler-facing. It wires DOM event listeners to the active cleanup scope so removal is automatic on component destroy.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Create `packages/runtime/tests/events/listen.test.ts`:
 ```ts
@@ -1579,7 +1579,7 @@ describe('listen', () => {
 });
 ```
 
-- [ ] **Step 2: Run test to verify it fails**
+- [x] **Step 2: Run test to verify it fails**
 
 ```bash
 cd packages/runtime && pnpm test tests/events/listen.test.ts
@@ -1587,7 +1587,7 @@ cd packages/runtime && pnpm test tests/events/listen.test.ts
 
 Expected: FAIL — `Cannot find module '../../src/events/listen.js'`
 
-- [ ] **Step 3: Implement listen.ts**
+- [x] **Step 3: Implement listen.ts**
 
 Create `packages/runtime/src/events/listen.ts`:
 ```ts
@@ -1611,7 +1611,7 @@ export function listen(
 }
 ```
 
-- [ ] **Step 4: Run test to verify it passes**
+- [x] **Step 4: Run test to verify it passes**
 
 ```bash
 cd packages/runtime && pnpm test tests/events/listen.test.ts
@@ -1619,7 +1619,7 @@ cd packages/runtime && pnpm test tests/events/listen.test.ts
 
 Expected: `3 passed`
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/src/events/listen.ts packages/runtime/tests/events/listen.test.ts
@@ -1638,7 +1638,7 @@ git commit -m "feat(@vanrot/runtime): add listen() internal event helper"
 
 No new tests — tests in earlier tasks already test individual modules.
 
-- [ ] **Step 1: Create src/index.ts (public API)**
+- [x] **Step 1: Create src/index.ts (public API)**
 
 Create `packages/runtime/src/index.ts`:
 ```ts
@@ -1659,7 +1659,7 @@ export type { AppHandle, ComponentType } from './mounting/mount.js';
 export { mount } from './mounting/mount.js';
 ```
 
-- [ ] **Step 2: Create src/internal.ts (compiler-facing API)**
+- [x] **Step 2: Create src/internal.ts (compiler-facing API)**
 
 Create `packages/runtime/src/internal.ts`:
 ```ts
@@ -1679,7 +1679,7 @@ export {
 export { listen } from './events/listen.js';
 ```
 
-- [ ] **Step 3: Verify exports compile**
+- [x] **Step 3: Verify exports compile**
 
 ```bash
 cd packages/runtime && pnpm exec tsc --noEmit
@@ -1687,7 +1687,7 @@ cd packages/runtime && pnpm exec tsc --noEmit
 
 Expected: no errors.
 
-- [ ] **Step 4: Run all tests one final time**
+- [x] **Step 4: Run all tests one final time**
 
 ```bash
 cd packages/runtime && pnpm test
@@ -1695,7 +1695,7 @@ cd packages/runtime && pnpm test
 
 Expected: all tests pass.
 
-- [ ] **Step 5: Build the package**
+- [x] **Step 5: Build the package**
 
 ```bash
 cd packages/runtime && pnpm build
@@ -1703,7 +1703,7 @@ cd packages/runtime && pnpm build
 
 Expected: `dist/` created with `index.js`, `index.d.ts`, `internal.js`, `internal.d.ts`.
 
-- [ ] **Step 6: Commit**
+- [x] **Step 6: Commit**
 
 ```bash
 git add packages/runtime/src/index.ts packages/runtime/src/internal.ts
@@ -1721,7 +1721,7 @@ git commit -m "feat(@vanrot/runtime): wire public and internal export entrypoint
 
 The hard fail limit is 5 KB gzip (public spec promise). Both public and internal entrypoints ship to the browser via compiler-generated imports — both count toward the budget.
 
-- [ ] **Step 1: Create .size-limit.json**
+- [x] **Step 1: Create .size-limit.json**
 
 Create `packages/runtime/.size-limit.json`:
 ```json
@@ -1735,7 +1735,7 @@ Create `packages/runtime/.size-limit.json`:
 ]
 ```
 
-- [ ] **Step 2: Add size script to package.json**
+- [x] **Step 2: Add size script to package.json**
 
 Edit `packages/runtime/package.json` — add to `"scripts"`:
 ```json
@@ -1744,7 +1744,7 @@ Edit `packages/runtime/package.json` — add to `"scripts"`:
 
 (It should already be there from Task 1. Verify it is present.)
 
-- [ ] **Step 3: Run size check**
+- [x] **Step 3: Run size check**
 
 ```bash
 cd packages/runtime && pnpm build && pnpm size
@@ -1752,11 +1752,11 @@ cd packages/runtime && pnpm build && pnpm size
 
 Expected: size reported, well under 5 KB. Current implementation should be approximately 1–2 KB gzip.
 
-- [ ] **Step 4: Verify warning threshold manually**
+- [x] **Step 4: Verify warning threshold manually**
 
 The 3 KB warning threshold is not enforced by size-limit automatically. Note the actual size from the output. If it exceeds 3 KB, open a tracking issue before merging.
 
-- [ ] **Step 5: Commit**
+- [x] **Step 5: Commit**
 
 ```bash
 git add packages/runtime/.size-limit.json
