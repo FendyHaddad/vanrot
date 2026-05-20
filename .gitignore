@@ -17,6 +17,7 @@ out/
 .turbo/
 .vite/
 .vitest/
+.worktrees/
 .eslintcache
 
 # Test output
