@@ -1,6 +1,9 @@
+import { buildCommand } from './commands/build.js';
 import { createCommand } from './commands/create.js';
+import { devCommand } from './commands/dev.js';
 import { doctorCommand } from './commands/doctor.js';
 import { generateCommand } from './commands/generate.js';
+import { testCommand } from './commands/test.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
 
@@ -66,6 +69,18 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
 
   if (command === 'doctor') {
     return doctorCommand(rest, context);
+  }
+
+  if (command === 'dev') {
+    return devCommand(rest, context);
+  }
+
+  if (command === 'build') {
+    return buildCommand(rest, context);
+  }
+
+  if (command === 'test') {
+    return testCommand(rest, context);
   }
 
   context.reporter.error(`Unknown command: ${command}`, suggestionFor(command));
