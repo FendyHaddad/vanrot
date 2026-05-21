@@ -2,6 +2,9 @@
   "name": "@vanrot/cli",
   "version": "0.0.0",
   "type": "module",
+  "bin": {
+    "vr": "./dist/bin.js"
+  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",

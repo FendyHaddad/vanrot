@@ -40,4 +40,12 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('--workspace');
     expect(reporter.output()).toContain('--force');
   });
+
+  it('exports the process runner factory for the binary', async () => {
+    const cli = await import('../src/index.js');
+
+    expect(cli.createConsoleReporter).toBeTypeOf('function');
+    expect(cli.createNodeProcessRunner).toBeTypeOf('function');
+    expect(cli.runCli).toBeTypeOf('function');
+  });
 });
