@@ -6,6 +6,7 @@ import {
 import type { ComponentMetadata } from '../metadata/component-metadata.js';
 import type { ElementNode, TemplateAttribute, TemplateNode, TextNode } from '../template/ast.js';
 import { parseInterpolation } from '../template/bindings.js';
+import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import { IdentifierAllocator } from './identifiers.js';
 
 export interface GenerateComponentInput {
@@ -28,6 +29,8 @@ interface GenerateState {
   features: Set<CompileFeature>;
   usesEffect: boolean;
   usesListen: boolean;
+  usesRouterOutlet: boolean;
+  usesRouteLink: boolean;
   templatePath: string;
 }
 
@@ -42,6 +45,8 @@ export function generateComponent(
     features: new Set<CompileFeature>(['readable-output']),
     usesEffect: false,
     usesListen: false,
+    usesRouterOutlet: false,
+    usesRouteLink: false,
     templatePath: input.templatePath,
   };
 
@@ -83,6 +88,20 @@ function generateImports(
     imports.push("import { listen } from '@vanrot/runtime/internal';");
   }
 
+  const routerImports: string[] = [];
+
+  if (state.usesRouterOutlet) {
+    routerImports.push('createRouterOutlet');
+  }
+
+  if (state.usesRouteLink) {
+    routerImports.push('setupRouteLink');
+  }
+
+  if (routerImports.length > 0) {
+    imports.push(`import { ${routerImports.join(', ')} } from '@vanrot/router/internal';`);
+  }
+
   return imports;
 }
 
@@ -106,6 +125,16 @@ function generateElement(
   scopeAttribute: string,
   state: GenerateState,
 ): void {
+  if (node.tagName === 'vr-router') {
+    generateRouterOutlet(parentName, scopeAttribute, state);
+    return;
+  }
+
+  if (node.tagName === 'vr') {
+    generateRouterLink(node, parentName, scopeAttribute, state);
+    return;
+  }
+
   const elementName = state.ids.next(node.tagName);
 
   state.lines.push(`  const ${elementName} = document.createElement(${quoteString(node.tagName)});`);
@@ -120,6 +149,52 @@ function generateElement(
   }
 
   state.lines.push(`  ${parentName}.append(${elementName});`);
+}
+
+function generateRouterOutlet(
+  parentName: string,
+  scopeAttribute: string,
+  state: GenerateState,
+): void {
+  const outletName = state.ids.next('div');
+
+  state.usesRouterOutlet = true;
+  state.features.add('router-outlet');
+  state.lines.push(`  const ${outletName} = document.createElement('div');`);
+  state.lines.push(`  ${outletName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
+  state.lines.push(`  createRouterOutlet(${outletName});`);
+  state.lines.push(`  ${parentName}.append(${outletName});`);
+}
+
+function generateRouterLink(
+  node: ElementNode,
+  parentName: string,
+  scopeAttribute: string,
+  state: GenerateState,
+): void {
+  const routeAttribute = node.attributes.find((attribute) =>
+    /^route\.[A-Za-z_$][\w$]*$/.test(attribute.name),
+  );
+
+  if (routeAttribute === undefined) {
+    state.diagnostics.push(
+      createDiagnostic(
+        'VR009',
+        'error',
+        'Use <vr route.name /> for Vanrot route links.',
+        state.templatePath,
+      ),
+    );
+    return;
+  }
+
+  const routeLinkName = state.ids.next('a');
+  state.usesRouteLink = true;
+  state.features.add('router-link');
+  state.lines.push(`  const ${routeLinkName} = document.createElement('a');`);
+  state.lines.push(`  ${routeLinkName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
+  state.lines.push(`  setupRouteLink(${routeLinkName}, ctx.${routeAttribute.name});`);
+  state.lines.push(`  ${parentName}.append(${routeLinkName});`);
 }
 
 function generateText(node: TextNode, parentName: string, state: GenerateState): void {

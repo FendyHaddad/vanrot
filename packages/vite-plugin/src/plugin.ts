@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises';
+import { dirname, resolve } from 'node:path';
 import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
@@ -46,7 +47,13 @@ function createVanrotPlugin(
       resolvedConfig = config;
       normalizedOptions = normalizeOptions(options, config.root);
     },
-    async resolveId(source) {
+    async resolveId(source, importer) {
+      const virtualImport = resolveVirtualSourceImport(source, importer);
+
+      if (virtualImport !== undefined) {
+        return virtualImport;
+      }
+
       if (!isPublicVanrotVirtualModuleId(source)) {
         return undefined;
       }
@@ -116,6 +123,20 @@ function createVanrotPlugin(
       return handleVanrotHotUpdate(ctx);
     },
   };
+}
+
+function resolveVirtualSourceImport(source: string, importer: string | undefined): string | undefined {
+  if (importer === undefined || !source.startsWith('.')) {
+    return undefined;
+  }
+
+  const decoded = decodeVirtualModuleId(importer);
+
+  if (decoded?.kind !== 'source') {
+    return undefined;
+  }
+
+  return resolve(dirname(decoded.filePath), source);
 }
 
 function shouldTransform(id: string, options: NormalizedVanrotPluginOptions): boolean {

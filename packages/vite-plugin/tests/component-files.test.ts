@@ -17,4 +17,13 @@ describe('component files', () => {
       stylePath: '/repo/src/app.component.css',
     });
   });
+
+  it('recognizes page entries', () => {
+    expect(isComponentEntry('/repo/src/pages/home/home.page.ts')).toBe(true);
+    expect(resolveComponentFiles('/repo/src/pages/home/home.page.ts')).toEqual({
+      componentPath: '/repo/src/pages/home/home.page.ts',
+      templatePath: '/repo/src/pages/home/home.page.html',
+      stylePath: '/repo/src/pages/home/home.page.css',
+    });
+  });
 });

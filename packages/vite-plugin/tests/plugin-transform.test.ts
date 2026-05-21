@@ -4,7 +4,7 @@ import vanrot from '@/index.js';
 import { createVanrotPluginForTests } from '@/plugin.js';
 
 type TransformHook = (this: unknown, code: string, id: string) => unknown;
-type ResolveIdHook = (this: unknown, source: string) => unknown;
+type ResolveIdHook = (this: unknown, source: string, importer?: string) => unknown;
 type LoadHook = (this: unknown, id: string) => unknown;
 
 function getTransformHook(plugin: Plugin): TransformHook {
@@ -92,6 +92,40 @@ describe('vanrot plugin transform', () => {
     });
   });
 
+  it('transforms page entries and registers sibling files', async () => {
+    const watched: string[] = [];
+    const plugin = createVanrotPluginForTests({
+      compile: async () => ({
+        code: 'export function createComponent() { return { node: document.createTextNode("page"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
+        css: 'main{display:block}',
+        diagnostics: [],
+      }),
+    });
+
+    const result = await getTransformHook(plugin).call(
+      {
+        addWatchFile(filePath: string) {
+          watched.push(filePath);
+        },
+        error(error: string) {
+          throw new Error(error);
+        },
+        warn() {},
+      } as never,
+      'export class HomePage {}',
+      '/repo/src/pages/home/home.page.ts',
+    );
+
+    expect(watched).toEqual([
+      '/repo/src/pages/home/home.page.html',
+      '/repo/src/pages/home/home.page.css',
+    ]);
+    expect(result).toEqual({
+      code: expect.stringContaining('export default component;'),
+      map: null,
+    });
+  });
+
   it('turns compiler errors into Vite errors', async () => {
     const plugin = createVanrotPluginForTests({
       compile: async () => ({
@@ -170,6 +204,18 @@ describe('vanrot plugin transform', () => {
         'virtual:vanrot-css:%2Frepo%2Fsrc%2Fapp.component.ts',
       ),
     ).resolves.toBe('\0vanrot:css:%2Frepo%2Fsrc%2Fapp.component.ts.css');
+  });
+
+  it('resolves relative imports from virtual source modules', async () => {
+    const plugin = vanrot();
+
+    await expect(
+      getResolveIdHook(plugin).call(
+        {} as never,
+        '../routes.ts',
+        '\0vanrot:source:%2Frepo%2Fsrc%2Fapp%2Fapp.component.ts',
+      ),
+    ).resolves.toBe('/repo/src/routes.ts');
   });
 
   it('loads cached virtual CSS', async () => {

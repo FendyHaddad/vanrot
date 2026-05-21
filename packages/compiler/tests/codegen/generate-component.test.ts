@@ -138,4 +138,75 @@ describe('generateComponent', () => {
     );
     expect(result.js).not.toContain("from 'counter.component.js'");
   });
+
+  it('generates router outlet and named route links', () => {
+    const result = generateComponent({
+      metadata,
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'main',
+          attributes: [],
+          children: [
+            {
+              kind: 'element',
+              tagName: 'nav',
+              attributes: [],
+              children: [
+                {
+                  kind: 'element',
+                  tagName: 'vr',
+                  attributes: [{ name: 'route.home', value: '' }],
+                  children: [],
+                },
+              ],
+            },
+            {
+              kind: 'element',
+              tagName: 'vr-router',
+              attributes: [],
+              children: [],
+            },
+          ],
+        },
+      ],
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'app.component.html',
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      "import { createRouterOutlet, setupRouteLink } from '@vanrot/router/internal';",
+    );
+    expect(result.js).toContain("const a0 = document.createElement('a');");
+    expect(result.js).toContain("a0.setAttribute('data-vr-a1b2c3', '');");
+    expect(result.js).toContain('setupRouteLink(a0, ctx.route.home);');
+    expect(result.js).toContain("const div0 = document.createElement('div');");
+    expect(result.js).toContain('createRouterOutlet(div0);');
+    expect(result.features).toContain('router-link');
+    expect(result.features).toContain('router-outlet');
+  });
+
+  it('diagnoses invalid router primitive syntax', () => {
+    const result = generateComponent({
+      metadata,
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'vr',
+          attributes: [],
+          children: [],
+        },
+      ],
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'app.component.html',
+    });
+
+    expect(result.diagnostics).toMatchObject([
+      {
+        code: 'VR009',
+        message: 'Use <vr route.name /> for Vanrot route links.',
+      },
+    ]);
+  });
 });

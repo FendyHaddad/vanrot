@@ -10,39 +10,84 @@ async function tempRoot() {
 }
 
 describe('vr create', () => {
-  it('creates a standalone-style Vanrot app', async () => {
+  it('creates a router-enabled Vanrot app', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
 
     const result = await runCli(['create', 'demo-app'], { cwd, reporter });
+    const appRoot = join(cwd, 'demo-app');
 
     expect(result.exitCode).toBe(0);
-    await expect(readFile(join(cwd, 'demo-app', 'package.json'), 'utf8')).resolves.toContain(
-      '"dev": "vr dev"',
+    await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain(
+      '"@vanrot/router": "^0.1.0"',
     );
-    await expect(readFile(join(cwd, 'demo-app', 'vite.config.ts'), 'utf8')).resolves.toContain(
+    await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain('"dev": "vr dev"');
+    await expect(readFile(join(appRoot, 'vite.config.ts'), 'utf8')).resolves.toContain(
       '@vanrot/vite-plugin',
     );
-    await expect(readFile(join(cwd, 'demo-app', 'src', 'main.ts'), 'utf8')).resolves.toContain(
+    await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
+      "import { provideRouter } from '@vanrot/router';",
+    );
+    await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
       "// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.",
     );
-    await expect(readFile(join(cwd, 'demo-app', 'src', 'main.ts'), 'utf8')).resolves.toContain(
+    await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
       "from './app/app.component.ts'",
     );
-    await expect(readFile(join(cwd, 'demo-app', 'tsconfig.json'), 'utf8')).resolves.toContain(
+    await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
+      'provideRouter(appRoute);',
+    );
+    await expect(readFile(join(appRoot, 'tsconfig.json'), 'utf8')).resolves.toContain(
       '"allowImportingTsExtensions": true',
     );
+    await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.toContain(
+      'defineRoutes',
+    );
+    await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.toContain(
+      "loadPage: () => import('./pages/about/about.page.ts')",
+    );
     await expect(
-      readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.ts'), 'utf8'),
-    ).resolves.toContain('export class AppComponent');
+      readFile(join(appRoot, 'src', 'app', 'app.component.ts'), 'utf8'),
+    ).resolves.toContain('route = appRoute;');
     await expect(
-      readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.html'), 'utf8'),
-    ).resolves.toContain('{{ title() }}');
+      readFile(join(appRoot, 'src', 'app', 'app.component.html'), 'utf8'),
+    ).resolves.toContain('<vr route.home />');
     await expect(
-      readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.css'), 'utf8'),
-    ).resolves.toContain('.app');
+      readFile(join(appRoot, 'src', 'app', 'app.component.html'), 'utf8'),
+    ).resolves.toContain('<vr-router></vr-router>');
+    await expect(
+      readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.ts'), 'utf8'),
+    ).resolves.toContain('export class HomePage');
+    await expect(
+      readFile(join(appRoot, 'src', 'pages', 'about', 'about.page.ts'), 'utf8'),
+    ).resolves.toContain('export class AboutPage');
+    await expect(readFile(join(appRoot, 'src', 'app', 'app.component.css'), 'utf8')).resolves.toContain(
+      '.app',
+    );
     expect(reporter.output()).toContain('Created demo-app');
     expect(reporter.output()).toContain('vr dev');
+  });
+
+  it('keeps route paths and labels in src/routes.ts', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'route-source-app'], { cwd, reporter });
+    const appRoot = join(cwd, 'route-source-app');
+
+    expect(result.exitCode).toBe(0);
+    const routes = await readFile(join(appRoot, 'src', 'routes.ts'), 'utf8');
+    const appTemplate = await readFile(join(appRoot, 'src', 'app', 'app.component.html'), 'utf8');
+
+    expect(routes).toContain("path: '/'");
+    expect(routes).toContain("path: '/about'");
+    expect(routes).toContain("label: 'Home'");
+    expect(routes).toContain("label: 'About'");
+    expect(appTemplate).toContain('<vr route.home />');
+    expect(appTemplate).toContain('<vr route.about />');
+    expect(appTemplate).not.toContain('href="/');
+    expect(appTemplate).not.toContain('>Home<');
+    expect(appTemplate).not.toContain('>About<');
   });
 
   it('uses workspace dependencies for fixture mode', async () => {
@@ -54,6 +99,7 @@ describe('vr create', () => {
     expect(result.exitCode).toBe(0);
     const packageJson = await readFile(join(cwd, 'fixture-app', 'package.json'), 'utf8');
     expect(packageJson).toContain('"@vanrot/runtime": "workspace:*"');
+    expect(packageJson).toContain('"@vanrot/router": "workspace:*"');
     expect(packageJson).toContain('"@vanrot/vite-plugin": "workspace:*"');
     expect(packageJson).toContain('"@vanrot/cli": "workspace:*"');
   });

@@ -6,9 +6,9 @@ import { findOwnerComponentPath, handleVanrotHotUpdate } from '@/hot-update.js';
 import { toPublicCssModuleId, toPublicSourceModuleId } from '@/virtual-modules.js';
 
 const fixtureRoot = resolve(import.meta.dirname, 'fixtures/basic-app');
-const componentPath = resolve(fixtureRoot, 'src/app.component.ts');
-const templatePath = resolve(fixtureRoot, 'src/app.component.html');
-const stylePath = resolve(fixtureRoot, 'src/app.component.css');
+const componentPath = resolve(fixtureRoot, 'src/app/app.component.ts');
+const templatePath = resolve(fixtureRoot, 'src/app/app.component.html');
+const stylePath = resolve(fixtureRoot, 'src/app/app.component.css');
 
 let restoreTemplate = '';
 let restoreStyle = '';
@@ -70,10 +70,10 @@ describe('Vanrot dev reload', () => {
     });
 
     try {
-      const before = await server.transformRequest('/src/app.component.ts');
-      expect(before?.code).toContain('Increase');
+      const before = await server.transformRequest('/src/app/app.component.ts');
+      expect(before?.code).toContain('route.home');
 
-      await writeFile(templatePath, restoreTemplate.replace('Increase', 'Add one'));
+      await writeFile(templatePath, restoreTemplate.replace('route.home', 'route.about'));
       await handleVanrotHotUpdate({
         file: templatePath,
         timestamp: Date.now(),
@@ -82,8 +82,8 @@ describe('Vanrot dev reload', () => {
         read: () => readFile(templatePath, 'utf8'),
       });
 
-      const after = await server.transformRequest('/src/app.component.ts');
-      expect(after?.code).toContain('Add one');
+      const after = await server.transformRequest('/src/app/app.component.ts');
+      expect(after?.code).toContain('route.about');
     } finally {
       await server.close();
     }
@@ -99,8 +99,8 @@ describe('Vanrot dev reload', () => {
     try {
       const source = await server.transformRequest(toPublicSourceModuleId(componentPath));
 
-      expect(source?.code).toContain('increment() {');
-      expect(source?.code).not.toContain('increment(): void');
+      expect(source?.code).toContain('route = appRoute;');
+      expect(source?.code).toContain('/src/routes.ts');
     } finally {
       await server.close();
     }
@@ -115,8 +115,8 @@ describe('Vanrot dev reload', () => {
     });
 
     try {
-      await server.transformRequest('/src/app.component.ts');
-      await writeFile(stylePath, `${restoreStyle}\n.counter { background: black; }\n`);
+      await server.transformRequest('/src/app/app.component.ts');
+      await writeFile(stylePath, `${restoreStyle}\n.app { background: black; }\n`);
       await handleVanrotHotUpdate({
         file: stylePath,
         timestamp: Date.now(),
@@ -125,7 +125,7 @@ describe('Vanrot dev reload', () => {
         read: () => readFile(stylePath, 'utf8'),
       });
 
-      await server.transformRequest('/src/app.component.ts');
+      await server.transformRequest('/src/app/app.component.ts');
       const css = await server.transformRequest(toPublicCssModuleId(componentPath));
       expect(css?.code).toContain('background');
       expect(css?.code).toContain('black');

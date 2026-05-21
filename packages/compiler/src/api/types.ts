@@ -6,7 +6,8 @@ export type DiagnosticCode =
   | 'VR005'
   | 'VR006'
   | 'VR007'
-  | 'VR008';
+  | 'VR008'
+  | 'VR009';
 
 export type DiagnosticSeverity = 'error' | 'warning';
 
@@ -40,7 +41,9 @@ export type CompileFeature =
   | 'property-binding'
   | 'scoped-css'
   | 'readable-output'
-  | 'expression-rewriting';
+  | 'expression-rewriting'
+  | 'router-outlet'
+  | 'router-link';
 
 export interface CompileResult {
   js: string;

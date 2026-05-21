@@ -9,7 +9,9 @@ export interface ParseTemplateResult {
 }
 
 export function parseTemplate(templateSource: string, templatePath: string): ParseTemplateResult {
-  const fragment = parseFragment(templateSource, { sourceCodeLocationInfo: true });
+  const fragment = parseFragment(normalizeVanrotSelfClosingTags(templateSource), {
+    sourceCodeLocationInfo: true,
+  });
   const diagnostics: CompileDiagnostic[] = [];
   const nodes: TemplateNode[] = [];
 
@@ -27,6 +29,13 @@ export function parseTemplate(templateSource: string, templatePath: string): Par
     nodes,
     diagnostics,
   };
+}
+
+function normalizeVanrotSelfClosingTags(templateSource: string): string {
+  return templateSource.replace(
+    /<vr(\s+route\.[A-Za-z_$][\w$]*)\s*\/>/g,
+    '<vr$1></vr>',
+  );
 }
 
 function convertNode(

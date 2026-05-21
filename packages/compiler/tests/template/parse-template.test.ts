@@ -47,4 +47,42 @@ describe('parseTemplate', () => {
       diagnostics: [],
     });
   });
+
+  it('treats Vanrot route primitives as self-closing route links', () => {
+    expect(
+      parseTemplate(
+        '<nav><vr route.home /><vr route.about /></nav><vr-router></vr-router>',
+        'app.component.html',
+      ),
+    ).toEqual({
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'nav',
+          attributes: [],
+          children: [
+            {
+              kind: 'element',
+              tagName: 'vr',
+              attributes: [{ name: 'route.home', value: '' }],
+              children: [],
+            },
+            {
+              kind: 'element',
+              tagName: 'vr',
+              attributes: [{ name: 'route.about', value: '' }],
+              children: [],
+            },
+          ],
+        },
+        {
+          kind: 'element',
+          tagName: 'vr-router',
+          attributes: [],
+          children: [],
+        },
+      ],
+      diagnostics: [],
+    });
+  });
 });

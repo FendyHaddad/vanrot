@@ -1,0 +1,33 @@
+{
+  "name": "@vanrot/router",
+  "version": "0.0.0",
+  "type": "module",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./internal": {
+      "types": "./dist/internal.d.ts",
+      "import": "./dist/internal.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@vanrot/runtime": "workspace:*"
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @vanrot/runtime build",
+    "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm --filter @vanrot/runtime build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/runtime build",
+    "test": "vitest run",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  }
+}

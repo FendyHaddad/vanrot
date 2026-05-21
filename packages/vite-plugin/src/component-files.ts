@@ -4,21 +4,32 @@ export interface ComponentFiles {
   stylePath: string;
 }
 
+const roleSuffixes = ['component', 'page'] as const;
+
 export function isComponentEntry(id: string): boolean {
   if (id.startsWith('virtual:vanrot-') || id.startsWith('\0vanrot:')) {
     return false;
   }
 
-  return cleanModuleId(id).endsWith('.component.ts');
+  return roleSuffixes.some((role) => cleanModuleId(id).endsWith(`.${role}.ts`));
 }
 
 export function resolveComponentFiles(componentPath: string): ComponentFiles {
   const cleanPath = cleanModuleId(componentPath);
+  const role = roleSuffixes.find((candidate) => cleanPath.endsWith(`.${candidate}.ts`));
+
+  if (role === undefined) {
+    return {
+      componentPath: cleanPath,
+      templatePath: cleanPath,
+      stylePath: cleanPath,
+    };
+  }
 
   return {
     componentPath: cleanPath,
-    templatePath: cleanPath.replace(/\.component\.ts$/, '.component.html'),
-    stylePath: cleanPath.replace(/\.component\.ts$/, '.component.css'),
+    templatePath: cleanPath.replace(new RegExp(`\\.${role}\\.ts$`), `.${role}.html`),
+    stylePath: cleanPath.replace(new RegExp(`\\.${role}\\.ts$`), `.${role}.css`),
   };
 }
 

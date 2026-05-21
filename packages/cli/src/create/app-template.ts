@@ -27,6 +27,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           },
           dependencies: {
             '@vanrot/runtime': dependencyVersion,
+            '@vanrot/router': dependencyVersion,
           },
           devDependencies: {
             '@vanrot/cli': dependencyVersion,
@@ -69,19 +70,47 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\n// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.\nimport App from './app/app.component.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nmount(App, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\n// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.\nimport App from './app/app.component.ts';\nimport { route as appRoute } from './routes.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(App, target);\n`,
+    },
+    {
+      path: 'src/routes.ts',
+      content: `import { defineRoutes } from '@vanrot/router';\n// @ts-expect-error Vanrot's Vite plugin compiles page modules to default exports.\nimport HomePage from './pages/home/home.page.ts';\n\nexport const route = defineRoutes({\n  home: {\n    path: '/',\n    label: 'Home',\n    page: HomePage,\n  },\n  about: {\n    path: '/about',\n    label: 'About',\n    loadPage: () => import('./pages/about/about.page.ts'),\n  },\n});\n`,
     },
     {
       path: 'src/app/app.component.ts',
-      content: `import { signal } from '@vanrot/runtime';\n\nexport class AppComponent {\n  title = signal('Vanrot');\n}\n`,
+      content: `import { route as appRoute } from '../routes.ts';\n\nexport class AppComponent {\n  route = appRoute;\n}\n`,
     },
     {
       path: 'src/app/app.component.html',
-      content: `<main class="app">\n  <h1>{{ title() }}</h1>\n</main>\n`,
+      content: `<main class="app">\n  <nav class="app-nav">\n    <vr route.home />\n    <vr route.about />\n  </nav>\n\n  <vr-router></vr-router>\n</main>\n`,
     },
     {
       path: 'src/app/app.component.css',
-      content: `.app {\n  display: grid;\n  gap: 16px;\n  padding: 32px;\n  font-family: system-ui, sans-serif;\n}\n`,
+      content: `.app {\n  display: grid;\n  gap: 24px;\n  padding: 32px;\n  font-family: system-ui, sans-serif;\n}\n\n.app-nav {\n  display: flex;\n  gap: 12px;\n}\n`,
+    },
+    {
+      path: 'src/pages/home/home.page.ts',
+      content: `export class HomePage {}\n`,
+    },
+    {
+      path: 'src/pages/home/home.page.html',
+      content: `<section class="page">\n  <h1>Build with Vanrot</h1>\n  <p>Start with named routes, page files, and a small runtime foundation.</p>\n</section>\n`,
+    },
+    {
+      path: 'src/pages/home/home.page.css',
+      content: `.page {\n  display: grid;\n  gap: 12px;\n}\n`,
+    },
+    {
+      path: 'src/pages/about/about.page.ts',
+      content: `export class AboutPage {}\n`,
+    },
+    {
+      path: 'src/pages/about/about.page.html',
+      content: `<section class="page">\n  <h1>About this app</h1>\n  <p>This page is lazy loaded through the route table.</p>\n</section>\n`,
+    },
+    {
+      path: 'src/pages/about/about.page.css',
+      content: `.page {\n  display: grid;\n  gap: 12px;\n}\n`,
     },
   ];
 }

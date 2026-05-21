@@ -3,6 +3,8 @@ import { basename, dirname, join } from 'node:path';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import type { CompileDiagnostic } from '../api/types.js';
 
+type ComponentRole = 'component' | 'page';
+
 export interface ComponentFileSet {
   componentPath: string;
   templatePath: string;
@@ -26,7 +28,7 @@ export async function resolveComponentFiles(componentPath: string): Promise<Comp
         createDiagnostic(
           'VR003',
           'error',
-          'Vanrot Phase 3 only supports .component.ts files.',
+          'Vanrot supports .component.ts and .page.ts role files.',
           componentPath,
         ),
       ],
@@ -55,12 +57,14 @@ export async function resolveComponentFiles(componentPath: string): Promise<Comp
 
 export function createComponentFileSet(componentPath: string): ComponentFileSet | null {
   const fileName = basename(componentPath);
+  const role = resolveRole(fileName);
 
-  if (!fileName.endsWith('.component.ts')) {
+  if (role === null) {
     return null;
   }
 
-  const componentBaseName = fileName.slice(0, -'.component.ts'.length);
+  const suffix = `.${role}.ts`;
+  const componentBaseName = fileName.slice(0, -suffix.length);
 
   if (componentBaseName.length === 0) {
     return null;
@@ -70,11 +74,23 @@ export function createComponentFileSet(componentPath: string): ComponentFileSet 
 
   return {
     componentPath,
-    templatePath: join(root, `${componentBaseName}.component.html`),
-    stylePath: join(root, `${componentBaseName}.component.css`),
+    templatePath: join(root, `${componentBaseName}.${role}.html`),
+    stylePath: join(root, `${componentBaseName}.${role}.css`),
     componentBaseName,
-    expectedClassName: `${toPascalCase(componentBaseName)}Component`,
+    expectedClassName: `${toPascalCase(componentBaseName)}${toPascalCase(role)}`,
   };
+}
+
+function resolveRole(fileName: string): ComponentRole | null {
+  if (fileName.endsWith('.component.ts')) {
+    return 'component';
+  }
+
+  if (fileName.endsWith('.page.ts')) {
+    return 'page';
+  }
+
+  return null;
 }
 
 function toPascalCase(value: string): string {

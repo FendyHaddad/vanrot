@@ -1,0 +1,9 @@
+.app {
+  display: grid;
+  gap: 16px;
+}
+
+.nav {
+  display: flex;
+  gap: 12px;
+}

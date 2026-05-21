@@ -66,6 +66,12 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  packages/router:
+    dependencies:
+      '@vanrot/runtime':
+        specifier: workspace:*
+        version: link:../runtime
+
   packages/runtime: {}
 
   packages/vite-plugin:
@@ -73,6 +79,9 @@ importers:
       '@vanrot/compiler':
         specifier: workspace:*
         version: link:../compiler
+      '@vanrot/router':
+        specifier: workspace:*
+        version: link:../router
     devDependencies:
       vite:
         specifier: ^8.0.10

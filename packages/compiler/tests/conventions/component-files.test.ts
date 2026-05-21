@@ -35,17 +35,30 @@ describe('component file conventions', () => {
 
   it('reports invalid component file suffixes', async () => {
     const root = await createFixtureDirectory({
-      'counter.page.ts': '',
       'counter.ts': '',
     });
 
-    await expect(resolveComponentFiles(join(root, 'counter.page.ts'))).resolves.toMatchObject({
-      fileSet: null,
-      diagnostics: [{ code: 'VR003' }],
-    });
     await expect(resolveComponentFiles(join(root, 'counter.ts'))).resolves.toMatchObject({
       fileSet: null,
       diagnostics: [{ code: 'VR003' }],
+    });
+  });
+
+  it('resolves page siblings and expected class names', async () => {
+    const root = await createFixtureDirectory({
+      'settings.page.ts': 'export class SettingsPage {}',
+      'settings.page.html': '<p>Ready</p>',
+      'settings.page.css': 'p { color: red; }',
+    });
+
+    await expect(resolveComponentFiles(join(root, 'settings.page.ts'))).resolves.toMatchObject({
+      fileSet: {
+        componentBaseName: 'settings',
+        expectedClassName: 'SettingsPage',
+        templatePath: join(root, 'settings.page.html'),
+        stylePath: join(root, 'settings.page.css'),
+      },
+      diagnostics: [],
     });
   });
 

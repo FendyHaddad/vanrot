@@ -83,6 +83,7 @@ i18n-ready text patterns
 keyboard accessibility helpers
 SSR-safe APIs later
 role-based file naming
+single-source string ownership
 AI-friendly project structure
 readable generated code
 ```
@@ -97,6 +98,7 @@ unpredictable patterns
 large runtime weight
 JSX-style UI mixing
 single-file component clutter
+reused string literals
 ```
 
 ---
@@ -1752,12 +1754,12 @@ Status:
 | [x] | Phase 5 - CLI MVP | `@vanrot/cli` with `vr create`, `vr generate component`, `vr generate page`, `vr doctor`, `vr dev`, `vr build`, and `vr test`. | A user can create an app, generate files, diagnose issues, start dev, build, and test through `vr`. |
 | [x] | Phase 6 - Counter demo milestone | First working demo app using separate `.ts`, `.html`, and `.css` files grouped inside a component directory. | The counter demo compiles into efficient output, updates only affected DOM nodes, uses scoped CSS, and verifies the CLI build/test/doctor workflow. |
 | [x] | Phase 7 - Project intelligence | `vr map`, `.vanrot/project-map.json`, and `.vanrot/ai-rules.md`; strict diagnostics, i18n checks, and accessibility checks stay deferred in the maturity ledger. | The project can explain its structure to humans and AI without requiring an AI provider. |
-| [ ] | Phase 8 - Router MVP | `@vanrot/router` with route config, route outlet, link helper, params, and lazy route loading. | A generated app can navigate between pages using first-party routing. |
+| [x] | Phase 8 - Router MVP | `@vanrot/router` with `src/routes.ts`, named route config, `<vr-router>`, `<vr route.name />`, params, and lazy `loadPage`. | A generated app can navigate between pages using first-party routing without repeating route path or label strings in templates. |
 | [ ] | Phase 9 - UI and tokens MVP | `@vanrot/ui`, `vr add`, design tokens, and first basic components. | Users can add official UI components without bloating `@vanrot/runtime`. |
 | [ ] | Phase 10 - Testing and docs | `@vanrot/testing`, example tests, API docs, and guide docs. | Core packages have documented public APIs and reliable tests for normal user workflows. |
 | [ ] | Phase 11 - Later platform work | SSR-safe APIs, hydration strategy, async resources, stores, forms, animation, devtools, and optional AI commands. | Deferred features have separate specs and do not leak into the tiny runtime kernel. |
 
-Phase 7 completed the project intelligence foundation. Strict diagnostics, i18n checks, accessibility checks, route/dependency graphing, and compiler-aware intelligence remain tracked as deferred production work in `docs/superpowers/feature-maturity.md`.
+Phase 8 completed the first-party router MVP. Query strings, nested routes/layouts, guards, preloading, active links, typed param-link generation, and route diagnostics remain tracked as deferred production work in `docs/superpowers/feature-maturity.md`.
 
 ---
 
