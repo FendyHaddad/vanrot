@@ -24,4 +24,16 @@ describe('basic app fixture package manifest', () => {
 
     expect(dependencyVersions).not.toContain('workspace:*');
   });
+
+  it('does not declare unpublished Vanrot packages for registry install', async () => {
+    const packageJson = JSON.parse(
+      await readFile(fixturePackagePath, 'utf8'),
+    ) as FixturePackageJson;
+    const dependencyNames = [
+      ...Object.keys(packageJson.dependencies ?? {}),
+      ...Object.keys(packageJson.devDependencies ?? {}),
+    ];
+
+    expect(dependencyNames.filter((name) => name.startsWith('@vanrot/'))).toEqual([]);
+  });
 });
