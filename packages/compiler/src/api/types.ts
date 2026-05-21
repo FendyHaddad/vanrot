@@ -19,6 +19,10 @@ export interface ComponentSource {
   styleSource: string;
 }
 
+export interface CompileOptions {
+  componentImportSpecifier?: string;
+}
+
 export interface CompileDiagnostic {
   code: DiagnosticCode;
   severity: DiagnosticSeverity;

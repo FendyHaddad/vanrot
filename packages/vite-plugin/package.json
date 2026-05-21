@@ -14,9 +14,21 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@vanrot/compiler": "workspace:*"
+  },
+  "peerDependencies": {
+    "vite": "^8.0.0"
+  },
+  "devDependencies": {
+    "vite": "^8.0.10"
+  },
   "scripts": {
+    "prebuild": "pnpm --filter @vanrot/compiler build",
     "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm --filter @vanrot/compiler build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/compiler build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
   }

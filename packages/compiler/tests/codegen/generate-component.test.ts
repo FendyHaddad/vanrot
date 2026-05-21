@@ -119,4 +119,23 @@ describe('generateComponent', () => {
     expect(result.js).toContain('ctx.increment();');
     expect(result.features).toContain('event-binding');
   });
+
+  it('uses the component import override when provided', () => {
+    const result = generateComponent(
+      {
+        metadata,
+        nodes: [],
+        scopeAttribute: 'data-vr-a1b2c3',
+        templatePath: 'counter.component.html',
+      },
+      {
+        componentImportSpecifier: 'virtual:vanrot-source:%2Fsrc%2Fcounter.component.ts',
+      },
+    );
+
+    expect(result.js).toContain(
+      "from 'virtual:vanrot-source:%2Fsrc%2Fcounter.component.ts'",
+    );
+    expect(result.js).not.toContain("from 'counter.component.js'");
+  });
 });

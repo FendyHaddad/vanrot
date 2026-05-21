@@ -1,4 +1,4 @@
-import type { CompileDiagnostic, CompileFeature } from '../api/types.js';
+import type { CompileDiagnostic, CompileFeature, CompileOptions } from '../api/types.js';
 import {
   rewriteEventHandlerExpression,
   rewriteExpression,
@@ -31,7 +31,10 @@ interface GenerateState {
   templatePath: string;
 }
 
-export function generateComponent(input: GenerateComponentInput): GenerateComponentResult {
+export function generateComponent(
+  input: GenerateComponentInput,
+  options: CompileOptions = {},
+): GenerateComponentResult {
   const state: GenerateState = {
     ids: new IdentifierAllocator(),
     lines: [],
@@ -58,14 +61,19 @@ export function generateComponent(input: GenerateComponentInput): GenerateCompon
   state.lines.push('}');
 
   return {
-    js: [...generateImports(input.metadata, state), '', ...state.lines].join('\n'),
+    js: [...generateImports(input.metadata, state, options), '', ...state.lines].join('\n'),
     diagnostics: state.diagnostics,
     features: [...state.features],
   };
 }
 
-function generateImports(metadata: ComponentMetadata, state: GenerateState): string[] {
-  const imports = [`import { ${metadata.exportName} } from ${quoteString(metadata.importPath)};`];
+function generateImports(
+  metadata: ComponentMetadata,
+  state: GenerateState,
+  options: CompileOptions,
+): string[] {
+  const componentImportSpecifier = options.componentImportSpecifier ?? metadata.importPath;
+  const imports = [`import { ${metadata.exportName} } from ${quoteString(componentImportSpecifier)};`];
 
   if (state.usesEffect) {
     imports.push("import { effect } from '@vanrot/runtime';");

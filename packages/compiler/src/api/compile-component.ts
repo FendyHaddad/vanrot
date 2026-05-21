@@ -1,4 +1,10 @@
-import type { CompileDiagnostic, CompileFeature, CompileResult, ComponentSource } from './types.js';
+import type {
+  CompileDiagnostic,
+  CompileFeature,
+  CompileOptions,
+  CompileResult,
+  ComponentSource,
+} from './types.js';
 import { createComponentFileSet } from '../conventions/component-files.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import { readComponentMetadata } from '../metadata/component-metadata.js';
@@ -19,7 +25,7 @@ const featureOrder: CompileFeature[] = [
   'expression-rewriting',
 ];
 
-export function compileComponent(source: ComponentSource): CompileResult {
+export function compileComponent(source: ComponentSource, options: CompileOptions = {}): CompileResult {
   const fileSet = createComponentFileSet(source.componentPath);
 
   if (fileSet === null) {
@@ -61,7 +67,7 @@ export function compileComponent(source: ComponentSource): CompileResult {
     nodes: parsedTemplate.nodes,
     scopeAttribute,
     templatePath: source.templatePath,
-  });
+  }, options);
 
   diagnostics.push(
     ...parsedTemplate.diagnostics,

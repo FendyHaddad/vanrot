@@ -1,6 +1,7 @@
 export type {
   CompileDiagnostic,
   CompileFeature,
+  CompileOptions,
   CompileResult,
   ComponentSource,
   DiagnosticCode,

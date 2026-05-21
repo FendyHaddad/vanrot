@@ -112,4 +112,50 @@ describe('mount', () => {
 
     expect(spy).not.toHaveBeenCalled();
   });
+
+  it('mounts a compiled component module and appends its node', () => {
+    const target = document.createElement('div');
+    const node = document.createElement('p');
+    node.textContent = 'Hello Vanrot';
+
+    const app = mount(
+      {
+        createComponent() {
+          return { node, ctx: {} };
+        },
+      },
+      target,
+    );
+
+    expect(target.textContent).toBe('Hello Vanrot');
+
+    app.destroy();
+    expect(target.textContent).toBe('');
+  });
+
+  it('runs compiled component effects inside the root cleanup scope', () => {
+    const target = document.createElement('div');
+    const count = signal(0);
+    const spy = vi.fn();
+
+    const app = mount(
+      {
+        createComponent() {
+          effect(() => {
+            count();
+            spy();
+          });
+
+          return { node: document.createTextNode('count'), ctx: {} };
+        },
+      },
+      target,
+    );
+
+    spy.mockClear();
+    app.destroy();
+    count.set(1);
+
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

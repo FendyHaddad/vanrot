@@ -25,4 +25,17 @@ describe('compileComponentFromFiles', () => {
       ]),
     );
   });
+
+  it('passes componentImportSpecifier into generated output', async () => {
+    const result = await compileComponentFromFiles(
+      join(import.meta.dirname, '../fixtures/counter/counter.component.ts'),
+      {
+        componentImportSpecifier: 'virtual:vanrot-source:%2Ffixture%2Fcounter.component.ts',
+      },
+    );
+
+    expect(result.js).toContain(
+      "from 'virtual:vanrot-source:%2Ffixture%2Fcounter.component.ts'",
+    );
+  });
 });
