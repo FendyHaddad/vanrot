@@ -1,4 +1,5 @@
 import { createCommand } from './commands/create.js';
+import { generateCommand } from './commands/generate.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
 
@@ -58,9 +59,8 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
     return createCommand(rest, context);
   }
 
-  if (command === 'g') {
-    context.reporter.error('Command alias is not wired yet.', 'Use vr generate for now.');
-    return fail();
+  if (command === 'generate' || command === 'g') {
+    return generateCommand(rest, context);
   }
 
   context.reporter.error(`Unknown command: ${command}`, suggestionFor(command));
