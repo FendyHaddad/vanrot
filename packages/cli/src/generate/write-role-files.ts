@@ -38,14 +38,16 @@ export async function writeRoleFiles(
 
 function resolveDirectory(options: WriteRoleFilesOptions): string {
   if (options.feature !== undefined && options.role === 'component') {
-    return join('src', 'features', options.feature, 'components');
+    return join('src', 'features', options.feature, 'components', options.name);
   }
 
   if (options.feature !== undefined) {
-    return join('src', 'features', options.feature);
+    return join('src', 'features', options.feature, options.name);
   }
 
-  return options.role === 'component' ? join('src', 'components') : join('src', 'pages');
+  return options.role === 'component'
+    ? join('src', 'components', options.name)
+    : join('src', 'pages', options.name);
 }
 
 function typescriptTemplate(className: string): string {

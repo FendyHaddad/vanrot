@@ -22,7 +22,7 @@ describe('vr generate', () => {
     });
 
     expect(result.exitCode).toBe(0);
-    const base = join(cwd, 'src', 'features', 'users', 'components');
+    const base = join(cwd, 'src', 'features', 'users', 'components', 'user-card');
     await expect(readFile(join(base, 'user-card.component.ts'), 'utf8')).resolves.toContain(
       'export class UserCardComponent',
     );
@@ -45,7 +45,7 @@ describe('vr generate', () => {
     });
 
     expect(result.exitCode).toBe(0);
-    const base = join(cwd, 'src', 'features', 'users');
+    const base = join(cwd, 'src', 'features', 'users', 'dashboard');
     await expect(readFile(join(base, 'dashboard.page.ts'), 'utf8')).resolves.toContain(
       'export class DashboardPage',
     );
@@ -65,11 +65,11 @@ describe('vr generate', () => {
     await runCli(['generate', 'page', 'settings'], { cwd, reporter });
 
     await expect(
-      readFile(join(cwd, 'src', 'components', 'status-pill.component.ts'), 'utf8'),
+      readFile(join(cwd, 'src', 'components', 'status-pill', 'status-pill.component.ts'), 'utf8'),
     ).resolves.toContain('StatusPillComponent');
-    await expect(readFile(join(cwd, 'src', 'pages', 'settings.page.ts'), 'utf8')).resolves.toContain(
-      'SettingsPage',
-    );
+    await expect(
+      readFile(join(cwd, 'src', 'pages', 'settings', 'settings.page.ts'), 'utf8'),
+    ).resolves.toContain('SettingsPage');
   });
 
   it('rejects non-kebab-case names', async () => {
