@@ -1,3 +1,4 @@
+import { createCommand } from './commands/create.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
 
@@ -51,6 +52,10 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
 
   if (rest.includes('--help') || rest.includes('-h')) {
     return printCommandHelp(command, context);
+  }
+
+  if (command === 'create') {
+    return createCommand(rest, context);
   }
 
   if (command === 'g') {
