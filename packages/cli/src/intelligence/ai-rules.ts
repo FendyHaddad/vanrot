@@ -1,3 +1,5 @@
+import { commandInvocation, commandName } from '../commands/metadata.js';
+
 export function createAiRules(): string {
   return `# Vanrot AI Rules
 
@@ -23,7 +25,7 @@ Vanrot is a compiler-first UI framework built around clean file separation, tiny
 Update the project map with:
 
 \`\`\`bash
-vr map
+${commandInvocation(commandName.map)}
 \`\`\`
 `;
 }

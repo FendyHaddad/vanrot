@@ -1,29 +1,42 @@
 import { access, readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
+import {
+  commandInvocation,
+  commandName,
+  commandUsage,
+  starterScriptCommands,
+} from '../commands/metadata.js';
 import type { DoctorFinding } from './checks.js';
 import { walkFiles } from './vanrot-rules.js';
 
-const requiredScripts = ['dev', 'build', 'test', 'doctor'];
-
 export async function checkProjectHealth(cwd: string): Promise<DoctorFinding[]> {
   const findings: DoctorFinding[] = [];
+  const packageJsonPath = join(cwd, 'package.json');
+  const hasPackageJson = await exists(packageJsonPath);
 
-  if (!(await exists(join(cwd, 'package.json')))) {
+  if (!hasPackageJson) {
     findings.push(
       error(
         'VRT0001',
         'package.json',
         'Missing package.json',
-        'Run vr create <name> to create a Vanrot app.',
+        `Run ${commandUsage(commandName.create)} to create a Vanrot app.`,
       ),
     );
-  } else {
+  }
+
+  if (hasPackageJson) {
     findings.push(...(await checkPackageScripts(cwd)));
   }
 
   if (!(await exists(join(cwd, 'src')))) {
     findings.push(
-      error('VRT0002', 'src', 'Missing src directory', 'Create src/ or run vr create <name>.'),
+      error(
+        'VRT0002',
+        'src',
+        'Missing src directory',
+        `Create src/ or run ${commandUsage(commandName.create)}.`,
+      ),
     );
   }
 
@@ -48,7 +61,7 @@ async function checkPackageScripts(cwd: string): Promise<DoctorFinding[]> {
   };
   const findings: DoctorFinding[] = [];
 
-  for (const script of requiredScripts) {
+  for (const script of starterScriptCommands) {
     if (packageJson.scripts?.[script] !== undefined) {
       continue;
     }
@@ -58,7 +71,7 @@ async function checkPackageScripts(cwd: string): Promise<DoctorFinding[]> {
         'VRT0004',
         'package.json',
         `Missing package script: ${script}`,
-        `Add "${script}": "vr ${script}".`,
+        `Add "${script}": "${commandInvocation(script)}".`,
       ),
     );
   }

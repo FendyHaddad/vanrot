@@ -5,9 +5,34 @@ import { doctorCommand } from './commands/doctor.js';
 import { generateCommand } from './commands/generate.js';
 import { initAiCommand } from './commands/init-ai.js';
 import { mapCommand } from './commands/map.js';
+import {
+  cliCommands,
+  commandAlias,
+  commandInvocation,
+  commandName,
+  rootCommandUsages,
+} from './commands/metadata.js';
 import { testCommand } from './commands/test.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
+
+type CommandHandler = (args: string[], context: CommandContext) => Promise<CommandResult>;
+
+const commandHandlers = new Map<string, CommandHandler>([
+  [commandName.create, createCommand],
+  [commandName.generate, generateCommand],
+  [commandAlias.generate, generateCommand],
+  [commandName.doctor, doctorCommand],
+  [commandName.map, mapCommand],
+  [commandName.initAi, initAiCommand],
+  [commandName.dev, devCommand],
+  [commandName.build, buildCommand],
+  [commandName.test, testCommand],
+]);
+
+const commandHelp = new Map<string, string>(
+  cliCommands.map((command) => [command.name, command.help]),
+);
 
 const rootHelp = `Vanrot CLI
 
@@ -15,43 +40,7 @@ Usage
   vr <command>
 
 Commands
-  vr create <name>
-  vr generate component <name>
-  vr generate page <name>
-  vr doctor
-  vr map
-  vr init-ai
-  vr dev
-  vr build
-  vr test`;
-
-const commandHelp = new Map<string, string>([
-  [
-    'create',
-    `vr create <name>
-
-Options
-  --workspace   Use workspace dependencies for repository fixtures
-  --force       Overwrite an existing target directory`,
-  ],
-  [
-    'generate',
-    `vr generate <role> <name>
-
-Roles
-  component
-  page
-
-Options
-  --feature <name>   Generate inside src/features/<name>`,
-  ],
-  ['doctor', 'vr doctor'],
-  ['map', 'vr map'],
-  ['init-ai', 'vr init-ai'],
-  ['dev', 'vr dev'],
-  ['build', 'vr build'],
-  ['test', 'vr test'],
-]);
+${rootCommandUsages.map((usage) => `  ${usage}`).join('\n')}`;
 
 export async function runCli(args: string[], context: CommandContext): Promise<CommandResult> {
   const [command, ...rest] = args;
@@ -65,36 +54,10 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
     return printCommandHelp(command, context);
   }
 
-  if (command === 'create') {
-    return createCommand(rest, context);
-  }
+  const handler = commandHandlers.get(command);
 
-  if (command === 'generate' || command === 'g') {
-    return generateCommand(rest, context);
-  }
-
-  if (command === 'doctor') {
-    return doctorCommand(rest, context);
-  }
-
-  if (command === 'map') {
-    return mapCommand(rest, context);
-  }
-
-  if (command === 'init-ai') {
-    return initAiCommand(rest, context);
-  }
-
-  if (command === 'dev') {
-    return devCommand(rest, context);
-  }
-
-  if (command === 'build') {
-    return buildCommand(rest, context);
-  }
-
-  if (command === 'test') {
-    return testCommand(rest, context);
+  if (handler !== undefined) {
+    return handler(rest, context);
   }
 
   context.reporter.error(`Unknown command: ${command}`, suggestionFor(command));
@@ -115,11 +78,11 @@ function printCommandHelp(command: string, context: CommandContext): CommandResu
 
 function suggestionFor(command: string): string | undefined {
   if (command === 'craete') {
-    return 'Did you mean vr create?';
+    return `Did you mean ${commandInvocation(commandName.create)}?`;
   }
 
   if (command === 'generte') {
-    return 'Did you mean vr generate?';
+    return `Did you mean ${commandInvocation(commandName.generate)}?`;
   }
 
   return undefined;

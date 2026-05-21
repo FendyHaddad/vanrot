@@ -1,3 +1,5 @@
+import { createStarterScripts } from '../commands/metadata.js';
+
 export interface AppTemplateOptions {
   appName: string;
   workspace: boolean;
@@ -19,12 +21,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           name: options.appName,
           private: true,
           type: 'module',
-          scripts: {
-            dev: 'vr dev',
-            build: 'vr build',
-            test: 'vr test',
-            doctor: 'vr doctor',
-          },
+          scripts: createStarterScripts(),
           dependencies: {
             '@vanrot/runtime': dependencyVersion,
             '@vanrot/router': dependencyVersion,

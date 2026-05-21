@@ -1,6 +1,7 @@
 import { writeApp } from '../create/write-app.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
+import { commandInvocation, commandName, commandUsage } from './metadata.js';
 
 export async function createCommand(
   args: string[],
@@ -11,7 +12,7 @@ export async function createCommand(
   const force = args.includes('--force');
 
   if (appName === undefined) {
-    context.reporter.error('Missing app name.', 'Run vr create <name>.');
+    context.reporter.error('Missing app name.', `Run ${commandUsage(commandName.create)}.`);
     return fail();
   }
 
@@ -27,7 +28,7 @@ export async function createCommand(
     context.reporter.nextSteps([
       `cd ${appName}`,
       workspace ? 'pnpm install' : 'npm install',
-      'vr dev',
+      commandInvocation(commandName.dev),
     ]);
     return ok();
   } catch (error) {

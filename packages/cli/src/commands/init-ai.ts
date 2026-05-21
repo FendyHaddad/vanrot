@@ -2,13 +2,17 @@ import { createAiRules } from '../intelligence/ai-rules.js';
 import { writeVanrotFile } from '../intelligence/write-vanrot-file.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
+import { commandInvocation, commandName } from './metadata.js';
 
 export async function initAiCommand(
   args: string[],
   context: CommandContext,
 ): Promise<CommandResult> {
   if (args.length > 0) {
-    context.reporter.error('Unknown option for vr init-ai', `Unexpected argument: ${args[0]}`);
+    context.reporter.error(
+      `Unknown option for ${commandInvocation(commandName.initAi)}`,
+      `Unexpected argument: ${args[0]}`,
+    );
     return fail();
   }
 

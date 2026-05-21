@@ -2,6 +2,9 @@ import { isKebabCase } from '../generate/names.js';
 import { writeRoleFiles, type Role } from '../generate/write-role-files.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
+import { commandName, commandUsages } from './metadata.js';
+
+const generateUsages = commandUsages(commandName.generate).join(' or ');
 
 export async function generateCommand(
   args: string[],
@@ -11,15 +14,12 @@ export async function generateCommand(
   const feature = readOption(args, '--feature');
 
   if (role !== 'component' && role !== 'page') {
-    context.reporter.error(
-      'Unsupported generator role.',
-      'Use vr generate component <name> or vr generate page <name>.',
-    );
+    context.reporter.error('Unsupported generator role.', `Use ${generateUsages}.`);
     return fail();
   }
 
   if (name === undefined) {
-    context.reporter.error('Missing generated file name.', `Run vr generate ${role} <name>.`);
+    context.reporter.error('Missing generated file name.', `Run ${generateUsages}.`);
     return fail();
   }
 

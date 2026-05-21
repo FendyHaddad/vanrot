@@ -2,10 +2,14 @@ import { buildProjectMap } from '../intelligence/project-map.js';
 import { writeVanrotFile } from '../intelligence/write-vanrot-file.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
+import { commandInvocation, commandName } from './metadata.js';
 
 export async function mapCommand(args: string[], context: CommandContext): Promise<CommandResult> {
   if (args.length > 0) {
-    context.reporter.error('Unknown option for vr map', `Unexpected argument: ${args[0]}`);
+    context.reporter.error(
+      `Unknown option for ${commandInvocation(commandName.map)}`,
+      `Unexpected argument: ${args[0]}`,
+    );
     return fail();
   }
 
