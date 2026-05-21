@@ -68,18 +68,18 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\nimport App from './app.component.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nmount(App, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\nimport App from './app/app.component.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nmount(App, target);\n`,
     },
     {
-      path: 'src/app.component.ts',
+      path: 'src/app/app.component.ts',
       content: `import { signal } from '@vanrot/runtime';\n\nexport class AppComponent {\n  title = signal('Vanrot');\n}\n`,
     },
     {
-      path: 'src/app.component.html',
+      path: 'src/app/app.component.html',
       content: `<main class="app">\n  <h1>{{ title() }}</h1>\n</main>\n`,
     },
     {
-      path: 'src/app.component.css',
+      path: 'src/app/app.component.css',
       content: `.app {\n  display: grid;\n  gap: 16px;\n  padding: 32px;\n  font-family: system-ui, sans-serif;\n}\n`,
     },
   ];

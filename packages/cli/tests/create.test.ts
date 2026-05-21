@@ -24,16 +24,16 @@ describe('vr create', () => {
       '@vanrot/vite-plugin',
     );
     await expect(readFile(join(cwd, 'demo-app', 'src', 'main.ts'), 'utf8')).resolves.toContain(
-      "from './app.component.ts'",
+      "from './app/app.component.ts'",
     );
     await expect(
-      readFile(join(cwd, 'demo-app', 'src', 'app.component.ts'), 'utf8'),
+      readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.ts'), 'utf8'),
     ).resolves.toContain('export class AppComponent');
     await expect(
-      readFile(join(cwd, 'demo-app', 'src', 'app.component.html'), 'utf8'),
+      readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.html'), 'utf8'),
     ).resolves.toContain('{{ title() }}');
     await expect(
-      readFile(join(cwd, 'demo-app', 'src', 'app.component.css'), 'utf8'),
+      readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.css'), 'utf8'),
     ).resolves.toContain('.app');
     expect(reporter.output()).toContain('Created demo-app');
     expect(reporter.output()).toContain('vr dev');
