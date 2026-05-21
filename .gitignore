@@ -14,6 +14,7 @@ out/
 
 # Caches
 .cache/
+.superpowers/
 .turbo/
 .vite/
 .vitest/
