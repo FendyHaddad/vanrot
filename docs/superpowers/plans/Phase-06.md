@@ -112,11 +112,11 @@ packages/*/dist/tsconfig.tsbuildinfo
 - Create: `examples/counter/tests/counter-build.test.ts`
 - Modify: `pnpm-lock.yaml`
 
-- [ ] **Step 1: Remove the empty examples marker**
+- [x] **Step 1: Remove the empty examples marker**
 
 Delete `examples/.gitkeep` once `examples/counter` exists.
 
-- [ ] **Step 2: Create the example package manifest**
+- [x] **Step 2: Create the example package manifest**
 
 Create `examples/counter/package.json`:
 
@@ -148,7 +148,7 @@ Create `examples/counter/package.json`:
 }
 ```
 
-- [ ] **Step 3: Create the Vite HTML entry**
+- [x] **Step 3: Create the Vite HTML entry**
 
 Create `examples/counter/index.html`:
 
@@ -157,7 +157,7 @@ Create `examples/counter/index.html`:
 <script type="module" src="/src/main.ts"></script>
 ```
 
-- [ ] **Step 4: Create the example TypeScript config**
+- [x] **Step 4: Create the example TypeScript config**
 
 Create `examples/counter/tsconfig.json`:
 
@@ -165,13 +165,14 @@ Create `examples/counter/tsconfig.json`:
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "allowImportingTsExtensions": true,
     "types": ["node", "vite/client", "vitest/globals"]
   },
   "include": ["src/**/*.ts", "tests/**/*.ts", "vite.config.ts"]
 }
 ```
 
-- [ ] **Step 5: Create the Vite config**
+- [x] **Step 5: Create the Vite config**
 
 Create `examples/counter/vite.config.ts`:
 
@@ -184,7 +185,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 6: Write the failing build integration test**
+- [x] **Step 6: Write the failing build integration test**
 
 Create `examples/counter/tests/counter-build.test.ts`:
 
@@ -221,7 +222,7 @@ describe('counter example build', () => {
 });
 ```
 
-- [ ] **Step 7: Update workspace links and lockfile**
+- [x] **Step 7: Update workspace links and lockfile**
 
 Run:
 
@@ -237,7 +238,7 @@ Done
 
 `pnpm-lock.yaml` should now contain an `examples/counter` importer.
 
-- [ ] **Step 8: Run the test and verify it fails for the missing app source**
+- [x] **Step 8: Run the test and verify it fails for the missing app source**
 
 Run:
 
@@ -268,12 +269,13 @@ Do not commit this failing state yet. The next task adds the app source and comm
 - Create: `examples/counter/src/counter/counter.component.css`
 - Test: `examples/counter/tests/counter-build.test.ts`
 
-- [ ] **Step 1: Add the mount entry**
+- [x] **Step 1: Add the mount entry**
 
 Create `examples/counter/src/main.ts`:
 
 ```ts
 import { mount } from '@vanrot/runtime';
+// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.
 import Counter from './counter/counter.component.ts';
 
 const target = document.getElementById('app');
@@ -285,7 +287,7 @@ if (target === null) {
 mount(Counter, target);
 ```
 
-- [ ] **Step 2: Add the signal-first counter class**
+- [x] **Step 2: Add the signal-first counter class**
 
 Create `examples/counter/src/counter/counter.component.ts`:
 
@@ -326,7 +328,7 @@ export class CounterComponent {
 }
 ```
 
-- [ ] **Step 3: Add the template using only supported Phase 3 syntax**
+- [x] **Step 3: Add the template using only supported Phase 3 syntax**
 
 Create `examples/counter/src/counter/counter.component.html`:
 
@@ -354,7 +356,7 @@ Create `examples/counter/src/counter/counter.component.html`:
 </main>
 ```
 
-- [ ] **Step 4: Add scoped CSS for the demo**
+- [x] **Step 4: Add scoped CSS for the demo**
 
 Create `examples/counter/src/counter/counter.component.css`:
 
@@ -453,7 +455,7 @@ Create `examples/counter/src/counter/counter.component.css`:
 }
 ```
 
-- [ ] **Step 5: Run the example typecheck**
+- [x] **Step 5: Run the example typecheck**
 
 Run:
 
@@ -467,7 +469,7 @@ Expected:
 @vanrot/example-counter typecheck: Done
 ```
 
-- [ ] **Step 6: Run the example build test**
+- [x] **Step 6: Run the example build test**
 
 Run:
 
@@ -481,7 +483,7 @@ Expected:
 PASS examples/counter/tests/counter-build.test.ts
 ```
 
-- [ ] **Step 7: Verify the example build script routes through `vr build`**
+- [x] **Step 7: Verify the example build script routes through `vr build`**
 
 Run:
 
@@ -496,7 +498,7 @@ Expected:
 @vanrot/example-counter build: Done
 ```
 
-- [ ] **Step 8: Verify doctor has no findings**
+- [x] **Step 8: Verify doctor has no findings**
 
 Run:
 
@@ -511,7 +513,7 @@ Expected:
 @vanrot/example-counter doctor: Done
 ```
 
-- [ ] **Step 9: Commit the counter example**
+- [x] **Step 9: Commit the counter example**
 
 Run:
 
@@ -531,7 +533,7 @@ git commit -m "feat(examples): add counter demo"
 - Modify: `packages/cli/tests/create.test.ts`
 - Modify: `packages/cli/src/create/app-template.ts`
 
-- [ ] **Step 1: Update the failing create test expectations**
+- [x] **Step 1: Update the failing create test expectations**
 
 In `packages/cli/tests/create.test.ts`, update the first test's path assertions to expect `src/app/`:
 
@@ -550,7 +552,7 @@ In `packages/cli/tests/create.test.ts`, update the first test's path assertions 
     ).resolves.toContain('.app');
 ```
 
-- [ ] **Step 2: Run the create test and verify it fails**
+- [x] **Step 2: Run the create test and verify it fails**
 
 Run:
 
@@ -565,7 +567,7 @@ FAIL packages/cli/tests/create.test.ts
 ENOENT
 ```
 
-- [ ] **Step 3: Update the starter template paths**
+- [x] **Step 3: Update the starter template paths**
 
 In `packages/cli/src/create/app-template.ts`, replace the existing `src/main.ts` and `src/app.component.*` template entries with these entries:
 
@@ -588,7 +590,7 @@ In `packages/cli/src/create/app-template.ts`, replace the existing `src/main.ts`
     },
 ```
 
-- [ ] **Step 4: Run the create test and verify it passes**
+- [x] **Step 4: Run the create test and verify it passes**
 
 Run:
 
@@ -602,7 +604,7 @@ Expected:
 PASS packages/cli/tests/create.test.ts
 ```
 
-- [ ] **Step 5: Commit the create template alignment**
+- [x] **Step 5: Commit the create template alignment**
 
 Run:
 
@@ -618,7 +620,7 @@ git commit -m "feat(cli): scaffold app component directories"
 - Modify: `packages/cli/tests/generate.test.ts`
 - Modify: `packages/cli/src/generate/write-role-files.ts`
 
-- [ ] **Step 1: Update the failing generate test expectations**
+- [x] **Step 1: Update the failing generate test expectations**
 
 In `packages/cli/tests/generate.test.ts`, update the base directories:
 
@@ -639,7 +641,7 @@ In `packages/cli/tests/generate.test.ts`, update the base directories:
     ).resolves.toContain('SettingsPage');
 ```
 
-- [ ] **Step 2: Run the generate test and verify it fails**
+- [x] **Step 2: Run the generate test and verify it fails**
 
 Run:
 
@@ -654,7 +656,7 @@ FAIL packages/cli/tests/generate.test.ts
 ENOENT
 ```
 
-- [ ] **Step 3: Update generated role-file directories**
+- [x] **Step 3: Update generated role-file directories**
 
 In `packages/cli/src/generate/write-role-files.ts`, replace `resolveDirectory()` with:
 
@@ -674,7 +676,7 @@ function resolveDirectory(options: WriteRoleFilesOptions): string {
 }
 ```
 
-- [ ] **Step 4: Run the generate test and verify it passes**
+- [x] **Step 4: Run the generate test and verify it passes**
 
 Run:
 
@@ -688,7 +690,7 @@ Expected:
 PASS packages/cli/tests/generate.test.ts
 ```
 
-- [ ] **Step 5: Run the full CLI test suite**
+- [x] **Step 5: Run the full CLI test suite**
 
 Run:
 
@@ -705,7 +707,7 @@ Tests       21 passed
 
 If the test count changes because additional assertions are added, all CLI test files must still pass.
 
-- [ ] **Step 6: Commit the generator alignment**
+- [x] **Step 6: Commit the generator alignment**
 
 Run:
 
@@ -727,7 +729,7 @@ git commit -m "feat(cli): generate role-owned directories"
 - Verify: `examples/counter/src/counter/counter.component.html`
 - Verify: `examples/counter/src/counter/counter.component.css`
 
-- [ ] **Step 1: Verify package scripts**
+- [x] **Step 1: Verify package scripts**
 
 Run:
 
@@ -745,7 +747,7 @@ Expected:
 @vanrot/example-counter doctor: Done
 ```
 
-- [ ] **Step 2: Verify direct `vr` commands in the example package context**
+- [x] **Step 2: Verify direct `vr` commands in the example package context**
 
 Run:
 
@@ -763,7 +765,7 @@ Running Vanrot tests
 Vanrot Doctor                                   0 findings
 ```
 
-- [ ] **Step 3: Confirm the demo avoids unsupported compiler features**
+- [x] **Step 3: Confirm the demo avoids unsupported compiler features**
 
 Run:
 
@@ -778,7 +780,7 @@ Expected:
 
 The command should print no matches.
 
-- [ ] **Step 4: Confirm component files are grouped in their own directory**
+- [x] **Step 4: Confirm component files are grouped in their own directory**
 
 Run:
 
@@ -810,7 +812,7 @@ No commit is needed for this task unless a verification failure required a code 
 - Modify: `docs/superpowers/feature-maturity.md`
 - Modify: `docs/superpowers/plans/Phase-06.md`
 
-- [ ] **Step 1: Update the feature maturity ledger**
+- [x] **Step 1: Update the feature maturity ledger**
 
 In `docs/superpowers/feature-maturity.md`, change the counter demo row from:
 
@@ -824,7 +826,7 @@ to:
 | Counter demo app | examples | Phase 6 | Counter compiles and updates without virtual DOM | Demo documents runtime, compiler, Vite, and CLI integration boundaries | Demo-Capable | Phase 6 verified a workspace example app with grouped component files, signal updates, scoped CSS, Vite build output, CLI build/test/doctor workflows, and no production hardening claims. |
 ```
 
-- [ ] **Step 2: Tick Phase 6 in brainstorm**
+- [x] **Step 2: Tick Phase 6 in brainstorm**
 
 In `docs/brainstorm.md`, change the Phase 6 row from:
 
@@ -838,7 +840,7 @@ to:
 | [x] | Phase 6 - Counter demo milestone | First working demo app using separate `.ts`, `.html`, and `.css` files grouped inside a component directory. | The counter demo compiles into efficient output, updates only affected DOM nodes, uses scoped CSS, and verifies the CLI build/test/doctor workflow. |
 ```
 
-- [ ] **Step 3: Update the roadmap presentation**
+- [x] **Step 3: Update the roadmap presentation**
 
 In `docs/vanrot-presentation.html`:
 
@@ -901,12 +903,12 @@ Active: Phase 7
 Queued: Phases 8-11
 ```
 
-- [ ] **Step 4: Mark completed plan steps**
+- [x] **Step 4: Mark completed plan steps**
 
 In `docs/superpowers/plans/Phase-06.md`, change each completed implementation checkbox from:
 
 ```markdown
-- [ ] **Step
+- unchecked **Step
 ```
 
 to:
@@ -917,7 +919,7 @@ to:
 
 Only mark steps complete after their commands pass.
 
-- [ ] **Step 5: Run phase documentation verification**
+- [x] **Step 5: Run phase documentation verification**
 
 Run:
 
@@ -931,7 +933,7 @@ Expected:
 Phase documentation verification passed.
 ```
 
-- [ ] **Step 6: Commit tracker updates**
+- [x] **Step 6: Commit tracker updates**
 
 Run:
 
@@ -950,7 +952,7 @@ git commit -m "docs: mark Phase 6 complete"
 
 - Verify: repository root
 
-- [ ] **Step 1: Run focused Phase 6 checks**
+- [x] **Step 1: Run focused Phase 6 checks**
 
 Run:
 
@@ -972,7 +974,7 @@ Expected:
 @vanrot/cli test: Done
 ```
 
-- [ ] **Step 2: Run the full root verification**
+- [x] **Step 2: Run the full root verification**
 
 Run:
 
@@ -988,7 +990,7 @@ Phase documentation verification passed.
 
 The command must exit with status `0`.
 
-- [ ] **Step 3: Confirm only unrelated local changes remain**
+- [x] **Step 3: Confirm only unrelated local changes remain**
 
 Run:
 
@@ -1005,7 +1007,7 @@ Expected after all Phase 6 commits:
 
 The ahead count may differ if a fix commit was needed, but `AGENTS.md` should remain the only unstaged unrelated file.
 
-- [ ] **Step 4: Push Phase 6 implementation commits**
+- [x] **Step 4: Push Phase 6 implementation commits**
 
 Run:
 
@@ -1019,7 +1021,7 @@ Expected:
 main -> main
 ```
 
-- [ ] **Step 5: Record final memory observation**
+- [x] **Step 5: Record final memory observation**
 
 Run:
 
