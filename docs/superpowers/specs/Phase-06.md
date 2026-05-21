@@ -183,6 +183,24 @@ one component or feature directory
 
 The demo should not scatter component files flat under `src/`.
 
+Phase 6 should also align the existing CLI starter and generator output with this convention if they still create flat role files. New generated files should follow shapes such as:
+
+```txt
+src/app/app.component.ts
+src/app/app.component.html
+src/app/app.component.css
+
+src/components/status-pill/status-pill.component.ts
+src/components/status-pill/status-pill.component.html
+src/components/status-pill/status-pill.component.css
+
+src/pages/settings/settings.page.ts
+src/pages/settings/settings.page.html
+src/pages/settings/settings.page.css
+```
+
+This is a narrow convention-alignment change, not a full project intelligence or production diagnostics phase.
+
 ---
 
 ## 7. Counter Behavior
@@ -328,6 +346,7 @@ Phase 6 is complete when:
 
 ```txt
 examples/counter exists with component files grouped under src/counter
+vr create and vr generate create component/page role files inside role-owned directories
 the counter uses signals and guard clauses
 the template uses supported interpolation and event binding
 scoped CSS is present and built by Vite
