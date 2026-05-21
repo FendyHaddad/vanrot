@@ -100,7 +100,7 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Add compiler-only dependencies:
+- [x] Add compiler-only dependencies:
 
 ```json
 {
@@ -112,14 +112,14 @@ Generated outputs are not committed.
 }
 ```
 
-- [ ] Keep `@vanrot/runtime` out of compiler runtime dependencies for Phase 3. The compiler emits runtime imports as generated code strings; it does not execute runtime code.
-- [ ] Run:
+- [x] Keep `@vanrot/runtime` out of compiler runtime dependencies for Phase 3. The compiler emits runtime imports as generated code strings; it does not execute runtime code.
+- [x] Run:
 
 ```txt
 pnpm install
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler build
@@ -147,7 +147,7 @@ Expected result:
 
 **Steps:**
 
-- [ ] Write tests that import these public types and assert diagnostic constructors:
+- [x] Write tests that import these public types and assert diagnostic constructors:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -169,9 +169,9 @@ describe('compiler api types', () => {
 });
 ```
 
-- [ ] Create `ComponentSource`, `CompileDiagnostic`, `CompileResult`, and `CompileFeature` types matching the Phase 3 spec.
-- [ ] Export the types from `packages/compiler/src/index.ts`.
-- [ ] Run:
+- [x] Create `ComponentSource`, `CompileDiagnostic`, `CompileResult`, and `CompileFeature` types matching the Phase 3 spec.
+- [x] Export the types from `packages/compiler/src/index.ts`.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/api/compile-component.test.ts
@@ -201,7 +201,7 @@ test passes and no compiler behavior exists yet.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 counter.component.ts -> counter.component.html and counter.component.css
@@ -211,7 +211,7 @@ missing html -> VR001 missing sibling template file
 missing css -> VR002 missing sibling style file
 ```
 
-- [ ] Implement a pure resolver that returns:
+- [x] Implement a pure resolver that returns:
 
 ```ts
 interface ComponentFileSet {
@@ -223,14 +223,14 @@ interface ComponentFileSet {
 }
 ```
 
-- [ ] Use the file basename to derive class names:
+- [x] Use the file basename to derive class names:
 
 ```txt
 counter.component.ts -> CounterComponent
 user-card.component.ts -> UserCardComponent
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/conventions/component-files.test.ts
@@ -256,7 +256,7 @@ component file convention tests pass.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 export class CounterComponent -> found
@@ -266,8 +266,8 @@ export default class CounterComponent -> VR004 for Phase 3
 constructor(required: string) -> VR004 because Phase 3 component classes need no required constructor args
 ```
 
-- [ ] Use the TypeScript compiler API to parse the component source.
-- [ ] Return metadata:
+- [x] Use the TypeScript compiler API to parse the component source.
+- [x] Return metadata:
 
 ```ts
 interface ComponentMetadata {
@@ -277,7 +277,7 @@ interface ComponentMetadata {
 }
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/metadata/component-metadata.test.ts
@@ -308,7 +308,7 @@ component metadata tests pass.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 single element with text
@@ -319,8 +319,8 @@ comments ignored
 unsupported parse node -> VR005
 ```
 
-- [ ] Parse HTML with `parse5`.
-- [ ] Convert parse5 nodes into a compiler-owned AST:
+- [x] Parse HTML with `parse5`.
+- [x] Convert parse5 nodes into a compiler-owned AST:
 
 ```ts
 type TemplateNode = ElementNode | TextNode;
@@ -338,8 +338,8 @@ interface TextNode {
 }
 ```
 
-- [ ] Preserve source file path on diagnostics.
-- [ ] Run:
+- [x] Preserve source file path on diagnostics.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/template/parse-template.test.ts
@@ -365,7 +365,7 @@ template parser tests pass.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 Text "Count: {{ count() }}" -> static segment "Count: " and expression "count()"
@@ -377,8 +377,8 @@ Attribute "class" with value "primary" -> static attribute
 "@if" text/control syntax -> VR005 unsupported template syntax
 ```
 
-- [ ] Implement binding extraction from AST nodes.
-- [ ] Normalize binding records:
+- [x] Implement binding extraction from AST nodes.
+- [x] Normalize binding records:
 
 ```ts
 type TemplateBinding =
@@ -387,7 +387,7 @@ type TemplateBinding =
   | { kind: 'property'; propertyName: string; expression: string };
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/template/bindings.test.ts
@@ -418,7 +418,7 @@ binding extraction tests pass.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 count() -> ctx.count()
@@ -430,11 +430,11 @@ assignment expression -> VR006
 function declaration -> VR006
 ```
 
-- [ ] Parse expressions with the TypeScript compiler API.
-- [ ] Prefix root identifiers with `ctx.` unless they are known JavaScript globals.
-- [ ] Do not prefix property access names after a dot.
-- [ ] Reject statements and assignment forms for Phase 3.
-- [ ] Run:
+- [x] Parse expressions with the TypeScript compiler API.
+- [x] Prefix root identifiers with `ctx.` unless they are known JavaScript globals.
+- [x] Do not prefix property access names after a dot.
+- [x] Reject statements and assignment forms for Phase 3.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/expressions/rewrite-expression.test.ts
@@ -460,7 +460,7 @@ expression rewrite tests pass.
 
 **Steps:**
 
-- [ ] Add tests for:
+- [x] Add tests for:
 
 ```txt
 increment() -> ctx.increment()
@@ -470,8 +470,8 @@ count.set(1) -> VR007
 () => increment() -> VR007
 ```
 
-- [ ] Add an event-handler mode that accepts only zero-argument component method calls.
-- [ ] Run:
+- [x] Add an event-handler mode that accepts only zero-argument component method calls.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/expressions/rewrite-expression.test.ts
@@ -501,7 +501,7 @@ event handler validation tests pass.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 same path and CSS -> same scope attribute
@@ -510,14 +510,14 @@ attribute starts with data-vr-
 attribute is safe for HTML attribute usage
 ```
 
-- [ ] Generate a short deterministic hash from normalized component path plus CSS source.
-- [ ] Return scope attributes in the form:
+- [x] Generate a short deterministic hash from normalized component path plus CSS source.
+- [x] Return scope attributes in the form:
 
 ```txt
 data-vr-a1b2c3
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/styles/scope-id.test.ts
@@ -542,7 +542,7 @@ scope id tests pass.
 
 **Steps:**
 
-- [ ] Write tests for:
+- [x] Write tests for:
 
 ```txt
 button -> button[data-vr-a1b2c3]
@@ -555,11 +555,11 @@ button.primary -> button.primary[data-vr-a1b2c3]
 :global(body) -> VR008 in Phase 3
 ```
 
-- [ ] Parse CSS with PostCSS.
-- [ ] Rewrite selectors with `postcss-selector-parser`.
-- [ ] Preserve declarations and supported at-rules.
-- [ ] Return scoped CSS plus diagnostics.
-- [ ] Run:
+- [x] Parse CSS with PostCSS.
+- [x] Rewrite selectors with `postcss-selector-parser`.
+- [x] Preserve declarations and supported at-rules.
+- [x] Return scoped CSS plus diagnostics.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/styles/scope-css.test.ts
@@ -590,7 +590,7 @@ CSS scoping tests pass.
 
 **Steps:**
 
-- [ ] Write snapshot tests for static HTML:
+- [x] Write snapshot tests for static HTML:
 
 ```html
 <section class="counter">
@@ -598,7 +598,7 @@ CSS scoping tests pass.
 </section>
 ```
 
-- [ ] Expected generated behavior:
+- [x] Expected generated behavior:
 
 ```txt
 imports component class
@@ -610,7 +610,7 @@ sets scope attribute on every element
 returns { node: fragment, ctx }
 ```
 
-- [ ] Generate stable variable names:
+- [x] Generate stable variable names:
 
 ```txt
 fragment
@@ -619,7 +619,7 @@ p0
 text0
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/codegen/generate-component.test.ts
@@ -645,13 +645,13 @@ static code generation snapshots pass.
 
 **Steps:**
 
-- [ ] Add snapshot tests for:
+- [x] Add snapshot tests for:
 
 ```html
 <p>Count: {{ count() }}</p>
 ```
 
-- [ ] Expected generated output includes:
+- [x] Expected generated output includes:
 
 ```ts
 import { effect } from '@vanrot/runtime';
@@ -665,7 +665,7 @@ effect(() => {
 });
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/codegen/generate-component.test.ts
@@ -690,14 +690,14 @@ interpolation code generation snapshots pass.
 
 **Steps:**
 
-- [ ] Add snapshot tests for:
+- [x] Add snapshot tests for:
 
 ```html
 <input [value]="name()" />
 <button [disabled]="saving()">Save</button>
 ```
 
-- [ ] Expected generated output includes:
+- [x] Expected generated output includes:
 
 ```ts
 effect(() => {
@@ -709,7 +709,7 @@ effect(() => {
 });
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/codegen/generate-component.test.ts
@@ -735,13 +735,13 @@ property binding code generation snapshots pass.
 
 **Steps:**
 
-- [ ] Add snapshot tests for:
+- [x] Add snapshot tests for:
 
 ```html
 <button (click)="increment()">Increase</button>
 ```
 
-- [ ] Expected generated output includes:
+- [x] Expected generated output includes:
 
 ```ts
 import { listen } from '@vanrot/runtime/internal';
@@ -755,7 +755,7 @@ listen(button0, 'click', () => {
 });
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/codegen/generate-component.test.ts
@@ -785,7 +785,7 @@ event binding code generation snapshots pass.
 
 **Steps:**
 
-- [ ] Write fixture-based tests using in-memory sources for:
+- [x] Write fixture-based tests using in-memory sources for:
 
 ```txt
 component metadata detection
@@ -797,7 +797,7 @@ generated CSS output
 metadata.features includes interpolation, event-binding, property-binding, scoped-css
 ```
 
-- [ ] Pipeline order:
+- [x] Pipeline order:
 
 ```txt
 1. validate component file convention
@@ -811,8 +811,8 @@ metadata.features includes interpolation, event-binding, property-binding, scope
 9. return CompileResult
 ```
 
-- [ ] Export `compileComponent()` from `packages/compiler/src/index.ts`.
-- [ ] Run:
+- [x] Export `compileComponent()` from `packages/compiler/src/index.ts`.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/api/compile-component.test.ts
@@ -842,7 +842,7 @@ compileComponent tests pass.
 
 **Steps:**
 
-- [ ] Create fixture component:
+- [x] Create fixture component:
 
 ```ts
 import { signal } from '@vanrot/runtime';
@@ -857,7 +857,7 @@ export class CounterComponent {
 }
 ```
 
-- [ ] Create fixture template:
+- [x] Create fixture template:
 
 ```html
 <section class="counter">
@@ -866,7 +866,7 @@ export class CounterComponent {
 </section>
 ```
 
-- [ ] Create fixture style:
+- [x] Create fixture style:
 
 ```css
 .counter {
@@ -878,10 +878,10 @@ button {
 }
 ```
 
-- [ ] Write tests that call `compileComponentFromFiles()` with the fixture component path.
-- [ ] Assert the result has generated JS, generated CSS, no diagnostics, and all Phase 3 features in metadata.
-- [ ] Export `compileComponentFromFiles()` from `packages/compiler/src/index.ts`.
-- [ ] Run:
+- [x] Write tests that call `compileComponentFromFiles()` with the fixture component path.
+- [x] Assert the result has generated JS, generated CSS, no diagnostics, and all Phase 3 features in metadata.
+- [x] Export `compileComponentFromFiles()` from `packages/compiler/src/index.ts`.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test tests/api/compile-component-from-files.test.ts
@@ -914,12 +914,12 @@ pnpm build
 
 **Steps:**
 
-- [ ] Run `pnpm --filter @vanrot/compiler test`.
-- [ ] Run `pnpm --filter @vanrot/compiler build`.
-- [ ] Run `pnpm test`.
-- [ ] Run `pnpm build`.
-- [ ] Confirm Phase 3 did not modify `packages/runtime`.
-- [ ] Confirm generated outputs under `packages/compiler/dist/` are not committed.
+- [x] Run `pnpm --filter @vanrot/compiler test`.
+- [x] Run `pnpm --filter @vanrot/compiler build`.
+- [x] Run `pnpm test`.
+- [x] Run `pnpm build`.
+- [x] Confirm Phase 3 did not modify `packages/runtime`.
+- [x] Confirm generated outputs under `packages/compiler/dist/` are not committed.
 
 **Acceptance:**
 
@@ -935,7 +935,7 @@ pnpm build
 
 **Steps:**
 
-- [ ] Move these rows to `Demo-Capable` after verification passes:
+- [x] Move these rows to `Demo-Capable` after verification passes:
 
 ```txt
 Compiler file convention resolver
@@ -948,7 +948,7 @@ Compiler component class detection
 Compiler expression rewriting
 ```
 
-- [ ] Keep these rows `Deferred`:
+- [x] Keep these rows `Deferred`:
 
 ```txt
 Compiler `@if` conditionals
@@ -963,7 +963,7 @@ CLI commands
 Production diagnostics
 ```
 
-- [ ] Add a note to each moved row that Phase 3 support is demo-capable, not production-ready.
+- [x] Add a note to each moved row that Phase 3 support is demo-capable, not production-ready.
 
 **Acceptance:**
 
@@ -978,9 +978,9 @@ Production diagnostics
 
 **Steps:**
 
-- [ ] Update the Phase 3 row only after Task 17 and Task 18 pass.
-- [ ] Keep future phase rows unchecked.
-- [ ] Mention `docs/superpowers/feature-maturity.md` in the Phase 3 tick condition or nearby tracker notes.
+- [x] Update the Phase 3 row only after Task 17 and Task 18 pass.
+- [x] Keep future phase rows unchecked.
+- [x] Mention `docs/superpowers/feature-maturity.md` in the Phase 3 tick condition or nearby tracker notes.
 
 **Acceptance:**
 

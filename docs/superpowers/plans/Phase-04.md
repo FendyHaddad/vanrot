@@ -120,7 +120,7 @@ Generated outputs are not committed.
 
 **Steps:**
 
-- [ ] Add `@vanrot/compiler` as a workspace dependency:
+- [x] Add `@vanrot/compiler` as a workspace dependency:
 
 ```json
 {
@@ -130,7 +130,7 @@ Generated outputs are not committed.
 }
 ```
 
-- [ ] Add Vite as a peer dependency and package-local dev dependency:
+- [x] Add Vite as a peer dependency and package-local dev dependency:
 
 ```json
 {
@@ -143,14 +143,14 @@ Generated outputs are not committed.
 }
 ```
 
-- [ ] Do not add `@vanrot/runtime` as a Vite plugin dependency. Runtime imports appear in generated app code, not in the plugin implementation.
-- [ ] Run:
+- [x] Do not add `@vanrot/runtime` as a Vite plugin dependency. Runtime imports appear in generated app code, not in the plugin implementation.
+- [x] Run:
 
 ```txt
 pnpm install
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin build
@@ -181,7 +181,7 @@ Expected result:
 
 **Steps:**
 
-- [ ] Write a failing codegen test that expects a custom source import:
+- [x] Write a failing codegen test that expects a custom source import:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -210,7 +210,7 @@ describe('generateComponent', () => {
 });
 ```
 
-- [ ] Write a failing API test that passes the option through `compileComponentFromFiles()`:
+- [x] Write a failing API test that passes the option through `compileComponentFromFiles()`:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -232,7 +232,7 @@ describe('compileComponentFromFiles options', () => {
 });
 ```
 
-- [ ] Add the public option type:
+- [x] Add the public option type:
 
 ```ts
 export interface CompileOptions {
@@ -240,7 +240,7 @@ export interface CompileOptions {
 }
 ```
 
-- [ ] Update compiler API signatures:
+- [x] Update compiler API signatures:
 
 ```ts
 export function compileComponent(
@@ -254,14 +254,14 @@ export function compileComponentFromFiles(
 ): Promise<CompileResult>;
 ```
 
-- [ ] Update code generation to use:
+- [x] Update code generation to use:
 
 ```ts
 const componentImportSpecifier =
   options.componentImportSpecifier ?? componentImportPath;
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/compiler test
@@ -293,7 +293,7 @@ Compiler tests pass with the import override and existing compiler behavior unch
 
 **Steps:**
 
-- [ ] Add failing tests for mounting a compiled component module:
+- [x] Add failing tests for mounting a compiled component module:
 
 ```ts
 it('mounts a compiled component module and appends its node', () => {
@@ -317,7 +317,7 @@ it('mounts a compiled component module and appends its node', () => {
 });
 ```
 
-- [ ] Add a failing cleanup test:
+- [x] Add a failing cleanup test:
 
 ```ts
 it('runs compiled component effects inside the root cleanup scope', () => {
@@ -347,7 +347,7 @@ it('runs compiled component effects inside the root cleanup scope', () => {
 });
 ```
 
-- [ ] Define runtime types:
+- [x] Define runtime types:
 
 ```ts
 export interface CompiledComponentInstance {
@@ -360,7 +360,7 @@ export interface CompiledComponentModule {
 }
 ```
 
-- [ ] Update `ComponentType` to include compiled modules:
+- [x] Update `ComponentType` to include compiled modules:
 
 ```ts
 export type ComponentType =
@@ -368,7 +368,7 @@ export type ComponentType =
   | CompiledComponentModule;
 ```
 
-- [ ] Update `mount()` to detect compiled modules:
+- [x] Update `mount()` to detect compiled modules:
 
 ```ts
 function isCompiledComponentModule(value: ComponentType): value is CompiledComponentModule {
@@ -376,9 +376,9 @@ function isCompiledComponentModule(value: ComponentType): value is CompiledCompo
 }
 ```
 
-- [ ] For compiled modules, run `createComponent()` inside `runWithCleanupScope()`, append the returned node, flush mount callbacks, and remove the node during destroy.
-- [ ] Preserve the existing constructor placeholder behavior for Phase 2 tests.
-- [ ] Run:
+- [x] For compiled modules, run `createComponent()` inside `runWithCleanupScope()`, append the returned node, flush mount callbacks, and remove the node during destroy.
+- [x] Preserve the existing constructor placeholder behavior for Phase 2 tests.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/runtime test
@@ -412,7 +412,7 @@ Runtime tests pass, including compiled component mounting and existing lifecycle
 
 **Steps:**
 
-- [ ] Write tests for option normalization:
+- [x] Write tests for option normalization:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -429,7 +429,7 @@ describe('normalizeOptions', () => {
 });
 ```
 
-- [ ] Write tests for public exports:
+- [x] Write tests for public exports:
 
 ```ts
 import vanrot, { vanrotPlugin } from '../src/index.js';
@@ -440,7 +440,7 @@ it('exports default and named plugin factories', () => {
 });
 ```
 
-- [ ] Define public options:
+- [x] Define public options:
 
 ```ts
 export interface VanrotPluginOptions {
@@ -450,7 +450,7 @@ export interface VanrotPluginOptions {
 }
 ```
 
-- [ ] Define normalized options:
+- [x] Define normalized options:
 
 ```ts
 export interface NormalizedVanrotPluginOptions {
@@ -460,7 +460,7 @@ export interface NormalizedVanrotPluginOptions {
 }
 ```
 
-- [ ] Implement `vanrot(options?: VanrotPluginOptions)` returning:
+- [x] Implement `vanrot(options?: VanrotPluginOptions)` returning:
 
 ```ts
 {
@@ -469,7 +469,7 @@ export interface NormalizedVanrotPluginOptions {
 }
 ```
 
-- [ ] Export:
+- [x] Export:
 
 ```ts
 export { vanrot, vanrot as vanrotPlugin };
@@ -477,7 +477,7 @@ export type { VanrotPluginOptions } from './options.js';
 export default vanrot;
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- options exports
@@ -503,7 +503,7 @@ Options and export tests pass.
 
 **Steps:**
 
-- [ ] Write tests:
+- [x] Write tests:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -528,7 +528,7 @@ describe('component files', () => {
 });
 ```
 
-- [ ] Implement:
+- [x] Implement:
 
 ```ts
 export interface ComponentFiles {
@@ -556,7 +556,7 @@ export function resolveComponentFiles(componentPath: string): ComponentFiles {
 }
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- component-files
@@ -582,7 +582,7 @@ Component file tests pass.
 
 **Steps:**
 
-- [ ] Write tests:
+- [x] Write tests:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -614,7 +614,7 @@ describe('virtual module IDs', () => {
 });
 ```
 
-- [ ] Implement stable prefixes:
+- [x] Implement stable prefixes:
 
 ```ts
 const PUBLIC_SOURCE_PREFIX = 'virtual:vanrot-source:';
@@ -623,9 +623,9 @@ const RESOLVED_SOURCE_PREFIX = '\0vanrot:source:';
 const RESOLVED_CSS_PREFIX = '\0vanrot:css:';
 ```
 
-- [ ] Export helpers for public IDs, resolved IDs, detection, and decoding.
-- [ ] Use `encodeURIComponent()` and `decodeURIComponent()` for path encoding.
-- [ ] Run:
+- [x] Export helpers for public IDs, resolved IDs, detection, and decoding.
+- [x] Use `encodeURIComponent()` and `decodeURIComponent()` for path encoding.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- virtual-modules
@@ -655,7 +655,7 @@ Virtual module tests pass.
 
 **Steps:**
 
-- [ ] Write tests:
+- [x] Write tests:
 
 ```ts
 import { describe, expect, it } from 'vitest';
@@ -677,7 +677,7 @@ describe('formatDiagnostic', () => {
 });
 ```
 
-- [ ] Implement:
+- [x] Implement:
 
 ```ts
 export function formatDiagnostic(diagnostic: CompileDiagnostic): string {
@@ -685,7 +685,7 @@ export function formatDiagnostic(diagnostic: CompileDiagnostic): string {
 }
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- diagnostics
@@ -711,7 +711,7 @@ Diagnostic formatting tests pass.
 
 **Steps:**
 
-- [ ] Write a test using a fake compiler result:
+- [x] Write a test using a fake compiler result:
 
 ```ts
 import { describe, expect, it, vi } from 'vitest';
@@ -743,7 +743,7 @@ describe('compileForVite', () => {
 });
 ```
 
-- [ ] Define:
+- [x] Define:
 
 ```ts
 export interface ViteCompileResult {
@@ -753,7 +753,7 @@ export interface ViteCompileResult {
 }
 ```
 
-- [ ] Implement `compileForVite(componentPath, compile = compileComponentFromFiles)` that:
+- [x] Implement `compileForVite(componentPath, compile = compileComponentFromFiles)` that:
 
 ```ts
 const sourceModuleId = toPublicSourceModuleId(componentPath);
@@ -774,7 +774,7 @@ return {
 };
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- compile-for-vite
@@ -805,7 +805,7 @@ Compile wrapper tests pass.
 
 **Steps:**
 
-- [ ] Write a test for ignored files:
+- [x] Write a test for ignored files:
 
 ```ts
 it('ignores non-component TypeScript files', async () => {
@@ -816,7 +816,7 @@ it('ignores non-component TypeScript files', async () => {
 });
 ```
 
-- [ ] Write a test for transformed component entries with a mocked compile function through an internal plugin factory test seam:
+- [x] Write a test for transformed component entries with a mocked compile function through an internal plugin factory test seam:
 
 ```ts
 it('transforms component entries and registers sibling files', async () => {
@@ -854,7 +854,7 @@ it('transforms component entries and registers sibling files', async () => {
 });
 ```
 
-- [ ] Implement `transform(code, id)`:
+- [x] Implement `transform(code, id)`:
 
 ```ts
 if (!isComponentEntry(id)) {
@@ -883,7 +883,7 @@ return {
 };
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- plugin-transform
@@ -910,7 +910,7 @@ Transform hook tests pass.
 
 **Steps:**
 
-- [ ] Add tests for `resolveId()`:
+- [x] Add tests for `resolveId()`:
 
 ```ts
 it('resolves Vanrot virtual module IDs', async () => {
@@ -922,7 +922,7 @@ it('resolves Vanrot virtual module IDs', async () => {
 });
 ```
 
-- [ ] Add tests for `load()`:
+- [x] Add tests for `load()`:
 
 ```ts
 it('loads cached virtual CSS', async () => {
@@ -936,7 +936,7 @@ it('loads cached virtual CSS', async () => {
 });
 ```
 
-- [ ] Implement `resolveId(source)`:
+- [x] Implement `resolveId(source)`:
 
 ```ts
 if (isPublicVanrotVirtualModuleId(source)) {
@@ -946,7 +946,7 @@ if (isPublicVanrotVirtualModuleId(source)) {
 return undefined;
 ```
 
-- [ ] Implement `load(id)` for CSS modules:
+- [x] Implement `load(id)` for CSS modules:
 
 ```ts
 const decoded = decodeVirtualModuleId(id);
@@ -955,7 +955,7 @@ if (decoded?.kind === 'css') {
 }
 ```
 
-- [ ] Implement `load(id)` for source modules by reading the original `.component.ts` file:
+- [x] Implement `load(id)` for source modules by reading the original `.component.ts` file:
 
 ```ts
 const decoded = decodeVirtualModuleId(id);
@@ -964,7 +964,7 @@ if (decoded?.kind === 'source') {
 }
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- plugin-transform
@@ -991,7 +991,7 @@ Virtual module hook tests pass.
 
 **Steps:**
 
-- [ ] Write tests for owner component lookup:
+- [x] Write tests for owner component lookup:
 
 ```ts
 import { findOwnerComponentPath } from '../src/hot-update.js';
@@ -1003,7 +1003,7 @@ it('finds owner component path for template and style files', () => {
 });
 ```
 
-- [ ] Write tests for full reload behavior with a fake server:
+- [x] Write tests for full reload behavior with a fake server:
 
 ```ts
 it('requests a full reload when a component template changes', () => {
@@ -1036,7 +1036,7 @@ it('requests a full reload when a component template changes', () => {
 });
 ```
 
-- [ ] Implement owner path mapping:
+- [x] Implement owner path mapping:
 
 ```ts
 export function findOwnerComponentPath(filePath: string): string | undefined {
@@ -1052,14 +1052,14 @@ export function findOwnerComponentPath(filePath: string): string | undefined {
 }
 ```
 
-- [ ] Implement `handleHotUpdate(ctx)` to invalidate the owner component module and send:
+- [x] Implement `handleHotUpdate(ctx)` to invalidate the owner component module and send:
 
 ```ts
 ctx.server.ws.send({ type: 'full-reload' });
 return [];
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- plugin-dev-reload
@@ -1095,14 +1095,14 @@ Dev reload tests pass.
 
 **Steps:**
 
-- [ ] Create `index.html`:
+- [x] Create `index.html`:
 
 ```html
 <div id="app"></div>
 <script type="module" src="/src/main.ts"></script>
 ```
 
-- [ ] Create `vite.config.ts`:
+- [x] Create `vite.config.ts`:
 
 ```ts
 import { defineConfig } from 'vite';
@@ -1113,7 +1113,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] Create `src/main.ts`:
+- [x] Create `src/main.ts`:
 
 ```ts
 import { mount } from '@vanrot/runtime';
@@ -1122,7 +1122,7 @@ import App from './app.component.ts';
 mount(App, document.getElementById('app')!);
 ```
 
-- [ ] Create `src/app.component.ts`:
+- [x] Create `src/app.component.ts`:
 
 ```ts
 import { signal } from '@vanrot/runtime';
@@ -1136,7 +1136,7 @@ export class AppComponent {
 }
 ```
 
-- [ ] Create `src/app.component.html`:
+- [x] Create `src/app.component.html`:
 
 ```html
 <section class="counter">
@@ -1145,7 +1145,7 @@ export class AppComponent {
 </section>
 ```
 
-- [ ] Create `src/app.component.css`:
+- [x] Create `src/app.component.css`:
 
 ```css
 .counter {
@@ -1171,7 +1171,7 @@ button {
 
 **Steps:**
 
-- [ ] Write the build test:
+- [x] Write the build test:
 
 ```ts
 import { rm } from 'node:fs/promises';
@@ -1204,7 +1204,7 @@ describe('Vanrot Vite build integration', () => {
 });
 ```
 
-- [ ] Run:
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- plugin-build
@@ -1229,7 +1229,7 @@ The fixture app builds through Vite and emits JavaScript plus CSS assets.
 
 **Steps:**
 
-- [ ] Add a dev server test that updates template content:
+- [x] Add a dev server test that updates template content:
 
 ```ts
 import { readFile, writeFile } from 'node:fs/promises';
@@ -1271,8 +1271,8 @@ describe('Vanrot Vite dev reload integration', () => {
 });
 ```
 
-- [ ] Add a style change variant for `app.component.css`.
-- [ ] Run:
+- [x] Add a style change variant for `app.component.css`.
+- [x] Run:
 
 ```txt
 pnpm --filter @vanrot/vite-plugin test -- plugin-dev-reload
@@ -1302,7 +1302,7 @@ Dev reload integration tests pass for component HTML and CSS changes.
 
 **Steps:**
 
-- [ ] After all implementation verification passes, move these Phase 4 rows from `Planned` to `Demo-Capable`:
+- [x] After all implementation verification passes, move these Phase 4 rows from `Planned` to `Demo-Capable`:
 
 ```txt
 Vite plugin public API
@@ -1316,7 +1316,7 @@ Runtime compiled component mount bridge
 Compiler Vite import override
 ```
 
-- [ ] Keep these rows `Deferred`:
+- [x] Keep these rows `Deferred`:
 
 ```txt
 Vite true HMR
@@ -1327,7 +1327,7 @@ CLI commands
 Counter demo app
 ```
 
-- [ ] Do not mark any Phase 4 row `Production-Ready`.
+- [x] Do not mark any Phase 4 row `Production-Ready`.
 
 **Acceptance:**
 
@@ -1342,14 +1342,14 @@ Counter demo app
 
 **Steps:**
 
-- [ ] After all verification commands pass, update only this row:
+- [x] After all verification commands pass, update only this row:
 
 ```txt
 Phase 4 - Vite integration
 ```
 
-- [ ] Change `[ ]` to `[x]`.
-- [ ] Do not change Phase 5 or Phase 6 tracker rows.
+- [x] Change `[ ]` to `[x]`.
+- [x] Do not change Phase 5 or Phase 6 tracker rows.
 
 **Acceptance:**
 
@@ -1366,7 +1366,7 @@ Phase 4 - Vite integration
 
 **Steps:**
 
-- [ ] Run package checks:
+- [x] Run package checks:
 
 ```txt
 pnpm --filter @vanrot/compiler test
@@ -1375,20 +1375,20 @@ pnpm --filter @vanrot/vite-plugin test
 pnpm --filter @vanrot/vite-plugin build
 ```
 
-- [ ] Run workspace checks:
+- [x] Run workspace checks:
 
 ```txt
 pnpm test
 pnpm build
 ```
 
-- [ ] Confirm no generated outputs are committed:
+- [x] Confirm no generated outputs are committed:
 
 ```txt
 git status --short
 ```
 
-- [ ] Confirm `dist/` and fixture `dist/` directories are ignored or removed before commit.
+- [x] Confirm `dist/` and fixture `dist/` directories are ignored or removed before commit.
 
 **Acceptance:**
 

@@ -16,11 +16,20 @@ If existing files violate these rules, do not spread the pattern. Fix only the p
 When a Vanrot phase is completed:
 
 1. Tick the matching phase in `docs/brainstorm.md`.
-2. Update `docs/vanrot-presentation.html` so the roadmap slide matches the tracker.
-3. If requirements changed, update `docs/brainstorm.md` and the matching spec or plan under `docs/superpowers/`.
-4. Stage the tracker, presentation, and requirement docs together.
+2. Mark every completed task in the matching `docs/superpowers/plans/Phase-XX.md`.
+3. Update `docs/vanrot-presentation.html` so the roadmap slide matches the tracker.
+4. Update `docs/superpowers/feature-maturity.md` whenever a phase changes feature maturity.
+5. If requirements changed, update `docs/brainstorm.md` and the matching spec or plan under `docs/superpowers/`.
+6. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
+7. Stage the tracker, presentation, maturity ledger, plan, and requirement docs together.
 
 Do not mark a phase done until its verification criteria pass.
+
+`pnpm verify:phase-docs` enforces the phase documentation guardrail:
+
+- completed phases in `docs/brainstorm.md` must not have unchecked tasks in their matching plan file;
+- feature maturity rows for completed phases must not remain `Planned`;
+- the presentation roadmap must mark completed phases as done and the next pending phase as active.
 
 A temporary local hook at `.git/hooks/pre-commit` enforces this for phase-completion commits. It can be bypassed only when intentionally needed:
 
@@ -31,7 +40,7 @@ VANROT_SKIP_PHASE_HOOK=1 git commit
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-21 12:51pm GMT+8
+# [vanrot] recent context, 2026-05-21 1:04pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
