@@ -37,16 +37,59 @@ A temporary local hook at `.git/hooks/pre-commit` enforces this for phase-comple
 VANROT_SKIP_PHASE_HOOK=1 git commit
 ```
 
+## Git Ownership Protocol
+
+The user owns commits and pushes by default.
+
+Unless the user explicitly asks for a commit, branch, merge, tag, or push:
+
+1. Make changes directly in the current local `main` workspace that tracks `origin/main`.
+2. Do not create a separate branch or worktree.
+3. Do not run `git add`.
+4. Do not run `git commit`.
+5. Do not run `git push`.
+6. Leave completed changes in the working tree for the user to inspect, stage, commit, and push.
+
+When work is complete, report:
+
+- the changed files;
+- the verification commands that passed or failed;
+- the current `git status --short --branch`;
+- whether any unrelated local changes were left untouched.
+
+If a task genuinely requires committing or pushing, ask first unless the user already gave that instruction in the same task.
+
+## Living Rules Protocol
+
+Treat `AGENTS.md` as the durable project rulebook, but do not silently rewrite it.
+
+During prolonged work, watch for durable preferences or repeated corrections from the user. Examples:
+
+- "from now on..."
+- "always..."
+- "never..."
+- repeated reminders about the same workflow mistake;
+- project standards that should apply to future phases.
+
+When a durable rule appears:
+
+1. If the user explicitly asks to put it in `AGENTS.md`, update `AGENTS.md` immediately.
+2. If the user states a likely durable preference but does not ask for an edit, mention a concise proposed `AGENTS.md` rule before or during the final response.
+3. Do not add broad rules from one-off preferences, temporary debugging choices, or unclear frustration.
+4. Record significant durable rules in memory with a deterministic `contentSessionId` so future sessions can recover the context.
+
+At the start of significant tasks, read `AGENTS.md` first and follow the current rules over older habits from the conversation.
+
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-21 3:31pm GMT+8
+# [vanrot] recent context, 2026-05-21 10:54pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 26 obs (10,285t read) | 268,595t work | 96% savings
+Stats: 33 obs (12,416t read) | 556,748t work | 98% savings
 
 ### May 20, 2026
 1639 10:18p ⚖️ Framework Scope Creep Concern: Library vs Framework Trade-off
@@ -84,21 +127,15 @@ S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plan
 1661 11:30p 🔵 @vanrot/runtime Kernel Design Spec Exists and Is Approved
 S597 @vanrot/runtime implementation plan written phase-by-phase — plan complete, awaiting execution approach decision (May 20 at 11:32 PM)
 1664 11:32p ✅ Phase Checklist Table (Section 38) Added to docs/brainstorm.md
+1670 " 🔴 vite-plugin fixture npm EUNSUPPORTEDPROTOCOL error fixed
+1671 " 🟣 Regression test added for fixture package.json validity
+1672 " ✅ Phase-06.md plan updated with packageManager field in counter example
+1673 " 🔵 Full pnpm verify baseline confirmed clean before Phase 6 start
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
-**Investigated**: Spec fully read. All 12 kernel symbols reviewed. Vanrot repo confirmed empty (docs/ only, no packages/, no tooling).
+### May 21, 2026
+1674 10:46p 🔵 Phase 6 plan loaded — 7 tasks across 6 stages
+1675 " 🔵 CLI create/generate current state vs Phase 6 required changes
+1676 " ✅ Commit dd51b30 "Fix package" pushed to origin/main
 
-**Learned**: - Tooling chosen from scratch: TypeScript 5, Vitest 2, pnpm workspaces, size-limit 11, jsdom for DOM tests
-    - Reactive graph owns all mutable state; reactive primitives import functions only
-    - CleanupScope is WeakMap-backed opaque handle
-    - signal tests depend on effect — Task 5 must precede full Task 4 test run
-    - Both export paths (public + internal) count toward 5KB hard fail
-
-**Completed**: docs/superpowers/plans/2026-05-20-vanrot-runtime-kernel.md written and saved.
-    Phase 1: monorepo scaffold | Phase 2: graph.ts | Phase 3: signal+effect+untrack+computed+batch | Phase 4: cleanup-scope | Phase 5: onDestroy+onMount | Phase 6: mount() | Phase 7: listen() | Phase 8: entrypoint wiring | Phase 9: size-limit CI gate.
-    All 20 spec requirements covered. No placeholders. Types consistent across all 15 tasks.
-
-**Next Steps**: User choosing execution approach: Subagent-Driven (recommended) or Inline Execution. Once chosen, implementation begins with Task 1 (monorepo scaffold).
-
-
-Access 269k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 557k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
