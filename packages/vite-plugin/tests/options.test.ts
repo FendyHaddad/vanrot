@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeOptions } from '../src/options.js';
+import { normalizeOptions } from '@/options.js';
 
 describe('normalizeOptions', () => {
   it('uses the component file default include pattern', () => {

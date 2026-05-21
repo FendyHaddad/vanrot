@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { compileForVite } from '../src/compile-for-vite.js';
+import { compileForVite } from '@/compile-for-vite.js';
 
 describe('compileForVite', () => {
   it('wraps generated JS with CSS import and default component export', async () => {

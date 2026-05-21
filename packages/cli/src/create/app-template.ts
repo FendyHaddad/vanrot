@@ -55,6 +55,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
             lib: ['ES2022', 'DOM'],
             strict: true,
             skipLibCheck: true,
+            allowImportingTsExtensions: true,
           },
           include: ['src/**/*.ts'],
         },
@@ -68,7 +69,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\nimport App from './app/app.component.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nmount(App, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\n// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.\nimport App from './app/app.component.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nmount(App, target);\n`,
     },
     {
       path: 'src/app/app.component.ts',

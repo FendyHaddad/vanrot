@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import type { Plugin, ResolvedConfig } from 'vite';
+import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
 import { formatDiagnostic } from './diagnostics.js';
@@ -34,6 +34,7 @@ function createVanrotPlugin(
   internals: VanrotPluginInternals = {},
 ): Plugin {
   let normalizedOptions = normalizeOptions(options);
+  let resolvedConfig: ResolvedConfig | undefined;
   const cssByComponentPath = internals.initialCss ?? new Map<string, string>();
   const readSource = internals.readSource ?? ((filePath: string) => readFile(filePath, 'utf8'));
   const compile = internals.compile ?? compileForVite;
@@ -42,6 +43,7 @@ function createVanrotPlugin(
     name: 'vanrot',
     enforce: 'pre',
     configResolved(config: ResolvedConfig) {
+      resolvedConfig = config;
       normalizedOptions = normalizeOptions(options, config.root);
     },
     async resolveId(source) {
@@ -65,6 +67,23 @@ function createVanrotPlugin(
       return readSource(decoded.filePath);
     },
     async transform(_code, id) {
+      const decoded = decodeVirtualModuleId(id);
+
+      if (decoded?.kind === 'source') {
+        const result = await transformWithOxc(
+          _code,
+          decoded.filePath,
+          undefined,
+          undefined,
+          resolvedConfig,
+        );
+
+        return {
+          code: result.code,
+          map: result.map ?? null,
+        };
+      }
+
       if (!shouldTransform(id, normalizedOptions)) {
         return undefined;
       }

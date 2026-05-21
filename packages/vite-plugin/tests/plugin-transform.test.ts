@@ -1,11 +1,62 @@
 import { describe, expect, it } from 'vitest';
-import vanrot from '../src/index.js';
-import { createVanrotPluginForTests } from '../src/plugin.js';
+import type { Plugin } from 'vite';
+import vanrot from '@/index.js';
+import { createVanrotPluginForTests } from '@/plugin.js';
+
+type TransformHook = (this: unknown, code: string, id: string) => unknown;
+type ResolveIdHook = (this: unknown, source: string) => unknown;
+type LoadHook = (this: unknown, id: string) => unknown;
+
+function getTransformHook(plugin: Plugin): TransformHook {
+  const hook = plugin.transform;
+
+  if (typeof hook === 'function') {
+    return hook as TransformHook;
+  }
+
+  if (hook !== undefined && typeof hook === 'object' && 'handler' in hook) {
+    return hook.handler as TransformHook;
+  }
+
+  throw new Error('Expected transform hook.');
+}
+
+function getResolveIdHook(plugin: Plugin): ResolveIdHook {
+  const hook = plugin.resolveId;
+
+  if (typeof hook === 'function') {
+    return hook as ResolveIdHook;
+  }
+
+  if (hook !== undefined && typeof hook === 'object' && 'handler' in hook) {
+    return hook.handler as ResolveIdHook;
+  }
+
+  throw new Error('Expected resolveId hook.');
+}
+
+function getLoadHook(plugin: Plugin): LoadHook {
+  const hook = plugin.load;
+
+  if (typeof hook === 'function') {
+    return hook as LoadHook;
+  }
+
+  if (hook !== undefined && typeof hook === 'object' && 'handler' in hook) {
+    return hook.handler as LoadHook;
+  }
+
+  throw new Error('Expected load hook.');
+}
 
 describe('vanrot plugin transform', () => {
   it('ignores non-component TypeScript files', async () => {
     const plugin = vanrot();
-    const result = await plugin.transform?.call({} as never, 'export const value = 1;', '/repo/src/main.ts');
+    const result = await getTransformHook(plugin).call(
+      {} as never,
+      'export const value = 1;',
+      '/repo/src/main.ts',
+    );
 
     expect(result).toBeUndefined();
   });
@@ -20,7 +71,7 @@ describe('vanrot plugin transform', () => {
       }),
     });
 
-    const result = await plugin.transform?.call(
+    const result = await getTransformHook(plugin).call(
       {
         addWatchFile(filePath: string) {
           watched.push(filePath);
@@ -60,7 +111,7 @@ describe('vanrot plugin transform', () => {
     });
 
     await expect(
-      plugin.transform?.call(
+      getTransformHook(plugin).call(
         {
           addWatchFile() {},
           error(error: string) {
@@ -93,7 +144,7 @@ describe('vanrot plugin transform', () => {
       }),
     });
 
-    await plugin.transform?.call(
+    await getTransformHook(plugin).call(
       {
         addWatchFile() {},
         error(error: string) {
@@ -114,7 +165,10 @@ describe('vanrot plugin transform', () => {
     const plugin = vanrot();
 
     await expect(
-      plugin.resolveId?.call({} as never, 'virtual:vanrot-css:%2Frepo%2Fsrc%2Fapp.component.ts'),
+      getResolveIdHook(plugin).call(
+        {} as never,
+        'virtual:vanrot-css:%2Frepo%2Fsrc%2Fapp.component.ts',
+      ),
     ).resolves.toBe('\0vanrot:css:%2Frepo%2Fsrc%2Fapp.component.ts.css');
   });
 
@@ -123,7 +177,7 @@ describe('vanrot plugin transform', () => {
       initialCss: new Map([['/repo/src/app.component.ts', 'p{color:red}']]),
     });
 
-    const css = await plugin.load?.call(
+    const css = await getLoadHook(plugin).call(
       {} as never,
       '\0vanrot:css:%2Frepo%2Fsrc%2Fapp.component.ts.css',
     );
@@ -136,7 +190,7 @@ describe('vanrot plugin transform', () => {
       readSource: async (filePath) => `// ${filePath}\nexport class AppComponent {}`,
     });
 
-    const source = await plugin.load?.call(
+    const source = await getLoadHook(plugin).call(
       {} as never,
       '\0vanrot:source:%2Frepo%2Fsrc%2Fapp.component.ts',
     );

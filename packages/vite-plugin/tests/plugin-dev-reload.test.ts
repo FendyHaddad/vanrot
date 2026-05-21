@@ -2,8 +2,8 @@ import { readFile, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createServer } from 'vite';
 import { afterEach, describe, expect, it } from 'vitest';
-import { findOwnerComponentPath, handleVanrotHotUpdate } from '../src/hot-update.js';
-import { toPublicCssModuleId } from '../src/virtual-modules.js';
+import { findOwnerComponentPath, handleVanrotHotUpdate } from '@/hot-update.js';
+import { toPublicCssModuleId, toPublicSourceModuleId } from '@/virtual-modules.js';
 
 const fixtureRoot = resolve(import.meta.dirname, 'fixtures/basic-app');
 const componentPath = resolve(fixtureRoot, 'src/app.component.ts');
@@ -84,6 +84,23 @@ describe('Vanrot dev reload', () => {
 
       const after = await server.transformRequest('/src/app.component.ts');
       expect(after?.code).toContain('Add one');
+    } finally {
+      await server.close();
+    }
+  });
+
+  it('transpiles virtual source modules before serving them in dev', async () => {
+    const server = await createServer({
+      root: fixtureRoot,
+      logLevel: 'silent',
+      server: { middlewareMode: true },
+    });
+
+    try {
+      const source = await server.transformRequest(toPublicSourceModuleId(componentPath));
+
+      expect(source?.code).toContain('increment() {');
+      expect(source?.code).not.toContain('increment(): void');
     } finally {
       await server.close();
     }

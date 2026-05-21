@@ -83,13 +83,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-21 10:54pm GMT+8
+# [vanrot] recent context, 2026-05-21 11:17pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 33 obs (12,416t read) | 556,748t work | 98% savings
+Stats: 37 obs (14,113t read) | 609,137t work | 98% savings
 
 ### May 20, 2026
 1639 10:18p ⚖️ Framework Scope Creep Concern: Library vs Framework Trade-off
@@ -136,6 +136,10 @@ S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiti
 1674 10:46p 🔵 Phase 6 plan loaded — 7 tasks across 6 stages
 1675 " 🔵 CLI create/generate current state vs Phase 6 required changes
 1676 " ✅ Commit dd51b30 "Fix package" pushed to origin/main
+1678 10:47p ⚖️ Phase 0–6 Code Review + TDD Before Phase 6 Demo
+1679 10:54p ✅ AGENTS.md: Git Ownership + Living Rules Protocols Added
+1680 11:00p ⚖️ Phase 0–6 Review + TDD + Demo Session Plan Initialized
+1681 " 🔵 Vanrot Phase 0–6 Code Surface Confirmed for Review
 
-Access 557k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 609k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

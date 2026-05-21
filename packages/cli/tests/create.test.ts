@@ -24,7 +24,13 @@ describe('vr create', () => {
       '@vanrot/vite-plugin',
     );
     await expect(readFile(join(cwd, 'demo-app', 'src', 'main.ts'), 'utf8')).resolves.toContain(
+      "// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.",
+    );
+    await expect(readFile(join(cwd, 'demo-app', 'src', 'main.ts'), 'utf8')).resolves.toContain(
       "from './app/app.component.ts'",
+    );
+    await expect(readFile(join(cwd, 'demo-app', 'tsconfig.json'), 'utf8')).resolves.toContain(
+      '"allowImportingTsExtensions": true',
     );
     await expect(
       readFile(join(cwd, 'demo-app', 'src', 'app', 'app.component.ts'), 'utf8'),

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { formatDiagnostic } from '../src/diagnostics.js';
+import { formatDiagnostic } from '@/diagnostics.js';
 
 describe('formatDiagnostic', () => {
   it('includes code, message, file, line, and column', () => {

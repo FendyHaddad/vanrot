@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { isComponentEntry, resolveComponentFiles } from '../src/component-files.js';
+import { isComponentEntry, resolveComponentFiles } from '@/component-files.js';
 
 describe('component files', () => {
   it('detects only Vanrot component TypeScript entries', () => {
