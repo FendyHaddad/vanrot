@@ -106,7 +106,7 @@ packages/cli/dist/
 - Test: `packages/cli/tests/cli.test.ts`
 - Test: `packages/cli/tests/reporter.test.ts`
 
-- [ ] **Step 1: Replace the smoke test with failing CLI and reporter tests**
+- [x] **Step 1: Replace the smoke test with failing CLI and reporter tests**
 
 Create `packages/cli/tests/cli.test.ts`:
 
@@ -184,7 +184,7 @@ describe('createMemoryReporter', () => {
 
 Delete `packages/cli/tests/smoke.test.ts` after these focused tests exist.
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run:
 
@@ -199,7 +199,7 @@ FAIL packages/cli/tests/cli.test.ts
 Cannot find module '../src/reporter/reporter.js'
 ```
 
-- [ ] **Step 3: Add the process runner contract**
+- [x] **Step 3: Add the process runner contract**
 
 Create `packages/cli/src/process/runner.ts`:
 
@@ -209,7 +209,7 @@ export interface ProcessRunner {
 }
 ```
 
-- [ ] **Step 4: Add shared command contracts**
+- [x] **Step 4: Add shared command contracts**
 
 Create `packages/cli/src/result.ts`:
 
@@ -238,7 +238,7 @@ export function fail(): CommandResult {
 }
 ```
 
-- [ ] **Step 5: Add the Quiet Premium reporter**
+- [x] **Step 5: Add the Quiet Premium reporter**
 
 Create `packages/cli/src/reporter/reporter.ts`:
 
@@ -348,7 +348,7 @@ export function createConsoleReporter(): Reporter {
 }
 ```
 
-- [ ] **Step 6: Add the CLI dispatcher and help text**
+- [x] **Step 6: Add the CLI dispatcher and help text**
 
 Create `packages/cli/src/cli.ts`:
 
@@ -442,7 +442,7 @@ function suggestionFor(command: string): string | undefined {
 }
 ```
 
-- [ ] **Step 7: Export the CLI entry**
+- [x] **Step 7: Export the CLI entry**
 
 Replace `packages/cli/src/index.ts` with:
 
@@ -453,7 +453,7 @@ export { createConsoleReporter, createMemoryReporter } from './reporter/reporter
 export type { MemoryReporter, Reporter } from './reporter/reporter.js';
 ```
 
-- [ ] **Step 8: Run the new tests**
+- [x] **Step 8: Run the new tests**
 
 Run:
 
@@ -468,7 +468,7 @@ PASS packages/cli/tests/cli.test.ts
 PASS packages/cli/tests/reporter.test.ts
 ```
 
-- [ ] **Step 9: Commit Task 1**
+- [x] **Step 9: Commit Task 1**
 
 ```bash
 git add packages/cli/src packages/cli/tests
@@ -489,7 +489,7 @@ git commit -m "feat(cli): add command dispatcher and reporter"
 - Modify: `packages/cli/src/cli.ts`
 - Test: `packages/cli/tests/create.test.ts`
 
-- [ ] **Step 1: Write failing create tests**
+- [x] **Step 1: Write failing create tests**
 
 Create `packages/cli/tests/create.test.ts`:
 
@@ -568,7 +568,7 @@ describe('vr create', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing create tests**
+- [x] **Step 2: Run the failing create tests**
 
 Run:
 
@@ -583,7 +583,7 @@ FAIL packages/cli/tests/create.test.ts
 Unknown command: create
 ```
 
-- [ ] **Step 3: Add app template generation**
+- [x] **Step 3: Add app template generation**
 
 Create `packages/cli/src/create/app-template.ts`:
 
@@ -676,7 +676,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
 }
 ```
 
-- [ ] **Step 4: Add the app writer**
+- [x] **Step 4: Add the app writer**
 
 Create `packages/cli/src/create/write-app.ts`:
 
@@ -735,7 +735,7 @@ async function readExistingFiles(targetDir: string): Promise<string[]> {
 }
 ```
 
-- [ ] **Step 5: Add the create command handler**
+- [x] **Step 5: Add the create command handler**
 
 Create `packages/cli/src/commands/create.ts`:
 
@@ -776,7 +776,7 @@ export async function createCommand(args: string[], context: CommandContext): Pr
 }
 ```
 
-- [ ] **Step 6: Wire `create` into the dispatcher**
+- [x] **Step 6: Wire `create` into the dispatcher**
 
 Update `packages/cli/src/cli.ts`:
 
@@ -794,7 +794,7 @@ if (command === 'create') {
 }
 ```
 
-- [ ] **Step 7: Run create tests**
+- [x] **Step 7: Run create tests**
 
 Run:
 
@@ -808,7 +808,7 @@ Expected result:
 PASS packages/cli/tests/create.test.ts
 ```
 
-- [ ] **Step 8: Commit Task 2**
+- [x] **Step 8: Commit Task 2**
 
 ```bash
 git add packages/cli/src packages/cli/tests
@@ -829,7 +829,7 @@ git commit -m "feat(cli): implement app creation"
 - Modify: `packages/cli/src/cli.ts`
 - Test: `packages/cli/tests/generate.test.ts`
 
-- [ ] **Step 1: Write failing generator tests**
+- [x] **Step 1: Write failing generator tests**
 
 Create `packages/cli/tests/generate.test.ts`:
 
@@ -898,7 +898,7 @@ describe('vr generate', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing generator tests**
+- [x] **Step 2: Run the failing generator tests**
 
 Run:
 
@@ -913,7 +913,7 @@ FAIL packages/cli/tests/generate.test.ts
 Unknown command: generate
 ```
 
-- [ ] **Step 3: Add name helpers**
+- [x] **Step 3: Add name helpers**
 
 Create `packages/cli/src/generate/names.ts`:
 
@@ -930,7 +930,7 @@ export function toPascalCase(name: string): string {
 }
 ```
 
-- [ ] **Step 4: Add role-file writer**
+- [x] **Step 4: Add role-file writer**
 
 Create `packages/cli/src/generate/write-role-files.ts`:
 
@@ -996,7 +996,7 @@ function cssTemplate(name: string): string {
 }
 ```
 
-- [ ] **Step 5: Add generate command**
+- [x] **Step 5: Add generate command**
 
 Create `packages/cli/src/commands/generate.ts`:
 
@@ -1056,7 +1056,7 @@ function readOption(args: string[], name: string): string | undefined {
 }
 ```
 
-- [ ] **Step 6: Wire `generate` and `g` into the dispatcher**
+- [x] **Step 6: Wire `generate` and `g` into the dispatcher**
 
 Update `packages/cli/src/cli.ts` imports:
 
@@ -1075,7 +1075,7 @@ if (command === 'generate' || command === 'g') {
 }
 ```
 
-- [ ] **Step 7: Run generator tests**
+- [x] **Step 7: Run generator tests**
 
 Run:
 
@@ -1089,7 +1089,7 @@ Expected result:
 PASS packages/cli/tests/generate.test.ts
 ```
 
-- [ ] **Step 8: Commit Task 3**
+- [x] **Step 8: Commit Task 3**
 
 ```bash
 git add packages/cli/src packages/cli/tests
@@ -1112,7 +1112,7 @@ git commit -m "feat(cli): generate role-based files"
 - Modify: `packages/cli/src/cli.ts`
 - Test: `packages/cli/tests/doctor.test.ts`
 
-- [ ] **Step 1: Write failing doctor tests**
+- [x] **Step 1: Write failing doctor tests**
 
 Create `packages/cli/tests/doctor.test.ts`:
 
@@ -1205,7 +1205,7 @@ describe('vr doctor', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing doctor tests**
+- [x] **Step 2: Run the failing doctor tests**
 
 Run:
 
@@ -1220,7 +1220,7 @@ FAIL packages/cli/tests/doctor.test.ts
 Unknown command: doctor
 ```
 
-- [ ] **Step 3: Add doctor finding types and orchestration**
+- [x] **Step 3: Add doctor finding types and orchestration**
 
 Create `packages/cli/src/doctor/checks.ts`:
 
@@ -1250,7 +1250,7 @@ export function hasErrors(findings: DoctorFinding[]): boolean {
 }
 ```
 
-- [ ] **Step 4: Add project health checks**
+- [x] **Step 4: Add project health checks**
 
 Create `packages/cli/src/doctor/project-health.ts`:
 
@@ -1347,7 +1347,7 @@ function relative(cwd: string, filePath: string): string {
 }
 ```
 
-- [ ] **Step 5: Add starter Vanrot rule checks**
+- [x] **Step 5: Add starter Vanrot rule checks**
 
 Create `packages/cli/src/doctor/vanrot-rules.ts`:
 
@@ -1464,7 +1464,7 @@ function warning(code: string, filePath: string, message: string, nextStep: stri
 }
 ```
 
-- [ ] **Step 6: Add doctor reporter formatting**
+- [x] **Step 6: Add doctor reporter formatting**
 
 Create `packages/cli/src/reporter/diagnostics.ts`:
 
@@ -1492,7 +1492,7 @@ function uniqueNextSteps(findings: DoctorFinding[]): string[] {
 }
 ```
 
-- [ ] **Step 7: Add the doctor command**
+- [x] **Step 7: Add the doctor command**
 
 Create `packages/cli/src/commands/doctor.ts`:
 
@@ -1512,7 +1512,7 @@ export async function doctorCommand(_args: string[], context: CommandContext): P
 }
 ```
 
-- [ ] **Step 8: Wire `doctor` into the dispatcher**
+- [x] **Step 8: Wire `doctor` into the dispatcher**
 
 Update `packages/cli/src/cli.ts` imports:
 
@@ -1530,7 +1530,7 @@ if (command === 'doctor') {
 }
 ```
 
-- [ ] **Step 9: Run doctor tests**
+- [x] **Step 9: Run doctor tests**
 
 Run:
 
@@ -1544,7 +1544,7 @@ Expected result:
 PASS packages/cli/tests/doctor.test.ts
 ```
 
-- [ ] **Step 10: Commit Task 4**
+- [x] **Step 10: Commit Task 4**
 
 ```bash
 git add packages/cli/src packages/cli/tests
@@ -1566,7 +1566,7 @@ git commit -m "feat(cli): add starter doctor checks"
 - Modify: `packages/cli/src/cli.ts`
 - Test: `packages/cli/tests/runner-commands.test.ts`
 
-- [ ] **Step 1: Write failing runner command tests**
+- [x] **Step 1: Write failing runner command tests**
 
 Create `packages/cli/tests/runner-commands.test.ts`:
 
@@ -1630,7 +1630,7 @@ describe('runner-backed commands', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing runner tests**
+- [x] **Step 2: Run the failing runner tests**
 
 Run:
 
@@ -1645,7 +1645,7 @@ FAIL packages/cli/tests/runner-commands.test.ts
 Cannot find module '../src/process/runner.js'
 ```
 
-- [ ] **Step 3: Expand the process runner abstraction**
+- [x] **Step 3: Expand the process runner abstraction**
 
 Replace `packages/cli/src/process/runner.ts` with:
 
@@ -1674,7 +1674,7 @@ export function createNodeProcessRunner(): ProcessRunner {
 }
 ```
 
-- [ ] **Step 4: Add runner-backed command handlers**
+- [x] **Step 4: Add runner-backed command handlers**
 
 Create `packages/cli/src/commands/dev.ts`:
 
@@ -1725,7 +1725,7 @@ export async function testCommand(_args: string[], context: CommandContext): Pro
 }
 ```
 
-- [ ] **Step 5: Wire runner-backed commands into the dispatcher**
+- [x] **Step 5: Wire runner-backed commands into the dispatcher**
 
 Update `packages/cli/src/cli.ts` imports:
 
@@ -1754,7 +1754,7 @@ if (command === 'test') {
 }
 ```
 
-- [ ] **Step 6: Run runner command tests**
+- [x] **Step 6: Run runner command tests**
 
 Run:
 
@@ -1768,7 +1768,7 @@ Expected result:
 PASS packages/cli/tests/runner-commands.test.ts
 ```
 
-- [ ] **Step 7: Commit Task 5**
+- [x] **Step 7: Commit Task 5**
 
 ```bash
 git add packages/cli/src packages/cli/tests
@@ -1788,7 +1788,7 @@ git commit -m "feat(cli): wrap dev build and test commands"
 - Modify: `packages/cli/src/index.ts`
 - Test: `packages/cli/tests/cli.test.ts`
 
-- [ ] **Step 1: Extend CLI tests for binary-facing exports**
+- [x] **Step 1: Extend CLI tests for binary-facing exports**
 
 Append to `packages/cli/tests/cli.test.ts`:
 
@@ -1801,7 +1801,7 @@ Append to `packages/cli/tests/cli.test.ts`:
   });
 ```
 
-- [ ] **Step 2: Run the focused CLI tests**
+- [x] **Step 2: Run the focused CLI tests**
 
 Run:
 
@@ -1815,7 +1815,7 @@ Expected result:
 PASS packages/cli/tests/cli.test.ts
 ```
 
-- [ ] **Step 3: Add the binary entry**
+- [x] **Step 3: Add the binary entry**
 
 Create `packages/cli/src/bin.ts`:
 
@@ -1839,7 +1839,7 @@ try {
 }
 ```
 
-- [ ] **Step 4: Export the runner factory**
+- [x] **Step 4: Export the runner factory**
 
 Update `packages/cli/src/index.ts`:
 
@@ -1852,7 +1852,7 @@ export { createConsoleReporter, createMemoryReporter } from './reporter/reporter
 export type { MemoryReporter, Reporter } from './reporter/reporter.js';
 ```
 
-- [ ] **Step 5: Add package binary metadata**
+- [x] **Step 5: Add package binary metadata**
 
 Update `packages/cli/package.json`:
 
@@ -1885,7 +1885,7 @@ Update `packages/cli/package.json`:
 }
 ```
 
-- [ ] **Step 6: Build the CLI and smoke-test the built binary**
+- [x] **Step 6: Build the CLI and smoke-test the built binary**
 
 Run:
 
@@ -1913,7 +1913,7 @@ vr create <name>
 vr doctor
 ```
 
-- [ ] **Step 7: Run the package test suite**
+- [x] **Step 7: Run the package test suite**
 
 Run:
 
@@ -1932,7 +1932,7 @@ PASS packages/cli/tests/runner-commands.test.ts
 PASS packages/cli/tests/reporter.test.ts
 ```
 
-- [ ] **Step 8: Commit Task 6**
+- [x] **Step 8: Commit Task 6**
 
 ```bash
 git add packages/cli/package.json packages/cli/src packages/cli/tests
@@ -1952,7 +1952,7 @@ git commit -m "feat(cli): expose vr binary"
 - Modify: `docs/superpowers/feature-maturity.md`
 - Modify: `docs/superpowers/plans/Phase-05.md`
 
-- [ ] **Step 1: Run full verification before touching trackers**
+- [x] **Step 1: Run full verification before touching trackers**
 
 Run:
 
@@ -1970,7 +1970,7 @@ runtime size budget passes
 phase documentation verification passes
 ```
 
-- [ ] **Step 2: Move verified Phase 5 maturity rows to Demo-Capable**
+- [x] **Step 2: Move verified Phase 5 maturity rows to Demo-Capable**
 
 In `docs/superpowers/feature-maturity.md`, update only verified Phase 5 rows:
 
@@ -1997,7 +1997,7 @@ AI rules `.vanrot/ai-rules.md`
 Optional AI commands
 ```
 
-- [ ] **Step 3: Tick Phase 5 in brainstorm**
+- [x] **Step 3: Tick Phase 5 in brainstorm**
 
 In `docs/brainstorm.md`, change the Phase 5 row:
 
@@ -2011,7 +2011,7 @@ If the row still omits `vr dev`, update the create/tick text to include it:
 | [x] | Phase 5 - CLI MVP | `@vanrot/cli` with `vr create`, `vr generate component`, `vr generate page`, `vr doctor`, `vr dev`, `vr build`, and `vr test`. | A user can create an app, generate files, diagnose issues, start dev, build, and test through `vr`. |
 ```
 
-- [ ] **Step 4: Update the presentation roadmap**
+- [x] **Step 4: Update the presentation roadmap**
 
 In `docs/vanrot-presentation.html`:
 
@@ -2025,12 +2025,12 @@ Summary text: Queued: Phases 7-11
 
 Also update CLI slide copy if it still describes Phase 5 as pending.
 
-- [ ] **Step 5: Tick every checkbox in this plan**
+- [x] **Step 5: Tick every checkbox in this plan**
 
 In `docs/superpowers/plans/Phase-05.md`, change every completed task checkbox from:
 
 ```md
-- [ ] ...
+- [x] ...
 ```
 
 to:
@@ -2041,7 +2041,7 @@ to:
 
 Do this only after the corresponding implementation and verification steps really completed.
 
-- [ ] **Step 6: Run guardrail and full verification again**
+- [x] **Step 6: Run guardrail and full verification again**
 
 Run:
 
@@ -2067,7 +2067,7 @@ Expected result:
 All package typechecks, tests, builds, runtime size checks, and phase-doc checks pass.
 ```
 
-- [ ] **Step 7: Commit Task 7**
+- [x] **Step 7: Commit Task 7**
 
 ```bash
 git add docs/brainstorm.md docs/vanrot-presentation.html docs/superpowers/feature-maturity.md docs/superpowers/plans/Phase-05.md
