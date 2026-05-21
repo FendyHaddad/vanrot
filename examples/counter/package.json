@@ -1,0 +1,25 @@
+{
+  "name": "@vanrot/example-counter",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.1.3",
+  "scripts": {
+    "dev": "vr dev",
+    "build": "vr build",
+    "test": "vitest run",
+    "doctor": "vr doctor",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  },
+  "dependencies": {
+    "@vanrot/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@vanrot/cli": "workspace:*",
+    "@vanrot/vite-plugin": "workspace:*",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.10",
+    "vitest": "^4.0.14"
+  }
+}

@@ -1,0 +1,21 @@
+<main class="counter-shell" aria-label="Counter demo">
+  <section class="counter-panel">
+    <p class="counter-eyebrow">{{ t('counter.eyebrow') }}</p>
+    <h1 class="counter-title">{{ t('counter.title') }}</h1>
+    <p class="counter-summary">{{ t('counter.summary') }}</p>
+
+    <output class="counter-value" aria-live="polite">{{ count() }}</output>
+
+    <div class="counter-actions">
+      <button class="counter-button" type="button" (click)="decrement()">
+        {{ t('counter.decrement') }}
+      </button>
+      <button class="counter-button counter-button-primary" type="button" (click)="increment()">
+        {{ t('counter.increment') }}
+      </button>
+      <button class="counter-button" type="button" (click)="reset()">
+        {{ t('counter.reset') }}
+      </button>
+    </div>
+  </section>
+</main>
