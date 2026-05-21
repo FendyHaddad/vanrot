@@ -1,6 +1,6 @@
+import { runCli } from '@/index.js';
+import { createMemoryReporter } from '@/reporter/reporter.js';
 import { describe, expect, it } from 'vitest';
-import { runCli } from '../src/index.js';
-import { createMemoryReporter } from '../src/reporter/reporter.js';
 
 describe('runCli', () => {
   it('prints root help', async () => {
@@ -14,6 +14,8 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('Vanrot CLI');
     expect(reporter.output()).toContain('vr create <name>');
     expect(reporter.output()).toContain('vr doctor');
+    expect(reporter.output()).toContain('vr map');
+    expect(reporter.output()).toContain('vr init-ai');
   });
 
   it('reports unknown commands with a suggestion', async () => {
@@ -39,6 +41,26 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('vr create <name>');
     expect(reporter.output()).toContain('--workspace');
     expect(reporter.output()).toContain('--force');
+  });
+
+  it('prints project intelligence command help', async () => {
+    const mapReporter = createMemoryReporter();
+    const mapResult = await runCli(['map', '--help'], {
+      cwd: process.cwd(),
+      reporter: mapReporter,
+    });
+
+    expect(mapResult.exitCode).toBe(0);
+    expect(mapReporter.output()).toContain('vr map');
+
+    const aiReporter = createMemoryReporter();
+    const aiResult = await runCli(['init-ai', '--help'], {
+      cwd: process.cwd(),
+      reporter: aiReporter,
+    });
+
+    expect(aiResult.exitCode).toBe(0);
+    expect(aiReporter.output()).toContain('vr init-ai');
   });
 
   it('exports the process runner factory for the binary', async () => {

@@ -3,6 +3,8 @@ import { createCommand } from './commands/create.js';
 import { devCommand } from './commands/dev.js';
 import { doctorCommand } from './commands/doctor.js';
 import { generateCommand } from './commands/generate.js';
+import { initAiCommand } from './commands/init-ai.js';
+import { mapCommand } from './commands/map.js';
 import { testCommand } from './commands/test.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
@@ -17,6 +19,8 @@ Commands
   vr generate component <name>
   vr generate page <name>
   vr doctor
+  vr map
+  vr init-ai
   vr dev
   vr build
   vr test`;
@@ -42,6 +46,8 @@ Options
   --feature <name>   Generate inside src/features/<name>`,
   ],
   ['doctor', 'vr doctor'],
+  ['map', 'vr map'],
+  ['init-ai', 'vr init-ai'],
   ['dev', 'vr dev'],
   ['build', 'vr build'],
   ['test', 'vr test'],
@@ -69,6 +75,14 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
 
   if (command === 'doctor') {
     return doctorCommand(rest, context);
+  }
+
+  if (command === 'map') {
+    return mapCommand(rest, context);
+  }
+
+  if (command === 'init-ai') {
+    return initAiCommand(rest, context);
   }
 
   if (command === 'dev') {

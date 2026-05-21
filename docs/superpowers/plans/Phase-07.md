@@ -1,6 +1,6 @@
 # Vanrot Project Intelligence Foundation Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Add demo-capable provider-neutral project intelligence through `vr map`, `.vanrot/project-map.json`, `vr init-ai`, and `.vanrot/ai-rules.md`.
 
@@ -99,7 +99,7 @@ examples/counter/.vanrot/ai-rules.md
 - Create: `packages/cli/vite.config.ts`
 - Create: `packages/cli/tests/tsconfig.json`
 
-- [ ] **Step 1: Create the failing alias import test**
+- [x] **Step 1: Create the failing alias import test**
 
 Before adding alias config, temporarily update `packages/cli/tests/cli.test.ts` so the first import uses `@/`:
 
@@ -109,7 +109,7 @@ import { describe, expect, it } from 'vitest';
 import { createMemoryReporter } from '../src/reporter/reporter.js';
 ```
 
-- [ ] **Step 2: Run the CLI test to verify the alias is missing**
+- [x] **Step 2: Run the CLI test to verify the alias is missing**
 
 Run:
 
@@ -124,7 +124,7 @@ FAIL packages/cli/tests/cli.test.ts
 Cannot find package '@/index.js'
 ```
 
-- [ ] **Step 3: Add the Vitest alias config**
+- [x] **Step 3: Add the Vitest alias config**
 
 Create `packages/cli/vite.config.ts`:
 
@@ -141,7 +141,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 4: Add test TypeScript path context**
+- [x] **Step 4: Add test TypeScript path context**
 
 Create `packages/cli/tests/tsconfig.json`:
 
@@ -161,7 +161,7 @@ Create `packages/cli/tests/tsconfig.json`:
 }
 ```
 
-- [ ] **Step 5: Keep CLI tests on the alias**
+- [x] **Step 5: Keep CLI tests on the alias**
 
 Update the rest of `packages/cli/tests/cli.test.ts` imports to:
 
@@ -171,7 +171,7 @@ import { createMemoryReporter } from '@/reporter/reporter.js';
 import { describe, expect, it } from 'vitest';
 ```
 
-- [ ] **Step 6: Run the CLI test again**
+- [x] **Step 6: Run the CLI test again**
 
 Run:
 
@@ -185,7 +185,7 @@ Expected:
 PASS packages/cli/tests/cli.test.ts
 ```
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Run:
 
@@ -205,7 +205,7 @@ Expected: new `packages/cli/vite.config.ts` and `packages/cli/tests/tsconfig.jso
 - Create: `packages/cli/tests/intelligence/role-files.test.ts`
 - Create: `packages/cli/src/intelligence/role-files.ts`
 
-- [ ] **Step 1: Write the failing role discovery tests**
+- [x] **Step 1: Write the failing role discovery tests**
 
 Create `packages/cli/tests/intelligence/role-files.test.ts`:
 
@@ -284,7 +284,7 @@ describe('discoverRoleFiles', () => {
 });
 ```
 
-- [ ] **Step 2: Run the tests and verify they fail**
+- [x] **Step 2: Run the tests and verify they fail**
 
 Run:
 
@@ -299,7 +299,7 @@ FAIL packages/cli/tests/intelligence/role-files.test.ts
 Failed to resolve import "@/intelligence/role-files.js"
 ```
 
-- [ ] **Step 3: Implement role-file discovery**
+- [x] **Step 3: Implement role-file discovery**
 
 Create `packages/cli/src/intelligence/role-files.ts`:
 
@@ -421,7 +421,7 @@ function toProjectPath(cwd: string, filePath: string): string {
 }
 ```
 
-- [ ] **Step 4: Run the role discovery tests**
+- [x] **Step 4: Run the role discovery tests**
 
 Run:
 
@@ -435,7 +435,7 @@ Expected:
 PASS packages/cli/tests/intelligence/role-files.test.ts
 ```
 
-- [ ] **Step 5: Checkpoint**
+- [x] **Step 5: Checkpoint**
 
 Run:
 
@@ -459,7 +459,7 @@ Done
 - Create: `packages/cli/tests/intelligence/project-map.test.ts`
 - Create: `packages/cli/src/intelligence/project-map.ts`
 
-- [ ] **Step 1: Write failing project map tests**
+- [x] **Step 1: Write failing project map tests**
 
 Create `packages/cli/tests/intelligence/project-map.test.ts`:
 
@@ -546,7 +546,7 @@ describe('buildProjectMap', () => {
 });
 ```
 
-- [ ] **Step 2: Run the tests and verify they fail**
+- [x] **Step 2: Run the tests and verify they fail**
 
 Run:
 
@@ -561,7 +561,7 @@ FAIL packages/cli/tests/intelligence/project-map.test.ts
 Failed to resolve import "@/intelligence/project-map.js"
 ```
 
-- [ ] **Step 3: Implement project map construction**
+- [x] **Step 3: Implement project map construction**
 
 Create `packages/cli/src/intelligence/project-map.ts`:
 
@@ -668,7 +668,7 @@ function toProjectPath(cwd: string, filePath: string): string {
 }
 ```
 
-- [ ] **Step 4: Run project map tests**
+- [x] **Step 4: Run project map tests**
 
 Run:
 
@@ -682,7 +682,7 @@ Expected:
 PASS packages/cli/tests/intelligence/project-map.test.ts
 ```
 
-- [ ] **Step 5: Run intelligence helper tests together**
+- [x] **Step 5: Run intelligence helper tests together**
 
 Run:
 
@@ -708,7 +708,7 @@ PASS packages/cli/tests/intelligence/project-map.test.ts
 - Create: `packages/cli/src/intelligence/ai-rules.ts`
 - Create: `packages/cli/src/intelligence/write-vanrot-file.ts`
 
-- [ ] **Step 1: Write failing AI rules tests**
+- [x] **Step 1: Write failing AI rules tests**
 
 Create `packages/cli/tests/intelligence/ai-rules.test.ts`:
 
@@ -762,7 +762,7 @@ describe('writeVanrotFile', () => {
 });
 ```
 
-- [ ] **Step 2: Run the tests and verify they fail**
+- [x] **Step 2: Run the tests and verify they fail**
 
 Run:
 
@@ -777,7 +777,7 @@ FAIL packages/cli/tests/intelligence/ai-rules.test.ts
 Failed to resolve import "@/intelligence/ai-rules.js"
 ```
 
-- [ ] **Step 3: Implement AI rules content**
+- [x] **Step 3: Implement AI rules content**
 
 Create `packages/cli/src/intelligence/ai-rules.ts`:
 
@@ -813,7 +813,7 @@ vr map
 }
 ```
 
-- [ ] **Step 4: Implement `.vanrot` file writing**
+- [x] **Step 4: Implement `.vanrot` file writing**
 
 Create `packages/cli/src/intelligence/write-vanrot-file.ts`:
 
@@ -848,7 +848,7 @@ async function createDirectory(dirPath: string): Promise<void> {
 }
 ```
 
-- [ ] **Step 5: Run the AI rules and writer tests**
+- [x] **Step 5: Run the AI rules and writer tests**
 
 Run:
 
@@ -862,7 +862,7 @@ Expected:
 PASS packages/cli/tests/intelligence/ai-rules.test.ts
 ```
 
-- [ ] **Step 6: Run all intelligence tests**
+- [x] **Step 6: Run all intelligence tests**
 
 Run:
 
@@ -890,7 +890,7 @@ PASS packages/cli/tests/intelligence/ai-rules.test.ts
 - Create: `packages/cli/src/commands/init-ai.ts`
 - Modify: `packages/cli/src/cli.ts`
 
-- [ ] **Step 1: Write failing command tests**
+- [x] **Step 1: Write failing command tests**
 
 Create `packages/cli/tests/intelligence-commands.test.ts`:
 
@@ -964,7 +964,7 @@ describe('project intelligence commands', () => {
 });
 ```
 
-- [ ] **Step 2: Run the command tests and verify they fail**
+- [x] **Step 2: Run the command tests and verify they fail**
 
 Run:
 
@@ -979,7 +979,7 @@ FAIL packages/cli/tests/intelligence-commands.test.ts
 Unknown command: map
 ```
 
-- [ ] **Step 3: Implement `vr map` command**
+- [x] **Step 3: Implement `vr map` command**
 
 Create `packages/cli/src/commands/map.ts`:
 
@@ -1021,7 +1021,7 @@ function messageFrom(error: unknown): string {
 }
 ```
 
-- [ ] **Step 4: Implement `vr init-ai` command**
+- [x] **Step 4: Implement `vr init-ai` command**
 
 Create `packages/cli/src/commands/init-ai.ts`:
 
@@ -1061,7 +1061,7 @@ function messageFrom(error: unknown): string {
 }
 ```
 
-- [ ] **Step 5: Wire commands into `runCli`**
+- [x] **Step 5: Wire commands into `runCli`**
 
 Modify `packages/cli/src/cli.ts`.
 
@@ -1098,7 +1098,7 @@ Add dispatch blocks before `dev`:
   }
 ```
 
-- [ ] **Step 6: Run command tests**
+- [x] **Step 6: Run command tests**
 
 Run:
 
@@ -1112,7 +1112,7 @@ Expected:
 PASS packages/cli/tests/intelligence-commands.test.ts
 ```
 
-- [ ] **Step 7: Run the CLI command suite**
+- [x] **Step 7: Run the CLI command suite**
 
 Run:
 
@@ -1136,7 +1136,7 @@ PASS packages/cli/tests/intelligence-commands.test.ts
 **Files:**
 - Modify: `packages/cli/tests/cli.test.ts`
 
-- [ ] **Step 1: Strengthen root help expectations**
+- [x] **Step 1: Strengthen root help expectations**
 
 Update `packages/cli/tests/cli.test.ts` so root help asserts the new commands:
 
@@ -1145,7 +1145,7 @@ expect(reporter.output()).toContain('vr map');
 expect(reporter.output()).toContain('vr init-ai');
 ```
 
-- [ ] **Step 2: Add command help tests**
+- [x] **Step 2: Add command help tests**
 
 Add tests to `packages/cli/tests/cli.test.ts`:
 
@@ -1171,7 +1171,7 @@ Add tests to `packages/cli/tests/cli.test.ts`:
   });
 ```
 
-- [ ] **Step 3: Run CLI tests**
+- [x] **Step 3: Run CLI tests**
 
 Run:
 
@@ -1189,7 +1189,7 @@ PASS packages/cli/tests/intelligence/project-map.test.ts
 PASS packages/cli/tests/intelligence/ai-rules.test.ts
 ```
 
-- [ ] **Step 4: Run CLI typecheck**
+- [x] **Step 4: Run CLI typecheck**
 
 Run:
 
@@ -1212,7 +1212,7 @@ Done
 **Files:**
 - No source file edits expected
 
-- [ ] **Step 1: Build CLI before running binary workflow checks**
+- [x] **Step 1: Build CLI before running binary workflow checks**
 
 Run:
 
@@ -1226,7 +1226,7 @@ Expected:
 Done
 ```
 
-- [ ] **Step 2: Create a temporary generated app**
+- [x] **Step 2: Create a temporary generated app**
 
 Run:
 
@@ -1242,7 +1242,7 @@ Expected:
 success created app
 ```
 
-- [ ] **Step 3: Run `vr map` inside the generated app**
+- [x] **Step 3: Run `vr map` inside the generated app**
 
 Run:
 
@@ -1258,7 +1258,7 @@ success wrote project map
 .vanrot/project-map.json
 ```
 
-- [ ] **Step 4: Inspect generated project map**
+- [x] **Step 4: Inspect generated project map**
 
 Run:
 
@@ -1272,7 +1272,7 @@ Expected:
 1 1
 ```
 
-- [ ] **Step 5: Run `vr init-ai` inside the generated app**
+- [x] **Step 5: Run `vr init-ai` inside the generated app**
 
 Run:
 
@@ -1288,7 +1288,7 @@ success wrote AI rules
 .vanrot/ai-rules.md
 ```
 
-- [ ] **Step 6: Return to the repository**
+- [x] **Step 6: Return to the repository**
 
 Run:
 
@@ -1298,7 +1298,7 @@ cd /Users/user/IdeaProjects/vanrot
 
 Expected: shell prompt is back at the Vanrot repo.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Run:
 
@@ -1320,7 +1320,7 @@ Expected: no `.vanrot/` files from the temporary generated app appear in the rep
 - Modify: `docs/superpowers/feature-maturity.md`
 - Modify: `docs/superpowers/plans/Phase-07.md`
 
-- [ ] **Step 1: Update feature maturity**
+- [x] **Step 1: Update feature maturity**
 
 In `docs/superpowers/feature-maturity.md`, change these rows after command verification passes:
 
@@ -1343,7 +1343,7 @@ Skill.sh package *
 AI framework knowledge manifest
 ```
 
-- [ ] **Step 2: Tick Phase 7 in brainstorm**
+- [x] **Step 2: Tick Phase 7 in brainstorm**
 
 In `docs/brainstorm.md`, update the Phase 7 checklist row:
 
@@ -1357,7 +1357,7 @@ Add a short note below the table:
 Phase 7 completed the project intelligence foundation. Strict diagnostics, i18n checks, accessibility checks, route/dependency graphing, and compiler-aware intelligence remain tracked as deferred production work in `docs/superpowers/feature-maturity.md`.
 ```
 
-- [ ] **Step 3: Update the presentation roadmap**
+- [x] **Step 3: Update the presentation roadmap**
 
 In `docs/vanrot-presentation.html`, update the roadmap slide:
 
@@ -1380,12 +1380,12 @@ Update the active label:
 <span style="color:var(--cyan);">⚡ Active: Phase 8 (Router MVP)</span>
 ```
 
-- [ ] **Step 4: Mark this plan complete**
+- [x] **Step 4: Mark this plan complete**
 
 After all implementation and verification tasks pass, change every checkbox in `docs/superpowers/plans/Phase-07.md` from:
 
 ```md
-- [ ]
+- [x]
 ```
 
 to:
@@ -1396,7 +1396,7 @@ to:
 
 Do not mark the phase complete before verification passes.
 
-- [ ] **Step 5: Run phase docs guardrail**
+- [x] **Step 5: Run phase docs guardrail**
 
 Run:
 
@@ -1419,7 +1419,7 @@ Phase documentation verification passed.
 **Files:**
 - No new source edits expected unless verification reveals a real issue
 
-- [ ] **Step 1: Run CLI tests**
+- [x] **Step 1: Run CLI tests**
 
 Run:
 
@@ -1433,7 +1433,7 @@ Expected:
 PASS packages/cli
 ```
 
-- [ ] **Step 2: Run CLI typecheck**
+- [x] **Step 2: Run CLI typecheck**
 
 Run:
 
@@ -1447,7 +1447,7 @@ Expected:
 Done
 ```
 
-- [ ] **Step 3: Run full repo verification**
+- [x] **Step 3: Run full repo verification**
 
 Run:
 
@@ -1463,7 +1463,7 @@ Phase documentation verification passed.
 
 and all typecheck, test, build, and runtime size checks pass.
 
-- [ ] **Step 4: Report final workspace status**
+- [x] **Step 4: Report final workspace status**
 
 Run:
 
