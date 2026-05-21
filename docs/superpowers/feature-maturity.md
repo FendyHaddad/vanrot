@@ -7,6 +7,8 @@ This ledger is the source of truth for feature maturity across phases. Phase che
 
 After the demo phases are complete, use the package/module groupings in this file to create phase-by-phase implementation plans for production-ready features.
 
+Rows or sections marked with `*` are brainstorming-level pillars. They must get a dedicated brainstorming, design spec, written plan, and review before implementation starts.
+
 ## Status Values
 
 ```txt
@@ -130,7 +132,9 @@ Each package section is divided into module or submodule tables. This keeps prod
 | Vite production build integration | vite-plugin | Phase 4 | `vite build` emits JavaScript and CSS for a Vanrot fixture app | Asset output, minification compatibility, sourcemap policy, and framework examples verified | Demo-Capable | Fixture build emits JavaScript and CSS assets through Vite. |
 | Vite true HMR | vite-plugin | Future | Component HTML and CSS can update without full page reload | State preservation, partial invalidation, cleanup safety, and compiler boundary tracking verified | Deferred | Phase 4 uses full reload fallback only. |
 
-## `@vanrot/cli`
+## `@vanrot/cli` *
+
+*The CLI needs a dedicated design-focused brainstorming cycle before production polish. The target is beautiful yet functional: calm, premium, fast to read, useful under pressure, and not decorative at the cost of clarity.*
 
 ### Project Creation And Generation
 
@@ -164,6 +168,7 @@ Each package section is divided into module or submodule tables. This keeps prod
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
 | CLI Quiet Premium reporter | cli | Phase 5 | Commands use a shared structured reporter with calm headings, status lines, warnings, errors, and next steps | Cross-platform terminal behavior, interactive states, theming, accessibility, snapshots, and docs verified | Demo-Capable | Phase 5 verifies shared structured reporter output; production polish comes after demo phases. |
+| CLI design language * | cli | Post-demo production track | CLI design principles are approved for command layout, rhythm, progress, errors, and next steps | Real command journeys, terminal snapshots, narrow/wide viewport checks, accessibility, cross-platform QA, and docs verified | Deferred | Requires a focused design conversation. Beautiful yet functional is the key standard. |
 | CLI production terminal experience | cli | Post-demo hardening | Reporter foundation can render consistent command summaries | Claude Code-quality polish with refined interaction, progress states, terminal resizing, theming, and cross-platform QA verified | Deferred | Long-term goal: Vanrot CLI should feel beautiful and engaging compared with other framework CLIs. |
 | CLI `vr inspect` | cli and compiler | Future | Can show generated output for a component | Source maps, stable generated-file output, docs links, and source-to-generated mapping verified | Deferred | Future command for readable generated output and debugging. |
 | Optional AI commands | cli | Phase 11 | Provider-neutral AI command can run when configured | OpenAI, Claude, Ollama, and self-hosted provider abstraction verified | Deferred | Vanrot must work without AI. |
@@ -206,7 +211,9 @@ Each package section is divided into module or submodule tables. This keeps prod
 | Router route config | router | Phase 8 | Explicit routes render pages | Params, lazy loading, guards, and diagnostics verified | Deferred | Phase 8 owns this. |
 | Router link helper | router | Phase 8 | Links navigate between routes | Active state, accessibility, params, and history behavior verified | Deferred | Phase 8 owns this. |
 
-## `@vanrot/ui`
+## `@vanrot/ui` *
+
+*The UI package needs a dedicated product/design brainstorming cycle. The package has two planned flavors for now: `V01`, based on the shadcn design language, and `V02`, a brutalist version of codename `V01`. These are codenames until final naming is chosen.*
 
 ### Components And Tokens
 
@@ -214,6 +221,9 @@ Each package section is divided into module or submodule tables. This keeps prod
 |---|---|---:|---|---|---|---|
 | UI copyable components | ui | Phase 9 | `vr add button` copies source | Tokens, accessibility, theming, ownership, and docs verified | Deferred | Phase 9 owns this. |
 | Design tokens | ui | Phase 9 | Generated app includes token CSS | Theme overrides and component integration verified | Deferred | Phase 9 owns this. |
+| UI flavor `V01` * | ui | Post-demo production track | First-party UI components can be added using a shadcn-inspired design language | Component coverage, accessibility, theming, ownership rules, docs, examples, and visual QA verified | Deferred | Codename only. Intended as the polished, familiar, modern UI baseline. |
+| UI flavor `V02` * | ui | Post-demo production track | First-party UI components can be added using the brutalist variation of codename `V01` | Token separation, component parity with `V01`, accessibility, docs, examples, and visual QA verified | Deferred | Codename only. Intended as the bolder brutalist expression of the same component system. |
+| UI flavor selection | ui and cli | Post-demo production track | `vr add` or project config can choose a UI flavor without mixing styles accidentally | Migration rules, token compatibility, docs, examples, and generated output checks verified | Deferred | Prevents design drift once both UI flavors exist. |
 
 ## `@vanrot/testing`
 
@@ -223,13 +233,53 @@ Each package section is divided into module or submodule tables. This keeps prod
 |---|---|---:|---|---|---|---|
 | Testing helpers | testing | Phase 10 | Can render a component in tests | Events, queries, cleanup, and docs verified | Deferred | Phase 10 owns this. |
 
-## Docs
+## Docs *
+
+*Documentation needs a dedicated completeness pass before production. The goal is high-depth documentation where every package, command, public API, generated file, convention, limitation, and production caveat is covered so neither users nor AI assistants have to infer missing framework behavior.*
 
 ### Public Documentation
 
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
 | API docs | docs | Phase 10 | Public APIs are documented | Examples, versioning, and generated docs verified | Deferred | Phase 10 owns this. |
+| Deep documentation system * | docs | Post-demo production track | Docs cover every package, feature, CLI command, convention, and known limitation | Package inventory, examples, migration notes, API references, guides, and completeness checks verified | Deferred | Nothing important should be left out just because an AI assistant or maintainer forgot a package. |
+| Documentation completeness checks | docs and ci | Post-demo production track | CI can detect undocumented public packages, commands, and feature-maturity rows | Automated docs inventory, broken link checks, example freshness, and release checklist integration verified | Deferred | Keeps documentation from drifting as Vanrot grows. |
+| AI-readable documentation bundle | docs and ai | Post-demo production track | Documentation can be exported into a stable AI-consumable bundle | Versioned manifest, package summaries, examples, limits, changelog links, and validation checks verified | Deferred | Feeds future MCP and Skill.sh integrations with authoritative framework knowledge. |
+
+## Web Presence *
+
+*Vanrot will live at `vanrot.vankode.com`. The docs, install guide, landing page, and UI documentation should feel like one coherent product, not scattered artifacts.*
+
+### `vankode.com` Subdomain
+
+| Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
+|---|---|---:|---|---|---|---|
+| Vanrot subdomain site * | web and docs | Post-demo production track | `vanrot.vankode.com` has landing, install, docs, and UI docs IA | Domain routing, deployment, navigation, SEO, accessibility, analytics policy, and release docs workflow verified | Deferred | All public Vanrot material should live under this subdomain. |
+| Landing page | web | Post-demo production track | Landing page explains Vanrot clearly and directs users to install/docs | Real copy, responsive design, performance, accessibility, screenshots, and deployment verified | Deferred | Should communicate the framework identity without becoming a replacement for docs. |
+| Install guide | web and docs | Post-demo production track | Users can install Vanrot through the recommended package manager path | npm, pnpm, bun, yarn, and Homebrew paths are tested and documented where supported | Deferred | Must stay synchronized with publishing and distribution decisions. |
+| UI documentation site | web and ui | Post-demo production track | `@vanrot/ui` components and flavors have browsable docs | Component examples, tokens, accessibility notes, copyable code, visual QA, and versioning verified | Deferred | Covers both `V01` and `V02` when they exist. |
+
+## AI Consumption *
+
+*When Vanrot is production-ready, AI tools should be able to consume the framework directly. Codex and Claude should have a reliable way to understand Vanrot even when users do not know the docs well.*
+
+### MCP And Skill.sh
+
+| Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
+|---|---|---:|---|---|---|---|
+| Vanrot MCP server * | ai and docs | Post-demo production track | An MCP server can answer framework questions from authoritative Vanrot docs and package metadata | Versioned data source, tool schema, examples, local/remote setup, security review, and Codex/Claude integration verified | Deferred | Lets AI assistants inspect framework rules, packages, commands, and conventions instead of guessing. |
+| Skill.sh package * | ai and docs | Post-demo production track | Vanrot framework instructions can be installed or consumed by AI coding tools | Skill packaging, examples, update workflow, compatibility checks, and docs verified | Deferred | Name and exact distribution can change; intent is AI-native framework understanding. |
+| AI framework knowledge manifest | ai and docs | Post-demo production track | Docs expose a structured manifest of packages, commands, rules, examples, and limitations | Schema versioning, validation, changelog links, and generated docs alignment verified | Deferred | Shared source for MCP, Skill.sh, Codex, Claude, and other future AI consumers. |
+
+## Distribution *
+
+*Distribution should stay familiar for JavaScript users, but production Vanrot also needs native-feeling CLI installation paths.*
+
+### Homebrew
+
+| Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
+|---|---|---:|---|---|---|---|
+| Homebrew install `brew install vanrot` * | distribution and cli | Post-demo production track | Vanrot CLI can be installed through Homebrew on supported systems | Formula, release artifact policy, checksums, upgrades, uninstall behavior, CI, and docs verified | Deferred | Requires production CLI packaging first. Should not replace npm/pnpm install paths. |
 
 ## Platform Packages
 
@@ -255,6 +305,21 @@ Each package section is divided into module or submodule tables. This keeps prod
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
 | Counter demo app | examples | Phase 6 | Counter compiles and updates without virtual DOM | Demo documents runtime, compiler, Vite, and CLI integration boundaries | Demo-Capable | Phase 6 verified a workspace example app with grouped component files, signal updates, scoped CSS, Vite build output, CLI build/test/doctor workflows, and no production hardening claims. |
+
+## Post-Demo Brainstorming Order
+
+When the main demo phases from `docs/brainstorm.md` are complete, use this order for production-ready brainstorming, specs, and implementation plans:
+
+| Order | Track | Why This Comes Here |
+|---:|---|---|
+| 1 | Deep documentation system * | Production planning needs a complete source of truth before more public surface area is added. |
+| 2 | CLI design language and production terminal experience * | The CLI is the daily front door, and its behavior affects install, docs, generation, doctor, and future package workflows. |
+| 3 | `vanrot.vankode.com` public site * | Public docs, install guide, landing page, and UI documentation need a permanent home before broad release. |
+| 4 | `@vanrot/ui` flavor `V01` * | Establish the familiar shadcn-inspired component baseline first. |
+| 5 | `@vanrot/ui` flavor `V02` * | Build the brutalist flavor after `V01` so both flavors share component contracts and token structure. |
+| 6 | `@vanrot/store` enterprise state system * | Requires first-principles design for a future-facing, signal-native enterprise store before implementation. |
+| 7 | AI consumption through MCP and Skill.sh * | AI integrations should consume stable docs, package metadata, and conventions instead of half-formed APIs. |
+| 8 | Homebrew install `brew install vanrot` * | Native CLI distribution should happen after the production CLI packaging and release story are stable. |
 
 ## Update Rule
 
