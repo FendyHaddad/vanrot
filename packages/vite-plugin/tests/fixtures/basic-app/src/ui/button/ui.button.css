@@ -1,0 +1,51 @@
+.vr-button {
+  align-items: center;
+  background: var(--vr-color-surface-raised);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-control);
+  box-shadow: none;
+  color: var(--vr-color-text);
+  cursor: pointer;
+  display: inline-flex;
+  font: 600 0.95rem/1 var(--vr-font-sans);
+  gap: 8px;
+  justify-content: center;
+  min-height: 40px;
+  padding: 0 16px;
+  transition:
+    background var(--vr-motion-fast),
+    border-color var(--vr-motion-fast),
+    color var(--vr-motion-fast),
+    transform var(--vr-motion-fast);
+}
+
+.vr-button:hover {
+  background: color-mix(in srgb, var(--vr-color-surface-raised) 82%, white);
+  border-color: color-mix(in srgb, var(--vr-color-line) 55%, white);
+}
+
+.vr-button:active {
+  transform: translateY(1px);
+}
+
+.vr-button:focus-visible {
+  outline: 2px solid var(--vr-color-accent-strong);
+  outline-offset: 2px;
+}
+
+.vr-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.vr-button-primary {
+  background: var(--vr-color-accent);
+  border-color: var(--vr-color-accent);
+  color: #140906;
+}
+
+.vr-button-primary:hover {
+  background: var(--vr-color-accent-strong);
+  border-color: var(--vr-color-accent-strong);
+}

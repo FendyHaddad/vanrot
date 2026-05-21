@@ -1,10 +1,7 @@
 {
-  "name": "@vanrot/cli",
+  "name": "@vanrot/ui",
   "version": "0.0.0",
   "type": "module",
-  "bin": {
-    "vr": "./dist/bin.js"
-  },
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -15,17 +12,19 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "src/tokens",
+    "src/primitives"
   ],
   "dependencies": {
-    "@vanrot/ui": "workspace:*"
+    "@vanrot/runtime": "workspace:*"
   },
   "scripts": {
-    "prebuild": "pnpm --filter @vanrot/ui build",
+    "prebuild": "pnpm --filter @vanrot/runtime build",
     "build": "tsc -p tsconfig.json",
-    "pretypecheck": "pnpm --filter @vanrot/ui build",
+    "pretypecheck": "pnpm --filter @vanrot/runtime build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "pretest": "pnpm --filter @vanrot/ui build",
+    "pretest": "pnpm --filter @vanrot/runtime build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
   }

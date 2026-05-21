@@ -1,13 +1,17 @@
 import { relative } from 'node:path';
 import type { HmrContext, ModuleNode } from 'vite';
 
-export function findOwnerComponentPath(filePath: string): string | undefined {
-  if (filePath.endsWith('.component.html')) {
-    return filePath.replace(/\.component\.html$/, '.component.ts');
-  }
+const roleSuffixes = ['component', 'page', 'button'] as const;
 
-  if (filePath.endsWith('.component.css')) {
-    return filePath.replace(/\.component\.css$/, '.component.ts');
+export function findOwnerComponentPath(filePath: string): string | undefined {
+  for (const role of roleSuffixes) {
+    if (filePath.endsWith(`.${role}.html`)) {
+      return filePath.replace(new RegExp(`\\.${role}\\.html$`), `.${role}.ts`);
+    }
+
+    if (filePath.endsWith(`.${role}.css`)) {
+      return filePath.replace(new RegExp(`\\.${role}\\.css$`), `.${role}.ts`);
+    }
   }
 
   return undefined;

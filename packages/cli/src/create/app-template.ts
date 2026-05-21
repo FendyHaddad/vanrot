@@ -1,3 +1,4 @@
+import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts } from '../commands/metadata.js';
 
 export interface AppTemplateOptions {
@@ -25,6 +26,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           dependencies: {
             '@vanrot/runtime': dependencyVersion,
             '@vanrot/router': dependencyVersion,
+            '@vanrot/ui': dependencyVersion,
           },
           devDependencies: {
             '@vanrot/cli': dependencyVersion,
@@ -67,7 +69,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\n// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.\nimport App from './app/app.component.ts';\nimport { route as appRoute } from './routes.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(App, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\n// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.\nimport App from './app/app.component.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(App, target);\n`,
     },
     {
       path: 'src/routes.ts',
@@ -87,11 +89,11 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/pages/home/home.page.ts',
-      content: `export class HomePage {}\n`,
+      content: `const homeCopy = {\n  'home.title': 'Build with Vanrot',\n  'home.summary': 'Start with named routes, page files, and a small runtime foundation.',\n  'home.cta': 'Start building',\n} as const;\n\ntype HomeCopyKey = keyof typeof homeCopy;\n\nexport class HomePage {\n  t(key: HomeCopyKey): string {\n    return homeCopy[key];\n  }\n}\n`,
     },
     {
       path: 'src/pages/home/home.page.html',
-      content: `<section class="page">\n  <h1>Build with Vanrot</h1>\n  <p>Start with named routes, page files, and a small runtime foundation.</p>\n</section>\n`,
+      content: `<section class="page">\n  <h1>{{ t('home.title') }}</h1>\n  <p>{{ t('home.summary') }}</p>\n</section>\n`,
     },
     {
       path: 'src/pages/home/home.page.css',

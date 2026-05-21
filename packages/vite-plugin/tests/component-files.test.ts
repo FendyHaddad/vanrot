@@ -26,4 +26,13 @@ describe('component files', () => {
       stylePath: '/repo/src/pages/home/home.page.css',
     });
   });
+
+  it('recognizes button primitive entries', () => {
+    expect(isComponentEntry('/repo/src/ui/button/ui.button.ts')).toBe(true);
+    expect(resolveComponentFiles('/repo/src/ui/button/ui.button.ts')).toEqual({
+      componentPath: '/repo/src/ui/button/ui.button.ts',
+      templatePath: '/repo/src/ui/button/ui.button.html',
+      stylePath: '/repo/src/ui/button/ui.button.css',
+    });
+  });
 });

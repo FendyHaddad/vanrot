@@ -10,7 +10,7 @@ export interface NormalizedVanrotPluginOptions {
   root: string;
 }
 
-const defaultInclude = /\.(?:component|page)\.ts(?:\?.*)?$/;
+const defaultInclude = /\.(?:component|page|button)\.ts(?:\?.*)?$/;
 
 export function normalizeOptions(
   options: VanrotPluginOptions = {},

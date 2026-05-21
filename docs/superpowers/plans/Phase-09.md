@@ -144,7 +144,7 @@ docs/
 - Create: `packages/ui/tests/assets.test.ts`
 - Modify: `tsconfig.json`
 
-- [ ] **Step 1: Write failing metadata tests**
+- [x] **Step 1: Write failing metadata tests**
 
 Create `packages/ui/tests/metadata.test.ts`:
 
@@ -224,7 +224,7 @@ describe('@vanrot/ui assets', () => {
 });
 ```
 
-- [ ] **Step 2: Run tests to verify the package is missing**
+- [x] **Step 2: Run tests to verify the package is missing**
 
 Run:
 
@@ -238,7 +238,7 @@ Expected:
 No projects matched the filters
 ```
 
-- [ ] **Step 3: Create the package manifest**
+- [x] **Step 3: Create the package manifest**
 
 Create `packages/ui/package.json`:
 
@@ -276,7 +276,7 @@ Create `packages/ui/package.json`:
 }
 ```
 
-- [ ] **Step 4: Create the UI TypeScript config**
+- [x] **Step 4: Create the UI TypeScript config**
 
 Create `packages/ui/tsconfig.json`:
 
@@ -295,7 +295,7 @@ Create `packages/ui/tsconfig.json`:
 }
 ```
 
-- [ ] **Step 5: Add the root project reference**
+- [x] **Step 5: Add the root project reference**
 
 Modify `tsconfig.json` so `references` includes UI after runtime:
 
@@ -313,7 +313,7 @@ Modify `tsconfig.json` so `references` includes UI after runtime:
 }
 ```
 
-- [ ] **Step 6: Create UI metadata exports**
+- [x] **Step 6: Create UI metadata exports**
 
 Create `packages/ui/src/metadata.ts`:
 
@@ -369,7 +369,7 @@ export {
 } from './metadata.js';
 ```
 
-- [ ] **Step 7: Create the token CSS asset**
+- [x] **Step 7: Create the token CSS asset**
 
 Create `packages/ui/src/tokens/vanrot-tokens.css`:
 
@@ -390,7 +390,7 @@ Create `packages/ui/src/tokens/vanrot-tokens.css`:
 }
 ```
 
-- [ ] **Step 8: Create the button blueprint files**
+- [x] **Step 8: Create the button blueprint files**
 
 Create `packages/ui/src/primitives/button/ui.button.ts`:
 
@@ -478,7 +478,7 @@ Create `packages/ui/src/primitives/button/usage.home.html`:
   </vr-button>
 ```
 
-- [ ] **Step 9: Run UI tests**
+- [x] **Step 9: Run UI tests**
 
 Run:
 
@@ -493,7 +493,7 @@ PASS  packages/ui/tests/metadata.test.ts
 PASS  packages/ui/tests/assets.test.ts
 ```
 
-- [ ] **Step 10: Checkpoint**
+- [x] **Step 10: Checkpoint**
 
 Run:
 
@@ -522,7 +522,7 @@ git status shows new packages/ui files and no staged changes.
 - Modify: `packages/compiler/src/codegen/generate-component.ts`
 - Modify: `packages/compiler/tests/codegen/generate-component.test.ts`
 
-- [ ] **Step 1: Write failing codegen tests**
+- [x] **Step 1: Write failing codegen tests**
 
 Append these tests inside the existing `describe('generateComponent', () => { ... })` block in `packages/compiler/tests/codegen/generate-component.test.ts`:
 
@@ -610,7 +610,7 @@ Append these tests inside the existing `describe('generateComponent', () => { ..
   });
 ```
 
-- [ ] **Step 2: Run tests to verify `ui-button` is missing**
+- [x] **Step 2: Run tests to verify `ui-button` is missing**
 
 Run:
 
@@ -625,7 +625,7 @@ FAIL  packages/compiler/tests/codegen/generate-component.test.ts
 AssertionError: expected ... to contain "document.createElement('button')"
 ```
 
-- [ ] **Step 3: Add the compiler feature type**
+- [x] **Step 3: Add the compiler feature type**
 
 Modify `packages/compiler/src/api/types.ts`:
 
@@ -660,7 +660,7 @@ export type CompileFeature =
   | 'ui-button';
 ```
 
-- [ ] **Step 4: Add `ui-button` to feature ordering**
+- [x] **Step 4: Add `ui-button` to feature ordering**
 
 Modify the `featureOrder` array in `packages/compiler/src/api/compile-component.ts`:
 
@@ -680,7 +680,7 @@ const featureOrder: CompileFeature[] = [
 ];
 ```
 
-- [ ] **Step 5: Implement UI button lowering**
+- [x] **Step 5: Implement UI button lowering**
 
 Modify `packages/compiler/src/codegen/generate-component.ts`.
 
@@ -818,7 +818,7 @@ function diagnoseUnsupportedVanrotUiTag(tagName: string, state: GenerateState): 
 }
 ```
 
-- [ ] **Step 6: Run codegen tests**
+- [x] **Step 6: Run codegen tests**
 
 Run:
 
@@ -837,7 +837,7 @@ PASS  packages/compiler/tests/codegen/generate-component.test.ts
 **Files:**
 - Modify: `packages/compiler/tests/codegen/generate-component.test.ts`
 
-- [ ] **Step 1: Write the failing unsupported-tag test**
+- [x] **Step 1: Write the failing unsupported-tag test**
 
 Append this test inside `describe('generateComponent', () => { ... })`:
 
@@ -869,7 +869,7 @@ Append this test inside `describe('generateComponent', () => { ... })`:
   });
 ```
 
-- [ ] **Step 2: Run the unsupported-tag test**
+- [x] **Step 2: Run the unsupported-tag test**
 
 Run:
 
@@ -883,7 +883,7 @@ Expected:
 PASS  packages/compiler/tests/codegen/generate-component.test.ts
 ```
 
-- [ ] **Step 3: Checkpoint**
+- [x] **Step 3: Checkpoint**
 
 Run:
 
@@ -910,7 +910,7 @@ git status shows compiler edits and no staged changes.
 - Modify: `packages/compiler/src/conventions/component-files.ts`
 - Modify: `packages/compiler/tests/conventions/component-files.test.ts`
 
-- [ ] **Step 1: Write the failing `.button.*` convention test**
+- [x] **Step 1: Write the failing `.button.*` convention test**
 
 Append this test inside `packages/compiler/tests/conventions/component-files.test.ts`:
 
@@ -946,7 +946,7 @@ Append this test inside `packages/compiler/tests/conventions/component-files.tes
   });
 ```
 
-- [ ] **Step 2: Run convention tests to verify failure**
+- [x] **Step 2: Run convention tests to verify failure**
 
 Run:
 
@@ -961,7 +961,7 @@ FAIL  packages/compiler/tests/conventions/component-files.test.ts
 diagnostics: [{ code: 'VR003' }]
 ```
 
-- [ ] **Step 3: Add `button` to component roles**
+- [x] **Step 3: Add `button` to component roles**
 
 Modify `packages/compiler/src/conventions/component-files.ts`:
 
@@ -1000,7 +1000,7 @@ function resolveRole(fileName: string): ComponentRole | null {
 }
 ```
 
-- [ ] **Step 4: Run convention tests**
+- [x] **Step 4: Run convention tests**
 
 Run:
 
@@ -1020,7 +1020,7 @@ PASS  packages/compiler/tests/conventions/component-files.test.ts
 - Modify: `packages/vite-plugin/src/component-files.ts`
 - Modify: `packages/vite-plugin/tests/component-files.test.ts`
 
-- [ ] **Step 1: Write failing Vite role tests**
+- [x] **Step 1: Write failing Vite role tests**
 
 Append this test inside `packages/vite-plugin/tests/component-files.test.ts`:
 
@@ -1035,7 +1035,7 @@ Append this test inside `packages/vite-plugin/tests/component-files.test.ts`:
   });
 ```
 
-- [ ] **Step 2: Run Vite component-file tests to verify failure**
+- [x] **Step 2: Run Vite component-file tests to verify failure**
 
 Run:
 
@@ -1050,7 +1050,7 @@ FAIL  packages/vite-plugin/tests/component-files.test.ts
 expected false to be true
 ```
 
-- [ ] **Step 3: Add `button` to Vite role suffixes**
+- [x] **Step 3: Add `button` to Vite role suffixes**
 
 Modify `packages/vite-plugin/src/component-files.ts`:
 
@@ -1058,7 +1058,7 @@ Modify `packages/vite-plugin/src/component-files.ts`:
 const roleSuffixes = ['component', 'page', 'button'] as const;
 ```
 
-- [ ] **Step 4: Run Vite component-file tests**
+- [x] **Step 4: Run Vite component-file tests**
 
 Run:
 
@@ -1072,7 +1072,7 @@ Expected:
 PASS  packages/vite-plugin/tests/component-files.test.ts
 ```
 
-- [ ] **Step 5: Checkpoint**
+- [x] **Step 5: Checkpoint**
 
 Run:
 
@@ -1103,7 +1103,7 @@ git status shows compiler and Vite plugin edits and no staged changes.
 - Modify: `packages/cli/src/create/write-app.ts`
 - Modify: `packages/cli/tests/create.test.ts`
 
-- [ ] **Step 1: Write failing create tests**
+- [x] **Step 1: Write failing create tests**
 
 Append this test inside `packages/cli/tests/create.test.ts`:
 
@@ -1137,7 +1137,7 @@ Append this test inside `packages/cli/tests/create.test.ts`:
   });
 ```
 
-- [ ] **Step 2: Run create tests to verify token file is missing**
+- [x] **Step 2: Run create tests to verify token file is missing**
 
 Run:
 
@@ -1152,7 +1152,7 @@ FAIL  packages/cli/tests/create.test.ts
 ENOENT: no such file or directory, open '.../src/styles/vanrot-tokens.css'
 ```
 
-- [ ] **Step 3: Add CLI dependency on `@vanrot/ui`**
+- [x] **Step 3: Add CLI dependency on `@vanrot/ui`**
 
 Modify `packages/cli/package.json`:
 
@@ -1207,7 +1207,7 @@ Modify `packages/cli/tsconfig.json`:
 }
 ```
 
-- [ ] **Step 4: Add starter UI asset reader**
+- [x] **Step 4: Add starter UI asset reader**
 
 Create `packages/cli/src/create/starter-ui-assets.ts`:
 
@@ -1229,7 +1229,7 @@ export async function createStarterUiAssets(): Promise<TemplateFile[]> {
 }
 ```
 
-- [ ] **Step 5: Update starter package and home page copy**
+- [x] **Step 5: Update starter package and home page copy**
 
 Modify `packages/cli/src/create/app-template.ts`.
 
@@ -1303,7 +1303,7 @@ Update generated home page HTML:
     },
 ```
 
-- [ ] **Step 6: Write UI assets during app creation**
+- [x] **Step 6: Write UI assets during app creation**
 
 Modify `packages/cli/src/create/write-app.ts`:
 
@@ -1326,7 +1326,7 @@ Update the template creation inside `writeApp()`:
   ];
 ```
 
-- [ ] **Step 7: Run create tests**
+- [x] **Step 7: Run create tests**
 
 Run:
 
@@ -1340,7 +1340,7 @@ Expected:
 PASS  packages/cli/tests/create.test.ts
 ```
 
-- [ ] **Step 8: Checkpoint**
+- [x] **Step 8: Checkpoint**
 
 Run:
 
@@ -1369,7 +1369,7 @@ git status shows CLI create edits and no staged changes.
 - Modify: `packages/cli/src/commands/metadata.ts`
 - Modify: `packages/cli/tests/cli.test.ts`
 
-- [ ] **Step 1: Write failing CLI help test**
+- [x] **Step 1: Write failing CLI help test**
 
 Update the root help test in `packages/cli/tests/cli.test.ts` so it checks for `vr add button`:
 
@@ -1393,7 +1393,7 @@ Add this test inside `describe('runCli', () => { ... })`:
   });
 ```
 
-- [ ] **Step 2: Run CLI help tests to verify failure**
+- [x] **Step 2: Run CLI help tests to verify failure**
 
 Run:
 
@@ -1408,7 +1408,7 @@ FAIL  packages/cli/tests/cli.test.ts
 Unknown command: add
 ```
 
-- [ ] **Step 3: Add command metadata**
+- [x] **Step 3: Add command metadata**
 
 Modify `packages/cli/src/commands/metadata.ts`.
 
@@ -1446,7 +1446,7 @@ Examples
   },
 ```
 
-- [ ] **Step 4: Add the command entrypoint**
+- [x] **Step 4: Add the command entrypoint**
 
 Create `packages/cli/src/commands/add.ts`:
 
@@ -1459,7 +1459,7 @@ export async function addCommand(args: string[], context: CommandContext): Promi
 }
 ```
 
-- [ ] **Step 5: Dispatch the command**
+- [x] **Step 5: Dispatch the command**
 
 Modify `packages/cli/src/cli.ts`.
 
@@ -1475,7 +1475,7 @@ Add to `commandHandlers`:
   [commandName.add, addCommand],
 ```
 
-- [ ] **Step 6: Add a temporary `addUiPrimitive` stub**
+- [x] **Step 6: Add a temporary `addUiPrimitive` stub**
 
 Create `packages/cli/src/add/add-ui.ts`:
 
@@ -1492,7 +1492,7 @@ export async function addUiPrimitive(
 }
 ```
 
-- [ ] **Step 7: Run CLI help tests**
+- [x] **Step 7: Run CLI help tests**
 
 Run:
 
@@ -1515,7 +1515,7 @@ PASS  packages/cli/tests/cli.test.ts
 - Modify: `packages/cli/src/add/add-ui.ts`
 - Create: `packages/cli/tests/add.test.ts`
 
-- [ ] **Step 1: Write failing `vr add button` tests**
+- [x] **Step 1: Write failing `vr add button` tests**
 
 Create `packages/cli/tests/add.test.ts`:
 
@@ -1633,7 +1633,7 @@ describe('vr add', () => {
 });
 ```
 
-- [ ] **Step 2: Run add tests to verify failure**
+- [x] **Step 2: Run add tests to verify failure**
 
 Run:
 
@@ -1648,7 +1648,7 @@ FAIL  packages/cli/tests/add.test.ts
 error vr add is not implemented yet.
 ```
 
-- [ ] **Step 3: Add file-edit helpers**
+- [x] **Step 3: Add file-edit helpers**
 
 Create `packages/cli/src/add/file-edits.ts`:
 
@@ -1770,7 +1770,7 @@ function isMissingFileError(error: unknown): boolean {
 }
 ```
 
-- [ ] **Step 4: Add UI asset rendering**
+- [x] **Step 4: Add UI asset rendering**
 
 Create `packages/cli/src/add/ui-assets.ts`:
 
@@ -1834,7 +1834,7 @@ function renameButtonClass(source: string, className: string): string {
 }
 ```
 
-- [ ] **Step 5: Add starter home patching**
+- [x] **Step 5: Add starter home patching**
 
 Create `packages/cli/src/add/starter-home.ts`:
 
@@ -1896,7 +1896,7 @@ function isMissingFileError(error: unknown): boolean {
 }
 ```
 
-- [ ] **Step 6: Implement command parsing and file writes**
+- [x] **Step 6: Implement command parsing and file writes**
 
 Replace `packages/cli/src/add/add-ui.ts`:
 
@@ -2002,7 +2002,7 @@ function parseAddUiRequest(args: readonly string[]): AddUiRequest | null {
 }
 ```
 
-- [ ] **Step 7: Run add tests**
+- [x] **Step 7: Run add tests**
 
 Run:
 
@@ -2016,7 +2016,7 @@ Expected:
 PASS  packages/cli/tests/add.test.ts
 ```
 
-- [ ] **Step 8: Run all CLI tests**
+- [x] **Step 8: Run all CLI tests**
 
 Run:
 
@@ -2030,7 +2030,7 @@ Expected:
 PASS  packages/cli/tests/*.test.ts
 ```
 
-- [ ] **Step 9: Checkpoint**
+- [x] **Step 9: Checkpoint**
 
 Run:
 
@@ -2063,32 +2063,20 @@ git status shows CLI add edits and no staged changes.
 - Create: `packages/vite-plugin/tests/fixtures/basic-app/src/ui/button/ui.button.css`
 - Modify: `packages/vite-plugin/tests/plugin-build.test.ts`
 
-- [ ] **Step 1: Update fixture app package metadata**
+- [x] **Step 1: Keep fixture package metadata install-safe**
 
-Modify `packages/vite-plugin/tests/fixtures/basic-app/package.json` so dependencies include `@vanrot/ui`:
+Keep `packages/vite-plugin/tests/fixtures/basic-app/package.json` free of unpublished `@vanrot/*` dependencies. The fixture imports local source through `vite.config.ts`, so plain `npm install` in the fixture must not ask the public registry for private demo packages.
 
 ```json
 {
-  "name": "vanrot-basic-app-fixture",
+  "name": "@vanrot/fixture-basic-app",
+  "version": "0.0.0",
   "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "vite build"
-  },
-  "dependencies": {
-    "@vanrot/runtime": "0.0.0",
-    "@vanrot/router": "0.0.0",
-    "@vanrot/ui": "0.0.0"
-  },
-  "devDependencies": {
-    "@vanrot/vite-plugin": "0.0.0",
-    "typescript": "^5.9.3",
-    "vite": "^8.0.10"
-  }
+  "type": "module"
 }
 ```
 
-- [ ] **Step 2: Import UI styles in the fixture entry**
+- [x] **Step 2: Import UI styles in the fixture entry**
 
 Modify `packages/vite-plugin/tests/fixtures/basic-app/src/main.ts` so the imports include:
 
@@ -2097,7 +2085,7 @@ import './styles/vanrot-tokens.css';
 import './styles/vanrot-ui.css';
 ```
 
-- [ ] **Step 3: Add fixture UI CSS**
+- [x] **Step 3: Add fixture UI CSS**
 
 Create `packages/vite-plugin/tests/fixtures/basic-app/src/styles/vanrot-tokens.css`:
 
@@ -2180,7 +2168,7 @@ Create `packages/vite-plugin/tests/fixtures/basic-app/src/ui/button/ui.button.cs
 }
 ```
 
-- [ ] **Step 4: Update fixture home page copy and template**
+- [x] **Step 4: Update fixture home page copy and template**
 
 Modify `packages/vite-plugin/tests/fixtures/basic-app/src/pages/home/home.page.ts`:
 
@@ -2212,7 +2200,7 @@ Modify `packages/vite-plugin/tests/fixtures/basic-app/src/pages/home/home.page.h
 </section>
 ```
 
-- [ ] **Step 5: Strengthen the build test**
+- [x] **Step 5: Strengthen the build test**
 
 Modify `packages/vite-plugin/tests/plugin-build.test.ts` so the import line includes `readFile`:
 
@@ -2247,7 +2235,7 @@ Then replace the existing build test body with:
   });
 ```
 
-- [ ] **Step 6: Run Vite plugin tests**
+- [x] **Step 6: Run Vite plugin tests**
 
 Run:
 
@@ -2262,7 +2250,7 @@ PASS  packages/vite-plugin/tests/plugin-build.test.ts
 PASS  packages/vite-plugin/tests/component-files.test.ts
 ```
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Run:
 
@@ -2291,7 +2279,7 @@ git status shows Vite fixture edits and no staged changes.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/feature-maturity.md`
 
-- [ ] **Step 1: Run pre-completion verification before docs completion**
+- [x] **Step 1: Run pre-completion verification before docs completion**
 
 Run:
 
@@ -2308,7 +2296,7 @@ Expected:
 All four commands exit 0 before Phase 9 is marked complete in the docs.
 ```
 
-- [ ] **Step 2: Tick Phase 9 in the brainstorm tracker**
+- [x] **Step 2: Tick Phase 9 in the brainstorm tracker**
 
 Modify the Phase 9 row in `docs/brainstorm.md`:
 
@@ -2316,23 +2304,13 @@ Modify the Phase 9 row in `docs/brainstorm.md`:
 | [x] | Phase 9 - UI and tokens MVP | `@vanrot/ui`, `vr add`, design tokens, and first basic components. | Users can add official UI components without bloating `@vanrot/runtime`. |
 ```
 
-- [ ] **Step 3: Mark completed tasks in this plan**
+- [x] **Step 3: Mark completed tasks in this plan**
 
-In `docs/superpowers/plans/Phase-09.md`, change every implementation task checkbox from:
-
-```md
-- [ ] **Step
-```
-
-to:
-
-```md
-- [x] **Step
-```
+In `docs/superpowers/plans/Phase-09.md`, change every implementation task checkbox from unchecked to checked.
 
 Only do this after the implementation and verification steps in this plan have run.
 
-- [ ] **Step 4: Update the presentation roadmap**
+- [x] **Step 4: Update the presentation roadmap**
 
 Modify `docs/vanrot-presentation.html` so Phase 9 is marked complete and the next phase is active.
 
@@ -2366,7 +2344,7 @@ Update the roadmap status copy:
 
 Use the existing text pattern in the file; do not introduce a new presentation style.
 
-- [ ] **Step 5: Move verified Phase 9 maturity rows to Demo-Capable**
+- [x] **Step 5: Move verified Phase 9 maturity rows to Demo-Capable**
 
 In `docs/superpowers/feature-maturity.md`, update these rows from `Deferred` to `Demo-Capable`:
 
@@ -2395,7 +2373,7 @@ UI flavor selection
 
 Do not mark any Phase 9 UI capability as `Production-Ready`.
 
-- [ ] **Step 6: Run phase-doc verification**
+- [x] **Step 6: Run phase-doc verification**
 
 Run:
 
@@ -2409,7 +2387,7 @@ Expected:
 Phase documentation verification passed.
 ```
 
-- [ ] **Step 7: Run full verification**
+- [x] **Step 7: Run full verification**
 
 Run:
 
@@ -2423,7 +2401,7 @@ Expected:
 typecheck, test, build, runtime size, and phase-doc verification all pass.
 ```
 
-- [ ] **Step 8: Final status report**
+- [x] **Step 8: Final status report**
 
 Run:
 

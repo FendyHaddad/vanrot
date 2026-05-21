@@ -34,6 +34,10 @@ interface GenerateState {
   templatePath: string;
 }
 
+const uiButtonTagName = 'vr-button';
+const uiButtonNativeTagName = 'button';
+const uiButtonBaseClass = 'vr-button';
+
 export function generateComponent(
   input: GenerateComponentInput,
   options: CompileOptions = {},
@@ -135,6 +139,16 @@ function generateElement(
     return;
   }
 
+  if (node.tagName === uiButtonTagName) {
+    generateUiButton(node, parentName, scopeAttribute, state);
+    return;
+  }
+
+  if (isUnsupportedVanrotUiTag(node.tagName)) {
+    diagnoseUnsupportedVanrotUiTag(node.tagName, state);
+    return;
+  }
+
   const elementName = state.ids.next(node.tagName);
 
   state.lines.push(`  const ${elementName} = document.createElement(${quoteString(node.tagName)});`);
@@ -195,6 +209,70 @@ function generateRouterLink(
   state.lines.push(`  ${routeLinkName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
   state.lines.push(`  setupRouteLink(${routeLinkName}, ctx.${routeAttribute.name});`);
   state.lines.push(`  ${parentName}.append(${routeLinkName});`);
+}
+
+function generateUiButton(
+  node: ElementNode,
+  parentName: string,
+  scopeAttribute: string,
+  state: GenerateState,
+): void {
+  const buttonName = state.ids.next(uiButtonNativeTagName);
+
+  state.features.add('ui-button');
+  state.lines.push(`  const ${buttonName} = document.createElement(${quoteString(uiButtonNativeTagName)});`);
+  state.lines.push(`  ${buttonName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
+  generateUiButtonClass(node.attributes, buttonName, state);
+
+  for (const attribute of node.attributes) {
+    if (attribute.name === 'class') {
+      continue;
+    }
+
+    generateAttribute(attribute, buttonName, state);
+  }
+
+  for (const child of node.children) {
+    generateNode(child, buttonName, scopeAttribute, state);
+  }
+
+  state.lines.push(`  ${parentName}.append(${buttonName});`);
+}
+
+function generateUiButtonClass(
+  attributes: readonly TemplateAttribute[],
+  buttonName: string,
+  state: GenerateState,
+): void {
+  const classAttribute = attributes.find((attribute) => attribute.name === 'class');
+  const classValue = mergeClassValue(uiButtonBaseClass, classAttribute?.value ?? '');
+
+  state.lines.push(
+    `  ${buttonName}.setAttribute(${quoteString('class')}, ${quoteString(classValue)});`,
+  );
+}
+
+function mergeClassValue(baseClass: string, userClassValue: string): string {
+  const classNames = new Set(
+    [baseClass, ...userClassValue.split(/\s+/)].filter((className) => className.length > 0),
+  );
+
+  return [...classNames].join(' ');
+}
+
+function isUnsupportedVanrotUiTag(tagName: string): boolean {
+  return tagName.startsWith('vr-');
+}
+
+function diagnoseUnsupportedVanrotUiTag(tagName: string, state: GenerateState): void {
+  state.diagnostics.push(
+    createDiagnostic(
+      'VR010',
+      'error',
+      `${tagName} is not a supported Vanrot UI primitive in Phase 9. Use <vr-button> or add this primitive to the production UI plan.`,
+      state.templatePath,
+    ),
+  );
 }
 
 function generateText(node: TextNode, parentName: string, state: GenerateState): void {

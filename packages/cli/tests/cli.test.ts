@@ -16,6 +16,7 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('vr doctor');
     expect(reporter.output()).toContain('vr map');
     expect(reporter.output()).toContain('vr init-ai');
+    expect(reporter.output()).toContain('vr add button');
   });
 
   it('reports unknown commands with a suggestion', async () => {
@@ -41,6 +42,18 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('vr create <name>');
     expect(reporter.output()).toContain('--workspace');
     expect(reporter.output()).toContain('--force');
+  });
+
+  it('prints add command help without executing the command', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['add', '--help'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+
+    expect(result.exitCode).toBe(0);
+    expect(reporter.output()).toContain('vr add button');
+    expect(reporter.output()).toContain('vr add <local-prefix> button');
   });
 
   it('prints project intelligence command help', async () => {

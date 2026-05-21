@@ -23,6 +23,9 @@ const featureOrder: CompileFeature[] = [
   'scoped-css',
   'readable-output',
   'expression-rewriting',
+  'router-outlet',
+  'router-link',
+  'ui-button',
 ];
 
 export function compileComponent(source: ComponentSource, options: CompileOptions = {}): CompileResult {
@@ -33,7 +36,7 @@ export function compileComponent(source: ComponentSource, options: CompileOption
       createDiagnostic(
         'VR003',
         'error',
-        'Vanrot Phase 3 only supports .component.ts files.',
+        'Vanrot supports .component.ts, .page.ts, and .button.ts role files.',
         source.componentPath,
       ),
     ]);

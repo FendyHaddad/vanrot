@@ -104,6 +104,34 @@ describe('vr create', () => {
     expect(packageJson).toContain('"@vanrot/cli": "workspace:*"');
   });
 
+  it('includes Vanrot UI tokens without adding button files by default', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'ui-ready-app', '--workspace'], { cwd, reporter });
+    const appRoot = join(cwd, 'ui-ready-app');
+
+    expect(result.exitCode).toBe(0);
+
+    const packageJson = await readFile(join(appRoot, 'package.json'), 'utf8');
+    const main = await readFile(join(appRoot, 'src', 'main.ts'), 'utf8');
+    const tokens = await readFile(join(appRoot, 'src', 'styles', 'vanrot-tokens.css'), 'utf8');
+    const homePageTs = await readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.ts'), 'utf8');
+    const homePageHtml = await readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8');
+
+    expect(packageJson).toContain('"@vanrot/ui": "workspace:*"');
+    expect(main).toContain("import './styles/vanrot-tokens.css';");
+    expect(tokens).toContain('--vr-color-surface');
+    expect(tokens).toContain('--vr-radius-control');
+    expect(homePageTs).toContain("'home.cta': 'Start building'");
+    expect(homePageHtml).toContain("{{ t('home.title') }}");
+    expect(homePageHtml).toContain("{{ t('home.summary') }}");
+
+    await expect(readFile(join(appRoot, 'src', 'ui', 'button', 'ui.button.ts'), 'utf8')).rejects.toMatchObject({
+      code: 'ENOENT',
+    });
+  });
+
   it('does not overwrite non-empty directories without --force', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();

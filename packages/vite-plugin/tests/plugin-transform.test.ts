@@ -126,6 +126,40 @@ describe('vanrot plugin transform', () => {
     });
   });
 
+  it('transforms button primitive entries and registers sibling files', async () => {
+    const watched: string[] = [];
+    const plugin = createVanrotPluginForTests({
+      compile: async () => ({
+        code: 'export function createComponent() { return { node: document.createTextNode("button"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
+        css: '.vr-button{display:inline-flex}',
+        diagnostics: [],
+      }),
+    });
+
+    const result = await getTransformHook(plugin).call(
+      {
+        addWatchFile(filePath: string) {
+          watched.push(filePath);
+        },
+        error(error: string) {
+          throw new Error(error);
+        },
+        warn() {},
+      } as never,
+      'export class UiButton {}',
+      '/repo/src/ui/button/ui.button.ts',
+    );
+
+    expect(watched).toEqual([
+      '/repo/src/ui/button/ui.button.html',
+      '/repo/src/ui/button/ui.button.css',
+    ]);
+    expect(result).toEqual({
+      code: expect.stringContaining('export default component;'),
+      map: null,
+    });
+  });
+
   it('turns compiler errors into Vite errors', async () => {
     const plugin = createVanrotPluginForTests({
       compile: async () => ({

@@ -29,6 +29,10 @@ describe('Vanrot dev reload', () => {
   it('finds owner component path for template and style files', () => {
     expect(findOwnerComponentPath('/repo/src/app.component.html')).toBe('/repo/src/app.component.ts');
     expect(findOwnerComponentPath('/repo/src/app.component.css')).toBe('/repo/src/app.component.ts');
+    expect(findOwnerComponentPath('/repo/src/home.page.html')).toBe('/repo/src/home.page.ts');
+    expect(findOwnerComponentPath('/repo/src/home.page.css')).toBe('/repo/src/home.page.ts');
+    expect(findOwnerComponentPath('/repo/src/ui.button.html')).toBe('/repo/src/ui.button.ts');
+    expect(findOwnerComponentPath('/repo/src/ui.button.css')).toBe('/repo/src/ui.button.ts');
     expect(findOwnerComponentPath('/repo/src/main.ts')).toBeUndefined();
   });
 

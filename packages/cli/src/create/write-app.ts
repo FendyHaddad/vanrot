@@ -1,6 +1,7 @@
 import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { createAppTemplate } from './app-template.js';
+import { createStarterUiAssets } from './starter-ui-assets.js';
 
 export interface WriteAppOptions {
   cwd: string;
@@ -22,10 +23,13 @@ export async function writeApp(options: WriteAppOptions): Promise<WriteAppResult
     throw new Error('Target directory is not empty.');
   }
 
-  const template = createAppTemplate({
-    appName: options.appName,
-    workspace: options.workspace,
-  });
+  const template = [
+    ...createAppTemplate({
+      appName: options.appName,
+      workspace: options.workspace,
+    }),
+    ...(await createStarterUiAssets()),
+  ];
 
   for (const file of template) {
     const filePath = join(targetDir, file.path);

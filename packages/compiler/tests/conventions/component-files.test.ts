@@ -62,6 +62,36 @@ describe('component file conventions', () => {
     });
   });
 
+  it('resolves button primitive siblings and expected class names', async () => {
+    const root = await createFixtureDirectory({
+      'ui.button.ts': 'export class UiButton {}',
+      'ui.button.html': '<vr-button type="button">Button</vr-button>',
+      'ui.button.css': '.vr-button { display: inline-flex; }',
+      'primary.button.ts': 'export class PrimaryButton {}',
+      'primary.button.html': '<vr-button type="button">Primary</vr-button>',
+      'primary.button.css': '.vr-button-primary { display: inline-flex; }',
+    });
+
+    await expect(resolveComponentFiles(join(root, 'ui.button.ts'))).resolves.toMatchObject({
+      fileSet: {
+        componentBaseName: 'ui',
+        expectedClassName: 'UiButton',
+        templatePath: join(root, 'ui.button.html'),
+        stylePath: join(root, 'ui.button.css'),
+      },
+      diagnostics: [],
+    });
+    await expect(resolveComponentFiles(join(root, 'primary.button.ts'))).resolves.toMatchObject({
+      fileSet: {
+        componentBaseName: 'primary',
+        expectedClassName: 'PrimaryButton',
+        templatePath: join(root, 'primary.button.html'),
+        stylePath: join(root, 'primary.button.css'),
+      },
+      diagnostics: [],
+    });
+  });
+
   it('reports missing sibling files', async () => {
     const root = await createFixtureDirectory({
       'counter.component.ts': 'export class CounterComponent {}',

@@ -209,4 +209,112 @@ describe('generateComponent', () => {
       },
     ]);
   });
+
+  it('lowers vr-button to a native button with base and user classes', () => {
+    const result = generateComponent({
+      metadata,
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'vr-button',
+          attributes: [
+            { name: 'class', value: 'vr-button-primary flex w-full' },
+            { name: 'type', value: 'button' },
+          ],
+          children: [{ kind: 'text', value: 'Save' }],
+        },
+      ],
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("const button0 = document.createElement('button');");
+    expect(result.js).toContain("button0.setAttribute('data-vr-a1b2c3', '');");
+    expect(result.js).toContain(
+      "button0.setAttribute('class', 'vr-button vr-button-primary flex w-full');",
+    );
+    expect(result.js).toContain("button0.setAttribute('type', 'button');");
+    expect(result.js).toContain("const text0 = document.createTextNode('Save');");
+    expect(result.js).not.toContain("document.createElement('vr-button')");
+    expect(result.features).toContain('ui-button');
+  });
+
+  it('does not duplicate the vr-button base class', () => {
+    const result = generateComponent({
+      metadata,
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'vr-button',
+          attributes: [{ name: 'class', value: 'vr-button vr-button-primary' }],
+          children: [],
+        },
+      ],
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("button0.setAttribute('class', 'vr-button vr-button-primary');");
+  });
+
+  it('preserves interpolation, events, and property bindings on vr-button', () => {
+    const result = generateComponent({
+      metadata,
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'vr-button',
+          attributes: [
+            { name: '(click)', value: 'save()' },
+            { name: '[disabled]', value: 'saving()' },
+            { name: 'aria-label', value: 'Save profile' },
+          ],
+          children: [{ kind: 'text', value: '{{ label() }}' }],
+        },
+      ],
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("import { effect } from '@vanrot/runtime';");
+    expect(result.js).toContain("import { listen } from '@vanrot/runtime/internal';");
+    expect(result.js).toContain("button0.setAttribute('aria-label', 'Save profile');");
+    expect(result.js).toContain("listen(button0, 'click', () => {");
+    expect(result.js).toContain('ctx.save();');
+    expect(result.js).toContain('button0.disabled = ctx.saving();');
+    expect(result.js).toContain('text0.data = `${ctx.label()}`;');
+    expect(result.features).toContain('event-binding');
+    expect(result.features).toContain('property-binding');
+    expect(result.features).toContain('text-interpolation');
+    expect(result.features).toContain('ui-button');
+  });
+
+  it('diagnoses unsupported Vanrot UI primitive tags', () => {
+    const result = generateComponent({
+      metadata,
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'vr-card',
+          attributes: [],
+          children: [{ kind: 'text', value: 'Card' }],
+        },
+      ],
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+    });
+
+    expect(result.js).not.toContain("document.createElement('vr-card')");
+    expect(result.diagnostics).toMatchObject([
+      {
+        code: 'VR010',
+        severity: 'error',
+        message:
+          'vr-card is not a supported Vanrot UI primitive in Phase 9. Use <vr-button> or add this primitive to the production UI plan.',
+      },
+    ]);
+  });
 });

@@ -1,6 +1,7 @@
 export const commandName = {
   create: 'create',
   generate: 'generate',
+  add: 'add',
   doctor: 'doctor',
   map: 'map',
   initAi: 'init-ai',
@@ -44,6 +45,20 @@ Roles
 
 Options
   --feature <name>   Generate inside src/features/<name>`,
+  },
+  {
+    name: commandName.add,
+    usage: 'vr add button',
+    secondaryUsages: ['vr add <local-prefix> button'],
+    help: `vr add <primitive>
+vr add <local-prefix> button
+
+Primitives
+  button
+
+Examples
+  vr add button
+  vr add primary button`,
   },
   {
     name: commandName.doctor,

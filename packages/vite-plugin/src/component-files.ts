@@ -4,7 +4,7 @@ export interface ComponentFiles {
   stylePath: string;
 }
 
-const roleSuffixes = ['component', 'page'] as const;
+const roleSuffixes = ['component', 'page', 'button'] as const;
 
 export function isComponentEntry(id: string): boolean {
   if (id.startsWith('virtual:vanrot-') || id.startsWith('\0vanrot:')) {
