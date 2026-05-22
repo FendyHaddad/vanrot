@@ -85,13 +85,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-22 12:03pm GMT+8
+# [vanrot] recent context, 2026-05-22 12:37pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 37 obs (14,113t read) | 609,137t work | 98% savings
+Stats: 49 obs (17,882t read) | 820,965t work | 98% savings
 
 ### May 20, 2026
 1639 10:18p ⚖️ Framework Scope Creep Concern: Library vs Framework Trade-off
@@ -142,6 +142,19 @@ S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiti
 1679 10:54p ✅ AGENTS.md: Git Ownership + Living Rules Protocols Added
 1680 11:00p ⚖️ Phase 0–6 Review + TDD + Demo Session Plan Initialized
 1681 " 🔵 Vanrot Phase 0–6 Code Surface Confirmed for Review
+### May 22, 2026
+1685 12:25p 🔵 VanRot Framework — Multi-Phase Demo Complete (Phases 1–10)
+1686 " ⚖️ File Suffix Convention: Role-Based Prefix System (.ui, .page, .component, .test)
+1687 " ⚖️ Router Design: route.ts Single Source of Truth, No String Literals in Templates
+1688 " ⚖️ NPM Retained Over JSR — Masking Strategy Deferred
+1689 " ⚖️ No Auto-Commit Rule — Developer Controls All Git Commits
+1690 " ⚖️ Testing Syntax: English-First Readable Tests Chosen Over `it`/`describe`
+1691 " ⚖️ feature-maturity.md Structure: Packages/Modules/Submodules with Phased Checklist
+1692 " ✅ Hook Updated: Phase Completion Triggers feature-maturity.md + presentation.html Updates
+1693 " 🔵 Workspace Protocol Error: @vanrot/router Not Resolvable from npm Registry
+1694 " ⚖️ UI Components Use Custom Element Tags: &lt;vr-button&gt;, &lt;vr-tabs&gt;, etc.
+1696 12:33p 🟣 Phase 11 Spec Created: Production Roadmap + Guardrails Foundation
+1697 " ⚖️ feature-maturity.md Replaces brainstorm.md as Mandatory Phase Completion Tracker
 
-Access 609k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 821k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

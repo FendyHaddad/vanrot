@@ -32,6 +32,17 @@ describe('phase documentation verification', () => {
     ]);
   });
 
+  it('fails when a completed phase plan file is missing', () => {
+    const failures = checkCompletedPhasePlans(
+      [{ done: true, number: 11, title: 'Production roadmap and standards foundation' }],
+      new Map(),
+    );
+
+    expect(failures).toEqual([
+      'Phase 11 is done in docs/superpowers/feature-maturity.md but docs/superpowers/plans/Phase-11.md is missing.',
+    ]);
+  });
+
   it('ignores unchecked tasks for phases that are not complete yet', () => {
     const failures = checkCompletedPhasePlans(
       [{ done: false, number: 5, title: 'CLI MVP' }],
