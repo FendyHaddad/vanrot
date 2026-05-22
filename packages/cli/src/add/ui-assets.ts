@@ -8,18 +8,24 @@ export interface RenderedUiFile {
   content: string;
 }
 
-export async function renderButtonFiles(prefix: string): Promise<RenderedUiFile[]> {
+export interface RenderButtonFilesOptions {
+  includeTest?: boolean;
+}
+
+export async function renderButtonFiles(
+  prefix: string,
+  options: RenderButtonFilesOptions = {},
+): Promise<RenderedUiFile[]> {
   const [typescript, html, css] = await Promise.all([
     readAsset(uiAssetUrl.button.typescript),
     readAsset(uiAssetUrl.button.html),
     readAsset(uiAssetUrl.button.css),
   ]);
   const className = `${toPascalCase(prefix)}Button`;
-
-  return [
+  const files: RenderedUiFile[] = [
     {
       path: `${uiPrimitive.button.directory}/${prefix}.button.ts`,
-      content: renameButtonClass(typescript, className),
+      content: renameButtonSymbol(typescript, className),
     },
     {
       path: `${uiPrimitive.button.directory}/${prefix}.button.html`,
@@ -30,6 +36,16 @@ export async function renderButtonFiles(prefix: string): Promise<RenderedUiFile[
       content: css,
     },
   ];
+
+  if (options.includeTest === true) {
+    const test = await readAsset(uiAssetUrl.button.test);
+    files.push({
+      path: `${uiPrimitive.button.directory}/${prefix}.button.test.ts`,
+      content: renameButtonFilePrefix(renameButtonSymbol(test, className), prefix),
+    });
+  }
+
+  return files;
 }
 
 export async function readTokenCss(): Promise<string> {
@@ -48,10 +64,18 @@ async function readAsset(url: URL): Promise<string> {
   return readFile(fileURLToPath(url), 'utf8');
 }
 
-function renameButtonClass(source: string, className: string): string {
+function renameButtonSymbol(source: string, className: string): string {
   if (className === 'UiButton') {
     return source;
   }
 
-  return source.replace(`class ${toPascalCase(defaultUiPrefix)}Button`, `class ${className}`);
+  return source.replaceAll(`${toPascalCase(defaultUiPrefix)}Button`, className);
+}
+
+function renameButtonFilePrefix(source: string, prefix: string): string {
+  if (prefix === defaultUiPrefix) {
+    return source;
+  }
+
+  return source.replaceAll(`./${defaultUiPrefix}.button`, `./${prefix}.button`);
 }

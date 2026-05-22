@@ -31,6 +31,7 @@ export const uiAssetUrl = {
     typescript: new URL('../src/primitives/button/ui.button.ts', import.meta.url),
     html: new URL('../src/primitives/button/ui.button.html', import.meta.url),
     css: new URL('../src/primitives/button/ui.button.css', import.meta.url),
+    test: new URL('../src/primitives/button/ui.button.test.ts', import.meta.url),
     homeUsage: new URL('../src/primitives/button/usage.home.html', import.meta.url),
   },
 } as const;

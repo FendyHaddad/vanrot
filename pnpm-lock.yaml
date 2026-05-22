@@ -78,6 +78,16 @@ importers:
 
   packages/runtime: {}
 
+  packages/testing:
+    dependencies:
+      '@vanrot/runtime':
+        specifier: workspace:*
+        version: link:../runtime
+    devDependencies:
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
   packages/ui:
     dependencies:
       '@vanrot/runtime':

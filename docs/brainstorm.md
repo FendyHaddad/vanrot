@@ -1756,10 +1756,12 @@ Status:
 | [x] | Phase 7 - Project intelligence | `vr map`, `.vanrot/project-map.json`, and `.vanrot/ai-rules.md`; strict diagnostics, i18n checks, and accessibility checks stay deferred in the maturity ledger. | The project can explain its structure to humans and AI without requiring an AI provider. |
 | [x] | Phase 8 - Router MVP | `@vanrot/router` with `src/routes.ts`, named route config, `<vr-router>`, `<vr route.name />`, params, and lazy `loadPage`. | A generated app can navigate between pages using first-party routing without repeating route path or label strings in templates. |
 | [x] | Phase 9 - UI and tokens MVP | `@vanrot/ui`, `vr add`, design tokens, and first basic components. | Users can add official UI components without bloating `@vanrot/runtime`. |
-| [ ] | Phase 10 - Testing and docs | `@vanrot/testing`, example tests, API docs, and guide docs. | Core packages have documented public APIs and reliable tests for normal user workflows. |
+| [x] | Phase 10 - Testing foundation | `@vanrot/testing`, `.test.ts` convention, `testComponent(...).can(...)`, and opt-in `vr add button --test`. | Users can add official UI components with readable optional tests without generating test files by default. |
 | [ ] | Phase 11 - Later platform work | SSR-safe APIs, hydration strategy, async resources, stores, forms, animation, devtools, and optional AI commands. | Deferred features have separate specs and do not leak into the tiny runtime kernel. |
 
 Phase 9 completed the UI and tokens MVP. Production UI flavors, utility classes, richer component parameters, registry updates, Tailwind guidance, and the full primitive catalog remain tracked as deferred production work in `docs/superpowers/feature-maturity.md`.
+
+Phase 10 completed the testing foundation. Framework docs, page testing, generator-wide test creation, and advanced testing helpers remain tracked as deferred production work in `docs/superpowers/feature-maturity.md`.
 
 ---
 

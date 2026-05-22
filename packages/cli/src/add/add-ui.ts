@@ -4,6 +4,7 @@ import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
 import {
   assertFilesMissing,
+  ensurePackageJsonDevDependency,
   ensureLineInFile,
   ensureMainImport,
   writeFileIfMissing,
@@ -20,7 +21,24 @@ import {
 interface AddUiRequest {
   prefix: string;
   primitive: string;
+  includeTest: boolean;
 }
+
+const addUiFlag = {
+  test: '--test',
+} as const;
+
+const testingDependency = {
+  name: '@vanrot/testing',
+  fallbackVersion: '^0.1.0',
+  versionSourceNames: ['@vanrot/cli', '@vanrot/ui', '@vanrot/runtime'],
+} as const;
+
+const testingEnvironmentDependency = {
+  name: 'jsdom',
+  fallbackVersion: '^29.1.1',
+  versionSourceNames: ['jsdom'],
+} as const;
 
 export async function addUiPrimitive(
   args: string[],
@@ -29,14 +47,17 @@ export async function addUiPrimitive(
   const request = parseAddUiRequest(args);
 
   if (request === null) {
-    context.reporter.error('Usage: vr add button', 'Or use: vr add <local-prefix> button');
+    context.reporter.error(
+      'Usage: vr add button [--test]',
+      'Or use: vr add <local-prefix> button [--test]',
+    );
     return fail();
   }
 
   if (request.primitive !== uiPrimitiveType.button) {
     context.reporter.error(
       `Unsupported UI primitive: ${request.primitive}`,
-      `Phase 9 supports: ${uiPrimitiveType.button}`,
+      `Supported UI primitives: ${uiPrimitiveType.button}`,
     );
     return fail();
   }
@@ -50,11 +71,27 @@ export async function addUiPrimitive(
   }
 
   try {
-    const files = await renderButtonFiles(request.prefix);
+    const files = await renderButtonFiles(request.prefix, {
+      includeTest: request.includeTest,
+    });
     const tokens = await readTokenCss();
     const usage = await readHomeButtonUsage();
 
     await assertFilesMissing(context.cwd, files.map((file) => file.path));
+    if (request.includeTest) {
+      await ensurePackageJsonDevDependency(
+        context.cwd,
+        testingDependency.name,
+        testingDependency.fallbackVersion,
+        testingDependency.versionSourceNames,
+      );
+      await ensurePackageJsonDevDependency(
+        context.cwd,
+        testingEnvironmentDependency.name,
+        testingEnvironmentDependency.fallbackVersion,
+        testingEnvironmentDependency.versionSourceNames,
+      );
+    }
     await writeFileIfMissing(context.cwd, uiAppFile.tokens, tokens);
 
     for (const file of files) {
@@ -81,19 +118,45 @@ export async function addUiPrimitive(
 }
 
 function parseAddUiRequest(args: readonly string[]): AddUiRequest | null {
-  if (args.length === 1) {
+  const parsed = parseAddUiArgs(args);
+
+  if (parsed === null) {
+    return null;
+  }
+
+  if (parsed.values.length === 1) {
     return {
       prefix: defaultUiPrefix,
-      primitive: args[0] ?? '',
+      primitive: parsed.values[0] ?? '',
+      includeTest: parsed.includeTest,
     };
   }
 
-  if (args.length === 2) {
+  if (parsed.values.length === 2) {
     return {
-      prefix: args[0] ?? '',
-      primitive: args[1] ?? '',
+      prefix: parsed.values[0] ?? '',
+      primitive: parsed.values[1] ?? '',
+      includeTest: parsed.includeTest,
     };
   }
 
   return null;
+}
+
+function parseAddUiArgs(args: readonly string[]): { values: string[]; includeTest: boolean } | null {
+  if (!args.includes(addUiFlag.test)) {
+    return {
+      values: [...args],
+      includeTest: false,
+    };
+  }
+
+  if (args.at(-1) !== addUiFlag.test) {
+    return null;
+  }
+
+  return {
+    values: args.slice(0, -1),
+    includeTest: true,
+  };
 }

@@ -33,6 +33,19 @@ Each package section is divided into module or submodule tables. This keeps prod
 |---|---|---:|---|---|---|---|
 | Monorepo workspace foundation | repo | Phase 1 | Core package shells build as empty packages | Workspace scripts, TS config, tests, and clean builds are verified | Complete | `packages/runtime`, `packages/compiler`, `packages/vite-plugin`, and `packages/cli` exist. |
 
+## Project Configuration *
+
+*Vanrot should use the standard root config layout by default: `package.json`, `tsconfig.json`, `vite.config.ts`, and `vanrot.config.ts` live at the app root. `package.json` remains the ecosystem-owned source for scripts and dependencies, while `vanrot.config.ts` becomes Vanrot's typed source of truth for framework conventions.*
+
+### Root Config And Install-Aware Defaults
+
+| Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
+|---|---|---:|---|---|---|---|
+| Root `vanrot.config.ts` * | config, cli, vite-plugin | Post-demo production track | A generated app includes a small typed Vanrot config at the root | Full config schema, defaults, validation, migrations, docs, examples, and package integration verified | Deferred | Default app structure should stay familiar: root `package.json`, `tsconfig.json`, `vite.config.ts`, `vanrot.config.ts`, and clean app code under `src/`. |
+| Full production config schema * | config | Post-demo production track | Config can describe source roots, routes, UI, generator defaults, diagnostics, dev server, build budgets, testing, cache, docs, and AI/project intelligence hooks | Schema versioning, typed helper API, validation diagnostics, migrations, docs, and backwards compatibility verified | Deferred | The earlier sample config was directional only. The full picture needs its own brainstorming, spec, and plan before implementation. |
+| Install-aware config auto-population * | cli and config | Post-demo production track | `vr create`, `vr add`, and future package installers add only the config blocks required by installed Vanrot packages | Idempotent writes, comments/preservation policy, uninstall behavior, conflict detection, migrations, tests, and docs verified | Deferred | `vanrot.config.ts` should grow with the project: router config appears when routing is installed, UI config when UI is installed, store config when store is installed, and so on. |
+| Config single-source convention rules | config, cli, compiler | Post-demo production track | Generated files read shared paths and conventions from config instead of repeating literals | All generators, Vite plugin defaults, diagnostics, docs, and project map stay synchronized from config | Deferred | Supports Vanrot's rule to avoid reused string literals while keeping literals acceptable at their owning source of truth. |
+
 ## `@vanrot/runtime`
 
 ### Reactive Kernel
@@ -113,7 +126,7 @@ Each package section is divided into module or submodule tables. This keeps prod
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
 | Vite plugin public API | vite-plugin | Phase 4 | `vanrot()` returns a Vite plugin usable in `vite.config.ts` | Typed options, peer dependency behavior, docs, and integration examples verified | Demo-Capable | Default export plus named `vanrotPlugin` alias are tested; not production-ready. |
-| Vite config loading `vanrot.config.ts` | vite-plugin and cli | Future | Plugin can read Vanrot config defaults | Config discovery, schema validation, CLI sharing, and diagnostics verified | Deferred | Excluded from Phase 4. |
+| Vite config loading `vanrot.config.ts` | vite-plugin and cli | Future | Plugin can read Vanrot config defaults | Config discovery, schema validation, CLI sharing, dev-server defaults, and diagnostics verified | Deferred | Excluded from Phase 4. This should integrate with the root config system instead of creating a second framework configuration path. |
 
 ### Transform And Virtual Modules
 
@@ -149,7 +162,8 @@ Each package section is divided into module or submodule tables. This keeps prod
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
 | CLI `vr dev` | cli | Phase 5 | Invokes the Vite dev server for a Vanrot app | Config loading, diagnostics, dev server lifecycle, and readable startup output verified | Demo-Capable | Phase 5 verifies the thin runner wrapper through injected runner tests; production lifecycle polish remains future work. |
-| CLI `vr dev` localhost experience | cli and web | Post-demo production track | `vr dev` opens or serves a useful local Vanrot experience for new apps | Browser landing experience, terminal output, errors, route awareness, docs links, accessibility, and cross-platform behavior verified | Deferred | Vanrot should eventually have an `ng serve`-quality local development experience without becoming heavy. |
+| CLI `vr dev` localhost experience | cli and web | Post-demo production track | `vr dev` opens or serves a useful local Vanrot experience for new apps | Browser landing experience, terminal output, errors, route awareness, docs links, accessibility, and cross-platform behavior verified | Deferred | Vanrot should eventually have an `ng serve`-quality local development experience without becoming heavy. The preferred default local port is `1010` if design and compatibility checks approve it. |
+| CLI configurable dev server port | cli, config, vite-plugin | Post-demo production track | `vanrot.config.ts` can set `dev.port`, defaulting to `1010` for generated Vanrot apps | Vite `server.port` and `strictPort` integration, env overrides, collision handling, terminal output, tests, and docs verified | Deferred | Vite supports custom dev server ports and can either try the next port or fail with `strictPort`; Vanrot should expose this through its own config without hiding Vite behavior. |
 | CLI `vr build` | cli | Phase 5 | Invokes Vite build for a Vanrot app | Config loading, diagnostics, and build report verified | Demo-Capable | Phase 8 verified direct CLI builds can resolve app-local binaries from `node_modules/.bin`. Build reports remain deferred. |
 | CLI `vr test` | cli | Phase 5 | Invokes app tests | Testing package integration and generated test support verified | Demo-Capable | Phase 5 verifies the thin test wrapper through injected runner tests before `@vanrot/testing` exists. |
 
@@ -255,11 +269,23 @@ Each package section is divided into module or submodule tables. This keeps prod
 
 ## `@vanrot/testing`
 
+*Testing should follow Vanrot's readable API principle: code should be understandable even to non-dev readers. Phase 10 owns only the first component-testing foundation and opt-in button test generation. Page testing, generator-wide tests, and advanced helpers need later planning.*
+
 ### Test Utilities
 
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
-| Testing helpers | testing | Phase 10 | Can render a component in tests | Events, queries, cleanup, and docs verified | Deferred | Phase 10 owns this. |
+| Testing package foundation | testing | Phase 10 | `@vanrot/testing` exists, builds, and exports the first component testing helper | Package exports, peer dependency policy, cleanup guarantees, docs, examples, and app integration verified | Demo-Capable | Phase 10 owns the package shell and tiny first API. |
+| `.test.ts` convention | testing and cli | Phase 10 | Generated app test files use `.test.ts` | Generator coverage, docs, migration guidance, and framework-wide consistency verified | Demo-Capable | Vanrot generated tests should not use `.spec.ts`. |
+| `testComponent(...).can(...)` | testing | Phase 10 | A compiled component can be mounted and tested through readable English-like syntax | Async handling, cleanup on failure, richer diagnostics, docs, and edge cases verified | Demo-Capable | Wraps Vitest internally while keeping generated tests free from direct `it(...)` or `test(...)` syntax. |
+| Screen text assertion | testing | Phase 10 | `screen.expect.text(value)` can assert text in the mounted output | Visibility rules, multiple-match behavior, diagnostics, and accessibility-aware queries verified | Demo-Capable | Phase 10 keeps the assertion small and readable. |
+| Screen button click helper | testing | Phase 10 | `screen.click.button(label)` can click a button by readable label | Accessible-name matching, disabled behavior, async updates, diagnostics, and docs verified | Demo-Capable | Supports a useful button interaction demo without adding a full Testing Library compatibility layer. |
+| `vr add button --test` | cli and testing | Phase 10 | `vr add button --test` and `vr add <local-prefix> button --test` create a colocated `.button.test.ts` file | Collision handling, custom destinations, registry integration, docs, and update workflow verified | Demo-Capable | Tests remain opt-in. `vr add button` without `--test` still creates only the three source files. |
+| Generated tests use `function` syntax | cli and testing | Phase 10 | Generated tests prefer `function (screen)` for readability | Docs, examples, and generator consistency verified | Demo-Capable | TypeScript still supports arrow functions, but Vanrot-authored examples should prefer the easier-to-explain form. |
+| `testPage(...)` | testing and router | Post-demo production track | A route page can be tested through a readable page-focused helper | Router setup, route params, navigation, lazy pages, cleanup, docs, and diagnostics verified | Deferred | Deferred from Phase 10. Needs its own testing and router design. |
+| `vr generate component --test` | cli and testing | Post-demo production track | Component generation can optionally create `.component.test.ts` | Naming, copy source, import typing, overwrite policy, docs, and examples verified | Deferred | Deferred so Phase 10 stays focused on `vr add button --test`. |
+| `vr generate page --test` | cli, router, and testing | Post-demo production track | Page generation can optionally create `.page.test.ts` | `testPage(...)`, router setup, route copy, lazy page support, docs, and examples verified | Deferred | Deferred with page testing. |
+| Advanced testing helpers | testing | Post-demo production track | Tests can cover richer user workflows without losing readability | Forms, async resources, router navigation, accessibility assertions, richer queries, fake timers, and docs verified | Deferred | Needs dedicated production testing design after the demo phases. |
 
 ## Docs *
 
@@ -269,7 +295,8 @@ Each package section is divided into module or submodule tables. This keeps prod
 
 | Feature | Package or Area | Planned Phase | Demo-Capable Gate | Production-Ready Gate | Status | Notes |
 |---|---|---:|---|---|---|---|
-| API docs | docs | Phase 10 | Public APIs are documented | Examples, versioning, and generated docs verified | Deferred | Phase 10 owns this. |
+| API docs * | docs | Post-demo production track | Public APIs are documented | Examples, versioning, generated docs, completeness checks, and release workflow verified | Deferred | Deferred from Phase 10. The user wants framework documentation last, after the maturity-plan features are implemented. |
+| Guide docs * | docs | Post-demo production track | Guides explain core user workflows such as create, build, route, add UI, and test | Examples, screenshots where useful, code freshness checks, and release workflow verified | Deferred | Deferred with the full documentation system. |
 | Deep documentation system * | docs | Post-demo production track | Docs cover every package, feature, CLI command, convention, and known limitation | Package inventory, examples, migration notes, API references, guides, and completeness checks verified | Deferred | Nothing important should be left out just because an AI assistant or maintainer forgot a package. |
 | Documentation completeness checks | docs and ci | Post-demo production track | CI can detect undocumented public packages, commands, and feature-maturity rows | Automated docs inventory, broken link checks, example freshness, and release checklist integration verified | Deferred | Keeps documentation from drifting as Vanrot grows. |
 | AI-readable documentation bundle | docs and ai | Post-demo production track | Documentation can be exported into a stable AI-consumable bundle | Versioned manifest, package summaries, examples, limits, changelog links, and validation checks verified | Deferred | Feeds future MCP and Skill.sh integrations with authoritative framework knowledge. |
@@ -341,13 +368,14 @@ When the main demo phases from `docs/brainstorm.md` are complete, use this order
 | Order | Track | Why This Comes Here |
 |---:|---|---|
 | 1 | Deep documentation system * | Production planning needs a complete source of truth before more public surface area is added. |
-| 2 | CLI design language and production terminal experience * | The CLI is the daily front door, and its behavior affects install, docs, generation, doctor, and future package workflows. |
-| 3 | `vanrot.vankode.com` public site * | Public docs, install guide, landing page, and UI documentation need a permanent home before broad release. |
-| 4 | `@vanrot/ui` flavor `V01` * | Establish the familiar shadcn-inspired component baseline first. |
-| 5 | `@vanrot/ui` flavor `V02` * | Build the brutalist flavor after `V01` so both flavors share component contracts and token structure. |
-| 6 | `@vanrot/store` enterprise state system * | Requires first-principles design for a future-facing, signal-native enterprise store before implementation. |
-| 7 | AI consumption through MCP and Skill.sh * | AI integrations should consume stable docs, package metadata, and conventions instead of half-formed APIs. |
-| 8 | Homebrew install `brew install vanrot` * | Native CLI distribution should happen after the production CLI packaging and release story are stable. |
+| 2 | Vanrot project configuration system * | `vanrot.config.ts` needs to become the typed source of truth before package installers, CLI defaults, UI flavors, and diagnostics depend on it. |
+| 3 | CLI design language and production terminal experience * | The CLI is the daily front door, and its behavior affects install, docs, generation, doctor, and future package workflows. |
+| 4 | `vanrot.vankode.com` public site * | Public docs, install guide, landing page, and UI documentation need a permanent home before broad release. |
+| 5 | `@vanrot/ui` flavor `V01` * | Establish the familiar shadcn-inspired component baseline first. |
+| 6 | `@vanrot/ui` flavor `V02` * | Build the brutalist flavor after `V01` so both flavors share component contracts and token structure. |
+| 7 | `@vanrot/store` enterprise state system * | Requires first-principles design for a future-facing, signal-native enterprise store before implementation. |
+| 8 | AI consumption through MCP and Skill.sh * | AI integrations should consume stable docs, package metadata, and conventions instead of half-formed APIs. |
+| 9 | Homebrew install `brew install vanrot` * | Native CLI distribution should happen after the production CLI packaging and release story are stable. |
 
 ## Update Rule
 

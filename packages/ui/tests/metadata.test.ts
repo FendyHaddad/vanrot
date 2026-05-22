@@ -33,6 +33,7 @@ describe('@vanrot/ui metadata', () => {
     expect(uiAssetUrl.button.typescript.href).toContain('/src/primitives/button/ui.button.ts');
     expect(uiAssetUrl.button.html.href).toContain('/src/primitives/button/ui.button.html');
     expect(uiAssetUrl.button.css.href).toContain('/src/primitives/button/ui.button.css');
+    expect(uiAssetUrl.button.test.href).toContain('/src/primitives/button/ui.button.test.ts');
     expect(uiAssetUrl.button.homeUsage.href).toContain('/src/primitives/button/usage.home.html');
   });
 });

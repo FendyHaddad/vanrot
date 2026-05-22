@@ -8,5 +8,6 @@
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
   "include": ["src/**/*.ts"],
+  "exclude": ["src/primitives/**/*.test.ts"],
   "references": [{ "path": "../runtime" }]
 }

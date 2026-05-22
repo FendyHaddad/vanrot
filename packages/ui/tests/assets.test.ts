@@ -1,3 +1,5 @@
+// @vitest-environment node
+
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
@@ -26,5 +28,15 @@ describe('@vanrot/ui assets', () => {
 
     expect(buttonCss).toContain('.vr-button');
     expect(buttonCss).toContain('.vr-button-primary');
+  });
+
+  it('keeps button tests in test files instead of TypeScript command strings', async () => {
+    const buttonTest = await readFile(fileURLToPath(uiAssetUrl.button.test), 'utf8');
+
+    expect(buttonTest).toContain('@vitest-environment jsdom');
+    expect(buttonTest).toContain("import { testComponent } from '@vanrot/testing';");
+    expect(buttonTest).toContain("import UiButton from './ui.button.ts';");
+    expect(buttonTest).toContain('function (screen)');
+    expect(buttonTest).toContain('buttonCopy.label');
   });
 });
