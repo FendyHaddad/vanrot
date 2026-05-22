@@ -2,11 +2,30 @@ import { describe, expect, it } from 'vitest';
 import { resolveRoutePage } from '../../src/route/page-loader.js';
 import { createTestPage } from '../../src/test/test-pages.js';
 
+class SettingsPage {}
+
 describe('resolveRoutePage', () => {
   it('returns eager pages', async () => {
     const page = createTestPage('home');
 
     await expect(resolveRoutePage({ key: 'home', path: '/', label: 'Home', page })).resolves.toBe(page);
+  });
+
+  it('returns eager class pages', async () => {
+    await expect(
+      resolveRoutePage({ key: 'settings', path: '/settings', label: 'Settings', page: SettingsPage }),
+    ).resolves.toBe(SettingsPage);
+  });
+
+  it('returns lazy default class pages', async () => {
+    await expect(
+      resolveRoutePage({
+        key: 'settings',
+        path: '/settings',
+        label: 'Settings',
+        loadPage: async () => ({ default: SettingsPage }),
+      }),
+    ).resolves.toBe(SettingsPage);
   });
 
   it('returns lazy default page modules', async () => {

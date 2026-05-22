@@ -69,11 +69,11 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\n// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.\nimport App from './app/app.component.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(App, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\nimport { AppComponent } from './app/app.component.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(AppComponent, target);\n`,
     },
     {
       path: 'src/routes.ts',
-      content: `import { defineRoutes } from '@vanrot/router';\n// @ts-expect-error Vanrot's Vite plugin compiles page modules to default exports.\nimport HomePage from './pages/home/home.page.ts';\n\nexport const route = defineRoutes({\n  home: {\n    path: '/',\n    label: 'Home',\n    page: HomePage,\n  },\n  about: {\n    path: '/about',\n    label: 'About',\n    loadPage: () => import('./pages/about/about.page.ts'),\n  },\n});\n`,
+      content: `import { defineRoutes } from '@vanrot/router';\nimport { HomePage } from './pages/home/home.page.ts';\n\nexport const route = defineRoutes({\n  home: {\n    path: '/',\n    label: 'Home',\n    page: HomePage,\n  },\n  about: {\n    path: '/about',\n    label: 'About',\n    loadPage: () => import('./pages/about/about.page.ts').then(({ AboutPage }) => AboutPage),\n  },\n});\n`,
     },
     {
       path: 'src/app/app.component.ts',

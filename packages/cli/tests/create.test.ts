@@ -29,10 +29,13 @@ describe('vr create', () => {
       "import { provideRouter } from '@vanrot/router';",
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
-      "// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.",
+      "import { AppComponent } from './app/app.component.ts';",
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
-      "from './app/app.component.ts'",
+      'mount(AppComponent, target);',
+    );
+    await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.not.toContain(
+      '@ts-expect-error',
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
       'provideRouter(appRoute);',
@@ -44,7 +47,13 @@ describe('vr create', () => {
       'defineRoutes',
     );
     await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.toContain(
-      "loadPage: () => import('./pages/about/about.page.ts')",
+      "import { HomePage } from './pages/home/home.page.ts';",
+    );
+    await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.toContain(
+      "loadPage: () => import('./pages/about/about.page.ts').then(({ AboutPage }) => AboutPage)",
+    );
+    await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.not.toContain(
+      '@ts-expect-error',
     );
     await expect(
       readFile(join(appRoot, 'src', 'app', 'app.component.ts'), 'utf8'),

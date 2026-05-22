@@ -75,7 +75,7 @@ describe('vanrot plugin transform', () => {
     const watched: string[] = [];
     const plugin = createVanrotPluginForTests({
       compile: async () => ({
-        code: 'export function createComponent() { return { node: document.createTextNode("ok"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
+        code: 'export function createComponent() { return { node: document.createTextNode("ok"), ctx: {} }; }\nconst component = { createComponent };\nexport { component as AppComponent };\nexport default component;',
         css: 'p{color:red}',
         map: createTestMap('/repo/src/app.component.ts'),
         cssMap: createTestMap('/repo/src/app.component.css'),
@@ -99,7 +99,7 @@ describe('vanrot plugin transform', () => {
 
     expect(watched).toEqual(['/repo/src/app.component.html', '/repo/src/app.component.css']);
     expect(result).toEqual({
-      code: expect.stringContaining('export default component;'),
+      code: expect.stringContaining('export { component as AppComponent };'),
       map: createTestMap('/repo/src/app.component.ts'),
     });
   });
@@ -108,7 +108,7 @@ describe('vanrot plugin transform', () => {
     const watched: string[] = [];
     const plugin = createVanrotPluginForTests({
       compile: async () => ({
-        code: 'export function createComponent() { return { node: document.createTextNode("page"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
+        code: 'export function createComponent() { return { node: document.createTextNode("page"), ctx: {} }; }\nconst component = { createComponent };\nexport { component as HomePage };\nexport default component;',
         css: 'main{display:block}',
         map: createTestMap('/repo/src/pages/home/home.page.ts'),
         cssMap: createTestMap('/repo/src/pages/home/home.page.css'),
@@ -135,7 +135,7 @@ describe('vanrot plugin transform', () => {
       '/repo/src/pages/home/home.page.css',
     ]);
     expect(result).toEqual({
-      code: expect.stringContaining('export default component;'),
+      code: expect.stringContaining('export { component as HomePage };'),
       map: createTestMap('/repo/src/pages/home/home.page.ts'),
     });
   });
@@ -144,7 +144,7 @@ describe('vanrot plugin transform', () => {
     const watched: string[] = [];
     const plugin = createVanrotPluginForTests({
       compile: async () => ({
-        code: 'export function createComponent() { return { node: document.createTextNode("button"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
+        code: 'export function createComponent() { return { node: document.createTextNode("button"), ctx: {} }; }\nconst component = { createComponent };\nexport { component as UiButton };\nexport default component;',
         css: '.vr-button{display:inline-flex}',
         map: createTestMap('/repo/src/ui/button/ui.button.ts'),
         cssMap: createTestMap('/repo/src/ui/button/ui.button.css'),
@@ -171,7 +171,7 @@ describe('vanrot plugin transform', () => {
       '/repo/src/ui/button/ui.button.css',
     ]);
     expect(result).toEqual({
-      code: expect.stringContaining('export default component;'),
+      code: expect.stringContaining('export { component as UiButton };'),
       map: createTestMap('/repo/src/ui/button/ui.button.ts'),
     });
   });

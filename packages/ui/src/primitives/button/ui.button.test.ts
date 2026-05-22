@@ -1,8 +1,7 @@
 // @vitest-environment jsdom
 
 import { testComponent } from '@vanrot/testing';
-// @ts-expect-error Vanrot's Vite plugin compiles button modules to default exports.
-import UiButton from './ui.button.ts';
+import { UiButton } from './ui.button.ts';
 
 const buttonCopy = {
   label: 'Button',

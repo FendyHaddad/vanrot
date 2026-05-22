@@ -91,8 +91,8 @@ describe('vr add', () => {
     expect(packageJson.devDependencies?.jsdom).toBe('^29.1.1');
     expect(buttonTest).toContain('@vitest-environment jsdom');
     expect(buttonTest).toContain("import { testComponent } from '@vanrot/testing';");
-    expect(buttonTest).toContain("import PrimaryButton from './primary.button.ts';");
-    expect(buttonTest).toContain("Vanrot's Vite plugin compiles button modules to default exports.");
+    expect(buttonTest).toContain("import { PrimaryButton } from './primary.button.ts';");
+    expect(buttonTest).not.toContain('@ts-expect-error');
     expect(buttonTest).toContain('testComponent(PrimaryButton).can');
     expect(buttonTest).toContain('function (screen)');
     expect(buttonTest).toContain("label: 'Button'");

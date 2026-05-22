@@ -12,6 +12,8 @@ const routeLabel = {
   user: 'User',
 } as const;
 
+class HomePage {}
+
 describe('defineRoutes', () => {
   it('preserves named route keys on route records', () => {
     const route = defineRoutes({
@@ -33,6 +35,18 @@ describe('defineRoutes', () => {
     expect(route.user.key).toBe('user');
     expect(route.user.path).toBe(routePath.user);
     expect(route.user.label).toBe(routeLabel.user);
+  });
+
+  it('accepts source-visible page classes for eager routes', () => {
+    const route = defineRoutes({
+      home: {
+        path: routePath.home,
+        label: routeLabel.home,
+        page: HomePage,
+      },
+    });
+
+    expect(route.home.page).toBe(HomePage);
   });
 
   it('throws when a route is missing both page and loadPage', () => {

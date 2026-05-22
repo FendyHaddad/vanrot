@@ -1,8 +1,8 @@
-import type { CompiledComponentModule, Signal } from '@vanrot/runtime';
+import type { ComponentType, Signal } from '@vanrot/runtime';
 
 export type RouteParams = Record<string, string>;
 
-export type RoutePageModule = CompiledComponentModule;
+export type RoutePageModule = ComponentType;
 
 export type RoutePageLoader = () => Promise<RoutePageModule | { default: RoutePageModule }>;
 

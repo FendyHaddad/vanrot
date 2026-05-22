@@ -102,7 +102,7 @@ When a phase adds or changes framework surface area:
 | dev server | full reload fallback | Production-Ready | Full reload remains correct as a fallback but does not hide missing true HMR. | Phase 4, Phase 12D | Full reload is only the missing-owner fallback. |
 | dev server | true state-preserving HMR | Production-Ready | HTML/CSS updates preserve state where safe and clean up invalidated generated effects. | Phase 12D | Phase 12D returns owner modules to Vite; generated accept/dispose remains future hardening if needed. |
 | build | production build fixture | Production-Ready | Build emits correct JS/CSS assets, sourcemaps where configured, and works from a clean fixture install. | Phase 4, Phase 12D, Phase 26 | Phase 12D adds clean app-style package-output fixture coverage; Phase 26 owns final release install. |
-| typing | transformed component imports | Deferred | App authors can import compiled `.component.ts`, `.page.ts`, and `.button.ts` modules without `@ts-expect-error`. | Phase 12E | Current generated examples still need suppressions. |
+| typing | transformed component imports | Production-Ready | App authors can import compiled `.component.ts`, `.page.ts`, and `.button.ts` modules without `@ts-expect-error`. | Phase 12E | Named Vite exports, router `ComponentType` page contracts, examples, UI button tests, and CLI generated files are covered. |
 
 ## `@vanrot/cli`
 
@@ -201,7 +201,7 @@ into isolated audit tests.
 | Compiler control flow | compiler | Production coverage exists | Red/green tests for `@if`, `@for`, cleanup, diagnostics, generated output, and nested element content. | Phase 12C |
 | Component composition | compiler, runtime | Production compiler coverage exists | Red/green tests for child components, lifecycle boundaries, props, slots, and projected content. | Phase 12C |
 | Vite true HMR | vite-plugin | Full reload fallback | Red/green tests for HTML/CSS updates that preserve safe state and invalidate unsafe modules. | Phase 12D |
-| TypeScript import boundary | compiler, vite-plugin | `@ts-expect-error` still needed | Red/green tests proving app authors can import transformed role modules cleanly. | Phase 12E |
+| TypeScript import boundary | compiler, vite-plugin | Production coverage exists | Red/green tests proving app authors can import transformed role modules cleanly. | Phase 12E |
 | Config source of truth | config, cli, vite-plugin | Deferred | Red/green tests for `vanrot.config.ts`, schema validation, install-aware config blocks, and port `1010`. | Phase 13 |
 | Beautiful CLI UX | cli | Demo reporter exists | Red/green snapshot/interaction tests for command output that is beautiful, readable, and scriptable. | Phase 14 |
 | Router production | router, compiler | Demo routing works | Red/green tests for typed params, nested routes, layouts, redirects, active links, and route diagnostics. | Phase 15 |

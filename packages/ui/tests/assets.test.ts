@@ -35,7 +35,7 @@ describe('@vanrot/ui assets', () => {
 
     expect(buttonTest).toContain('@vitest-environment jsdom');
     expect(buttonTest).toContain("import { testComponent } from '@vanrot/testing';");
-    expect(buttonTest).toContain("import UiButton from './ui.button.ts';");
+    expect(buttonTest).toContain("import { UiButton } from './ui.button.ts';");
     expect(buttonTest).toContain('function (screen)');
     expect(buttonTest).toContain('buttonCopy.label');
   });

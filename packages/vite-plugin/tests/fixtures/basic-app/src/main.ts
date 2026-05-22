@@ -1,7 +1,6 @@
 import { mount } from '@vanrot/runtime';
 import { provideRouter } from '@vanrot/router';
-// @ts-expect-error Vanrot's Vite plugin compiles component modules to default exports.
-import App from './app/app.component.ts';
+import { AppComponent } from './app/app.component.ts';
 import { route as appRoute } from './routes.ts';
 import './styles/vanrot-tokens.css';
 import './styles/vanrot-ui.css';
@@ -13,4 +12,4 @@ if (target === null) {
 }
 
 provideRouter(appRoute);
-mount(App, target);
+mount(AppComponent, target);

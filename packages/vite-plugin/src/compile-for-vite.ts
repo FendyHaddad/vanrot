@@ -29,6 +29,7 @@ export async function compileForVite(
     `import '${cssModuleId}';`,
     result.js,
     'const component = { createComponent };',
+    `export { component as ${result.metadata.componentName} };`,
     'export default component;',
   ].join('\n\n');
   const stylePath = componentPath.replace(/\.(component|page|button)\.ts$/, '.$1.css');
