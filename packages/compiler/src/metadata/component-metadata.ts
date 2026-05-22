@@ -3,6 +3,8 @@ import type { ComponentFileSet } from '../conventions/component-files.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import type { CompileDiagnostic } from '../api/types.js';
 
+const COMPONENT_CLASS_SUFFIXES = ['Component', 'Page', 'Button'] as const;
+
 export interface ComponentMetadata {
   componentName: string;
   exportName: string;
@@ -25,30 +27,37 @@ export function readComponentMetadata(
     true,
     ts.ScriptKind.TS,
   );
-  const classDeclaration = sourceFile.statements.find((statement): statement is ts.ClassDeclaration => {
-    if (!ts.isClassDeclaration(statement)) {
-      return false;
-    }
-
-    if (statement.name?.text !== fileSet.expectedClassName) {
-      return false;
-    }
-
-    return hasNamedExportModifier(statement);
+  const classDeclarations = sourceFile.statements.filter(ts.isClassDeclaration);
+  const defaultClassDeclaration = classDeclarations.find((statement) => {
+    return statement.name?.text === fileSet.expectedClassName && hasDefaultExportModifier(statement);
   });
 
-  if (classDeclaration === undefined || hasRequiredConstructorParameter(classDeclaration)) {
-    return {
-      metadata: null,
-      diagnostics: [
-        createDiagnostic(
-          'VR004',
-          'error',
-          `Expected named export class ${fileSet.expectedClassName} with no required constructor arguments.`,
-          fileSet.componentPath,
-        ),
-      ],
-    };
+  if (defaultClassDeclaration !== undefined) {
+    return createMetadataFailure('VR014', fileSet.componentPath);
+  }
+
+  const plausibleExportedClasses = classDeclarations.filter((statement) => {
+    if (!hasNamedExportModifier(statement)) {
+      return false;
+    }
+
+    return isPlausibleComponentClassName(statement.name?.text);
+  });
+
+  if (plausibleExportedClasses.length > 1) {
+    return createMetadataFailure('VR015', fileSet.componentPath);
+  }
+
+  const classDeclaration = classDeclarations.find((statement) => {
+    return statement.name?.text === fileSet.expectedClassName && hasNamedExportModifier(statement);
+  });
+
+  if (classDeclaration === undefined) {
+    return createMetadataFailure('VR004', fileSet.componentPath);
+  }
+
+  if (hasRequiredConstructorParameter(classDeclaration)) {
+    return createMetadataFailure('VR016', fileSet.componentPath);
   }
 
   return {
@@ -61,12 +70,38 @@ export function readComponentMetadata(
   };
 }
 
+function createMetadataFailure(
+  code: CompileDiagnostic['code'],
+  filePath: string,
+): ComponentMetadataResult {
+  return {
+    metadata: null,
+    diagnostics: [createDiagnostic(code, 'error', undefined, filePath)],
+  };
+}
+
 function hasNamedExportModifier(node: ts.ClassDeclaration): boolean {
   const modifiers = node.modifiers ?? [];
   const hasExport = modifiers.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword);
   const hasDefault = modifiers.some((modifier) => modifier.kind === ts.SyntaxKind.DefaultKeyword);
 
   return hasExport && !hasDefault;
+}
+
+function hasDefaultExportModifier(node: ts.ClassDeclaration): boolean {
+  const modifiers = node.modifiers ?? [];
+  const hasExport = modifiers.some((modifier) => modifier.kind === ts.SyntaxKind.ExportKeyword);
+  const hasDefault = modifiers.some((modifier) => modifier.kind === ts.SyntaxKind.DefaultKeyword);
+
+  return hasExport && hasDefault;
+}
+
+function isPlausibleComponentClassName(className: string | undefined): boolean {
+  if (className === undefined) {
+    return false;
+  }
+
+  return COMPONENT_CLASS_SUFFIXES.some((suffix) => className.endsWith(suffix));
 }
 
 function hasRequiredConstructorParameter(node: ts.ClassDeclaration): boolean {

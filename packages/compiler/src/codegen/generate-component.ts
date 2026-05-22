@@ -1,37 +1,32 @@
 import type { CompileDiagnostic, CompileFeature, CompileOptions } from '../api/types.js';
-import {
-  rewriteEventHandlerExpression,
-  rewriteExpression,
-} from '../expressions/rewrite-expression.js';
 import type { ComponentMetadata } from '../metadata/component-metadata.js';
-import type { ElementNode, TemplateAttribute, TemplateNode, TextNode } from '../template/ast.js';
-import { parseInterpolation } from '../template/bindings.js';
+import type { ElementNode, TemplateAttribute, TemplateNode } from '../template/ast.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
-import { IdentifierAllocator } from './identifiers.js';
+import { generateAttribute, generateText, quoteString } from './bindings.js';
+import {
+  generateChildComponent,
+  generateChildComponentImports,
+  isChildComponentTag,
+} from './components.js';
+import { generateForBlock, generateIfBlock } from './control-flow.js';
+import { createGeneratedMapping } from './mappings.js';
+import { generateSlotOutlet } from './slots.js';
+import { createGenerateState, type GenerateState } from './state.js';
 
 export interface GenerateComponentInput {
   metadata: ComponentMetadata;
   nodes: readonly TemplateNode[];
   scopeAttribute: string;
   templatePath: string;
+  templateSource: string;
 }
 
 export interface GenerateComponentResult {
   js: string;
   diagnostics: CompileDiagnostic[];
   features: CompileFeature[];
-}
-
-interface GenerateState {
-  ids: IdentifierAllocator;
-  lines: string[];
-  diagnostics: CompileDiagnostic[];
-  features: Set<CompileFeature>;
-  usesEffect: boolean;
-  usesListen: boolean;
-  usesRouterOutlet: boolean;
-  usesRouteLink: boolean;
-  templatePath: string;
+  componentDependencies: GenerateState['componentDependencies'];
+  mappings: GenerateState['mappings'];
 }
 
 const uiButtonTagName = 'vr-button';
@@ -42,20 +37,17 @@ export function generateComponent(
   input: GenerateComponentInput,
   options: CompileOptions = {},
 ): GenerateComponentResult {
-  const state: GenerateState = {
-    ids: new IdentifierAllocator(),
-    lines: [],
-    diagnostics: [],
-    features: new Set<CompileFeature>(['readable-output']),
-    usesEffect: false,
-    usesListen: false,
-    usesRouterOutlet: false,
-    usesRouteLink: false,
-    templatePath: input.templatePath,
-  };
+  const state = createGenerateState(input);
 
-  state.lines.push('export function createComponent() {');
+  state.lines.push('export function createComponent(initialInputs = {}, projectedSlots = {}) {');
   state.lines.push(`  const ctx = new ${input.metadata.componentName}();`);
+  state.lines.push('  for (const [inputName, inputValue] of Object.entries(initialInputs)) {');
+  state.lines.push('    const inputSignal = ctx[inputName];');
+  state.lines.push("    if (inputSignal === undefined || typeof inputSignal.set !== 'function') {");
+  state.lines.push('      continue;');
+  state.lines.push('    }');
+  state.lines.push('    inputSignal.set(inputValue);');
+  state.lines.push('  }');
   state.lines.push('  const fragment = document.createDocumentFragment();');
 
   for (const node of input.nodes) {
@@ -69,10 +61,24 @@ export function generateComponent(
   state.lines.push('  };');
   state.lines.push('}');
 
+  if (state.usesSlots) {
+    state.lines.push('');
+    state.lines.push('function renderSlot(parent, name, fallback, projectedSlots) {');
+    state.lines.push('  const projected = projectedSlots[name];');
+    state.lines.push('  if (projected === undefined) {');
+    state.lines.push('    parent.append(fallback);');
+    state.lines.push('    return;');
+    state.lines.push('  }');
+    state.lines.push('  parent.append(projected);');
+    state.lines.push('}');
+  }
+
   return {
     js: [...generateImports(input.metadata, state, options), '', ...state.lines].join('\n'),
     diagnostics: state.diagnostics,
     features: [...state.features],
+    componentDependencies: state.componentDependencies,
+    mappings: state.mappings,
   };
 }
 
@@ -84,12 +90,28 @@ function generateImports(
   const componentImportSpecifier = options.componentImportSpecifier ?? metadata.importPath;
   const imports = [`import { ${metadata.exportName} } from ${quoteString(componentImportSpecifier)};`];
 
+  imports.push(...generateChildComponentImports(state.componentDependencies));
+
   if (state.usesEffect) {
     imports.push("import { effect } from '@vanrot/runtime';");
   }
 
+  if (state.usesSignal) {
+    imports.push("import { signal } from '@vanrot/runtime';");
+  }
+
   if (state.usesListen) {
     imports.push("import { listen } from '@vanrot/runtime/internal';");
+  }
+
+  if (state.usesCleanupScopes) {
+    imports.push(
+      "import { createCleanupScope, disposeCleanupScope, runWithCleanupScope } from '@vanrot/runtime/internal';",
+    );
+  }
+
+  if (state.usesRegisterCleanup) {
+    imports.push("import { registerCleanup } from '@vanrot/runtime/internal';");
   }
 
   const routerImports: string[] = [];
@@ -109,14 +131,35 @@ function generateImports(
   return imports;
 }
 
-function generateNode(
+export function generateNode(
   node: TemplateNode,
   parentName: string,
   scopeAttribute: string,
   state: GenerateState,
 ): void {
+  if (node.kind === 'text' && node.value.trim().length === 0) {
+    return;
+  }
+
+  state.mappings.push(createGeneratedMapping('js', state.lines.length + 1, 1, node.span));
+
   if (node.kind === 'text') {
     generateText(node, parentName, state);
+    return;
+  }
+
+  if (node.kind === 'if-block') {
+    generateIfBlock(node, parentName, scopeAttribute, state, generateNode);
+    return;
+  }
+
+  if (node.kind === 'for-block') {
+    generateForBlock(node, parentName, scopeAttribute, state, generateNode);
+    return;
+  }
+
+  if (node.kind === 'slot-outlet') {
+    generateSlotOutlet(node, parentName, scopeAttribute, state, generateNode);
     return;
   }
 
@@ -141,6 +184,11 @@ function generateElement(
 
   if (node.tagName === uiButtonTagName) {
     generateUiButton(node, parentName, scopeAttribute, state);
+    return;
+  }
+
+  if (isChildComponentTag(node.tagName)) {
+    generateChildComponent(node, parentName, scopeAttribute, state, generateNode);
     return;
   }
 
@@ -273,119 +321,4 @@ function diagnoseUnsupportedVanrotUiTag(tagName: string, state: GenerateState): 
       state.templatePath,
     ),
   );
-}
-
-function generateText(node: TextNode, parentName: string, state: GenerateState): void {
-  if (node.value.trim().length === 0) {
-    return;
-  }
-
-  const interpolation = parseInterpolation(node.value);
-  const textName = state.ids.next('text');
-
-  if (interpolation === null) {
-    state.lines.push(`  const ${textName} = document.createTextNode(${quoteString(node.value)});`);
-    state.lines.push(`  ${parentName}.append(${textName});`);
-    return;
-  }
-
-  const rewritten = rewriteExpression(interpolation.expression, state.templatePath);
-
-  state.diagnostics.push(...rewritten.diagnostics);
-
-  if (rewritten.expression === null) {
-    return;
-  }
-
-  state.usesEffect = true;
-  state.features.add('text-interpolation');
-  state.features.add('expression-rewriting');
-  state.lines.push(`  const ${textName} = document.createTextNode('');`);
-  state.lines.push(`  ${parentName}.append(${textName});`);
-  state.lines.push('  effect(() => {');
-  state.lines.push(
-    `    ${textName}.data = \`${escapeTemplatePart(interpolation.staticParts[0] ?? '')}\${${
-      rewritten.expression
-    }}${escapeTemplatePart(interpolation.staticParts[1] ?? '')}\`;`,
-  );
-  state.lines.push('  });');
-}
-
-function generateAttribute(
-  attribute: TemplateAttribute,
-  elementName: string,
-  state: GenerateState,
-): void {
-  const propertyMatch = /^\[([^\]]+)\]$/.exec(attribute.name);
-  const eventMatch = /^\(([^)]+)\)$/.exec(attribute.name);
-
-  if (propertyMatch !== null) {
-    generatePropertyBinding(propertyMatch[1] ?? '', attribute.value, elementName, state);
-    return;
-  }
-
-  if (eventMatch !== null) {
-    generateEventBinding(eventMatch[1] ?? '', attribute.value, elementName, state);
-    return;
-  }
-
-  if (attribute.name.startsWith('[') || attribute.name.startsWith('(')) {
-    return;
-  }
-
-  state.lines.push(
-    `  ${elementName}.setAttribute(${quoteString(attribute.name)}, ${quoteString(attribute.value)});`,
-  );
-}
-
-function generatePropertyBinding(
-  propertyName: string,
-  expression: string,
-  elementName: string,
-  state: GenerateState,
-): void {
-  const rewritten = rewriteExpression(expression, state.templatePath);
-
-  state.diagnostics.push(...rewritten.diagnostics);
-
-  if (rewritten.expression === null) {
-    return;
-  }
-
-  state.usesEffect = true;
-  state.features.add('property-binding');
-  state.features.add('expression-rewriting');
-  state.lines.push('  effect(() => {');
-  state.lines.push(`    ${elementName}.${propertyName} = ${rewritten.expression};`);
-  state.lines.push('  });');
-}
-
-function generateEventBinding(
-  eventName: string,
-  expression: string,
-  elementName: string,
-  state: GenerateState,
-): void {
-  const rewritten = rewriteEventHandlerExpression(expression, state.templatePath);
-
-  state.diagnostics.push(...rewritten.diagnostics);
-
-  if (rewritten.expression === null) {
-    return;
-  }
-
-  state.usesListen = true;
-  state.features.add('event-binding');
-  state.features.add('expression-rewriting');
-  state.lines.push(`  listen(${elementName}, ${quoteString(eventName)}, () => {`);
-  state.lines.push(`    ${rewritten.expression};`);
-  state.lines.push('  });');
-}
-
-function quoteString(value: string): string {
-  return `'${value.replaceAll('\\', '\\\\').replaceAll("'", "\\'").replaceAll('\n', '\\n')}'`;
-}
-
-function escapeTemplatePart(value: string): string {
-  return value.replaceAll('\\', '\\\\').replaceAll('`', '\\`').replaceAll('${', '\\${');
 }

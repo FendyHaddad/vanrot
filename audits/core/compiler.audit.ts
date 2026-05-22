@@ -38,6 +38,62 @@ describe(auditSlice.compiler, function () {
       expect(productionFields.docsPath).toBe('/docs/compiler/event-binding');
     },
   );
+
+  test(
+    auditCase(
+      auditSlice.compiler,
+      'production component compiles with control flow, child components, slots, scoped CSS, and mappings',
+    ),
+    function () {
+      const result = compileComponent({
+        componentPath: '/audit/home.page.ts',
+        componentSource: [
+          "import { computed, signal } from '@vanrot/runtime';",
+          'export class HomePage {',
+          '  users = signal([{ id: 1, name: "Ali", email: "ali@example.test" }]);',
+          '  selectedUser = computed(() => this.users()[0]);',
+          '  loggedIn = computed(() => this.users().length > 0);',
+          '  editUser(): void {}',
+          '}',
+        ].join('\n'),
+        templatePath: '/audit/home.page.html',
+        templateSource: [
+          '@if (loggedIn()) {',
+          '  <profile-card [user]="selectedUser()">',
+          '    <h2 slot.title>Account owner</h2>',
+          '    @for (user of users(); track user.id) {',
+          '      <p>{{ user.name }}</p>',
+          '    } @empty {',
+          '      <p>No users yet</p>',
+          '    }',
+          '    <vr-button slot.actions (click)="editUser()">Edit</vr-button>',
+          '  </profile-card>',
+          '} @else {',
+          '  <p>Please sign in</p>',
+          '}',
+        ].join('\n'),
+        stylePath: '/audit/home.page.css',
+        styleSource: [
+          ':host { display: block; }',
+          '.card:hover { color: var(--vr-color-accent); }',
+          ':global(body) { margin: 0; }',
+        ].join('\n'),
+      });
+
+      expect(result.diagnostics).toEqual([]);
+      expect(result.metadata.features).toEqual(
+        expect.arrayContaining([
+          'control-flow-if',
+          'control-flow-for',
+          'child-component',
+          'slot',
+          'scoped-css',
+          'ui-button',
+        ]),
+      );
+      expect(result.metadata.mappings.length).toBeGreaterThan(0);
+    },
+  );
 });
 
 function readProductionDiagnosticFields(

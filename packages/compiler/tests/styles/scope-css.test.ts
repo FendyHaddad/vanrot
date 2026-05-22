@@ -27,6 +27,16 @@ describe('scopeCss', () => {
     expect(result.css).toContain(
       '.a[data-vr-a1b2c3], .b[data-vr-a1b2c3] { display: block; }',
     );
+    expect(result.mappings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          generatedFile: 'css',
+          sourceFilePath: 'counter.component.css',
+          sourceLine: 1,
+          sourceColumn: 1,
+        }),
+      ]),
+    );
   });
 
   it('scopes selectors inside media rules', () => {
@@ -36,9 +46,61 @@ describe('scopeCss', () => {
     ).toContain('@media (min-width: 40rem) { button[data-vr-a1b2c3] { color: red; } }');
   });
 
-  it('reports global escapes as unsupported in Phase 3', () => {
-    expect(scopeCss(':global(body) { margin: 0; }', 'data-vr-a1b2c3', 'x.css')).toMatchObject({
-      diagnostics: [{ code: 'VR008' }],
-    });
+  it('leaves global selectors unscoped', () => {
+    const result = scopeCss(':global(body) { margin: 0; }', 'data-vr-a1b2c3', 'x.css');
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.css).toContain('body { margin: 0; }');
+  });
+
+  it('reports multi-selector global escapes instead of dropping selectors', () => {
+    const globalSelector = ':global(.a, .b)';
+    const result = scopeCss(`${globalSelector} { margin: 0; }`, 'data-vr-a1b2c3', 'x.css');
+
+    expect(result.diagnostics).toMatchObject([
+      {
+        code: 'VR008',
+        docsPath: '/docs/compiler/scoped-css',
+        sourceText: globalSelector,
+      },
+    ]);
+  });
+
+  it('supports :host and :global selectors', () => {
+    const result = scopeCss(
+      [
+        ':host { display: block; }',
+        ':host(.active) { color: red; }',
+        ':global(body) { margin: 0; }',
+        '.card:hover { color: blue; }',
+      ].join('\n'),
+      'data-vr-a1b2c3',
+      'profile-card.component.css',
+    );
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.css).toContain('[data-vr-a1b2c3] { display: block; }');
+    expect(result.css).toContain('[data-vr-a1b2c3].active { color: red; }');
+    expect(result.css).toContain('body { margin: 0; }');
+    expect(result.css).toContain('.card:hover[data-vr-a1b2c3] { color: blue; }');
+  });
+
+  it('reports unscopable selectors with CSS source metadata', () => {
+    const hostContextSelector = ':host-context(.dark) .card';
+    const result = scopeCss(`${hostContextSelector} { color: white; }`, 'data-vr-a1b2c3', 'x.css');
+
+    expect(result.diagnostics).toMatchObject([
+      {
+        code: 'VR008',
+        docsPath: '/docs/compiler/scoped-css',
+        filePath: 'x.css',
+        line: 1,
+        column: 1,
+        endLine: 1,
+        endColumn: 27,
+        sourceText: hostContextSelector,
+      },
+    ]);
+    expect(result.diagnostics[0]?.codeFrame).toContain('^'.repeat(hostContextSelector.length));
   });
 });

@@ -11,6 +11,8 @@ describe('compileForVite', () => {
         componentName: 'AppComponent',
         scopeAttribute: 'data-vr-app',
         features: [],
+        componentDependencies: [],
+        mappings: [],
       },
     }));
 

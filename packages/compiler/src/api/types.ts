@@ -8,7 +8,15 @@ export type DiagnosticCode =
   | 'VR007'
   | 'VR008'
   | 'VR009'
-  | 'VR010';
+  | 'VR010'
+  | 'VR011'
+  | 'VR012'
+  | 'VR013'
+  | 'VR014'
+  | 'VR015'
+  | 'VR016'
+  | 'VR017'
+  | 'VR018';
 
 export type DiagnosticSeverity = 'error' | 'warning';
 
@@ -32,6 +40,12 @@ export interface CompileDiagnostic {
   filePath: string;
   line: number;
   column: number;
+  endLine: number;
+  endColumn: number;
+  sourceText: string;
+  codeFrame: string;
+  suggestion: string;
+  docsPath: string;
 }
 
 export type CompileFeature =
@@ -40,12 +54,39 @@ export type CompileFeature =
   | 'text-interpolation'
   | 'event-binding'
   | 'property-binding'
+  | 'child-component'
   | 'scoped-css'
   | 'readable-output'
   | 'expression-rewriting'
+  | 'control-flow-if'
+  | 'control-flow-for'
   | 'router-outlet'
   | 'router-link'
-  | 'ui-button';
+  | 'ui-button'
+  | 'slot';
+
+export interface ComponentDependencyInput {
+  name: string;
+  expression: string;
+}
+
+export interface ComponentDependency {
+  tagName: string;
+  componentName: string;
+  importPath: string;
+  inputs: ComponentDependencyInput[];
+}
+
+export type GeneratedFileKind = 'js' | 'css';
+
+export interface SourceMapping {
+  generatedFile: GeneratedFileKind;
+  generatedLine: number;
+  generatedColumn: number;
+  sourceFilePath: string;
+  sourceLine: number;
+  sourceColumn: number;
+}
 
 export interface CompileResult {
   js: string;
@@ -55,5 +96,7 @@ export interface CompileResult {
     componentName: string;
     scopeAttribute: string;
     features: CompileFeature[];
+    componentDependencies: ComponentDependency[];
+    mappings: SourceMapping[];
   };
 }

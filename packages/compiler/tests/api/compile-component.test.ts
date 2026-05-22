@@ -19,6 +19,12 @@ describe('compiler api types', () => {
       filePath: 'src/counter.ts',
       line: 1,
       column: 1,
+      endLine: 1,
+      endColumn: 1,
+      sourceText: '',
+      codeFrame: '',
+      suggestion: 'Use a supported role suffix such as .component.ts, .page.ts, or .button.ts.',
+      docsPath: '/docs/compiler/file-conventions',
     });
   });
 
@@ -48,6 +54,8 @@ describe('compiler api types', () => {
         componentName: 'CounterComponent',
         scopeAttribute: 'data-vr-test',
         features: [feature],
+        componentDependencies: [],
+        mappings: [],
       },
     };
 
@@ -112,5 +120,34 @@ describe('compileComponent', () => {
     expect(result.js).toContain('button0.disabled = ctx.saving();');
     expect(result.css).toContain(`.counter[${result.metadata.scopeAttribute}]`);
     expect(result.css).toContain(`button[${result.metadata.scopeAttribute}]`);
+  });
+
+  it('returns source-map-ready mappings for generated template output', () => {
+    const result = compileComponent({
+      componentPath: 'counter.component.ts',
+      componentSource: 'export class CounterComponent { count() { return 1; } }',
+      templatePath: 'counter.component.html',
+      templateSource: '<p>Count: {{ count() }}</p>',
+      stylePath: 'counter.component.css',
+      styleSource: 'p { color: red; }',
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.metadata.mappings).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          sourceFilePath: 'counter.component.html',
+          sourceLine: 1,
+          sourceColumn: 1,
+          generatedFile: 'js',
+        }),
+        expect.objectContaining({
+          sourceFilePath: 'counter.component.css',
+          sourceLine: 1,
+          sourceColumn: 1,
+          generatedFile: 'css',
+        }),
+      ]),
+    );
   });
 });

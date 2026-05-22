@@ -20,4 +20,11 @@ describe('runtime exports', () => {
     expect(internal.disposeCleanupScope).toBeTypeOf('function');
     expect(internal.listen).toBeTypeOf('function');
   });
+
+  it('exports input helpers', async () => {
+    const runtime = await import('../../src/index.js');
+
+    expect(runtime.input.required).toBeTypeOf('function');
+    expect(runtime.input.default).toBeTypeOf('function');
+  });
 });

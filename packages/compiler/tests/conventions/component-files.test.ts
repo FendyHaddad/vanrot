@@ -2,7 +2,7 @@ import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { resolveComponentFiles } from '../../src/conventions/component-files.js';
+import { createComponentFileSet, resolveComponentFiles } from '../../src/conventions/component-files.js';
 
 describe('component file conventions', () => {
   it('resolves component siblings and expected class names', async () => {
@@ -89,6 +89,24 @@ describe('component file conventions', () => {
         stylePath: join(root, 'primary.button.css'),
       },
       diagnostics: [],
+    });
+  });
+
+  it('resolves prefix-first UI role files', () => {
+    expect(createComponentFileSet('/src/ui/button/ui.button.ts')).toMatchObject({
+      componentPath: '/src/ui/button/ui.button.ts',
+      templatePath: '/src/ui/button/ui.button.html',
+      stylePath: '/src/ui/button/ui.button.css',
+      componentBaseName: 'ui',
+      expectedClassName: 'UiButton',
+    });
+
+    expect(createComponentFileSet('/src/ui/button/primary.button.ts')).toMatchObject({
+      componentPath: '/src/ui/button/primary.button.ts',
+      templatePath: '/src/ui/button/primary.button.html',
+      stylePath: '/src/ui/button/primary.button.css',
+      componentBaseName: 'primary',
+      expectedClassName: 'PrimaryButton',
     });
   });
 

@@ -24,13 +24,8 @@ describe('component metadata', () => {
     });
   });
 
-  it('rejects missing exports, wrong names, default exports, and required constructors', () => {
-    const cases = [
-      'class CounterComponent {}',
-      'export class WrongName {}',
-      'export default class CounterComponent {}',
-      'export class CounterComponent { constructor(required: string) {} }',
-    ];
+  it('rejects missing exports and wrong names', () => {
+    const cases = ['class CounterComponent {}', 'export class WrongName {}'];
 
     for (const source of cases) {
       expect(
@@ -49,5 +44,50 @@ describe('component metadata', () => {
         diagnostics: [{ code: 'VR004' }],
       });
     }
+  });
+
+  it('distinguishes default exports from missing named component exports', () => {
+    const result = readComponentMetadata(
+      {
+        componentPath: 'profile-card.component.ts',
+        templatePath: 'profile-card.component.html',
+        stylePath: 'profile-card.component.css',
+        componentBaseName: 'profile-card',
+        expectedClassName: 'ProfileCardComponent',
+      },
+      'export default class ProfileCardComponent {}',
+    );
+
+    expect(result.diagnostics).toMatchObject([{ code: 'VR014' }]);
+  });
+
+  it('distinguishes multiple plausible component class exports', () => {
+    const result = readComponentMetadata(
+      {
+        componentPath: 'profile-card.component.ts',
+        templatePath: 'profile-card.component.html',
+        stylePath: 'profile-card.component.css',
+        componentBaseName: 'profile-card',
+        expectedClassName: 'ProfileCardComponent',
+      },
+      ['export class ProfileCardComponent {}', 'export class ProfileCardPage {}'].join('\n'),
+    );
+
+    expect(result.diagnostics).toMatchObject([{ code: 'VR015' }]);
+  });
+
+  it('distinguishes required constructor arguments', () => {
+    const result = readComponentMetadata(
+      {
+        componentPath: 'profile-card.component.ts',
+        templatePath: 'profile-card.component.html',
+        stylePath: 'profile-card.component.css',
+        componentBaseName: 'profile-card',
+        expectedClassName: 'ProfileCardComponent',
+      },
+      'export class ProfileCardComponent { constructor(service: unknown) {} }',
+    );
+
+    expect(result.diagnostics).toMatchObject([{ code: 'VR016' }]);
   });
 });

@@ -4,6 +4,8 @@ export { computed } from './reactive/computed.js';
 export { effect } from './reactive/effect.js';
 export { batch } from './reactive/batch.js';
 export { untrack } from './reactive/untrack.js';
+export type { InputSignal } from './inputs/input.js';
+export { input } from './inputs/input.js';
 
 export { onDestroy } from './lifecycle/on-destroy.js';
 export { onMount } from './lifecycle/on-mount.js';

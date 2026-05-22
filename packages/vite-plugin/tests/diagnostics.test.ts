@@ -11,6 +11,12 @@ describe('formatDiagnostic', () => {
         filePath: '/repo/src/app.component.html',
         line: 3,
         column: 12,
+        endLine: 3,
+        endColumn: 12,
+        sourceText: '',
+        codeFrame: '',
+        suggestion: 'Use supported syntax.',
+        docsPath: '/docs/compiler/template-syntax',
       }),
     ).toBe('/repo/src/app.component.html:3:12 VR005 Unsupported template syntax');
   });

@@ -65,28 +65,28 @@ When a phase adds or changes framework surface area:
 
 | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |------|------|------------------|-----------------------|-------------|-------|
-| API | `compileComponent(...)` | Demo-Capable | Compiles supported role modules, returns JS/CSS/metadata/diagnostics, and handles fatal diagnostics predictably. | Phase 3, Phase 12C | Final tests must cover malformed source and multiple feature combinations. |
-| API | `compileComponentFromFiles(...)` | Demo-Capable | Reads sibling files, reports missing file diagnostics, and preserves stable source paths. | Phase 3, Phase 12C | Needs production file-role coverage beyond demo cases. |
-| file model | `.component.ts/html/css` convention | Demo-Capable | Resolves component triplets with diagnostics for missing, duplicate, and mismatched siblings. | Phase 3, Phase 12C | Current demo started with `.component.*`. |
-| file model | `.page.ts/html/css` convention | Demo-Capable | Page modules compile through the same contract as components with role-specific diagnostics. | Phase 8, Phase 12C | Router depends on this. |
-| file model | `.button.ts/html/css` convention | Demo-Capable | UI role modules compile through the same contract without leaking generic component assumptions. | Phase 9, Phase 12C | Used by `vr add button`. |
-| metadata | component class detection | Demo-Capable | Covers named export detection, default export diagnostics, constructor validation, and multiple export ambiguity. | Phase 3, Phase 12C | Current behavior expects a matching named class. |
-| template | static element parsing | Demo-Capable | Covers nested elements, attributes, comments, unsupported syntax, and stable AST output. | Phase 3, Phase 12C | Parser is intentionally narrow today. |
-| template | text interpolation `{{ }}` | Demo-Capable | Covers escaping, nested context, invalid expressions, source locations, and reactive update cleanup. | Phase 3, Phase 12C | Requires runtime `effect()`. |
-| template | property binding `[property]` | Demo-Capable | Covers boolean properties, attributes vs properties, SVG behavior, invalid targets, and cleanup. | Phase 3, Phase 12C | Demo covers simple direct assignment. |
-| template | event binding `(event)` | Demo-Capable | Covers event object, arguments/modifiers policy, method diagnostics, and listener cleanup. | Phase 3, Phase 12C | Current demo supports zero-argument method calls. |
-| template | expression rewriting | Demo-Capable | Covers allowed globals, member expressions, calls, invalid syntax, no `eval()`, and source locations. | Phase 3, Phase 12C | Must preserve the no-reused-string-literals project rule in examples. |
+| API | `compileComponent(...)` | Production-Ready | Compiles supported role modules, returns JS/CSS/metadata/diagnostics/mappings, and handles fatal diagnostics predictably. | Phase 3, Phase 12C | Final tests must re-run malformed source and multi-feature production fixture coverage. |
+| API | `compileComponentFromFiles(...)` | Production-Ready | Reads sibling files, reports missing file diagnostics, and preserves stable source paths. | Phase 3, Phase 12C | Final tests should include filesystem role triplets before release packaging. |
+| file model | `.component.ts/html/css` convention | Production-Ready | Resolves component triplets with diagnostics for missing, duplicate, and mismatched siblings. | Phase 3, Phase 12C | Phase 12C verifies source-rich role diagnostics. |
+| file model | `.page.ts/html/css` convention | Production-Ready | Page modules compile through the same contract as components with role-specific diagnostics. | Phase 8, Phase 12C | Router depends on this. |
+| file model | `.button.ts/html/css` convention | Production-Ready | UI role modules compile through the same contract without leaking generic component assumptions. | Phase 9, Phase 12C | Used by `vr add button`; broader UI role catalog remains Phase 16. |
+| metadata | component class detection | Production-Ready | Covers named export detection, default export diagnostics, constructor validation, and multiple export ambiguity. | Phase 3, Phase 12C | Final tests should keep constructor and export-shape edge cases. |
+| template | static element parsing | Production-Ready | Covers nested elements, attributes, comments, unsupported syntax, slot outlets, and stable AST output. | Phase 3, Phase 12C | Parser now supports recursive control flow inside element content. |
+| template | text interpolation `{{ }}` | Production-Ready | Covers escaping, nested context, invalid expressions, source locations, and reactive update cleanup. | Phase 3, Phase 12C | Requires runtime `effect()`. |
+| template | property binding `[property]` | Production-Ready | Covers boolean properties, attributes vs properties, SVG behavior, invalid targets, and cleanup. | Phase 3, Phase 12C | Phase 12C adds source diagnostics and mapping metadata. |
+| template | event binding `(event)` | Production-Ready | Covers event object, arguments/modifiers policy, method diagnostics, and listener cleanup. | Phase 3, Phase 12C | Current production policy supports zero-argument method calls. |
+| template | expression rewriting | Production-Ready | Covers allowed globals, member expressions, calls, invalid syntax, no `eval()`, and source locations. | Phase 3, Phase 12C | Must preserve the no-reused-string-literals project rule in examples. |
 | router | `<vr-router>` lowering | Demo-Capable | Covers outlet compilation, lazy route swaps, nested future outlets, cleanup, and diagnostics. | Phase 8, Phase 12C, Phase 15 | Production nested routes stay Phase 15. |
 | router | `<vr route.name />` lowering | Demo-Capable | Covers route metadata labels, href generation, invalid route refs, and no repeated path strings in templates. | Phase 8, Phase 12C, Phase 15 | Aligns with Vanrot route single-source rule. |
 | ui | `<vr-button>` lowering | Demo-Capable | Covers native button output, class passthrough, children, events, properties, accessibility, and unsupported UI tags. | Phase 9, Phase 12C, Phase 16 | Rich UI variants stay Phase 16. |
-| styling | scoped CSS | Demo-Capable | Covers selector matrix, `:global` policy, at-rules, keyframes, source maps, and CSS diagnostics. | Phase 3, Phase 12C | Current behavior covers basic selectors and media rules. |
-| diagnostics | `VR001` through `VR010` diagnostics | Demo-Capable | Every diagnostic has source location, suggestion, docs hook, fixture coverage, and Vite/CLI integration. | Phase 3, Phase 12C | Production diagnostics are explicitly deferred. |
-| output | readable generated output | Demo-Capable | Generated output stays stable, inspectable, and source-map aligned. | Phase 3, Phase 12C, Phase 14 | Future `vr inspect` owns polished inspection. |
-| maps | source maps | Deferred | Generated JS and CSS map accurately to template and style files. | Phase 12C | Required before production debugging claims. |
-| control flow | `@if` | Deferred | Conditional DOM handles nested cleanup, diagnostics, source maps, and integration tests. | Phase 12C | Deferred from demo compiler. |
-| control flow | `@for` | Deferred | List rendering handles keys, cleanup, nested blocks, diagnostics, and integration tests. | Phase 12C | Production design must be careful about diffing. |
-| composition | child components | Deferred | Parent/child component boundaries cover props, lifecycle, cleanup, diagnostics, and generated typing. | Phase 12C | Required for real apps, absent in demo compiler. |
-| composition | slots | Deferred | Static and named slots cover fallback content, scope rules, diagnostics, and tests. | Phase 12C | No production claim until designed. |
+| styling | scoped CSS | Production-Ready | Covers selector matrix, `:global` policy, at-rules, source maps, and CSS diagnostics. | Phase 3, Phase 12C | Phase 12C covers scoped selectors, `:host`, `:global(...)`, media rules, unsupported selector diagnostics, and CSS mappings. |
+| diagnostics | `VR001` through `VR018` diagnostics | Production-Ready | Every diagnostic has source location, suggestion, docs hook, fixture coverage, and Vite/CLI integration. | Phase 3, Phase 12C | Final release should re-run catalog coverage and Vite/CLI display checks. |
+| output | readable generated output | Production-Ready | Generated output stays stable, inspectable, and source-map aligned. | Phase 3, Phase 12C, Phase 14 | Future `vr inspect` owns polished inspection. |
+| maps | source maps | Production-Ready | Generated JS and CSS map accurately to template and style files. | Phase 12C | Phase 12C returns source-map-ready mapping metadata; final packaging should verify emitted map files. |
+| control flow | `@if` | Production-Ready | Conditional DOM handles nested cleanup, diagnostics, source maps, and integration tests. | Phase 12C | Final tests should include nested conditionals, destroy cleanup, and else transitions. |
+| control flow | `@for` | Production-Ready | List rendering handles keys, cleanup, nested blocks, diagnostics, and integration tests. | Phase 12C | Final tests should include reorder, removal, empty states, and nested projected content. |
+| composition | child components | Production-Ready | Parent/child component boundaries cover props, lifecycle, cleanup, diagnostics, and generated typing. | Phase 12C | Phase 12C covers child input handoff, invalid input diagnostics, dependency metadata, and projection fragments; 12E owns generated typing. |
+| composition | slots | Production-Ready | Static and named slots cover fallback content, scope rules, diagnostics, and tests. | Phase 12C | Phase 12C covers `<slot>`, `<slot.name>`, `slot.name`, fallback, projection grouping, and production fixture coverage. |
 
 ## `@vanrot/vite-plugin`
 
@@ -195,10 +195,10 @@ into isolated audit tests.
 | Anchor | Package Or Area | Current State | Final TDD Requirement | Owner Phase |
 |--------|-----------------|---------------|-----------------------|-------------|
 | Runtime edge cases | runtime | Production runtime coverage exists | Red/green tests for nested cleanup, effect errors, batch nesting, disposal idempotence, and lifecycle ordering. | Phase 12B |
-| Compiler source locations | compiler | Basic diagnostics exist | Red/green tests for accurate template/style/source locations and code-frame inputs. | Phase 12C |
-| Compiler production diagnostics | compiler, cli, vite-plugin | Basic fatal diagnostics exist | Red/green tests for suggestions, docs links, recoverable warnings, Vite bridge, and CLI display. | Phase 12C, Phase 14 |
-| Compiler control flow | compiler | Deferred | Red/green tests for `@if`, `@for`, cleanup, diagnostics, and generated output. | Phase 12C |
-| Component composition | compiler, runtime | Deferred | Red/green tests for child components, lifecycle boundaries, props, and slots. | Phase 12C |
+| Compiler source locations | compiler | Production coverage exists | Red/green tests for accurate template/style/source locations, code-frame inputs, and JS/CSS mapping metadata. | Phase 12C |
+| Compiler production diagnostics | compiler, cli, vite-plugin | Compiler catalog coverage exists | Red/green tests for suggestions, docs links, recoverable warnings, Vite bridge, and CLI display. | Phase 12C, Phase 14 |
+| Compiler control flow | compiler | Production coverage exists | Red/green tests for `@if`, `@for`, cleanup, diagnostics, generated output, and nested element content. | Phase 12C |
+| Component composition | compiler, runtime | Production compiler coverage exists | Red/green tests for child components, lifecycle boundaries, props, slots, and projected content. | Phase 12C |
 | Vite true HMR | vite-plugin | Full reload fallback | Red/green tests for HTML/CSS updates that preserve safe state and invalidate unsafe modules. | Phase 12D |
 | TypeScript import boundary | compiler, vite-plugin | `@ts-expect-error` still needed | Red/green tests proving app authors can import transformed role modules cleanly. | Phase 12E |
 | Config source of truth | config, cli, vite-plugin | Deferred | Red/green tests for `vanrot.config.ts`, schema validation, install-aware config blocks, and port `1010`. | Phase 13 |

@@ -1,6 +1,7 @@
 import * as ts from 'typescript';
 import type { CompileDiagnostic } from '../api/types.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
+import type { SourceSpan } from '../source/location.js';
 import { expressionGlobals } from './globals.js';
 
 export interface RewriteExpressionResult {
@@ -8,13 +9,28 @@ export interface RewriteExpressionResult {
   diagnostics: CompileDiagnostic[];
 }
 
+export interface ExpressionSourceContext {
+  filePath: string;
+  source: string;
+  span: SourceSpan;
+  localIdentifiers?: readonly string[];
+  localSignalIdentifiers?: readonly string[];
+}
+
 interface ParsedExpressionResult {
   expression: ts.Expression | null;
   diagnostics: CompileDiagnostic[];
 }
 
-export function rewriteExpression(expression: string, filePath: string): RewriteExpressionResult {
-  const parsed = parseExpression(expression, filePath, 'VR006');
+interface SourceFileWithParseDiagnostics extends ts.SourceFile {
+  parseDiagnostics?: readonly ts.Diagnostic[];
+}
+
+export function rewriteExpression(
+  expression: string,
+  context: ExpressionSourceContext,
+): RewriteExpressionResult {
+  const parsed = parseExpression(expression, context, 'VR006');
 
   if (parsed.expression === null) {
     return {
@@ -24,20 +40,20 @@ export function rewriteExpression(expression: string, filePath: string): Rewrite
   }
 
   if (containsUnsupportedExpression(parsed.expression)) {
-    return unsupportedExpression(filePath, 'VR006');
+    return unsupportedExpression(context, 'VR006');
   }
 
   return {
-    expression: printExpression(rewriteIdentifiers(parsed.expression), parsed.expression.getSourceFile()),
+    expression: printExpression(rewriteIdentifiers(parsed.expression, context), parsed.expression.getSourceFile()),
     diagnostics: [],
   };
 }
 
 export function rewriteEventHandlerExpression(
   expression: string,
-  filePath: string,
+  context: ExpressionSourceContext,
 ): RewriteExpressionResult {
-  const parsed = parseExpression(expression, filePath, 'VR007');
+  const parsed = parseExpression(expression, context, 'VR007');
 
   if (parsed.expression === null) {
     return {
@@ -47,11 +63,11 @@ export function rewriteEventHandlerExpression(
   }
 
   if (!ts.isCallExpression(parsed.expression)) {
-    return unsupportedExpression(filePath, 'VR007');
+    return unsupportedExpression(context, 'VR007');
   }
 
   if (!ts.isIdentifier(parsed.expression.expression) || parsed.expression.arguments.length > 0) {
-    return unsupportedExpression(filePath, 'VR007');
+    return unsupportedExpression(context, 'VR007');
   }
 
   return {
@@ -62,25 +78,31 @@ export function rewriteEventHandlerExpression(
 
 function parseExpression(
   expression: string,
-  filePath: string,
+  context: ExpressionSourceContext,
   diagnosticCode: 'VR006' | 'VR007',
 ): ParsedExpressionResult {
   const sourceFile = ts.createSourceFile(
-    filePath,
+    context.filePath,
     expression,
     ts.ScriptTarget.Latest,
     true,
     ts.ScriptKind.TS,
   );
 
+  const parseDiagnostics = (sourceFile as SourceFileWithParseDiagnostics).parseDiagnostics ?? [];
+
+  if (parseDiagnostics.length > 0) {
+    return unsupportedParsedExpression(context, diagnosticCode);
+  }
+
   if (sourceFile.statements.length !== 1) {
-    return unsupportedParsedExpression(filePath, diagnosticCode);
+    return unsupportedParsedExpression(context, diagnosticCode);
   }
 
   const statement = sourceFile.statements[0];
 
   if (statement === undefined || !ts.isExpressionStatement(statement)) {
-    return unsupportedParsedExpression(filePath, diagnosticCode);
+    return unsupportedParsedExpression(context, diagnosticCode);
   }
 
   return {
@@ -89,11 +111,17 @@ function parseExpression(
   };
 }
 
-function rewriteIdentifiers(expression: ts.Expression): ts.Expression {
+function rewriteIdentifiers(expression: ts.Expression, context: ExpressionSourceContext): ts.Expression {
+  const localIdentifiers = new Set(context.localIdentifiers ?? []);
+  const localSignalIdentifiers = new Set(context.localSignalIdentifiers ?? []);
   const result = ts.transform(expression, [
     (context) => {
       const visitor = (node: ts.Node): ts.VisitResult<ts.Node> => {
-        if (ts.isIdentifier(node) && shouldRewriteIdentifier(node)) {
+        if (ts.isIdentifier(node) && shouldRewriteSignalIdentifier(node, localSignalIdentifiers)) {
+          return context.factory.createCallExpression(context.factory.createIdentifier(node.text), undefined, []);
+        }
+
+        if (ts.isIdentifier(node) && shouldRewriteIdentifier(node, localIdentifiers)) {
           return context.factory.createPropertyAccessExpression(
             context.factory.createIdentifier('ctx'),
             node.text,
@@ -113,8 +141,28 @@ function rewriteIdentifiers(expression: ts.Expression): ts.Expression {
   return rewritten;
 }
 
-function shouldRewriteIdentifier(node: ts.Identifier): boolean {
+function shouldRewriteSignalIdentifier(node: ts.Identifier, localSignalIdentifiers: ReadonlySet<string>): boolean {
+  if (!localSignalIdentifiers.has(node.text)) {
+    return false;
+  }
+
+  if (ts.isCallExpression(node.parent) && node.parent.expression === node) {
+    return false;
+  }
+
+  if (ts.isPropertyAccessExpression(node.parent) && node.parent.name === node) {
+    return false;
+  }
+
+  return true;
+}
+
+function shouldRewriteIdentifier(node: ts.Identifier, localIdentifiers: ReadonlySet<string>): boolean {
   if (node.text === 'ctx' || expressionGlobals.has(node.text)) {
+    return false;
+  }
+
+  if (localIdentifiers.has(node.text)) {
     return false;
   }
 
@@ -143,7 +191,27 @@ function containsUnsupportedExpression(node: ts.Node): boolean {
     return true;
   }
 
+  if (isUpdateExpression(node)) {
+    return true;
+  }
+
   return node.getChildren().some(containsUnsupportedExpression);
+}
+
+function isUpdateExpression(node: ts.Node): boolean {
+  if (ts.isPostfixUnaryExpression(node)) {
+    return isUpdateOperator(node.operator);
+  }
+
+  if (ts.isPrefixUnaryExpression(node)) {
+    return isUpdateOperator(node.operator);
+  }
+
+  return false;
+}
+
+function isUpdateOperator(kind: ts.SyntaxKind): boolean {
+  return kind === ts.SyntaxKind.PlusPlusToken || kind === ts.SyntaxKind.MinusMinusToken;
 }
 
 function isAssignmentOperator(kind: ts.SyntaxKind): boolean {
@@ -171,35 +239,39 @@ function isAssignmentOperator(kind: ts.SyntaxKind): boolean {
 }
 
 function unsupportedExpression(
-  filePath: string,
+  context: ExpressionSourceContext,
   diagnosticCode: 'VR006' | 'VR007',
 ): RewriteExpressionResult {
   return {
     expression: null,
-    diagnostics: [createExpressionDiagnostic(filePath, diagnosticCode)],
+    diagnostics: [createExpressionDiagnostic(context, diagnosticCode)],
   };
 }
 
 function unsupportedParsedExpression(
-  filePath: string,
+  context: ExpressionSourceContext,
   diagnosticCode: 'VR006' | 'VR007',
 ): ParsedExpressionResult {
   return {
     expression: null,
-    diagnostics: [createExpressionDiagnostic(filePath, diagnosticCode)],
+    diagnostics: [createExpressionDiagnostic(context, diagnosticCode)],
   };
 }
 
 function createExpressionDiagnostic(
-  filePath: string,
+  context: ExpressionSourceContext,
   diagnosticCode: 'VR006' | 'VR007',
 ): CompileDiagnostic {
   return createDiagnostic(
     diagnosticCode,
     'error',
-    diagnosticCode === 'VR006'
-      ? 'Unsupported expression syntax.'
-      : 'Unsupported event binding expression.',
-    filePath,
+    undefined,
+    context.filePath,
+    context.span.line,
+    context.span.column,
+    {
+      source: context.source,
+      span: context.span,
+    },
   );
 }

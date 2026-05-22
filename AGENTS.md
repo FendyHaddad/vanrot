@@ -90,13 +90,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-22 3:53pm GMT+8
+# [vanrot] recent context, 2026-05-22 8:21pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (19,612t read) | 913,618t work | 98% savings
+Stats: 50 obs (21,539t read) | 1,051,348t work | 98% savings
 
 ### May 20, 2026
 S589 Vanrot Runtime Kernel Rule — full spec design complete, ready to write design doc (May 20 at 10:42 PM)
@@ -109,26 +109,8 @@ S594 Write @vanrot/runtime implementation plan (phase-by-phase, no code implemen
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
 S597 @vanrot/runtime implementation plan written phase-by-phase — plan complete, awaiting execution approach decision (May 20 at 11:32 PM)
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
-### May 21, 2026
-1681 11:00p 🔵 Vanrot Phase 0–6 Code Surface Confirmed for Review
 ### May 22, 2026
-1685 12:25p 🔵 VanRot Framework — Multi-Phase Demo Complete (Phases 1–10)
-1686 " ⚖️ File Suffix Convention: Role-Based Prefix System (.ui, .page, .component, .test)
-1687 " ⚖️ Router Design: route.ts Single Source of Truth, No String Literals in Templates
-1688 " ⚖️ NPM Retained Over JSR — Masking Strategy Deferred
-1689 " ⚖️ No Auto-Commit Rule — Developer Controls All Git Commits
-1690 " ⚖️ Testing Syntax: English-First Readable Tests Chosen Over `it`/`describe`
-1691 " ⚖️ feature-maturity.md Structure: Packages/Modules/Submodules with Phased Checklist
-1692 " ✅ Hook Updated: Phase Completion Triggers feature-maturity.md + presentation.html Updates
-1693 " 🔵 Workspace Protocol Error: @vanrot/router Not Resolvable from npm Registry
-1694 " ⚖️ UI Components Use Custom Element Tags: &lt;vr-button&gt;, &lt;vr-tabs&gt;, etc.
-1696 12:33p 🟣 Phase 11 Spec Created: Production Roadmap + Guardrails Foundation
-1697 " ⚖️ feature-maturity.md Replaces brainstorm.md as Mandatory Phase Completion Tracker
-1698 12:38p 🟣 Phase 11 Implementation Plan Written: 8-Task Production Standards Checklist
-1701 3:07p 🟣 Vanrot Phase 12A Task 1: Isolated Core Audit Lane
-1702 " 🔵 Vanrot AGENTS.md: Project Rules and Phase Protocols
-1703 " 🔵 Vanrot working tree state at Phase 12A Task 1 start
-1704 " 🟣 Phase 12A Task 1 implemented and verified successfully
+1704 3:07p 🟣 Phase 12A Task 1 implemented and verified successfully
 1705 " 🔵 Vanrot working tree state after Phase 12A Task 1 completion
 1706 3:08p 🔵 Local memory API /api/sessions/observations requires tool_name field
 1708 " 🔵 Vanrot Phase 12A Task 1 Spec Compliance Review
@@ -161,6 +143,23 @@ S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiti
 1739 " 🔵 Vanrot Phase 12A Task 8 Spec Compliance Review — APPROVED
 1737 3:46p 🔵 Vanrot Phase 12A Task 8 — documentation review findings
 1738 3:47p 🔵 Phase 12A Task 8 review verdict: ISSUES — presentation wording ambiguous on Phase 12 pending status
+1743 6:28p 🟣 Source Span Infrastructure Added to Vanrot Compiler (Phase 12C Task 1)
+1744 " 🟣 Diagnostic Catalog and Rich CompileDiagnostic Fields Added
+1745 " 🔵 Pre-Task Compiler State: No Source Dir, Existing Test Uses toEqual on CompileDiagnostic
+1746 " 🟣 TDD Red Phase Confirmed: location.test.ts Fails as Expected
+1747 " 🟣 All Task 1 Source Files Written: location.ts, catalog.ts, types.ts, diagnostics.ts, index.ts, diagnostics.test.ts
+1748 6:33p 🔵 Phase 12C Task 1 Spec Compliance Re-Review Initiated
+1750 6:38p 🔵 Phase 12C Task 1 Post-Fix Code Quality Re-Review Scope
+1753 6:40p 🟣 Phase 12C Task 2: Template AST Span Tracking Initiated
+1749 " 🔵 Phase 12C Task 1: Spec Compliant — All Tests Pass
+1751 6:41p 🔵 Phase 12C Task 1 Re-Review: All Three Fixes Verified Correct — APPROVED
+1752 " 🔵 Phase 12C Task 1 Caller Drift Risk: Hardcoded Strings Duplicate Catalog Messages
+1756 6:43p ⚖️ Phase 12C Task 2 Code-Quality Review — Two Additional Fixes Queued
+1754 6:50p 🔵 Phase 12C Task 2: Template AST Spans And Normal HTML Parsing — Review Scope
+1755 " 🟣 Phase 12C Task 2: SourceSpan Added to All Template AST Nodes and Bindings
+1757 6:54p 🔵 Phase 12C Task 2 re-review: createAttributeValueSpan entity-robustness confirmed
+1758 " 🔵 Phase 12C Task 2 re-review: bindings.ts intentionally skips if-block/for-block/slot-outlet traversal
+1759 " 🔵 Phase 12C Task 2 compiler tests: 51 tests across 13 files all pass
 
-Access 914k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1051k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

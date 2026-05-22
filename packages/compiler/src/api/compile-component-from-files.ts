@@ -18,6 +18,8 @@ export async function compileComponentFromFiles(
         componentName: '',
         scopeAttribute: '',
         features: [],
+        componentDependencies: [],
+        mappings: [],
       },
     };
   }

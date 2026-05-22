@@ -20,12 +20,16 @@ const featureOrder: CompileFeature[] = [
   'text-interpolation',
   'event-binding',
   'property-binding',
+  'child-component',
   'scoped-css',
   'readable-output',
   'expression-rewriting',
+  'control-flow-if',
+  'control-flow-for',
   'router-outlet',
   'router-link',
   'ui-button',
+  'slot',
 ];
 
 export function compileComponent(source: ComponentSource, options: CompileOptions = {}): CompileResult {
@@ -70,6 +74,7 @@ export function compileComponent(source: ComponentSource, options: CompileOption
     nodes: parsedTemplate.nodes,
     scopeAttribute,
     templatePath: source.templatePath,
+    templateSource: source.templateSource,
   }, options);
 
   diagnostics.push(
@@ -92,6 +97,8 @@ export function compileComponent(source: ComponentSource, options: CompileOption
       componentName: metadataResult.metadata.componentName,
       scopeAttribute,
       features: featureOrder.filter((feature) => features.has(feature)),
+      componentDependencies: generated.componentDependencies,
+      mappings: [...generated.mappings, ...scopedCss.mappings],
     },
   };
 }
@@ -105,6 +112,8 @@ function createEmptyResult(diagnostics: CompileDiagnostic[]): CompileResult {
       componentName: '',
       scopeAttribute: '',
       features: [],
+      componentDependencies: [],
+      mappings: [],
     },
   };
 }
