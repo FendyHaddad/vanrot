@@ -21,13 +21,16 @@ When a Vanrot phase is completed:
 2. Mark every completed task in the matching `docs/superpowers/plans/Phase-XX.md`.
 3. Update `docs/vanrot-presentation.html` so the roadmap slide matches the tracker.
 4. Update `docs/superpowers/feature-maturity.md` whenever a phase changes feature maturity, scope, or production ordering.
-5. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
-6. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
-7. When committing, stage the maturity ledger, presentation, plan, and requirement docs together.
+5. Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
+6. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
+7. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
+8. When committing, stage the maturity ledger, final TDD inventory, presentation, plan, and requirement docs together.
 
 Do not mark a phase done until its verification criteria pass.
 
 Production phases must be sliced from `docs/superpowers/feature-maturity.md`, not squeezed into vague all-in-one milestones. Treat the maturity ledger as the full production backlog. When a ledger section is broad, split it into the smallest coherent executable phase or sub-phase, keep unfinished production requirements tracked in `feature-maturity.md`, and only mark rows `Production-Ready` when the exact slice has implementation, edge-case coverage, integration coverage where relevant, diagnostics or docs hooks where relevant, and verification evidence.
+
+`docs/superpowers/final-tdd-inventory.md` is the final release testing memory. It must grow with each production phase so Phase 26 can run complete failing and passing TDD coverage across every package, command, component, convention, helper, example, and generated file before distribution.
 
 `pnpm verify:phase-docs` enforces the phase documentation guardrail:
 
@@ -87,39 +90,21 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-22 1:17pm GMT+8
+# [vanrot] recent context, 2026-05-22 3:23pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (18,399t read) | 832,585t work | 98% savings
+Stats: 50 obs (18,666t read) | 985,548t work | 98% savings
 
 ### May 20, 2026
-1639 10:18p ⚖️ Framework Scope Creep Concern: Library vs Framework Trade-off
-1640 10:40p ⚖️ @vanrot/runtime Kernel Rule Architecture Decision
-1641 " 🔵 Vanrot docs/brainstorm.md: Existing Runtime Scope and Architecture
-1642 10:41p ⚖️ @vanrot/runtime Hard Size Budget: 3KB gzip target, 5KB hard ceiling
-1643 " ⚖️ @vanrot/runtime Boundary Evaluation Order: Disqualifiers Before Qualifiers
-1644 " ⚖️ @vanrot/runtime DOM Helper Inclusion Rule with Explicit Allow/Deny List
 S589 Vanrot Runtime Kernel Rule — full spec design complete, ready to write design doc (May 20 at 10:42 PM)
 S590 @vanrot/runtime Reactive Kernel API spec — full surface defined, two open questions raised before freezing (May 20 at 10:51 PM)
-1645 10:57p ⚖️ @vanrot/runtime Reactive Kernel API: Full Public Surface Defined
 S591 @vanrot/runtime Reactive Kernel API spec — full surface defined, two open questions raised before freezing (May 20 at 10:57 PM)
 S592 @vanrot/runtime lifecycle and DOM helper boundaries finalized — two final questions before writing spec doc (May 20 at 10:57 PM)
-1646 11:06p ⚖️ @vanrot/runtime Lifecycle API: Ownership-Only Primitives, Not Full Lifecycle System
-1647 " ⚖️ @vanrot/runtime DOM Helper Policy: Compiler-Inline by Default, Runtime Only for Cleanup-Linked Helpers
-1648 " ⚖️ @vanrot/runtime MVP Final API Surface: Complete Confirmed List
 S593 @vanrot/runtime lifecycle and DOM helper boundaries finalized — two final clarifications before writing spec doc (May 20 at 11:06 PM)
 S595 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:06 PM)
-1649 11:14p ⚖️ @vanrot/runtime mount() and listen() Final Definitions Locked
-1650 " ⚖️ @vanrot/runtime Complete Final API Inventory — All Symbols and Export Paths Locked
-1651 11:15p 🟣 @vanrot/runtime Kernel Design Spec Written to docs/superpowers/specs/
-1652 " ⚖️ mount() cleanup scope contract clarified — component creation runs inside root scope
-1653 " ⚖️ Size budget scope expanded to include @vanrot/runtime/internal
-1654 " ⚖️ effect() error behavior decided: propagate synchronously in dev and production
-1655 " ⚖️ @vanrot/runtime/internal declared explicitly unsupported for app authors
-1656 " ⚖️ @vanrot/runtime kernel identity finalized
 1658 11:23p ⚖️ @vanrot/runtime implementation plan requested with phase-by-phase structure
 S594 Write @vanrot/runtime implementation plan (phase-by-phase, no code implementation) using writing-plans skill (May 20 at 11:23 PM)
 1657 11:28p 🔵 Vanrot Framework Vision Documented in brainstorm.md
@@ -158,6 +143,24 @@ S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiti
 1696 12:33p 🟣 Phase 11 Spec Created: Production Roadmap + Guardrails Foundation
 1697 " ⚖️ feature-maturity.md Replaces brainstorm.md as Mandatory Phase Completion Tracker
 1698 12:38p 🟣 Phase 11 Implementation Plan Written: 8-Task Production Standards Checklist
+1701 3:07p 🟣 Vanrot Phase 12A Task 1: Isolated Core Audit Lane
+1702 " 🔵 Vanrot AGENTS.md: Project Rules and Phase Protocols
+1703 " 🔵 Vanrot working tree state at Phase 12A Task 1 start
+1704 " 🟣 Phase 12A Task 1 implemented and verified successfully
+1705 " 🔵 Vanrot working tree state after Phase 12A Task 1 completion
+1706 3:08p 🔵 Local memory API /api/sessions/observations requires tool_name field
+1708 " 🔵 Vanrot Phase 12A Task 1 Spec Compliance Review
+1709 3:11p 🔵 Vanrot Phase 12A Task 1 — Spec Compliance APPROVED
+1710 3:12p 🔵 Vitest 4.1.6 does not support --include as a CLI flag
+1711 " 🔴 Fixed audit:core test discovery via dedicated vitest.audit.config.ts
+1712 3:14p 🔵 Vanrot Phase 12A Task 1 Spec Compliance Re-Review Requested
+1713 3:16p 🔵 Vanrot Phase 12A Task 1 Code Review — APPROVED
+1714 3:17p 🔵 Vanrot Phase 12A Task 1 Spec Compliance — APPROVED
+1715 3:18p 🔵 Vanrot audit files confirmed excluded from root tsconfig.json project references
+1716 " 🔵 Phase 12A Task 1 review verdict APPROVED — observations submitted to worker session store
+1717 3:19p 🟣 Phase 12A Task 2: Red Runtime Audit Test Added
+1718 3:21p 🔵 Runtime cleanup-scope lacks parent-child disposal chain
+1719 " 🟣 audits/core/runtime.audit.ts created and verified red
 
-Access 833k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 986k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
