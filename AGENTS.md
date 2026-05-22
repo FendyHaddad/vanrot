@@ -90,13 +90,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-22 3:23pm GMT+8
+# [vanrot] recent context, 2026-05-22 3:53pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (18,666t read) | 985,548t work | 98% savings
+Stats: 50 obs (19,612t read) | 913,618t work | 98% savings
 
 ### May 20, 2026
 S589 Vanrot Runtime Kernel Rule — full spec design complete, ready to write design doc (May 20 at 10:42 PM)
@@ -105,30 +105,12 @@ S591 @vanrot/runtime Reactive Kernel API spec — full surface defined, two open
 S592 @vanrot/runtime lifecycle and DOM helper boundaries finalized — two final questions before writing spec doc (May 20 at 10:57 PM)
 S593 @vanrot/runtime lifecycle and DOM helper boundaries finalized — two final clarifications before writing spec doc (May 20 at 11:06 PM)
 S595 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:06 PM)
-1658 11:23p ⚖️ @vanrot/runtime implementation plan requested with phase-by-phase structure
 S594 Write @vanrot/runtime implementation plan (phase-by-phase, no code implementation) using writing-plans skill (May 20 at 11:23 PM)
-1657 11:28p 🔵 Vanrot Framework Vision Documented in brainstorm.md
-1659 " ⚖️ Vanrot Architectural Decisions and Long-Term Identity Confirmed
-1660 " 🔵 Vanrot Full MVP Build Order and CLI Command Catalog Extracted
-1662 " 🔵 Vanrot Repo Is Docs-Only — No Package Directories Exist Yet
-1663 " ✅ Codex Subagent Dispatched to Add Phase Checklist to brainstorm.md
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
-1661 11:30p 🔵 @vanrot/runtime Kernel Design Spec Exists and Is Approved
 S597 @vanrot/runtime implementation plan written phase-by-phase — plan complete, awaiting execution approach decision (May 20 at 11:32 PM)
-1664 11:32p ✅ Phase Checklist Table (Section 38) Added to docs/brainstorm.md
-1670 " 🔴 vite-plugin fixture npm EUNSUPPORTEDPROTOCOL error fixed
-1671 " 🟣 Regression test added for fixture package.json validity
-1672 " ✅ Phase-06.md plan updated with packageManager field in counter example
-1673 " 🔵 Full pnpm verify baseline confirmed clean before Phase 6 start
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
 ### May 21, 2026
-1674 10:46p 🔵 Phase 6 plan loaded — 7 tasks across 6 stages
-1675 " 🔵 CLI create/generate current state vs Phase 6 required changes
-1676 " ✅ Commit dd51b30 "Fix package" pushed to origin/main
-1678 10:47p ⚖️ Phase 0–6 Code Review + TDD Before Phase 6 Demo
-1679 10:54p ✅ AGENTS.md: Git Ownership + Living Rules Protocols Added
-1680 11:00p ⚖️ Phase 0–6 Review + TDD + Demo Session Plan Initialized
-1681 " 🔵 Vanrot Phase 0–6 Code Surface Confirmed for Review
+1681 11:00p 🔵 Vanrot Phase 0–6 Code Surface Confirmed for Review
 ### May 22, 2026
 1685 12:25p 🔵 VanRot Framework — Multi-Phase Demo Complete (Phases 1–10)
 1686 " ⚖️ File Suffix Convention: Role-Based Prefix System (.ui, .page, .component, .test)
@@ -161,6 +143,24 @@ S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiti
 1717 3:19p 🟣 Phase 12A Task 2: Red Runtime Audit Test Added
 1718 3:21p 🔵 Runtime cleanup-scope lacks parent-child disposal chain
 1719 " 🟣 audits/core/runtime.audit.ts created and verified red
+1720 " 🔵 Vanrot Phase 12A Task 2 Spec Compliance Review — APPROVED
+1721 3:24p 🟣 Vanrot Phase 12A Task 3: Compiler Diagnostics Red Audit Test Added
+1724 3:29p 🟣 Vanrot Phase 12A Task 4: 12D Vite HMR Red Audit Test Added
+1722 3:30p 🟣 audits/core/compiler.audit.ts Created — Phase 12A Task 3 Complete
+1725 3:33p 🟣 Phase 12A Task 4 Complete: 12D Vite HMR Red Audit Test Created and Verified
+1726 " 🔵 Current handleVanrotHotUpdate Behavior: Full-Reload on Template Changes
+1727 " 🔵 Vanrot Audit Lane Structure: audit-slices.ts Defines 4 Phase-12 Slices
+1728 3:34p 🟣 Phase 12E Red Audit Test: TypeScript Contracts
+1729 3:36p 🟣 Phase 12A Task 5 Complete: 12E TypeScript Contracts Audit Test Created and Verified Red
+1730 " 🔵 Phase 12A Task 5: TypeScript Contracts Audit File Review — APPROVED
+1731 3:38p ⚖️ Phase 12A Task 5 TypeScript Contracts Audit — APPROVED
+1733 " ✅ Vanrot Phase 12A Task 6: TDD Inventory Verification
+1734 3:44p 🔵 Phase 12A Task 6: final-tdd-inventory.md Fully Pre-Populated, No Changes Needed
+1735 " 🔵 rg Command Gotcha: zsh Backtick Substitution in Double-Quoted Patterns
+1736 " 🔵 AGENTS.md Phase Completion Protocol Mandates final-tdd-inventory.md Updates
+1739 " 🔵 Vanrot Phase 12A Task 8 Spec Compliance Review — APPROVED
+1737 3:46p 🔵 Vanrot Phase 12A Task 8 — documentation review findings
+1738 3:47p 🔵 Phase 12A Task 8 review verdict: ISSUES — presentation wording ambiguous on Phase 12 pending status
 
-Access 986k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 914k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

@@ -76,6 +76,13 @@ Status:
 | Production readiness gates   | repo and docs   |      Phase 11 | Production-ready status requires more than passing demos           | Each package has documented behavior, edge-case tests, integration tests, diagnostics, and known limitations before being marked production-ready | Production-Ready | Prevents demo-capable features from being accidentally treated as release-ready.                    |
 | Package/module ownership map | repo and docs   |      Phase 11 | Features are grouped by package and module                         | Every production phase can be traced to package sections and submodule rows in this ledger                                                        | Production-Ready | Keeps the roadmap useful for planning without losing package-level lookup.                          |
 
+### Production Audit Infrastructure
+
+| Feature                         | Package or Area | Planned Phase | Demo-Capable Gate                                                    | Production-Ready Gate                                                                                           | Status       | Notes                                                                                                      |
+|---------------------------------|-----------------|--------------:|----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------|
+| Core production audit lane      | repo and tests  |      Phase 12 | `pnpm audit:core` runs isolated red tests for known production gaps  | Each audit test is either converted into normal passing coverage by its owning slice or remains tracked in the final TDD inventory | Demo-Capable | Phase 12A creates the red lane without marking runtime, compiler, Vite, or TypeScript contracts production-ready. |
+| Final TDD inventory growth rule | repo and docs   |      Phase 12 | `docs/superpowers/final-tdd-inventory.md` is pre-populated and required by durable rules | Phase 26 uses the inventory for complete release TDD across the whole framework | Demo-Capable | Every future production phase must update the inventory when framework surface area changes.               |
+
 ## Project Configuration *
 
 *Vanrot should use the standard root config layout by default: `package.json`, `tsconfig.json`, `vite.config.ts`,

@@ -152,7 +152,7 @@ Do not run `pnpm audit:core` yet. The audit command receives its first red test 
 **Files:**
 - Create: `audits/core/runtime.audit.ts`
 
-- [ ] **Step 1: Write the failing runtime audit test**
+- [x] **Step 1: Write the failing runtime audit test**
 
 Create `audits/core/runtime.audit.ts`:
 
@@ -197,7 +197,7 @@ describe(auditSlice.runtime, function () {
 });
 ```
 
-- [ ] **Step 2: Run the audit command and confirm it is red**
+- [x] **Step 2: Run the audit command and confirm it is red**
 
 Run:
 
@@ -217,7 +217,7 @@ Expected failure reason:
 expected [ 'parent cleanup' ] to deeply equal [ 'child cleanup', 'parent cleanup' ]
 ```
 
-- [ ] **Step 3: Confirm normal verification still excludes the audit**
+- [x] **Step 3: Confirm normal verification still excludes the audit**
 
 Run:
 
@@ -238,7 +238,7 @@ Do not change runtime implementation in Phase 12A. This red audit belongs to Pha
 **Files:**
 - Create: `audits/core/compiler.audit.ts`
 
-- [ ] **Step 1: Write the failing compiler audit test**
+- [x] **Step 1: Write the failing compiler audit test**
 
 Create `audits/core/compiler.audit.ts`:
 
@@ -306,7 +306,7 @@ function readProductionDiagnosticFields(
 }
 ```
 
-- [ ] **Step 2: Run the audit command and confirm the compiler audit is red**
+- [x] **Step 2: Run the audit command and confirm the compiler audit is red**
 
 Run:
 
@@ -326,7 +326,7 @@ Expected failure reason:
 expected '' to contain '(click)="count++"'
 ```
 
-- [ ] **Step 3: Confirm no compiler implementation was changed**
+- [x] **Step 3: Confirm no compiler implementation was changed**
 
 Run:
 
@@ -343,7 +343,7 @@ Do not add `codeFrame`, `suggestion`, or `docsPath` implementation in Phase 12A.
 **Files:**
 - Create: `audits/core/vite-plugin.audit.ts`
 
-- [ ] **Step 1: Write the failing Vite HMR audit test**
+- [x] **Step 1: Write the failing Vite HMR audit test**
 
 Create `audits/core/vite-plugin.audit.ts`:
 
@@ -411,7 +411,7 @@ describe(auditSlice.vitePlugin, function () {
 });
 ```
 
-- [ ] **Step 2: Run the audit command and confirm the Vite audit is red**
+- [x] **Step 2: Run the audit command and confirm the Vite audit is red**
 
 Run:
 
@@ -431,7 +431,7 @@ Expected failure reason:
 expected [ { type: 'full-reload' } ] to not contain equal { type: 'full-reload' }
 ```
 
-- [ ] **Step 3: Confirm no Vite implementation was changed**
+- [x] **Step 3: Confirm no Vite implementation was changed**
 
 Run:
 
@@ -448,7 +448,7 @@ Do not implement state-preserving HMR in Phase 12A. This red audit belongs to Ph
 **Files:**
 - Create: `audits/core/typescript-contracts.audit.ts`
 
-- [ ] **Step 1: Write the failing TypeScript contract audit test**
+- [x] **Step 1: Write the failing TypeScript contract audit test**
 
 Create `audits/core/typescript-contracts.audit.ts`:
 
@@ -490,7 +490,7 @@ describe(auditSlice.typescriptContracts, function () {
 });
 ```
 
-- [ ] **Step 2: Run the audit command and confirm the TypeScript contract audit is red**
+- [x] **Step 2: Run the audit command and confirm the TypeScript contract audit is red**
 
 Run:
 
@@ -511,7 +511,7 @@ examples/counter/src/main.ts
 packages/cli/src/create/app-template.ts
 ```
 
-- [ ] **Step 3: Confirm no TypeScript contract implementation was changed**
+- [x] **Step 3: Confirm no TypeScript contract implementation was changed**
 
 Run:
 
@@ -528,7 +528,7 @@ Do not solve transformed component declarations in Phase 12A. This red audit bel
 **Files:**
 - Create or modify: `docs/superpowers/final-tdd-inventory.md`
 
-- [ ] **Step 1: Confirm the inventory header and update rule**
+- [x] **Step 1: Confirm the inventory header and update rule**
 
 Ensure `docs/superpowers/final-tdd-inventory.md` starts with:
 
@@ -552,17 +552,17 @@ When a phase adds or changes framework surface area:
 5. Use this file during Phase 26 to drive the final full-framework TDD pass.
 ```
 
-- [ ] **Step 2: Confirm current package sections exist**
+- [x] **Step 2: Confirm current package sections exist**
 
 Run:
 
 ```bash
-rg -n "^## (Repo And Standards|`@vanrot/runtime`|`@vanrot/compiler`|`@vanrot/vite-plugin`|`@vanrot/cli`|`@vanrot/router`|`@vanrot/ui`|`@vanrot/testing`|Examples And Fixtures|Final Release TDD Backlog Anchors)" docs/superpowers/final-tdd-inventory.md
+rg -n '^## (Repo And Standards|`@vanrot/runtime`|`@vanrot/compiler`|`@vanrot/vite-plugin`|`@vanrot/cli`|`@vanrot/router`|`@vanrot/ui`|`@vanrot/testing`|Examples And Fixtures|Final Release TDD Backlog Anchors)' docs/superpowers/final-tdd-inventory.md
 ```
 
 Expected: one match for every listed section.
 
-- [ ] **Step 3: Confirm Phase 12A red-test anchors exist**
+- [x] **Step 3: Confirm Phase 12A red-test anchors exist**
 
 Run:
 
@@ -572,7 +572,7 @@ rg -n "Runtime edge cases|Compiler source locations|Compiler production diagnost
 
 Expected: matches under `Final Release TDD Backlog Anchors`.
 
-- [ ] **Step 4: Add missing inventory rows if the checks fail**
+- [x] **Step 4: Add missing inventory rows if the checks fail**
 
 If any section or anchor is missing, add the matching rows from the approved Phase 12A design. Use these exact maturity values:
 
@@ -592,7 +592,7 @@ Do not mark core runtime, compiler, Vite, or TypeScript contract rows `Productio
 - Modify: `AGENTS.md`
 - Modify: `.git/hooks/pre-commit`
 
-- [ ] **Step 1: Confirm `AGENTS.md` requires inventory updates**
+- [x] **Step 1: Confirm `AGENTS.md` requires inventory updates**
 
 Ensure the Phase Completion Protocol in `AGENTS.md` includes this rule:
 
@@ -600,7 +600,7 @@ Ensure the Phase Completion Protocol in `AGENTS.md` includes this rule:
 Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
 ```
 
-- [ ] **Step 2: Confirm `AGENTS.md` explains the inventory purpose**
+- [x] **Step 2: Confirm `AGENTS.md` explains the inventory purpose**
 
 Ensure `AGENTS.md` includes this paragraph near the production slicing rule:
 
@@ -608,7 +608,7 @@ Ensure `AGENTS.md` includes this paragraph near the production slicing rule:
 `docs/superpowers/final-tdd-inventory.md` is the final release testing memory. It must grow with each production phase so Phase 26 can run complete failing and passing TDD coverage across every package, command, component, convention, helper, example, and generated file before distribution.
 ```
 
-- [ ] **Step 3: Confirm the local hook requires the inventory**
+- [x] **Step 3: Confirm the local hook requires the inventory**
 
 Ensure `.git/hooks/pre-commit` contains this staged-file check:
 
@@ -624,7 +624,7 @@ Ensure the hook message contains this bullet:
 - Update docs/superpowers/final-tdd-inventory.md with any package, feature, command, convention, helper, example, or generated file changes.
 ```
 
-- [ ] **Step 4: Verify the hook syntax**
+- [x] **Step 4: Verify the hook syntax**
 
 Run:
 
@@ -640,7 +640,7 @@ Expected: no output and exit code `0`.
 - Modify: `docs/superpowers/feature-maturity.md`
 - Modify: `docs/vanrot-presentation.html`
 
-- [ ] **Step 1: Keep Phase 12 sliced into 12A through 12E**
+- [x] **Step 1: Keep Phase 12 sliced into 12A through 12E**
 
 In `docs/superpowers/feature-maturity.md`, confirm the Production Slicing Map row for Phase 12 says:
 
@@ -648,7 +648,7 @@ In `docs/superpowers/feature-maturity.md`, confirm the Production Slicing Map ro
 12A core audit and failing tests; 12B runtime production hardening; 12C compiler diagnostics and source locations; 12D Vite dev/build/HMR hardening; 12E TypeScript contracts and maturity gates.
 ```
 
-- [ ] **Step 2: Add Phase 12A audit infrastructure rows if absent**
+- [x] **Step 2: Add Phase 12A audit infrastructure rows if absent**
 
 If there is no `Production Audit Infrastructure` section, add this section under `## Repo` after `### Production Standards Foundation`:
 
@@ -661,7 +661,7 @@ If there is no `Production Audit Infrastructure` section, add this section under
 | Final TDD inventory growth rule | repo and docs | Phase 12 | `docs/superpowers/final-tdd-inventory.md` is pre-populated and required by durable rules | Phase 26 uses the inventory for complete release TDD across the whole framework | Demo-Capable | Every future production phase must update the inventory when framework surface area changes. |
 ```
 
-- [ ] **Step 3: Do not tick all of Phase 12**
+- [x] **Step 3: Do not tick all of Phase 12**
 
 Confirm the top production roadmap row still shows Phase 12 pending:
 
@@ -671,7 +671,7 @@ Confirm the top production roadmap row still shows Phase 12 pending:
 
 Phase 12 remains pending until 12B, 12C, 12D, and 12E complete.
 
-- [ ] **Step 4: Update the presentation roadmap copy**
+- [x] **Step 4: Update the presentation roadmap copy**
 
 In `docs/vanrot-presentation.html`, update the roadmap card or note for Phase 12 so humans can see that Phase 12A is the active sub-slice. The visible copy should include:
 
@@ -692,7 +692,7 @@ Do not mark Phase 12 as done in the presentation.
 **Files:**
 - No source modifications.
 
-- [ ] **Step 1: Run lightweight formatting check**
+- [x] **Step 1: Run lightweight formatting check**
 
 Run:
 
@@ -702,7 +702,7 @@ git diff --check
 
 Expected: no output and exit code `0`.
 
-- [ ] **Step 2: Run phase docs verification**
+- [x] **Step 2: Run phase docs verification**
 
 Run:
 
@@ -716,7 +716,7 @@ Expected:
 Phase documentation verification passed.
 ```
 
-- [ ] **Step 3: Run the normal verification lane**
+- [x] **Step 3: Run the normal verification lane**
 
 Run:
 
@@ -728,7 +728,7 @@ Expected: exit code `0`.
 
 If this fails because the audit files were accidentally included in normal Vitest globs, fix the file naming or script boundaries so only `pnpm audit:core` runs `*.audit.ts` files.
 
-- [ ] **Step 4: Run the red audit lane**
+- [x] **Step 4: Run the red audit lane**
 
 Run:
 
@@ -754,7 +754,7 @@ template edits return the owner module for state-preserving HMR instead of forci
 Vanrot-authored app and generated-template imports do not need @ts-expect-error
 ```
 
-- [ ] **Step 5: Record the expected red state**
+- [x] **Step 5: Record the expected red state**
 
 In the final implementation summary, report that:
 
@@ -773,12 +773,12 @@ Do not treat the red audit command as a failed Phase 12A implementation. It is t
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/final-tdd-inventory.md`
 
-- [ ] **Step 1: Check off completed tasks in this plan**
+- [x] **Step 1: Check off completed tasks in this plan**
 
 After implementation and verification, change each completed task checkbox in `docs/superpowers/plans/Phase-12A.md` from:
 
 ```markdown
-- [ ] **Step
+unchecked step checkbox
 ```
 
 to:
@@ -787,7 +787,7 @@ to:
 - [x] **Step
 ```
 
-- [ ] **Step 2: Keep the Phase 12 top-level roadmap pending**
+- [x] **Step 2: Keep the Phase 12 top-level roadmap pending**
 
 Confirm `docs/superpowers/feature-maturity.md` still contains:
 
@@ -795,7 +795,7 @@ Confirm `docs/superpowers/feature-maturity.md` still contains:
 | [ ]  | Phase 12 | Core framework hardening
 ```
 
-- [ ] **Step 3: Confirm no core Phase 12 production rows were over-promoted**
+- [x] **Step 3: Confirm no core Phase 12 production rows were over-promoted**
 
 Run:
 
@@ -805,7 +805,7 @@ rg -n "Phase 12.*Production-Ready|Production-Ready.*Phase 12" docs/superpowers/f
 
 Expected: no output for runtime, compiler, Vite, or TypeScript contract rows.
 
-- [ ] **Step 4: Confirm the inventory knows Phase 12A exists**
+- [x] **Step 4: Confirm the inventory knows Phase 12A exists**
 
 Run:
 
@@ -815,7 +815,7 @@ rg -n "final TDD inventory|Core production audit lane|Runtime edge cases|TypeScr
 
 Expected: matches in the inventory and maturity ledger.
 
-- [ ] **Step 5: Leave Git ownership with the user**
+- [x] **Step 5: Leave Git ownership with the user**
 
 Run:
 
@@ -827,11 +827,11 @@ Expected: changed files are unstaged. Do not run `git add`, `git commit`, or `gi
 
 ## Self-Review Checklist
 
-- [ ] The plan creates a separate red audit lane and does not add audit files to normal package test globs.
-- [ ] The plan adds real failing tests for 12B, 12C, 12D, and 12E.
-- [ ] The plan keeps `pnpm verify` green.
-- [ ] The plan keeps `pnpm audit:core` red by design.
-- [ ] The plan updates the final TDD inventory and makes future phases maintain it.
-- [ ] The plan updates `AGENTS.md` and `.git/hooks/pre-commit` for inventory enforcement.
-- [ ] The plan does not mark runtime, compiler, Vite, or TypeScript contract features `Production-Ready`.
-- [ ] The plan does not include git staging, commits, pushes, branches, or worktrees.
+- [x] The plan creates a separate red audit lane and does not add audit files to normal package test globs.
+- [x] The plan adds real failing tests for 12B, 12C, 12D, and 12E.
+- [x] The plan keeps `pnpm verify` green.
+- [x] The plan keeps `pnpm audit:core` red by design.
+- [x] The plan updates the final TDD inventory and makes future phases maintain it.
+- [x] The plan updates `AGENTS.md` and `.git/hooks/pre-commit` for inventory enforcement.
+- [x] The plan does not mark runtime, compiler, Vite, or TypeScript contract features `Production-Ready`.
+- [x] The plan does not include git staging, commits, pushes, branches, or worktrees.
