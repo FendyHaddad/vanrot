@@ -29,6 +29,9 @@ importers:
 
   examples/counter:
     dependencies:
+      '@vanrot/config':
+        specifier: workspace:*
+        version: link:../../packages/config
       '@vanrot/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
@@ -51,6 +54,9 @@ importers:
 
   packages/cli:
     dependencies:
+      '@vanrot/config':
+        specifier: workspace:*
+        version: link:../config
       '@vanrot/ui':
         specifier: workspace:*
         version: link:../ui
@@ -66,6 +72,12 @@ importers:
       postcss-selector-parser:
         specifier: ^6.1.2
         version: 6.1.2
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+
+  packages/config:
+    dependencies:
       typescript:
         specifier: ^5.9.3
         version: 5.9.3
@@ -99,6 +111,9 @@ importers:
       '@vanrot/compiler':
         specifier: workspace:*
         version: link:../compiler
+      '@vanrot/config':
+        specifier: workspace:*
+        version: link:../config
       '@vanrot/router':
         specifier: workspace:*
         version: link:../router

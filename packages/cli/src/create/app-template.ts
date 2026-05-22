@@ -24,6 +24,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           type: 'module',
           scripts: createStarterScripts(),
           dependencies: {
+            '@vanrot/config': dependencyVersion,
             '@vanrot/runtime': dependencyVersion,
             '@vanrot/router': dependencyVersion,
             '@vanrot/ui': dependencyVersion,
@@ -66,6 +67,16 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     {
       path: 'vite.config.ts',
       content: `import { defineConfig } from 'vite';\nimport vanrot from '@vanrot/vite-plugin';\n\nexport default defineConfig({\n  plugins: [vanrot()],\n});\n`,
+    },
+    {
+      path: 'vanrot.config.ts',
+      content:
+        `import { defineVanrotConfig } from '@vanrot/config';\n\n` +
+        `export default defineVanrotConfig({\n` +
+        `  schemaVersion: 1,\n` +
+        `  source: { root: 'src' },\n` +
+        `  devServer: { port: 1010 },\n` +
+        `});\n`,
     },
     {
       path: 'src/main.ts',

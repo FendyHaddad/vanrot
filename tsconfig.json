@@ -5,6 +5,7 @@
     { "path": "./packages/ui" },
     { "path": "./packages/router" },
     { "path": "./packages/compiler" },
+    { "path": "./packages/config" },
     { "path": "./packages/vite-plugin" },
     { "path": "./packages/cli" }
   ]

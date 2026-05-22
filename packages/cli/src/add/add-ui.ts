@@ -1,3 +1,6 @@
+import { access, readFile, writeFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { upsertVanrotConfigDomain, vanrotConfigFileName } from '@vanrot/config';
 import { defaultUiPrefix, uiAppFile, uiPrimitiveType } from '@vanrot/ui';
 import { isKebabCase } from '../generate/names.js';
 import type { CommandContext, CommandResult } from '../result.js';
@@ -100,6 +103,7 @@ export async function addUiPrimitive(
 
     await ensureLineInFile(context.cwd, uiAppFile.styleEntry, buttonStyleImport(request.prefix));
     await ensureMainImport(context.cwd, uiAppFile.styleEntryImport);
+    await ensureUiDomainInConfig(context.cwd);
 
     const homePatch = await patchStarterHome(context.cwd, usage);
     context.reporter.success(`Added ${request.primitive}`, files.map((file) => file.path).join('\n'));
@@ -114,6 +118,32 @@ export async function addUiPrimitive(
   } catch (error) {
     context.reporter.error(error instanceof Error ? error.message : 'Failed to add UI primitive.');
     return fail();
+  }
+}
+
+async function ensureUiDomainInConfig(cwd: string): Promise<void> {
+  const configPath = join(cwd, vanrotConfigFileName);
+
+  if (!(await fileExists(configPath))) {
+    return;
+  }
+
+  const currentConfig = await readFile(configPath, 'utf8');
+  const nextConfig = upsertVanrotConfigDomain(currentConfig, 'ui', '{ prefix: "ui" }');
+
+  if (nextConfig === currentConfig) {
+    return;
+  }
+
+  await writeFile(configPath, nextConfig);
+}
+
+async function fileExists(path: string): Promise<boolean> {
+  try {
+    await access(path);
+    return true;
+  } catch {
+    return false;
   }
 }
 

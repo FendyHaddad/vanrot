@@ -20,6 +20,10 @@ async function tempProject() {
     }),
   );
   await writeFile(join(cwd, 'vite.config.ts'), "import vanrot from '@vanrot/vite-plugin';\n");
+  await writeFile(
+    join(cwd, 'vanrot.config.ts'),
+    "export default { schemaVersion: 1, source: { root: 'src' }, devServer: { port: 1010 } };",
+  );
   await writeFile(join(cwd, 'src', 'app.component.ts'), 'export class AppComponent {}\n');
   await writeFile(join(cwd, 'src', 'app.component.html'), '<main>{{ title() }}</main>\n');
   await writeFile(join(cwd, 'src', 'app.component.css'), '.app { display: block; }\n');
@@ -62,6 +66,17 @@ describe('vr doctor', () => {
     expect(reporter.output()).toContain('lonely.component.html');
     expect(reporter.output()).toContain('Missing sibling style file');
     expect(reporter.output()).toContain('lonely.component.css');
+  });
+
+  it('includes config diagnostics in doctor output', async () => {
+    const cwd = await tempProject();
+    await writeFile(join(cwd, 'vanrot.config.ts'), 'export default { devServer: { port: 99999 } };');
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['doctor'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(1);
+    expect(reporter.output()).toContain('Invalid devServer.port: 99999');
   });
 
   it('reports starter Vanrot rule warnings', async () => {

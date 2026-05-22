@@ -13,11 +13,12 @@
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
   },
   "dependencies": {
-    "@vanrot/runtime": "workspace:*"
+    "@vanrot/config": "file:../../packages/config",
+    "@vanrot/runtime": "file:../../packages/runtime"
   },
   "devDependencies": {
-    "@vanrot/cli": "workspace:*",
-    "@vanrot/vite-plugin": "workspace:*",
+    "@vanrot/cli": "file:../../packages/cli",
+    "@vanrot/vite-plugin": "file:../../packages/vite-plugin",
     "typescript": "^5.9.3",
     "vite": "^8.0.10",
     "vitest": "^4.0.14"

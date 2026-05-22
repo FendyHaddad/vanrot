@@ -1,3 +1,6 @@
+import { mkdtemp, readFile, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import { runCli } from '@/index.js';
 import { createMemoryReporter } from '@/reporter/reporter.js';
 import { describe, expect, it } from 'vitest';
@@ -54,6 +57,58 @@ describe('runCli', () => {
     expect(result.exitCode).toBe(0);
     expect(reporter.output()).toContain('vr add button');
     expect(reporter.output()).toContain('vr add <local-prefix> button');
+  });
+
+  it('prints config command help', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['config', '--help'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+
+    expect(result.exitCode).toBe(0);
+    expect(reporter.output()).toContain('vr config migrate');
+    expect(reporter.output()).toContain('vr config recover');
+  });
+
+  it('runs config migrate and writes canonical config', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'vanrot-cli-config-migrate-'));
+    await writeFile(join(cwd, 'package.json'), '{"name":"demo","private":true}');
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['config', 'migrate'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(0);
+    const source = await readFile(join(cwd, 'vanrot.config.ts'), 'utf8');
+    expect(source).toContain('defineVanrotConfig');
+    expect(source).toContain('port: 1010');
+  });
+
+  it('runs config recover and includes inferred optional domains', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'vanrot-cli-config-recover-'));
+    await writeFile(
+      join(cwd, 'package.json'),
+      JSON.stringify(
+        {
+          name: 'demo',
+          private: true,
+          dependencies: {
+            '@vanrot/router': '^0.1.0',
+            '@vanrot/ui': '^0.1.0',
+          },
+        },
+        null,
+        2,
+      ),
+    );
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['config', 'recover', '--force'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(0);
+    const source = await readFile(join(cwd, 'vanrot.config.ts'), 'utf8');
+    expect(source).toContain('router: { mode: "history" }');
+    expect(source).toContain('ui: { prefix: "ui" }');
   });
 
   it('prints project intelligence command help', async () => {

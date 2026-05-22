@@ -36,7 +36,7 @@ When a phase adds or changes framework surface area:
 | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |------|------|------------------|-----------------------|-------------|-------|
 | repo | pnpm monorepo workspace | Complete | Fresh clone can install, typecheck, test, build, and verify all packages through root scripts. | Phase 1, Phase 26 | Package manager is `pnpm@11.1.3`. |
-| repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, compiler, vite-plugin, cli, router, ui, and testing. |
+| repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, compiler, config, vite-plugin, cli, router, ui, and testing. |
 | repo | TypeScript shared build posture | Complete | Package references and module settings compile cleanly from root and inside package tests. | Phase 1, Phase 26 | Final pass should include clean-machine verification. |
 | repo | `.gitignore` | Complete | Generated outputs, dependencies, caches, and local-only files stay out of source control. | Phase 1, Phase 26 | Keep release artifacts intentional. |
 | docs | feature maturity ledger | Production-Ready | Completed phases, maturity rows, presentation state, and plan checklists stay synchronized. | Phase 11 | Source of truth is `docs/superpowers/feature-maturity.md`. |
@@ -88,6 +88,18 @@ When a phase adds or changes framework surface area:
 | composition | child components | Production-Ready | Parent/child component boundaries cover props, lifecycle, cleanup, diagnostics, and generated typing. | Phase 12C | Phase 12C covers child input handoff, invalid input diagnostics, dependency metadata, and projection fragments; 12E owns generated typing. |
 | composition | slots | Production-Ready | Static and named slots cover fallback content, scope rules, diagnostics, and tests. | Phase 12C | Phase 12C covers `<slot>`, `<slot.name>`, `slot.name`, fallback, projection grouping, and production fixture coverage. |
 
+## `@vanrot/config`
+
+| Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
+|------|------|------------------|-----------------------|-------------|-------|
+| API | `defineVanrotConfig(...)` | Production-Ready | Helper preserves typed config authoring and supports canonical root config pattern. | Phase 13 | Generated apps use helper-based default export pattern. |
+| defaults | `normalizeVanrotConfig(...)` | Production-Ready | Required domains default to `source.root='src'` and `devServer.port=1010` while preserving explicit values. | Phase 13 | Shared by CLI and Vite plugin. |
+| validation | `validateVanrotConfig(...)` | Production-Ready | Unknown keys and invalid semantic states emit stable diagnostics with actionable suggestions. | Phase 13 | Diagnostic codes are `VRCFG001` through `VRCFG005`. |
+| loading | `loadVanrotProjectConfig(...)` | Production-Ready | Loader discovers root config, normalizes defaults, reports migration warnings, and hard-fails on parse/load errors. | Phase 13 | Missing config remains runnable with defaults + warning. |
+| migrations | `migrateVanrotConfig(...)` | Production-Ready | Migration writes canonical config and supports guarded/destructive overwrite modes. | Phase 13 | Used by `vr config migrate`. |
+| recovery | `recoverVanrotConfig(...)` | Production-Ready | Recovery rebuilds config without Git and reports ambiguity diagnostics for manual review. | Phase 13 | Infers optional domains from detected dependencies. |
+| editor | install-aware config editor | Production-Ready | Upsert/remove helpers preserve user ownership and remain idempotent for repeated installer operations. | Phase 13 | `vr add button` uses shared editor helpers. |
+
 ## `@vanrot/vite-plugin`
 
 | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
@@ -115,6 +127,7 @@ When a phase adds or changes framework surface area:
 | command | `vr add button` | Demo-Capable | Adds `src/ui/button/ui.button.*`, tokens, package dependency, and starter usage without overwriting user files. | Phase 9, Phase 16 | Local prefix defaults to `ui`. |
 | command | `vr add <local-prefix> button` | Demo-Capable | Adds locally prefixed button files such as `primary.button.*` with correct imports and usage. | Phase 9, Phase 16 | Keeps user naming flexible. |
 | command | `vr add button --test` | Demo-Capable | Adds colocated `.button.test.ts` only when requested and keeps no-test default clean. | Phase 10, Phase 18 | Test generation stays opt-in. |
+| command | `vr config migrate` / `vr config recover` | Production-Ready | Config maintenance commands create or recover canonical root config with migration/recovery diagnostics. | Phase 13 | Includes `vr config migrate --recover` alias and guarded overwrite flags. |
 | command | `vr doctor` | Demo-Capable | Reports project health, Vanrot rule violations, missing scripts, raw template text, and nested control-flow warnings. | Phase 5, Phase 14 | Production doctor needs broader diagnostics. |
 | command | `vr map` | Demo-Capable | Writes `.vanrot/project-map.json` with stable role-file and i18n hints. | Phase 7, Phase 23 | Production graphing is future work. |
 | command | `vr init-ai` | Demo-Capable | Writes `.vanrot/ai-rules.md` from project conventions and current command metadata. | Phase 7, Phase 25 | Future AI consumption will use docs/manifest/MCP. |
@@ -126,6 +139,7 @@ When a phase adds or changes framework surface area:
 | reporter | memory and console reporters | Demo-Capable | CLI output is scriptable, testable, beautiful, and consistent across commands. | Phase 5, Phase 14 | Final CLI design should feel premium, not decorative. |
 | runner | process runner | Demo-Capable | Command wrappers run local binaries cross-platform with safe env/path behavior. | Phase 5, Phase 14 | Current tests cover local `node_modules/.bin`. |
 | generated app | starter scripts | Demo-Capable | Generated `package.json` scripts stay synchronized from command metadata. | Phase 5, Phase 13 | Avoid reused command string literals. |
+| generated app | root `vanrot.config.ts` | Production-Ready | Generated app root includes canonical `vanrot.config.ts` and stays compatible with shared loader/validator/migration contracts. | Phase 13 | Default config contains schema version, `source.root`, and `devServer.port`. |
 | generated app | starter router app | Demo-Capable | App includes `src/routes.ts`, `<vr-router>`, named route links, page files, and no repeated route strings. | Phase 8, Phase 15 | Production config moves to Phase 13. |
 | generated app | starter UI tokens | Demo-Capable | Starter includes tokens without generating button source until requested. | Phase 9, Phase 16 | Keeps app clean by default. |
 

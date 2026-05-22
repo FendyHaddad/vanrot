@@ -17,4 +17,15 @@ describe('normalizeOptions', () => {
     );
     expect(options.include.some((pattern) => pattern.test('/repo/app/src/app.ts'))).toBe(false);
   });
+
+  it('uses sourceRoot to scope default include patterns', () => {
+    const options = normalizeOptions({ sourceRoot: 'client' }, '/repo/app');
+
+    expect(options.include.some((pattern) => pattern.test('/repo/app/client/home.page.ts'))).toBe(
+      true,
+    );
+    expect(options.include.some((pattern) => pattern.test('/repo/app/src/home.page.ts'))).toBe(
+      false,
+    );
+  });
 });

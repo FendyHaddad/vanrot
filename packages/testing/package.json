@@ -15,7 +15,7 @@
     "dist"
   ],
   "dependencies": {
-    "@vanrot/runtime": "workspace:*"
+    "@vanrot/runtime": "file:../runtime"
   },
   "peerDependencies": {
     "vitest": "^4.0.0"

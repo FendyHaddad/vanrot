@@ -19,7 +19,7 @@
     "dist"
   ],
   "dependencies": {
-    "@vanrot/runtime": "workspace:*"
+    "@vanrot/runtime": "file:../runtime"
   },
   "scripts": {
     "prebuild": "pnpm --filter @vanrot/runtime build",

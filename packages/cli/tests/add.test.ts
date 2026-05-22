@@ -40,6 +40,9 @@ describe('vr add', () => {
     await expect(readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8')).resolves.toContain(
       '<vr-button class="vr-button-primary" type="button">',
     );
+    await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
+      'ui: { prefix: "ui" },',
+    );
     expect(reporter.output()).toContain('Added button');
   });
 

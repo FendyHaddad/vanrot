@@ -2,6 +2,7 @@ export const commandName = {
   create: 'create',
   generate: 'generate',
   add: 'add',
+  config: 'config',
   doctor: 'doctor',
   map: 'map',
   initAi: 'init-ai',
@@ -59,6 +60,18 @@ Primitives
 Examples
   vr add button
   vr add primary button`,
+  },
+  {
+    name: commandName.config,
+    usage: 'vr config migrate',
+    secondaryUsages: ['vr config recover', 'vr config migrate --recover'],
+    help: `vr config migrate
+vr config recover
+vr config migrate --recover
+
+Options
+  --force         Overwrite an existing config during recover
+  --destructive   Overwrite an existing config during migrate`,
   },
   {
     name: commandName.doctor,

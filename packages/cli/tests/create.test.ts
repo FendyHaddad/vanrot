@@ -155,6 +155,22 @@ describe('vr create', () => {
     await expect(readFile(join(target, 'keep.txt'), 'utf8')).resolves.toBe('do not delete');
   });
 
+  it('creates vanrot.config.ts with canonical defaults', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'config-app'], { cwd, reporter });
+    const appRoot = join(cwd, 'config-app');
+
+    expect(result.exitCode).toBe(0);
+    const source = await readFile(join(appRoot, 'vanrot.config.ts'), 'utf8');
+    expect(source).toContain("import { defineVanrotConfig } from '@vanrot/config';");
+    expect(source).toContain('export default defineVanrotConfig({');
+    expect(source).toContain('schemaVersion: 1');
+    expect(source).toContain("root: 'src'");
+    expect(source).toContain('port: 1010');
+  });
+
   it('can create into an existing directory with --force', async () => {
     const cwd = await tempRoot();
     const target = join(cwd, 'forced');

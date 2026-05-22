@@ -22,7 +22,7 @@ describe('runner-backed commands', () => {
     const result = await runCli(['dev'], { cwd: '/demo', reporter, runner });
 
     expect(result.exitCode).toBe(0);
-    expect(calls).toEqual([{ command: 'vite', args: [], cwd: '/demo' }]);
+    expect(calls).toEqual([{ command: 'vite', args: ['--port', '1010'], cwd: '/demo' }]);
     expect(reporter.output()).toContain('Starting Vanrot dev server');
   });
 

@@ -1,5 +1,6 @@
 import { addCommand } from './commands/add.js';
 import { buildCommand } from './commands/build.js';
+import { configCommand } from './commands/config.js';
 import { createCommand } from './commands/create.js';
 import { devCommand } from './commands/dev.js';
 import { doctorCommand } from './commands/doctor.js';
@@ -24,6 +25,7 @@ const commandHandlers = new Map<string, CommandHandler>([
   [commandName.generate, generateCommand],
   [commandAlias.generate, generateCommand],
   [commandName.add, addCommand],
+  [commandName.config, configCommand],
   [commandName.doctor, doctorCommand],
   [commandName.map, mapCommand],
   [commandName.initAi, initAiCommand],

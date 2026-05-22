@@ -6,6 +6,5 @@
     "composite": true,
     "tsBuildInfoFile": "dist/tsconfig.tsbuildinfo"
   },
-  "include": ["src/**/*.ts"],
-  "references": [{ "path": "../config" }, { "path": "../compiler" }, { "path": "../router" }]
+  "include": ["src/**/*.ts"]
 }

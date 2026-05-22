@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, resolve } from 'node:path';
+import { formatConfigDiagnostic, loadVanrotProjectConfig } from '@vanrot/config';
 import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
@@ -46,9 +47,27 @@ function createVanrotPlugin(
   return {
     name: 'vanrot',
     enforce: 'pre',
-    configResolved(config: ResolvedConfig) {
+    async configResolved(config: ResolvedConfig) {
       resolvedConfig = config;
-      normalizedOptions = normalizeOptions(options, config.root);
+      const loaded = await loadVanrotProjectConfig(config.root);
+
+      for (const diagnostic of loaded.diagnostics) {
+        const message = formatConfigDiagnostic(diagnostic);
+        if (diagnostic.severity === 'error') {
+          throw new Error(message);
+        }
+
+        config.logger.warn(message);
+      }
+
+      normalizedOptions = normalizeOptions(
+        {
+          ...options,
+          root: config.root,
+          sourceRoot: loaded.config.source.root,
+        },
+        config.root,
+      );
     },
     async resolveId(source, importer) {
       const virtualImport = resolveVirtualSourceImport(source, importer);

@@ -15,8 +15,9 @@
     "dist"
   ],
   "dependencies": {
-    "@vanrot/compiler": "workspace:*",
-    "@vanrot/router": "workspace:*"
+    "@vanrot/compiler": "file:../compiler",
+    "@vanrot/config": "file:../config",
+    "@vanrot/router": "file:../router"
   },
   "peerDependencies": {
     "vite": "^8.0.0"
@@ -25,9 +26,9 @@
     "vite": "^8.0.10"
   },
   "scripts": {
-    "prebuild": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build",
+    "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build",
     "build": "tsc -p tsconfig.json",
-    "pretypecheck": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build",
+    "pretypecheck": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tests/tsconfig.json --noEmit",
     "pretest": "pnpm run build",
     "test": "vitest run",
