@@ -136,4 +136,42 @@ describe('effect', () => {
     expect(() => count.set(1)).toThrow('boom');
     dispose();
   });
+
+  it('keeps the newest dependency set after a rerun throws', () => {
+    const enabled = signal(true);
+    const first = signal(0);
+    const second = signal(0);
+    const spy = vi.fn();
+    const dispose = effect(() => {
+      if (enabled()) {
+        first();
+        return;
+      }
+
+      second();
+      spy();
+      throw new Error('second failed');
+    });
+
+    expect(() => enabled.set(false)).toThrow('second failed');
+    spy.mockClear();
+
+    first.set(1);
+    expect(spy).not.toHaveBeenCalled();
+
+    expect(() => second.set(1)).toThrow('second failed');
+    expect(spy).toHaveBeenCalledOnce();
+
+    dispose();
+  });
+
+  it('is safe to dispose twice after cleanup has run', () => {
+    const cleanup = vi.fn();
+    const dispose = effect(() => cleanup);
+
+    dispose();
+    dispose();
+
+    expect(cleanup).toHaveBeenCalledOnce();
+  });
 });

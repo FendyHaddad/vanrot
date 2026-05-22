@@ -33,4 +33,24 @@ describe('untrack', () => {
 
     expect(() => untrack(() => count())).not.toThrow();
   });
+
+  it('restores the previous tracking context after reading', () => {
+    const tracked = signal(0);
+    const ignored = signal(0);
+    const values: number[] = [];
+    const dispose = effect(() => {
+      values.push(tracked());
+      untrack(() => ignored());
+      tracked();
+    });
+    values.length = 0;
+
+    ignored.set(1);
+    expect(values).toEqual([]);
+
+    tracked.set(1);
+    expect(values).toEqual([1]);
+
+    dispose();
+  });
 });

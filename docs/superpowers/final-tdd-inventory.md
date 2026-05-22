@@ -48,18 +48,18 @@ When a phase adds or changes framework surface area:
 
 | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |------|------|------------------|-----------------------|-------------|-------|
-| reactive | `signal()` | Demo-Capable | Covers reads, writes, equality behavior, subscriber ordering, disposal interaction, and nested graph behavior. | Phase 2, Phase 12B | Required by compiler-generated interpolation and examples. |
-| reactive | `computed()` | Demo-Capable | Covers lazy caching, chained computed values, invalidation, disposal, and nested dependency changes. | Phase 2, Phase 12B | Must stay small enough for runtime size budget. |
-| reactive | `effect()` | Demo-Capable | Covers cleanup order, synchronous error behavior, reentrancy, dependency replacement, and disposal idempotence. | Phase 2, Phase 12B | Production hardening must test errors after initial run. |
-| reactive | `batch()` | Demo-Capable | Covers nested batches, flush order, thrown errors, and interaction with computed/effect dependencies. | Phase 2, Phase 12B | Demo only proves basic coalescing. |
-| reactive | `untrack()` | Demo-Capable | Covers nested effects, computed reads, and non-subscription guarantees. | Phase 2, Phase 12B | Useful for advanced store/form work later. |
-| lifecycle | cleanup scopes | Demo-Capable | Covers nested scopes, cleanup ordering, repeated dispose, callbacks registered during cleanup, and orphan calls. | Phase 2, Phase 12B | Internal exports live under `@vanrot/runtime/internal`. |
-| lifecycle | `onMount()` | Demo-Capable | Covers callback ordering after mount, cleanup return values, browser-only policy, and repeated flush behavior. | Phase 2, Phase 12B | Future SSR work must revisit this boundary. |
-| lifecycle | `onDestroy()` | Demo-Capable | Covers multiple callbacks, nested scope behavior, and disposal idempotence. | Phase 2, Phase 12B | Used indirectly by generated listener cleanup. |
-| mounting | `mount()` constructor contract | Demo-Capable | Covers target validation, component creation scope, DOM insertion/removal, destroy idempotence, and lifecycle order. | Phase 2, Phase 12B | Constructor and compiled-module bridges both need final coverage. |
-| mounting | compiled component mount bridge | Demo-Capable | Covers Vite-transformed default module shape, returned element cleanup, and generated code integration. | Phase 4, Phase 12B | Must align with TypeScript contracts in 12E. |
-| events | internal `listen()` | Demo-Capable | Covers listener options, event object passing, cleanup-scope removal, idempotence, and generated event bindings. | Phase 2, Phase 12B | Internal helper, not a public app-author API. |
-| size | runtime size budget | Demo-Capable | Runtime stays under target and hard size budgets after production hardening. | Phase 2, Phase 12B, Phase 26 | `pnpm verify:size` owns current check. |
+| reactive | `signal()` | Production-Ready | Covers reads, writes, equality behavior, subscriber ordering, disposal interaction, and nested graph behavior. | Phase 2, Phase 12B | Required by compiler-generated interpolation and examples. |
+| reactive | `computed()` | Production-Ready | Covers lazy caching, chained computed values, invalidation, disposal, and nested dependency changes. | Phase 2, Phase 12B | Must stay small enough for runtime size budget. |
+| reactive | `effect()` | Production-Ready | Covers cleanup order, synchronous error behavior, reentrancy, dependency replacement, and disposal idempotence. | Phase 2, Phase 12B | Production hardening covers initial and rerun errors. |
+| reactive | `batch()` | Production-Ready | Covers nested batches, flush order, thrown errors, and interaction with computed/effect dependencies. | Phase 2, Phase 12B | Phase 12B verifies nested and thrown-batch behavior. |
+| reactive | `untrack()` | Production-Ready | Covers nested effects, computed reads, and non-subscription guarantees. | Phase 2, Phase 12B | Useful for advanced store/form work later. |
+| lifecycle | cleanup scopes | Production-Ready | Covers nested scopes, cleanup ordering, repeated dispose, callbacks registered during cleanup, and orphan calls. | Phase 2, Phase 12B | Internal exports live under `@vanrot/runtime/internal`. |
+| lifecycle | `onMount()` | Production-Ready | Covers callback ordering after mount, cleanup return values, browser-only policy, and repeated flush behavior. | Phase 2, Phase 12B | Future SSR work must revisit this boundary. |
+| lifecycle | `onDestroy()` | Production-Ready | Covers multiple callbacks, nested scope behavior, and disposal idempotence. | Phase 2, Phase 12B | Used indirectly by generated listener cleanup. |
+| mounting | `mount()` constructor contract | Production-Ready | Covers target validation, component creation scope, DOM insertion/removal, destroy idempotence, and lifecycle order. | Phase 2, Phase 12B | Constructor and compiled-module bridges both need final coverage. |
+| mounting | compiled component mount bridge | Production-Ready | Covers Vite-transformed default module shape, returned element cleanup, and generated code integration. | Phase 4, Phase 12B | Must align with TypeScript contracts in 12E. |
+| events | internal `listen()` | Production-Ready | Covers listener options, event object passing, cleanup-scope removal, idempotence, and generated event bindings. | Phase 2, Phase 12B | Internal helper, not a public app-author API. |
+| size | runtime size budget | Production-Ready | Runtime stays under target and hard size budgets after production hardening. | Phase 2, Phase 12B, Phase 26 | `pnpm verify:size` owns current check. |
 
 ## `@vanrot/compiler`
 
@@ -194,7 +194,7 @@ into isolated audit tests.
 
 | Anchor | Package Or Area | Current State | Final TDD Requirement | Owner Phase |
 |--------|-----------------|---------------|-----------------------|-------------|
-| Runtime edge cases | runtime | Demo behavior works | Red/green tests for nested cleanup, effect errors, batch nesting, disposal idempotence, and lifecycle ordering. | Phase 12B |
+| Runtime edge cases | runtime | Production runtime coverage exists | Red/green tests for nested cleanup, effect errors, batch nesting, disposal idempotence, and lifecycle ordering. | Phase 12B |
 | Compiler source locations | compiler | Basic diagnostics exist | Red/green tests for accurate template/style/source locations and code-frame inputs. | Phase 12C |
 | Compiler production diagnostics | compiler, cli, vite-plugin | Basic fatal diagnostics exist | Red/green tests for suggestions, docs links, recoverable warnings, Vite bridge, and CLI display. | Phase 12C, Phase 14 |
 | Compiler control flow | compiler | Deferred | Red/green tests for `@if`, `@for`, cleanup, diagnostics, and generated output. | Phase 12C |

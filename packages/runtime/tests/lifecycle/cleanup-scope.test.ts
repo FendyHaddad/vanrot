@@ -37,7 +37,7 @@ describe('cleanup scope', () => {
     expect(() => registerCleanup(() => {})).not.toThrow();
   });
 
-  it('restores the previous scope after nested runs', () => {
+  it('restores the previous scope while parent scopes own nested child scopes', () => {
     const outer = createCleanupScope();
     const inner = createCleanupScope();
     const outerSpy = vi.fn();
@@ -50,7 +50,7 @@ describe('cleanup scope', () => {
 
     disposeCleanupScope(outer);
     expect(outerSpy).toHaveBeenCalledOnce();
-    expect(innerSpy).not.toHaveBeenCalled();
+    expect(innerSpy).toHaveBeenCalledOnce();
 
     disposeCleanupScope(inner);
     expect(innerSpy).toHaveBeenCalledOnce();
@@ -101,5 +101,74 @@ describe('cleanup scope', () => {
     disposeCleanupScope(scope);
 
     expect(cleanup).toHaveBeenCalledOnce();
+  });
+
+  it('disposes child scopes before parent cleanups', () => {
+    const parentScope = createCleanupScope();
+    const childScope = createCleanupScope();
+    const log: string[] = [];
+
+    runWithCleanupScope(parentScope, () => {
+      registerCleanup(() => log.push('parent cleanup'));
+
+      runWithCleanupScope(childScope, () => {
+        registerCleanup(() => log.push('child cleanup'));
+      });
+    });
+
+    disposeCleanupScope(parentScope);
+
+    expect(log).toEqual(['child cleanup', 'parent cleanup']);
+  });
+
+  it('does not run child cleanups again when a disposed child is disposed directly', () => {
+    const parentScope = createCleanupScope();
+    const childScope = createCleanupScope();
+    const childCleanup = vi.fn();
+
+    runWithCleanupScope(parentScope, () => {
+      runWithCleanupScope(childScope, () => registerCleanup(childCleanup));
+    });
+
+    disposeCleanupScope(parentScope);
+    disposeCleanupScope(childScope);
+
+    expect(childCleanup).toHaveBeenCalledOnce();
+  });
+
+  it('does not run cleanups registered while the same scope is disposing', () => {
+    const scope = createCleanupScope();
+    const lateCleanup = vi.fn();
+
+    runWithCleanupScope(scope, () => {
+      registerCleanup(() => {
+        registerCleanup(lateCleanup);
+      });
+    });
+
+    disposeCleanupScope(scope);
+
+    expect(lateCleanup).not.toHaveBeenCalled();
+  });
+
+  it('keeps a child scope owned by its first active parent', () => {
+    const firstParent = createCleanupScope();
+    const secondParent = createCleanupScope();
+    const childScope = createCleanupScope();
+    const childCleanup = vi.fn();
+
+    runWithCleanupScope(firstParent, () => {
+      runWithCleanupScope(childScope, () => registerCleanup(childCleanup));
+    });
+
+    runWithCleanupScope(secondParent, () => {
+      runWithCleanupScope(childScope, () => {});
+    });
+
+    disposeCleanupScope(secondParent);
+    expect(childCleanup).not.toHaveBeenCalled();
+
+    disposeCleanupScope(firstParent);
+    expect(childCleanup).toHaveBeenCalledOnce();
   });
 });

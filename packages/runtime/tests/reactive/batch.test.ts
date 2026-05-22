@@ -62,4 +62,48 @@ describe('batch', () => {
     expect(values).toEqual([3]);
     dispose();
   });
+
+  it('flushes once after nested batches finish', () => {
+    const count = signal(0);
+    const values: number[] = [];
+    const dispose = effect(() => values.push(count()));
+    values.length = 0;
+
+    batch(() => {
+      count.set(1);
+      batch(() => {
+        count.set(2);
+      });
+      count.set(3);
+    });
+
+    expect(values).toEqual([3]);
+    dispose();
+  });
+
+  it('restores batch depth when a nested batch throws', () => {
+    const count = signal(0);
+    const values: number[] = [];
+    const dispose = effect(() => values.push(count()));
+    values.length = 0;
+
+    expect(() => {
+      batch(() => {
+        count.set(1);
+        batch(() => {
+          count.set(2);
+          throw new Error('nested batch failed');
+        });
+      });
+    }).toThrow('nested batch failed');
+
+    expect(values).toEqual([2]);
+
+    batch(() => {
+      count.set(3);
+    });
+
+    expect(values).toEqual([2, 3]);
+    dispose();
+  });
 });

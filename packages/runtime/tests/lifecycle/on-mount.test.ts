@@ -57,4 +57,31 @@ describe('onMount', () => {
   it('does nothing without an active scope', () => {
     expect(() => onMount(() => {})).not.toThrow();
   });
+
+  it('does not run the same mount callback twice when flushed twice', () => {
+    const scope = createCleanupScope();
+    const spy = vi.fn();
+
+    runWithCleanupScope(scope, () => onMount(spy));
+
+    flushMountCallbacks(scope);
+    flushMountCallbacks(scope);
+
+    expect(spy).toHaveBeenCalledOnce();
+  });
+
+  it('runs mount cleanup before normal scope cleanup when registered later', () => {
+    const scope = createCleanupScope();
+    const log: string[] = [];
+
+    runWithCleanupScope(scope, () => {
+      onMount(() => () => log.push('mount cleanup'));
+      onDestroy(() => log.push('destroy cleanup'));
+    });
+
+    flushMountCallbacks(scope);
+    disposeCleanupScope(scope);
+
+    expect(log).toEqual(['mount cleanup', 'destroy cleanup']);
+  });
 });

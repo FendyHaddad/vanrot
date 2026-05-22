@@ -49,4 +49,46 @@ describe('listen', () => {
 
     expect(spy).not.toHaveBeenCalled();
   });
+
+  it('passes the event object to the handler', () => {
+    const button = document.createElement('button');
+    const spy = vi.fn();
+
+    const dispose = listen(button, 'click', spy);
+    button.click();
+    dispose();
+
+    expect(spy).toHaveBeenCalledOnce();
+    expect(spy.mock.calls[0]?.[0]).toBeInstanceOf(MouseEvent);
+  });
+
+  it('honors listener options during manual disposal', () => {
+    const button = document.createElement('button');
+    const spy = vi.fn();
+    const options = { capture: true };
+
+    const dispose = listen(button, 'click', spy, options);
+
+    dispose();
+    button.click();
+
+    expect(spy).not.toHaveBeenCalled();
+  });
+
+  it('is safe to dispose a listener manually and through scope disposal', () => {
+    const scope = createCleanupScope();
+    const button = document.createElement('button');
+    const spy = vi.fn();
+    let dispose = (): void => {};
+
+    runWithCleanupScope(scope, () => {
+      dispose = listen(button, 'click', spy);
+    });
+
+    dispose();
+    disposeCleanupScope(scope);
+    button.click();
+
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

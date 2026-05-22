@@ -158,4 +158,45 @@ describe('mount', () => {
 
     expect(spy).not.toHaveBeenCalled();
   });
+
+  it('does not run mount callbacks after destroy is called twice', () => {
+    const target = document.createElement('div');
+    const cleanup = vi.fn();
+
+    class TestComponent {
+      constructor() {
+        onMount(() => cleanup);
+      }
+    }
+
+    const app = mount(TestComponent as ComponentType, target);
+
+    app.destroy();
+    app.destroy();
+
+    expect(cleanup).toHaveBeenCalledOnce();
+  });
+
+  it('disposes compiled component listeners when the app is destroyed', () => {
+    const target = document.createElement('div');
+    const button = document.createElement('button');
+    const spy = vi.fn();
+
+    const app = mount(
+      {
+        createComponent() {
+          button.addEventListener('click', spy);
+          onDestroy(() => button.removeEventListener('click', spy));
+
+          return { node: button, ctx: {} };
+        },
+      },
+      target,
+    );
+
+    app.destroy();
+    button.click();
+
+    expect(spy).not.toHaveBeenCalled();
+  });
 });

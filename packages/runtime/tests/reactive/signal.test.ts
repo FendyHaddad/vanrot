@@ -51,4 +51,27 @@ describe('signal', () => {
     expect(values).toEqual([0, 1, 2]);
     dispose();
   });
+
+  it('does not notify effects when set receives the same value', () => {
+    const count = signal(0);
+    const spy = vi.fn();
+    const dispose = effect(() => {
+      count();
+      spy();
+    });
+    spy.mockClear();
+
+    count.set(0);
+
+    expect(spy).not.toHaveBeenCalled();
+    dispose();
+  });
+
+  it('updates from the current value', () => {
+    const count = signal(1);
+
+    count.update((current) => current + 4);
+
+    expect(count()).toBe(5);
+  });
 });
