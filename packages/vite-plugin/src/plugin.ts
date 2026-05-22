@@ -1,10 +1,12 @@
+import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
-import { dirname, resolve } from 'node:path';
+import { basename, dirname, resolve } from 'node:path';
 import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
 import { formatDiagnostic } from './diagnostics.js';
 import { handleVanrotHotUpdate } from './hot-update.js';
+import { createViteSourceMap } from './source-maps.js';
 import {
   decodeVirtualModuleId,
   isPublicVanrotVirtualModuleId,
@@ -37,6 +39,7 @@ function createVanrotPlugin(
   let normalizedOptions = normalizeOptions(options);
   let resolvedConfig: ResolvedConfig | undefined;
   const cssByComponentPath = internals.initialCss ?? new Map<string, string>();
+  const cssMapByComponentPath = new Map<string, ViteCompileResult['cssMap']>();
   const readSource = internals.readSource ?? ((filePath: string) => readFile(filePath, 'utf8'));
   const compile = internals.compile ?? compileForVite;
 
@@ -68,7 +71,10 @@ function createVanrotPlugin(
       }
 
       if (decoded.kind === 'css') {
-        return cssByComponentPath.get(decoded.filePath) ?? '';
+        return {
+          code: cssByComponentPath.get(decoded.filePath) ?? '',
+          map: cssMapByComponentPath.get(decoded.filePath) ?? null,
+        };
       }
 
       return readSource(decoded.filePath);
@@ -113,16 +119,77 @@ function createVanrotPlugin(
       }
 
       cssByComponentPath.set(files.componentPath, result.css);
+      cssMapByComponentPath.set(files.componentPath, result.cssMap);
 
       return {
         code: result.code,
-        map: null,
+        map: result.map,
       };
     },
     handleHotUpdate(ctx) {
       return handleVanrotHotUpdate(ctx);
     },
+    generateBundle(_options, bundle) {
+      if (!resolvedConfig?.build.sourcemap) {
+        return;
+      }
+
+      for (const [fileName, asset] of Object.entries(bundle)) {
+        if (asset.type !== 'asset' || !fileName.endsWith('.css')) {
+          continue;
+        }
+
+        if (bundle[`${fileName}.map`] !== undefined) {
+          continue;
+        }
+
+        const cssSource = stringifyAssetSource(asset.source);
+        const map = createCssBundleMap(fileName, cssSource, cssMapByComponentPath);
+
+        if (map.sources.length === 0) {
+          continue;
+        }
+
+        const mapFileName = `${fileName}.map`;
+        asset.source = `${cssSource}\n/*# sourceMappingURL=${basename(mapFileName)} */`;
+        this.emitFile({
+          type: 'asset',
+          fileName: mapFileName,
+          source: JSON.stringify(map),
+        });
+      }
+    },
   };
+}
+
+function stringifyAssetSource(source: string | Uint8Array): string {
+  if (typeof source === 'string') {
+    return source;
+  }
+
+  return Buffer.from(source).toString('utf8');
+}
+
+function createCssBundleMap(
+  fileName: string,
+  cssSource: string,
+  cssMapByComponentPath: Map<string, ViteCompileResult['cssMap']>,
+): ViteCompileResult['cssMap'] {
+  const sourceFilePaths = [...new Set([...cssMapByComponentPath.values()].flatMap((map) => map.sources))];
+
+  return createViteSourceMap({
+    file: fileName,
+    source: 'css',
+    generatedCode: cssSource,
+    mappings: sourceFilePaths.map((sourceFilePath) => ({
+      generatedFile: 'css',
+      generatedLine: 1,
+      generatedColumn: 0,
+      sourceFilePath,
+      sourceLine: 1,
+      sourceColumn: 0,
+    })),
+  });
 }
 
 function resolveVirtualSourceImport(source: string, importer: string | undefined): string | undefined {

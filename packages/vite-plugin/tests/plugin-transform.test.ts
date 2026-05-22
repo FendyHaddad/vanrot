@@ -49,6 +49,16 @@ function getLoadHook(plugin: Plugin): LoadHook {
   throw new Error('Expected load hook.');
 }
 
+function createTestMap(file: string, sources: string[] = []) {
+  return {
+    version: 3 as const,
+    file,
+    sources,
+    names: [],
+    mappings: '',
+  };
+}
+
 describe('vanrot plugin transform', () => {
   it('ignores non-component TypeScript files', async () => {
     const plugin = vanrot();
@@ -67,6 +77,8 @@ describe('vanrot plugin transform', () => {
       compile: async () => ({
         code: 'export function createComponent() { return { node: document.createTextNode("ok"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
         css: 'p{color:red}',
+        map: createTestMap('/repo/src/app.component.ts'),
+        cssMap: createTestMap('/repo/src/app.component.css'),
         diagnostics: [],
       }),
     });
@@ -88,7 +100,7 @@ describe('vanrot plugin transform', () => {
     expect(watched).toEqual(['/repo/src/app.component.html', '/repo/src/app.component.css']);
     expect(result).toEqual({
       code: expect.stringContaining('export default component;'),
-      map: null,
+      map: createTestMap('/repo/src/app.component.ts'),
     });
   });
 
@@ -98,6 +110,8 @@ describe('vanrot plugin transform', () => {
       compile: async () => ({
         code: 'export function createComponent() { return { node: document.createTextNode("page"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
         css: 'main{display:block}',
+        map: createTestMap('/repo/src/pages/home/home.page.ts'),
+        cssMap: createTestMap('/repo/src/pages/home/home.page.css'),
         diagnostics: [],
       }),
     });
@@ -122,7 +136,7 @@ describe('vanrot plugin transform', () => {
     ]);
     expect(result).toEqual({
       code: expect.stringContaining('export default component;'),
-      map: null,
+      map: createTestMap('/repo/src/pages/home/home.page.ts'),
     });
   });
 
@@ -132,6 +146,8 @@ describe('vanrot plugin transform', () => {
       compile: async () => ({
         code: 'export function createComponent() { return { node: document.createTextNode("button"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
         css: '.vr-button{display:inline-flex}',
+        map: createTestMap('/repo/src/ui/button/ui.button.ts'),
+        cssMap: createTestMap('/repo/src/ui/button/ui.button.css'),
         diagnostics: [],
       }),
     });
@@ -156,7 +172,7 @@ describe('vanrot plugin transform', () => {
     ]);
     expect(result).toEqual({
       code: expect.stringContaining('export default component;'),
-      map: null,
+      map: createTestMap('/repo/src/ui/button/ui.button.ts'),
     });
   });
 
@@ -165,6 +181,8 @@ describe('vanrot plugin transform', () => {
       compile: async () => ({
         code: '',
         css: '',
+        map: createTestMap('/repo/src/app.component.ts'),
+        cssMap: createTestMap('/repo/src/app.component.css'),
         diagnostics: [
           {
             severity: 'error',
@@ -205,6 +223,8 @@ describe('vanrot plugin transform', () => {
       compile: async () => ({
         code: 'export function createComponent() { return { node: document.createTextNode("ok"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
         css: '',
+        map: createTestMap('/repo/src/app.component.ts'),
+        cssMap: createTestMap('/repo/src/app.component.css'),
         diagnostics: [
           {
             severity: 'warning',
@@ -238,7 +258,13 @@ describe('vanrot plugin transform', () => {
       '/repo/src/app.component.ts',
     );
 
-    expect(warnings).toEqual(['/repo/src/app.component.css:1:1 VR008 CSS selector cannot be scoped']);
+    expect(warnings).toEqual([
+      [
+        '/repo/src/app.component.css:1:1 VR008 CSS selector cannot be scoped',
+        'Suggestion: Use scoped CSS.',
+        'Docs: /docs/compiler/scoped-css',
+      ].join('\n'),
+    ]);
   });
 
   it('resolves Vanrot virtual module IDs', async () => {
@@ -274,7 +300,67 @@ describe('vanrot plugin transform', () => {
       '\0vanrot:css:%2Frepo%2Fsrc%2Fapp.component.ts.css',
     );
 
-    expect(css).toBe('p{color:red}');
+    expect(css).toEqual({
+      code: 'p{color:red}',
+      map: null,
+    });
+  });
+
+  it('returns component and virtual CSS sourcemaps', async () => {
+    const plugin = createVanrotPluginForTests({
+      compile: async () => ({
+        code: 'export function createComponent() { return { node: document.createTextNode("ok"), ctx: {} }; }\nconst component = { createComponent };\nexport default component;',
+        css: '.app{color:red}',
+        map: {
+          version: 3,
+          file: '/repo/src/app.component.ts',
+          sources: ['/repo/src/app.component.html'],
+          names: [],
+          mappings: 'AAAA',
+        },
+        cssMap: {
+          version: 3,
+          file: '/repo/src/app.component.css',
+          sources: ['/repo/src/app.component.css'],
+          names: [],
+          mappings: 'AAAA',
+        },
+        diagnostics: [],
+      }),
+    });
+
+    const transformResult = await getTransformHook(plugin).call(
+      {
+        addWatchFile() {},
+        error(error: string) {
+          throw new Error(error);
+        },
+        warn() {},
+      } as never,
+      'export class AppComponent {}',
+      '/repo/src/app.component.ts',
+    );
+
+    expect(transformResult).toEqual(
+      expect.objectContaining({
+        code: expect.stringContaining('export default component;'),
+        map: expect.objectContaining({
+          sources: ['/repo/src/app.component.html'],
+        }),
+      }),
+    );
+
+    const css = await getLoadHook(plugin).call(
+      {} as never,
+      '\0vanrot:css:%2Frepo%2Fsrc%2Fapp.component.ts.css',
+    );
+
+    expect(css).toEqual({
+      code: '.app{color:red}',
+      map: expect.objectContaining({
+        sources: ['/repo/src/app.component.css'],
+      }),
+    });
   });
 
   it('loads original component source from a virtual source module', async () => {

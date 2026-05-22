@@ -13,6 +13,12 @@ All Vanrot code, examples, generated output, specs, and plans should follow the 
 
 If existing files violate these rules, do not spread the pattern. Fix only the part touched by the current task unless the user asks for a broader cleanup.
 
+## Superpowers Workflow Protocol
+
+When using Superpowers skills in this repository, do not use subagents, parallel agents, agent dispatch, or subagent-driven workflows.
+
+Adapt Superpowers workflows to inline execution in the current session, using explicit plans, checklists, and review checkpoints instead of delegating work.
+
 ## Phase Completion Protocol
 
 When a Vanrot phase is completed:

@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript, Vite 8 plugin API, Vitest, pnpm, Markdown.
 
-**Execution Rule:** Work in the current `main` workspace only. Do not stage, commit, push, create a branch, create a worktree, or dispatch external workers unless the user explicitly asks.
+**Execution Rule:** Work in the current `main` workspace only. Do not stage, commit, push, create a branch, create a worktree, or delegate work unless the user explicitly asks.
 
 ---
 
@@ -71,7 +71,7 @@ docs/superpowers/plans/Phase-12D.md
 - Read: `audits/core/vite-plugin.audit.ts`
 - Read: `packages/vite-plugin/src/hot-update.ts`
 
-- [ ] **Step 1: Confirm the existing 12D audit is red before implementation**
+- [x] **Step 1: Confirm the existing 12D audit is red before implementation**
 
 Run:
 
@@ -81,7 +81,7 @@ pnpm audit:core
 
 Expected before implementation: fails on `audits/core/vite-plugin.audit.ts` because `handleVanrotHotUpdate()` sends `{ type: 'full-reload' }` and returns `[]` for a template edit with a known owner module.
 
-- [ ] **Step 2: Replace the full-reload default unit expectation with owner-module HMR**
+- [x] **Step 2: Replace the full-reload default unit expectation with owner-module HMR**
 
 In `packages/vite-plugin/tests/plugin-dev-reload.test.ts`, replace the test named `requests a full reload when a component template changes` with:
 
@@ -124,7 +124,7 @@ In `packages/vite-plugin/tests/plugin-dev-reload.test.ts`, replace the test name
   });
 ```
 
-- [ ] **Step 3: Add missing-owner fallback coverage**
+- [x] **Step 3: Add missing-owner fallback coverage**
 
 In the same `describe('Vanrot dev reload', ...)` block, add:
 
@@ -166,7 +166,7 @@ In the same `describe('Vanrot dev reload', ...)` block, add:
   });
 ```
 
-- [ ] **Step 4: Run HMR tests to verify the new tests fail**
+- [x] **Step 4: Run HMR tests to verify the new tests fail**
 
 Run:
 
@@ -183,7 +183,7 @@ Expected before implementation: the owner-module test fails because current `han
 - Test: `packages/vite-plugin/tests/plugin-dev-reload.test.ts`
 - Test: `audits/core/vite-plugin.audit.ts`
 
-- [ ] **Step 1: Update `handleVanrotHotUpdate()` to return owner modules**
+- [x] **Step 1: Update `handleVanrotHotUpdate()` to return owner modules**
 
 In `packages/vite-plugin/src/hot-update.ts`, change `handleVanrotHotUpdate()` to:
 
@@ -219,7 +219,7 @@ export async function handleVanrotHotUpdate(ctx: HmrContext): Promise<ModuleNode
 }
 ```
 
-- [ ] **Step 2: Run HMR unit tests**
+- [x] **Step 2: Run HMR unit tests**
 
 Run:
 
@@ -229,7 +229,7 @@ pnpm --filter @vanrot/vite-plugin test -- plugin-dev-reload.test.ts
 
 Expected: the owner-module HMR and fallback reload tests pass. Existing rebuild tests continue to pass because owner invalidation still clears stale output.
 
-- [ ] **Step 3: Run the 12D audit**
+- [x] **Step 3: Run the 12D audit**
 
 Run:
 
@@ -245,7 +245,7 @@ Expected after this task: the Vite plugin audit no longer fails on template edit
 - Create: `packages/vite-plugin/src/source-maps.ts`
 - Create: `packages/vite-plugin/tests/source-maps.test.ts`
 
-- [ ] **Step 1: Write sourcemap utility tests**
+- [x] **Step 1: Write sourcemap utility tests**
 
 Create `packages/vite-plugin/tests/source-maps.test.ts`:
 
@@ -327,7 +327,7 @@ describe('createViteSourceMap', () => {
 });
 ```
 
-- [ ] **Step 2: Run the new sourcemap tests to verify they fail**
+- [x] **Step 2: Run the new sourcemap tests to verify they fail**
 
 Run:
 
@@ -337,7 +337,7 @@ pnpm --filter @vanrot/vite-plugin test -- source-maps.test.ts
 
 Expected before implementation: fails because `@/source-maps.js` does not exist.
 
-- [ ] **Step 3: Implement `source-maps.ts`**
+- [x] **Step 3: Implement `source-maps.ts`**
 
 Create `packages/vite-plugin/src/source-maps.ts`:
 
@@ -471,7 +471,7 @@ function encodeVlq(value: number): string {
 }
 ```
 
-- [ ] **Step 4: Run sourcemap tests**
+- [x] **Step 4: Run sourcemap tests**
 
 Run:
 
@@ -489,7 +489,7 @@ Expected: all `createViteSourceMap` tests pass.
 - Modify: `packages/vite-plugin/tests/compile-for-vite.test.ts`
 - Modify: `packages/vite-plugin/tests/plugin-transform.test.ts`
 
-- [ ] **Step 1: Add failing compile-for-vite map coverage**
+- [x] **Step 1: Add failing compile-for-vite map coverage**
 
 In `packages/vite-plugin/tests/compile-for-vite.test.ts`, add:
 
@@ -538,7 +538,7 @@ In `packages/vite-plugin/tests/compile-for-vite.test.ts`, add:
   });
 ```
 
-- [ ] **Step 2: Run compile-for-vite tests to verify failure**
+- [x] **Step 2: Run compile-for-vite tests to verify failure**
 
 Run:
 
@@ -548,7 +548,7 @@ pnpm --filter @vanrot/vite-plugin test -- compile-for-vite.test.ts
 
 Expected before implementation: fails because `ViteCompileResult` has no `map` or `cssMap`.
 
-- [ ] **Step 3: Update `compile-for-vite.ts`**
+- [x] **Step 3: Update `compile-for-vite.ts`**
 
 Replace `packages/vite-plugin/src/compile-for-vite.ts` with:
 
@@ -608,7 +608,7 @@ export async function compileForVite(
 }
 ```
 
-- [ ] **Step 4: Add plugin transform and virtual CSS map coverage**
+- [x] **Step 4: Add plugin transform and virtual CSS map coverage**
 
 In `packages/vite-plugin/tests/plugin-transform.test.ts`, update existing compile stubs to include `map` and `cssMap` where TypeScript requires them. Add this test:
 
@@ -673,7 +673,7 @@ In `packages/vite-plugin/tests/plugin-transform.test.ts`, update existing compil
   });
 ```
 
-- [ ] **Step 5: Update `plugin.ts` to cache and return maps**
+- [x] **Step 5: Update `plugin.ts` to cache and return maps**
 
 In `packages/vite-plugin/src/plugin.ts`:
 
@@ -707,7 +707,7 @@ In `packages/vite-plugin/src/plugin.ts`:
       };
 ```
 
-- [ ] **Step 6: Run compile and transform tests**
+- [x] **Step 6: Run compile and transform tests**
 
 Run:
 
@@ -724,7 +724,7 @@ Expected: compile and transform tests pass with maps returned.
 - Modify: `packages/vite-plugin/tests/diagnostics.test.ts`
 - Modify: `packages/vite-plugin/tests/plugin-transform.test.ts`
 
-- [ ] **Step 1: Replace diagnostics test with rich-format coverage**
+- [x] **Step 1: Replace diagnostics test with rich-format coverage**
 
 In `packages/vite-plugin/tests/diagnostics.test.ts`, replace the existing test with:
 
@@ -781,7 +781,7 @@ describe('formatDiagnostic', () => {
 });
 ```
 
-- [ ] **Step 2: Run diagnostics tests to verify failure**
+- [x] **Step 2: Run diagnostics tests to verify failure**
 
 Run:
 
@@ -791,7 +791,7 @@ pnpm --filter @vanrot/vite-plugin test -- diagnostics.test.ts
 
 Expected before implementation: rich-format test fails because current formatter returns only one line.
 
-- [ ] **Step 3: Implement rich formatter**
+- [x] **Step 3: Implement rich formatter**
 
 Replace `packages/vite-plugin/src/diagnostics.ts` with:
 
@@ -810,7 +810,7 @@ export function formatDiagnostic(diagnostic: CompileDiagnostic): string {
 }
 ```
 
-- [ ] **Step 4: Run diagnostics and transform tests**
+- [x] **Step 4: Run diagnostics and transform tests**
 
 Run:
 
@@ -833,7 +833,7 @@ Expected: diagnostics tests pass; transform tests that assert thrown/warned diag
 - Create: `packages/vite-plugin/tests/fixtures/clean-app/src/app/app.component.css`
 - Modify: `packages/vite-plugin/tests/plugin-build.test.ts`
 
-- [ ] **Step 1: Add clean fixture files**
+- [x] **Step 1: Add clean fixture files**
 
 Create `packages/vite-plugin/tests/fixtures/clean-app/package.json`:
 
@@ -937,7 +937,7 @@ Create `packages/vite-plugin/tests/fixtures/clean-app/src/app/app.component.css`
 }
 ```
 
-- [ ] **Step 2: Add build tests for sourcemaps and clean fixture**
+- [x] **Step 2: Add build tests for sourcemaps and clean fixture**
 
 In `packages/vite-plugin/tests/plugin-build.test.ts`, add `cleanFixtureRoot` and `cleanOutDir` constants:
 
@@ -989,7 +989,7 @@ Add this test:
   });
 ```
 
-- [ ] **Step 3: Run build tests to verify failure before package-output compatibility is complete**
+- [x] **Step 3: Run build tests to verify failure before package-output compatibility is complete**
 
 Run:
 
@@ -999,7 +999,7 @@ pnpm --filter @vanrot/vite-plugin test -- plugin-build.test.ts
 
 Expected before all previous tasks are integrated: fails if sourcemap assets are missing or package-output resolution cannot consume built outputs.
 
-- [ ] **Step 4: Run package build then build tests**
+- [x] **Step 4: Run package build then build tests**
 
 Run:
 
@@ -1017,7 +1017,7 @@ Expected: Vite plugin package builds, then both fixture build tests pass with JS
 - Read: `vitest.audit.config.ts`
 - Read: `audits/core/vite-plugin.audit.ts`
 
-- [ ] **Step 1: Run focused Vite plugin test suite**
+- [x] **Step 1: Run focused Vite plugin test suite**
 
 Run:
 
@@ -1027,7 +1027,7 @@ pnpm --filter @vanrot/vite-plugin test
 
 Expected: all `@vanrot/vite-plugin` tests pass.
 
-- [ ] **Step 2: Run focused Vite plugin typecheck**
+- [x] **Step 2: Run focused Vite plugin typecheck**
 
 Run:
 
@@ -1037,7 +1037,7 @@ pnpm --filter @vanrot/vite-plugin typecheck
 
 Expected: package source and test TypeScript projects typecheck cleanly.
 
-- [ ] **Step 3: Run core audit**
+- [x] **Step 3: Run core audit**
 
 Run:
 
@@ -1055,7 +1055,7 @@ Expected: the 12D Vite plugin audit passes. If audit failures remain for 12E Typ
 - Modify: `docs/superpowers/feature-maturity.md`
 - Modify: `docs/vanrot-presentation.html`
 
-- [ ] **Step 1: Update final TDD inventory Vite plugin rows**
+- [x] **Step 1: Update final TDD inventory Vite plugin rows**
 
 In `docs/superpowers/final-tdd-inventory.md`, update the `@vanrot/vite-plugin` rows that Phase 12D verifies:
 
@@ -1074,7 +1074,7 @@ In `docs/superpowers/final-tdd-inventory.md`, update the `@vanrot/vite-plugin` r
 
 Keep the `typing | transformed component imports` row deferred to Phase 12E.
 
-- [ ] **Step 2: Update feature maturity ledger**
+- [x] **Step 2: Update feature maturity ledger**
 
 In `docs/superpowers/feature-maturity.md`, update Phase 12 notes so the Vite plugin sub-slice is recorded as completed, but keep the overall Phase 12 row unchecked until Phase 12E is complete.
 
@@ -1084,7 +1084,7 @@ Use this wording in the Phase 12 audit lane note if the surrounding table still 
 Phase 12A created the red lane. Phase 12B burned down runtime audit failures, Phase 12C burned down compiler audit failures, and Phase 12D burned down Vite plugin audit failures; TypeScript contract audit failures remain owned by 12E.
 ```
 
-- [ ] **Step 3: Update presentation roadmap**
+- [x] **Step 3: Update presentation roadmap**
 
 In `docs/vanrot-presentation.html`, update the roadmap text for Phase 12 so it lists runtime, compiler, and Vite plugin hardening as completed slices while TypeScript contracts remain next/pending.
 
@@ -1096,11 +1096,11 @@ Use concise visible wording:
 
 Adjust the exact tag only to match the existing slide markup.
 
-- [ ] **Step 4: Check off completed plan tasks**
+- [x] **Step 4: Check off completed plan tasks**
 
 As each task is completed, update the matching checkboxes in `docs/superpowers/plans/Phase-12D.md` from `- [ ]` to `- [x]`. Do not mark this documentation task complete until the inventory, maturity ledger, and presentation are synchronized.
 
-- [ ] **Step 5: Run phase documentation verifier**
+- [x] **Step 5: Run phase documentation verifier**
 
 Run:
 
@@ -1119,7 +1119,7 @@ Expected: phase documentation guardrails pass. If they fail, update the tracker,
 - Read: `docs/superpowers/final-tdd-inventory.md`
 - Read: `docs/vanrot-presentation.html`
 
-- [ ] **Step 1: Run focused package verification**
+- [x] **Step 1: Run focused package verification**
 
 Run:
 
@@ -1130,7 +1130,7 @@ pnpm --filter @vanrot/vite-plugin typecheck
 
 Expected: both commands pass.
 
-- [ ] **Step 2: Run audit verification**
+- [x] **Step 2: Run audit verification**
 
 Run:
 
@@ -1140,7 +1140,7 @@ pnpm audit:core
 
 Expected: Phase 12D Vite plugin audit passes. Any remaining failures must be explicitly attributable to a later phase before this task is considered complete.
 
-- [ ] **Step 3: Run full repository verification**
+- [x] **Step 3: Run full repository verification**
 
 Run:
 
@@ -1150,7 +1150,7 @@ pnpm verify
 
 Expected: full verification passes, including typecheck, tests, build, runtime size budget, and phase docs.
 
-- [ ] **Step 4: Record final workspace status**
+- [x] **Step 4: Record final workspace status**
 
 Run:
 

@@ -36,18 +36,25 @@ describe('Vanrot dev reload', () => {
     expect(findOwnerComponentPath('/repo/src/main.ts')).toBeUndefined();
   });
 
-  it('requests a full reload when a component template changes', async () => {
+  it('returns and invalidates the owner module when a component template changes', async () => {
     const sent: unknown[] = [];
     const invalidated: string[] = [];
+    const ownerModule = { id: '/repo/src/app.component.ts' };
 
-    await handleVanrotHotUpdate({
+    const result = await handleVanrotHotUpdate({
       file: '/repo/src/app.component.html',
       timestamp: Date.now(),
       modules: [],
       server: {
+        config: {
+          root: '/repo',
+        },
         moduleGraph: {
           getModuleById(id: string) {
-            return { id };
+            return id === ownerModule.id ? ownerModule : undefined;
+          },
+          async getModuleByUrl(url: string) {
+            return url === '/src/app.component.ts' ? ownerModule : undefined;
           },
           invalidateModule(module: { id: string }) {
             invalidated.push(module.id);
@@ -61,7 +68,44 @@ describe('Vanrot dev reload', () => {
       },
     } as never);
 
-    expect(invalidated).toContain('/repo/src/app.component.ts');
+    expect(result).toEqual([ownerModule]);
+    expect(invalidated).toEqual(['/repo/src/app.component.ts']);
+    expect(sent).not.toContainEqual({ type: 'full-reload' });
+  });
+
+  it('falls back to full reload when no owner module can be resolved', async () => {
+    const sent: unknown[] = [];
+    const invalidated: string[] = [];
+
+    const result = await handleVanrotHotUpdate({
+      file: '/repo/src/app.component.css',
+      timestamp: Date.now(),
+      modules: [],
+      server: {
+        config: {
+          root: '/repo',
+        },
+        moduleGraph: {
+          getModuleById() {
+            return undefined;
+          },
+          async getModuleByUrl() {
+            return undefined;
+          },
+          invalidateModule(module: { id: string }) {
+            invalidated.push(module.id);
+          },
+        },
+        ws: {
+          send(message: unknown) {
+            sent.push(message);
+          },
+        },
+      },
+    } as never);
+
+    expect(result).toEqual([]);
+    expect(invalidated).toEqual([]);
     expect(sent).toContainEqual({ type: 'full-reload' });
   });
 

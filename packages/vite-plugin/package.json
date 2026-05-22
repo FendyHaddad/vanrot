@@ -29,7 +29,7 @@
     "build": "tsc -p tsconfig.json",
     "pretypecheck": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tests/tsconfig.json --noEmit",
-    "pretest": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build",
+    "pretest": "pnpm run build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
   }

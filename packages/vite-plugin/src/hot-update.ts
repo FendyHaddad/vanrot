@@ -26,13 +26,25 @@ export async function handleVanrotHotUpdate(ctx: HmrContext): Promise<ModuleNode
 
   ctx.server.moduleGraph.onFileChange?.(ownerComponentPath);
 
-  for (const ownerModule of await findOwnerModules(ctx, ownerComponentPath)) {
-    ctx.server.moduleGraph.invalidateModule(ownerModule, new Set(), ctx.timestamp, true);
+  const ownerModules = await findOwnerModules(ctx, ownerComponentPath);
+
+  if (ownerModules.length === 0) {
+    ctx.server.ws.send({ type: 'full-reload' });
+    return [];
   }
 
-  ctx.server.ws.send({ type: 'full-reload' });
+  const invalidatedModules = new Set<ModuleNode>();
 
-  return [];
+  for (const ownerModule of ownerModules) {
+    ctx.server.moduleGraph.invalidateModule(
+      ownerModule,
+      invalidatedModules,
+      ctx.timestamp,
+      true,
+    );
+  }
+
+  return ownerModules;
 }
 
 async function findOwnerModules(

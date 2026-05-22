@@ -1,10 +1,13 @@
 import type { CompileDiagnostic, CompileOptions, CompileResult } from '@vanrot/compiler';
 import { compileComponentFromFiles } from '@vanrot/compiler';
+import { createViteSourceMap, type ViteSourceMap } from './source-maps.js';
 import { toPublicCssModuleId, toPublicSourceModuleId } from './virtual-modules.js';
 
 export interface ViteCompileResult {
   code: string;
   css: string;
+  map: ViteSourceMap;
+  cssMap: ViteSourceMap;
   diagnostics: CompileDiagnostic[];
 }
 
@@ -22,15 +25,29 @@ export async function compileForVite(
   const result = await compile(componentPath, {
     componentImportSpecifier: sourceModuleId,
   });
+  const code = [
+    `import '${cssModuleId}';`,
+    result.js,
+    'const component = { createComponent };',
+    'export default component;',
+  ].join('\n\n');
+  const stylePath = componentPath.replace(/\.(component|page|button)\.ts$/, '.$1.css');
 
   return {
-    code: [
-      `import '${cssModuleId}';`,
-      result.js,
-      'const component = { createComponent };',
-      'export default component;',
-    ].join('\n\n'),
+    code,
     css: result.css,
+    map: createViteSourceMap({
+      file: componentPath,
+      source: 'js',
+      generatedCode: code,
+      mappings: result.metadata.mappings,
+    }),
+    cssMap: createViteSourceMap({
+      file: stylePath,
+      source: 'css',
+      generatedCode: result.css,
+      mappings: result.metadata.mappings,
+    }),
     diagnostics: result.diagnostics,
   };
 }

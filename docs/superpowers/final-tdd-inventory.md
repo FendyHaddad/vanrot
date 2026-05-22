@@ -92,16 +92,16 @@ When a phase adds or changes framework surface area:
 
 | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |------|------|------------------|-----------------------|-------------|-------|
-| API | `vanrot()` default plugin export | Demo-Capable | Plugin works in dev/build, has typed options, peer dependency behavior, and examples. | Phase 4, Phase 12D | Named `vanrotPlugin` alias also exists. |
-| options | include/exclude normalization | Demo-Capable | Options cover `.component.ts`, `.page.ts`, `.button.ts`, custom patterns, and invalid options. | Phase 4, Phase 12D | Current include covers component/page/button. |
-| transform | component TS transform | Demo-Capable | Vite transforms supported role modules consistently in dev and production build. | Phase 4, Phase 12D | Must align with compiler source maps. |
-| virtual modules | virtual source module | Demo-Capable | Prevents recursive transforms, preserves source imports, and handles encoded paths cross-platform. | Phase 4, Phase 12D | Needed for transformed component class imports. |
-| virtual modules | virtual CSS module | Demo-Capable | CSS loads in dev, extracts in build, invalidates correctly, and maps back to owner file. | Phase 4, Phase 12D | Build fixture emits CSS today. |
-| diagnostics | Vite diagnostics bridge | Demo-Capable | Compiler diagnostics surface as Vite errors/warnings with code frames, suggestions, docs links, and source positions. | Phase 4, Phase 12D | Current formatting is basic. |
-| dev server | sibling file watching | Demo-Capable | TS/HTML/CSS changes invalidate the right module without stale output. | Phase 4, Phase 12D | Current fallback watches siblings. |
-| dev server | full reload fallback | Demo-Capable | Full reload remains correct as a fallback but does not hide missing true HMR. | Phase 4, Phase 12D | Phase 12A red tests should expose the production gap. |
-| dev server | true state-preserving HMR | Deferred | HTML/CSS updates preserve state where safe and clean up invalidated generated effects. | Phase 12D | Production requirement. |
-| build | production build fixture | Demo-Capable | Build emits correct JS/CSS assets, sourcemaps where configured, and works from a clean fixture install. | Phase 4, Phase 12D, Phase 26 | Current fixture is local workspace based. |
+| API | `vanrot()` default plugin export | Production-Ready | Plugin works in dev/build, has typed options, peer dependency behavior, and examples. | Phase 4, Phase 12D | Named `vanrotPlugin` alias also exists. |
+| options | include/exclude normalization | Production-Ready | Options cover `.component.ts`, `.page.ts`, `.button.ts`, custom patterns, and invalid options. | Phase 4, Phase 12D | Phase 12D production-tests current defaults; Phase 13 owns config-driven convention expansion. |
+| transform | component TS transform | Production-Ready | Vite transforms supported role modules consistently in dev and production build. | Phase 4, Phase 12D | Aligns with compiler source-map metadata. |
+| virtual modules | virtual source module | Production-Ready | Prevents recursive transforms, preserves source imports, and handles encoded paths cross-platform. | Phase 4, Phase 12D | Needed for transformed component class imports. |
+| virtual modules | virtual CSS module | Production-Ready | CSS loads in dev, extracts in build, invalidates correctly, and maps back to owner file. | Phase 4, Phase 12D | Build fixture emits CSS and sourcemaps. |
+| diagnostics | Vite diagnostics bridge | Production-Ready | Compiler diagnostics surface as Vite errors/warnings with code frames, suggestions, docs links, and source positions. | Phase 4, Phase 12D | Phase 12D keeps this text-based; overlay metadata remains out of scope. |
+| dev server | sibling file watching | Production-Ready | TS/HTML/CSS changes invalidate the right module without stale output. | Phase 4, Phase 12D | Owner-module HMR covers sibling edits. |
+| dev server | full reload fallback | Production-Ready | Full reload remains correct as a fallback but does not hide missing true HMR. | Phase 4, Phase 12D | Full reload is only the missing-owner fallback. |
+| dev server | true state-preserving HMR | Production-Ready | HTML/CSS updates preserve state where safe and clean up invalidated generated effects. | Phase 12D | Phase 12D returns owner modules to Vite; generated accept/dispose remains future hardening if needed. |
+| build | production build fixture | Production-Ready | Build emits correct JS/CSS assets, sourcemaps where configured, and works from a clean fixture install. | Phase 4, Phase 12D, Phase 26 | Phase 12D adds clean app-style package-output fixture coverage; Phase 26 owns final release install. |
 | typing | transformed component imports | Deferred | App authors can import compiled `.component.ts`, `.page.ts`, and `.button.ts` modules without `@ts-expect-error`. | Phase 12E | Current generated examples still need suppressions. |
 
 ## `@vanrot/cli`
@@ -177,6 +177,7 @@ When a phase adds or changes framework surface area:
 |------|------|------------------|-----------------------|-------------|-------|
 | example | `examples/counter` | Demo-Capable | Fresh install/build/test flow proves runtime, compiler, Vite, CLI, router, UI, and testing integration. | Phase 6, Phase 26 | Counter is the main demo app. |
 | fixture | Vite plugin basic app | Demo-Capable | Fixture validates plugin dev/build behavior with routes, pages, UI assets, and compiled role modules. | Phase 4, Phase 12D | Final install should not depend on unpublished registry packages. |
+| fixture | Vite plugin clean app | Production-Ready | Fixture validates package-output Vite builds with emitted JavaScript, CSS, and sourcemaps. | Phase 12D, Phase 26 | Phase 12D uses temporary workspace-style package links; Phase 26 owns clean install matrix coverage. |
 | fixture | compiler counter fixture | Demo-Capable | Compiler fixture covers source/template/style triplets and generated output snapshots. | Phase 3, Phase 12C | Extend for control flow and child components. |
 | generated convention | route source file `src/routes.ts` | Demo-Capable | Routes keep paths, labels, and page/loadPage references in one source of truth. | Phase 8, Phase 15 | Avoid reused route string literals in pages/templates. |
 | generated convention | component role files | Demo-Capable | Component source, template, and scoped CSS remain separate with role-based suffixes. | Phase 5, Phase 12C | `*.component.ts/html/css`. |
