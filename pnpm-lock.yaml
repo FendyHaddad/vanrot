@@ -30,17 +30,17 @@ importers:
   examples/counter:
     dependencies:
       '@vanrot/config':
-        specifier: workspace:*
+        specifier: file:../../packages/config
         version: link:../../packages/config
       '@vanrot/runtime':
-        specifier: workspace:*
+        specifier: file:../../packages/runtime
         version: link:../../packages/runtime
     devDependencies:
       '@vanrot/cli':
-        specifier: workspace:*
+        specifier: file:../../packages/cli
         version: link:../../packages/cli
       '@vanrot/vite-plugin':
-        specifier: workspace:*
+        specifier: file:../../packages/vite-plugin
         version: link:../../packages/vite-plugin
       typescript:
         specifier: ^5.9.3
@@ -55,10 +55,10 @@ importers:
   packages/cli:
     dependencies:
       '@vanrot/config':
-        specifier: workspace:*
+        specifier: file:../config
         version: link:../config
       '@vanrot/ui':
-        specifier: workspace:*
+        specifier: file:../ui
         version: link:../ui
 
   packages/compiler:
@@ -85,7 +85,7 @@ importers:
   packages/router:
     dependencies:
       '@vanrot/runtime':
-        specifier: workspace:*
+        specifier: file:../runtime
         version: link:../runtime
 
   packages/runtime: {}
@@ -93,7 +93,7 @@ importers:
   packages/testing:
     dependencies:
       '@vanrot/runtime':
-        specifier: workspace:*
+        specifier: file:../runtime
         version: link:../runtime
     devDependencies:
       vitest:
@@ -103,19 +103,19 @@ importers:
   packages/ui:
     dependencies:
       '@vanrot/runtime':
-        specifier: workspace:*
+        specifier: file:../runtime
         version: link:../runtime
 
   packages/vite-plugin:
     dependencies:
       '@vanrot/compiler':
-        specifier: workspace:*
+        specifier: file:../compiler
         version: link:../compiler
       '@vanrot/config':
-        specifier: workspace:*
+        specifier: file:../config
         version: link:../config
       '@vanrot/router':
-        specifier: workspace:*
+        specifier: file:../router
         version: link:../router
     devDependencies:
       vite:
