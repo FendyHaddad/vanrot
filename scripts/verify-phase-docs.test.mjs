@@ -3,21 +3,21 @@ import {
   checkCompletedPhasePlans,
   checkMaturityRows,
   checkPresentationRoadmap,
-  parseBrainstormPhases,
+  parseMaturityRoadmapPhases,
 } from './verify-phase-docs.mjs';
 
 describe('phase documentation verification', () => {
-  it('parses completed and pending phases from the brainstorm tracker', () => {
-    const phases = parseBrainstormPhases(`
-| Done | Phase | Create | Tick when |
-|---|---|---|---|
-| [x] | Phase 3 - Compiler MVP | compiler | done |
-| [ ] | Phase 4 - Vite integration | vite | later |
+  it('parses completed and pending phases from the feature maturity roadmap', () => {
+    const phases = parseMaturityRoadmapPhases(`
+| Done | Phase | Track | Modules And Submodules | Tick When |
+|---|---:|---|---|---|
+| [x] | Phase 11 | Production roadmap and standards foundation | ledger | done |
+| [ ] | Phase 12 | Core framework hardening | core | later |
 `);
 
     expect(phases).toEqual([
-      { done: true, number: 3, title: 'Compiler MVP' },
-      { done: false, number: 4, title: 'Vite integration' },
+      { done: true, number: 11, title: 'Production roadmap and standards foundation' },
+      { done: false, number: 12, title: 'Core framework hardening' },
     ]);
   });
 
@@ -28,7 +28,7 @@ describe('phase documentation verification', () => {
     );
 
     expect(failures).toEqual([
-      'Phase 3 is done in docs/brainstorm.md but docs/superpowers/plans/Phase-03.md still has unchecked tasks.',
+      'Phase 3 is done in docs/superpowers/feature-maturity.md but docs/superpowers/plans/Phase-03.md still has unchecked tasks.',
     ]);
   });
 
@@ -51,11 +51,11 @@ describe('phase documentation verification', () => {
     );
 
     expect(failures).toEqual([
-      'Phase 4 is done in docs/brainstorm.md but feature maturity row "Vite transform integration" is still Planned.',
+      'Phase 4 is done in docs/superpowers/feature-maturity.md but feature maturity row "Vite transform integration" is still Planned.',
     ]);
   });
 
-  it('fails when the presentation roadmap does not match brainstorm status', () => {
+  it('fails when the presentation roadmap does not match feature maturity status', () => {
     const failures = checkPresentationRoadmap(
       [
         { done: true, number: 4, title: 'Vite integration' },
@@ -72,7 +72,7 @@ describe('phase documentation verification', () => {
     );
 
     expect(failures).toEqual([
-      'Phase 4 is done in docs/brainstorm.md but docs/vanrot-presentation.html does not mark it as done.',
+      'Phase 4 is done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html does not mark it as done.',
       'Phase 5 is the next pending phase but docs/vanrot-presentation.html does not mark it as active.',
     ]);
   });

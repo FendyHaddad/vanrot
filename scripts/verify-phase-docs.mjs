@@ -5,9 +5,9 @@ import { dirname, join } from 'node:path';
 
 const projectRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 
-export function parseBrainstormPhases(markdown) {
+export function parseMaturityRoadmapPhases(markdown) {
   const phases = [];
-  const rowPattern = /^\|\s*\[(x| )\]\s*\|\s*Phase\s+(\d+)\s*-\s*([^|]+?)\s*\|/gm;
+  const rowPattern = /^\|\s*\[(x| )\]\s*\|\s*Phase\s+(\d+)\s*\|\s*([^|]+?)\s*\|/gm;
 
   for (const match of markdown.matchAll(rowPattern)) {
     phases.push({
@@ -32,7 +32,7 @@ export function checkCompletedPhasePlans(phases, planContentByPhase) {
 
     if (planContent === undefined) {
       failures.push(
-        `Phase ${phase.number} is done in docs/brainstorm.md but docs/superpowers/plans/Phase-${formatPhaseNumber(
+        `Phase ${phase.number} is done in docs/superpowers/feature-maturity.md but docs/superpowers/plans/Phase-${formatPhaseNumber(
           phase.number,
         )}.md is missing.`,
       );
@@ -41,7 +41,7 @@ export function checkCompletedPhasePlans(phases, planContentByPhase) {
 
     if (/^\s*-\s+\[ \]/m.test(planContent)) {
       failures.push(
-        `Phase ${phase.number} is done in docs/brainstorm.md but docs/superpowers/plans/Phase-${formatPhaseNumber(
+        `Phase ${phase.number} is done in docs/superpowers/feature-maturity.md but docs/superpowers/plans/Phase-${formatPhaseNumber(
           phase.number,
         )}.md still has unchecked tasks.`,
       );
@@ -80,7 +80,7 @@ export function checkMaturityRows(phases, maturityMarkdown) {
     }
 
     failures.push(
-      `${plannedPhase} is done in docs/brainstorm.md but feature maturity row "${feature}" is still Planned.`,
+      `${plannedPhase} is done in docs/superpowers/feature-maturity.md but feature maturity row "${feature}" is still Planned.`,
     );
   }
 
@@ -97,21 +97,21 @@ export function checkPresentationRoadmap(phases, presentationHtml) {
 
     if (cardClass === undefined) {
       failures.push(
-        `Phase ${phase.number} exists in docs/brainstorm.md but docs/vanrot-presentation.html has no roadmap card for it.`,
+        `Phase ${phase.number} exists in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html has no roadmap card for it.`,
       );
       continue;
     }
 
     if (phase.done && !hasClass(cardClass, 'done')) {
       failures.push(
-        `Phase ${phase.number} is done in docs/brainstorm.md but docs/vanrot-presentation.html does not mark it as done.`,
+        `Phase ${phase.number} is done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html does not mark it as done.`,
       );
       continue;
     }
 
     if (!phase.done && hasClass(cardClass, 'done')) {
       failures.push(
-        `Phase ${phase.number} is not done in docs/brainstorm.md but docs/vanrot-presentation.html marks it as done.`,
+        `Phase ${phase.number} is not done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html marks it as done.`,
       );
     }
   }
@@ -176,13 +176,12 @@ async function readExistingPhasePlans(phases) {
 }
 
 async function verifyPhaseDocs() {
-  const brainstorm = await readFile(join(projectRoot, 'docs', 'brainstorm.md'), 'utf8');
   const maturity = await readFile(
     join(projectRoot, 'docs', 'superpowers', 'feature-maturity.md'),
     'utf8',
   );
   const presentation = await readFile(join(projectRoot, 'docs', 'vanrot-presentation.html'), 'utf8');
-  const phases = parseBrainstormPhases(brainstorm);
+  const phases = parseMaturityRoadmapPhases(maturity);
   const planContentByPhase = await readExistingPhasePlans(phases);
 
   return [
