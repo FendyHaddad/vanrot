@@ -1,5 +1,5 @@
 import { route as appRoute } from '../routes.ts';
 
-export class AppComponent {
+export class AppLayout {
   route = appRoute;
 }

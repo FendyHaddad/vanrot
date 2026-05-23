@@ -1,6 +1,6 @@
 import { mount } from '@vanrot/runtime';
 import { provideRouter } from '@vanrot/router';
-import { AppComponent } from './app/app.component.ts';
+import { AppLayout } from './app/app.layout.ts';
 import { route as appRoute } from './routes.ts';
 import './styles/vanrot-tokens.css';
 import './styles/vanrot-ui.css';
@@ -12,4 +12,4 @@ if (target === null) {
 }
 
 provideRouter(appRoute);
-mount(AppComponent, target);
+mount(AppLayout, target);

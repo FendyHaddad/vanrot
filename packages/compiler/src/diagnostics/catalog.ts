@@ -19,7 +19,7 @@ export const diagnosticCatalog: Record<DiagnosticCode, DiagnosticInfo> = {
   },
   VR003: {
     message: 'Unsupported Vanrot role file.',
-    suggestion: 'Use a supported role suffix such as .component.ts, .page.ts, or .button.ts.',
+    suggestion: 'Use a supported role suffix such as .component.ts, .page.ts, .layout.ts, or .button.ts.',
     docsPath: '/docs/compiler/file-conventions',
   },
   VR004: {
@@ -96,5 +96,35 @@ export const diagnosticCatalog: Record<DiagnosticCode, DiagnosticInfo> = {
     message: 'Source mapping could not be created.',
     suggestion: 'Report this generated mapping issue with the component, template, and style files.',
     docsPath: '/docs/compiler/source-maps',
+  },
+  VR_ROUTER_MULTIPLE_ROOTS: {
+    message: 'App layout templates can contain only one <vr-router />.',
+    suggestion: 'Keep one root <vr-router /> in app.layout.html.',
+    docsPath: '/docs/router/vr-router',
+  },
+  VR_ROUTER_OUTSIDE_APP_LAYOUT: {
+    message: '<vr-router /> can only be used in app.layout.html.',
+    suggestion: 'Move <vr-router /> to app.layout.html and use <vr-outlet /> inside route layouts.',
+    docsPath: '/docs/router/vr-router',
+  },
+  VR_LAYOUT_MISSING_OUTLET: {
+    message: 'Route layout templates must contain one <vr-outlet />.',
+    suggestion: 'Add <vr-outlet /> to the route layout template.',
+    docsPath: '/docs/router/vr-outlet',
+  },
+  VR_LAYOUT_MULTIPLE_OUTLETS: {
+    message: 'Route layout templates can contain only one <vr-outlet />.',
+    suggestion: 'Keep one <vr-outlet /> in the route layout template.',
+    docsPath: '/docs/router/vr-outlet',
+  },
+  VR_OUTLET_OUTSIDE_LAYOUT: {
+    message: '<vr-outlet /> can only be used in route layout templates.',
+    suggestion: 'Move <vr-outlet /> to a route .layout.html file.',
+    docsPath: '/docs/router/vr-outlet',
+  },
+  VR_PAGE_HAS_OUTLET: {
+    message: 'Page templates cannot contain <vr-outlet />.',
+    suggestion: 'Change the route to a layout route or remove <vr-outlet /> from the page template.',
+    docsPath: '/docs/router/page-routes',
   },
 };

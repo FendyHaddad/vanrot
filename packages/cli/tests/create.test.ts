@@ -29,10 +29,10 @@ describe('vr create', () => {
       "import { provideRouter } from '@vanrot/router';",
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
-      "import { AppComponent } from './app/app.component.ts';",
+      "import { AppLayout } from './app/app.layout.ts';",
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
-      'mount(AppComponent, target);',
+      'mount(AppLayout, target);',
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.not.toContain(
       '@ts-expect-error',
@@ -50,27 +50,27 @@ describe('vr create', () => {
       "import { HomePage } from './pages/home/home.page.ts';",
     );
     await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.toContain(
-      "loadPage: () => import('./pages/about/about.page.ts').then(({ AboutPage }) => AboutPage)",
+      "import { ShopLayout } from './layouts/shop/shop.layout.ts';",
     );
     await expect(readFile(join(appRoot, 'src', 'routes.ts'), 'utf8')).resolves.not.toContain(
       '@ts-expect-error',
     );
     await expect(
-      readFile(join(appRoot, 'src', 'app', 'app.component.ts'), 'utf8'),
+      readFile(join(appRoot, 'src', 'app', 'app.layout.ts'), 'utf8'),
     ).resolves.toContain('route = appRoute;');
     await expect(
-      readFile(join(appRoot, 'src', 'app', 'app.component.html'), 'utf8'),
+      readFile(join(appRoot, 'src', 'app', 'app.layout.html'), 'utf8'),
     ).resolves.toContain('<vr route.home />');
     await expect(
-      readFile(join(appRoot, 'src', 'app', 'app.component.html'), 'utf8'),
+      readFile(join(appRoot, 'src', 'app', 'app.layout.html'), 'utf8'),
     ).resolves.toContain('<vr-router></vr-router>');
     await expect(
       readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.ts'), 'utf8'),
     ).resolves.toContain('export class HomePage');
     await expect(
-      readFile(join(appRoot, 'src', 'pages', 'about', 'about.page.ts'), 'utf8'),
-    ).resolves.toContain('export class AboutPage');
-    await expect(readFile(join(appRoot, 'src', 'app', 'app.component.css'), 'utf8')).resolves.toContain(
+      readFile(join(appRoot, 'src', 'pages', 'cart', 'cart.page.ts'), 'utf8'),
+    ).resolves.toContain('export class CartPage');
+    await expect(readFile(join(appRoot, 'src', 'app', 'app.layout.css'), 'utf8')).resolves.toContain(
       '.app',
     );
     expect(reporter.output()).toContain('Created demo-app');
@@ -86,17 +86,51 @@ describe('vr create', () => {
 
     expect(result.exitCode).toBe(0);
     const routes = await readFile(join(appRoot, 'src', 'routes.ts'), 'utf8');
-    const appTemplate = await readFile(join(appRoot, 'src', 'app', 'app.component.html'), 'utf8');
+    const appTemplate = await readFile(join(appRoot, 'src', 'app', 'app.layout.html'), 'utf8');
 
     expect(routes).toContain("path: '/'");
-    expect(routes).toContain("path: '/about'");
+    expect(routes).toContain("path: '/shop'");
+    expect(routes).toContain("path: 'cart'");
     expect(routes).toContain("label: 'Home'");
-    expect(routes).toContain("label: 'About'");
+    expect(routes).toContain("label: 'Shop'");
+    expect(routes).toContain("label: 'Cart'");
     expect(appTemplate).toContain('<vr route.home />');
-    expect(appTemplate).toContain('<vr route.about />');
+    expect(appTemplate).toContain('<vr route.shop />');
+    expect(appTemplate).toContain('<vr route.cart />');
     expect(appTemplate).not.toContain('href="/');
     expect(appTemplate).not.toContain('>Home<');
-    expect(appTemplate).not.toContain('>About<');
+    expect(appTemplate).not.toContain('>Shop<');
+    expect(appTemplate).not.toContain('>Cart<');
+  });
+
+  it('creates Phase 15B route layouts without route literals outside src/routes.ts', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'nested-router-app'], { cwd, reporter });
+    const appRoot = join(cwd, 'nested-router-app');
+    const routesSource = await readFile(join(appRoot, 'src', 'routes.ts'), 'utf8');
+    const appLayout = await readFile(join(appRoot, 'src', 'app', 'app.layout.html'), 'utf8');
+    const shopLayout = await readFile(
+      join(appRoot, 'src', 'layouts', 'shop', 'shop.layout.html'),
+      'utf8',
+    );
+    const homePage = await readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8');
+    const cartPage = await readFile(join(appRoot, 'src', 'pages', 'cart', 'cart.page.html'), 'utf8');
+
+    expect(result.exitCode).toBe(0);
+    expect(routesSource).toContain('const routes = createRoutes();');
+    expect(routesSource).toContain('const shop = routes.layout({');
+    expect(routesSource).toContain('const shopIndex = shop.page({');
+    expect(routesSource).toContain('const cart = shop.page({');
+    expect(routesSource).toContain('nav: routes.nav.primary(),');
+    expect(routesSource).toContain('nav: routes.nav.hidden(),');
+    expect(appLayout).toContain('<vr-router></vr-router>');
+    expect(shopLayout).toContain('<vr-outlet></vr-outlet>');
+    expect(homePage).not.toContain('/shop');
+    expect(homePage).not.toContain('Shop');
+    expect(cartPage).not.toContain('/shop');
+    expect(cartPage).not.toContain('Cart');
   });
 
   it('uses workspace dependencies for fixture mode', async () => {

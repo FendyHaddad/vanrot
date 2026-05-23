@@ -1141,7 +1141,7 @@ npm create <span class="fn">vanrot</span>@latest my-app
         <div class="phase-card active-phase">
           <div class="phase-num">Phase 15</div>
           <div class="phase-title">Router Production</div>
-          <div class="phase-status" style="color:var(--cyan);">15A Done · 15B Active</div>
+          <div class="phase-status" style="color:var(--cyan);">15A Done · 15B Done · 15C Active</div>
         </div>
         <div class="phase-card">
           <div class="phase-num">Phase 16</div>
@@ -1200,10 +1200,13 @@ npm create <span class="fn">vanrot</span>@latest my-app
         </div>
       </div>
       <div style="margin-top:20px;display:flex;gap:20px;font-size:13px;">
-        <span style="color:var(--green);">Done: production phases 11-14 plus Phase 15A</span>
-        <span style="color:var(--cyan);">Active: Phase 15B nested layout routing</span>
-        <span style="color:var(--muted);">Remaining: 15C+ guards, redirects, diagnostics, preloading</span>
+        <span style="color:var(--green);">Done: production phases 11-14 plus Phase 15A and 15B</span>
+        <span style="color:var(--cyan);">Active: Phase 15C guards, redirects, and route graph diagnostics</span>
+        <span style="color:var(--muted);">Remaining: 15D preloading and route integration tests</span>
       </div>
+      <ul style="margin-top:12px;color:var(--muted);font-size:12px;line-height:1.6;">
+        <li>15B nested layout routing: root router, route outlets, index pages, shared layout retention, and diagnostics.</li>
+      </ul>
       <div style="margin-top:14px;color:var(--muted);font-size:12px;line-height:1.6;">
         Phase completion rule: tick <code>docs/superpowers/feature-maturity.md</code>, update this deck, and refresh specs/plans when requirements change.
       </div>

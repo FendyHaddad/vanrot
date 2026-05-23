@@ -16,7 +16,13 @@ export type DiagnosticCode =
   | 'VR015'
   | 'VR016'
   | 'VR017'
-  | 'VR018';
+  | 'VR018'
+  | 'VR_ROUTER_MULTIPLE_ROOTS'
+  | 'VR_ROUTER_OUTSIDE_APP_LAYOUT'
+  | 'VR_LAYOUT_MISSING_OUTLET'
+  | 'VR_LAYOUT_MULTIPLE_OUTLETS'
+  | 'VR_OUTLET_OUTSIDE_LAYOUT'
+  | 'VR_PAGE_HAS_OUTLET';
 
 export type DiagnosticSeverity = 'error' | 'warning';
 
@@ -60,6 +66,7 @@ export type CompileFeature =
   | 'expression-rewriting'
   | 'control-flow-if'
   | 'control-flow-for'
+  | 'router-root'
   | 'router-outlet'
   | 'router-link'
   | 'ui-button'

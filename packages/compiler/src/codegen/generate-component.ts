@@ -117,7 +117,7 @@ function generateImports(
 
   const routerImports: string[] = [];
 
-  if (state.usesRouterOutlet) {
+  if (state.usesRouterRoot || state.usesRouterOutlet) {
     routerImports.push('createRouterOutlet');
   }
 
@@ -174,7 +174,12 @@ function generateElement(
   state: GenerateState,
 ): void {
   if (node.tagName === 'vr-router') {
-    generateRouterOutlet(parentName, scopeAttribute, state);
+    generateRouterOutlet(node, parentName, scopeAttribute, state, 'router');
+    return;
+  }
+
+  if (node.tagName === 'vr-outlet') {
+    generateRouterOutlet(node, parentName, scopeAttribute, state, 'outlet');
     return;
   }
 
@@ -215,17 +220,27 @@ function generateElement(
 }
 
 function generateRouterOutlet(
+  node: ElementNode,
   parentName: string,
   scopeAttribute: string,
   state: GenerateState,
+  kind: 'router' | 'outlet',
 ): void {
-  const outletName = state.ids.next('div');
+  const outletName = state.ids.next(node.tagName.replace('-', '_'));
 
-  state.usesRouterOutlet = true;
-  state.features.add('router-outlet');
+  if (kind === 'router') {
+    state.usesRouterRoot = true;
+    state.features.add('router-root');
+  }
+
+  if (kind === 'outlet') {
+    state.usesRouterOutlet = true;
+    state.features.add('router-outlet');
+  }
+
   state.lines.push(`  const ${outletName} = document.createElement('div');`);
   state.lines.push(`  ${outletName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
-  state.lines.push(`  createRouterOutlet(${outletName});`);
+  state.lines.push(`  createRouterOutlet(${outletName}, { kind: ${quoteString(kind)} });`);
   state.lines.push(`  ${parentName}.append(${outletName});`);
 }
 

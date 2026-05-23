@@ -4,7 +4,7 @@ import type { DefinedRoute, RouteUrlInput } from './route-types.js';
 
 export function buildRouteUrl(route: DefinedRoute, input: RouteUrlInput = {}): string {
   const params = input.params ?? {};
-  const paramNames = extractPathParamNames(route.path);
+  const paramNames = extractPathParamNames(route.fullPath);
 
   for (const paramName of paramNames) {
     if (params[paramName] === undefined) {
@@ -18,7 +18,7 @@ export function buildRouteUrl(route: DefinedRoute, input: RouteUrlInput = {}): s
     }
   }
 
-  const path = fillRoutePath(route.path, params);
+  const path = fillRoutePath(route.fullPath, params);
   const query = buildRouteQueryString(route.query, input.query, route.key);
 
   return `${path}${query}`;

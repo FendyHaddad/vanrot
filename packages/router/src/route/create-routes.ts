@@ -1,10 +1,21 @@
-import type { RouteBreadcrumbDefinition, RouteDefinition, RouteRef } from './route-types.js';
+import type {
+  RouteBreadcrumbDefinition,
+  RouteDefinition,
+  RouteKind,
+  RouteNavMetadata,
+  RouteRef,
+} from './route-types.js';
 
 export interface RouteBuilder {
   page(definition: RouteDefinition): RouteRef;
+  layout(definition: RouteDefinition): RouteRef;
   breadcrumb: {
     root(): RouteBreadcrumbDefinition;
     parent(parent: RouteRef): RouteBreadcrumbDefinition;
+  };
+  nav: {
+    primary(): RouteNavMetadata;
+    hidden(): RouteNavMetadata;
   };
 }
 
@@ -13,13 +24,16 @@ export function createRoutes(): RouteBuilder {
 }
 
 export function isRouteRef(value: RouteDefinition | RouteRef): value is RouteRef {
-  return 'kind' in value && value.kind === 'page';
+  return 'definition' in value && 'children' in value;
 }
 
 function createBuilder(parent?: RouteRef): RouteBuilder {
   return {
     page(definition) {
-      return createRouteRef(definition, parent);
+      return createRouteRef('page', definition, parent);
+    },
+    layout(definition) {
+      return createRouteRef('layout', definition, parent);
     },
     breadcrumb: {
       root() {
@@ -29,18 +43,32 @@ function createBuilder(parent?: RouteRef): RouteBuilder {
         return { kind: 'parent', parent: parentRoute };
       },
     },
+    nav: {
+      primary() {
+        return { kind: 'primary' };
+      },
+      hidden() {
+        return { kind: 'hidden' };
+      },
+    },
   };
 }
 
-function createRouteRef(definition: RouteDefinition, parent?: RouteRef): RouteRef {
+function createRouteRef(kind: RouteKind, definition: RouteDefinition, parent?: RouteRef): RouteRef {
   const routeRef = {
-    kind: 'page' as const,
-    definition,
+    kind,
+    definition: { ...definition, kind },
+    children: [] as RouteRef[],
     page(childDefinition: RouteDefinition) {
-      return createRouteRef(childDefinition, routeRef);
+      return createRouteRef('page', childDefinition, routeRef);
+    },
+    layout(childDefinition: RouteDefinition) {
+      return createRouteRef('layout', childDefinition, routeRef);
     },
     ...(parent === undefined ? {} : { parent }),
   };
+
+  parent?.children.push(routeRef);
 
   return routeRef;
 }

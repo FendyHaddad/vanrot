@@ -529,9 +529,41 @@ describe('generateComponent', () => {
     expect(result.js).toContain("const a0 = document.createElement('a');");
     expect(result.js).toContain("a0.setAttribute('data-vr-a1b2c3', '');");
     expect(result.js).toContain('setupRouteLink(a0, ctx.route.home);');
-    expect(result.js).toContain("const div0 = document.createElement('div');");
-    expect(result.js).toContain('createRouterOutlet(div0);');
+    expect(result.js).toContain("const vrRouter0 = document.createElement('div');");
+    expect(result.js).toContain("createRouterOutlet(vrRouter0, { kind: 'router' });");
     expect(result.features).toContain('router-link');
+    expect(result.features).toContain('router-root');
+  });
+
+  it('generates root router with router outlet mode', () => {
+    const templateSource = '<main><vr-router></vr-router></main>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'app.layout.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'app.layout.html',
+      templateSource,
+    });
+
+    expect(result.js).toContain("import { createRouterOutlet } from '@vanrot/router/internal';");
+    expect(result.js).toContain("createRouterOutlet(vrRouter0, { kind: 'router' });");
+    expect(result.features).toContain('router-root');
+  });
+
+  it('generates route layout outlet with child outlet mode', () => {
+    const templateSource = '<section><vr-outlet></vr-outlet></section>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'shop.layout.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'shop.layout.html',
+      templateSource,
+    });
+
+    expect(result.js).toContain("import { createRouterOutlet } from '@vanrot/router/internal';");
+    expect(result.js).toContain("createRouterOutlet(vrOutlet0, { kind: 'outlet' });");
     expect(result.features).toContain('router-outlet');
   });
 

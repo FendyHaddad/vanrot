@@ -18,6 +18,7 @@ export interface GenerateState {
   usesCleanupScopes: boolean;
   usesRegisterCleanup: boolean;
   usesListen: boolean;
+  usesRouterRoot: boolean;
   usesRouterOutlet: boolean;
   usesRouteLink: boolean;
   usesSlots: boolean;
@@ -45,6 +46,7 @@ export function createGenerateState(input: CreateGenerateStateInput): GenerateSt
     usesCleanupScopes: false,
     usesRegisterCleanup: false,
     usesListen: false,
+    usesRouterRoot: false,
     usesRouterOutlet: false,
     usesRouteLink: false,
     usesSlots: false,

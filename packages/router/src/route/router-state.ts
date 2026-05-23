@@ -1,15 +1,22 @@
 import { signal, type Signal } from '@vanrot/runtime';
 import { buildRouteUrl } from './url-builder.js';
-import { matchRoute } from './match-route.js';
+import { matchRouteChain } from './match-route-chain.js';
 import { extractPathParamNames } from './path-params.js';
-import type { DefinedRoute, DefinedRouteTable, RouteBreadcrumb, RouteMatch, RouteParams } from './route-types.js';
+import type {
+  DefinedRoute,
+  DefinedRouteTable,
+  RouteBreadcrumb,
+  RouteChainMatch,
+  RouteMatch,
+  RouteParams,
+} from './route-types.js';
 
 const emptyParams: RouteParams = {};
 
 let providedRoutes: DefinedRouteTable | null = null;
 let removePopstateListener: (() => void) | null = null;
 
-const currentMatch = signal<RouteMatch | null>(null);
+const currentRouteChain = signal<RouteChainMatch | null>(null);
 const currentParams = signal<RouteParams>(emptyParams);
 
 export const routeParams = currentParams as Signal<RouteParams>;
@@ -26,10 +33,20 @@ export function navigate(path: string): void {
 }
 
 export function getCurrentMatch(): RouteMatch | null {
-  return currentMatch();
+  const match = currentRouteChain();
+
+  if (match === null) {
+    return null;
+  }
+
+  return match.chain[match.chain.length - 1] ?? null;
 }
 
-export function buildRouteBreadcrumbs(match: RouteMatch | null = currentMatch()): RouteBreadcrumb[] {
+export function getCurrentRouteChain(): RouteChainMatch | null {
+  return currentRouteChain();
+}
+
+export function buildRouteBreadcrumbs(match: RouteMatch | null = getCurrentMatch()): RouteBreadcrumb[] {
   if (match === null) {
     return [];
   }
@@ -45,13 +62,13 @@ export function resetRouterForTests(): void {
   providedRoutes = null;
   removePopstateListener?.();
   removePopstateListener = null;
-  currentMatch.set(null);
+  currentRouteChain.set(null);
   currentParams.set(emptyParams);
 }
 
-function setPath(path: string, push: boolean): void {
+function setPath(path: string, push: boolean): RouteChainMatch | null {
   const routes = requireProvidedRoutes();
-  const match = matchRoute(routes, path);
+  const match = matchRouteChain(routes, path);
 
   if (match === null) {
     throw new Error(`No Vanrot route matches "${path}".`);
@@ -61,8 +78,10 @@ function setPath(path: string, push: boolean): void {
     globalThis.window.history.pushState(null, '', path);
   }
 
-  currentMatch.set(match);
+  currentRouteChain.set(match);
   currentParams.set(match.params);
+
+  return match;
 }
 
 function requireProvidedRoutes(): DefinedRouteTable {
@@ -112,7 +131,7 @@ function collectBreadcrumbRoutes(route: DefinedRoute): DefinedRoute[] {
 function selectRouteParams(route: DefinedRoute, params: RouteParams): RouteParams {
   const selectedParams: RouteParams = {};
 
-  for (const paramName of extractPathParamNames(route.path)) {
+  for (const paramName of extractPathParamNames(route.fullPath)) {
     const value = params[paramName];
 
     if (value === undefined) {

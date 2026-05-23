@@ -23,7 +23,7 @@ describe('compiler api types', () => {
       endColumn: 1,
       sourceText: '',
       codeFrame: '',
-      suggestion: 'Use a supported role suffix such as .component.ts, .page.ts, or .button.ts.',
+        suggestion: 'Use a supported role suffix such as .component.ts, .page.ts, .layout.ts, or .button.ts.',
       docsPath: '/docs/compiler/file-conventions',
     });
   });

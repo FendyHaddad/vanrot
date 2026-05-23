@@ -1,6 +1,6 @@
 # Phase 15B Nested Layout Routing Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. This repo forbids subagent-driven workflows in `AGENTS.md`.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking. This repo forbids subagent-driven workflows in `AGENTS.md`.
 
 **Goal:** Add production-ready nested layout routing so `@vanrot/router` can render route layout chains through one root `<vr-router />` and route-local `<vr-outlet />` slots.
 
@@ -61,7 +61,7 @@ Required Phase 15A surface:
 - Modify: `packages/router/src/internal.ts`
 - Test: `packages/router/tests/route/define-routes-layout.test.ts`
 
-- [ ] **Step 1: Add failing route builder tests**
+- [x] **Step 1: Add failing route builder tests**
 
 Create `packages/router/tests/route/define-routes-layout.test.ts`:
 
@@ -260,7 +260,7 @@ describe('defineRoutes layout route graph', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing test**
+- [x] **Step 2: Run the failing test**
 
 Run:
 
@@ -270,7 +270,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-layout.test.ts
 
 Expected: FAIL because `createRoutes().layout`, child builders, `fullPath`, `children`, and Phase 15B diagnostics do not exist yet.
 
-- [ ] **Step 3: Extend route types**
+- [x] **Step 3: Extend route types**
 
 Update `packages/router/src/route/route-types.ts` so the public route model includes layout routes and active chains:
 
@@ -358,7 +358,7 @@ export interface RouteChainMatch {
 export type RouteParamsSignal = Signal<RouteParams>;
 ```
 
-- [ ] **Step 4: Add Phase 15B diagnostics**
+- [x] **Step 4: Add Phase 15B diagnostics**
 
 Update `packages/router/src/route/route-diagnostics.ts` with these codes and helper:
 
@@ -405,7 +405,7 @@ export function throwRouterDiagnostic(diagnostic: RouterDiagnostic): never {
 }
 ```
 
-- [ ] **Step 5: Implement layout and page builders**
+- [x] **Step 5: Implement layout and page builders**
 
 Update `packages/router/src/route/create-routes.ts`:
 
@@ -469,7 +469,7 @@ function createBuilderRecord(
 }
 ```
 
-- [ ] **Step 6: Validate and normalize the route graph**
+- [x] **Step 6: Validate and normalize the route graph**
 
 Update `packages/router/src/route/define-routes.ts`:
 
@@ -701,7 +701,7 @@ function toPascalCase(value: string): string {
 }
 ```
 
-- [ ] **Step 7: Export builder APIs**
+- [x] **Step 7: Export builder APIs**
 
 Update `packages/router/src/index.ts` and `packages/router/src/internal.ts`:
 
@@ -728,7 +728,7 @@ export type {
 } from './route/route-types.js';
 ```
 
-- [ ] **Step 8: Run route graph tests**
+- [x] **Step 8: Run route graph tests**
 
 Run:
 
@@ -738,7 +738,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-layout.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 9: Checkpoint**
+- [x] **Step 9: Checkpoint**
 
 Do not stage or commit. Record changed files in the task notes.
 
@@ -751,7 +751,7 @@ Do not stage or commit. Record changed files in the task notes.
 - Test: `packages/router/tests/route/match-route-chain.test.ts`
 - Test: `packages/router/tests/route/match-route.test.ts`
 
-- [ ] **Step 1: Add failing chain matching tests**
+- [x] **Step 1: Add failing chain matching tests**
 
 Create `packages/router/tests/route/match-route-chain.test.ts`:
 
@@ -842,7 +842,7 @@ describe('matchRouteChain', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing chain test**
+- [x] **Step 2: Run the failing chain test**
 
 Run:
 
@@ -852,7 +852,7 @@ pnpm --filter @vanrot/router test -- tests/route/match-route-chain.test.ts
 
 Expected: FAIL because `matchRouteChain` does not exist.
 
-- [ ] **Step 3: Implement chain matching**
+- [x] **Step 3: Implement chain matching**
 
 Create `packages/router/src/route/match-route-chain.ts`:
 
@@ -1027,7 +1027,7 @@ function splitPath(path: string): string[] {
 }
 ```
 
-- [ ] **Step 4: Preserve `matchRoute()` compatibility**
+- [x] **Step 4: Preserve `matchRoute()` compatibility**
 
 Update `packages/router/src/route/match-route.ts`:
 
@@ -1053,7 +1053,7 @@ export { matchRoute } from './route/match-route.js';
 export { matchRouteChain } from './route/match-route-chain.js';
 ```
 
-- [ ] **Step 5: Run matching tests**
+- [x] **Step 5: Run matching tests**
 
 Run:
 
@@ -1063,7 +1063,7 @@ pnpm --filter @vanrot/router test -- tests/route/match-route-chain.test.ts tests
 
 Expected: PASS.
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Do not stage or commit. Record changed files in the task notes.
 
@@ -1075,7 +1075,7 @@ Do not stage or commit. Record changed files in the task notes.
 - Test: `packages/router/tests/route/router-state-layout.test.ts`
 - Test: `packages/router/tests/route/router-state.test.ts`
 
-- [ ] **Step 1: Add failing router-state chain tests**
+- [x] **Step 1: Add failing router-state chain tests**
 
 Create `packages/router/tests/route/router-state-layout.test.ts`:
 
@@ -1138,7 +1138,7 @@ describe('router state layout chains', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing router-state chain tests**
+- [x] **Step 2: Run failing router-state chain tests**
 
 Run:
 
@@ -1148,7 +1148,7 @@ pnpm --filter @vanrot/router test -- tests/route/router-state-layout.test.ts
 
 Expected: FAIL because `getCurrentRouteChain()` does not exist.
 
-- [ ] **Step 3: Update router state**
+- [x] **Step 3: Update router state**
 
 Update `packages/router/src/route/router-state.ts`:
 
@@ -1258,7 +1258,7 @@ export {
 } from './route/router-state.js';
 ```
 
-- [ ] **Step 4: Run state tests**
+- [x] **Step 4: Run state tests**
 
 Run:
 
@@ -1268,7 +1268,7 @@ pnpm --filter @vanrot/router test -- tests/route/router-state-layout.test.ts tes
 
 Expected: PASS.
 
-- [ ] **Step 5: Checkpoint**
+- [x] **Step 5: Checkpoint**
 
 Do not stage or commit. Record changed files in the task notes.
 
@@ -1283,7 +1283,7 @@ Do not stage or commit. Record changed files in the task notes.
 - Test: `packages/router/tests/dom/route-outlet-layout.test.ts`
 - Test: `packages/router/tests/dom/route-outlet.test.ts`
 
-- [ ] **Step 1: Add failing nested outlet rendering tests**
+- [x] **Step 1: Add failing nested outlet rendering tests**
 
 Create `packages/router/tests/dom/route-outlet-layout.test.ts`:
 
@@ -1462,7 +1462,7 @@ describe('createRouterOutlet nested layouts', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing DOM tests**
+- [x] **Step 2: Run failing DOM tests**
 
 Run:
 
@@ -1472,7 +1472,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-outlet-layout.test.ts
 
 Expected: FAIL because nested outlet context and layout rendering do not exist.
 
-- [ ] **Step 3: Add outlet depth context**
+- [x] **Step 3: Add outlet depth context**
 
 Create `packages/router/src/dom/route-outlet-context.ts`:
 
@@ -1494,7 +1494,7 @@ export function runWithOutletDepth<T>(depth: number, callback: () => T): T {
 }
 ```
 
-- [ ] **Step 4: Support layout loaders**
+- [x] **Step 4: Support layout loaders**
 
 Update `packages/router/src/route/page-loader.ts`:
 
@@ -1528,7 +1528,7 @@ export async function resolveRouteLayout(route: DefinedRoute): Promise<RouteLayo
 }
 ```
 
-- [ ] **Step 5: Render one chain depth per outlet**
+- [x] **Step 5: Render one chain depth per outlet**
 
 Update `packages/router/src/dom/route-outlet.ts`:
 
@@ -1625,7 +1625,7 @@ function errorMessage(error: unknown): string {
 }
 ```
 
-- [ ] **Step 6: Update router test helpers**
+- [x] **Step 6: Update router test helpers**
 
 Update `packages/router/src/test/test-pages.ts`:
 
@@ -1676,7 +1676,7 @@ export function createTestLayout(name: string, destroy?: () => void): CompiledCo
 }
 ```
 
-- [ ] **Step 7: Export internal outlet options**
+- [x] **Step 7: Export internal outlet options**
 
 Update `packages/router/src/internal.ts`:
 
@@ -1685,7 +1685,7 @@ export { setupRouteLink } from './dom/route-link.js';
 export { createRouterOutlet, type RouterOutletOptions } from './dom/route-outlet.js';
 ```
 
-- [ ] **Step 8: Run DOM tests**
+- [x] **Step 8: Run DOM tests**
 
 Run:
 
@@ -1695,7 +1695,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-outlet-layout.test.ts tests
 
 Expected: PASS.
 
-- [ ] **Step 9: Checkpoint**
+- [x] **Step 9: Checkpoint**
 
 Do not stage or commit. Record changed files in the task notes.
 
@@ -1711,7 +1711,7 @@ Do not stage or commit. Record changed files in the task notes.
 - Test: `packages/compiler/tests/codegen/generate-component.test.ts`
 - Test: `packages/compiler/tests/router/router-template-diagnostics.test.ts`
 
-- [ ] **Step 1: Add failing codegen tests for router and outlet**
+- [x] **Step 1: Add failing codegen tests for router and outlet**
 
 Append to `packages/compiler/tests/codegen/generate-component.test.ts`:
 
@@ -1749,7 +1749,7 @@ it('generates route layout outlet with child outlet mode', () => {
 });
 ```
 
-- [ ] **Step 2: Add failing compiler diagnostic tests**
+- [x] **Step 2: Add failing compiler diagnostic tests**
 
 Create `packages/compiler/tests/router/router-template-diagnostics.test.ts`:
 
@@ -1805,7 +1805,7 @@ describe('router template diagnostics', () => {
 });
 ```
 
-- [ ] **Step 3: Run failing compiler tests**
+- [x] **Step 3: Run failing compiler tests**
 
 Run:
 
@@ -1815,7 +1815,7 @@ pnpm --filter @vanrot/compiler test -- tests/codegen/generate-component.test.ts 
 
 Expected: FAIL because `<vr-outlet />`, new features, and router template diagnostics do not exist.
 
-- [ ] **Step 4: Add compiler codes and features**
+- [x] **Step 4: Add compiler codes and features**
 
 Update `packages/compiler/src/api/types.ts`:
 
@@ -1864,7 +1864,7 @@ export type CompileFeature =
   | 'ui-button';
 ```
 
-- [ ] **Step 5: Track root router and child outlet separately**
+- [x] **Step 5: Track root router and child outlet separately**
 
 Update `packages/compiler/src/codegen/state.ts`:
 
@@ -1916,7 +1916,7 @@ export function createGenerateState(input: CreateGenerateStateInput): GenerateSt
 }
 ```
 
-- [ ] **Step 6: Lower `<vr-router />` and `<vr-outlet />`**
+- [x] **Step 6: Lower `<vr-router />` and `<vr-outlet />`**
 
 Update the router generation branch in `packages/compiler/src/codegen/generate-component.ts`:
 
@@ -1989,7 +1989,7 @@ if (routerImports.length > 0) {
 }
 ```
 
-- [ ] **Step 7: Add router template diagnostics**
+- [x] **Step 7: Add router template diagnostics**
 
 Create `packages/compiler/src/router/router-template-diagnostics.ts`:
 
@@ -2122,7 +2122,7 @@ function diagnostic(
 }
 ```
 
-- [ ] **Step 8: Wire diagnostics into compile**
+- [x] **Step 8: Wire diagnostics into compile**
 
 Update `packages/compiler/src/api/compile-component.ts` after `parseTemplate(...)`:
 
@@ -2150,7 +2150,7 @@ Update `packages/compiler/src/index.ts`:
 export { diagnoseRouterTemplateUsage } from './router/router-template-diagnostics.js';
 ```
 
-- [ ] **Step 9: Run compiler tests**
+- [x] **Step 9: Run compiler tests**
 
 Run:
 
@@ -2160,7 +2160,7 @@ pnpm --filter @vanrot/compiler test -- tests/codegen/generate-component.test.ts 
 
 Expected: PASS.
 
-- [ ] **Step 10: Checkpoint**
+- [x] **Step 10: Checkpoint**
 
 Do not stage or commit. Record changed files in the task notes.
 
@@ -2170,7 +2170,7 @@ Do not stage or commit. Record changed files in the task notes.
 - Modify: `packages/cli/src/create/app-template.ts`
 - Modify: `packages/cli/tests/create.test.ts`
 
-- [ ] **Step 1: Add failing starter assertions**
+- [x] **Step 1: Add failing starter assertions**
 
 Append to `packages/cli/tests/create.test.ts`:
 
@@ -2206,7 +2206,7 @@ it('creates Phase 15B route layouts without route literals outside src/routes.ts
 });
 ```
 
-- [ ] **Step 2: Run failing CLI test**
+- [x] **Step 2: Run failing CLI test**
 
 Run:
 
@@ -2216,7 +2216,7 @@ pnpm --filter @vanrot/cli test -- tests/create.test.ts
 
 Expected: FAIL because the starter still uses `app.component.html` as the router root and does not generate a route layout example.
 
-- [ ] **Step 3: Update generated starter routes**
+- [x] **Step 3: Update generated starter routes**
 
 In `packages/cli/src/create/app-template.ts`, update the generated `src/routes.ts` content:
 
@@ -2224,7 +2224,7 @@ In `packages/cli/src/create/app-template.ts`, update the generated `src/routes.t
 content: `import { createRoutes, defineRoutes } from '@vanrot/router';\nimport { HomePage } from './pages/home/home.page.ts';\nimport { ShopLayout } from './layouts/shop/shop.layout.ts';\nimport { ShopPage } from './pages/shop/shop.page.ts';\nimport { CartPage } from './pages/cart/cart.page.ts';\n\nconst routes = createRoutes();\n\nconst home = routes.page({\n  path: '/',\n  label: 'Home',\n  page: HomePage,\n  nav: routes.nav.primary(),\n});\n\nconst shop = routes.layout({\n  path: '/shop',\n  label: 'Shop',\n  layout: ShopLayout,\n  nav: routes.nav.primary(),\n});\n\nconst shopIndex = shop.page({\n  path: '',\n  label: 'Shop',\n  page: ShopPage,\n  nav: routes.nav.hidden(),\n});\n\nconst cart = shop.page({\n  path: 'cart',\n  label: 'Cart',\n  page: CartPage,\n  nav: routes.nav.primary(),\n});\n\nexport const route = defineRoutes({\n  home,\n  shop,\n  shopIndex,\n  cart,\n});\n`,
 ```
 
-- [ ] **Step 4: Add app layout and shop layout files**
+- [x] **Step 4: Add app layout and shop layout files**
 
 In `packages/cli/src/create/app-template.ts`, add generated files:
 
@@ -2251,7 +2251,7 @@ In `packages/cli/src/create/app-template.ts`, add generated files:
 },
 ```
 
-- [ ] **Step 5: Keep page templates free from route literals**
+- [x] **Step 5: Keep page templates free from route literals**
 
 In `packages/cli/src/create/app-template.ts`, update generated page templates so route paths and labels stay in `src/routes.ts`:
 
@@ -2270,7 +2270,7 @@ In `packages/cli/src/create/app-template.ts`, update generated page templates so
 },
 ```
 
-- [ ] **Step 6: Update main mount import**
+- [x] **Step 6: Update main mount import**
 
 In `packages/cli/src/create/app-template.ts`, update `src/main.ts` content to mount `AppLayout`:
 
@@ -2278,7 +2278,7 @@ In `packages/cli/src/create/app-template.ts`, update `src/main.ts` content to mo
 content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\nimport { AppLayout } from './app/app.layout.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(AppLayout, target);\n`,
 ```
 
-- [ ] **Step 7: Run CLI tests**
+- [x] **Step 7: Run CLI tests**
 
 Run:
 
@@ -2288,7 +2288,7 @@ pnpm --filter @vanrot/cli test -- tests/create.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 8: Checkpoint**
+- [x] **Step 8: Checkpoint**
 
 Do not stage or commit. Record changed files in the task notes.
 
@@ -2300,7 +2300,7 @@ Do not stage or commit. Record changed files in the task notes.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-15B.md`
 
-- [ ] **Step 1: Update final TDD inventory**
+- [x] **Step 1: Update final TDD inventory**
 
 Add rows to the `@vanrot/router` section of `docs/superpowers/final-tdd-inventory.md`:
 
@@ -2311,7 +2311,7 @@ Add rows to the `@vanrot/router` section of `docs/superpowers/final-tdd-inventor
 | cli | nested router starter | Production-Ready | Generated starter uses `app.layout.*`, route layout examples, route-owned nav metadata, and no repeated route path or label literals outside `src/routes.ts`. | Phase 15B | Keeps the framework rule visible in new apps. |
 ```
 
-- [ ] **Step 2: Update feature maturity ledger**
+- [x] **Step 2: Update feature maturity ledger**
 
 In `docs/superpowers/feature-maturity.md`, update the Phase 15 router rows that mention nested routes/layouts so Phase 15B is named as the owner. Use this exact note text where the nested-layout row exists:
 
@@ -2319,7 +2319,7 @@ In `docs/superpowers/feature-maturity.md`, update the Phase 15 router rows that 
 Phase 15B adds nested layout rendering through one app-level `<vr-router />`, route-local `<vr-outlet />`, index child pages, route-owned nav metadata, shared-layout retention, and diagnostics for invalid parent/child relationships.
 ```
 
-- [ ] **Step 3: Update presentation roadmap after completion only**
+- [x] **Step 3: Update presentation roadmap after completion only**
 
 When all Phase 15B tests and `pnpm verify` pass, update `docs/vanrot-presentation.html` so the roadmap still shows Phase 15 active unless the whole Phase 15 router production scope is complete. Use this visible copy for the Phase 15 detail:
 
@@ -2327,7 +2327,7 @@ When all Phase 15B tests and `pnpm verify` pass, update `docs/vanrot-presentatio
 <li>15B nested layout routing: root router, route outlets, index pages, shared layout retention, and diagnostics.</li>
 ```
 
-- [ ] **Step 4: Run focused verification**
+- [x] **Step 4: Run focused verification**
 
 Run:
 
@@ -2339,7 +2339,7 @@ pnpm --filter @vanrot/cli test -- tests/create.test.ts
 
 Expected: PASS for all three commands.
 
-- [ ] **Step 5: Run full verification**
+- [x] **Step 5: Run full verification**
 
 Run:
 
@@ -2349,11 +2349,11 @@ pnpm verify
 
 Expected: PASS.
 
-- [ ] **Step 6: Update this plan checklist**
+- [x] **Step 6: Update this plan checklist**
 
 After all tests pass, mark every completed checkbox in `docs/superpowers/plans/Phase-15B.md`. Leave unchecked only if work was deliberately moved into a named future phase.
 
-- [ ] **Step 7: Final status**
+- [x] **Step 7: Final status**
 
 Report changed files, verification commands, `git status --short --branch`, and unrelated local changes left untouched. Do not stage or commit unless the user explicitly asks.
 

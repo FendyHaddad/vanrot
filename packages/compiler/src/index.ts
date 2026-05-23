@@ -44,6 +44,7 @@ export { scopeCss } from './styles/scope-css.js';
 export type { GenerateComponentInput, GenerateComponentResult } from './codegen/generate-component.js';
 export { generateComponent } from './codegen/generate-component.js';
 export { IdentifierAllocator } from './codegen/identifiers.js';
+export { diagnoseRouterTemplateUsage } from './router/router-template-diagnostics.js';
 export type { LineIndex, SourcePosition, SourceSpan } from './source/location.js';
 export {
   createCodeFrame,

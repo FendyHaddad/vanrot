@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { createRoutes } from '../../src/route/create-routes.js';
 import { defineRoutes } from '../../src/route/define-routes.js';
-import { createTestPage } from '../../src/test/test-pages.js';
+import { createTestLayout, createTestPage } from '../../src/test/test-pages.js';
 
 const routePath = {
   home: '/',
@@ -66,17 +66,17 @@ describe('defineRoutes', () => {
     ]);
   });
 
-  it('normalizes builder routes with object parent references', () => {
+  it('normalizes builder layout routes with object parent references', () => {
     const routes = createRoutes();
-    const shop = routes.page({
+    const shop = routes.layout({
       path: '/shop',
       label: 'Shop',
-      page: createTestPage('shop'),
+      layout: createTestLayout('shop'),
     });
-    const product = shop.page({
+    const product = shop.layout({
       path: 'product',
       label: 'Products',
-      page: createTestPage('products'),
+      layout: createTestLayout('products'),
     });
     const productDetail = product.page({
       path: ':productId',
@@ -87,8 +87,11 @@ describe('defineRoutes', () => {
     const route = defineRoutes({ shop, product, productDetail });
 
     expect(route.shop.path).toBe('/shop');
-    expect(route.product.path).toBe('/shop/product');
-    expect(route.productDetail.path).toBe('/shop/product/:productId');
+    expect(route.shop.fullPath).toBe('/shop');
+    expect(route.product.path).toBe('product');
+    expect(route.product.fullPath).toBe('/shop/product');
+    expect(route.productDetail.path).toBe(':productId');
+    expect(route.productDetail.fullPath).toBe('/shop/product/:productId');
     expect(route.product.parent).toBe(route.shop);
     expect(route.productDetail.parent).toBe(route.product);
   });

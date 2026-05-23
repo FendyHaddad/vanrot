@@ -1,7 +1,7 @@
 import { relative } from 'node:path';
 import type { HmrContext, ModuleNode } from 'vite';
 
-const roleSuffixes = ['component', 'page', 'button'] as const;
+const roleSuffixes = ['component', 'page', 'layout', 'button'] as const;
 
 export function findOwnerComponentPath(filePath: string): string | undefined {
   for (const role of roleSuffixes) {

@@ -80,22 +80,22 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\nimport { AppComponent } from './app/app.component.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(AppComponent, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\nimport { AppLayout } from './app/app.layout.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(AppLayout, target);\n`,
     },
     {
       path: 'src/routes.ts',
-      content: `import { defineRoutes } from '@vanrot/router';\nimport { HomePage } from './pages/home/home.page.ts';\n\nexport const route = defineRoutes({\n  home: {\n    path: '/',\n    label: 'Home',\n    page: HomePage,\n  },\n  about: {\n    path: '/about',\n    label: 'About',\n    loadPage: () => import('./pages/about/about.page.ts').then(({ AboutPage }) => AboutPage),\n  },\n});\n`,
+      content: `import { createRoutes, defineRoutes } from '@vanrot/router';\nimport { HomePage } from './pages/home/home.page.ts';\nimport { ShopLayout } from './layouts/shop/shop.layout.ts';\nimport { ShopPage } from './pages/shop/shop.page.ts';\nimport { CartPage } from './pages/cart/cart.page.ts';\n\nconst routes = createRoutes();\n\nconst home = routes.page({\n  path: '/',\n  label: 'Home',\n  page: HomePage,\n  nav: routes.nav.primary(),\n});\n\nconst shop = routes.layout({\n  path: '/shop',\n  label: 'Shop',\n  layout: ShopLayout,\n  nav: routes.nav.primary(),\n});\n\nconst shopIndex = shop.page({\n  path: '',\n  label: 'Shop',\n  page: ShopPage,\n  nav: routes.nav.hidden(),\n});\n\nconst cart = shop.page({\n  path: 'cart',\n  label: 'Cart',\n  page: CartPage,\n  nav: routes.nav.primary(),\n});\n\nexport const route = defineRoutes({\n  home,\n  shop,\n  shopIndex,\n  cart,\n});\n`,
     },
     {
-      path: 'src/app/app.component.ts',
-      content: `import { route as appRoute } from '../routes.ts';\n\nexport class AppComponent {\n  route = appRoute;\n}\n`,
+      path: 'src/app/app.layout.ts',
+      content: `import { route as appRoute } from '../routes.ts';\n\nexport class AppLayout {\n  route = appRoute;\n}\n`,
     },
     {
-      path: 'src/app/app.component.html',
-      content: `<main class="app">\n  <nav class="app-nav">\n    <vr route.home />\n    <vr route.about />\n  </nav>\n\n  <vr-router></vr-router>\n</main>\n`,
+      path: 'src/app/app.layout.html',
+      content: `<main class="app">\n  <nav class="app-nav">\n    <vr route.home />\n    <vr route.shop />\n    <vr route.cart />\n  </nav>\n\n  <vr-router></vr-router>\n</main>\n`,
     },
     {
-      path: 'src/app/app.component.css',
+      path: 'src/app/app.layout.css',
       content: `.app {\n  display: grid;\n  gap: 24px;\n  padding: 32px;\n  font-family: system-ui, sans-serif;\n}\n\n.app-nav {\n  display: flex;\n  gap: 12px;\n}\n`,
     },
     {
@@ -111,15 +111,39 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
       content: `.page {\n  display: grid;\n  gap: 12px;\n}\n`,
     },
     {
-      path: 'src/pages/about/about.page.ts',
-      content: `export class AboutPage {}\n`,
+      path: 'src/layouts/shop/shop.layout.ts',
+      content: `import { route as appRoute } from '../../routes.ts';\n\nexport class ShopLayout {\n  route = appRoute;\n}\n`,
     },
     {
-      path: 'src/pages/about/about.page.html',
-      content: `<section class="page">\n  <h1>About this app</h1>\n  <p>This page is lazy loaded through the route table.</p>\n</section>\n`,
+      path: 'src/layouts/shop/shop.layout.html',
+      content: `<section class="layout">\n  <nav class="layout-nav">\n    <vr route.shopIndex />\n    <vr route.cart />\n  </nav>\n\n  <vr-outlet></vr-outlet>\n</section>\n`,
     },
     {
-      path: 'src/pages/about/about.page.css',
+      path: 'src/layouts/shop/shop.layout.css',
+      content: `.layout {\n  display: grid;\n  gap: 16px;\n}\n\n.layout-nav {\n  display: flex;\n  gap: 12px;\n}\n`,
+    },
+    {
+      path: 'src/pages/shop/shop.page.ts',
+      content: `const shopCopy = {\n  'shop.title': 'Browse the catalog',\n  'shop.summary': 'Use the route layout to keep related screens together.',\n} as const;\n\ntype ShopCopyKey = keyof typeof shopCopy;\n\nexport class ShopPage {\n  t(key: ShopCopyKey): string {\n    return shopCopy[key];\n  }\n}\n`,
+    },
+    {
+      path: 'src/pages/shop/shop.page.html',
+      content: `<section class="page">\n  <h1>{{ t('shop.title') }}</h1>\n  <p>{{ t('shop.summary') }}</p>\n</section>\n`,
+    },
+    {
+      path: 'src/pages/shop/shop.page.css',
+      content: `.page {\n  display: grid;\n  gap: 12px;\n}\n`,
+    },
+    {
+      path: 'src/pages/cart/cart.page.ts',
+      content: `const cartCopy = {\n  'cart.title': 'Review your basket',\n  'cart.summary': 'This leaf screen renders inside the shared layout outlet.',\n} as const;\n\ntype CartCopyKey = keyof typeof cartCopy;\n\nexport class CartPage {\n  t(key: CartCopyKey): string {\n    return cartCopy[key];\n  }\n}\n`,
+    },
+    {
+      path: 'src/pages/cart/cart.page.html',
+      content: `<section class="page">\n  <h1>{{ t('cart.title') }}</h1>\n  <p>{{ t('cart.summary') }}</p>\n</section>\n`,
+    },
+    {
+      path: 'src/pages/cart/cart.page.css',
       content: `.page {\n  display: grid;\n  gap: 12px;\n}\n`,
     },
   ];

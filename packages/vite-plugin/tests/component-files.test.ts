@@ -27,6 +27,16 @@ describe('component files', () => {
     });
   });
 
+  it('recognizes layout entries', () => {
+    expect(isComponentEntry('/repo/src/layouts/shop/shop.layout.ts')).toBe(true);
+    expect(resolveComponentFiles('/repo/src/layouts/shop/shop.layout.ts')).toEqual({
+      componentPath: '/repo/src/layouts/shop/shop.layout.ts',
+      templatePath: '/repo/src/layouts/shop/shop.layout.html',
+      stylePath: '/repo/src/layouts/shop/shop.layout.css',
+    });
+  });
+
+
   it('recognizes button primitive entries', () => {
     expect(isComponentEntry('/repo/src/ui/button/ui.button.ts')).toBe(true);
     expect(resolveComponentFiles('/repo/src/ui/button/ui.button.ts')).toEqual({

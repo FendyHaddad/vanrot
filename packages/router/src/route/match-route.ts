@@ -1,38 +1,12 @@
-import { matchRoutePath } from './path-params.js';
-import { parseRouteQuery } from './query-string.js';
-import type { DefinedRoute, DefinedRouteTable, RouteMatch } from './route-types.js';
+import { matchRouteChain } from './match-route-chain.js';
+import type { DefinedRouteTable, RouteMatch } from './route-types.js';
 
 export function matchRoute(routes: DefinedRouteTable, path: string): RouteMatch | null {
-  const normalizedPath = normalizePath(path);
+  const chain = matchRouteChain(routes, path);
 
-  for (const route of Object.values(routes)) {
-    const params = matchRoutePath(route.path, normalizedPath);
-
-    if (params === null) {
-      continue;
-    }
-
-    return {
-      route: route as DefinedRoute,
-      params,
-      query: parseRouteQuery(path),
-      path: normalizedPath,
-    };
+  if (chain === null) {
+    return null;
   }
 
-  return null;
-}
-
-function normalizePath(path: string): string {
-  const [pathname = '/'] = path.split('?');
-
-  if (pathname.length === 0) {
-    return '/';
-  }
-
-  if (pathname.startsWith('/')) {
-    return pathname;
-  }
-
-  return `/${pathname}`;
+  return chain.chain[chain.chain.length - 1] ?? null;
 }

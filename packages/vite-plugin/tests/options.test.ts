@@ -12,6 +12,9 @@ describe('normalizeOptions', () => {
     expect(options.include.some((pattern) => pattern.test('/repo/app/src/pages/home/home.page.ts'))).toBe(
       true,
     );
+    expect(options.include.some((pattern) => pattern.test('/repo/app/src/app/app.layout.ts'))).toBe(
+      true,
+    );
     expect(options.include.some((pattern) => pattern.test('/repo/app/src/ui/button/ui.button.ts'))).toBe(
       true,
     );

@@ -62,6 +62,25 @@ describe('component file conventions', () => {
     });
   });
 
+  it('resolves layout siblings and expected class names', async () => {
+    const root = await createFixtureDirectory({
+      'shop.layout.ts': 'export class ShopLayout {}',
+      'shop.layout.html': '<vr-outlet></vr-outlet>',
+      'shop.layout.css': ':host { display: block; }',
+    });
+
+    await expect(resolveComponentFiles(join(root, 'shop.layout.ts'))).resolves.toMatchObject({
+      fileSet: {
+        componentBaseName: 'shop',
+        expectedClassName: 'ShopLayout',
+        templatePath: join(root, 'shop.layout.html'),
+        stylePath: join(root, 'shop.layout.css'),
+      },
+      diagnostics: [],
+    });
+  });
+
+
   it('resolves button primitive siblings and expected class names', async () => {
     const root = await createFixtureDirectory({
       'ui.button.ts': 'export class UiButton {}',

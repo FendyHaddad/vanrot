@@ -161,6 +161,14 @@ When a phase adds or changes framework surface area:
 | DOM | `<vr-router>` outlet | Demo-Capable | Renders route pages, swaps lazy pages, handles cleanup, nested outlets, and error outlets. | Phase 8, Phase 15 | Nested outlets are deferred. |
 | DOM | `<vr route.name />` link | Production-Ready for 15A route contracts | Renders accessible anchors from route metadata without repeated path or label strings. | Phase 8, Phase 15A | Params, query, and exact active state are covered; custom labels stay deferred. |
 | diagnostics | route diagnostics foundation | Production-Ready | Provides shared `VR_ROUTE_*` codes, diagnostic factory, route-level diagnostics, and param/query misuse errors. | Phase 15A | CLI/project-map diagnostics stay in a later router diagnostics slice. |
+| router | nested layout routes | Production-Ready | Root layouts, child layouts, index child pages, params, query values, shared-layout retention, cleanup, lazy child page loading, and diagnostics are covered. | Phase 15B | Depends on Phase 15A route contract. |
+| router | route registry order | Production-Ready | `defineRoutes({ ... })` order is canonical for rendering, generated navigation, diagnostics, and docs examples. Child-before-parent route order fails with a stable diagnostic. | Phase 15B | No route-name string parent references. |
+| router | `matchRouteChain(...)` | Production-Ready | Resolves active root layout, nested layout, and leaf page chains while preserving leaf `matchRoute(...)` compatibility. | Phase 15B | Index child pages use `path: ''`. |
+| router | `getCurrentRouteChain()` | Production-Ready | Router state exposes the active matched chain while preserving `getCurrentMatch()`, `navigate(...)`, `routeParams`, and breadcrumb behavior. | Phase 15B | Params and query remain leaf-facing. |
+| DOM | nested router outlets | Production-Ready | One app-level router outlet renders depth 0 and route-local outlets render the next matched depth with branch cleanup and shared-layout retention. | Phase 15B | Eager layouts/pages mount synchronously; lazy pages load only when active. |
+| compiler | router and outlet placement | Production-Ready | `<vr-router />` is allowed only once in `app.layout.html`; `<vr-outlet />` is required exactly once in route layout templates and rejected in page templates. | Phase 15B | Compiler diagnostics expose source positions. |
+| compiler and vite-plugin | `.layout.ts` role files | Production-Ready | Layout role files resolve sibling `.layout.html` and `.layout.css` files, participate in Vite transform/HMR, and compile through the normal component pipeline. | Phase 15B | Required by the nested router starter. |
+| cli | nested router starter | Production-Ready | Generated starter uses `app.layout.*`, route layout examples, route-owned nav metadata, and no repeated route path or label literals outside `src/routes.ts`. | Phase 15B | Keeps the framework rule visible in new apps. |
 
 ## `@vanrot/ui`
 
@@ -224,7 +232,7 @@ into isolated audit tests.
 | Config source of truth | config, cli, vite-plugin | Deferred | Red/green tests for `vanrot.config.ts`, schema validation, install-aware config blocks, and port `1010`. | Phase 13 |
 | Beautiful CLI UX | cli | Demo reporter exists | Red/green snapshot/interaction tests for command output that is beautiful, readable, and scriptable. | Phase 14 |
 | Router production 15A | router, compiler | Route contract production slice works | Red/green tests for builder refs, typed params, query strings, URL generation, active links, breadcrumbs, compiler lowering, and route diagnostics. | Phase 15A |
-| Router production remaining | router, compiler | 15A complete, later slices deferred | Red/green tests for nested layouts, redirects, guards, strict route graph diagnostics, preloading, and integration workflows. | Phase 15B-15D |
+| Router production remaining | router, compiler | 15A and 15B complete, later slices deferred | Red/green tests for redirects, guards, strict route graph diagnostics, preloading, and integration workflows. | Phase 15C-15D |
 | UI production V01/V02 | ui, compiler, cli | Button demo works | Red/green tests for primitive catalog, variants, accessibility, tokens, utilities, and flavor parity. | Phase 16, Phase 17 |
 | Testing production | testing | Component helper demo works | Red/green tests for pages, router workflows, accessibility, async helpers, and generator-wide `--test`. | Phase 18 |
 | Store | store | Deferred | Red/green tests for signal-native state, actions, reducers, selectors, effects, tracing, and interop. | Phase 19, Phase 20 |

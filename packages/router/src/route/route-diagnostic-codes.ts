@@ -10,6 +10,12 @@ export const routeDiagnosticCodes = {
   breadcrumbParentMissing: 'VR_ROUTE_BREADCRUMB_PARENT_MISSING',
   breadcrumbParamImpossible: 'VR_ROUTE_BREADCRUMB_PARAM_IMPOSSIBLE',
   invalidTemplateRef: 'VR_ROUTE_INVALID_TEMPLATE_REF',
+  childBeforeParent: 'VR_CHILD_BEFORE_PARENT',
+  duplicateIndexRoute: 'VR_DUPLICATE_INDEX_ROUTE',
+  invalidIndexLayout: 'VR_INVALID_INDEX_LAYOUT',
+  layoutMissingComponent: 'VR_LAYOUT_MISSING_COMPONENT',
+  layoutWithoutChildren: 'VR_LAYOUT_WITHOUT_CHILDREN',
+  pageHasChildren: 'VR_PAGE_HAS_CHILDREN',
 } as const;
 
 export type RouteDiagnosticCode =

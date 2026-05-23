@@ -13,6 +13,7 @@ import { extractTemplateBindings } from '../template/bindings.js';
 import { createScopeAttribute } from '../styles/scope-id.js';
 import { scopeCss } from '../styles/scope-css.js';
 import { generateComponent } from '../codegen/generate-component.js';
+import { diagnoseRouterTemplateUsage } from '../router/router-template-diagnostics.js';
 
 const featureOrder: CompileFeature[] = [
   'file-convention',
@@ -26,6 +27,7 @@ const featureOrder: CompileFeature[] = [
   'expression-rewriting',
   'control-flow-if',
   'control-flow-for',
+  'router-root',
   'router-outlet',
   'router-link',
   'ui-button',
@@ -40,7 +42,7 @@ export function compileComponent(source: ComponentSource, options: CompileOption
       createDiagnostic(
         'VR003',
         'error',
-        'Vanrot supports .component.ts, .page.ts, and .button.ts role files.',
+        'Vanrot supports .component.ts, .page.ts, .layout.ts, and .button.ts role files.',
         source.componentPath,
       ),
     ]);
@@ -66,6 +68,7 @@ export function compileComponent(source: ComponentSource, options: CompileOption
   features.add('component-class');
 
   const parsedTemplate = parseTemplate(source.templateSource, source.templatePath);
+  const routerDiagnostics = diagnoseRouterTemplateUsage(parsedTemplate.nodes, source.templatePath);
   const templateBindings = extractTemplateBindings(parsedTemplate.nodes, source.templatePath);
   const scopeAttribute = createScopeAttribute(source.componentPath, source.styleSource);
   const scopedCss = scopeCss(source.styleSource, scopeAttribute, source.stylePath);
@@ -79,6 +82,7 @@ export function compileComponent(source: ComponentSource, options: CompileOption
 
   diagnostics.push(
     ...parsedTemplate.diagnostics,
+    ...routerDiagnostics,
     ...templateBindings.diagnostics,
     ...scopedCss.diagnostics,
     ...generated.diagnostics,

@@ -14,7 +14,7 @@ export interface NormalizedVanrotPluginOptions {
 
 function defaultInclude(sourceRoot: string): RegExp {
   return new RegExp(
-    `(?:^|/)${escapeRegExp(sourceRoot)}/.*\\.(?:component|page|button)\\.ts(?:\\?.*)?$`,
+    `(?:^|/)${escapeRegExp(sourceRoot)}/.*\\.(?:component|page|layout|button)\\.ts(?:\\?.*)?$`,
   );
 }
 

@@ -6,9 +6,9 @@ import { findOwnerComponentPath, handleVanrotHotUpdate } from '@/hot-update.js';
 import { toPublicCssModuleId, toPublicSourceModuleId } from '@/virtual-modules.js';
 
 const fixtureRoot = resolve(import.meta.dirname, 'fixtures/basic-app');
-const componentPath = resolve(fixtureRoot, 'src/app/app.component.ts');
-const templatePath = resolve(fixtureRoot, 'src/app/app.component.html');
-const stylePath = resolve(fixtureRoot, 'src/app/app.component.css');
+const componentPath = resolve(fixtureRoot, 'src/app/app.layout.ts');
+const templatePath = resolve(fixtureRoot, 'src/app/app.layout.html');
+const stylePath = resolve(fixtureRoot, 'src/app/app.layout.css');
 
 let restoreTemplate = '';
 let restoreStyle = '';
@@ -31,6 +31,8 @@ describe('Vanrot dev reload', () => {
     expect(findOwnerComponentPath('/repo/src/app.component.css')).toBe('/repo/src/app.component.ts');
     expect(findOwnerComponentPath('/repo/src/home.page.html')).toBe('/repo/src/home.page.ts');
     expect(findOwnerComponentPath('/repo/src/home.page.css')).toBe('/repo/src/home.page.ts');
+    expect(findOwnerComponentPath('/repo/src/app.layout.html')).toBe('/repo/src/app.layout.ts');
+    expect(findOwnerComponentPath('/repo/src/app.layout.css')).toBe('/repo/src/app.layout.ts');
     expect(findOwnerComponentPath('/repo/src/ui.button.html')).toBe('/repo/src/ui.button.ts');
     expect(findOwnerComponentPath('/repo/src/ui.button.css')).toBe('/repo/src/ui.button.ts');
     expect(findOwnerComponentPath('/repo/src/main.ts')).toBeUndefined();
@@ -118,7 +120,7 @@ describe('Vanrot dev reload', () => {
     });
 
     try {
-      const before = await server.transformRequest('/src/app/app.component.ts');
+      const before = await server.transformRequest('/src/app/app.layout.ts');
       expect(before?.code).toContain('route.home');
 
       await writeFile(templatePath, restoreTemplate.replace('route.home', 'route.about'));
@@ -130,7 +132,7 @@ describe('Vanrot dev reload', () => {
         read: () => readFile(templatePath, 'utf8'),
       });
 
-      const after = await server.transformRequest('/src/app/app.component.ts');
+      const after = await server.transformRequest('/src/app/app.layout.ts');
       expect(after?.code).toContain('route.about');
     } finally {
       await server.close();
@@ -163,7 +165,7 @@ describe('Vanrot dev reload', () => {
     });
 
     try {
-      await server.transformRequest('/src/app/app.component.ts');
+      await server.transformRequest('/src/app/app.layout.ts');
       await writeFile(stylePath, `${restoreStyle}\n.app { background: black; }\n`);
       await handleVanrotHotUpdate({
         file: stylePath,
@@ -173,7 +175,7 @@ describe('Vanrot dev reload', () => {
         read: () => readFile(stylePath, 'utf8'),
       });
 
-      await server.transformRequest('/src/app/app.component.ts');
+      await server.transformRequest('/src/app/app.layout.ts');
       const css = await server.transformRequest(toPublicCssModuleId(componentPath));
       expect(css?.code).toContain('background');
       expect(css?.code).toContain('black');

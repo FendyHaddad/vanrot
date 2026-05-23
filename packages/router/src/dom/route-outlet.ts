@@ -1,31 +1,52 @@
-import { effect, mount, onDestroy, type AppHandle, type Dispose } from '@vanrot/runtime';
-import { resolveRoutePage } from '../route/page-loader.js';
-import { getCurrentMatch } from '../route/router-state.js';
+import { effect, mount, onDestroy, type AppHandle, type ComponentType, type Dispose } from '@vanrot/runtime';
+import { readCurrentOutletDepth, runWithOutletDepth } from './route-outlet-context.js';
+import { resolveRouteLayout, resolveRoutePage } from '../route/page-loader.js';
+import { getCurrentRouteChain } from '../route/router-state.js';
+import type { DefinedRoute } from '../route/route-types.js';
 
-export function createRouterOutlet(host: Element): Dispose {
-  let mountedPage: AppHandle | null = null;
+export interface RouterOutletOptions {
+  kind?: 'router' | 'outlet';
+}
+
+export function createRouterOutlet(host: Element, options: RouterOutletOptions = {}): Dispose {
+  const outletKind = options.kind ?? 'router';
+  const depth = outletKind === 'router' ? 0 : readCurrentOutletDepth() + 1;
+  let mountedRoute: DefinedRoute | null = null;
+  let mountedComponent: AppHandle | null = null;
   let version = 0;
 
-  const dispose = effect(() => {
-    const match = getCurrentMatch();
+  const disposeEffect = effect(() => {
+    const chain = getCurrentRouteChain();
+    const match = chain?.chain[depth];
     const currentVersion = ++version;
 
-    mountedPage?.destroy();
-    mountedPage = null;
-    host.replaceChildren();
-
-    if (match === null) {
-      host.append(createRouterMessage('No route matched.'));
+    if (match === undefined) {
+      disposeMountedComponent();
+      host.replaceChildren(...emptyOutletContent(outletKind));
       return;
     }
 
-    void resolveRoutePage(match.route)
-      .then((page) => {
+    if (mountedRoute === match.route) {
+      return;
+    }
+
+    disposeMountedComponent();
+    host.replaceChildren();
+
+    const component = resolveRouteComponent(match.route);
+
+    if (!isPromise(component)) {
+      mountResolvedComponent(component, match.route, currentVersion);
+      return;
+    }
+
+    void component
+      .then((resolvedComponent) => {
         if (currentVersion !== version) {
           return;
         }
 
-        mountedPage = mount(page, host);
+        mountResolvedComponent(resolvedComponent, match.route, currentVersion);
       })
       .catch((error: unknown) => {
         if (currentVersion !== version) {
@@ -34,18 +55,67 @@ export function createRouterOutlet(host: Element): Dispose {
 
         host.replaceChildren(createRouterMessage(errorMessage(error)));
       });
-
-    return () => {
-      version += 1;
-      mountedPage?.destroy();
-      mountedPage = null;
-      host.replaceChildren();
-    };
   });
+
+  const dispose = (): void => {
+    version += 1;
+    disposeEffect();
+    disposeMountedComponent();
+    host.replaceChildren();
+  };
 
   onDestroy(dispose);
 
   return dispose;
+
+  function disposeMountedComponent(): void {
+    mountedComponent?.destroy();
+    mountedComponent = null;
+    mountedRoute = null;
+  }
+
+  function mountResolvedComponent(
+    component: ComponentType,
+    route: DefinedRoute,
+    currentVersion: number,
+  ): void {
+    if (currentVersion !== version) {
+      return;
+    }
+
+    runWithOutletDepth(depth, () => {
+      mountedComponent = mount(component, host);
+      mountedRoute = route;
+    });
+  }
+}
+
+function resolveRouteComponent(route: DefinedRoute): ComponentType | Promise<ComponentType> {
+  if (route.kind === 'layout') {
+    if (route.layout !== undefined) {
+      return route.layout;
+    }
+
+    return resolveRouteLayout(route);
+  }
+
+  if (route.page !== undefined) {
+    return route.page;
+  }
+
+  return resolveRoutePage(route);
+}
+
+function isPromise(value: ComponentType | Promise<ComponentType>): value is Promise<ComponentType> {
+  return typeof (value as Promise<ComponentType>).then === 'function';
+}
+
+function emptyOutletContent(kind: 'router' | 'outlet'): Text[] {
+  if (kind === 'outlet') {
+    return [];
+  }
+
+  return [createRouterMessage('No route matched.')];
 }
 
 function createRouterMessage(message: string): Text {

@@ -3,7 +3,7 @@ import { basename, dirname, join } from 'node:path';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import type { CompileDiagnostic } from '../api/types.js';
 
-type ComponentRole = 'component' | 'page' | 'button';
+type ComponentRole = 'component' | 'page' | 'layout' | 'button';
 
 export interface ComponentFileSet {
   componentPath: string;
@@ -28,7 +28,7 @@ export async function resolveComponentFiles(componentPath: string): Promise<Comp
         createDiagnostic(
           'VR003',
           'error',
-          'Vanrot supports .component.ts, .page.ts, and .button.ts role files.',
+          'Vanrot supports .component.ts, .page.ts, .layout.ts, and .button.ts role files.',
           componentPath,
         ),
       ],
@@ -88,6 +88,10 @@ function resolveRole(fileName: string): ComponentRole | null {
 
   if (fileName.endsWith('.page.ts')) {
     return 'page';
+  }
+
+  if (fileName.endsWith('.layout.ts')) {
+    return 'layout';
   }
 
   if (fileName.endsWith('.button.ts')) {

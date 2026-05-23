@@ -1,9 +1,14 @@
 export type {
   DefinedRoute,
   DefinedRouteTable,
+  RouteChainMatch,
   RouteDefinition,
   RouteInput,
+  RouteKind,
+  RouteLayoutLoader,
+  RouteLayoutModule,
   RouteMatch,
+  RouteNavMetadata,
   RoutePageLoader,
   RoutePageModule,
   RouteParams,
@@ -30,5 +35,12 @@ export type {
 export { createRouteDiagnostic } from './route/route-diagnostics.js';
 export { defineRoutes } from './route/define-routes.js';
 export { matchRoute } from './route/match-route.js';
+export { matchRouteChain } from './route/match-route-chain.js';
 export { resolveRoutePage } from './route/page-loader.js';
-export { navigate, provideRouter, routeParams } from './route/router-state.js';
+export {
+  getCurrentMatch,
+  getCurrentRouteChain,
+  navigate,
+  provideRouter,
+  routeParams,
+} from './route/router-state.js';

@@ -11,7 +11,7 @@ import {
   resetRouterForTests,
   routeParams,
 } from '../../src/route/router-state.js';
-import { createTestPage } from '../../src/test/test-pages.js';
+import { createTestLayout, createTestPage } from '../../src/test/test-pages.js';
 
 const routePath = {
   home: '/',
@@ -65,16 +65,16 @@ describe('router state', () => {
 
   it('builds breadcrumb links from route object refs', () => {
     const routes = createRoutes();
-    const shop = routes.page({
+    const shop = routes.layout({
       path: '/shop',
       label: 'Shop',
-      page: createTestPage('shop'),
+      layout: createTestLayout('shop'),
       breadcrumb: routes.breadcrumb.root(),
     });
-    const product = shop.page({
+    const product = shop.layout({
       path: 'product',
       label: 'Products',
-      page: createTestPage('products'),
+      layout: createTestLayout('products'),
       breadcrumb: routes.breadcrumb.parent(shop),
     });
     const productDetail = product.page({
@@ -83,7 +83,13 @@ describe('router state', () => {
       page: createTestPage('product-detail'),
       breadcrumb: routes.breadcrumb.parent(product),
     });
-    const nestedRoute = defineRoutes({ shop, product, productDetail });
+    const shopIndex = shop.page({
+      path: '',
+      label: 'Shop index',
+      page: createTestPage('shop-index'),
+      breadcrumb: routes.breadcrumb.parent(shop),
+    });
+    const nestedRoute = defineRoutes({ shop, shopIndex, product, productDetail });
 
     window.history.replaceState(null, '', '/shop');
     provideRouter(nestedRoute);
