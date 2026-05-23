@@ -19,6 +19,15 @@ When using Superpowers skills in this repository, do not use subagents, parallel
 
 Adapt Superpowers workflows to inline execution in the current session, using explicit plans, checklists, and review checkpoints instead of delegating work.
 
+## Superpowers File Naming Protocol
+
+Brainstorming specs and writing-plan files should follow the phase naming convention used by this repo.
+
+- Phase specs live under `docs/superpowers/specs/` and use `Phase-XX.md` or `Phase-XXA.md` style names, such as `Phase-15A.md`.
+- Writing plans live under `docs/superpowers/plans/` and use the matching phase name, such as `Phase-15A.md`.
+- Do not create dated brainstorming or writing-plan filenames for numbered Vanrot phases unless the user explicitly asks for an addendum outside the phase convention.
+- When a broad production phase is split, name each slice with a letter suffix, such as `Phase-15A`, `Phase-15B`, and `Phase-15C`.
+
 ## Phase Completion Protocol
 
 When a Vanrot phase is completed:
@@ -96,13 +105,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-23 3:14pm GMT+8
+# [vanrot] recent context, 2026-05-23 5:14pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (17,956t read) | 1,473,880t work | 99% savings
+Stats: 50 obs (17,397t read) | 1,485,476t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -110,11 +119,7 @@ S597 @vanrot/runtime implementation plan written phase-by-phase — plan complet
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
 S652 Investigate why using Codex with claude-mem charges Claude API usage — determine if harnesses are co-dependent and how to fix it (May 20 at 11:34 PM)
 ### May 22, 2026
-1746 6:28p 🟣 TDD Red Phase Confirmed: location.test.ts Fails as Expected
-1748 6:33p 🔵 Phase 12C Task 1 Spec Compliance Re-Review Initiated
-1750 6:38p 🔵 Phase 12C Task 1 Post-Fix Code Quality Re-Review Scope
-1753 6:40p 🟣 Phase 12C Task 2: Template AST Span Tracking Initiated
-1749 " 🔵 Phase 12C Task 1: Spec Compliant — All Tests Pass
+1749 6:40p 🔵 Phase 12C Task 1: Spec Compliant — All Tests Pass
 1751 6:41p 🔵 Phase 12C Task 1 Re-Review: All Three Fixes Verified Correct — APPROVED
 1752 " 🔵 Phase 12C Task 1 Caller Drift Risk: Hardcoded Strings Duplicate Catalog Messages
 1756 6:43p ⚖️ Phase 12C Task 2 Code-Quality Review — Two Additional Fixes Queued
@@ -167,6 +172,10 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1850 3:08p 🔵 CLI Command Context and Intelligence Modules
 1863 " ✅ Phase-14 Plan Placeholder Scan Update
 1861 " 🔵 Phase-14 Plan Placeholder Scan
+1869 3:14p 🔵 Phase-14 Plan Self-Review Checks
+1876 4:50p 🟣 Brainstorming Phase 15 Initiated
+1877 " ✅ Updated Project Plan
+1878 4:51p 🔵 Project File Discovery
 
-Access 1474k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1485k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
