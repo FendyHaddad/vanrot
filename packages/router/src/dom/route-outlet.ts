@@ -1,18 +1,35 @@
 import { effect, mount, onDestroy, type AppHandle, type ComponentType, type Dispose } from '@vanrot/runtime';
+import { runWithoutCleanupScope } from '@vanrot/runtime/internal';
 import { readCurrentOutletDepth, runWithOutletDepth } from './route-outlet-context.js';
 import { resolveRouteLayout, resolveRoutePage } from '../route/page-loader.js';
-import { getCurrentRouteChain } from '../route/router-state.js';
-import type { DefinedRoute } from '../route/route-types.js';
+import {
+  createKeepAliveRouteIdentity,
+  storeKeepAliveRouteView,
+  takeKeepAliveRouteView,
+  type KeepAliveRouteView,
+} from '../route/route-keep-alive.js';
+import {
+  getCurrentRouteChain,
+  getRouteDefinitionVersion,
+} from '../route/router-state.js';
+import { routeKeepAlivePolicyKinds } from '../route/route-types.js';
+import type { DefinedRoute, RouteMatch } from '../route/route-types.js';
 
 export interface RouterOutletOptions {
   kind?: 'router' | 'outlet';
 }
 
+interface MountedRouteView {
+  identity: string | null;
+  route: DefinedRoute;
+  handle: AppHandle;
+  nodes: Node[];
+}
+
 export function createRouterOutlet(host: Element, options: RouterOutletOptions = {}): Dispose {
   const outletKind = options.kind ?? 'router';
   const depth = outletKind === 'router' ? 0 : readCurrentOutletDepth() + 1;
-  let mountedRoute: DefinedRoute | null = null;
-  let mountedComponent: AppHandle | null = null;
+  let mountedView: MountedRouteView | null = null;
   let version = 0;
 
   const disposeEffect = effect(() => {
@@ -21,22 +38,32 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
     const currentVersion = ++version;
 
     if (match === undefined) {
-      disposeMountedComponent();
+      detachOrDestroyMountedView();
       host.replaceChildren(...emptyOutletContent(outletKind));
       return;
     }
 
-    if (mountedRoute === match.route) {
+    const identity = createKeepAliveRouteIdentity(match, getRouteDefinitionVersion());
+
+    if (mountedView?.route === match.route && mountedView.identity === identity) {
       return;
     }
 
-    disposeMountedComponent();
+    detachOrDestroyMountedView();
     host.replaceChildren();
+
+    const restoredView = restoreMountedView(match);
+
+    if (restoredView !== null) {
+      mountedView = restoredView;
+      host.replaceChildren(...restoredView.nodes);
+      return;
+    }
 
     const component = resolveRouteComponent(match.route);
 
     if (!isPromise(component)) {
-      mountResolvedComponent(component, match.route, currentVersion);
+      mountResolvedComponent(component, match, currentVersion);
       return;
     }
 
@@ -46,7 +73,7 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
           return;
         }
 
-        mountResolvedComponent(resolvedComponent, match.route, currentVersion);
+        mountResolvedComponent(resolvedComponent, match, currentVersion);
       })
       .catch((error: unknown) => {
         if (currentVersion !== version) {
@@ -60,7 +87,7 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
   const dispose = (): void => {
     version += 1;
     disposeEffect();
-    disposeMountedComponent();
+    detachOrDestroyMountedView();
     host.replaceChildren();
   };
 
@@ -68,15 +95,46 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
 
   return dispose;
 
-  function disposeMountedComponent(): void {
-    mountedComponent?.destroy();
-    mountedComponent = null;
-    mountedRoute = null;
+  function detachOrDestroyMountedView(): void {
+    if (mountedView === null) {
+      return;
+    }
+
+    if (
+      mountedView.route.keepAlive.kind !== routeKeepAlivePolicyKinds.sessionDay ||
+      mountedView.identity === null
+    ) {
+      mountedView.handle.destroy();
+      mountedView = null;
+      return;
+    }
+
+    const fragment = document.createDocumentFragment();
+
+    for (const node of mountedView.nodes) {
+      fragment.append(node);
+    }
+
+    storeKeepAliveRouteView({
+      identity: mountedView.identity,
+      route: mountedView.route,
+      handle: mountedView.handle,
+      nodes: mountedView.nodes,
+    });
+    mountedView = null;
+  }
+
+  function restoreMountedView(match: RouteMatch): KeepAliveRouteView | null {
+    if (match.route.keepAlive.kind !== routeKeepAlivePolicyKinds.sessionDay) {
+      return null;
+    }
+
+    return takeKeepAliveRouteView(match, getRouteDefinitionVersion());
   }
 
   function mountResolvedComponent(
     component: ComponentType,
-    route: DefinedRoute,
+    match: RouteMatch,
     currentVersion: number,
   ): void {
     if (currentVersion !== version) {
@@ -84,8 +142,15 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
     }
 
     runWithOutletDepth(depth, () => {
-      mountedComponent = mount(component, host);
-      mountedRoute = route;
+      const handle = runWithoutCleanupScope(() => mount(component, host));
+      const identity = createKeepAliveRouteIdentity(match, getRouteDefinitionVersion());
+
+      mountedView = {
+        identity,
+        route: match.route,
+        handle,
+        nodes: Array.from(host.childNodes),
+      };
     });
   }
 }

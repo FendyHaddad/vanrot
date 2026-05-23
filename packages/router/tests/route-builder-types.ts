@@ -73,3 +73,35 @@ routes.page({
   // @ts-expect-error Page routes do not accept redirect targets.
   to: login,
 });
+
+const product = routes.page({
+  path: '/product/:productId',
+  label: 'Product',
+  loadPage: async () => createTestPage('product'),
+  preload: routes.preload.intent(),
+  keepAlive: routes.keepAlive.sessionDay(),
+});
+
+routes.page({
+  path: '/product-static',
+  label: 'Static product',
+  page: createTestPage('product-static'),
+  preload: routes.preload.none(),
+  keepAlive: routes.keepAlive.none(),
+});
+
+routes.redirect({
+  path: '/old-product',
+  label: 'Old product',
+  to: product,
+  // @ts-expect-error Redirect routes must not declare preload policy.
+  preload: routes.preload.intent(),
+});
+
+routes.redirect({
+  path: '/old-product-detail',
+  label: 'Old product detail',
+  to: product,
+  // @ts-expect-error Redirect routes must not declare keepAlive policy.
+  keepAlive: routes.keepAlive.sessionDay(),
+});

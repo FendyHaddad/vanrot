@@ -1,6 +1,17 @@
 import { signal, type Signal } from '@vanrot/runtime';
+import { matchRouteChain } from './match-route-chain.js';
 import { resolveNavigationDecision } from './navigation-decisions.js';
+import { clearRouteModuleCacheForTests } from './page-loader.js';
 import { routeDiagnosticCodes } from './route-diagnostic-codes.js';
+import {
+  clearRouteKeepAliveStoreForTests,
+  recordKeepAliveRestoreBlocked,
+} from './route-keep-alive.js';
+import {
+  clearRoutePreloadStateForTests,
+  preloadRoutePath,
+} from './route-preload.js';
+import { routeKeepAlivePolicyKinds } from './route-types.js';
 import { buildRouteUrl } from './url-builder.js';
 import { extractPathParamNames } from './path-params.js';
 import type {
@@ -17,6 +28,7 @@ const emptyParams: RouteParams = {};
 let providedRoutes: DefinedRouteTable | null = null;
 let removePopstateListener: (() => void) | null = null;
 let navigationId = 0;
+let routeDefinitionVersion = 0;
 
 const currentRouteChain = signal<RouteChainMatch | null>(null);
 const currentParams = signal<RouteParams>(emptyParams);
@@ -25,6 +37,7 @@ export const routeParams = currentParams as Signal<RouteParams>;
 
 export async function provideRouter(routes: DefinedRouteTable): Promise<boolean> {
   providedRoutes = routes;
+  routeDefinitionVersion += 1;
   removePopstateListener?.();
   removePopstateListener = listenForPopstate();
   return startNavigation(readBrowserPath(), { history: 'replace' });
@@ -32,6 +45,10 @@ export async function provideRouter(routes: DefinedRouteTable): Promise<boolean>
 
 export async function navigate(path: string): Promise<boolean> {
   return startNavigation(path, { history: 'push' });
+}
+
+export async function preloadRoute(path: string): Promise<boolean> {
+  return preloadRoutePath(requireProvidedRoutes(), path);
 }
 
 export function getCurrentMatch(): RouteMatch | null {
@@ -46,6 +63,10 @@ export function getCurrentMatch(): RouteMatch | null {
 
 export function getCurrentRouteChain(): RouteChainMatch | null {
   return currentRouteChain();
+}
+
+export function getRouteDefinitionVersion(): number {
+  return routeDefinitionVersion;
 }
 
 export function buildRouteBreadcrumbs(match: RouteMatch | null = getCurrentMatch()): RouteBreadcrumb[] {
@@ -65,8 +86,12 @@ export function resetRouterForTests(): void {
   removePopstateListener?.();
   removePopstateListener = null;
   navigationId = 0;
+  routeDefinitionVersion = 0;
   currentRouteChain.set(null);
   currentParams.set(emptyParams);
+  clearRouteModuleCacheForTests();
+  clearRoutePreloadStateForTests();
+  clearRouteKeepAliveStoreForTests();
 }
 
 async function startNavigation(
@@ -98,6 +123,7 @@ async function startNavigation(
   }
 
   if (decision.kind === 'blocked') {
+    recordBlockedKeepAliveRestore(path);
     return false;
   }
 
@@ -113,6 +139,27 @@ async function startNavigation(
   writeHistory(decision.path, options.history);
 
   return true;
+}
+
+function recordBlockedKeepAliveRestore(path: string): void {
+  const routes = providedRoutes;
+
+  if (routes === null) {
+    return;
+  }
+
+  const match = matchRouteChain(routes, path);
+  const leaf = match?.chain[match.chain.length - 1];
+
+  if (leaf === undefined) {
+    return;
+  }
+
+  if (leaf.route.keepAlive.kind !== routeKeepAlivePolicyKinds.sessionDay) {
+    return;
+  }
+
+  recordKeepAliveRestoreBlocked(leaf.route);
 }
 
 function commitRouteChain(match: RouteChainMatch): void {

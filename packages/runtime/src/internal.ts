@@ -8,6 +8,7 @@ export {
   registerCleanup,
   registerMountCallback,
   runWithCleanupScope,
+  runWithoutCleanupScope,
 } from './lifecycle/cleanup-scope.js';
 
 export { listen } from './events/listen.js';

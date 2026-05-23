@@ -17,6 +17,7 @@ describe('runtime exports', () => {
   it('exposes the compiler-facing internal API', () => {
     expect(internal.createCleanupScope).toBeTypeOf('function');
     expect(internal.runWithCleanupScope).toBeTypeOf('function');
+    expect(internal.runWithoutCleanupScope).toBeTypeOf('function');
     expect(internal.disposeCleanupScope).toBeTypeOf('function');
     expect(internal.listen).toBeTypeOf('function');
   });

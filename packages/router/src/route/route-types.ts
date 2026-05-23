@@ -17,6 +17,38 @@ export interface RouteNavMetadata {
   kind: 'primary' | 'hidden';
 }
 
+export const routePreloadPolicyKinds = {
+  none: 'none',
+  intent: 'intent',
+} as const;
+
+export type RoutePreloadPolicyKind =
+  (typeof routePreloadPolicyKinds)[keyof typeof routePreloadPolicyKinds];
+
+export interface RoutePreloadPolicy {
+  readonly kind: RoutePreloadPolicyKind;
+}
+
+export const routeKeepAlivePolicyKinds = {
+  none: 'none',
+  sessionDay: 'sessionDay',
+} as const;
+
+export type RouteKeepAlivePolicyKind =
+  (typeof routeKeepAlivePolicyKinds)[keyof typeof routeKeepAlivePolicyKinds];
+
+export interface RouteKeepAlivePolicy {
+  readonly kind: RouteKeepAlivePolicyKind;
+}
+
+export const defaultRoutePreloadPolicy: RoutePreloadPolicy = {
+  kind: routePreloadPolicyKinds.none,
+};
+
+export const defaultRouteKeepAlivePolicy: RouteKeepAlivePolicy = {
+  kind: routeKeepAlivePolicyKinds.none,
+};
+
 export interface RouteQueryDefinition {
   default?: RouteQueryValue;
   array?: boolean;
@@ -36,6 +68,11 @@ export interface RouteDefinitionBase {
   query?: RouteQueryDefinitionMap;
   breadcrumb?: RouteBreadcrumbDefinition;
   canEnter?: RouteGuardInput;
+}
+
+export interface RoutePerformancePolicyDefinition {
+  preload?: RoutePreloadPolicy;
+  keepAlive?: RouteKeepAlivePolicy;
 }
 
 export interface RouteGuardContext {
@@ -60,6 +97,7 @@ export type RouteGuard = (context: RouteGuardContext) => RouteGuardResult;
 export type RouteGuardInput = RouteGuard | readonly RouteGuard[];
 
 export type PageRouteDefinition = RouteDefinitionBase &
+  RoutePerformancePolicyDefinition &
   (
     | {
         kind?: 'page';
@@ -78,6 +116,7 @@ export type PageRouteDefinition = RouteDefinitionBase &
   );
 
 export type LayoutRouteDefinition = RouteDefinitionBase &
+  RoutePerformancePolicyDefinition &
   (
     | {
         kind?: 'layout';
@@ -104,6 +143,8 @@ export interface RedirectRouteDefinition extends RouteDefinitionBase {
   loadPage?: never;
   layout?: never;
   loadLayout?: never;
+  preload?: never;
+  keepAlive?: never;
 }
 
 export interface RouteDefinition extends RouteDefinitionBase {
@@ -115,6 +156,8 @@ export interface RouteDefinition extends RouteDefinitionBase {
   to?: RouteRedirectTarget;
   params?: (params: RouteParams) => RouteParams;
   queryInput?: (query: Record<string, string | string[]>) => RouteQuery;
+  preload?: RoutePreloadPolicy;
+  keepAlive?: RouteKeepAlivePolicy;
 }
 
 export type RouteInput = Record<string, RouteDefinition | RouteRef>;
@@ -137,6 +180,8 @@ export type DefinedRoute<Key extends string = string> = RouteDefinition & {
   parent?: DefinedRoute;
   children: DefinedRoute[];
   breadcrumbParent?: DefinedRoute;
+  preload: RoutePreloadPolicy;
+  keepAlive: RouteKeepAlivePolicy;
   redirect?: {
     to: DefinedRoute;
     input?: RouteUrlInput;

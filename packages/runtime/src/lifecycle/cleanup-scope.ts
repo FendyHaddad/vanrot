@@ -53,6 +53,17 @@ export function runWithCleanupScope<T>(scope: CleanupScope, fn: () => T): T {
   }
 }
 
+export function runWithoutCleanupScope<T>(fn: () => T): T {
+  const previousScope = activeScope;
+  activeScope = null;
+
+  try {
+    return fn();
+  } finally {
+    activeScope = previousScope;
+  }
+}
+
 export function disposeCleanupScope(scope: CleanupScope): void {
   const internal = scopes.get(scope);
 

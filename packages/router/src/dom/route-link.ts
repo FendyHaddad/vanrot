@@ -1,6 +1,7 @@
 import { effect, onDestroy } from '@vanrot/runtime';
 import { buildRouteUrl } from '../route/url-builder.js';
-import { getCurrentMatch, navigate } from '../route/router-state.js';
+import { getCurrentMatch, navigate, preloadRoute } from '../route/router-state.js';
+import { routePreloadPolicyKinds } from '../route/route-types.js';
 import type { DefinedRoute, RouteUrlInput } from '../route/route-types.js';
 
 export function setupRouteLink(
@@ -37,7 +38,24 @@ export function setupRouteLink(
   };
 
   anchor.addEventListener('click', listener);
-  onDestroy(() => anchor.removeEventListener('click', listener));
+
+  const preloadListener = (): void => {
+    if (route.preload.kind !== routePreloadPolicyKinds.intent) {
+      return;
+    }
+
+    void preloadRoute(href);
+  };
+
+  anchor.addEventListener('mouseenter', preloadListener);
+  anchor.addEventListener('focus', preloadListener);
+  anchor.addEventListener('touchstart', preloadListener);
+  onDestroy(() => {
+    anchor.removeEventListener('click', listener);
+    anchor.removeEventListener('mouseenter', preloadListener);
+    anchor.removeEventListener('focus', preloadListener);
+    anchor.removeEventListener('touchstart', preloadListener);
+  });
 }
 
 function shouldUseBrowserNavigation(event: MouseEvent, anchor: HTMLAnchorElement): boolean {

@@ -169,4 +169,48 @@ describe('createRouterOutlet nested layouts', () => {
     expect(loadCart).not.toHaveBeenCalled();
     expect(host.textContent).toBe('shop-layoutproduct-layoutproduct-detail-page');
   });
+
+  it('keeps shared parent layouts mounted while restoring kept-alive leaf views', async () => {
+    const destroyed = {
+      shop: vi.fn(),
+      product: vi.fn(),
+      productDetail: vi.fn(),
+      cart: vi.fn(),
+    };
+    const routes = createRoutes();
+    const shop = routes.layout({
+      path: '/shop',
+      label: 'Shop',
+      layout: createTestLayout('shop-layout', destroyed.shop),
+    });
+    const product = shop.layout({
+      path: 'product',
+      label: 'Products',
+      layout: createTestLayout('product-layout', destroyed.product),
+    });
+    const productDetail = product.page({
+      path: ':productId',
+      label: 'Product detail',
+      page: createTestPage('product-detail-page', destroyed.productDetail),
+      keepAlive: routes.keepAlive.sessionDay(),
+    });
+    const cart = shop.page({
+      path: 'cart',
+      label: 'Cart',
+      page: createTestPage('cart-page', destroyed.cart),
+    });
+
+    provideRouter(defineRoutes({ shop, product, productDetail, cart }));
+    disposeOutlet = createRouterOutlet(host, { kind: 'router' });
+    await flushRouteOutlet();
+    await navigate('/shop/cart');
+    await flushRouteOutlet();
+    await navigate('/shop/product/42');
+    await flushRouteOutlet();
+
+    expect(destroyed.shop).not.toHaveBeenCalled();
+    expect(destroyed.product).toHaveBeenCalledOnce();
+    expect(destroyed.productDetail).not.toHaveBeenCalled();
+    expect(host.textContent).toBe('shop-layoutproduct-layoutproduct-detail-page');
+  });
 });

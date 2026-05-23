@@ -1138,15 +1138,15 @@ npm create <span class="fn">vanrot</span>@latest my-app
           <div class="phase-title">CLI Product Experience Slice</div>
           <div class="phase-status">Done</div>
         </div>
-        <div class="phase-card active-phase">
+        <div class="phase-card done">
           <div class="phase-num">Phase 15</div>
           <div class="phase-title">Router Production</div>
-          <div class="phase-status" style="color:var(--cyan);">15A Done · 15B Done · 15C Done · 15D Active</div>
+          <div class="phase-status">Done</div>
         </div>
-        <div class="phase-card">
+        <div class="phase-card active-phase">
           <div class="phase-num">Phase 16</div>
           <div class="phase-title">UI V01 Component System</div>
-          <div class="phase-status">Plan</div>
+          <div class="phase-status" style="color:var(--cyan);">Active</div>
         </div>
         <div class="phase-card">
           <div class="phase-num">Phase 17</div>
@@ -1200,14 +1200,15 @@ npm create <span class="fn">vanrot</span>@latest my-app
         </div>
       </div>
       <div style="margin-top:20px;display:flex;gap:20px;font-size:13px;">
-        <span style="color:var(--green);">Done: production phases 11-14 plus Phase 15A, 15B, and 15C</span>
-        <span style="color:var(--cyan);">Active: Phase 15D preloading and route integration tests</span>
+        <span style="color:var(--green);">Done: production phases 11-15</span>
+        <span style="color:var(--cyan);">Active: Phase 16 UI V01 component system</span>
         <span style="color:var(--muted);">Remaining: later testing, docs, SSR, devtools, UI, and store production slices</span>
       </div>
       <ul style="margin-top:12px;color:var(--muted);font-size:12px;line-height:1.6;">
         <li>15A route contract production: builder refs, params, query strings, exact active links, breadcrumb metadata, and typed route URLs.</li>
         <li>15B nested layout routing: root router, route outlets, index pages, shared layout retention, and diagnostics.</li>
         <li>15C navigation decisions: redirect routes, <code>canEnter</code> guards, async cancellation, guarded links, and strict route graph diagnostics.</li>
+        <li>15D performance integration: route-owned preload intent, same-day keepAlive route views, lazy module cache, and full router graph coverage.</li>
       </ul>
       <div style="margin-top:14px;color:var(--muted);font-size:12px;line-height:1.6;">
         Phase completion rule: tick <code>docs/superpowers/feature-maturity.md</code>, update this deck, and refresh specs/plans when requirements change.

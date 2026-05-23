@@ -24,6 +24,12 @@ export const routeDiagnosticCodes = {
   invalidGuardResult: 'VR_ROUTE_INVALID_GUARD_RESULT',
   guardRedirectTargetMissing: 'VR_GUARD_REDIRECT_TARGET_MISSING',
   guardRedirectLoop: 'VR_GUARD_REDIRECT_LOOP',
+  redirectHasPreloadPolicy: 'VR_REDIRECT_HAS_PRELOAD_POLICY',
+  redirectHasKeepAlivePolicy: 'VR_REDIRECT_HAS_KEEP_ALIVE_POLICY',
+  preloadWithoutLazyTarget: 'VR_PRELOAD_WITHOUT_LAZY_TARGET',
+  routePreloadFailed: 'VR_ROUTE_PRELOAD_FAILED',
+  keepAliveIdentityMissing: 'VR_KEEP_ALIVE_IDENTITY_MISSING',
+  keepAliveRestoreBlocked: 'VR_KEEP_ALIVE_RESTORE_BLOCKED',
 } as const;
 
 export type RouteDiagnosticCode =

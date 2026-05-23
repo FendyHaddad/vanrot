@@ -4,6 +4,7 @@ export type {
   LayoutRouteDefinition,
   PageRouteDefinition,
   RedirectRouteDefinition,
+  RouteBreadcrumb,
   RouteChainMatch,
   RouteDefinition,
   RouteDefinitionBase,
@@ -12,6 +13,8 @@ export type {
   RouteGuardInput,
   RouteGuardResult,
   RouteInput,
+  RouteKeepAlivePolicy,
+  RouteKeepAlivePolicyKind,
   RouteKind,
   RouteLayoutLoader,
   RouteLayoutModule,
@@ -21,6 +24,8 @@ export type {
   RoutePageModule,
   RouteParams,
   RouteParamsSignal,
+  RoutePreloadPolicy,
+  RoutePreloadPolicyKind,
   RouteQuery,
   RouteQueryDefinition,
   RouteQueryDefinitionMap,
@@ -47,6 +52,7 @@ export { matchRoute } from './route/match-route.js';
 export { matchRouteChain } from './route/match-route-chain.js';
 export { resolveRoutePage } from './route/page-loader.js';
 export {
+  buildRouteBreadcrumbs,
   getCurrentMatch,
   getCurrentRouteChain,
   navigate,

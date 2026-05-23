@@ -6,6 +6,7 @@ import {
   registerCleanup,
   registerMountCallback,
   runWithCleanupScope,
+  runWithoutCleanupScope,
 } from '../../src/lifecycle/cleanup-scope.js';
 
 describe('cleanup scope', () => {
@@ -169,6 +170,28 @@ describe('cleanup scope', () => {
     expect(childCleanup).not.toHaveBeenCalled();
 
     disposeCleanupScope(firstParent);
+    expect(childCleanup).toHaveBeenCalledOnce();
+  });
+
+  it('runs work without linking new child scopes to the active parent scope', () => {
+    const parentScope = createCleanupScope();
+    const childScope = createCleanupScope();
+    const parentCleanup = vi.fn();
+    const childCleanup = vi.fn();
+
+    runWithCleanupScope(parentScope, () => {
+      runWithoutCleanupScope(() => {
+        runWithCleanupScope(childScope, () => registerCleanup(childCleanup));
+      });
+      registerCleanup(parentCleanup);
+    });
+
+    disposeCleanupScope(parentScope);
+
+    expect(parentCleanup).toHaveBeenCalledOnce();
+    expect(childCleanup).not.toHaveBeenCalled();
+
+    disposeCleanupScope(childScope);
     expect(childCleanup).toHaveBeenCalledOnce();
   });
 });

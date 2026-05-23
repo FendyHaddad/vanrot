@@ -2,14 +2,18 @@ import { isRouteRef } from './create-routes.js';
 import { routeDiagnosticCodes } from './route-diagnostic-codes.js';
 import { createRouteDiagnostic } from './route-diagnostics.js';
 import type { RouteDiagnostic } from './route-diagnostics.js';
-import type {
-  DefinedRoute,
-  DefinedRouteTable,
-  RouteDefinition,
-  RouteInput,
-  RouteRedirectTarget,
-  RouteRef,
-  RouteUrlInput,
+import {
+  defaultRouteKeepAlivePolicy,
+  defaultRoutePreloadPolicy,
+  routeKeepAlivePolicyKinds,
+  routePreloadPolicyKinds,
+  type DefinedRoute,
+  type DefinedRouteTable,
+  type RouteDefinition,
+  type RouteInput,
+  type RouteRedirectTarget,
+  type RouteRef,
+  type RouteUrlInput,
 } from './route-types.js';
 
 export function defineRoutes<Input extends RouteInput>(routes: Input): DefinedRouteTable<Input> {
@@ -71,6 +75,12 @@ function normalizeRouteRef(
     fullPath: normalizeRoutePath(ref.definition.path, parent),
     children: [],
     diagnostics,
+    preload: ref.definition.preload === undefined
+      ? defaultRoutePreloadPolicy
+      : ref.definition.preload,
+    keepAlive: ref.definition.keepAlive === undefined
+      ? defaultRouteKeepAlivePolicy
+      : ref.definition.keepAlive,
     ...(parent === undefined ? {} : { parent }),
   };
 
@@ -90,6 +100,12 @@ function normalizeObjectRoute(key: string, definition: RouteDefinition): Defined
     fullPath: normalizeRootPath(definition.path),
     children: [],
     diagnostics,
+    preload: definition.preload === undefined
+      ? defaultRoutePreloadPolicy
+      : definition.preload,
+    keepAlive: definition.keepAlive === undefined
+      ? defaultRouteKeepAlivePolicy
+      : definition.keepAlive,
   };
 
   validateRenderTarget(key, route, diagnostics);
@@ -283,6 +299,7 @@ function validateRouteGraph(routeRecords: Array<{ input: RouteInput[string]; rou
     const refChildren = isRouteRef(record.input) ? record.input.children : [];
 
     validateCanEnter(route);
+    validatePerformancePolicy(route);
 
     if (route.kind === 'redirect') {
       validateRedirectRoute(route);
@@ -339,6 +356,53 @@ function validateCanEnter(route: DefinedRoute): void {
     `Route "${route.key}" canEnter must be a function or function array.`,
     `Replace canEnter on "${route.key}" with a guard function or an array of guard functions.`,
     'router/routes#guards',
+  );
+}
+
+function validatePerformancePolicy(route: DefinedRoute): void {
+  if (route.kind === 'redirect') {
+    validateRedirectPerformancePolicy(route);
+    return;
+  }
+
+  if (route.preload.kind !== routePreloadPolicyKinds.intent) {
+    return;
+  }
+
+  if (route.loadPage !== undefined || route.loadLayout !== undefined) {
+    return;
+  }
+
+  route.diagnostics.push(
+    createRouteDiagnostic({
+      code: routeDiagnosticCodes.preloadWithoutLazyTarget,
+      severity: 'warning',
+      message: `Route "${route.key}" declares preload intent but has no lazy page or lazy layout.`,
+      suggestion: `Remove preload from "${route.key}" or switch the route to loadPage/loadLayout.`,
+      docsPath: 'router/routes#preload-policy',
+    }),
+  );
+}
+
+function validateRedirectPerformancePolicy(route: DefinedRoute): void {
+  if (route.preload.kind !== routePreloadPolicyKinds.none) {
+    throwRouteDiagnostic(
+      routeDiagnosticCodes.redirectHasPreloadPolicy,
+      `Redirect route "${route.key}" must not declare preload policy.`,
+      `Remove preload from redirect route "${route.key}".`,
+      'router/routes#redirect-routes',
+    );
+  }
+
+  if (route.keepAlive.kind === routeKeepAlivePolicyKinds.none) {
+    return;
+  }
+
+  throwRouteDiagnostic(
+    routeDiagnosticCodes.redirectHasKeepAlivePolicy,
+    `Redirect route "${route.key}" must not declare keepAlive policy.`,
+    `Remove keepAlive from redirect route "${route.key}".`,
+    'router/routes#redirect-routes',
   );
 }
 

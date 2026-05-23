@@ -1,6 +1,6 @@
 # Phase 15D Router Preloading And KeepAlive Integration Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. This repository forbids subagent-driven Superpowers workflows and user-owned git means every task ends with a review checkpoint, not an automatic commit.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking. This repository forbids subagent-driven Superpowers workflows and user-owned git means every task ends with a review checkpoint, not an automatic commit.
 
 **Goal:** Make `@vanrot/router` production-ready for intent-based lazy route module preloading, memory-only same-day route view reuse through `keepAlive`, and full Phase 15 route integration coverage.
 
@@ -60,7 +60,7 @@ Required existing surface:
 - Modify: `packages/router/tests/route-builder-types.ts`
 - Test: `packages/router/tests/route/define-routes-performance-policy.test.ts`
 
-- [ ] **Step 1: Add failing policy builder tests**
+- [x] **Step 1: Add failing policy builder tests**
 
 Create `packages/router/tests/route/define-routes-performance-policy.test.ts`:
 
@@ -128,7 +128,7 @@ describe('defineRoutes performance policy metadata', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing policy builder tests**
+- [x] **Step 2: Run the failing policy builder tests**
 
 Run:
 
@@ -138,7 +138,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-performance-polic
 
 Expected: FAIL because `routes.preload`, `routes.keepAlive`, and normalized `DefinedRoute.preload` / `DefinedRoute.keepAlive` fields do not exist.
 
-- [ ] **Step 3: Add policy types**
+- [x] **Step 3: Add policy types**
 
 Modify `packages/router/src/route/route-types.ts` with these type and constant additions near the existing route metadata types:
 
@@ -231,7 +231,7 @@ export type DefinedRoute<Key extends string = string> = RouteDefinition & {
 };
 ```
 
-- [ ] **Step 4: Add route builder helpers**
+- [x] **Step 4: Add route builder helpers**
 
 Modify `packages/router/src/route/create-routes.ts` imports:
 
@@ -302,7 +302,7 @@ Add the helpers to `createBuilder(...)` after `nav`:
     },
 ```
 
-- [ ] **Step 5: Export public policy types**
+- [x] **Step 5: Export public policy types**
 
 Modify `packages/router/src/index.ts` type exports:
 
@@ -346,7 +346,7 @@ export type {
 
 Keep `routePreloadPolicyKinds`, `routeKeepAlivePolicyKinds`, and default policy objects internal unless application code needs them in a future documented API.
 
-- [ ] **Step 6: Add compile-time policy boundary checks**
+- [x] **Step 6: Add compile-time policy boundary checks**
 
 Append to `packages/router/tests/route-builder-types.ts`:
 
@@ -384,7 +384,7 @@ routes.redirect({
 });
 ```
 
-- [ ] **Step 7: Normalize default policies**
+- [x] **Step 7: Normalize default policies**
 
 Modify `packages/router/src/route/define-routes.ts` imports:
 
@@ -422,7 +422,7 @@ Add default policies in both `normalizeRouteRef(...)` and `normalizeObjectRoute(
       : definition.keepAlive,
 ```
 
-- [ ] **Step 8: Run policy builder and typecheck verification**
+- [x] **Step 8: Run policy builder and typecheck verification**
 
 Run:
 
@@ -433,7 +433,7 @@ pnpm --filter @vanrot/router typecheck
 
 Expected: PASS for the new policy builder tests and PASS for typecheck with the new `@ts-expect-error` checks consumed.
 
-- [ ] **Step 9: Review checkpoint**
+- [x] **Step 9: Review checkpoint**
 
 Run:
 
@@ -450,7 +450,7 @@ Expected: route type, builder, export, and tests are uncommitted in the working 
 - Modify: `packages/router/src/route/define-routes.ts`
 - Test: `packages/router/tests/route/define-routes-performance-policy.test.ts`
 
-- [ ] **Step 1: Add failing diagnostic tests**
+- [x] **Step 1: Add failing diagnostic tests**
 
 Append to `packages/router/tests/route/define-routes-performance-policy.test.ts` inside the existing `describe(...)`:
 
@@ -520,7 +520,7 @@ Append to `packages/router/tests/route/define-routes-performance-policy.test.ts`
   });
 ```
 
-- [ ] **Step 2: Run the failing diagnostic tests**
+- [x] **Step 2: Run the failing diagnostic tests**
 
 Run:
 
@@ -530,7 +530,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-performance-polic
 
 Expected: FAIL because Phase 15D diagnostic codes and validation branches do not exist.
 
-- [ ] **Step 3: Add diagnostic code constants**
+- [x] **Step 3: Add diagnostic code constants**
 
 Modify `packages/router/src/route/route-diagnostic-codes.ts`:
 
@@ -570,7 +570,7 @@ export const routeDiagnosticCodes = {
 } as const;
 ```
 
-- [ ] **Step 4: Validate redirect and suspicious preload policies**
+- [x] **Step 4: Validate redirect and suspicious preload policies**
 
 Modify `packages/router/src/route/define-routes.ts` imports:
 
@@ -647,7 +647,7 @@ function validateRedirectPerformancePolicy(route: DefinedRoute): void {
 }
 ```
 
-- [ ] **Step 5: Run diagnostic tests**
+- [x] **Step 5: Run diagnostic tests**
 
 Run:
 
@@ -657,7 +657,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-performance-polic
 
 Expected: PASS with redirect policy errors and preload warning diagnostics.
 
-- [ ] **Step 6: Review checkpoint**
+- [x] **Step 6: Review checkpoint**
 
 Run:
 
@@ -676,7 +676,7 @@ Expected: diagnostic code, define-routes, and policy test changes are uncommitte
 - Test: `packages/router/tests/route/page-loader.test.ts`
 - Test: `packages/router/tests/route/route-preload.test.ts`
 
-- [ ] **Step 1: Add failing page-loader cache tests**
+- [x] **Step 1: Add failing page-loader cache tests**
 
 Append to `packages/router/tests/route/page-loader.test.ts`:
 
@@ -746,7 +746,7 @@ describe('route lazy module cache', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing page-loader cache tests**
+- [x] **Step 2: Run the failing page-loader cache tests**
 
 Run:
 
@@ -756,7 +756,7 @@ pnpm --filter @vanrot/router test -- tests/route/page-loader.test.ts
 
 Expected: FAIL because lazy module cache helpers do not exist and lazy loaders run more than once.
 
-- [ ] **Step 3: Implement shared lazy module cache**
+- [x] **Step 3: Implement shared lazy module cache**
 
 Replace `packages/router/src/route/page-loader.ts` with:
 
@@ -848,7 +848,7 @@ function normalizeLayoutModule(
 }
 ```
 
-- [ ] **Step 4: Add failing direct preload tests**
+- [x] **Step 4: Add failing direct preload tests**
 
 Create `packages/router/tests/route/route-preload.test.ts`:
 
@@ -968,7 +968,7 @@ describe('preloadRoutePath', () => {
 });
 ```
 
-- [ ] **Step 5: Run the failing direct preload tests**
+- [x] **Step 5: Run the failing direct preload tests**
 
 Run:
 
@@ -978,7 +978,7 @@ pnpm --filter @vanrot/router test -- tests/route/route-preload.test.ts
 
 Expected: FAIL because `route-preload.ts` does not exist.
 
-- [ ] **Step 6: Implement route-chain preloading helper**
+- [x] **Step 6: Implement route-chain preloading helper**
 
 Create `packages/router/src/route/route-preload.ts`:
 
@@ -1066,7 +1066,7 @@ function errorMessage(error: unknown): string {
 }
 ```
 
-- [ ] **Step 7: Add router-state preload access and reset cleanup**
+- [x] **Step 7: Add router-state preload access and reset cleanup**
 
 Modify `packages/router/src/route/router-state.ts` imports:
 
@@ -1104,7 +1104,7 @@ export function resetRouterForTests(): void {
 
 Do not export `preloadRoute(...)` from `packages/router/src/index.ts`; it is an internal router-link helper.
 
-- [ ] **Step 8: Run preload primitive tests**
+- [x] **Step 8: Run preload primitive tests**
 
 Run:
 
@@ -1114,7 +1114,7 @@ pnpm --filter @vanrot/router test -- tests/route/page-loader.test.ts tests/route
 
 Expected: PASS with lazy module cache, retry after failure, and direct route-chain preload behavior.
 
-- [ ] **Step 9: Review checkpoint**
+- [x] **Step 9: Review checkpoint**
 
 Run:
 
@@ -1130,7 +1130,7 @@ Expected: page-loader, route-preload, router-state, and related tests are uncomm
 - Modify: `packages/router/src/dom/route-link.ts`
 - Test: `packages/router/tests/dom/route-link-preload.test.ts`
 
-- [ ] **Step 1: Add failing route link preload tests**
+- [x] **Step 1: Add failing route link preload tests**
 
 Create `packages/router/tests/dom/route-link-preload.test.ts`:
 
@@ -1232,7 +1232,7 @@ async function flushPreload(): Promise<void> {
 }
 ```
 
-- [ ] **Step 2: Run the failing link preload tests**
+- [x] **Step 2: Run the failing link preload tests**
 
 Run:
 
@@ -1242,7 +1242,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-link-preload.test.ts
 
 Expected: FAIL because `setupRouteLink(...)` does not wire intent events to preloading.
 
-- [ ] **Step 3: Wire route link intent events**
+- [x] **Step 3: Wire route link intent events**
 
 Modify `packages/router/src/dom/route-link.ts` imports:
 
@@ -1292,7 +1292,7 @@ Keep the click listener unchanged:
   };
 ```
 
-- [ ] **Step 4: Run link preload tests and existing link navigation tests**
+- [x] **Step 4: Run link preload tests and existing link navigation tests**
 
 Run:
 
@@ -1302,7 +1302,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-link-preload.test.ts tests/
 
 Expected: PASS. Preload intent warms lazy modules, and normal link clicks still use the guarded navigation pipeline.
 
-- [ ] **Step 5: Review checkpoint**
+- [x] **Step 5: Review checkpoint**
 
 Run:
 
@@ -1319,7 +1319,7 @@ Expected: route-link and link tests are uncommitted in the working tree. Do not 
 - Modify: `packages/router/src/route/router-state.ts`
 - Test: `packages/router/tests/route/route-keep-alive.test.ts`
 
-- [ ] **Step 1: Add failing keepAlive store tests**
+- [x] **Step 1: Add failing keepAlive store tests**
 
 Create `packages/router/tests/route/route-keep-alive.test.ts`:
 
@@ -1452,7 +1452,7 @@ describe('route keepAlive store', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing keepAlive store tests**
+- [x] **Step 2: Run the failing keepAlive store tests**
 
 Run:
 
@@ -1462,7 +1462,7 @@ pnpm --filter @vanrot/router test -- tests/route/route-keep-alive.test.ts
 
 Expected: FAIL because `route-keep-alive.ts` does not exist.
 
-- [ ] **Step 3: Implement keepAlive identity and store**
+- [x] **Step 3: Implement keepAlive identity and store**
 
 Create `packages/router/src/route/route-keep-alive.ts`:
 
@@ -1638,7 +1638,7 @@ function currentDayKey(): string {
 }
 ```
 
-- [ ] **Step 4: Add route definition version and reset cleanup**
+- [x] **Step 4: Add route definition version and reset cleanup**
 
 Modify `packages/router/src/route/router-state.ts` imports:
 
@@ -1728,7 +1728,7 @@ export function resetRouterForTests(): void {
 }
 ```
 
-- [ ] **Step 5: Run keepAlive store tests**
+- [x] **Step 5: Run keepAlive store tests**
 
 Run:
 
@@ -1738,7 +1738,7 @@ pnpm --filter @vanrot/router test -- tests/route/route-keep-alive.test.ts
 
 Expected: PASS with stable identity, same-day restore, day rollover expiry, missing-identity diagnostics, and reset-safe store cleanup.
 
-- [ ] **Step 6: Review checkpoint**
+- [x] **Step 6: Review checkpoint**
 
 Run:
 
@@ -1755,7 +1755,7 @@ Expected: route-keep-alive, router-state, and store tests are uncommitted in the
 - Test: `packages/router/tests/dom/route-outlet-keep-alive.test.ts`
 - Test: `packages/router/tests/dom/route-outlet-layout.test.ts`
 
-- [ ] **Step 1: Add failing keepAlive outlet tests**
+- [x] **Step 1: Add failing keepAlive outlet tests**
 
 Create `packages/router/tests/dom/route-outlet-keep-alive.test.ts`:
 
@@ -1914,7 +1914,7 @@ function formPage(value: string, destroyed: () => void = () => {}) {
 }
 ```
 
-- [ ] **Step 2: Run the failing keepAlive outlet tests**
+- [x] **Step 2: Run the failing keepAlive outlet tests**
 
 Run:
 
@@ -1924,7 +1924,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-outlet-keep-alive.test.ts
 
 Expected: FAIL because `createRouterOutlet(...)` always destroys the outgoing route view.
 
-- [ ] **Step 3: Implement outlet detach and reattach**
+- [x] **Step 3: Implement outlet detach and reattach**
 
 Modify `packages/router/src/dom/route-outlet.ts` imports:
 
@@ -2057,7 +2057,7 @@ Update callers from `mountResolvedComponent(resolvedComponent, match.route, curr
 mountResolvedComponent(resolvedComponent, match, currentVersion);
 ```
 
-- [ ] **Step 4: Run keepAlive outlet tests**
+- [x] **Step 4: Run keepAlive outlet tests**
 
 Run:
 
@@ -2067,7 +2067,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-outlet-keep-alive.test.ts
 
 Expected: PASS with same-day view restore, day rollover destroy, and guard-blocked restore diagnostics.
 
-- [ ] **Step 5: Add shared layout compatibility coverage**
+- [x] **Step 5: Add shared layout compatibility coverage**
 
 Append to `packages/router/tests/dom/route-outlet-layout.test.ts` inside the existing nested layout `describe(...)`:
 
@@ -2117,7 +2117,7 @@ Append to `packages/router/tests/dom/route-outlet-layout.test.ts` inside the exi
   });
 ```
 
-- [ ] **Step 6: Run outlet regression tests**
+- [x] **Step 6: Run outlet regression tests**
 
 Run:
 
@@ -2127,7 +2127,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-outlet.test.ts tests/dom/ro
 
 Expected: PASS. Existing destroy behavior remains for routes without keepAlive, shared parent layouts still stay mounted during sibling navigation, and kept-alive leaf views restore without destroying local state.
 
-- [ ] **Step 7: Review checkpoint**
+- [x] **Step 7: Review checkpoint**
 
 Run:
 
@@ -2145,7 +2145,7 @@ Expected: route-outlet and keepAlive outlet tests are uncommitted in the working
 - Modify: `packages/router/src/route/route-preload.ts`
 - Modify: `packages/router/src/route/route-keep-alive.ts`
 
-- [ ] **Step 1: Add failing full-router integration test**
+- [x] **Step 1: Add failing full-router integration test**
 
 Create `packages/router/tests/route/router-phase-15d-integration.test.ts`:
 
@@ -2319,7 +2319,7 @@ function draftPage(initialValue: string) {
 }
 ```
 
-- [ ] **Step 2: Run the integration test**
+- [x] **Step 2: Run the integration test**
 
 Run:
 
@@ -2329,7 +2329,7 @@ pnpm --filter @vanrot/router test -- tests/route/router-phase-15d-integration.te
 
 Expected: PASS after Tasks 1 through 6. If this fails, fix the smallest implementation mismatch in the touched router module and rerun this exact test before broadening verification.
 
-- [ ] **Step 3: Run all router tests**
+- [x] **Step 3: Run all router tests**
 
 Run:
 
@@ -2339,7 +2339,7 @@ pnpm --filter @vanrot/router test
 
 Expected: PASS for all router unit, DOM, and integration tests.
 
-- [ ] **Step 4: Run router typecheck**
+- [x] **Step 4: Run router typecheck**
 
 Run:
 
@@ -2349,7 +2349,7 @@ pnpm --filter @vanrot/router typecheck
 
 Expected: PASS with route policy types and `route-builder-types.ts` compile-time checks.
 
-- [ ] **Step 5: Review checkpoint**
+- [x] **Step 5: Review checkpoint**
 
 Run:
 
@@ -2367,11 +2367,11 @@ Expected: integration test and any final router fixes are uncommitted in the wor
 - Modify: `docs/superpowers/final-tdd-inventory.md`
 - Modify: `docs/vanrot-presentation.html`
 
-- [ ] **Step 1: Mark completed plan tasks**
+- [x] **Step 1: Mark completed plan tasks**
 
-After Tasks 1 through 7 pass, change every completed checkbox in `docs/superpowers/plans/Phase-15D.md` from `- [ ]` to `- [x]`. Leave any skipped step unchecked with a short reason directly under that step.
+After Tasks 1 through 7 pass, change every completed checkbox in `docs/superpowers/plans/Phase-15D.md` from `- [x]` to `- [x]`. Leave any skipped step unchecked with a short reason directly under that step.
 
-- [ ] **Step 2: Update feature maturity ledger**
+- [x] **Step 2: Update feature maturity ledger**
 
 Modify `docs/superpowers/feature-maturity.md`:
 
@@ -2387,7 +2387,7 @@ Add or update a router keepAlive row if the ledger does not already have one:
 | Router keepAlive route views | router | Phase 15D | Route views can be preserved in memory for same-day back navigation | Memory-only same-day route view reuse, guard-before-restore behavior, reset cleanup, diagnostics, and integration tests verified | Production-Ready | Phase 15D added `routes.keepAlive.sessionDay()` for local component state preservation without API data caching. |
 ```
 
-- [ ] **Step 3: Update final TDD inventory**
+- [x] **Step 3: Update final TDD inventory**
 
 Add a Phase 15D entry to `docs/superpowers/final-tdd-inventory.md` with these exact coverage bullets:
 
@@ -2403,11 +2403,11 @@ Add a Phase 15D entry to `docs/superpowers/final-tdd-inventory.md` with these ex
 - Verification: focused route tests, jsdom link/outlet tests, full Phase 15D router integration test, router typecheck, and full `pnpm verify`
 ```
 
-- [ ] **Step 4: Update presentation roadmap**
+- [x] **Step 4: Update presentation roadmap**
 
 Modify `docs/vanrot-presentation.html` so the roadmap/status slide marks Phase 15 as complete and Phase 16 as the next active production phase. Preserve the existing presentation style and only change the roadmap/status copy needed for the phase status.
 
-- [ ] **Step 5: Run phase-doc verification**
+- [x] **Step 5: Run phase-doc verification**
 
 Run:
 
@@ -2417,7 +2417,7 @@ pnpm verify:phase-docs
 
 Expected: PASS. Completed Phase 15 has no unchecked tasks in `docs/superpowers/plans/Phase-15D.md`, the maturity ledger no longer leaves Phase 15 as pending, and the presentation roadmap agrees.
 
-- [ ] **Step 6: Run full verification**
+- [x] **Step 6: Run full verification**
 
 Run:
 
@@ -2427,7 +2427,7 @@ pnpm verify
 
 Expected: PASS for typecheck, all tests, build, size budget, and phase docs.
 
-- [ ] **Step 7: Final review checkpoint**
+- [x] **Step 7: Final review checkpoint**
 
 Run:
 

@@ -1,14 +1,18 @@
-import type {
-  LayoutRouteDefinition,
-  PageRouteDefinition,
-  RedirectRouteDefinition,
-  RouteBreadcrumbDefinition,
-  RouteDefinition,
-  RouteKind,
-  RouteNavMetadata,
-  RouteRef,
-  RouteRedirectTarget,
-  RouteUrlInput,
+import {
+  routeKeepAlivePolicyKinds,
+  routePreloadPolicyKinds,
+  type LayoutRouteDefinition,
+  type PageRouteDefinition,
+  type RedirectRouteDefinition,
+  type RouteBreadcrumbDefinition,
+  type RouteDefinition,
+  type RouteKeepAlivePolicy,
+  type RouteKind,
+  type RouteNavMetadata,
+  type RoutePreloadPolicy,
+  type RouteRef,
+  type RouteRedirectTarget,
+  type RouteUrlInput,
 } from './route-types.js';
 
 export interface RouteBuilder {
@@ -23,6 +27,14 @@ export interface RouteBuilder {
   nav: {
     primary(): RouteNavMetadata;
     hidden(): RouteNavMetadata;
+  };
+  preload: {
+    none(): RoutePreloadPolicy;
+    intent(): RoutePreloadPolicy;
+  };
+  keepAlive: {
+    none(): RouteKeepAlivePolicy;
+    sessionDay(): RouteKeepAlivePolicy;
   };
 }
 
@@ -62,6 +74,22 @@ function createBuilder(parent?: RouteRef): RouteBuilder {
       },
       hidden() {
         return { kind: 'hidden' };
+      },
+    },
+    preload: {
+      none() {
+        return { kind: routePreloadPolicyKinds.none };
+      },
+      intent() {
+        return { kind: routePreloadPolicyKinds.intent };
+      },
+    },
+    keepAlive: {
+      none() {
+        return { kind: routeKeepAlivePolicyKinds.none };
+      },
+      sessionDay() {
+        return { kind: routeKeepAlivePolicyKinds.sessionDay };
       },
     },
   };
