@@ -35,8 +35,8 @@ describe('router state layout chains', () => {
     window.history.replaceState(null, '', '/shop/product/42?tab=details');
   });
 
-  it('provides the active matched chain from the browser path', () => {
-    provideRouter(createRouteTable());
+  it('provides the active matched chain from the browser path', async () => {
+    await provideRouter(createRouteTable());
 
     expect(getCurrentRouteChain()?.chain.map((match) => match.route.key)).toEqual([
       'shop',
@@ -46,9 +46,9 @@ describe('router state layout chains', () => {
     expect(routeParams()).toEqual({ productId: '42' });
   });
 
-  it('updates the active chain when navigating between layout children', () => {
-    provideRouter(createRouteTable());
-    navigate('/shop/cart');
+  it('updates the active chain when navigating between layout children', async () => {
+    await provideRouter(createRouteTable());
+    await navigate('/shop/cart');
 
     expect(getCurrentRouteChain()?.chain.map((match) => match.route.key)).toEqual(['shop', 'cart']);
     expect(routeParams()).toEqual({});

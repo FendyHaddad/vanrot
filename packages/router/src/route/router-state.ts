@@ -1,6 +1,7 @@
 import { signal, type Signal } from '@vanrot/runtime';
+import { resolveNavigationDecision } from './navigation-decisions.js';
+import { routeDiagnosticCodes } from './route-diagnostic-codes.js';
 import { buildRouteUrl } from './url-builder.js';
-import { matchRouteChain } from './match-route-chain.js';
 import { extractPathParamNames } from './path-params.js';
 import type {
   DefinedRoute,
@@ -15,21 +16,22 @@ const emptyParams: RouteParams = {};
 
 let providedRoutes: DefinedRouteTable | null = null;
 let removePopstateListener: (() => void) | null = null;
+let navigationId = 0;
 
 const currentRouteChain = signal<RouteChainMatch | null>(null);
 const currentParams = signal<RouteParams>(emptyParams);
 
 export const routeParams = currentParams as Signal<RouteParams>;
 
-export function provideRouter(routes: DefinedRouteTable): void {
+export async function provideRouter(routes: DefinedRouteTable): Promise<boolean> {
   providedRoutes = routes;
   removePopstateListener?.();
   removePopstateListener = listenForPopstate();
-  setPath(readBrowserPath(), false);
+  return startNavigation(readBrowserPath(), { history: 'replace' });
 }
 
-export function navigate(path: string): void {
-  setPath(path, true);
+export async function navigate(path: string): Promise<boolean> {
+  return startNavigation(path, { history: 'push' });
 }
 
 export function getCurrentMatch(): RouteMatch | null {
@@ -62,26 +64,73 @@ export function resetRouterForTests(): void {
   providedRoutes = null;
   removePopstateListener?.();
   removePopstateListener = null;
+  navigationId = 0;
   currentRouteChain.set(null);
   currentParams.set(emptyParams);
 }
 
-function setPath(path: string, push: boolean): RouteChainMatch | null {
+async function startNavigation(
+  path: string,
+  options: { history: 'push' | 'replace' | 'none' },
+  visitedPaths: Set<string> = new Set(),
+): Promise<boolean> {
+  if (visitedPaths.has(path)) {
+    throw new Error(
+      `${routeDiagnosticCodes.guardRedirectLoop}: Guard redirects created a navigation loop at "${path}".`,
+    );
+  }
+
+  visitedPaths.add(path);
+
   const routes = requireProvidedRoutes();
-  const match = matchRouteChain(routes, path);
+  const nextNavigationId = navigationId + 1;
+  navigationId = nextNavigationId;
+  const decision = await resolveNavigationDecision({
+    routes,
+    path,
+    from: getCurrentMatch(),
+    navigationId: nextNavigationId,
+    isCurrentNavigation: (candidateId) => candidateId === navigationId,
+  });
 
-  if (match === null) {
-    throw new Error(`No Vanrot route matches "${path}".`);
+  if (decision.kind === 'stale') {
+    return false;
   }
 
-  if (push && globalThis.window !== undefined) {
-    globalThis.window.history.pushState(null, '', path);
+  if (decision.kind === 'blocked') {
+    return false;
   }
 
+  if (decision.kind === 'redirect') {
+    return startNavigation(
+      decision.path,
+      { history: decision.replace ? 'replace' : options.history },
+      visitedPaths,
+    );
+  }
+
+  commitRouteChain(decision.match);
+  writeHistory(decision.path, options.history);
+
+  return true;
+}
+
+function commitRouteChain(match: RouteChainMatch): void {
   currentRouteChain.set(match);
   currentParams.set(match.params);
+}
 
-  return match;
+function writeHistory(path: string, mode: 'push' | 'replace' | 'none'): void {
+  if (mode === 'none' || globalThis.window === undefined) {
+    return;
+  }
+
+  if (mode === 'replace') {
+    globalThis.window.history.replaceState(null, '', path);
+    return;
+  }
+
+  globalThis.window.history.pushState(null, '', path);
 }
 
 function requireProvidedRoutes(): DefinedRouteTable {
@@ -106,7 +155,7 @@ function listenForPopstate(): (() => void) | null {
   }
 
   const listener = (): void => {
-    setPath(readBrowserPath(), false);
+    void startNavigation(readBrowserPath(), { history: 'replace' });
   };
 
   globalThis.window.addEventListener('popstate', listener);

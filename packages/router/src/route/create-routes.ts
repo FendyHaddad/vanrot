@@ -1,16 +1,21 @@
 import type {
   LayoutRouteDefinition,
   PageRouteDefinition,
+  RedirectRouteDefinition,
   RouteBreadcrumbDefinition,
   RouteDefinition,
   RouteKind,
   RouteNavMetadata,
   RouteRef,
+  RouteRedirectTarget,
+  RouteUrlInput,
 } from './route-types.js';
 
 export interface RouteBuilder {
   page(definition: PageRouteDefinition): RouteRef;
   layout(definition: LayoutRouteDefinition): RouteRef;
+  redirect(definition: RedirectRouteDefinition): RouteRef;
+  redirectTo(route: RouteRef, input?: RouteUrlInput): RouteRedirectTarget;
   breadcrumb: {
     root(): RouteBreadcrumbDefinition;
     parent(parent: RouteRef): RouteBreadcrumbDefinition;
@@ -37,6 +42,12 @@ function createBuilder(parent?: RouteRef): RouteBuilder {
     layout(definition) {
       return createRouteRef('layout', definition, parent);
     },
+    redirect(definition) {
+      return createRouteRef('redirect', definition, parent);
+    },
+    redirectTo(route, input = {}) {
+      return { kind: 'route-target', route, input };
+    },
     breadcrumb: {
       root() {
         return { kind: 'root' };
@@ -58,7 +69,7 @@ function createBuilder(parent?: RouteRef): RouteBuilder {
 
 function createRouteRef(
   kind: RouteKind,
-  definition: PageRouteDefinition | LayoutRouteDefinition,
+  definition: PageRouteDefinition | LayoutRouteDefinition | RedirectRouteDefinition,
   parent?: RouteRef,
 ): RouteRef {
   const routeRef = {
@@ -70,6 +81,9 @@ function createRouteRef(
     },
     layout(childDefinition: LayoutRouteDefinition) {
       return createRouteRef('layout', childDefinition, routeRef);
+    },
+    redirect(childDefinition: RedirectRouteDefinition) {
+      return createRouteRef('redirect', childDefinition, routeRef);
     },
     ...(parent === undefined ? {} : { parent }),
   };

@@ -11,7 +11,7 @@ export type RouteLayoutModule = ComponentType;
 export type RoutePageLoader = () => Promise<RoutePageModule | { default: RoutePageModule }>;
 export type RouteLayoutLoader = () => Promise<RouteLayoutModule | { default: RouteLayoutModule }>;
 
-export type RouteKind = 'page' | 'layout';
+export type RouteKind = 'page' | 'layout' | 'redirect';
 
 export interface RouteNavMetadata {
   kind: 'primary' | 'hidden';
@@ -35,7 +35,29 @@ export interface RouteDefinitionBase {
   nav?: RouteNavMetadata;
   query?: RouteQueryDefinitionMap;
   breadcrumb?: RouteBreadcrumbDefinition;
+  canEnter?: RouteGuardInput;
 }
+
+export interface RouteGuardContext {
+  readonly to: RouteMatch;
+  readonly from: RouteMatch | null;
+}
+
+export type RouteRedirectTarget =
+  | RouteRef
+  | {
+      readonly kind: 'route-target';
+      readonly route: RouteRef;
+      readonly input: RouteUrlInput;
+    };
+
+export type RouteGuardResult =
+  | boolean
+  | RouteRedirectTarget
+  | Promise<boolean | RouteRedirectTarget>;
+
+export type RouteGuard = (context: RouteGuardContext) => RouteGuardResult;
+export type RouteGuardInput = RouteGuard | readonly RouteGuard[];
 
 export type PageRouteDefinition = RouteDefinitionBase &
   (
@@ -73,12 +95,26 @@ export type LayoutRouteDefinition = RouteDefinitionBase &
       }
   );
 
+export interface RedirectRouteDefinition extends RouteDefinitionBase {
+  kind?: 'redirect';
+  to: RouteRedirectTarget;
+  params?: (params: RouteParams) => RouteParams;
+  queryInput?: (query: Record<string, string | string[]>) => RouteQuery;
+  page?: never;
+  loadPage?: never;
+  layout?: never;
+  loadLayout?: never;
+}
+
 export interface RouteDefinition extends RouteDefinitionBase {
   kind?: RouteKind;
   page?: RoutePageModule;
   loadPage?: RoutePageLoader;
   layout?: RouteLayoutModule;
   loadLayout?: RouteLayoutLoader;
+  to?: RouteRedirectTarget;
+  params?: (params: RouteParams) => RouteParams;
+  queryInput?: (query: Record<string, string | string[]>) => RouteQuery;
 }
 
 export type RouteInput = Record<string, RouteDefinition | RouteRef>;
@@ -90,15 +126,23 @@ export interface RouteRef {
   readonly children: RouteRef[];
   page(definition: PageRouteDefinition): RouteRef;
   layout(definition: LayoutRouteDefinition): RouteRef;
+  redirect(definition: RedirectRouteDefinition): RouteRef;
 }
 
 export type DefinedRoute<Key extends string = string> = RouteDefinition & {
   key: Key;
   kind: RouteKind;
+  ref?: RouteRef;
   fullPath: string;
   parent?: DefinedRoute;
   children: DefinedRoute[];
   breadcrumbParent?: DefinedRoute;
+  redirect?: {
+    to: DefinedRoute;
+    input?: RouteUrlInput;
+    params?: (params: RouteParams) => RouteParams;
+    queryInput?: (query: Record<string, string | string[]>) => RouteQuery;
+  };
   diagnostics: RouteDiagnostic[];
 };
 

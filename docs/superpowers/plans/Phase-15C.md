@@ -52,7 +52,7 @@ Required existing surface:
 - Modify: `packages/router/tests/route-builder-types.ts`
 - Test: `packages/router/tests/route/define-routes-redirect.test.ts`
 
-- [ ] **Step 1: Add failing redirect builder tests**
+- [x] **Step 1: Add failing redirect builder tests**
 
 Create `packages/router/tests/route/define-routes-redirect.test.ts`:
 
@@ -169,7 +169,7 @@ describe('defineRoutes redirect and guard route graph', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing redirect builder tests**
+- [x] **Step 2: Run the failing redirect builder tests**
 
 Run:
 
@@ -179,7 +179,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-redirect.test.ts
 
 Expected: FAIL because `routes.redirect(...)`, `RouteKind: 'redirect'`, `canEnter`, and `routes.redirectTo(...)` do not exist.
 
-- [ ] **Step 3: Extend route types**
+- [x] **Step 3: Extend route types**
 
 Modify `packages/router/src/route/route-types.ts` with these additions and replacements:
 
@@ -267,7 +267,7 @@ export type DefinedRoute<Key extends string = string> = RouteDefinition & {
 };
 ```
 
-- [ ] **Step 4: Extend `createRoutes()`**
+- [x] **Step 4: Extend `createRoutes()`**
 
 Modify `packages/router/src/route/create-routes.ts` so `RouteBuilder` and child refs expose redirects:
 
@@ -320,7 +320,7 @@ redirect(childDefinition: RedirectRouteDefinition) {
 },
 ```
 
-- [ ] **Step 5: Export new public types**
+- [x] **Step 5: Export new public types**
 
 Modify `packages/router/src/index.ts` to export the new public types:
 
@@ -335,7 +335,7 @@ export type {
 } from './route/route-types.js';
 ```
 
-- [ ] **Step 6: Add compile-time builder boundary tests**
+- [x] **Step 6: Add compile-time builder boundary tests**
 
 Append to `packages/router/tests/route-builder-types.ts`:
 
@@ -386,7 +386,7 @@ routes.page({
 });
 ```
 
-- [ ] **Step 7: Verify Task 1 passes**
+- [x] **Step 7: Verify Task 1 passes**
 
 Run:
 
@@ -397,7 +397,7 @@ pnpm --filter @vanrot/router typecheck
 
 Expected: both commands PASS.
 
-- [ ] **Step 8: Review checkpoint**
+- [x] **Step 8: Review checkpoint**
 
 Run:
 
@@ -415,7 +415,7 @@ Expected: route type, builder, export, and test files are uncommitted in the wor
 - Modify: `packages/router/tests/route/route-diagnostics.test.ts`
 - Test: `packages/router/tests/route/define-routes-redirect.test.ts`
 
-- [ ] **Step 1: Add failing diagnostic cases**
+- [x] **Step 1: Add failing diagnostic cases**
 
 Append to `packages/router/tests/route/define-routes-redirect.test.ts`:
 
@@ -511,7 +511,7 @@ it('fails when a redirect route declares a render target', () => {
 });
 ```
 
-- [ ] **Step 2: Add failing diagnostic code source test**
+- [x] **Step 2: Add failing diagnostic code source test**
 
 Append the new codes to the expected array in `packages/router/tests/route/route-diagnostics.test.ts`:
 
@@ -526,7 +526,7 @@ Append the new codes to the expected array in `packages/router/tests/route/route
 'VR_GUARD_REDIRECT_LOOP',
 ```
 
-- [ ] **Step 3: Run failing diagnostic tests**
+- [x] **Step 3: Run failing diagnostic tests**
 
 Run:
 
@@ -536,7 +536,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-redirect.test.ts 
 
 Expected: FAIL because Phase 15C diagnostic codes and validations do not exist.
 
-- [ ] **Step 4: Add Phase 15C diagnostic codes**
+- [x] **Step 4: Add Phase 15C diagnostic codes**
 
 Modify `packages/router/src/route/route-diagnostic-codes.ts`:
 
@@ -570,7 +570,7 @@ export const routeDiagnosticCodes = {
 } as const;
 ```
 
-- [ ] **Step 5: Validate redirect graph shape in `defineRoutes(...)`**
+- [x] **Step 5: Validate redirect graph shape in `defineRoutes(...)`**
 
 Modify `packages/router/src/route/define-routes.ts` so `defineRoutes(...)` resolves redirect targets after all route refs have been normalized:
 
@@ -719,7 +719,7 @@ function validateCanEnter(route: DefinedRoute): void {
 }
 ```
 
-- [ ] **Step 6: Detect redirect loops**
+- [x] **Step 6: Detect redirect loops**
 
 Add loop validation after `linkRedirectTargets(...)`:
 
@@ -750,7 +750,7 @@ function validateRedirectLoops(routes: DefinedRoute[]): void {
 }
 ```
 
-- [ ] **Step 7: Verify Task 2 passes**
+- [x] **Step 7: Verify Task 2 passes**
 
 Run:
 
@@ -760,7 +760,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes-redirect.test.ts 
 
 Expected: PASS.
 
-- [ ] **Step 8: Review checkpoint**
+- [x] **Step 8: Review checkpoint**
 
 Run:
 
@@ -777,7 +777,7 @@ Expected: diagnostic code, define-routes, and tests are uncommitted in the worki
 - Modify: `packages/router/src/internal.ts`
 - Test: `packages/router/tests/route/navigation-decisions.test.ts`
 
-- [ ] **Step 1: Add failing navigation decision tests**
+- [x] **Step 1: Add failing navigation decision tests**
 
 Create `packages/router/tests/route/navigation-decisions.test.ts`:
 
@@ -940,7 +940,7 @@ describe('navigation decisions', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing navigation decision tests**
+- [x] **Step 2: Run the failing navigation decision tests**
 
 Run:
 
@@ -950,7 +950,7 @@ pnpm --filter @vanrot/router test -- tests/route/navigation-decisions.test.ts
 
 Expected: FAIL because `navigation-decisions.ts` does not exist.
 
-- [ ] **Step 3: Create decision pipeline types and entry point**
+- [x] **Step 3: Create decision pipeline types and entry point**
 
 Create `packages/router/src/route/navigation-decisions.ts`:
 
@@ -1014,7 +1014,7 @@ export async function resolveNavigationDecision(
 }
 ```
 
-- [ ] **Step 4: Resolve redirect routes**
+- [x] **Step 4: Resolve redirect routes**
 
 Add redirect helpers to `navigation-decisions.ts`:
 
@@ -1053,7 +1053,7 @@ function buildRedirectInput(
 }
 ```
 
-- [ ] **Step 5: Run guard chains**
+- [x] **Step 5: Run guard chains**
 
 Add guard execution helpers to `navigation-decisions.ts`:
 
@@ -1154,7 +1154,7 @@ function resolveGuardTarget(target: RouteRef, routes: DefinedRouteTable): Define
 }
 ```
 
-- [ ] **Step 6: Verify Task 3 passes**
+- [x] **Step 6: Verify Task 3 passes**
 
 Run:
 
@@ -1164,7 +1164,7 @@ pnpm --filter @vanrot/router test -- tests/route/navigation-decisions.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 7: Review checkpoint**
+- [x] **Step 7: Review checkpoint**
 
 Run:
 
@@ -1182,7 +1182,7 @@ Expected: navigation decision implementation and tests are uncommitted in the wo
 - Test: `packages/router/tests/route/router-state.test.ts`
 - Test: `packages/router/tests/route/router-state-layout.test.ts`
 
-- [ ] **Step 1: Add failing router state navigation tests**
+- [x] **Step 1: Add failing router state navigation tests**
 
 Create `packages/router/tests/route/router-state-navigation.test.ts`:
 
@@ -1333,7 +1333,7 @@ describe('router state navigation decisions', () => {
 });
 ```
 
-- [ ] **Step 2: Update existing sync router tests to await navigation**
+- [x] **Step 2: Update existing sync router tests to await navigation**
 
 Modify `packages/router/tests/route/router-state.test.ts` and `packages/router/tests/route/router-state-layout.test.ts` so calls to `provideRouter(...)` and `navigate(...)` in assertions are awaited:
 
@@ -1350,7 +1350,7 @@ it('navigates and updates params', async () => {
 });
 ```
 
-- [ ] **Step 3: Run the failing router state tests**
+- [x] **Step 3: Run the failing router state tests**
 
 Run:
 
@@ -1360,7 +1360,7 @@ pnpm --filter @vanrot/router test -- tests/route/router-state-navigation.test.ts
 
 Expected: FAIL because router state still commits routes before guard and redirect decisions.
 
-- [ ] **Step 4: Integrate navigation decisions into router state**
+- [x] **Step 4: Integrate navigation decisions into router state**
 
 Modify `packages/router/src/route/router-state.ts` with one navigation entry point:
 
@@ -1465,7 +1465,7 @@ Reset navigation id in `resetRouterForTests()`:
 navigationId = 0;
 ```
 
-- [ ] **Step 5: Verify Task 4 passes**
+- [x] **Step 5: Verify Task 4 passes**
 
 Run:
 
@@ -1475,7 +1475,7 @@ pnpm --filter @vanrot/router test -- tests/route/router-state-navigation.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 6: Review checkpoint**
+- [x] **Step 6: Review checkpoint**
 
 Run:
 
@@ -1494,7 +1494,7 @@ Expected: router-state implementation and tests are uncommitted in the working t
 - Test: `packages/router/tests/dom/route-link-navigation.test.ts`
 - Test: `packages/router/tests/dom/route-link.test.ts`
 
-- [ ] **Step 1: Add failing guarded route-link tests**
+- [x] **Step 1: Add failing guarded route-link tests**
 
 Create `packages/router/tests/dom/route-link-navigation.test.ts`:
 
@@ -1556,7 +1556,7 @@ describe('guarded route links', () => {
 });
 ```
 
-- [ ] **Step 2: Update existing route-link tests to await async navigation effects**
+- [x] **Step 2: Update existing route-link tests to await async navigation effects**
 
 Modify `packages/router/tests/dom/route-link.test.ts` so setup awaits router setup and click assertions wait one microtask:
 
@@ -1577,7 +1577,7 @@ await Promise.resolve();
 expect(window.location.pathname).toBe(routePath.about);
 ```
 
-- [ ] **Step 3: Run the failing route-link tests**
+- [x] **Step 3: Run the failing route-link tests**
 
 Run:
 
@@ -1587,7 +1587,7 @@ pnpm --filter @vanrot/router test -- tests/dom/route-link-navigation.test.ts tes
 
 Expected: FAIL until `setupRouteLink(...)` handles the `Promise<boolean>` navigation result cleanly.
 
-- [ ] **Step 4: Keep link clicks small and guarded**
+- [x] **Step 4: Keep link clicks small and guarded**
 
 Modify the click handler in `packages/router/src/dom/route-link.ts`:
 
@@ -1604,7 +1604,7 @@ const listener = (event: MouseEvent): void => {
 
 No template syntax changes are needed. `<vr route.name />` keeps compiling to the existing `setupRouteLink(...)` call.
 
-- [ ] **Step 5: Export only stable public helpers**
+- [x] **Step 5: Export only stable public helpers**
 
 Verify `packages/router/src/index.ts` exports these Phase 15C public types and no internal decision engine:
 
@@ -1621,7 +1621,7 @@ export type {
 
 Verify `packages/router/src/internal.ts` exports `setupRouteLink(...)` as before and does not export `resolveNavigationDecision(...)` unless compiler tests require it.
 
-- [ ] **Step 6: Verify Task 5 passes**
+- [x] **Step 6: Verify Task 5 passes**
 
 Run:
 
@@ -1632,7 +1632,7 @@ pnpm --filter @vanrot/router typecheck
 
 Expected: PASS.
 
-- [ ] **Step 7: Review checkpoint**
+- [x] **Step 7: Review checkpoint**
 
 Run:
 
@@ -1650,7 +1650,7 @@ Expected: route-link, exports, and tests are uncommitted in the working tree. Do
 - Modify: `docs/superpowers/final-tdd-inventory.md`
 - Modify: `docs/vanrot-presentation.html`
 
-- [ ] **Step 1: Run the focused router suite**
+- [x] **Step 1: Run the focused router suite**
 
 Run:
 
@@ -1660,7 +1660,7 @@ pnpm --filter @vanrot/router test
 
 Expected: PASS for all router tests, including Phase 15A, Phase 15B, and Phase 15C coverage.
 
-- [ ] **Step 2: Run full verification before marking docs complete**
+- [x] **Step 2: Run full verification before marking docs complete**
 
 Run:
 
@@ -1670,12 +1670,12 @@ pnpm verify
 
 Expected: PASS for typecheck, tests, builds, runtime size, and `verify:phase-docs`.
 
-- [ ] **Step 3: Mark Phase 15C plan tasks complete**
+- [x] **Step 3: Mark Phase 15C plan tasks complete**
 
 After implementation and `pnpm verify` pass, change each checkbox in `docs/superpowers/plans/Phase-15C.md` from:
 
 ```md
-- [ ] **Step
+- [x] **Step
 ```
 
 to:
@@ -1684,7 +1684,7 @@ to:
 - [x] **Step
 ```
 
-- [ ] **Step 4: Update feature maturity ledger**
+- [x] **Step 4: Update feature maturity ledger**
 
 Modify `docs/superpowers/feature-maturity.md`:
 
@@ -1705,7 +1705,7 @@ Update router-specific rows:
 | Router strict route diagnostics                  | router, compiler, cli    |     Phase 15C | Invalid route refs, duplicate paths, unreachable routes, and CLI route graph issues can be reported | Code frames, docs links, strict mode, CI behavior, and route graph integration verified         | Production-Ready for navigation decisions | Phase 15C covers duplicate full paths, redirect misuse, missing targets, redirect loops, invalid guards, and invalid guard results. |
 ```
 
-- [ ] **Step 5: Update final TDD inventory**
+- [x] **Step 5: Update final TDD inventory**
 
 Modify `docs/superpowers/final-tdd-inventory.md` in the `@vanrot/router` section:
 
@@ -1721,7 +1721,7 @@ Update the final phase matrix row:
 | Router production remaining | router, compiler | 15A, 15B, and 15C complete; 15D deferred | Red/green tests for preloading and route integration workflows. | Phase 15D |
 ```
 
-- [ ] **Step 6: Update presentation roadmap**
+- [x] **Step 6: Update presentation roadmap**
 
 Modify `docs/vanrot-presentation.html` so the Phase 15 card and roadmap summary read:
 
@@ -1741,7 +1741,7 @@ Add the Phase 15C bullet:
 <li>15C navigation decisions: redirect routes, `canEnter` guards, async cancellation, guarded links, and strict route graph diagnostics.</li>
 ```
 
-- [ ] **Step 7: Re-run phase docs verification**
+- [x] **Step 7: Re-run phase docs verification**
 
 Run:
 
@@ -1751,7 +1751,7 @@ pnpm verify:phase-docs
 
 Expected: PASS.
 
-- [ ] **Step 8: Run final verification**
+- [x] **Step 8: Run final verification**
 
 Run:
 
@@ -1761,7 +1761,7 @@ pnpm verify
 
 Expected: PASS.
 
-- [ ] **Step 9: Final review checkpoint**
+- [x] **Step 9: Final review checkpoint**
 
 Run:
 

@@ -41,7 +41,7 @@ describe('createRouterOutlet', () => {
       },
     });
 
-    provideRouter(route);
+    await provideRouter(route);
     disposeOutlet = createRouterOutlet(host);
     await flushRouteOutlet();
 
@@ -64,10 +64,10 @@ describe('createRouterOutlet', () => {
       },
     });
 
-    provideRouter(route);
+    await provideRouter(route);
     disposeOutlet = createRouterOutlet(host);
     await flushRouteOutlet();
-    navigate(routePath.about);
+    await navigate(routePath.about);
     await flushRouteOutlet();
 
     expect(destroyed).toHaveBeenCalledOnce();

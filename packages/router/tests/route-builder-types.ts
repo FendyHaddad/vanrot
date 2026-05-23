@@ -28,3 +28,48 @@ routes.layout({
   // @ts-expect-error Layout routes cannot define page render targets.
   page: createTestPage('broken-layout'),
 });
+
+const login = routes.page({
+  path: '/login',
+  label: 'Login',
+  page: createTestPage('login'),
+});
+
+routes.page({
+  path: '/account',
+  label: 'Account',
+  page: createTestPage('account'),
+  canEnter: () => login,
+});
+
+routes.layout({
+  path: '/admin',
+  label: 'Admin',
+  layout: createTestLayout('admin'),
+  canEnter: [
+    () => true,
+    () => routes.redirectTo(login, { query: { returnTo: '/admin' } }),
+  ],
+});
+
+routes.redirect({
+  path: '/old-login',
+  label: 'Old login',
+  to: login,
+});
+
+routes.redirect({
+  path: '/bad',
+  label: 'Bad',
+  to: login,
+  // @ts-expect-error Redirect routes must not render pages.
+  page: createTestPage('bad'),
+});
+
+routes.page({
+  path: '/bad-page',
+  label: 'Bad page',
+  page: createTestPage('bad-page'),
+  // @ts-expect-error Page routes do not accept redirect targets.
+  to: login,
+});

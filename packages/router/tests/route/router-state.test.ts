@@ -42,8 +42,8 @@ describe('router state', () => {
     window.history.replaceState(null, '', routePath.home);
   });
 
-  it('provides the initial route from the browser path', () => {
-    provideRouter(route);
+  it('provides the initial route from the browser path', async () => {
+    await provideRouter(route);
 
     expect(getCurrentMatch()).toMatchObject({
       route: { key: 'home' },
@@ -52,9 +52,9 @@ describe('router state', () => {
     expect(routeParams()).toEqual({});
   });
 
-  it('navigates and updates params', () => {
-    provideRouter(route);
-    navigate('/users/42');
+  it('navigates and updates params', async () => {
+    await provideRouter(route);
+    await navigate('/users/42');
 
     expect(getCurrentMatch()).toMatchObject({
       route: { key: 'user' },
@@ -63,7 +63,7 @@ describe('router state', () => {
     expect(routeParams()).toEqual({ id: '42' });
   });
 
-  it('builds breadcrumb links from route object refs', () => {
+  it('builds breadcrumb links from route object refs', async () => {
     const routes = createRoutes();
     const shop = routes.layout({
       path: '/shop',
@@ -92,8 +92,8 @@ describe('router state', () => {
     const nestedRoute = defineRoutes({ shop, shopIndex, product, productDetail });
 
     window.history.replaceState(null, '', '/shop');
-    provideRouter(nestedRoute);
-    navigate('/shop/product/42');
+    await provideRouter(nestedRoute);
+    await navigate('/shop/product/42');
 
     expect(buildRouteBreadcrumbs()).toMatchObject([
       { label: 'Shop', href: '/shop' },
@@ -102,14 +102,14 @@ describe('router state', () => {
     ]);
   });
 
-  it('throws when no route matches', () => {
-    provideRouter(route);
+  it('throws when no route matches', async () => {
+    await provideRouter(route);
 
-    expect(() => navigate('/missing')).toThrow('No Vanrot route matches "/missing".');
+    await expect(navigate('/missing')).rejects.toThrow('No Vanrot route matches "/missing".');
   });
 
-  it('throws when navigation happens before provideRouter()', () => {
-    expect(() => navigate(routePath.home)).toThrow(
+  it('throws when navigation happens before provideRouter()', async () => {
+    await expect(navigate(routePath.home)).rejects.toThrow(
       'Call provideRouter() before using Vanrot router primitives.',
     );
   });

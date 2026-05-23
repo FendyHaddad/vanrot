@@ -33,7 +33,7 @@ export function setupRouteLink(
     }
 
     event.preventDefault();
-    navigate(href);
+    void navigate(href);
   };
 
   anchor.addEventListener('click', listener);

@@ -87,7 +87,7 @@ function matchBranchEnd(
   params: RouteParams,
   chain: RouteMatch[],
 ): RouteChainMatch | null {
-  if (route.kind === 'page') {
+  if (route.kind === 'page' || route.kind === 'redirect') {
     return {
       chain,
       params,

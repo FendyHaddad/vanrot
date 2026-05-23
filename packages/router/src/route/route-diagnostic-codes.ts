@@ -16,6 +16,14 @@ export const routeDiagnosticCodes = {
   layoutMissingComponent: 'VR_LAYOUT_MISSING_COMPONENT',
   layoutWithoutChildren: 'VR_LAYOUT_WITHOUT_CHILDREN',
   pageHasChildren: 'VR_PAGE_HAS_CHILDREN',
+  redirectHasRenderTarget: 'VR_REDIRECT_HAS_RENDER_TARGET',
+  redirectHasChildren: 'VR_REDIRECT_HAS_CHILDREN',
+  redirectTargetMissing: 'VR_REDIRECT_TARGET_MISSING',
+  redirectLoop: 'VR_REDIRECT_LOOP',
+  invalidGuard: 'VR_ROUTE_INVALID_GUARD',
+  invalidGuardResult: 'VR_ROUTE_INVALID_GUARD_RESULT',
+  guardRedirectTargetMissing: 'VR_GUARD_REDIRECT_TARGET_MISSING',
+  guardRedirectLoop: 'VR_GUARD_REDIRECT_LOOP',
 } as const;
 
 export type RouteDiagnosticCode =

@@ -37,10 +37,10 @@ const route = defineRoutes({
 });
 
 describe('setupRouteLink', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     resetRouterForTests();
     window.history.replaceState(null, '', routePath.home);
-    provideRouter(route);
+    await provideRouter(route);
   });
 
   it('renders an accessible anchor from route metadata', () => {
@@ -52,11 +52,12 @@ describe('setupRouteLink', () => {
     expect(anchor.getAttribute('href')).toBe(routePath.about);
   });
 
-  it('navigates on normal same-origin left click', () => {
+  it('navigates on normal same-origin left click', async () => {
     const anchor = document.createElement('a');
     setupRouteLink(anchor, route.about);
 
     anchor.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+    await flushNavigation();
 
     expect(window.location.pathname).toBe(routePath.about);
   });
@@ -70,13 +71,14 @@ describe('setupRouteLink', () => {
     expect(anchor.getAttribute('href')).toBe('/users/42');
   });
 
-  it('marks the exact active route link with aria-current', () => {
+  it('marks the exact active route link with aria-current', async () => {
     const anchor = document.createElement('a');
     setupRouteLink(anchor, route.about);
 
     expect(anchor.hasAttribute('aria-current')).toBe(false);
 
     anchor.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+    await flushNavigation();
 
     expect(anchor.getAttribute('aria-current')).toBe('page');
   });
@@ -107,3 +109,7 @@ describe('setupRouteLink', () => {
     expect(() => setupRouteLink(anchor, undefined)).toThrow('Unknown Vanrot route reference.');
   });
 });
+
+async function flushNavigation(): Promise<void> {
+  await new Promise((resolve) => setTimeout(resolve, 0));
+}

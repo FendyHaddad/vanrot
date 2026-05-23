@@ -2,7 +2,15 @@ import { isRouteRef } from './create-routes.js';
 import { routeDiagnosticCodes } from './route-diagnostic-codes.js';
 import { createRouteDiagnostic } from './route-diagnostics.js';
 import type { RouteDiagnostic } from './route-diagnostics.js';
-import type { DefinedRoute, DefinedRouteTable, RouteDefinition, RouteInput, RouteRef } from './route-types.js';
+import type {
+  DefinedRoute,
+  DefinedRouteTable,
+  RouteDefinition,
+  RouteInput,
+  RouteRedirectTarget,
+  RouteRef,
+  RouteUrlInput,
+} from './route-types.js';
 
 export function defineRoutes<Input extends RouteInput>(routes: Input): DefinedRouteTable<Input> {
   const refToKey = collectRouteRefKeys(routes);
@@ -24,8 +32,10 @@ export function defineRoutes<Input extends RouteInput>(routes: Input): DefinedRo
   }
 
   linkChildren(routeRecords);
+  linkRedirectTargets(routeRecords, routeByRef);
   linkBreadcrumbParents(routeRecords, routeByRef);
   validateRouteGraph(routeRecords);
+  validateRedirectLoops(routeRecords.map((record) => record.route));
 
   return Object.fromEntries(entries) as DefinedRouteTable<Input>;
 }
@@ -56,6 +66,7 @@ function normalizeRouteRef(
     ...ref.definition,
     key,
     kind: ref.kind,
+    ref,
     path: ref.definition.path,
     fullPath: normalizeRoutePath(ref.definition.path, parent),
     children: [],
@@ -115,6 +126,10 @@ function validateRenderTarget(
   route: DefinedRoute,
   diagnostics: RouteDiagnostic[],
 ): void {
+  if (route.kind === 'redirect') {
+    return;
+  }
+
   if (route.kind === 'layout') {
     if (route.layout !== undefined || route.loadLayout !== undefined) {
       return;
@@ -141,6 +156,75 @@ function validateRenderTarget(
     }),
   );
 }
+
+function linkRedirectTargets(
+  routeRecords: Array<{ input: RouteInput[string]; route: DefinedRoute }>,
+  routeByRef: Map<RouteRef, DefinedRoute>,
+): void {
+  for (const record of routeRecords) {
+    const definition = isRouteRef(record.input) ? record.input.definition : record.input;
+
+    if (record.route.kind !== 'redirect') {
+      continue;
+    }
+
+    if (definition.to === undefined) {
+      throwRouteDiagnostic(
+        routeDiagnosticCodes.redirectTargetMissing,
+        `Redirect route "${record.route.key}" targets a route that is not defined.`,
+        'Return the redirect target from defineRoutes({ ... }).',
+        'router/routes#redirect-targets',
+      );
+    }
+
+    const target = normalizeRedirectTarget(record.route, definition.to, routeByRef);
+    const redirect: NonNullable<DefinedRoute['redirect']> = { to: target.route };
+
+    if (target.input !== undefined) {
+      redirect.input = target.input;
+    }
+
+    if (definition.params !== undefined) {
+      redirect.params = definition.params;
+    }
+
+    if (definition.queryInput !== undefined) {
+      redirect.queryInput = definition.queryInput;
+    }
+
+    record.route.redirect = redirect;
+  }
+}
+
+function normalizeRedirectTarget(
+  route: DefinedRoute,
+  target: RouteRedirectTarget,
+  routeByRef: Map<RouteRef, DefinedRoute>,
+): { route: DefinedRoute; input?: RouteUrlInput } {
+  const targetRef = isStructuredRouteTarget(target) ? target.route : target;
+  const definedTarget = routeByRef.get(targetRef);
+
+  if (definedTarget !== undefined) {
+    return {
+      route: definedTarget,
+      ...(isStructuredRouteTarget(target) ? { input: target.input } : {}),
+    };
+  }
+
+  throwRouteDiagnostic(
+    routeDiagnosticCodes.redirectTargetMissing,
+    `Redirect route "${route.key}" targets a route that is not defined.`,
+    'Return the redirect target from defineRoutes({ ... }).',
+    'router/routes#redirect-targets',
+  );
+}
+
+function isStructuredRouteTarget(
+  value: RouteRedirectTarget,
+): value is Extract<RouteRedirectTarget, { kind: 'route-target' }> {
+  return 'kind' in value && value.kind === 'route-target';
+}
+
 
 function linkChildren(
   routeRecords: Array<{ input: RouteInput[string]; route: DefinedRoute }>,
@@ -192,9 +276,18 @@ function linkBreadcrumbParents(
 }
 
 function validateRouteGraph(routeRecords: Array<{ input: RouteInput[string]; route: DefinedRoute }>): void {
+  validateDuplicateFullPaths(routeRecords.map((record) => record.route));
+
   for (const record of routeRecords) {
     const route = record.route;
     const refChildren = isRouteRef(record.input) ? record.input.children : [];
+
+    validateCanEnter(route);
+
+    if (route.kind === 'redirect') {
+      validateRedirectRoute(route);
+      continue;
+    }
 
     if (route.kind === 'page' && (route.children.length > 0 || refChildren.length > 0)) {
       throwRouteDiagnostic(
@@ -207,6 +300,96 @@ function validateRouteGraph(routeRecords: Array<{ input: RouteInput[string]; rou
 
     if (route.kind === 'layout') {
       validateLayoutRoute(route);
+    }
+  }
+}
+
+function validateDuplicateFullPaths(routes: DefinedRoute[]): void {
+  const usedPaths = new Map<string, DefinedRoute>();
+
+  for (const route of routes) {
+    const firstRoute = usedPaths.get(route.fullPath);
+
+    if (firstRoute !== undefined && route.path !== '') {
+      throwRouteDiagnostic(
+        routeDiagnosticCodes.duplicatePath,
+        `Route path "${route.fullPath}" is already used by "${firstRoute.key}".`,
+        `Give "${route.key}" a different path.`,
+        'router/routes#duplicate-paths',
+      );
+    }
+
+    usedPaths.set(route.fullPath, route);
+  }
+}
+
+function validateCanEnter(route: DefinedRoute): void {
+  if (route.canEnter === undefined) {
+    return;
+  }
+
+  const guards = Array.isArray(route.canEnter) ? route.canEnter : [route.canEnter];
+
+  if (guards.every((guard) => typeof guard === 'function')) {
+    return;
+  }
+
+  throwRouteDiagnostic(
+    routeDiagnosticCodes.invalidGuard,
+    `Route "${route.key}" canEnter must be a function or function array.`,
+    `Replace canEnter on "${route.key}" with a guard function or an array of guard functions.`,
+    'router/routes#guards',
+  );
+}
+
+function validateRedirectRoute(route: DefinedRoute): void {
+  if (
+    route.page !== undefined ||
+    route.loadPage !== undefined ||
+    route.layout !== undefined ||
+    route.loadLayout !== undefined
+  ) {
+    throwRouteDiagnostic(
+      routeDiagnosticCodes.redirectHasRenderTarget,
+      `Redirect route "${route.key}" must not define page, loadPage, layout, or loadLayout.`,
+      `Remove the render target from "${route.key}" or change it to routes.page(...) or routes.layout(...).`,
+      'router/routes#redirect-routes',
+    );
+  }
+
+  if (route.children.length === 0) {
+    return;
+  }
+
+  throwRouteDiagnostic(
+    routeDiagnosticCodes.redirectHasChildren,
+    `Redirect route "${route.key}" must not own child routes.`,
+    `Move child routes under a layout route instead of "${route.key}".`,
+    'router/routes#redirect-routes',
+  );
+}
+
+function validateRedirectLoops(routes: DefinedRoute[]): void {
+  for (const route of routes) {
+    if (route.kind !== 'redirect') {
+      continue;
+    }
+
+    const visited = new Set<DefinedRoute>();
+    let next: DefinedRoute | undefined = route;
+
+    while (next?.kind === 'redirect') {
+      if (visited.has(next)) {
+        throwRouteDiagnostic(
+          routeDiagnosticCodes.redirectLoop,
+          `Redirect route "${route.key}" creates a redirect loop.`,
+          'Point one redirect in the chain at a page or layout route.',
+          'router/routes#redirect-loops',
+        );
+      }
+
+      visited.add(next);
+      next = next.redirect?.to;
     }
   }
 }

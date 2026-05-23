@@ -3,9 +3,14 @@ export type {
   DefinedRouteTable,
   LayoutRouteDefinition,
   PageRouteDefinition,
+  RedirectRouteDefinition,
   RouteChainMatch,
   RouteDefinition,
   RouteDefinitionBase,
+  RouteGuard,
+  RouteGuardContext,
+  RouteGuardInput,
+  RouteGuardResult,
   RouteInput,
   RouteKind,
   RouteLayoutLoader,
@@ -21,6 +26,7 @@ export type {
   RouteQueryDefinitionMap,
   RouteQueryValue,
   RouteRef,
+  RouteRedirectTarget,
   RouteUrlInput,
 } from './route/route-types.js';
 export type { RouteBuilder } from './route/create-routes.js';
