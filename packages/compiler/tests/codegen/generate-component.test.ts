@@ -535,6 +535,25 @@ describe('generateComponent', () => {
     expect(result.features).toContain('router-outlet');
   });
 
+  it('generates route links with params and query bindings', () => {
+    const templateSource =
+      '<main><vr route.user param.id="{selectedUserId}" query.tab="{selectedTab}"></vr></main>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'app.component.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'app.component.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      'setupRouteLink(a0, ctx.route.user, { params: { id: ctx.selectedUserId }, query: { tab: ctx.selectedTab } });',
+    );
+    expect(result.js).not.toContain('/users/');
+  });
+
   it('diagnoses invalid router primitive syntax', () => {
     const templateSource = '<vr></vr>';
 

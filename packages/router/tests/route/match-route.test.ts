@@ -45,6 +45,7 @@ describe('matchRoute', () => {
     expect(matchRoute(route, '/about?tab=team')).toMatchObject({
       route: { key: 'about' },
       params: {},
+      query: { tab: 'team' },
     });
   });
 

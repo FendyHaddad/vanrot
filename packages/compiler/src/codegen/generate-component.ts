@@ -2,6 +2,7 @@ import type { CompileDiagnostic, CompileFeature, CompileOptions } from '../api/t
 import type { ComponentMetadata } from '../metadata/component-metadata.js';
 import type { ElementNode, TemplateAttribute, TemplateNode } from '../template/ast.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
+import { rewriteExpression } from '../expressions/rewrite-expression.js';
 import { generateAttribute, generateText, quoteString } from './bindings.js';
 import {
   generateChildComponent,
@@ -251,12 +252,81 @@ function generateRouterLink(
   }
 
   const routeLinkName = state.ids.next('a');
+  const routeInput = generateRouteLinkInput(node, state);
   state.usesRouteLink = true;
   state.features.add('router-link');
   state.lines.push(`  const ${routeLinkName} = document.createElement('a');`);
   state.lines.push(`  ${routeLinkName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
-  state.lines.push(`  setupRouteLink(${routeLinkName}, ctx.${routeAttribute.name});`);
+  state.lines.push(
+    `  setupRouteLink(${routeLinkName}, ctx.${routeAttribute.name}${routeInput});`,
+  );
   state.lines.push(`  ${parentName}.append(${routeLinkName});`);
+}
+
+function generateRouteLinkInput(node: ElementNode, state: GenerateState): string {
+  const params = generateRouteLinkBindingGroup(node, state, 'param');
+  const query = generateRouteLinkBindingGroup(node, state, 'query');
+  const entries = [];
+
+  if (params.length > 0) {
+    entries.push(`params: { ${params.join(', ')} }`);
+  }
+
+  if (query.length > 0) {
+    entries.push(`query: { ${query.join(', ')} }`);
+  }
+
+  if (entries.length === 0) {
+    return '';
+  }
+
+  return `, { ${entries.join(', ')} }`;
+}
+
+function generateRouteLinkBindingGroup(
+  node: ElementNode,
+  state: GenerateState,
+  prefix: 'param' | 'query',
+): string[] {
+  const entries = [];
+  const attributePattern = new RegExp(`^${prefix}\\.([A-Za-z_$][\\w$]*)$`);
+
+  for (const attribute of node.attributes) {
+    const match = attributePattern.exec(attribute.name);
+
+    if (match === null) {
+      continue;
+    }
+
+    const key = match[1] ?? '';
+    const rewritten = rewriteExpression(unwrapRouteBindingExpression(attribute.value), {
+      filePath: state.templatePath,
+      source: state.templateSource,
+      span: attribute.valueSpan,
+      localIdentifiers: state.localIdentifiers,
+      localSignalIdentifiers: state.localSignalIdentifiers,
+    });
+
+    state.diagnostics.push(...rewritten.diagnostics);
+
+    if (rewritten.expression === null) {
+      continue;
+    }
+
+    entries.push(`${key}: ${rewritten.expression}`);
+  }
+
+  return entries;
+}
+
+function unwrapRouteBindingExpression(value: string): string {
+  const trimmedValue = value.trim();
+
+  if (trimmedValue.startsWith('{') && trimmedValue.endsWith('}')) {
+    return trimmedValue.slice(1, -1).trim();
+  }
+
+  return trimmedValue;
 }
 
 function generateUiButton(

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { createRoutes } from '../../src/route/create-routes.js';
 import { defineRoutes } from '../../src/route/define-routes.js';
 import { createTestPage } from '../../src/test/test-pages.js';
 
@@ -49,14 +50,62 @@ describe('defineRoutes', () => {
     expect(route.home.page).toBe(HomePage);
   });
 
-  it('throws when a route is missing both page and loadPage', () => {
-    expect(() =>
-      defineRoutes({
-        broken: {
-          path: '/broken',
-          label: 'Broken',
-        },
-      }),
-    ).toThrow('Route "broken" must define page or loadPage.');
+  it('adds a diagnostic when a route is missing both page and loadPage', () => {
+    const route = defineRoutes({
+      broken: {
+        path: '/broken',
+        label: 'Broken',
+      },
+    });
+
+    expect(route.broken.diagnostics).toMatchObject([
+      {
+        code: 'VR_ROUTE_MISSING_RENDER_TARGET',
+        message: 'Route "broken" must define page or loadPage.',
+      },
+    ]);
+  });
+
+  it('normalizes builder routes with object parent references', () => {
+    const routes = createRoutes();
+    const shop = routes.page({
+      path: '/shop',
+      label: 'Shop',
+      page: createTestPage('shop'),
+    });
+    const product = shop.page({
+      path: 'product',
+      label: 'Products',
+      page: createTestPage('products'),
+    });
+    const productDetail = product.page({
+      path: ':productId',
+      label: 'Product detail',
+      page: createTestPage('product-detail'),
+    });
+
+    const route = defineRoutes({ shop, product, productDetail });
+
+    expect(route.shop.path).toBe('/shop');
+    expect(route.product.path).toBe('/shop/product');
+    expect(route.productDetail.path).toBe('/shop/product/:productId');
+    expect(route.product.parent).toBe(route.shop);
+    expect(route.productDetail.parent).toBe(route.product);
+  });
+
+  it('keeps object-form defineRoutes compatibility', () => {
+    const route = defineRoutes({
+      home: {
+        path: '/',
+        label: 'Home',
+        page: createTestPage('home'),
+      },
+    });
+
+    expect(route.home).toMatchObject({
+      key: 'home',
+      path: '/',
+      label: 'Home',
+    });
   });
 });

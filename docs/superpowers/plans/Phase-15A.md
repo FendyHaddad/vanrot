@@ -504,7 +504,7 @@ Expected: diff shows builder-form route refs, object-form compatibility, and no 
 - Test: `packages/router/tests/route/url-builder.test.ts`
 - Test: `packages/router/tests/route/match-route.test.ts`
 
-- [ ] **Step 1: Write failing params and URL tests**
+- [x] **Step 1: Write failing params and URL tests**
 
 Create `packages/router/tests/route/path-params.test.ts`:
 
@@ -587,7 +587,7 @@ describe('buildRouteUrl', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing params and URL tests**
+- [x] **Step 2: Run failing params and URL tests**
 
 Run:
 
@@ -597,7 +597,7 @@ pnpm --filter @vanrot/router test -- tests/route/path-params.test.ts tests/route
 
 Expected: FAIL because the helpers do not exist.
 
-- [ ] **Step 3: Implement path params**
+- [x] **Step 3: Implement path params**
 
 Create `packages/router/src/route/path-params.ts`:
 
@@ -673,7 +673,7 @@ function routeSegments(path: string): string[] {
 }
 ```
 
-- [ ] **Step 4: Implement query strings and URL building**
+- [x] **Step 4: Implement query strings and URL building**
 
 Create `packages/router/src/route/query-string.ts` with helpers that:
 
@@ -689,15 +689,15 @@ Create `packages/router/src/route/url-builder.ts` with `buildRouteUrl(route, opt
 - reject unknown params and unknown query keys;
 - append the query string returned by the query helper.
 
-- [ ] **Step 5: Use param matching in route matching**
+- [x] **Step 5: Use param matching in route matching**
 
 Update `packages/router/src/route/match-route.ts` so query strings do not affect route matching and dynamic path segments return route params on the match result.
 
-- [ ] **Step 6: Export URL helpers**
+- [x] **Step 6: Export URL helpers**
 
 Export the public route types and helpers needed by router DOM components, compiler lowering, and tests from `packages/router/src/index.ts`.
 
-- [ ] **Step 7: Verify params and URL tests pass**
+- [x] **Step 7: Verify params and URL tests pass**
 
 Run:
 
@@ -707,7 +707,7 @@ pnpm --filter @vanrot/router test -- tests/route/path-params.test.ts tests/route
 
 Expected: PASS.
 
-- [ ] **Step 8: Review checkpoint**
+- [x] **Step 8: Review checkpoint**
 
 Run:
 
@@ -725,7 +725,7 @@ Expected: only Phase 15A route implementation and test files are changed beyond 
 - Modify: `packages/router/src/route/router-state.ts`
 - Create or modify tests under `packages/router/tests/dom/` and `packages/router/tests/route/`
 
-- [ ] **Step 1: Add failing route-link and breadcrumb tests**
+- [x] **Step 1: Add failing route-link and breadcrumb tests**
 
 Add tests proving:
 
@@ -734,19 +734,19 @@ Add tests proving:
 - exact active links receive `aria-current="page"`;
 - breadcrumb chains are built from breadcrumb route refs and reuse current params where needed.
 
-- [ ] **Step 2: Run failing link and breadcrumb tests**
+- [x] **Step 2: Run failing link and breadcrumb tests**
 
 Run the focused router DOM and route-state tests. Expected: FAIL until route-link and breadcrumb runtime support exists.
 
-- [ ] **Step 3: Implement route-link URL generation**
+- [x] **Step 3: Implement route-link URL generation**
 
 Update the DOM route-link primitive to delegate href creation to `buildRouteUrl()` and to keep active-state behavior framework-owned.
 
-- [ ] **Step 4: Implement breadcrumb metadata helpers**
+- [x] **Step 4: Implement breadcrumb metadata helpers**
 
 Add breadcrumb metadata support to route definitions. Breadcrumbs must use route object refs, not route-name or path strings. Static labels come from route labels unless explicitly provided at the source-of-truth boundary.
 
-- [ ] **Step 5: Verify link and breadcrumb tests pass**
+- [x] **Step 5: Verify link and breadcrumb tests pass**
 
 Run the focused tests added in this task. Expected: PASS.
 
@@ -757,7 +757,7 @@ Run the focused tests added in this task. Expected: PASS.
 - Modify starter/generated app route examples if they repeat route strings outside `src/routes.ts`
 - Add or update compiler and fixture tests for route primitives
 
-- [ ] **Step 1: Add failing compiler/starter tests**
+- [x] **Step 1: Add failing compiler/starter tests**
 
 Add tests proving:
 
@@ -765,11 +765,11 @@ Add tests proving:
 - unknown params and query keys produce stable route diagnostics;
 - generated starter pages import route objects instead of repeating route strings.
 
-- [ ] **Step 2: Implement compiler lowering changes**
+- [x] **Step 2: Implement compiler lowering changes**
 
 Update route primitive lowering to consume the route contract helpers from the route source of truth.
 
-- [ ] **Step 3: Verify compiler/starter tests pass**
+- [x] **Step 3: Verify compiler/starter tests pass**
 
 Run focused compiler/starter tests, then the router test suite.
 
@@ -781,15 +781,15 @@ Run focused compiler/starter tests, then the router test suite.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-15A.md`
 
-- [ ] **Step 1: Mark completed plan tasks**
+- [x] **Step 1: Mark completed plan tasks**
 
 Tick every completed checkbox in this plan only after the corresponding implementation and verification steps pass.
 
-- [ ] **Step 2: Update production maturity docs**
+- [x] **Step 2: Update production maturity docs**
 
 Update `docs/superpowers/feature-maturity.md`, `docs/superpowers/final-tdd-inventory.md`, and `docs/vanrot-presentation.html` so Phase 15A’s completed production slice, test memory, and roadmap are synchronized.
 
-- [ ] **Step 3: Run full verification**
+- [x] **Step 3: Run full verification**
 
 Run:
 
@@ -799,7 +799,7 @@ pnpm verify
 
 Expected: PASS, including `verify:phase-docs` and runtime size budget.
 
-- [ ] **Step 4: Final review checkpoint**
+- [x] **Step 4: Final review checkpoint**
 
 Run:
 

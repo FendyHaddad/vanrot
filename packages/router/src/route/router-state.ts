@@ -1,6 +1,8 @@
 import { signal, type Signal } from '@vanrot/runtime';
+import { buildRouteUrl } from './url-builder.js';
 import { matchRoute } from './match-route.js';
-import type { DefinedRouteTable, RouteMatch, RouteParams } from './route-types.js';
+import { extractPathParamNames } from './path-params.js';
+import type { DefinedRoute, DefinedRouteTable, RouteBreadcrumb, RouteMatch, RouteParams } from './route-types.js';
 
 const emptyParams: RouteParams = {};
 
@@ -27,6 +29,18 @@ export function getCurrentMatch(): RouteMatch | null {
   return currentMatch();
 }
 
+export function buildRouteBreadcrumbs(match: RouteMatch | null = currentMatch()): RouteBreadcrumb[] {
+  if (match === null) {
+    return [];
+  }
+
+  return collectBreadcrumbRoutes(match.route).map((route) => ({
+    route,
+    label: route.label,
+    href: buildRouteUrl(route, { params: selectRouteParams(route, match.params) }),
+  }));
+}
+
 export function resetRouterForTests(): void {
   providedRoutes = null;
   removePopstateListener?.();
@@ -44,7 +58,7 @@ function setPath(path: string, push: boolean): void {
   }
 
   if (push && globalThis.window !== undefined) {
-    globalThis.window.history.pushState(null, '', match.path);
+    globalThis.window.history.pushState(null, '', path);
   }
 
   currentMatch.set(match);
@@ -64,7 +78,7 @@ function readBrowserPath(): string {
     return '/';
   }
 
-  return globalThis.window.location.pathname;
+  return `${globalThis.window.location.pathname}${globalThis.window.location.search}`;
 }
 
 function listenForPopstate(): (() => void) | null {
@@ -79,4 +93,34 @@ function listenForPopstate(): (() => void) | null {
   globalThis.window.addEventListener('popstate', listener);
 
   return () => globalThis.window.removeEventListener('popstate', listener);
+}
+
+function collectBreadcrumbRoutes(route: DefinedRoute): DefinedRoute[] {
+  if (route.breadcrumb?.kind === 'root') {
+    return [route];
+  }
+
+  const parent = route.breadcrumbParent ?? route.parent;
+
+  if (parent === undefined) {
+    return [route];
+  }
+
+  return [...collectBreadcrumbRoutes(parent), route];
+}
+
+function selectRouteParams(route: DefinedRoute, params: RouteParams): RouteParams {
+  const selectedParams: RouteParams = {};
+
+  for (const paramName of extractPathParamNames(route.path)) {
+    const value = params[paramName];
+
+    if (value === undefined) {
+      continue;
+    }
+
+    selectedParams[paramName] = value;
+  }
+
+  return selectedParams;
 }

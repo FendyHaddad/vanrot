@@ -150,15 +150,17 @@ When a phase adds or changes framework surface area:
 
 | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |------|------|------------------|-----------------------|-------------|-------|
-| route config | `defineRoutes(...)` | Demo-Capable | Provides a typed route table with path, label, page/loadPage, and future param safety. | Phase 8, Phase 15 | Route config is the single source of truth. |
-| matching | `matchRoute(...)` | Demo-Capable | Covers root, nested, missing, query strings, params, redirects, and deterministic matching order. | Phase 8, Phase 15 | Current matcher is demo-level. |
+| route config | `defineRoutes(...)` | Production-Ready for 15A route contracts | Provides a typed route table with path, label, page/loadPage, route refs, parent normalization, and diagnostics. | Phase 8, Phase 15A | Route config remains the single source of truth; nested layouts and redirects stay in later slices. |
+| route config | `createRoutes()` | Production-Ready | Authors route refs without parent-name string literals and supports child `.page(...)` builders. | Phase 15A | Object-form `defineRoutes(...)` remains compatible. |
+| matching | `matchRoute(...)` | Production-Ready for 15A route contracts | Covers root, missing, query strings, encoded params, and deterministic matching order. | Phase 8, Phase 15A | Nested route chains and redirects stay in later slices. |
 | loading | `resolveRoutePage(...)` | Demo-Capable | Handles eager pages, lazy pages, default exports, failures, and loading/error policies. | Phase 8, Phase 15 | Component-as-page support exists by contract. |
 | state | `provideRouter(...)` | Demo-Capable | Sets route table, current match, route params, cleanup, and invalid setup diagnostics. | Phase 8, Phase 15 | Production needs stronger boundaries. |
-| state | `navigate(...)` | Demo-Capable | Handles path updates, history behavior, same-route policy, params, and invalid route behavior. | Phase 8, Phase 15 | Browser history behavior needs production tests. |
-| state | `routeParams` | Demo-Capable | Exposes params through signals and updates predictably across navigation. | Phase 8, Phase 15 | Works with signal-first design. |
+| state | `navigate(...)` | Production-Ready for 15A route contracts | Handles path updates, history behavior, params, query strings, and invalid route behavior. | Phase 8, Phase 15A | Guard/redirect navigation policy stays in later slices. |
+| state | `routeParams` | Production-Ready for 15A route contracts | Exposes params through signals and updates predictably across navigation. | Phase 8, Phase 15A | Works with signal-first design. |
+| state | `buildRouteBreadcrumbs(...)` | Production-Ready | Builds breadcrumb labels and hrefs from route object refs and the shared URL builder. | Phase 15A | Dynamic entity labels stay deferred. |
 | DOM | `<vr-router>` outlet | Demo-Capable | Renders route pages, swaps lazy pages, handles cleanup, nested outlets, and error outlets. | Phase 8, Phase 15 | Nested outlets are deferred. |
-| DOM | `<vr route.name />` link | Demo-Capable | Renders accessible anchors from route metadata without repeated path or label strings. | Phase 8, Phase 15 | Active links and custom labels are deferred. |
-| diagnostics | route diagnostics | Deferred | Reports invalid refs, missing labels, duplicate paths, unreachable routes, and param mistakes. | Phase 15 | Must integrate compiler/CLI/project map. |
+| DOM | `<vr route.name />` link | Production-Ready for 15A route contracts | Renders accessible anchors from route metadata without repeated path or label strings. | Phase 8, Phase 15A | Params, query, and exact active state are covered; custom labels stay deferred. |
+| diagnostics | route diagnostics foundation | Production-Ready | Provides shared `VR_ROUTE_*` codes, diagnostic factory, route-level diagnostics, and param/query misuse errors. | Phase 15A | CLI/project-map diagnostics stay in a later router diagnostics slice. |
 
 ## `@vanrot/ui`
 
@@ -221,7 +223,8 @@ into isolated audit tests.
 | TypeScript import boundary | compiler, vite-plugin | Production coverage exists | Red/green tests proving app authors can import transformed role modules cleanly. | Phase 12E |
 | Config source of truth | config, cli, vite-plugin | Deferred | Red/green tests for `vanrot.config.ts`, schema validation, install-aware config blocks, and port `1010`. | Phase 13 |
 | Beautiful CLI UX | cli | Demo reporter exists | Red/green snapshot/interaction tests for command output that is beautiful, readable, and scriptable. | Phase 14 |
-| Router production | router, compiler | Demo routing works | Red/green tests for typed params, nested routes, layouts, redirects, active links, and route diagnostics. | Phase 15 |
+| Router production 15A | router, compiler | Route contract production slice works | Red/green tests for builder refs, typed params, query strings, URL generation, active links, breadcrumbs, compiler lowering, and route diagnostics. | Phase 15A |
+| Router production remaining | router, compiler | 15A complete, later slices deferred | Red/green tests for nested layouts, redirects, guards, strict route graph diagnostics, preloading, and integration workflows. | Phase 15B-15D |
 | UI production V01/V02 | ui, compiler, cli | Button demo works | Red/green tests for primitive catalog, variants, accessibility, tokens, utilities, and flavor parity. | Phase 16, Phase 17 |
 | Testing production | testing | Component helper demo works | Red/green tests for pages, router workflows, accessibility, async helpers, and generator-wide `--test`. | Phase 18 |
 | Store | store | Deferred | Red/green tests for signal-native state, actions, reducers, selectors, effects, tracing, and interop. | Phase 19, Phase 20 |

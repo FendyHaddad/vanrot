@@ -23,35 +23,33 @@ They should not use route-name strings, path strings, label strings, active-clas
 
 ## Route Definition Model
 
-Phase 15A extends `defineRoutes()` with a builder form. The existing object form remains valid for Phase 8 compatibility.
+Phase 15A adds `createRoutes()` builder refs that are normalized by `defineRoutes(...)`. The existing object form remains valid for Phase 8 compatibility.
 
 ```ts
-export const route = defineRoutes((route) => {
-  const shop = route.page({
-    path: '/shop',
-    label: 'Shop',
-    breadcrumb: route.breadcrumb.root(),
-    page: ShopPage,
-  });
+const routes = createRoutes();
 
-  const product = route.page({
-    parent: shop,
-    path: 'product',
-    label: 'Products',
-    breadcrumb: route.breadcrumb.parent(shop),
-    page: ProductListPage,
-  });
-
-  const productDetail = route.page({
-    parent: product,
-    path: ':productId',
-    label: 'Product detail',
-    breadcrumb: route.breadcrumb.parent(product),
-    page: ProductDetailPage,
-  });
-
-  return { shop, product, productDetail };
+const shop = routes.page({
+  path: '/shop',
+  label: 'Shop',
+  breadcrumb: routes.breadcrumb.root(),
+  page: ShopPage,
 });
+
+const product = shop.page({
+  path: 'product',
+  label: 'Products',
+  breadcrumb: routes.breadcrumb.parent(shop),
+  page: ProductListPage,
+});
+
+const productDetail = product.page({
+  path: ':productId',
+  label: 'Product detail',
+  breadcrumb: routes.breadcrumb.parent(product),
+  page: ProductDetailPage,
+});
+
+export const route = defineRoutes({ shop, product, productDetail });
 ```
 
 The builder form allows parent routes and breadcrumb parents to be expressed as route object references, not route-name strings. Child paths are relative when a parent is present, and the router normalizes the full path. In the example above, `productDetail` resolves to `/shop/product/:productId`.
@@ -77,13 +75,15 @@ Route params are inferred from path segments such as `:productId`. The compiler 
 Query metadata is declared in `src/routes.ts` when a route has known query values:
 
 ```ts
-const search = route.page({
+const routes = createRoutes();
+
+const search = routes.page({
   path: '/search',
   label: 'Search',
   page: SearchPage,
   query: {
-    term: route.query.string(),
-    tags: route.query.array(),
+    term: { default: '' },
+    tags: { array: true },
   },
 });
 ```
@@ -148,8 +148,8 @@ Phase 15A adds breadcrumb metadata to route definitions and a framework-owned br
 
 Breadcrumb chains are built from route object references:
 
-- root routes use `route.breadcrumb.root()`
-- child routes use `route.breadcrumb.parent(parentRoute)`
+- root routes use `routes.breadcrumb.root()`
+- child routes use `routes.breadcrumb.parent(parentRoute)`
 - labels default to route labels
 - hrefs use the same URL builder as route links
 

@@ -8,7 +8,26 @@ export type {
   RoutePageModule,
   RouteParams,
   RouteParamsSignal,
+  RouteQuery,
+  RouteQueryDefinition,
+  RouteQueryDefinitionMap,
+  RouteQueryValue,
+  RouteRef,
+  RouteUrlInput,
 } from './route/route-types.js';
+export type { RouteBuilder } from './route/create-routes.js';
+export { createRoutes } from './route/create-routes.js';
+export { buildRouteUrl } from './route/url-builder.js';
+export { buildRouteQueryString, parseRouteQuery } from './route/query-string.js';
+export { extractPathParamNames, fillRoutePath, matchRoutePath } from './route/path-params.js';
+export type { RouteDiagnosticCode } from './route/route-diagnostic-codes.js';
+export { routeDiagnosticCodes } from './route/route-diagnostic-codes.js';
+export type {
+  RouteDiagnostic,
+  RouteDiagnosticInput,
+  RouteDiagnosticSeverity,
+} from './route/route-diagnostics.js';
+export { createRouteDiagnostic } from './route/route-diagnostics.js';
 export { defineRoutes } from './route/define-routes.js';
 export { matchRoute } from './route/match-route.js';
 export { resolveRoutePage } from './route/page-loader.js';

@@ -1,18 +1,31 @@
-import { onDestroy } from '@vanrot/runtime';
-import { navigate } from '../route/router-state.js';
-import type { DefinedRoute } from '../route/route-types.js';
+import { effect, onDestroy } from '@vanrot/runtime';
+import { buildRouteUrl } from '../route/url-builder.js';
+import { getCurrentMatch, navigate } from '../route/router-state.js';
+import type { DefinedRoute, RouteUrlInput } from '../route/route-types.js';
 
-export function setupRouteLink(anchor: HTMLAnchorElement, route: DefinedRoute | undefined): void {
+export function setupRouteLink(
+  anchor: HTMLAnchorElement,
+  route: DefinedRoute | undefined,
+  input?: RouteUrlInput,
+): void {
   if (route === undefined) {
     throw new Error('Unknown Vanrot route reference.');
   }
 
-  if (route.path.includes(':')) {
-    throw new Error(`Route "${route.key}" requires params. Typed param links are deferred from Phase 8.`);
-  }
-
-  anchor.href = route.path;
+  const href = buildRouteUrl(route, input);
+  anchor.setAttribute('href', href);
   anchor.textContent = route.label;
+
+  effect(() => {
+    const currentMatch = getCurrentMatch();
+
+    if (currentMatch?.route === route) {
+      anchor.setAttribute('aria-current', 'page');
+      return;
+    }
+
+    anchor.removeAttribute('aria-current');
+  });
 
   const listener = (event: MouseEvent): void => {
     if (shouldUseBrowserNavigation(event, anchor)) {
@@ -20,7 +33,7 @@ export function setupRouteLink(anchor: HTMLAnchorElement, route: DefinedRoute | 
     }
 
     event.preventDefault();
-    navigate(route.path);
+    navigate(href);
   };
 
   anchor.addEventListener('click', listener);

@@ -61,6 +61,26 @@ describe('setupRouteLink', () => {
     expect(window.location.pathname).toBe(routePath.about);
   });
 
+  it('builds parameterized route hrefs from route objects and params', () => {
+    const anchor = document.createElement('a');
+
+    setupRouteLink(anchor, route.user, { params: { id: '42' } });
+
+    expect(anchor.textContent).toBe(routeLabel.user);
+    expect(anchor.getAttribute('href')).toBe('/users/42');
+  });
+
+  it('marks the exact active route link with aria-current', () => {
+    const anchor = document.createElement('a');
+    setupRouteLink(anchor, route.about);
+
+    expect(anchor.hasAttribute('aria-current')).toBe(false);
+
+    anchor.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+
+    expect(anchor.getAttribute('aria-current')).toBe('page');
+  });
+
   it('lets modified clicks use browser behavior', () => {
     const anchor = document.createElement('a');
     setupRouteLink(anchor, route.about);
@@ -73,11 +93,11 @@ describe('setupRouteLink', () => {
     expect(window.location.pathname).toBe(routePath.home);
   });
 
-  it('throws for parameterized route links until typed param links are designed', () => {
+  it('throws for parameterized route links without params', () => {
     const anchor = document.createElement('a');
 
     expect(() => setupRouteLink(anchor, route.user)).toThrow(
-      'Route "user" requires params. Typed param links are deferred from Phase 8.',
+      'Route "user" is missing required param "id".',
     );
   });
 

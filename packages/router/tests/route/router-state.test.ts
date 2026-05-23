@@ -1,8 +1,10 @@
 // @vitest-environment jsdom
 
 import { beforeEach, describe, expect, it } from 'vitest';
+import { createRoutes } from '../../src/route/create-routes.js';
 import { defineRoutes } from '../../src/route/define-routes.js';
 import {
+  buildRouteBreadcrumbs,
   getCurrentMatch,
   navigate,
   provideRouter,
@@ -59,6 +61,39 @@ describe('router state', () => {
       params: { id: '42' },
     });
     expect(routeParams()).toEqual({ id: '42' });
+  });
+
+  it('builds breadcrumb links from route object refs', () => {
+    const routes = createRoutes();
+    const shop = routes.page({
+      path: '/shop',
+      label: 'Shop',
+      page: createTestPage('shop'),
+      breadcrumb: routes.breadcrumb.root(),
+    });
+    const product = shop.page({
+      path: 'product',
+      label: 'Products',
+      page: createTestPage('products'),
+      breadcrumb: routes.breadcrumb.parent(shop),
+    });
+    const productDetail = product.page({
+      path: ':id',
+      label: 'Product detail',
+      page: createTestPage('product-detail'),
+      breadcrumb: routes.breadcrumb.parent(product),
+    });
+    const nestedRoute = defineRoutes({ shop, product, productDetail });
+
+    window.history.replaceState(null, '', '/shop');
+    provideRouter(nestedRoute);
+    navigate('/shop/product/42');
+
+    expect(buildRouteBreadcrumbs()).toMatchObject([
+      { label: 'Shop', href: '/shop' },
+      { label: 'Products', href: '/shop/product' },
+      { label: 'Product detail', href: '/shop/product/42' },
+    ]);
   });
 
   it('throws when no route matches', () => {
