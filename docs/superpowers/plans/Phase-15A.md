@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking. This repository forbids subagent-driven Superpowers workflows and user-owned git means every task ends with a review checkpoint, not an automatic commit.
 
-**Goal:** Make `@vanrot/router` production-ready for route definitions, typed params, query strings, route links, breadcrumbs, active state, diagnostics, and starter output without repeated route string literals in user pages, templates, or CSS.
+**Goal:** Make `@vanrot/router` production-ready for route definitions, typed params, query strings, route links, breadcrumb metadata, exact active state, diagnostics, and starter output without repeated route string literals in user pages, templates, or CSS.
 
-**Architecture:** Keep `src/routes.ts` as the route source of truth and preserve object-form `defineRoutes(...)` compatibility while adding a builder-form route graph. Put route graph normalization, params, query handling, URL building, breadcrumbs, and route diagnostics inside `@vanrot/router`; keep compiler work limited to lowering `<vr ... />` and `<vr-breadcrumbs />` into router internal helpers. CLI starter templates should consume the public route object and keep route paths, labels, and route keys out of page HTML/CSS/TS.
+**Architecture:** Keep `src/routes.ts` as the route source of truth and preserve object-form `defineRoutes(...)` compatibility while adding a builder-form route graph. Put route graph normalization, params, query handling, URL building, breadcrumb metadata, and route diagnostics inside `@vanrot/router`; keep compiler work limited to lowering `<vr ... />` into router internal helpers. CLI starter templates should consume the public route object and keep route paths, labels, and route keys out of page HTML/CSS/TS.
 
 **Tech Stack:** TypeScript, Vitest, jsdom, `@vanrot/router`, `@vanrot/compiler`, `@vanrot/cli`, `@vanrot/runtime` signals/effects.
 
@@ -18,16 +18,15 @@
 - Create `packages/router/src/route/path-params.ts`: route path param extraction, validation, path matching, and encoded URL segment replacement.
 - Create `packages/router/src/route/query-string.ts`: query metadata, defaults, arrays, parsing, and serialization.
 - Create `packages/router/src/route/url-builder.ts`: public route URL builder used by links, navigation, breadcrumbs, and tests.
-- Create `packages/router/src/route/breadcrumbs.ts`: breadcrumb definition resolution and current-match breadcrumb model.
-- Create `packages/router/src/dom/route-breadcrumbs.ts`: DOM helper for `<vr-breadcrumbs />`.
+- Modify `packages/router/src/route/router-state.ts`: expose breadcrumb definition resolution and the current-match breadcrumb model.
 - Modify `packages/router/src/route/route-types.ts`: extend route definitions with builder refs, query metadata, breadcrumb metadata, active metadata, and typed URL inputs.
 - Modify `packages/router/src/route/define-routes.ts`: accept object form and builder callback form, normalize route records, validate graph diagnostics, and return a typed route table.
 - Modify `packages/router/src/route/match-route.ts`: move matching onto `path-params.ts` helpers and return query values without letting query strings affect route matching.
 - Modify `packages/router/src/route/router-state.ts`: expose current match, query values, URL navigation by route ref, and active state subscriptions.
-- Modify `packages/router/src/dom/route-link.ts`: accept params/query/options, build URLs, set route-owned text, set exact/ancestor active attributes, and preserve normal browser navigation behavior.
+- Modify `packages/router/src/dom/route-link.ts`: accept params/query/options, build URLs, set route-owned text, set exact active attributes, and preserve normal browser navigation behavior.
 - Modify `packages/router/src/index.ts` and `packages/router/src/internal.ts`: export the new public and compiler-facing helpers.
-- Modify `packages/compiler/src/codegen/generate-component.ts`: lower `<vr route.name param.* query.* />` and `<vr-breadcrumbs />` to router internal helpers with source-rich diagnostics.
-- Modify `packages/compiler/tests/codegen/generate-component.test.ts`: cover route link params/query and breadcrumb lowering.
+- Modify `packages/compiler/src/codegen/generate-component.ts`: lower `<vr route.name param.* query.* />` to router internal helpers with source-rich diagnostics.
+- Modify `packages/compiler/tests/codegen/generate-component.test.ts`: cover route link params/query lowering.
 - Modify `packages/cli/src/create/app-template.ts`: generate route-owned strings only in `src/routes.ts` and no route literals in page templates/CSS.
 - Modify `packages/cli/tests/create.test.ts`: assert starter route ownership and new breadcrumb/link output.
 - Modify `docs/superpowers/final-tdd-inventory.md`, `docs/superpowers/feature-maturity.md`, and `docs/vanrot-presentation.html` only in the final phase-completion task after implementation and verification pass.
@@ -717,7 +716,7 @@ git status --short --branch
 
 Expected: only Phase 15A route implementation and test files are changed beyond unrelated local work.
 
-## Task 4: Route Links And Breadcrumb Contracts
+## Task 4: Route Links And Breadcrumb Metadata Contracts
 
 **Files:**
 - Modify: `packages/router/src/dom/route-link.ts`
@@ -736,7 +735,7 @@ Add tests proving:
 
 - [x] **Step 2: Run failing link and breadcrumb tests**
 
-Run the focused router DOM and route-state tests. Expected: FAIL until route-link and breadcrumb runtime support exists.
+Run the focused router DOM and route-state tests. Expected: FAIL until route-link support and breadcrumb metadata helpers exist.
 
 - [x] **Step 3: Implement route-link URL generation**
 

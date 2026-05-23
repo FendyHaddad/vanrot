@@ -1,4 +1,6 @@
 import type {
+  LayoutRouteDefinition,
+  PageRouteDefinition,
   RouteBreadcrumbDefinition,
   RouteDefinition,
   RouteKind,
@@ -7,8 +9,8 @@ import type {
 } from './route-types.js';
 
 export interface RouteBuilder {
-  page(definition: RouteDefinition): RouteRef;
-  layout(definition: RouteDefinition): RouteRef;
+  page(definition: PageRouteDefinition): RouteRef;
+  layout(definition: LayoutRouteDefinition): RouteRef;
   breadcrumb: {
     root(): RouteBreadcrumbDefinition;
     parent(parent: RouteRef): RouteBreadcrumbDefinition;
@@ -54,15 +56,19 @@ function createBuilder(parent?: RouteRef): RouteBuilder {
   };
 }
 
-function createRouteRef(kind: RouteKind, definition: RouteDefinition, parent?: RouteRef): RouteRef {
+function createRouteRef(
+  kind: RouteKind,
+  definition: PageRouteDefinition | LayoutRouteDefinition,
+  parent?: RouteRef,
+): RouteRef {
   const routeRef = {
     kind,
     definition: { ...definition, kind },
     children: [] as RouteRef[],
-    page(childDefinition: RouteDefinition) {
+    page(childDefinition: PageRouteDefinition) {
       return createRouteRef('page', childDefinition, routeRef);
     },
-    layout(childDefinition: RouteDefinition) {
+    layout(childDefinition: LayoutRouteDefinition) {
       return createRouteRef('layout', childDefinition, routeRef);
     },
     ...(parent === undefined ? {} : { parent }),

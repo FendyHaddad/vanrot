@@ -105,28 +105,21 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-23 9:34pm GMT+8
+# [vanrot] recent context, 2026-05-24 12:17am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (15,334t read) | 1,453,220t work | 99% savings
+Stats: 50 obs (14,657t read) | 1,492,051t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
 S597 @vanrot/runtime implementation plan written phase-by-phase — plan complete, awaiting execution approach decision (May 20 at 11:32 PM)
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
 S652 Investigate why using Codex with claude-mem charges Claude API usage — determine if harnesses are co-dependent and how to fix it (May 20 at 11:34 PM)
-### May 22, 2026
-1757 6:54p 🔵 Phase 12C Task 2 re-review: createAttributeValueSpan entity-robustness confirmed
-1758 " 🔵 Phase 12C Task 2 re-review: bindings.ts intentionally skips if-block/for-block/slot-outlet traversal
-1759 " 🔵 Phase 12C Task 2 compiler tests: 51 tests across 13 files all pass
 ### May 23, 2026
-1760 3:09a 🔵 Claude-Mem + Codex Co-Dependency Causes Unintended Claude API Charges
-1761 " 🔵 claude-mem Source Code Confirmed to Contain Direct Anthropic API References
 1762 3:10a 🔵 claude-mem Directly Depends on @anthropic-ai/claude-agent-sdk
-1763 " 🔵 openclaw Is a Claude Agent SDK Lifecycle Hook — Not a Standalone API Caller
 1764 3:11a 🔵 claude-mem Worker Defaults to claude-sonnet-4-5 — Root Cause of Unexpected Charges
 S653 Switch claude-mem provider from Claude API to Gemini to stop unexpected charges when using Codex harness (May 23 at 3:12 AM)
 1765 3:13a 🔵 claude-mem settings.json Located and Current Config Revealed
@@ -176,6 +169,13 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1884 9:06p 🔵 Phase 15A spec details and file structure identified
 1885 9:13p 🟣 Phase 15B: Nested Layout Routing Implemented
 1886 " ⚖️ Exclude 'group' routing construct in Phase 15B
+1887 10:59p 🔵 User questions the method's complexity
+1888 11:06p 🔵 Phase 15B Nested Layout Routing Specification
+### May 24, 2026
+1889 12:05a ✅ Initiate cleanup before planning next writing task
+1891 12:07a 🔵 Review of tsconfig.base.json compiler options
+1890 " 🔵 Review of AGENTS.md project rules
+1892 12:08a 🔵 Code search for routing-related types
 
-Access 1453k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1492k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

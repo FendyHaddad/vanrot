@@ -29,17 +29,56 @@ export interface RouteBreadcrumbDefinition {
   parent?: RouteRef;
 }
 
-export interface RouteDefinition {
+export interface RouteDefinitionBase {
   path: string;
   label: string;
+  nav?: RouteNavMetadata;
+  query?: RouteQueryDefinitionMap;
+  breadcrumb?: RouteBreadcrumbDefinition;
+}
+
+export type PageRouteDefinition = RouteDefinitionBase &
+  (
+    | {
+        kind?: 'page';
+        page: RoutePageModule;
+        loadPage?: never;
+        layout?: never;
+        loadLayout?: never;
+      }
+    | {
+        kind?: 'page';
+        page?: never;
+        loadPage: RoutePageLoader;
+        layout?: never;
+        loadLayout?: never;
+      }
+  );
+
+export type LayoutRouteDefinition = RouteDefinitionBase &
+  (
+    | {
+        kind?: 'layout';
+        page?: never;
+        loadPage?: never;
+        layout: RouteLayoutModule;
+        loadLayout?: never;
+      }
+    | {
+        kind?: 'layout';
+        page?: never;
+        loadPage?: never;
+        layout?: never;
+        loadLayout: RouteLayoutLoader;
+      }
+  );
+
+export interface RouteDefinition extends RouteDefinitionBase {
   kind?: RouteKind;
   page?: RoutePageModule;
   loadPage?: RoutePageLoader;
   layout?: RouteLayoutModule;
   loadLayout?: RouteLayoutLoader;
-  nav?: RouteNavMetadata;
-  query?: RouteQueryDefinitionMap;
-  breadcrumb?: RouteBreadcrumbDefinition;
 }
 
 export type RouteInput = Record<string, RouteDefinition | RouteRef>;
@@ -49,8 +88,8 @@ export interface RouteRef {
   readonly definition: RouteDefinition;
   readonly parent?: RouteRef;
   readonly children: RouteRef[];
-  page(definition: RouteDefinition): RouteRef;
-  layout(definition: RouteDefinition): RouteRef;
+  page(definition: PageRouteDefinition): RouteRef;
+  layout(definition: LayoutRouteDefinition): RouteRef;
 }
 
 export type DefinedRoute<Key extends string = string> = RouteDefinition & {

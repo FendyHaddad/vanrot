@@ -1,8 +1,11 @@
 export type {
   DefinedRoute,
   DefinedRouteTable,
+  LayoutRouteDefinition,
+  PageRouteDefinition,
   RouteChainMatch,
   RouteDefinition,
+  RouteDefinitionBase,
   RouteInput,
   RouteKind,
   RouteLayoutLoader,

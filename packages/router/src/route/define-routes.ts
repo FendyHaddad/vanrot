@@ -23,7 +23,7 @@ export function defineRoutes<Input extends RouteInput>(routes: Input): DefinedRo
     }
   }
 
-  linkChildren(routeRecords, routeByRef);
+  linkChildren(routeRecords);
   linkBreadcrumbParents(routeRecords, routeByRef);
   validateRouteGraph(routeRecords);
 
@@ -144,16 +144,15 @@ function validateRenderTarget(
 
 function linkChildren(
   routeRecords: Array<{ input: RouteInput[string]; route: DefinedRoute }>,
-  routeByRef: Map<RouteRef, DefinedRoute>,
 ): void {
   for (const record of routeRecords) {
     if (!isRouteRef(record.input)) {
       continue;
     }
 
-    record.route.children = record.input.children
-      .map((child) => routeByRef.get(child))
-      .filter((child): child is DefinedRoute => child !== undefined);
+    record.route.children = routeRecords
+      .filter((childRecord) => childRecord.route.parent === record.route)
+      .map((childRecord) => childRecord.route);
   }
 }
 

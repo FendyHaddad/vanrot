@@ -2306,7 +2306,7 @@ Add rows to the `@vanrot/router` section of `docs/superpowers/final-tdd-inventor
 
 ```md
 | router | nested layout routes | Production-Ready | Root layouts, child layouts, index child pages, params, query values, shared-layout retention, cleanup, lazy child page loading, and diagnostics are covered. | Phase 15B | Depends on Phase 15A route contract. |
-| router | route registry order | Production-Ready | `defineRoutes({ ... })` order is canonical for rendering, generated navigation, diagnostics, and docs examples. Child-before-parent route order fails with a stable diagnostic. | Phase 15B | No route-name string parent references. |
+| router | route registry order | Production-Ready | `defineRoutes({ ... })` order is canonical for rendering, parent `children` arrays, generated navigation, diagnostics, and docs examples. Child-before-parent route order fails with a stable diagnostic. | Phase 15B | No route-name string parent references. |
 | compiler | router and outlet placement | Production-Ready | `<vr-router />` is allowed only once in `app.layout.html`; `<vr-outlet />` is required exactly once in route layout templates and rejected in page templates. | Phase 15B | Compiler diagnostics expose source positions. |
 | cli | nested router starter | Production-Ready | Generated starter uses `app.layout.*`, route layout examples, route-owned nav metadata, and no repeated route path or label literals outside `src/routes.ts`. | Phase 15B | Keeps the framework rule visible in new apps. |
 ```

@@ -118,6 +118,34 @@ describe('defineRoutes layout route graph', () => {
     );
   });
 
+  it('orders child routes by defineRoutes() registry order, not builder creation order', () => {
+    const routes = createRoutes();
+    const shop = routes.layout({
+      path: routePath.shop,
+      label: routeLabel.shop,
+      layout: createTestLayout('shop'),
+    });
+    const cart = shop.page({
+      path: routePath.cart,
+      label: routeLabel.cart,
+      page: createTestPage('cart'),
+    });
+    const product = shop.layout({
+      path: routePath.product,
+      label: routeLabel.product,
+      layout: createTestLayout('product'),
+    });
+    const productIndex = product.page({
+      path: routePath.productIndex,
+      label: routeLabel.productIndex,
+      page: createTestPage('product-index'),
+    });
+
+    const route = defineRoutes({ shop, product, productIndex, cart });
+
+    expect(route.shop.children.map((child) => child.key)).toEqual(['product', 'cart']);
+  });
+
   it('fails when a page owns children', () => {
     const routes = createRoutes();
     const shop = routes.page({

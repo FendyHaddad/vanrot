@@ -138,6 +138,13 @@ Parent-child ownership comes from the builder receiver:
 
 The route object refs remain available for breadcrumbs, generated links, active-state checks, diagnostics, and future router features. Route names are still taken from the `defineRoutes({ ... })` keys, not string literals passed into route builders.
 
+The builder API keeps page and layout definitions separate at the TypeScript boundary:
+
+- `.page(...)` accepts `page` or `loadPage`
+- `.layout(...)` accepts `layout` or `loadLayout`
+
+The object-form `defineRoutes({ home: { ... } })` compatibility path remains permissive enough to collect route diagnostics for older apps.
+
 ## Registry Order
 
 `defineRoutes({ ... })` is the canonical route registry order.
@@ -149,6 +156,7 @@ That order is used for route-owned UI surfaces where order matters:
 - diagnostics output
 - route maps
 - documentation examples
+- parent `children` arrays used by matching and rendering
 
 Navigation visibility is route metadata, not a separate menu array. Detail routes are still routable and breadcrumb-aware, but can be hidden from nav through route-owned metadata.
 
