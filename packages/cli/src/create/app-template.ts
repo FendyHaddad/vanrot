@@ -1,3 +1,4 @@
+import { renderCanonicalVanrotConfig } from '@vanrot/config';
 import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts } from '../commands/metadata.js';
 
@@ -70,17 +71,11 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'vanrot.config.ts',
-      content:
-        `import { defineVanrotConfig } from '@vanrot/config';\n\n` +
-        `export default defineVanrotConfig({\n` +
-        `  schemaVersion: 1,\n` +
-        `  source: { root: 'src' },\n` +
-        `  devServer: { port: 1010 },\n` +
-        `});\n`,
+      content: renderCanonicalVanrotConfig(),
     },
     {
       path: 'src/main.ts',
-      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\nimport { AppLayout } from './app/app.layout.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(AppLayout, target);\n`,
+      content: `import { mount } from '@vanrot/runtime';\nimport { provideRouter } from '@vanrot/router';\nimport { AppLayout } from './app/app.layout.ts';\nimport { route as appRoute } from './routes.ts';\n${uiAppFile.tokenImport}\n${uiAppFile.vanrotstylesImport}\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing #app mount target.');\n}\n\nprovideRouter(appRoute);\nmount(AppLayout, target);\n`,
     },
     {
       path: 'src/routes.ts',

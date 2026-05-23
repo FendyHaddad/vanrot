@@ -1,14 +1,99 @@
 :root {
-  --vr-color-canvas: #0b0f14;
-  --vr-color-surface: #121821;
-  --vr-color-surface-raised: #182231;
+  color-scheme: dark light;
+  --vr-font-sans: Geist, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --vr-font-number: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  --vr-font-feature-numeric: "tnum" 1, "lnum" 1;
+  --vr-text-xs: 0.75rem;
+  --vr-text-sm: 0.875rem;
+  --vr-text-md: 1rem;
+  --vr-text-lg: 1.125rem;
+  --vr-text-xl: 1.25rem;
+  --vr-leading-tight: 1.2;
+  --vr-leading-normal: 1.5;
+  --vr-space-0: 0;
+  --vr-space-1: 0.25rem;
+  --vr-space-2: 0.5rem;
+  --vr-space-3: 0.75rem;
+  --vr-space-4: 1rem;
+  --vr-space-5: 1.25rem;
+  --vr-space-6: 1.5rem;
+  --vr-space-8: 2rem;
+  --vr-space-10: 2.5rem;
+  --vr-space-12: 3rem;
+  --vr-radius-none: 0;
+  --vr-radius-sm: 0.25rem;
+  --vr-radius-md: 0.5rem;
+  --vr-radius-lg: 0.75rem;
+  --vr-radius-xl: 1rem;
+  --vr-radius-full: 999px;
+  --vr-shadow-0: none;
+  --vr-shadow-1: 0 1px 2px rgb(0 0 0 / 0.14);
+  --vr-shadow-2: 0 10px 28px rgb(0 0 0 / 0.24);
+  --vr-shadow-3: 0 18px 48px rgb(0 0 0 / 0.32);
+  --vr-z-base: 0;
+  --vr-z-dropdown: 300;
+  --vr-z-sticky: 400;
+  --vr-z-overlay: 600;
+  --vr-z-modal: 700;
+  --vr-z-toast: 800;
+  --vr-z-tooltip: 900;
+  --vr-motion-fast: 140ms ease;
+  --vr-motion-normal: 220ms ease;
+  --vr-motion-slow: 360ms ease;
+}
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --vr-color-canvas: #080c11;
+  --vr-color-page: #0d1219;
+  --vr-color-surface: #121922;
+  --vr-surface-card: #151e29;
+  --vr-surface-raised: #1a2532;
+  --vr-surface-popover: #202c3a;
+  --vr-surface-muted: #101720;
   --vr-color-text: #eef4fb;
   --vr-color-muted: #9aa8b8;
-  --vr-color-line: rgba(238, 244, 251, 0.14);
-  --vr-color-accent: #f05a3d;
-  --vr-color-accent-strong: #ff775c;
-  --vr-radius-control: 8px;
-  --vr-shadow-control: 0 14px 40px rgba(0, 0, 0, 0.24);
-  --vr-font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --vr-motion-fast: 140ms ease;
+  --vr-color-line: rgb(238 244 251 / 0.14);
+  --vr-color-focus: #ff8a70;
+  --vr-color-brand: #f05a3d;
+  --vr-color-brand-foreground: #170806;
+  --vr-color-success: #48c78e;
+  --vr-color-warning: #f5c451;
+  --vr-color-danger: #ff6b6b;
+  --vr-color-info: #63b3ff;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --vr-color-canvas: #f7f8fa;
+  --vr-color-page: #ffffff;
+  --vr-color-surface: #ffffff;
+  --vr-surface-card: #ffffff;
+  --vr-surface-raised: #f2f5f8;
+  --vr-surface-popover: #ffffff;
+  --vr-surface-muted: #eef2f6;
+  --vr-color-text: #101720;
+  --vr-color-muted: #5d6978;
+  --vr-color-line: rgb(16 23 32 / 0.14);
+  --vr-color-focus: #d94f36;
+  --vr-color-brand: #d94f36;
+  --vr-color-brand-foreground: #ffffff;
+  --vr-color-success: #147a4b;
+  --vr-color-warning: #946200;
+  --vr-color-danger: #c53636;
+  --vr-color-info: #0b67b2;
+}
+
+html {
+  background: var(--vr-color-canvas);
+  color: var(--vr-color-text);
+  font-family: var(--vr-font-sans);
+}
+
+.vr-numeric,
+[data-vr-numeric="true"] {
+  font-family: var(--vr-font-number);
+  font-feature-settings: var(--vr-font-feature-numeric);
+  font-variant-numeric: tabular-nums lining-nums;
 }

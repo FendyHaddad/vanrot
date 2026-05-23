@@ -13,8 +13,10 @@
   },
   "files": [
     "dist",
-    "src/tokens",
-    "src/primitives"
+    "src/docs",
+    "src/primitives",
+    "src/styles",
+    "src/tokens"
   ],
   "dependencies": {
     "@vanrot/runtime": "file:../runtime"

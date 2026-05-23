@@ -13,6 +13,12 @@ import { generateForBlock, generateIfBlock } from './control-flow.js';
 import { createGeneratedMapping } from './mappings.js';
 import { generateSlotOutlet } from './slots.js';
 import { createGenerateState, type GenerateState } from './state.js';
+import {
+  createUnsupportedVanrotUiMessage,
+  findCompilerUiElement,
+  isVanrotUiTag,
+  type CompilerUiElement,
+} from './ui-elements.js';
 
 export interface GenerateComponentInput {
   metadata: ComponentMetadata;
@@ -29,10 +35,6 @@ export interface GenerateComponentResult {
   componentDependencies: GenerateState['componentDependencies'];
   mappings: GenerateState['mappings'];
 }
-
-const uiButtonTagName = 'vr-button';
-const uiButtonNativeTagName = 'button';
-const uiButtonBaseClass = 'vr-button';
 
 export function generateComponent(
   input: GenerateComponentInput,
@@ -188,8 +190,9 @@ function generateElement(
     return;
   }
 
-  if (node.tagName === uiButtonTagName) {
-    generateUiButton(node, parentName, scopeAttribute, state);
+  const uiElement = findCompilerUiElement(node.tagName);
+  if (uiElement !== null) {
+    generateCompilerUiElement(node, parentName, scopeAttribute, state, uiElement);
     return;
   }
 
@@ -198,7 +201,7 @@ function generateElement(
     return;
   }
 
-  if (isUnsupportedVanrotUiTag(node.tagName)) {
+  if (isVanrotUiTag(node.tagName)) {
     diagnoseUnsupportedVanrotUiTag(node.tagName, state);
     return;
   }
@@ -344,44 +347,46 @@ function unwrapRouteBindingExpression(value: string): string {
   return trimmedValue;
 }
 
-function generateUiButton(
+function generateCompilerUiElement(
   node: ElementNode,
   parentName: string,
   scopeAttribute: string,
   state: GenerateState,
+  uiElement: CompilerUiElement,
 ): void {
-  const buttonName = state.ids.next(uiButtonNativeTagName);
+  const elementName = state.ids.next(uiElement.nativeTagName);
 
-  state.features.add('ui-button');
-  state.lines.push(`  const ${buttonName} = document.createElement(${quoteString(uiButtonNativeTagName)});`);
-  state.lines.push(`  ${buttonName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
-  generateUiButtonClass(node.attributes, buttonName, state);
+  state.features.add(uiElement.feature);
+  state.lines.push(`  const ${elementName} = document.createElement(${quoteString(uiElement.nativeTagName)});`);
+  state.lines.push(`  ${elementName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
+  generateUiElementClass(node.attributes, elementName, state, uiElement.baseClass);
 
   for (const attribute of node.attributes) {
     if (attribute.name === 'class') {
       continue;
     }
 
-    generateAttribute(attribute, buttonName, state);
+    generateAttribute(attribute, elementName, state);
   }
 
   for (const child of node.children) {
-    generateNode(child, buttonName, scopeAttribute, state);
+    generateNode(child, elementName, scopeAttribute, state);
   }
 
-  state.lines.push(`  ${parentName}.append(${buttonName});`);
+  state.lines.push(`  ${parentName}.append(${elementName});`);
 }
 
-function generateUiButtonClass(
+function generateUiElementClass(
   attributes: readonly TemplateAttribute[],
-  buttonName: string,
+  elementName: string,
   state: GenerateState,
+  baseClass: string,
 ): void {
   const classAttribute = attributes.find((attribute) => attribute.name === 'class');
-  const classValue = mergeClassValue(uiButtonBaseClass, classAttribute?.value ?? '');
+  const classValue = mergeClassValue(baseClass, classAttribute?.value ?? '');
 
   state.lines.push(
-    `  ${buttonName}.setAttribute(${quoteString('class')}, ${quoteString(classValue)});`,
+    `  ${elementName}.setAttribute(${quoteString('class')}, ${quoteString(classValue)});`,
   );
 }
 
@@ -393,16 +398,12 @@ function mergeClassValue(baseClass: string, userClassValue: string): string {
   return [...classNames].join(' ');
 }
 
-function isUnsupportedVanrotUiTag(tagName: string): boolean {
-  return tagName.startsWith('vr-');
-}
-
 function diagnoseUnsupportedVanrotUiTag(tagName: string, state: GenerateState): void {
   state.diagnostics.push(
     createDiagnostic(
       'VR010',
       'error',
-      `${tagName} is not a supported Vanrot UI primitive in Phase 9. Use <vr-button> or add this primitive to the production UI plan.`,
+      createUnsupportedVanrotUiMessage(tagName),
       state.templatePath,
     ),
   );

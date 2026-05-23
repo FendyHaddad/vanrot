@@ -34,14 +34,20 @@ describe('vr add', () => {
     await expect(readFile(join(appRoot, 'src', 'styles', 'vanrot-ui.css'), 'utf8')).resolves.toContain(
       "@import '../ui/button/ui.button.css';",
     );
+    await expect(readFile(join(appRoot, 'src', 'styles', 'vanrotstyles.css'), 'utf8')).resolves.toContain(
+      '@layer vanrotstyles',
+    );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
       "import './styles/vanrot-ui.css';",
+    );
+    await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
+      "import './styles/vanrotstyles.css';",
     );
     await expect(readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8')).resolves.toContain(
       '<vr-button class="vr-button-primary" type="button">',
     );
     await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
-      'ui: { prefix: "ui" },',
+      "ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },",
     );
     expect(reporter.output()).toContain('Added button');
   });
@@ -58,6 +64,12 @@ describe('vr add', () => {
     );
     await expect(readFile(join(cwd, 'src', 'ui', 'button', 'primary.button.html'), 'utf8')).resolves.toContain(
       '<vr-button type="button">',
+    );
+    await expect(readFile(join(cwd, 'src', 'styles', 'vanrotstyles.css'), 'utf8')).resolves.toContain(
+      '@layer vanrotstyles',
+    );
+    await expect(readFile(join(cwd, 'src', 'main.ts'), 'utf8')).resolves.toContain(
+      "import './styles/vanrotstyles.css';",
     );
     await expect(readFile(join(cwd, 'src', 'styles', 'vanrot-ui.css'), 'utf8')).resolves.toContain(
       "@import '../ui/button/primary.button.css';",
@@ -113,6 +125,73 @@ describe('vr add', () => {
 
     expect(result.exitCode).toBe(0);
     expect(main.match(/vanrot-ui\.css/g)).toHaveLength(1);
+  });
+
+  it('does not add vanrotstyles when project config selects Tailwind', async () => {
+    const cwd = await tempRoot();
+    const createReporter = createMemoryReporter();
+    await runCli(['create', 'tailwind-app', '--workspace'], { cwd, reporter: createReporter });
+    const appRoot = join(cwd, 'tailwind-app');
+    const mainPath = join(appRoot, 'src', 'main.ts');
+    const starterMain = await readFile(mainPath, 'utf8');
+    await writeFile(mainPath, starterMain.replace("import './styles/vanrotstyles.css';\n", ''));
+    await writeFile(
+      join(appRoot, 'vanrot.config.ts'),
+      [
+        "import { defineVanrotConfig } from '@vanrot/config';",
+        '',
+        'export default defineVanrotConfig({',
+        '  schemaVersion: 1,',
+        "  source: { root: 'src' },",
+        '  devServer: { port: 1010 },',
+        "  ui: { flavor: 'october', styles: 'tailwind', prefix: 'ui' },",
+        '});',
+        '',
+      ].join('\n'),
+    );
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['add', 'button'], { cwd: appRoot, reporter });
+
+    expect(result.exitCode).toBe(0);
+    await expect(readFile(join(appRoot, 'src', 'styles', 'vanrotstyles.css'), 'utf8')).resolves.toContain(
+      '@layer vanrotstyles',
+    );
+    const main = await readFile(join(appRoot, 'src', 'main.ts'), 'utf8');
+    expect(main).not.toContain("import './styles/vanrotstyles.css';");
+    expect(main).toContain("import './styles/vanrot-tokens.css';");
+  });
+
+  it('does not add vanrotstyles when project config selects no utility layer', async () => {
+    const cwd = await tempRoot();
+    const createReporter = createMemoryReporter();
+    await runCli(['create', 'plain-app', '--workspace'], { cwd, reporter: createReporter });
+    const appRoot = join(cwd, 'plain-app');
+    const mainPath = join(appRoot, 'src', 'main.ts');
+    const starterMain = await readFile(mainPath, 'utf8');
+    await writeFile(mainPath, starterMain.replace("import './styles/vanrotstyles.css';\n", ''));
+    await writeFile(
+      join(appRoot, 'vanrot.config.ts'),
+      [
+        "import { defineVanrotConfig } from '@vanrot/config';",
+        '',
+        'export default defineVanrotConfig({',
+        '  schemaVersion: 1,',
+        "  source: { root: 'src' },",
+        '  devServer: { port: 1010 },',
+        "  ui: { flavor: 'october', styles: 'none', prefix: 'ui' },",
+        '});',
+        '',
+      ].join('\n'),
+    );
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['add', 'button'], { cwd: appRoot, reporter });
+
+    expect(result.exitCode).toBe(0);
+    const main = await readFile(join(appRoot, 'src', 'main.ts'), 'utf8');
+    expect(main).not.toContain("import './styles/vanrotstyles.css';");
+    expect(main).toContain("import './styles/vanrot-tokens.css';");
   });
 
   it('rejects unsupported primitives', async () => {

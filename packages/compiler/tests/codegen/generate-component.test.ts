@@ -628,6 +628,23 @@ describe('generateComponent', () => {
     expect(result.features).toContain('ui-button');
   });
 
+  it('lowers vr-button through compiler-known October UI metadata', () => {
+    const templateSource = '<vr-button class="primary" type="button">Save</vr-button>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'home.page.html'),
+      scopeAttribute: 'data-vr-test',
+      templatePath: 'home.page.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.features).toContain('ui-button');
+    expect(result.js).toContain("document.createElement('button')");
+    expect(result.js).toContain('vr-button primary');
+  });
+
   it('does not duplicate the vr-button base class', () => {
     const templateSource = '<vr-button class="vr-button vr-button-primary"></vr-button>';
 
@@ -686,7 +703,7 @@ describe('generateComponent', () => {
         code: 'VR010',
         severity: 'error',
         message:
-          'vr-card is not a supported Vanrot UI primitive in Phase 9. Use <vr-button> or add this primitive to the production UI plan.',
+          '<vr-card> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
       },
     ]);
   });

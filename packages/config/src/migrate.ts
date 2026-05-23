@@ -34,6 +34,7 @@ export function renderCanonicalVanrotConfig(): string {
     '  schemaVersion: 1,',
     "  source: { root: 'src' },",
     '  devServer: { port: 1010 },',
+    "  ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },",
     '});',
     '',
   ].join('\n');

@@ -159,13 +159,16 @@ describe('vr create', () => {
     const packageJson = await readFile(join(appRoot, 'package.json'), 'utf8');
     const main = await readFile(join(appRoot, 'src', 'main.ts'), 'utf8');
     const tokens = await readFile(join(appRoot, 'src', 'styles', 'vanrot-tokens.css'), 'utf8');
+    const vanrotstyles = await readFile(join(appRoot, 'src', 'styles', 'vanrotstyles.css'), 'utf8');
     const homePageTs = await readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.ts'), 'utf8');
     const homePageHtml = await readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8');
 
     expect(packageJson).toContain('"@vanrot/ui": "workspace:*"');
     expect(main).toContain("import './styles/vanrot-tokens.css';");
+    expect(main).toContain("import './styles/vanrotstyles.css';");
     expect(tokens).toContain('--vr-color-surface');
-    expect(tokens).toContain('--vr-radius-control');
+    expect(tokens).toContain('--vr-radius-md');
+    expect(vanrotstyles).toContain('@layer vanrotstyles');
     expect(homePageTs).toContain("'home.cta': 'Start building'");
     expect(homePageHtml).toContain("{{ t('home.title') }}");
     expect(homePageHtml).toContain("{{ t('home.summary') }}");
@@ -203,6 +206,7 @@ describe('vr create', () => {
     expect(source).toContain('schemaVersion: 1');
     expect(source).toContain("root: 'src'");
     expect(source).toContain('port: 1010');
+    expect(source).toContain("ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },");
   });
 
   it('can create into an existing directory with --force', async () => {

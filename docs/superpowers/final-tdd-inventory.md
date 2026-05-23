@@ -192,12 +192,16 @@ When a phase adds or changes framework surface area:
 | package | UI package foundation | Demo-Capable | Package exports metadata, assets, primitives, docs hooks, and remains tree-shakeable. | Phase 9, Phase 16 | First UI surface is the button primitive. |
 | metadata | default UI prefix | Demo-Capable | Prefix rules support default `ui` and user-chosen local prefixes consistently. | Phase 9, Phase 16 | File prefix can vary; component type stays central. |
 | metadata | primitive registry metadata | Demo-Capable | Registry lists supported primitives, generated file names, asset URLs, and future flavors. | Phase 9, Phase 16 | Current primitive type is `button`. |
-| assets | `vanrot-tokens.css` | Demo-Capable | Tokens support V01, V02, utility interop, theming policy, docs examples, and visual QA. | Phase 9, Phase 16, Phase 17 | Current token CSS is starter-level. |
+| assets | `vanrot-tokens.css` | Production-Ready for Phase 16A foundation | Tokens support October dark/light themes, Geist text hooks, JetBrains Mono numeric hooks, utility interop, theming policy, docs examples, and future visual QA. | Phase 9, Phase 16A | Full component integration and visual QA remain Phase 16B-16E. |
 | primitive | `UiButton` source component | Demo-Capable | Button supports accessible defaults, children, events, disabled state, form behavior, variants, and class passthrough. | Phase 9, Phase 16 | Source files are `ui.button.ts/html/css`. |
 | compiler | `<vr-button>` lowering | Demo-Capable | Native output stays accessible and compatible with future UI parameters and variants. | Phase 9, Phase 16 | Rich parameters are deferred. |
 | CLI | generated `src/ui/button/ui.button.*` | Demo-Capable | Generator handles default and local prefixes, collision safety, tokens, usage patching, and optional tests. | Phase 9, Phase 16, Phase 18 | `primary.button.*` style is supported by local prefix. |
-| flavor | V01 shadcn-inspired UI | Deferred | Production primitive catalog, variants, accessibility, tokens, and docs. | Phase 16 | Codename until final naming. |
-| flavor | V02 brutalist UI | Deferred | Brutalist flavor keeps parity with V01 contracts and passes visual QA. | Phase 17 | Future flavor work. |
+| package | `@vanrot/ui` October inventory | Production-Ready for Phase 16A foundation | Package exports October metadata, package inventory docs, guidelines, tokens, `vanrotstyles.css`, and asset URLs. | Phase 16A | Component catalog implementation remains Phase 16B-16E. |
+| asset | `vanrotstyles.css` | Production-Ready for Phase 16A foundation | Unprefixed utility classes cover display, flex, grid, spacing, sizing, typography, surfaces, borders, radius, shadows, motion, overflow, z-index, and accessibility helpers. | Phase 16A | Teams can disable usage through config style mode. |
+| config | `ui.styles` | Production-Ready for Phase 16A foundation | `vanrot.config.ts` normalizes and validates `vanrotstyles`, `tailwind`, and `none` style modes. | Phase 16A | CLI create/add respects the style mode. |
+| compiler | October UI tag diagnostics | Production-Ready for Phase 16A foundation | `<vr-button>` remains compiler-lowered and unsupported `vr-*` UI tags use October diagnostics. | Phase 16A | Additional semantic tags remain sliced. |
+| flavor | October UI | In Progress | Production primitive catalog, variants, accessibility, tokens, and docs. | Phase 16 | Phase 16A establishes the foundation; component coverage remains sliced. |
+| flavor | Future brutalist UI | Deferred | Brutalist flavor keeps parity with October contracts and passes visual QA. | Phase 17 | Future flavor work. |
 
 ## `@vanrot/testing`
 
@@ -248,7 +252,7 @@ into isolated audit tests.
 | Beautiful CLI UX | cli | Demo reporter exists | Red/green snapshot/interaction tests for command output that is beautiful, readable, and scriptable. | Phase 14 |
 | Router production 15A | router, compiler | Route contract production slice works | Red/green tests for builder refs, typed params, query strings, URL generation, exact active links, breadcrumb metadata helpers, compiler route-link lowering, and route diagnostics. | Phase 15A |
 | Router production 15D | router, runtime | Preloading and keepAlive integration complete | Red/green tests for route policy helpers, redirect policy diagnostics, lazy module caching, intent link preloading, route-chain preload side effects, keepAlive identity/store, outlet detach/restore, nested layout compatibility, and full router integration workflows. | Phase 15D |
-| UI production V01/V02 | ui, compiler, cli | Button demo works | Red/green tests for primitive catalog, variants, accessibility, tokens, utilities, and flavor parity. | Phase 16, Phase 17 |
+| UI October production | ui, compiler, cli | October foundation works | Red/green tests for package inventory, tokens, utilities, config style modes, primitive catalog, variants, accessibility, and approved flavor parity. | Phase 16, Phase 17 |
 | Testing production | testing | Component helper demo works | Red/green tests for pages, router workflows, accessibility, async helpers, and generator-wide `--test`. | Phase 18 |
 | Store | store | Deferred | Red/green tests for signal-native state, actions, reducers, selectors, effects, tracing, and interop. | Phase 19, Phase 20 |
 | Forms and async resources | forms, async | Deferred | Red/green tests for field metadata, validation, resource cancellation, cache policy, and loading/error conventions. | Phase 21 |

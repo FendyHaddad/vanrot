@@ -105,13 +105,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-24 2:01am GMT+8
+# [vanrot] recent context, 2026-05-24 4:16am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (14,323t read) | 1,508,683t work | 99% savings
+Stats: 50 obs (13,585t read) | 1,634,340t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -119,14 +119,9 @@ S597 @vanrot/runtime implementation plan written phase-by-phase — plan complet
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
 S652 Investigate why using Codex with claude-mem charges Claude API usage — determine if harnesses are co-dependent and how to fix it (May 20 at 11:34 PM)
 ### May 23, 2026
-1764 3:11a 🔵 claude-mem Worker Defaults to claude-sonnet-4-5 — Root Cause of Unexpected Charges
 S653 Switch claude-mem provider from Claude API to Gemini to stop unexpected charges when using Codex harness (May 23 at 3:12 AM)
-1765 3:13a 🔵 claude-mem settings.json Located and Current Config Revealed
 S654 Switch claude-mem provider from Claude API to Gemini free tier to eliminate unexpected charges when using Codex harness (May 23 at 3:13 AM)
 S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
-1767 3:16a ✅ Restarted claude-mem worker
-1766 " 🔵 Codex usage incurs Claude-Mem charges
-1768 " 🔵 Claude-Mem worker status confirmed
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 1770 3:18a 🔵 Codex configuration files and model usage
@@ -176,6 +171,11 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1890 " 🔵 Review of AGENTS.md project rules
 1892 12:08a 🔵 Code search for routing-related types
 1894 1:42a 🔵 User confirms understanding of caching requirements
+1895 3:16a ⚖️ VR UI Framework Naming and Theming
+1896 " ⚖️ Package Distribution and Documentation
+1897 " ⚖️ Framework Configuration for CSS
+1899 3:55a 🟣 Enhanced CSS Token and Utility Testing
+1898 3:56a ✅ Execution Plans Skill Documentation
 
-Access 1509k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1634k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

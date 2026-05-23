@@ -1,6 +1,11 @@
 import { access, readFile, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { upsertVanrotConfigDomain, vanrotConfigFileName } from '@vanrot/config';
+import {
+  loadVanrotProjectConfig,
+  upsertVanrotConfigDomain,
+  vanrotConfigFileName,
+  vanrotUiStyleMode,
+} from '@vanrot/config';
 import { defaultUiPrefix, uiAppFile, uiPrimitiveType } from '@vanrot/ui';
 import { isKebabCase } from '../generate/names.js';
 import type { CommandContext, CommandResult } from '../result.js';
@@ -18,6 +23,7 @@ import {
   buttonStyleImport,
   readHomeButtonUsage,
   readTokenCss,
+  readVanrotStylesCss,
   renderButtonFiles,
 } from './ui-assets.js';
 
@@ -78,6 +84,8 @@ export async function addUiPrimitive(
       includeTest: request.includeTest,
     });
     const tokens = await readTokenCss();
+    const vanrotstyles = await readVanrotStylesCss();
+    const styleMode = await readUiStyleMode(context.cwd);
     const usage = await readHomeButtonUsage();
 
     await assertFilesMissing(context.cwd, files.map((file) => file.path));
@@ -96,6 +104,11 @@ export async function addUiPrimitive(
       );
     }
     await writeFileIfMissing(context.cwd, uiAppFile.tokens, tokens);
+
+    if (styleMode === vanrotUiStyleMode.vanrotstyles) {
+      await writeFileIfMissing(context.cwd, uiAppFile.vanrotstyles, vanrotstyles);
+      await ensureMainImport(context.cwd, uiAppFile.vanrotstylesImport);
+    }
 
     for (const file of files) {
       await writeNewFile(context.cwd, file.path, file.content);
@@ -121,6 +134,11 @@ export async function addUiPrimitive(
   }
 }
 
+async function readUiStyleMode(cwd: string): Promise<string> {
+  const loaded = await loadVanrotProjectConfig(cwd);
+  return loaded.config.ui.styles;
+}
+
 async function ensureUiDomainInConfig(cwd: string): Promise<void> {
   const configPath = join(cwd, vanrotConfigFileName);
 
@@ -129,7 +147,11 @@ async function ensureUiDomainInConfig(cwd: string): Promise<void> {
   }
 
   const currentConfig = await readFile(configPath, 'utf8');
-  const nextConfig = upsertVanrotConfigDomain(currentConfig, 'ui', '{ prefix: "ui" }');
+  const nextConfig = upsertVanrotConfigDomain(
+    currentConfig,
+    'ui',
+    "{ flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' }",
+  );
 
   if (nextConfig === currentConfig) {
     return;

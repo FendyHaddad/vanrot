@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { validateVanrotConfig } from '../src/index.js';
+import { configDiagnosticCode, validateVanrotConfig } from '../src/index.js';
 
 describe('validateVanrotConfig', () => {
   it('reports invalid port ranges as semantic errors', () => {
@@ -12,6 +12,54 @@ describe('validateVanrotConfig', () => {
       expect.arrayContaining([
         expect.objectContaining({
           code: 'VRCFG003',
+          severity: 'error',
+        }),
+      ]),
+    );
+  });
+
+  it('reports invalid UI flavor values', () => {
+    const diagnostics = validateVanrotConfig({
+      schemaVersion: 1,
+      ui: { flavor: 'summer' },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: configDiagnosticCode.invalidUiFlavor,
+          severity: 'error',
+        }),
+      ]),
+    );
+  });
+
+  it('reports invalid UI style modes', () => {
+    const diagnostics = validateVanrotConfig({
+      schemaVersion: 1,
+      ui: { styles: 'primeflex' },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: configDiagnosticCode.invalidUiStyleMode,
+          severity: 'error',
+        }),
+      ]),
+    );
+  });
+
+  it('reports invalid UI prefixes', () => {
+    const diagnostics = validateVanrotConfig({
+      schemaVersion: 1,
+      ui: { prefix: 'Not Valid' },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          code: configDiagnosticCode.invalidUiPrefix,
           severity: 'error',
         }),
       ]),

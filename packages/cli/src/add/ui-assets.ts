@@ -52,6 +52,10 @@ export async function readTokenCss(): Promise<string> {
   return readAsset(uiAssetUrl.tokens);
 }
 
+export async function readVanrotStylesCss(): Promise<string> {
+  return readAsset(uiAssetUrl.vanrotstyles);
+}
+
 export async function readHomeButtonUsage(): Promise<string> {
   return readAsset(uiAssetUrl.button.homeUsage);
 }

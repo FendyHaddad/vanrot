@@ -1,5 +1,29 @@
 export const defaultUiPrefix = 'ui';
 
+export const uiFlavor = {
+  october: 'october',
+} as const;
+
+export type UiFlavor = (typeof uiFlavor)[keyof typeof uiFlavor];
+
+export const uiStyleMode = {
+  vanrotstyles: 'vanrotstyles',
+  tailwind: 'tailwind',
+  none: 'none',
+} as const;
+
+export type UiStyleMode = (typeof uiStyleMode)[keyof typeof uiStyleMode];
+
+export const uiComponentPhase = {
+  foundation: '16A',
+  core: '16B',
+  layoutData: '16C',
+  overlays: '16D',
+  shellPatterns: '16E',
+} as const;
+
+export type UiComponentPhase = (typeof uiComponentPhase)[keyof typeof uiComponentPhase];
+
 export const uiPrimitiveType = {
   button: 'button',
 } as const;
@@ -8,8 +32,10 @@ export type UiPrimitiveType = (typeof uiPrimitiveType)[keyof typeof uiPrimitiveT
 
 export const uiAppFile = {
   tokens: 'src/styles/vanrot-tokens.css',
+  vanrotstyles: 'src/styles/vanrotstyles.css',
   styleEntry: 'src/styles/vanrot-ui.css',
   tokenImport: "import './styles/vanrot-tokens.css';",
+  vanrotstylesImport: "import './styles/vanrotstyles.css';",
   styleEntryImport: "import './styles/vanrot-ui.css';",
 } as const;
 
@@ -25,8 +51,60 @@ export const uiPrimitive = {
   },
 } as const;
 
+export const uiComponentCatalog = {
+  button: {
+    selector: 'vr-button',
+    nativeTag: 'button',
+    phase: uiComponentPhase.foundation,
+    status: 'compiler-lowered',
+  },
+  card: {
+    selector: 'vr-card',
+    nativeTag: 'article',
+    phase: uiComponentPhase.core,
+    status: 'planned',
+  },
+  input: {
+    selector: 'vr-input',
+    nativeTag: 'input',
+    phase: uiComponentPhase.core,
+    status: 'planned',
+  },
+  dialog: {
+    selector: 'vr-dialog',
+    nativeTag: 'dialog',
+    phase: uiComponentPhase.overlays,
+    status: 'planned',
+  },
+  table: {
+    selector: 'vr-table',
+    nativeTag: 'table',
+    phase: uiComponentPhase.layoutData,
+    status: 'planned',
+  },
+  shell: {
+    selector: 'vr-shell',
+    nativeTag: 'div',
+    phase: uiComponentPhase.shellPatterns,
+    status: 'planned',
+  },
+} as const;
+
+export const uiPackageInventory = {
+  name: '@vanrot/ui',
+  flavor: uiFlavor.october,
+  stylesheet: 'vanrotstyles.css',
+  tokens: 'vanrot-tokens.css',
+  ownership: 'developer-owned',
+} as const;
+
 export const uiAssetUrl = {
   tokens: new URL('../src/tokens/vanrot-tokens.css', import.meta.url),
+  vanrotstyles: new URL('../src/styles/vanrotstyles.css', import.meta.url),
+  docs: {
+    packageInventory: new URL('../src/docs/package-inventory.md', import.meta.url),
+    guidelines: new URL('../src/docs/guidelines.md', import.meta.url),
+  },
   button: {
     typescript: new URL('../src/primitives/button/ui.button.ts', import.meta.url),
     html: new URL('../src/primitives/button/ui.button.html', import.meta.url),

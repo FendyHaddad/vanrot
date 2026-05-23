@@ -23,4 +23,12 @@ export {
   type ConfigDiagnosticSeverity,
 } from './diagnostics.js';
 export { validateVanrotConfig } from './validate.js';
-export type { NormalizedVanrotConfig, VanrotConfig } from './types.js';
+export { vanrotUiFlavor, vanrotUiStyleMode } from './types.js';
+export type {
+  NormalizedVanrotConfig,
+  NormalizedVanrotUiConfig,
+  VanrotConfig,
+  VanrotUiConfig,
+  VanrotUiFlavor,
+  VanrotUiStyleMode,
+} from './types.js';

@@ -14,6 +14,9 @@ export const configDiagnosticCode = {
   invalidPort: 'VRCFG003',
   migrationSuggested: 'VRCFG004',
   recoverAmbiguous: 'VRCFG005',
+  invalidUiFlavor: 'VRCFG006',
+  invalidUiStyleMode: 'VRCFG007',
+  invalidUiPrefix: 'VRCFG008',
 } as const;
 
 export function formatConfigDiagnostic(diagnostic: ConfigDiagnostic): string {
