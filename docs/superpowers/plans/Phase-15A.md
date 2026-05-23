@@ -40,7 +40,7 @@
 - Modify: `packages/router/src/index.ts`
 - Test: `packages/router/tests/route/route-diagnostics.test.ts`
 
-- [ ] **Step 1: Write failing diagnostic tests**
+- [x] **Step 1: Write failing diagnostic tests**
 
 Create `packages/router/tests/route/route-diagnostics.test.ts`:
 
@@ -91,7 +91,7 @@ describe('route diagnostics', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing diagnostic tests**
+- [x] **Step 2: Run the failing diagnostic tests**
 
 Run:
 
@@ -101,7 +101,7 @@ pnpm --filter @vanrot/router test -- tests/route/route-diagnostics.test.ts
 
 Expected: FAIL because `route-diagnostic-codes.ts` and `route-diagnostics.ts` do not exist.
 
-- [ ] **Step 3: Add diagnostic code and factory modules**
+- [x] **Step 3: Add diagnostic code and factory modules**
 
 Create `packages/router/src/route/route-diagnostic-codes.ts`:
 
@@ -179,7 +179,7 @@ export type {
 export { createRouteDiagnostic } from './route/route-diagnostics.js';
 ```
 
-- [ ] **Step 4: Verify diagnostic tests pass**
+- [x] **Step 4: Verify diagnostic tests pass**
 
 Run:
 
@@ -189,7 +189,7 @@ pnpm --filter @vanrot/router test -- tests/route/route-diagnostics.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 5: Review checkpoint**
+- [x] **Step 5: Review checkpoint**
 
 Run:
 
@@ -208,7 +208,7 @@ Expected: diagnostic files are uncommitted in the working tree. Do not run `git 
 - Modify: `packages/router/src/index.ts`
 - Test: `packages/router/tests/route/define-routes.test.ts`
 
-- [ ] **Step 1: Add failing builder-form tests**
+- [x] **Step 1: Add failing builder-form tests**
 
 Append to `packages/router/tests/route/define-routes.test.ts`:
 
@@ -259,7 +259,7 @@ it('keeps object-form defineRoutes compatibility', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing builder tests**
+- [x] **Step 2: Run the failing builder tests**
 
 Run:
 
@@ -269,7 +269,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes.test.ts
 
 Expected: FAIL because `createRoutes()` does not exist and `defineRoutes()` does not resolve builder parent refs.
 
-- [ ] **Step 3: Extend route types**
+- [x] **Step 3: Extend route types**
 
 Replace `packages/router/src/route/route-types.ts` with:
 
@@ -339,7 +339,7 @@ export interface RouteUrlInput {
 export type RouteParamsSignal = Signal<RouteParams>;
 ```
 
-- [ ] **Step 4: Add the builder API**
+- [x] **Step 4: Add the builder API**
 
 Create `packages/router/src/route/create-routes.ts`:
 
@@ -390,7 +390,7 @@ function createRouteRef(definition: RouteDefinition, parent?: RouteRef): RouteRe
 }
 ```
 
-- [ ] **Step 5: Normalize routes in `defineRoutes()`**
+- [x] **Step 5: Normalize routes in `defineRoutes()`**
 
 Replace `packages/router/src/route/define-routes.ts` with:
 
@@ -463,7 +463,7 @@ function normalizeRootPath(path: string): string {
 }
 ```
 
-- [ ] **Step 6: Export the builder**
+- [x] **Step 6: Export the builder**
 
 Modify `packages/router/src/index.ts`:
 
@@ -472,7 +472,7 @@ export type { RouteBuilder } from './route/create-routes.js';
 export { createRoutes } from './route/create-routes.js';
 ```
 
-- [ ] **Step 7: Verify builder tests pass**
+- [x] **Step 7: Verify builder tests pass**
 
 Run:
 
@@ -482,7 +482,7 @@ pnpm --filter @vanrot/router test -- tests/route/define-routes.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 8: Review checkpoint**
+- [x] **Step 8: Review checkpoint**
 
 Run:
 
@@ -668,3 +668,143 @@ function routeSegments(path: string): string[] {
   if (path === '/') {
     return [];
   }
+
+  return path.split('/').filter(Boolean);
+}
+```
+
+- [ ] **Step 4: Implement query strings and URL building**
+
+Create `packages/router/src/route/query-string.ts` with helpers that:
+
+- accept only query keys declared on the route definition;
+- omit `undefined`, `null`, empty arrays, and values equal to the query default;
+- serialize arrays as repeated query keys;
+- encode keys and values with `URLSearchParams`.
+
+Create `packages/router/src/route/url-builder.ts` with `buildRouteUrl(route, options?)`. It must:
+
+- fill every required path param;
+- reject missing params with a route-name diagnostic message;
+- reject unknown params and unknown query keys;
+- append the query string returned by the query helper.
+
+- [ ] **Step 5: Use param matching in route matching**
+
+Update `packages/router/src/route/match-route.ts` so query strings do not affect route matching and dynamic path segments return route params on the match result.
+
+- [ ] **Step 6: Export URL helpers**
+
+Export the public route types and helpers needed by router DOM components, compiler lowering, and tests from `packages/router/src/index.ts`.
+
+- [ ] **Step 7: Verify params and URL tests pass**
+
+Run:
+
+```bash
+pnpm --filter @vanrot/router test -- tests/route/path-params.test.ts tests/route/url-builder.test.ts tests/route/match-route.test.ts
+```
+
+Expected: PASS.
+
+- [ ] **Step 8: Review checkpoint**
+
+Run:
+
+```bash
+git status --short --branch
+```
+
+Expected: only Phase 15A route implementation and test files are changed beyond unrelated local work.
+
+## Task 4: Route Links And Breadcrumb Contracts
+
+**Files:**
+- Modify: `packages/router/src/dom/route-link.ts`
+- Modify: `packages/router/src/dom/route-outlet.ts`
+- Modify: `packages/router/src/route/router-state.ts`
+- Create or modify tests under `packages/router/tests/dom/` and `packages/router/tests/route/`
+
+- [ ] **Step 1: Add failing route-link and breadcrumb tests**
+
+Add tests proving:
+
+- route links accept route objects rather than route-name strings;
+- generated hrefs use `buildRouteUrl()` for params and query;
+- exact active links receive `aria-current="page"`;
+- breadcrumb chains are built from breadcrumb route refs and reuse current params where needed.
+
+- [ ] **Step 2: Run failing link and breadcrumb tests**
+
+Run the focused router DOM and route-state tests. Expected: FAIL until route-link and breadcrumb runtime support exists.
+
+- [ ] **Step 3: Implement route-link URL generation**
+
+Update the DOM route-link primitive to delegate href creation to `buildRouteUrl()` and to keep active-state behavior framework-owned.
+
+- [ ] **Step 4: Implement breadcrumb metadata helpers**
+
+Add breadcrumb metadata support to route definitions. Breadcrumbs must use route object refs, not route-name or path strings. Static labels come from route labels unless explicitly provided at the source-of-truth boundary.
+
+- [ ] **Step 5: Verify link and breadcrumb tests pass**
+
+Run the focused tests added in this task. Expected: PASS.
+
+## Task 5: Compiler And Starter Route Source Of Truth
+
+**Files:**
+- Modify compiler route primitive lowering where `<vr route.* param.* query.* />` is handled
+- Modify starter/generated app route examples if they repeat route strings outside `src/routes.ts`
+- Add or update compiler and fixture tests for route primitives
+
+- [ ] **Step 1: Add failing compiler/starter tests**
+
+Add tests proving:
+
+- `<vr route.name param.* query.* />` lowers without embedding route-name, path, label, active-class, or CSS hook literals in user-authored pages;
+- unknown params and query keys produce stable route diagnostics;
+- generated starter pages import route objects instead of repeating route strings.
+
+- [ ] **Step 2: Implement compiler lowering changes**
+
+Update route primitive lowering to consume the route contract helpers from the route source of truth.
+
+- [ ] **Step 3: Verify compiler/starter tests pass**
+
+Run focused compiler/starter tests, then the router test suite.
+
+## Task 6: Phase Completion Docs And Verification
+
+**Files:**
+- Modify: `docs/superpowers/feature-maturity.md`
+- Modify: `docs/superpowers/final-tdd-inventory.md`
+- Modify: `docs/vanrot-presentation.html`
+- Modify: `docs/superpowers/plans/Phase-15A.md`
+
+- [ ] **Step 1: Mark completed plan tasks**
+
+Tick every completed checkbox in this plan only after the corresponding implementation and verification steps pass.
+
+- [ ] **Step 2: Update production maturity docs**
+
+Update `docs/superpowers/feature-maturity.md`, `docs/superpowers/final-tdd-inventory.md`, and `docs/vanrot-presentation.html` so Phase 15A’s completed production slice, test memory, and roadmap are synchronized.
+
+- [ ] **Step 3: Run full verification**
+
+Run:
+
+```bash
+pnpm verify
+```
+
+Expected: PASS, including `verify:phase-docs` and runtime size budget.
+
+- [ ] **Step 4: Final review checkpoint**
+
+Run:
+
+```bash
+git status --short --branch
+```
+
+Report changed files, verification evidence, and any unrelated local changes left untouched. Do not stage, commit, or push unless the user asks.
