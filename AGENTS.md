@@ -105,13 +105,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-23 5:14pm GMT+8
+# [vanrot] recent context, 2026-05-23 9:31pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (17,397t read) | 1,485,476t work | 99% savings
+Stats: 50 obs (15,334t read) | 1,453,220t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -119,12 +119,6 @@ S597 @vanrot/runtime implementation plan written phase-by-phase — plan complet
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
 S652 Investigate why using Codex with claude-mem charges Claude API usage — determine if harnesses are co-dependent and how to fix it (May 20 at 11:34 PM)
 ### May 22, 2026
-1749 6:40p 🔵 Phase 12C Task 1: Spec Compliant — All Tests Pass
-1751 6:41p 🔵 Phase 12C Task 1 Re-Review: All Three Fixes Verified Correct — APPROVED
-1752 " 🔵 Phase 12C Task 1 Caller Drift Risk: Hardcoded Strings Duplicate Catalog Messages
-1756 6:43p ⚖️ Phase 12C Task 2 Code-Quality Review — Two Additional Fixes Queued
-1754 6:50p 🔵 Phase 12C Task 2: Template AST Spans And Normal HTML Parsing — Review Scope
-1755 " 🟣 Phase 12C Task 2: SourceSpan Added to All Template AST Nodes and Bindings
 1757 6:54p 🔵 Phase 12C Task 2 re-review: createAttributeValueSpan entity-robustness confirmed
 1758 " 🔵 Phase 12C Task 2 re-review: bindings.ts intentionally skips if-block/for-block/slot-outlet traversal
 1759 " 🔵 Phase 12C Task 2 compiler tests: 51 tests across 13 files all pass
@@ -176,6 +170,12 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1876 4:50p 🟣 Brainstorming Phase 15 Initiated
 1877 " ✅ Updated Project Plan
 1878 4:51p 🔵 Project File Discovery
+1880 7:36p 🔵 Route definition order impacts UI menu order
+1881 8:52p ⚖️ Proposed separation of VR Router and VR Outlet responsibilities
+1882 9:04p ⚖️ Simplify routing module by excluding 'group'
+1884 9:06p 🔵 Phase 15A spec details and file structure identified
+1885 9:13p 🟣 Phase 15B: Nested Layout Routing Implemented
+1886 " ⚖️ Exclude 'group' routing construct in Phase 15B
 
-Access 1485k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1453k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
