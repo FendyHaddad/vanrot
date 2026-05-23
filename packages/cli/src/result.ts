@@ -1,4 +1,5 @@
 import type { ProcessRunner } from './process/runner.js';
+import type { OutputMode } from './reporter/modes.js';
 import type { Reporter } from './reporter/reporter.js';
 
 export interface CommandResult {
@@ -9,6 +10,7 @@ export interface CommandContext {
   cwd: string;
   reporter: Reporter;
   runner?: ProcessRunner;
+  outputMode?: OutputMode;
 }
 
 export type CommandHandler = (args: string[], context: CommandContext) => Promise<CommandResult>;

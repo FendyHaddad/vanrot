@@ -98,4 +98,21 @@ describe('vr doctor', () => {
     expect(reporter.output()).toContain('Raw user-facing text found in template');
     expect(reporter.output()).toContain('Nested if statement can be a guard clause');
   });
+
+  it('renders each finding on one labeled line with one next section', async () => {
+    const cwd = await mkdtemp(join(tmpdir(), 'vanrot-cli-doctor-format-'));
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['doctor'], { cwd, reporter });
+    const out = reporter.output();
+
+    expect(result.exitCode).toBe(1);
+    expect(out).toContain('Vanrot Doctor');
+    expect(out).toContain('error     Missing package.json');
+    expect(out).toContain('          package.json');
+    expect(out).toContain('error     Missing src directory');
+    expect(out).toContain('          src');
+    expect(out).toContain('next      Run vr create <name> to scaffold a Vanrot project.');
+    expect(out.match(/^next\s+/gm)).toHaveLength(1);
+  });
 });

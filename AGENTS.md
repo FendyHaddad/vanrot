@@ -96,64 +96,21 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-22 9:05pm GMT+8
+# [vanrot] recent context, 2026-05-23 3:14pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (21,539t read) | 1,051,348t work | 98% savings
+Stats: 50 obs (17,956t read) | 1,473,880t work | 99% savings
 
 ### May 20, 2026
-S589 Vanrot Runtime Kernel Rule — full spec design complete, ready to write design doc (May 20 at 10:42 PM)
-S590 @vanrot/runtime Reactive Kernel API spec — full surface defined, two open questions raised before freezing (May 20 at 10:51 PM)
-S591 @vanrot/runtime Reactive Kernel API spec — full surface defined, two open questions raised before freezing (May 20 at 10:57 PM)
-S592 @vanrot/runtime lifecycle and DOM helper boundaries finalized — two final questions before writing spec doc (May 20 at 10:57 PM)
-S593 @vanrot/runtime lifecycle and DOM helper boundaries finalized — two final clarifications before writing spec doc (May 20 at 11:06 PM)
-S595 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:06 PM)
-S594 Write @vanrot/runtime implementation plan (phase-by-phase, no code implementation) using writing-plans skill (May 20 at 11:23 PM)
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
 S597 @vanrot/runtime implementation plan written phase-by-phase — plan complete, awaiting execution approach decision (May 20 at 11:32 PM)
 S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiting execution approach decision (May 20 at 11:34 PM)
+S652 Investigate why using Codex with claude-mem charges Claude API usage — determine if harnesses are co-dependent and how to fix it (May 20 at 11:34 PM)
 ### May 22, 2026
-1704 3:07p 🟣 Phase 12A Task 1 implemented and verified successfully
-1705 " 🔵 Vanrot working tree state after Phase 12A Task 1 completion
-1706 3:08p 🔵 Local memory API /api/sessions/observations requires tool_name field
-1708 " 🔵 Vanrot Phase 12A Task 1 Spec Compliance Review
-1709 3:11p 🔵 Vanrot Phase 12A Task 1 — Spec Compliance APPROVED
-1710 3:12p 🔵 Vitest 4.1.6 does not support --include as a CLI flag
-1711 " 🔴 Fixed audit:core test discovery via dedicated vitest.audit.config.ts
-1712 3:14p 🔵 Vanrot Phase 12A Task 1 Spec Compliance Re-Review Requested
-1713 3:16p 🔵 Vanrot Phase 12A Task 1 Code Review — APPROVED
-1714 3:17p 🔵 Vanrot Phase 12A Task 1 Spec Compliance — APPROVED
-1715 3:18p 🔵 Vanrot audit files confirmed excluded from root tsconfig.json project references
-1716 " 🔵 Phase 12A Task 1 review verdict APPROVED — observations submitted to worker session store
-1717 3:19p 🟣 Phase 12A Task 2: Red Runtime Audit Test Added
-1718 3:21p 🔵 Runtime cleanup-scope lacks parent-child disposal chain
-1719 " 🟣 audits/core/runtime.audit.ts created and verified red
-1720 " 🔵 Vanrot Phase 12A Task 2 Spec Compliance Review — APPROVED
-1721 3:24p 🟣 Vanrot Phase 12A Task 3: Compiler Diagnostics Red Audit Test Added
-1724 3:29p 🟣 Vanrot Phase 12A Task 4: 12D Vite HMR Red Audit Test Added
-1722 3:30p 🟣 audits/core/compiler.audit.ts Created — Phase 12A Task 3 Complete
-1725 3:33p 🟣 Phase 12A Task 4 Complete: 12D Vite HMR Red Audit Test Created and Verified
-1726 " 🔵 Current handleVanrotHotUpdate Behavior: Full-Reload on Template Changes
-1727 " 🔵 Vanrot Audit Lane Structure: audit-slices.ts Defines 4 Phase-12 Slices
-1728 3:34p 🟣 Phase 12E Red Audit Test: TypeScript Contracts
-1729 3:36p 🟣 Phase 12A Task 5 Complete: 12E TypeScript Contracts Audit Test Created and Verified Red
-1730 " 🔵 Phase 12A Task 5: TypeScript Contracts Audit File Review — APPROVED
-1731 3:38p ⚖️ Phase 12A Task 5 TypeScript Contracts Audit — APPROVED
-1733 " ✅ Vanrot Phase 12A Task 6: TDD Inventory Verification
-1734 3:44p 🔵 Phase 12A Task 6: final-tdd-inventory.md Fully Pre-Populated, No Changes Needed
-1735 " 🔵 rg Command Gotcha: zsh Backtick Substitution in Double-Quoted Patterns
-1736 " 🔵 AGENTS.md Phase Completion Protocol Mandates final-tdd-inventory.md Updates
-1739 " 🔵 Vanrot Phase 12A Task 8 Spec Compliance Review — APPROVED
-1737 3:46p 🔵 Vanrot Phase 12A Task 8 — documentation review findings
-1738 3:47p 🔵 Phase 12A Task 8 review verdict: ISSUES — presentation wording ambiguous on Phase 12 pending status
-1743 6:28p 🟣 Source Span Infrastructure Added to Vanrot Compiler (Phase 12C Task 1)
-1744 " 🟣 Diagnostic Catalog and Rich CompileDiagnostic Fields Added
-1745 " 🔵 Pre-Task Compiler State: No Source Dir, Existing Test Uses toEqual on CompileDiagnostic
-1746 " 🟣 TDD Red Phase Confirmed: location.test.ts Fails as Expected
-1747 " 🟣 All Task 1 Source Files Written: location.ts, catalog.ts, types.ts, diagnostics.ts, index.ts, diagnostics.test.ts
+1746 6:28p 🟣 TDD Red Phase Confirmed: location.test.ts Fails as Expected
 1748 6:33p 🔵 Phase 12C Task 1 Spec Compliance Re-Review Initiated
 1750 6:38p 🔵 Phase 12C Task 1 Post-Fix Code Quality Re-Review Scope
 1753 6:40p 🟣 Phase 12C Task 2: Template AST Span Tracking Initiated
@@ -166,6 +123,50 @@ S598 @vanrot/runtime implementation plan complete — 9 phases, 15 tasks, awaiti
 1757 6:54p 🔵 Phase 12C Task 2 re-review: createAttributeValueSpan entity-robustness confirmed
 1758 " 🔵 Phase 12C Task 2 re-review: bindings.ts intentionally skips if-block/for-block/slot-outlet traversal
 1759 " 🔵 Phase 12C Task 2 compiler tests: 51 tests across 13 files all pass
+### May 23, 2026
+1760 3:09a 🔵 Claude-Mem + Codex Co-Dependency Causes Unintended Claude API Charges
+1761 " 🔵 claude-mem Source Code Confirmed to Contain Direct Anthropic API References
+1762 3:10a 🔵 claude-mem Directly Depends on @anthropic-ai/claude-agent-sdk
+1763 " 🔵 openclaw Is a Claude Agent SDK Lifecycle Hook — Not a Standalone API Caller
+1764 3:11a 🔵 claude-mem Worker Defaults to claude-sonnet-4-5 — Root Cause of Unexpected Charges
+S653 Switch claude-mem provider from Claude API to Gemini to stop unexpected charges when using Codex harness (May 23 at 3:12 AM)
+1765 3:13a 🔵 claude-mem settings.json Located and Current Config Revealed
+S654 Switch claude-mem provider from Claude API to Gemini free tier to eliminate unexpected charges when using Codex harness (May 23 at 3:13 AM)
+S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
+1767 3:16a ✅ Restarted claude-mem worker
+1766 " 🔵 Codex usage incurs Claude-Mem charges
+1768 " 🔵 Claude-Mem worker status confirmed
+S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
+S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
+1770 3:18a 🔵 Codex configuration files and model usage
+S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
+1773 2:08p 🔵 TaskCreate Tool Identified
+1774 " 🟣 Task Creation for Project Context Exploration
+1772 " 🟣 Enhanced UI for Superpowers Feature
+1776 " 🔵 Context Mode Batch Execute Tool Identified
+1778 " 🔵 Phase 14 CLI Design Details Discovered
+1785 2:09p 🔵 CLI Renderer and Presentation Design Details Discovered
+1800 " 🔵 CLI Entry Point and Command Handling Structure Identified
+1818 " 🔵 Doctor Command Implementation Details
+1792 2:10p 🔵 CLI Implementation Files and Commands Identified
+1808 2:11p 🔵 Reporter Interface and Implementations Identified
+1826 2:29p 🔵 Command Metadata and Aliases Defined
+1827 3:01p 🟣 Phase-14 Superpowers Writing Plan
+1828 " 🟣 Session Initialization for Phase-14 Plan
+1829 " 🔵 Phase-14 Requirements and Documentation Context
+1830 3:02p 🔵 Phase-14 CLI UI Enhancement Details
+1831 " 🔵 CLI Package Structure and Scripts
+1833 " 🔵 CLI Diagnostics and Doctor Checks Implementation
+1835 " 🔵 Phase-14 CLI Output and Interaction Specifications
+1837 " 🔵 Phase-14 Planning Context and Self-Review
+1832 " 🔵 CLI Command Metadata and Structure
+1841 " 🔵 Phase-14 CLI Implementation Plan and Spec Outline
+1843 3:04p 🔵 Phase-14 CLI Implementation Plan Tasks
+1856 3:07p ✅ Phase-14 CLI Product Experience Implementation Plan
+1858 " 🔵 Phase-14 Plan Self-Review and Git Status
+1850 3:08p 🔵 CLI Command Context and Intelligence Modules
+1863 " ✅ Phase-14 Plan Placeholder Scan Update
+1861 " 🔵 Phase-14 Plan Placeholder Scan
 
-Access 1051k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1474k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

@@ -6,6 +6,7 @@ export const commandName = {
   doctor: 'doctor',
   map: 'map',
   initAi: 'init-ai',
+  ai: 'ai',
   dev: 'dev',
   build: 'build',
   test: 'test',
@@ -20,6 +21,8 @@ export type CommandName = (typeof commandName)[keyof typeof commandName];
 export interface CliCommandMetadata {
   name: CommandName;
   usage: string;
+  rootUsage: string;
+  description: string;
   secondaryUsages?: readonly string[];
   help: string;
 }
@@ -28,6 +31,8 @@ export const cliCommands: readonly CliCommandMetadata[] = [
   {
     name: commandName.create,
     usage: 'vr create <name>',
+    rootUsage: 'create <name>',
+    description: 'Create a new Vanrot project',
     help: `vr create <name>
 
 Options
@@ -37,6 +42,8 @@ Options
   {
     name: commandName.generate,
     usage: 'vr generate component <name>',
+    rootUsage: 'generate <role> <name>',
+    description: 'Generate a component or page',
     secondaryUsages: ['vr generate page <name>'],
     help: `vr generate <role> <name>
 
@@ -50,6 +57,8 @@ Options
   {
     name: commandName.add,
     usage: 'vr add button',
+    rootUsage: 'add <primitive>',
+    description: 'Add a UI primitive to the project',
     secondaryUsages: ['vr add <local-prefix> button'],
     help: `vr add <primitive>
 vr add <local-prefix> button
@@ -64,6 +73,8 @@ Examples
   {
     name: commandName.config,
     usage: 'vr config migrate',
+    rootUsage: 'config <action>',
+    description: 'Validate, migrate, or recover config',
     secondaryUsages: ['vr config recover', 'vr config migrate --recover'],
     help: `vr config migrate
 vr config recover
@@ -76,32 +87,70 @@ Options
   {
     name: commandName.doctor,
     usage: commandInvocation(commandName.doctor),
+    rootUsage: 'doctor',
+    description: 'Check project health and config',
     help: commandInvocation(commandName.doctor),
   },
   {
     name: commandName.map,
     usage: commandInvocation(commandName.map),
+    rootUsage: 'map',
+    description: 'Print the project structure map',
     help: commandInvocation(commandName.map),
   },
   {
     name: commandName.initAi,
     usage: commandInvocation(commandName.initAi),
+    rootUsage: 'init-ai',
+    description: 'Set up AI context rules for this project',
     help: commandInvocation(commandName.initAi),
+  },
+  {
+    name: commandName.ai,
+    usage: commandInvocation(commandName.ai),
+    rootUsage: 'ai <action>',
+    description: 'Write AI-readable project context',
+    help: `vr ai context
+vr ai doctor
+vr ai prompt
+vr ai record --code <code> --message <message>
+vr ai summarize`,
   },
   {
     name: commandName.dev,
     usage: commandInvocation(commandName.dev),
+    rootUsage: 'dev',
+    description: 'Start dev server with HMR',
     help: commandInvocation(commandName.dev),
   },
   {
     name: commandName.build,
     usage: commandInvocation(commandName.build),
+    rootUsage: 'build',
+    description: 'Compile and bundle for production',
     help: commandInvocation(commandName.build),
   },
   {
     name: commandName.test,
     usage: commandInvocation(commandName.test),
+    rootUsage: 'test',
+    description: 'Run the test suite',
     help: commandInvocation(commandName.test),
+  },
+] as const;
+
+export const commandGroups = [
+  { label: 'Scaffold', commands: [commandName.create, commandName.generate, commandName.add] },
+  { label: 'Development', commands: [commandName.dev, commandName.build, commandName.test] },
+  {
+    label: 'Maintenance',
+    commands: [
+      commandName.doctor,
+      commandName.config,
+      commandName.map,
+      commandName.initAi,
+      commandName.ai,
+    ],
   },
 ] as const;
 

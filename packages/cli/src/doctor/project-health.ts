@@ -1,13 +1,10 @@
 import { access, readFile } from 'node:fs/promises';
 import { basename, join } from 'node:path';
-import {
-  commandInvocation,
-  commandName,
-  commandUsage,
-  starterScriptCommands,
-} from '../commands/metadata.js';
+import { commandInvocation, starterScriptCommands } from '../commands/metadata.js';
 import type { DoctorFinding } from './checks.js';
 import { walkFiles } from './vanrot-rules.js';
+
+const SCAFFOLD_NEXT_STEP = 'Run vr create <name> to scaffold a Vanrot project.';
 
 export async function checkProjectHealth(cwd: string): Promise<DoctorFinding[]> {
   const findings: DoctorFinding[] = [];
@@ -20,7 +17,7 @@ export async function checkProjectHealth(cwd: string): Promise<DoctorFinding[]> 
         'VRT0001',
         'package.json',
         'Missing package.json',
-        `Run ${commandUsage(commandName.create)} to create a Vanrot app.`,
+        SCAFFOLD_NEXT_STEP,
       ),
     );
   }
@@ -35,7 +32,7 @@ export async function checkProjectHealth(cwd: string): Promise<DoctorFinding[]> 
         'VRT0002',
         'src',
         'Missing src directory',
-        `Create src/ or run ${commandUsage(commandName.create)}.`,
+        SCAFFOLD_NEXT_STEP,
       ),
     );
   }
@@ -46,7 +43,7 @@ export async function checkProjectHealth(cwd: string): Promise<DoctorFinding[]> 
         'VRT0003',
         'vite.config.ts',
         'Missing vite.config.ts',
-        'Add Vite config with @vanrot/vite-plugin.',
+        SCAFFOLD_NEXT_STEP,
       ),
     );
   }
