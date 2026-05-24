@@ -2,6 +2,7 @@ import { createRoutes, defineRoutes } from '@vanrot/router';
 import { DocsLayout } from './layouts/docs/docs.layout.ts';
 import { ComponentArticlePage } from './pages/components/component-article.page.ts';
 import { ComponentButtonPage } from './pages/components/component-button.page.ts';
+import { ComponentCardPage } from './pages/components/component-card.page.ts';
 import { ComponentGalleryPage } from './pages/components/component-gallery.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
@@ -19,6 +20,7 @@ const routePath = {
   docs: docsBasePath,
   components: '/docs/components',
   componentButtons: '/docs/components/buttons',
+  componentCards: '/docs/components/cards',
   reference: '/reference',
 } as const;
 
@@ -62,6 +64,14 @@ const componentButtons = routes.page({
   breadcrumb: routes.breadcrumb.root(),
 });
 
+const componentCards = routes.page({
+  path: routePath.componentCards,
+  label: 'Card',
+  page: ComponentCardPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
 const docsInstallation = articlePage(siteArticleKey.installation);
 const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
 const docsRuntime = articlePage(siteArticleKey.runtime);
@@ -99,6 +109,7 @@ export const route = defineRoutes({
   components,
   docs,
   componentButtons,
+  componentCards,
   docsIntroduction,
   docsInstallation,
   docsProjectStructure,

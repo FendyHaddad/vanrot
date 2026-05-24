@@ -240,45 +240,13 @@
         margin: 0 0 32px;
       }
 
-      /* ── Tabs ──────────────────────────────────────────── */
-
-      .tabs {
-        display: inline-flex;
-        gap: 2px;
-        padding: 3px;
-        border-radius: var(--radius);
-        background: var(--panel-soft);
-        margin-bottom: 36px;
-      }
-
-      .tab {
-        height: 28px;
-        border: 0;
-        border-radius: calc(var(--radius) - 1px);
-        padding: 0 12px;
-        background: transparent;
-        color: var(--muted);
-        font: inherit;
-        font-size: 13px;
-        font-weight: 400;
-        cursor: pointer;
-        transition: color 0.12s, background 0.12s, box-shadow 0.12s;
-        white-space: nowrap;
-        outline: none;
-      }
-
-      .tab.active {
-        color: var(--text);
-        background: var(--panel-raised);
-        font-weight: 500;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.04);
-      }
-
-      .tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.05); }
-
       /* ── Section ───────────────────────────────────────── */
 
-      .primitive { margin: 40px 0 56px; }
+      .primitive { margin: 32px 0 56px; }
+
+      .variant-doc {
+        margin: 48px 0 56px;
+      }
 
       .section-head {
         display: flex;
@@ -314,6 +282,113 @@
         color: var(--muted);
         font-family: var(--font-mono);
         font-size: 12px;
+      }
+
+      .variant-example {
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        background: #050505;
+        overflow: hidden;
+      }
+
+      .variant-preview {
+        min-height: 360px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 32px;
+        background-color: var(--panel);
+        background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+
+      .code-block {
+        margin: 0;
+        background: transparent;
+        padding: 32px 80px 32px 0;
+        overflow-x: auto;
+      }
+
+      .code-block code {
+        display: block;
+        color: #e4e4e7;
+        font-family: var(--font-mono);
+        font-size: 15px;
+        line-height: 1.85;
+        font-variant-ligatures: none;
+        tab-size: 2;
+        white-space: pre;
+      }
+
+      .code-snippet {
+        position: relative;
+        border-top: 1px solid var(--border-soft);
+        background: #171717;
+      }
+
+      .code-line {
+        display: grid;
+        grid-template-columns: 64px max-content;
+        min-height: 28px;
+      }
+
+      .code-line-number {
+        color: #a1a1aa;
+        padding-right: 28px;
+        text-align: right;
+        user-select: none;
+      }
+
+      .code-line-content {
+        display: inline-block;
+        color: #e4e4e7;
+        padding-left: 22px;
+      }
+
+      .code-indent-1 {
+        padding-left: 54px;
+      }
+
+      .copy-icon-button {
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        width: 32px;
+        height: 32px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 0;
+        border-radius: var(--radius-sm);
+        background: transparent;
+        color: #a1a1aa;
+        cursor: pointer;
+        transition: color 0.12s, background 0.12s;
+      }
+
+      .copy-icon-button:hover {
+        background: rgba(255,255,255,0.06);
+        color: var(--text);
+      }
+
+      .token.tag { color: #60a5fa; }
+      .token.attr { color: #c084fc; }
+      .token.operator { color: #f472b6; }
+      .token.string { color: #93c5fd; }
+      .token.text { color: #e4e4e7; }
+
+      .variant-preview .btn.outline {
+        height: 48px;
+        padding: 0 22px;
+        border-radius: 12px;
+        background: #1b1b1f;
+        border-color: rgba(255,255,255,0.14);
+        color: #e4e4e7;
+        font-size: 17px;
+      }
+
+      .variant-preview .btn.outline:hover {
+        background: #232329;
       }
 
       /* ── Preview pane ──────────────────────────────────── */
@@ -685,12 +760,102 @@
         }
 
         .content { padding: 32px 20px 72px; }
-        .topbar { padding: 0 20px; }
+        .topbar {
+          height: auto;
+          min-height: 56px;
+          padding: 10px 20px;
+        }
+        .topbar-left { flex-wrap: wrap; }
         .topbar-right { display: none; }
         h1 { font-size: 28px; }
 
         .section-head {
           align-items: flex-start;
           flex-direction: column;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .sidebar { padding: 16px; }
+
+        .brand { margin-bottom: 12px; }
+
+        .search { margin-bottom: 12px; }
+
+        .nav-title { margin-top: 12px; }
+
+        .nav-link {
+          height: 30px;
+          font-size: 13px;
+        }
+
+        .topbar {
+          position: relative;
+          min-height: 52px;
+          padding: 12px 16px;
+        }
+
+        .topbar-left {
+          row-gap: 4px;
+          font-size: 13px;
+        }
+
+        .content { padding: 28px 16px 56px; }
+
+        h1 {
+          font-size: 28px;
+          line-height: 1.12;
+        }
+
+        .lead {
+          font-size: 14px;
+          margin-bottom: 28px;
+        }
+
+        .primitive { margin: 32px 0 44px; }
+
+        .variant-doc { margin: 40px 0 48px; }
+
+        .section-head {
+          gap: 12px;
+          margin-bottom: 14px;
+        }
+
+        .section-head p {
+          font-size: 13px;
+          line-height: 1.6;
+        }
+
+        .code-chip {
+          max-width: 100%;
+          overflow-x: auto;
+        }
+
+        .preview-body { padding: 16px; }
+
+        .variant-grid { grid-template-columns: minmax(0, 1fr); }
+
+        .variant-example { border-radius: 16px; }
+
+        .variant-preview { min-height: 240px; padding: 32px 16px; }
+
+        .code-block {
+          padding: 24px 48px 24px 0;
+          max-width: 100%;
+        }
+
+        .code-block code { font-size: 13px; }
+
+        .code-line { grid-template-columns: 48px max-content; }
+
+        .code-line-number { padding-right: 16px; }
+
+        .code-line-content { padding-left: 16px; }
+
+        .code-indent-1 { padding-left: 40px; }
+
+        .copy-icon-button {
+          top: 18px;
+          right: 18px;
         }
       }

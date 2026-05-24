@@ -13,6 +13,32 @@ All Vanrot code, examples, generated output, specs, and plans should follow the 
 
 If existing files violate these rules, do not spread the pattern. Fix only the part touched by the current task unless the user asks for a broader cleanup.
 
+## Vanrot Site Dev Server Protocol
+
+When finishing changes to `apps/vanrot-site`, restart the local site dev server before the final response so the in-app browser reflects the finished work.
+
+Use the standard local preview target:
+
+```sh
+pkill -f "vite/bin/vite.js.*--port 3000" || true
+pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 3000
+```
+
+After restart, verify the relevant site route responds on `http://localhost:3000`.
+
+## Vanrot Component Docs Protocol
+
+When creating or updating component documentation pages for `apps/vanrot-site`, use the local Codex skill `vanrot-doc-component`.
+
+That skill records the approved Button docs pattern:
+
+- keep the page title only at the top;
+- remove the old eyebrow, lead paragraph, generic usage line, and top selector chip;
+- keep the variants overview card;
+- create one dedicated variant section per variant;
+- use dotted preview backgrounds, shadcn-style code snippets, icon-only copy buttons, and mobile-ready CSS;
+- verify with the site page tests, typecheck, `pnpm verify`, local server reboot, and browser inspection.
+
 ## Superpowers Workflow Protocol
 
 When using Superpowers skills in this repository, do not use subagents, parallel agents, agent dispatch, or subagent-driven workflows.
@@ -105,7 +131,7 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-24 6:57pm GMT+8
+# [vanrot] recent context, 2026-05-24 8:26pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
