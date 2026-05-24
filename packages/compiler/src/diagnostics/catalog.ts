@@ -97,6 +97,11 @@ export const diagnosticCatalog: Record<DiagnosticCode, DiagnosticInfo> = {
     suggestion: 'Report this generated mapping issue with the component, template, and style files.',
     docsPath: '/docs/compiler/source-maps',
   },
+  VR019: {
+    message: 'Invalid Vanrot UI primitive variant.',
+    suggestion: 'Use a variant listed by the primitive metadata in @vanrot/ui.',
+    docsPath: '/docs/ui/primitives',
+  },
   VR_ROUTER_MULTIPLE_ROOTS: {
     message: 'App layout templates can contain only one <vr-router />.',
     suggestion: 'Keep one root <vr-router /> in app.layout.html.',

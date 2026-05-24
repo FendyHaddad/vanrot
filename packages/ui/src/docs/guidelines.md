@@ -9,3 +9,11 @@ October uses Geist for UI text and JetBrains Mono for numeric surfaces. Data tab
 Semantic colors, surfaces, radius, shadow, motion, and typography should be customized through tokens.
 
 Interactive components must preserve native behavior where possible and provide keyboard, focus, contrast, and reduced-motion support.
+
+## Component Documentation Standard
+
+Vanrot component documentation follows the shadcn/ui rhythm: title, preview first, install command, usage, examples, variants, accessibility notes, source ownership, and previous-next links.
+
+The structure is the benchmark, not the branding or text. Vanrot examples use October tokens, `vr-*` semantic tags, `vanrotstyles`, and source-owned component files.
+
+Primitive names, selectors, variants, docs paths, and generated file names should come from `@vanrot/ui` metadata so CLI, compiler, and docs do not drift.

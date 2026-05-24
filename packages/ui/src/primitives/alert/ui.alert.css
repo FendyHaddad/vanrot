@@ -1,0 +1,29 @@
+.vr-alert {
+  background: var(--vr-surface-card);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  color: var(--vr-color-text);
+  display: block;
+  font: 400 var(--vr-text-sm) / var(--vr-leading-normal) var(--vr-font-sans);
+  padding: var(--vr-space-4);
+}
+
+.vr-alert-info {
+  border-color: color-mix(in srgb, var(--vr-color-info) 44%, var(--vr-color-line));
+  color: var(--vr-color-info);
+}
+
+.vr-alert-success {
+  border-color: color-mix(in srgb, var(--vr-color-success) 44%, var(--vr-color-line));
+  color: var(--vr-color-success);
+}
+
+.vr-alert-warning {
+  border-color: color-mix(in srgb, var(--vr-color-warning) 44%, var(--vr-color-line));
+  color: var(--vr-color-warning);
+}
+
+.vr-alert-danger {
+  border-color: color-mix(in srgb, var(--vr-color-danger) 44%, var(--vr-color-line));
+  color: var(--vr-color-danger);
+}

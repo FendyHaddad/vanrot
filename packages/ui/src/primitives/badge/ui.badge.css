@@ -1,0 +1,38 @@
+.vr-badge {
+  align-items: center;
+  background: var(--vr-surface-raised);
+  border: 1px solid transparent;
+  border-radius: var(--vr-radius-full);
+  color: var(--vr-color-text);
+  display: inline-flex;
+  font: 600 var(--vr-text-xs) / 1 var(--vr-font-sans);
+  min-height: 1.5rem;
+  padding: 0 var(--vr-space-2);
+  white-space: nowrap;
+}
+
+.vr-badge-secondary {
+  background: var(--vr-surface-muted);
+  color: var(--vr-color-muted);
+}
+
+.vr-badge-success {
+  background: color-mix(in srgb, var(--vr-color-success) 18%, transparent);
+  color: var(--vr-color-success);
+}
+
+.vr-badge-warning {
+  background: color-mix(in srgb, var(--vr-color-warning) 18%, transparent);
+  color: var(--vr-color-warning);
+}
+
+.vr-badge-danger {
+  background: color-mix(in srgb, var(--vr-color-danger) 18%, transparent);
+  color: var(--vr-color-danger);
+}
+
+.vr-badge-outline {
+  background: transparent;
+  border-color: var(--vr-color-line);
+  color: var(--vr-color-text);
+}

@@ -15,14 +15,18 @@
     "dist"
   ],
   "dependencies": {
+    "@vanrot/ui": "file:../ui",
     "parse5": "^7.1.2",
     "postcss": "^8.4.49",
     "postcss-selector-parser": "^6.1.2",
     "typescript": "^5.9.3"
   },
   "scripts": {
+    "prebuild": "pnpm --filter @vanrot/ui build",
     "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm --filter @vanrot/ui build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/ui build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
   }

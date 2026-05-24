@@ -17,6 +17,7 @@ export type DiagnosticCode =
   | 'VR016'
   | 'VR017'
   | 'VR018'
+  | 'VR019'
   | 'VR_ROUTER_MULTIPLE_ROOTS'
   | 'VR_ROUTER_OUTSIDE_APP_LAYOUT'
   | 'VR_LAYOUT_MISSING_OUTLET'
@@ -70,6 +71,13 @@ export type CompileFeature =
   | 'router-outlet'
   | 'router-link'
   | 'ui-button'
+  | 'ui-card'
+  | 'ui-badge'
+  | 'ui-avatar'
+  | 'ui-alert'
+  | 'ui-loader'
+  | 'ui-skeleton'
+  | 'ui-separator'
   | 'slot';
 
 export interface ComponentDependencyInput {

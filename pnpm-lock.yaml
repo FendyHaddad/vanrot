@@ -63,6 +63,9 @@ importers:
 
   packages/compiler:
     dependencies:
+      '@vanrot/ui':
+        specifier: file:../ui
+        version: link:../ui
       parse5:
         specifier: ^7.1.2
         version: 7.3.0

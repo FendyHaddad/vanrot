@@ -1,0 +1,46 @@
+.vr-skeleton {
+  animation: vr-skeleton-pulse 1.4s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    var(--vr-surface-muted),
+    var(--vr-surface-raised),
+    var(--vr-surface-muted)
+  );
+  background-size: 200% 100%;
+  border-radius: var(--vr-radius-md);
+  color: transparent;
+  display: block;
+  min-height: 1rem;
+  overflow: hidden;
+}
+
+.vr-skeleton-text {
+  height: 1rem;
+  width: 12rem;
+}
+
+.vr-skeleton-avatar {
+  aspect-ratio: 1;
+  border-radius: var(--vr-radius-full);
+  width: 2.5rem;
+}
+
+.vr-skeleton-card {
+  min-height: 8rem;
+  width: 100%;
+}
+
+.vr-skeleton-block {
+  min-height: 4rem;
+  width: 100%;
+}
+
+@keyframes vr-skeleton-pulse {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}

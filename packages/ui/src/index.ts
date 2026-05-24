@@ -2,6 +2,7 @@ export type {
   UiComponentPhase,
   UiFlavor,
   UiPrimitiveType,
+  UiPrimitiveVariant,
   UiStyleMode,
 } from './metadata.js';
 export {
@@ -13,6 +14,8 @@ export {
   uiFlavor,
   uiPackageInventory,
   uiPrimitive,
+  uiPrimitiveOrder,
   uiPrimitiveType,
+  uiPrimitiveVariant,
   uiStyleMode,
 } from './metadata.js';

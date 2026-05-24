@@ -686,8 +686,18 @@ describe('generateComponent', () => {
     expect(result.features).toContain('ui-button');
   });
 
-  it('diagnoses unsupported Vanrot UI primitive tags', () => {
-    const templateSource = '<vr-card>Card</vr-card>';
+  it.each([
+    ['vr-button', 'button', 'vr-button'],
+    ['vr-card', 'article', 'vr-card'],
+    ['vr-badge', 'span', 'vr-badge'],
+    ['vr-avatar', 'span', 'vr-avatar'],
+    ['vr-alert', 'section', 'vr-alert'],
+    ['vr-loader', 'span', 'vr-loader'],
+    ['vr-skeleton', 'span', 'vr-skeleton'],
+    ['vr-separator', 'hr', 'vr-separator'],
+  ])('lowers <%s> into <%s>', (tagName, nativeTagName, baseClass) => {
+    const templateContent = tagName === 'vr-separator' ? '' : 'Content';
+    const templateSource = `<${tagName}>${templateContent}</${tagName}>`;
 
     const result = generateComponent({
       metadata,
@@ -697,13 +707,99 @@ describe('generateComponent', () => {
       templateSource,
     });
 
-    expect(result.js).not.toContain("document.createElement('vr-card')");
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(`document.createElement('${nativeTagName}')`);
+    expect(result.js).toContain(baseClass);
+  });
+
+  it('lowers UI primitive variants into classes without keeping the variant attribute', () => {
+    const templateSource = '<vr-badge variant="success" class="tracking-wide">Passed</vr-badge>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'home.page.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("span0.setAttribute('class', 'vr-badge vr-badge-success tracking-wide');");
+    expect(result.js).not.toContain("setAttribute('variant'");
+  });
+
+  it('diagnoses invalid UI primitive variants', () => {
+    const templateSource = '<vr-button variant="loud">Save</vr-button>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'home.page.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([
+      expect.objectContaining({
+        code: 'VR019',
+        severity: 'error',
+        message:
+          'Invalid variant "loud" for <vr-button>. Supported variants: default, secondary, outline, ghost, danger, link.',
+      }),
+    ]);
+  });
+
+  it('hides decorative loaders and skeletons when no accessible label is provided', () => {
+    const templateSource = '<vr-loader></vr-loader><vr-skeleton></vr-skeleton>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'home.page.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("span0.setAttribute('aria-hidden', 'true');");
+    expect(result.js).toContain("span1.setAttribute('aria-hidden', 'true');");
+  });
+
+  it('sets separator role and orientation defaults', () => {
+    const templateSource = '<vr-separator variant="vertical"></vr-separator>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'home.page.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("hr0.setAttribute('class', 'vr-separator vr-separator-vertical');");
+    expect(result.js).toContain("hr0.setAttribute('role', 'separator');");
+    expect(result.js).toContain("hr0.setAttribute('aria-orientation', 'vertical');");
+  });
+
+  it('diagnoses unsupported Vanrot UI primitive tags', () => {
+    const templateSource = '<vr-dialog>Dialog</vr-dialog>';
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'home.page.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'home.page.html',
+      templateSource,
+    });
+
+    expect(result.js).not.toContain("document.createElement('vr-dialog')");
     expect(result.diagnostics).toMatchObject([
       {
         code: 'VR010',
         severity: 'error',
         message:
-          '<vr-card> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
+          '<vr-dialog> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
       },
     ]);
   });

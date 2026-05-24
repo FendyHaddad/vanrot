@@ -6,7 +6,7 @@ import {
   vanrotConfigFileName,
   vanrotUiStyleMode,
 } from '@vanrot/config';
-import { defaultUiPrefix, uiAppFile, uiPrimitiveType } from '@vanrot/ui';
+import { defaultUiPrefix, uiAppFile, uiPrimitiveOrder, type UiPrimitiveType } from '@vanrot/ui';
 import { isKebabCase } from '../generate/names.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
@@ -20,11 +20,11 @@ import {
 } from './file-edits.js';
 import { patchStarterHome } from './starter-home.js';
 import {
-  buttonStyleImport,
-  readHomeButtonUsage,
+  primitiveStyleImport,
+  readPrimitiveHomeUsage,
   readTokenCss,
   readVanrotStylesCss,
-  renderButtonFiles,
+  renderUiPrimitiveFiles,
 } from './ui-assets.js';
 
 interface AddUiRequest {
@@ -57,16 +57,21 @@ export async function addUiPrimitive(
 
   if (request === null) {
     context.reporter.error(
-      'Usage: vr add button [--test]',
-      'Or use: vr add <local-prefix> button [--test]',
+      'Usage: vr add <primitive> [--test]',
+      [
+        'Or use: vr add <local-prefix> <primitive> [--test]',
+        `Supported UI primitives: ${supportedUiPrimitiveList()}`,
+      ].join('\n'),
     );
     return fail();
   }
 
-  if (request.primitive !== uiPrimitiveType.button) {
+  const primitive = request.primitive;
+
+  if (!isSupportedUiPrimitive(primitive)) {
     context.reporter.error(
-      `Unsupported UI primitive: ${request.primitive}`,
-      `Supported UI primitives: ${uiPrimitiveType.button}`,
+      `Unsupported UI primitive: ${primitive}`,
+      `Supported UI primitives: ${supportedUiPrimitiveList()}`,
     );
     return fail();
   }
@@ -80,13 +85,13 @@ export async function addUiPrimitive(
   }
 
   try {
-    const files = await renderButtonFiles(request.prefix, {
+    const files = await renderUiPrimitiveFiles(primitive, request.prefix, {
       includeTest: request.includeTest,
     });
     const tokens = await readTokenCss();
     const vanrotstyles = await readVanrotStylesCss();
     const styleMode = await readUiStyleMode(context.cwd);
-    const usage = await readHomeButtonUsage();
+    const usage = await readPrimitiveHomeUsage(primitive);
 
     await assertFilesMissing(context.cwd, files.map((file) => file.path));
     if (request.includeTest) {
@@ -114,16 +119,16 @@ export async function addUiPrimitive(
       await writeNewFile(context.cwd, file.path, file.content);
     }
 
-    await ensureLineInFile(context.cwd, uiAppFile.styleEntry, buttonStyleImport(request.prefix));
+    await ensureLineInFile(context.cwd, uiAppFile.styleEntry, primitiveStyleImport(primitive, request.prefix));
     await ensureMainImport(context.cwd, uiAppFile.styleEntryImport);
     await ensureUiDomainInConfig(context.cwd);
 
     const homePatch = await patchStarterHome(context.cwd, usage);
-    context.reporter.success(`Added ${request.primitive}`, files.map((file) => file.path).join('\n'));
+    context.reporter.success(`Added ${primitive}`, files.map((file) => file.path).join('\n'));
 
     if (!homePatch.patched) {
       context.reporter.nextSteps([
-        `Add the <vr-button> snippet to the page where this button should appear.`,
+        `Add the <vr-${primitive}> snippet to the page where this primitive should appear.`,
       ]);
     }
 
@@ -132,6 +137,14 @@ export async function addUiPrimitive(
     context.reporter.error(error instanceof Error ? error.message : 'Failed to add UI primitive.');
     return fail();
   }
+}
+
+function isSupportedUiPrimitive(primitive: string): primitive is UiPrimitiveType {
+  return uiPrimitiveOrder.some((candidate) => candidate === primitive);
+}
+
+function supportedUiPrimitiveList(): string {
+  return uiPrimitiveOrder.join(', ');
 }
 
 async function readUiStyleMode(cwd: string): Promise<string> {

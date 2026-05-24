@@ -1,6 +1,6 @@
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-import { defaultUiPrefix, uiAssetUrl, uiPrimitive } from '@vanrot/ui';
+import { defaultUiPrefix, uiAssetUrl, uiPrimitive, type UiPrimitiveType } from '@vanrot/ui';
 import { toPascalCase } from '../generate/names.js';
 
 export interface RenderedUiFile {
@@ -8,40 +8,47 @@ export interface RenderedUiFile {
   content: string;
 }
 
-export interface RenderButtonFilesOptions {
+export interface RenderUiPrimitiveFilesOptions {
   includeTest?: boolean;
 }
 
-export async function renderButtonFiles(
+export async function renderUiPrimitiveFiles(
+  primitive: UiPrimitiveType,
   prefix: string,
-  options: RenderButtonFilesOptions = {},
+  options: RenderUiPrimitiveFilesOptions = {},
 ): Promise<RenderedUiFile[]> {
+  const metadata = uiPrimitive[primitive];
+  const asset = uiAssetUrl[primitive];
   const [typescript, html, css] = await Promise.all([
-    readAsset(uiAssetUrl.button.typescript),
-    readAsset(uiAssetUrl.button.html),
-    readAsset(uiAssetUrl.button.css),
+    readAsset(asset.typescript),
+    readAsset(asset.html),
+    readAsset(asset.css),
   ]);
-  const className = `${toPascalCase(prefix)}Button`;
+  const className = `${toPascalCase(prefix)}${toPascalCase(primitive)}`;
   const files: RenderedUiFile[] = [
     {
-      path: `${uiPrimitive.button.directory}/${prefix}.button.ts`,
-      content: renameButtonSymbol(typescript, className),
+      path: `${metadata.directory}/${prefix}.${primitive}.ts`,
+      content: renamePrimitiveSymbol(typescript, primitive, className),
     },
     {
-      path: `${uiPrimitive.button.directory}/${prefix}.button.html`,
+      path: `${metadata.directory}/${prefix}.${primitive}.html`,
       content: html,
     },
     {
-      path: `${uiPrimitive.button.directory}/${prefix}.button.css`,
+      path: `${metadata.directory}/${prefix}.${primitive}.css`,
       content: css,
     },
   ];
 
   if (options.includeTest === true) {
-    const test = await readAsset(uiAssetUrl.button.test);
+    const test = await readAsset(asset.test);
     files.push({
-      path: `${uiPrimitive.button.directory}/${prefix}.button.test.ts`,
-      content: renameButtonFilePrefix(renameButtonSymbol(test, className), prefix),
+      path: `${metadata.directory}/${prefix}.${primitive}.test.ts`,
+      content: renamePrimitiveFilePrefix(
+        renamePrimitiveSymbol(test, primitive, className),
+        primitive,
+        prefix,
+      ),
     });
   }
 
@@ -56,30 +63,32 @@ export async function readVanrotStylesCss(): Promise<string> {
   return readAsset(uiAssetUrl.vanrotstyles);
 }
 
-export async function readHomeButtonUsage(): Promise<string> {
-  return readAsset(uiAssetUrl.button.homeUsage);
+export async function readPrimitiveHomeUsage(primitive: UiPrimitiveType): Promise<string> {
+  return readAsset(uiAssetUrl[primitive].homeUsage);
 }
 
-export function buttonStyleImport(prefix: string): string {
-  return `@import '../ui/button/${prefix}.button.css';`;
+export function primitiveStyleImport(primitive: UiPrimitiveType, prefix: string): string {
+  return `@import '../ui/${primitive}/${prefix}.${primitive}.css';`;
 }
 
 async function readAsset(url: URL): Promise<string> {
   return readFile(fileURLToPath(url), 'utf8');
 }
 
-function renameButtonSymbol(source: string, className: string): string {
-  if (className === 'UiButton') {
+function renamePrimitiveSymbol(source: string, primitive: UiPrimitiveType, className: string): string {
+  const defaultClassName = `${toPascalCase(defaultUiPrefix)}${toPascalCase(primitive)}`;
+
+  if (className === defaultClassName) {
     return source;
   }
 
-  return source.replaceAll(`${toPascalCase(defaultUiPrefix)}Button`, className);
+  return source.replaceAll(defaultClassName, className);
 }
 
-function renameButtonFilePrefix(source: string, prefix: string): string {
+function renamePrimitiveFilePrefix(source: string, primitive: UiPrimitiveType, prefix: string): string {
   if (prefix === defaultUiPrefix) {
     return source;
   }
 
-  return source.replaceAll(`./${defaultUiPrefix}.button`, `./${prefix}.button`);
+  return source.replaceAll(`./${defaultUiPrefix}.${primitive}`, `./${prefix}.${primitive}`);
 }

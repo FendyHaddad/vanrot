@@ -1,0 +1,39 @@
+.vr-card {
+  background: var(--vr-surface-card);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  box-shadow: var(--vr-shadow-1);
+  color: var(--vr-color-text);
+  display: block;
+  padding: var(--vr-space-5);
+}
+
+.vr-card-title {
+  font: 600 var(--vr-text-lg) / var(--vr-leading-tight) var(--vr-font-sans);
+  margin: 0;
+}
+
+.vr-card-description {
+  color: var(--vr-color-muted);
+  font: 400 var(--vr-text-sm) / var(--vr-leading-normal) var(--vr-font-sans);
+  margin: var(--vr-space-2) 0 0;
+}
+
+.vr-card-muted {
+  background: var(--vr-surface-muted);
+  box-shadow: var(--vr-shadow-0);
+}
+
+.vr-card-interactive {
+  cursor: pointer;
+  transition:
+    border-color var(--vr-motion-fast),
+    box-shadow var(--vr-motion-fast),
+    transform var(--vr-motion-fast);
+}
+
+.vr-card-interactive:hover {
+  border-color: color-mix(in srgb, var(--vr-color-brand) 42%, var(--vr-color-line));
+  box-shadow: var(--vr-shadow-2);
+  transform: translateY(-1px);
+}

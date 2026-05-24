@@ -3,7 +3,9 @@
 import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { uiPrimitiveOrder } from '@vanrot/ui';
 import { describe, expect, it } from 'vitest';
+import { toPascalCase } from '../src/generate/names.js';
 import { runCli } from '../src/index.js';
 import { createMemoryReporter } from '../src/reporter/reporter.js';
 
@@ -29,7 +31,7 @@ describe('vr add', () => {
       '<vr-button type="button">',
     );
     await expect(readFile(join(appRoot, 'src', 'ui', 'button', 'ui.button.css'), 'utf8')).resolves.toContain(
-      '.vr-button-primary',
+      '.vr-button-secondary',
     );
     await expect(readFile(join(appRoot, 'src', 'styles', 'vanrot-ui.css'), 'utf8')).resolves.toContain(
       "@import '../ui/button/ui.button.css';",
@@ -44,7 +46,7 @@ describe('vr add', () => {
       "import './styles/vanrotstyles.css';",
     );
     await expect(readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8')).resolves.toContain(
-      '<vr-button class="vr-button-primary" type="button">',
+      '<vr-button variant="default" type="button">',
     );
     await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
       "ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },",
@@ -75,6 +77,58 @@ describe('vr add', () => {
       "@import '../ui/button/primary.button.css';",
     );
     await expect(readFile(join(cwd, 'src', 'ui', 'button', 'primary.button.test.ts'), 'utf8')).rejects.toThrow();
+  });
+
+  it('adds a Phase 16B card primitive', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['add', 'card'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(0);
+    await expect(readFile(join(cwd, 'src', 'ui', 'card', 'ui.card.ts'), 'utf8')).resolves.toContain(
+      'export class UiCard',
+    );
+    await expect(readFile(join(cwd, 'src', 'ui', 'card', 'ui.card.html'), 'utf8')).resolves.toContain(
+      '<vr-card>',
+    );
+    await expect(readFile(join(cwd, 'src', 'ui', 'card', 'ui.card.css'), 'utf8')).resolves.toContain(
+      '.vr-card',
+    );
+    await expect(readFile(join(cwd, 'src', 'styles', 'vanrot-ui.css'), 'utf8')).resolves.toContain(
+      "@import '../ui/card/ui.card.css';",
+    );
+  });
+
+  it.each(uiPrimitiveOrder)('adds the supported %s primitive', async (primitive) => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+    const className = `Ui${toPascalCase(primitive)}`;
+
+    const result = await runCli(['add', primitive], { cwd, reporter });
+
+    expect(result.exitCode).toBe(0);
+    await expect(
+      readFile(join(cwd, 'src', 'ui', primitive, `ui.${primitive}.ts`), 'utf8'),
+    ).resolves.toContain(`export class ${className}`);
+    await expect(
+      readFile(join(cwd, 'src', 'ui', primitive, `ui.${primitive}.html`), 'utf8'),
+    ).resolves.toContain(`<vr-${primitive}`);
+  });
+
+  it('adds a locally prefixed Phase 16B primitive', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['add', 'profile', 'avatar'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(0);
+    await expect(readFile(join(cwd, 'src', 'ui', 'avatar', 'profile.avatar.ts'), 'utf8')).resolves.toContain(
+      'export class ProfileAvatar',
+    );
+    await expect(readFile(join(cwd, 'src', 'styles', 'vanrot-ui.css'), 'utf8')).resolves.toContain(
+      "@import '../ui/avatar/profile.avatar.css';",
+    );
   });
 
   it('adds an opt-in custom-prefixed button test', async () => {
@@ -198,11 +252,11 @@ describe('vr add', () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
 
-    const result = await runCli(['add', 'card'], { cwd, reporter });
+    const result = await runCli(['add', 'dialog'], { cwd, reporter });
 
     expect(result.exitCode).toBe(1);
-    expect(reporter.output()).toContain('Unsupported UI primitive: card');
-    expect(reporter.output()).toContain('Supported UI primitives: button');
+    expect(reporter.output()).toContain('Unsupported UI primitive: dialog');
+    expect(reporter.output()).toContain(`Supported UI primitives: ${uiPrimitiveOrder.join(', ')}`);
   });
 
   it('rejects invalid local prefixes', async () => {

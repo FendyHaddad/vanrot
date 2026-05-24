@@ -1,0 +1,24 @@
+.vr-avatar {
+  align-items: center;
+  aspect-ratio: 1;
+  background: var(--vr-surface-raised);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-full);
+  color: var(--vr-color-text);
+  display: inline-flex;
+  font: 700 var(--vr-text-sm) / 1 var(--vr-font-sans);
+  justify-content: center;
+  overflow: hidden;
+  width: 2.5rem;
+}
+
+.vr-avatar-soft {
+  background: color-mix(in srgb, var(--vr-color-brand) 16%, var(--vr-surface-raised));
+  border-color: transparent;
+  color: var(--vr-color-brand);
+}
+
+.vr-avatar-outline {
+  background: transparent;
+  border-color: var(--vr-color-line);
+}

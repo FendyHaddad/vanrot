@@ -1,27 +1,28 @@
 .vr-button {
   align-items: center;
-  background: var(--vr-color-surface-raised);
-  border: 1px solid var(--vr-color-line);
-  border-radius: var(--vr-radius-control);
-  box-shadow: none;
-  color: var(--vr-color-text);
+  background: var(--vr-color-brand);
+  border: 1px solid var(--vr-color-brand);
+  border-radius: var(--vr-radius-md);
+  color: var(--vr-color-brand-foreground);
   cursor: pointer;
   display: inline-flex;
-  font: 600 0.95rem/1 var(--vr-font-sans);
-  gap: 8px;
+  font: 600 var(--vr-text-sm) / 1 var(--vr-font-sans);
+  gap: var(--vr-space-2);
   justify-content: center;
-  min-height: 40px;
-  padding: 0 16px;
+  min-height: 2.5rem;
+  padding: 0 var(--vr-space-4);
   transition:
     background var(--vr-motion-fast),
     border-color var(--vr-motion-fast),
+    box-shadow var(--vr-motion-fast),
     color var(--vr-motion-fast),
     transform var(--vr-motion-fast);
+  white-space: nowrap;
 }
 
 .vr-button:hover {
-  background: color-mix(in srgb, var(--vr-color-surface-raised) 82%, white);
-  border-color: color-mix(in srgb, var(--vr-color-line) 55%, white);
+  background: color-mix(in srgb, var(--vr-color-brand) 88%, white);
+  border-color: color-mix(in srgb, var(--vr-color-brand) 88%, white);
 }
 
 .vr-button:active {
@@ -29,7 +30,8 @@
 }
 
 .vr-button:focus-visible {
-  outline: 2px solid var(--vr-color-accent-strong);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vr-color-focus) 28%, transparent);
+  outline: 2px solid var(--vr-color-focus);
   outline-offset: 2px;
 }
 
@@ -39,13 +41,36 @@
   transform: none;
 }
 
-.vr-button-primary {
-  background: var(--vr-color-accent);
-  border-color: var(--vr-color-accent);
-  color: #140906;
+.vr-button-secondary {
+  background: var(--vr-surface-raised);
+  border-color: var(--vr-color-line);
+  color: var(--vr-color-text);
 }
 
-.vr-button-primary:hover {
-  background: var(--vr-color-accent-strong);
-  border-color: var(--vr-color-accent-strong);
+.vr-button-outline {
+  background: transparent;
+  border-color: var(--vr-color-line);
+  color: var(--vr-color-text);
+}
+
+.vr-button-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--vr-color-text);
+}
+
+.vr-button-danger {
+  background: var(--vr-color-danger);
+  border-color: var(--vr-color-danger);
+  color: var(--vr-color-brand-foreground);
+}
+
+.vr-button-link {
+  background: transparent;
+  border-color: transparent;
+  color: var(--vr-color-brand);
+  min-height: auto;
+  padding-inline: 0;
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }

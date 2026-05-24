@@ -105,13 +105,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-24 4:16am GMT+8
+# [vanrot] recent context, 2026-05-24 3:04pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,585t read) | 1,634,340t work | 99% savings
+Stats: 50 obs (13,663t read) | 1,832,430t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -124,22 +124,8 @@ S654 Switch claude-mem provider from Claude API to Gemini free tier to eliminate
 S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
-1770 3:18a 🔵 Codex configuration files and model usage
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-1773 2:08p 🔵 TaskCreate Tool Identified
-1774 " 🟣 Task Creation for Project Context Exploration
-1772 " 🟣 Enhanced UI for Superpowers Feature
-1776 " 🔵 Context Mode Batch Execute Tool Identified
-1778 " 🔵 Phase 14 CLI Design Details Discovered
-1785 2:09p 🔵 CLI Renderer and Presentation Design Details Discovered
-1800 " 🔵 CLI Entry Point and Command Handling Structure Identified
-1818 " 🔵 Doctor Command Implementation Details
-1792 2:10p 🔵 CLI Implementation Files and Commands Identified
-1808 2:11p 🔵 Reporter Interface and Implementations Identified
-1826 2:29p 🔵 Command Metadata and Aliases Defined
-1827 3:01p 🟣 Phase-14 Superpowers Writing Plan
-1828 " 🟣 Session Initialization for Phase-14 Plan
-1829 " 🔵 Phase-14 Requirements and Documentation Context
+1829 3:01p 🔵 Phase-14 Requirements and Documentation Context
 1830 3:02p 🔵 Phase-14 CLI UI Enhancement Details
 1831 " 🔵 CLI Package Structure and Scripts
 1833 " 🔵 CLI Diagnostics and Doctor Checks Implementation
@@ -176,6 +162,20 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1897 " ⚖️ Framework Configuration for CSS
 1899 3:55a 🟣 Enhanced CSS Token and Utility Testing
 1898 3:56a ✅ Execution Plans Skill Documentation
+1900 1:50p ✅ CSS File Management Strategy
+1901 1:51p 🔵 Context Search Yielded No Results
+1903 3:00p 🔵 Successful Typechecking Across Monorepo Packages
+1902 " 🟣 Execution of Codex Skill for Plan Execution
+1904 " 🔵 Successful Test Execution Across Multiple Packages
+1906 " 🔵 Successful Execution of Tests and Builds Across Packages
+1910 " 🔵 Successful Builds and Size Check for Project Packages
+1918 " 🔵 Browser Skill Configuration and Usage Guidelines
+1916 3:01p 🔵 Successful Size Limit Check and Documentation Verification
+1925 " 🔵 In-App Browser Tab State Inspection
+1927 " 🔵 Browser Visibility and Screenshot Captured
+1919 " 🔵 Comprehensive Browser Skill Documentation Retrieved
+1931 " 🔵 Git Diffs Checked for Trailing Whitespace
+1921 3:02p 🔴 Browser Navigation Blocked by Client
 
-Access 1634k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1832k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

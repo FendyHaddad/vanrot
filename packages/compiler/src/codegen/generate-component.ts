@@ -15,6 +15,7 @@ import { generateSlotOutlet } from './slots.js';
 import { createGenerateState, type GenerateState } from './state.js';
 import {
   createUnsupportedVanrotUiMessage,
+  createInvalidUiVariantMessage,
   findCompilerUiElement,
   isVanrotUiTag,
   type CompilerUiElement,
@@ -359,10 +360,11 @@ function generateCompilerUiElement(
   state.features.add(uiElement.feature);
   state.lines.push(`  const ${elementName} = document.createElement(${quoteString(uiElement.nativeTagName)});`);
   state.lines.push(`  ${elementName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
-  generateUiElementClass(node.attributes, elementName, state, uiElement.baseClass);
+  const variant = generateUiElementClass(node, elementName, state, uiElement);
+  generateUiAccessibilityDefaults(node, elementName, state, uiElement, variant);
 
   for (const attribute of node.attributes) {
-    if (attribute.name === 'class') {
+    if (attribute.name === 'class' || attribute.name === 'variant') {
       continue;
     }
 
@@ -377,17 +379,89 @@ function generateCompilerUiElement(
 }
 
 function generateUiElementClass(
-  attributes: readonly TemplateAttribute[],
+  node: ElementNode,
   elementName: string,
   state: GenerateState,
-  baseClass: string,
-): void {
-  const classAttribute = attributes.find((attribute) => attribute.name === 'class');
-  const classValue = mergeClassValue(baseClass, classAttribute?.value ?? '');
+  uiElement: CompilerUiElement,
+): string {
+  const classAttribute = node.attributes.find((attribute) => attribute.name === 'class');
+  const variantAttribute = node.attributes.find((attribute) => attribute.name === 'variant');
+  const requestedVariant = variantAttribute?.value.trim() ?? uiElement.defaultVariant;
+  const variant = resolveUiVariant(node, state, uiElement, requestedVariant, variantAttribute);
+  const variantClass = variant === uiElement.defaultVariant ? '' : `${uiElement.baseClass}-${variant}`;
+  const classValue = mergeClassValue(
+    [uiElement.baseClass, variantClass].filter((className) => className.length > 0).join(' '),
+    classAttribute?.value ?? '',
+  );
 
   state.lines.push(
     `  ${elementName}.setAttribute(${quoteString('class')}, ${quoteString(classValue)});`,
   );
+
+  return variant;
+}
+
+function resolveUiVariant(
+  node: ElementNode,
+  state: GenerateState,
+  uiElement: CompilerUiElement,
+  requestedVariant: string,
+  variantAttribute: TemplateAttribute | undefined,
+): string {
+  if (uiElement.variants.includes(requestedVariant)) {
+    return requestedVariant;
+  }
+
+  state.diagnostics.push(
+    createDiagnostic(
+      'VR019',
+      'error',
+      createInvalidUiVariantMessage(uiElement.tagName, requestedVariant, uiElement.variants),
+      state.templatePath,
+      undefined,
+      undefined,
+      {
+        source: state.templateSource,
+        span: variantAttribute?.span ?? node.span,
+      },
+    ),
+  );
+
+  return uiElement.defaultVariant;
+}
+
+function generateUiAccessibilityDefaults(
+  node: ElementNode,
+  elementName: string,
+  state: GenerateState,
+  uiElement: CompilerUiElement,
+  variant: string,
+): void {
+  const hasAriaLabel = node.attributes.some((attribute) => attribute.name === 'aria-label');
+  const hasAriaHidden = node.attributes.some((attribute) => attribute.name === 'aria-hidden');
+  const hasAriaOrientation = node.attributes.some((attribute) => attribute.name === 'aria-orientation');
+  const hasRole = node.attributes.some((attribute) => attribute.name === 'role');
+  const isDecorativeLoader = uiElement.tagName === 'vr-loader' && !hasAriaLabel && !hasRole && !hasAriaHidden;
+  const isDecorativeSkeleton =
+    uiElement.tagName === 'vr-skeleton' && !hasAriaLabel && !hasRole && !hasAriaHidden;
+
+  if (isDecorativeLoader || isDecorativeSkeleton) {
+    state.lines.push(`  ${elementName}.setAttribute(${quoteString('aria-hidden')}, 'true');`);
+  }
+
+  if (uiElement.tagName !== 'vr-separator') {
+    return;
+  }
+
+  if (!hasRole) {
+    state.lines.push(`  ${elementName}.setAttribute(${quoteString('role')}, 'separator');`);
+  }
+
+  if (!hasAriaOrientation) {
+    state.lines.push(
+      `  ${elementName}.setAttribute(${quoteString('aria-orientation')}, ${quoteString(variant)});`,
+    );
+  }
 }
 
 function mergeClassValue(baseClass: string, userClassValue: string): string {
