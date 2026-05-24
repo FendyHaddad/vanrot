@@ -1,6 +1,8 @@
 import {
   uiPrimitive,
   uiPrimitiveOrder,
+  uiPrimitiveTokenGroup,
+  type UiPrimitiveTokenGroup,
   type UiPrimitiveType,
 } from '@vanrot/ui';
 import type { CompileFeature } from '../api/types.js';
@@ -9,8 +11,7 @@ export interface CompilerUiElement {
   tagName: string;
   nativeTagName: string;
   baseClass: string;
-  defaultVariant: string;
-  variants: readonly string[];
+  tokenGroups: Readonly<Record<string, UiPrimitiveTokenGroup>>;
   feature: CompileFeature;
 }
 
@@ -23,6 +24,18 @@ const uiPrimitiveFeature = {
   loader: 'ui-loader',
   skeleton: 'ui-skeleton',
   separator: 'ui-separator',
+  layout: 'ui-layout',
+  container: 'ui-container',
+  section: 'ui-section',
+  grid: 'ui-grid',
+  stack: 'ui-stack',
+  header: 'ui-header',
+  footer: 'ui-footer',
+  sidebar: 'ui-sidebar',
+  nav: 'ui-nav',
+  breadcrumb: 'ui-breadcrumb',
+  img: 'ui-img',
+  src: 'ui-src',
 } as const satisfies Record<UiPrimitiveType, CompileFeature>;
 
 export const compilerUiElement = uiPrimitiveOrder.reduce<Record<UiPrimitiveType, CompilerUiElement>>(
@@ -33,8 +46,7 @@ export const compilerUiElement = uiPrimitiveOrder.reduce<Record<UiPrimitiveType,
       tagName: metadata.selector,
       nativeTagName: metadata.nativeTag,
       baseClass: metadata.baseClass,
-      defaultVariant: metadata.variants[0] ?? 'default',
-      variants: metadata.variants,
+      tokenGroups: uiPrimitiveTokenGroup[primitive],
       feature: uiPrimitiveFeature[primitive],
     };
 
@@ -60,7 +72,7 @@ export function createUnsupportedVanrotUiMessage(tagName: string): string {
 export function createInvalidUiVariantMessage(
   tagName: string,
   variant: string,
-  variants: readonly string[],
+  tokens: readonly string[],
 ): string {
-  return `Invalid variant "${variant}" for <${tagName}>. Supported variants: ${variants.join(', ')}.`;
+  return `Invalid variant "${variant}" for <${tagName}>. Supported variants: ${tokens.join(', ')}.`;
 }

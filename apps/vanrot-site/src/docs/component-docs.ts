@@ -1,4 +1,10 @@
-import { uiPrimitive, uiPrimitiveOrder, type UiPrimitiveType } from '@vanrot/ui';
+import {
+  uiPrimitive,
+  uiPrimitiveOrder,
+  uiPrimitiveTokenGroup,
+  type UiPrimitiveType,
+} from '@vanrot/ui';
+import { componentDocPath } from './component-doc-paths.ts';
 import { primitiveDocCopy } from './site-data.ts';
 
 export interface ComponentDoc {
@@ -17,14 +23,27 @@ export const componentDocs: readonly ComponentDoc[] = uiPrimitiveOrder.map((prim
 
   return {
     primitive,
-    href: metadata.docsPath,
+    href: componentDocPath[primitive],
     title: copy.title,
     summary: copy.summary,
     usage: copy.usage,
     accessibility: copy.accessibility,
-    api: `Selector ${metadata.selector}; native tag ${metadata.nativeTag}; variants ${metadata.variants.join(', ')}.`,
+    api: `Selector ${metadata.selector}; native tag ${metadata.nativeTag}; tokens ${formatPrimitiveTokens(primitive)}.`,
   };
-});
+}).sort((left, right) => left.title.localeCompare(right.title));
+
+function formatPrimitiveTokens(primitive: UiPrimitiveType): string {
+  const tokenGroups = uiPrimitiveTokenGroup[primitive];
+  const tokens = Object.entries(tokenGroups).flatMap(([groupName, tokenGroup]) =>
+    tokenGroup.tokens.map((token) => `${groupName}.${token}`),
+  );
+
+  if (tokens.length === 0) {
+    return 'none';
+  }
+
+  return tokens.join(', ');
+}
 
 function findPrimitiveDocCopy(primitive: UiPrimitiveType): {
   title: string;

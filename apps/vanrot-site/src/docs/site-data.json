@@ -342,57 +342,141 @@
       "primitive": "button",
       "title": "Button",
       "summary": "Use buttons for actions and command triggers.",
-      "usage": "<vr-button variant=\"default\" type=\"button\">Save</vr-button>",
+      "usage": "<vr-button variant.default type=\"button\">Save</vr-button>",
       "accessibility": "Buttons lower to native button elements and preserve focus, disabled, keyboard, and type behavior."
     },
     {
       "primitive": "card",
       "title": "Card",
       "summary": "Use cards for grouped content surfaces.",
-      "usage": "<vr-card variant=\"default\">Content</vr-card>",
+      "usage": "<vr-card variant.default>Content</vr-card>",
       "accessibility": "Cards lower to article-like surfaces and keep child content readable."
     },
     {
       "primitive": "badge",
       "title": "Badge",
       "summary": "Use badges for short status, category, or metadata labels.",
-      "usage": "<vr-badge variant=\"success\">Ready</vr-badge>",
+      "usage": "<vr-badge tone.success>Ready</vr-badge>",
       "accessibility": "Badge examples should not rely on color alone for meaning."
     },
     {
       "primitive": "avatar",
       "title": "Avatar",
       "summary": "Use avatars for person, tenant, team, or entity identity.",
-      "usage": "<vr-avatar variant=\"soft\">VR</vr-avatar>",
+      "usage": "<vr-avatar variant.soft>VR</vr-avatar>",
       "accessibility": "Avatar content should include accessible names when it represents a person or entity."
     },
     {
       "primitive": "alert",
       "title": "Alert",
       "summary": "Use alerts for persistent inline feedback.",
-      "usage": "<vr-alert variant=\"info\">Project ready.</vr-alert>",
+      "usage": "<vr-alert tone.info>Project ready.</vr-alert>",
       "accessibility": "Alerts use severity-aware semantics without making every note interruptive."
     },
     {
       "primitive": "loader",
       "title": "Loader",
       "summary": "Use loaders for pending activity.",
-      "usage": "<vr-loader variant=\"spinner\" aria-label=\"Loading\"></vr-loader>",
+      "usage": "<vr-loader variant.spinner aria-label=\"Loading\"></vr-loader>",
       "accessibility": "Decorative loaders are hidden by default unless labelled."
     },
     {
       "primitive": "skeleton",
       "title": "Skeleton",
       "summary": "Use skeletons to preserve layout while content loads.",
-      "usage": "<vr-skeleton variant=\"text\"></vr-skeleton>",
+      "usage": "<vr-skeleton variant.text></vr-skeleton>",
       "accessibility": "Skeletons are decorative by default and should not replace real loading labels."
     },
     {
       "primitive": "separator",
       "title": "Separator",
       "summary": "Use separators to divide related content.",
-      "usage": "<vr-separator variant=\"horizontal\"></vr-separator>",
+      "usage": "<vr-separator orientation.horizontal></vr-separator>",
       "accessibility": "Separators expose orientation when semantics are needed."
+    },
+    {
+      "primitive": "layout",
+      "title": "Layout",
+      "summary": "Use layouts for full-page shell structure.",
+      "usage": "<vr-layout><vr-router></vr-router></vr-layout>",
+      "accessibility": "Layouts preserve landmarks provided by child header, main, sidebar, and footer regions."
+    },
+    {
+      "primitive": "container",
+      "title": "Container",
+      "summary": "Use containers to constrain readable content width.",
+      "usage": "<vr-container size.lg>Content</vr-container>",
+      "accessibility": "Containers are structural and should not replace semantic headings or landmarks."
+    },
+    {
+      "primitive": "section",
+      "title": "Section",
+      "summary": "Use sections to separate meaningful page regions.",
+      "usage": "<vr-section spacing.md>Content</vr-section>",
+      "accessibility": "Sections should include clear headings when they introduce a new content region."
+    },
+    {
+      "primitive": "grid",
+      "title": "Grid",
+      "summary": "Use grids for responsive column layouts.",
+      "usage": "<vr-grid cols.3 gap.4>Content</vr-grid>",
+      "accessibility": "Grids control layout only; keep reading order meaningful in the source."
+    },
+    {
+      "primitive": "stack",
+      "title": "Stack",
+      "summary": "Use stacks for vertical rhythm between related items.",
+      "usage": "<vr-stack gap.3>Content</vr-stack>",
+      "accessibility": "Stacks do not add semantics, so use lists or landmarks when the content requires them."
+    },
+    {
+      "primitive": "header",
+      "title": "Header",
+      "summary": "Use headers for top-level page or section identity.",
+      "usage": "<vr-header>Header</vr-header>",
+      "accessibility": "Headers lower to native header landmarks when used in page structure."
+    },
+    {
+      "primitive": "footer",
+      "title": "Footer",
+      "summary": "Use footers for closing page or section metadata.",
+      "usage": "<vr-footer>Footer</vr-footer>",
+      "accessibility": "Footers lower to native footer landmarks when used in page structure."
+    },
+    {
+      "primitive": "sidebar",
+      "title": "Sidebar",
+      "summary": "Use sidebars for static adjacent navigation or secondary content.",
+      "usage": "<vr-sidebar placement.left>Navigation</vr-sidebar>",
+      "accessibility": "Sidebars lower to aside and should be paired with labelled navigation when they contain links."
+    },
+    {
+      "primitive": "nav",
+      "title": "Nav",
+      "summary": "Use nav for labelled navigation groups.",
+      "usage": "<vr-nav aria-label=\"Primary\">Links</vr-nav>",
+      "accessibility": "Navigation elements must keep clear aria-label values when multiple nav regions are present."
+    },
+    {
+      "primitive": "breadcrumb",
+      "title": "Breadcrumb",
+      "summary": "Use breadcrumbs to show the current page path.",
+      "usage": "<vr-breadcrumb aria-label=\"Breadcrumb\">Path</vr-breadcrumb>",
+      "accessibility": "Breadcrumbs lower to nav and should expose the current page in the trail."
+    },
+    {
+      "primitive": "img",
+      "title": "Image",
+      "summary": "Use images for responsive visual media.",
+      "usage": "<vr-img src=\"/image.png\" alt=\"Preview\"></vr-img>",
+      "accessibility": "Images preserve platform alt text requirements; decorative images should use an empty alt value."
+    },
+    {
+      "primitive": "src",
+      "title": "Source",
+      "summary": "Use sources inside picture or media elements.",
+      "usage": "<vr-src srcset=\"/image.avif\" type=\"image/avif\"></vr-src>",
+      "accessibility": "Sources are media candidates and rely on the parent media element for accessible text."
     }
   ],
   "commands": [

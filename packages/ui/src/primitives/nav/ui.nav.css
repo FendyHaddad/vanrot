@@ -1,0 +1,5 @@
+.vr-nav {
+  align-items: center;
+  display: flex;
+  gap: var(--vr-space-2);
+}

@@ -1,0 +1,15 @@
+.vr-section {
+  display: block;
+}
+
+.vr-section-sm {
+  padding-block: var(--vr-space-6);
+}
+
+.vr-section-md {
+  padding-block: var(--vr-space-10);
+}
+
+.vr-section-lg {
+  padding-block: var(--vr-space-16);
+}

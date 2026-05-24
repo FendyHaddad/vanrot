@@ -1,6 +1,6 @@
 # Phase 16D Layout, Navigation, Media, And Dotted Tokens Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task in the current session. Vanrot rules forbid subagents, parallel agents, worktrees, staging, committing, and pushing unless the user explicitly asks. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task in the current session. Vanrot rules forbid subagents, parallel agents, worktrees, staging, committing, and pushing unless the user explicitly asks. Steps use GitHub task-list checkbox syntax for tracking.
 
 **Goal:** Add the Phase 16D docs-site-first layout, navigation shell, and media primitives while fixing Phase 16B source/docs examples that still use string attributes for Vanrot-owned finite tokens.
 
@@ -204,7 +204,7 @@ Normal string attributes remain valid for content and platform values:
 - Modify: `packages/ui/tests/assets.test.ts`
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 
-- [ ] **Step 1: Add compiler red tests for Phase 16B dotted token lowering**
+- [x] **Step 1: Add compiler red tests for Phase 16B dotted token lowering**
 
 Create `packages/compiler/tests/codegen/ui-token-attributes.test.ts` with tests that compile inline components through the existing compiler API.
 
@@ -231,7 +231,7 @@ Add the equivalent assertions for:
 
 Expected first run: FAIL because dotted token attributes are not yet recognized by the compiler.
 
-- [ ] **Step 2: Add compiler red tests for Phase 16D dotted token lowering**
+- [x] **Step 2: Add compiler red tests for Phase 16D dotted token lowering**
 
 In the same test file, add tests for:
 
@@ -259,7 +259,7 @@ Assert generated output contains:
 
 Expected first run: FAIL because 16D primitives and token groups do not exist yet.
 
-- [ ] **Step 3: Add compiler red tests for duplicate token diagnostics**
+- [x] **Step 3: Add compiler red tests for duplicate token diagnostics**
 
 Add tests that compile:
 
@@ -277,7 +277,7 @@ Assert diagnostics include:
 
 Expected first run: FAIL because the diagnostic code does not exist yet.
 
-- [ ] **Step 4: Add compiler red tests for unknown token diagnostics**
+- [x] **Step 4: Add compiler red tests for unknown token diagnostics**
 
 Add tests that compile:
 
@@ -296,7 +296,7 @@ Assert diagnostics include:
 
 Expected first run: FAIL because the diagnostic code does not exist yet.
 
-- [ ] **Step 5: Add UI asset guard for 16B string token attributes**
+- [x] **Step 5: Add UI asset guard for 16B string token attributes**
 
 In `packages/ui/tests/assets.test.ts`, add a guard that scans `packages/ui/src/primitives/*/usage.home.html` and `packages/ui/src/primitives/*/ui.*.html` for Vanrot-owned finite token string attributes:
 
@@ -315,7 +315,7 @@ The guard must allow standard attributes such as `type="button"`, `aria-label=".
 
 Expected first run: FAIL because current Phase 16B usage files still include examples such as `variant="default"`.
 
-- [ ] **Step 6: Add site docs guard for string token examples**
+- [x] **Step 6: Add site docs guard for string token examples**
 
 In `apps/vanrot-site/tests/site-pages.test.ts`, add a guard that scans component docs HTML code snippets and fails when a `vr-*` example uses finite Vanrot token string attributes such as:
 
@@ -327,7 +327,7 @@ In `apps/vanrot-site/tests/site-pages.test.ts`, add a guard that scans component
 
 Expected first run: FAIL until docs snippets are converted to dotted token syntax.
 
-- [ ] **Step 7: Run the focused red tests**
+- [x] **Step 7: Run the focused red tests**
 
 Run:
 
@@ -351,7 +351,7 @@ Expected: FAIL for the new red tests only. If unrelated tests fail, record them 
 - Modify: `packages/compiler/src/codegen/ui-elements.ts`
 - Modify: `packages/compiler/src/codegen/generate-component.ts`
 
-- [ ] **Step 1: Add diagnostic codes**
+- [x] **Step 1: Add diagnostic codes**
 
 In `packages/compiler/src/api/types.ts`, add:
 
@@ -371,7 +371,7 @@ In `packages/compiler/src/diagnostics/catalog.ts`, add catalog entries:
   - suggestion: `Use a dotted token supported by the primitive metadata in @vanrot/ui.`
   - docsPath: `/docs/ui/dotted-token-attributes`
 
-- [ ] **Step 2: Add token attribute helper types**
+- [x] **Step 2: Add token attribute helper types**
 
 Create `packages/compiler/src/codegen/ui-token-attributes.ts`.
 
@@ -410,7 +410,7 @@ The helper must:
 - return diagnostics instead of throwing;
 - preserve source spans from the original attribute.
 
-- [ ] **Step 3: Extend compiler UI metadata**
+- [x] **Step 3: Extend compiler UI metadata**
 
 In `packages/compiler/src/codegen/ui-elements.ts`, extend `CompilerUiElement` with:
 
@@ -422,7 +422,7 @@ Build `tokenGroups` from `@vanrot/ui` metadata rather than hard-coded compiler-o
 
 Keep `defaultVariant` and `variants` temporarily if other code still depends on them, but route variant class resolution through token groups.
 
-- [ ] **Step 4: Update UI element generation**
+- [x] **Step 4: Update UI element generation**
 
 In `packages/compiler/src/codegen/generate-component.ts`:
 
@@ -434,13 +434,13 @@ In `packages/compiler/src/codegen/generate-component.ts`:
 
 Important: dotted tokens are compile-time only. Do not generate browser-side parsing logic.
 
-- [ ] **Step 5: Keep legacy string variant handling only as temporary input, not as source style**
+- [x] **Step 5: Keep legacy string variant handling only as temporary input, not as source style**
 
 If the existing compiler still accepts `variant="danger"` during this task, it must be treated as a compatibility path only.
 
 The repo source, docs, examples, and tests must move to dotted token syntax in later tasks. Do not write new Vanrot examples with finite token string attributes.
 
-- [ ] **Step 6: Run focused compiler tests**
+- [x] **Step 6: Run focused compiler tests**
 
 Run:
 
@@ -463,7 +463,7 @@ Expected: compiler dotted-token tests pass. If full compiler tests fail, fix onl
 - Modify: `docs/superpowers/specs/Phase-16.md`
 - Modify: `docs/superpowers/specs/Phase-16D.md` if needed
 
-- [ ] **Step 1: Write metadata red tests**
+- [x] **Step 1: Write metadata red tests**
 
 In `packages/ui/tests/metadata.test.ts`, assert:
 
@@ -475,7 +475,7 @@ In `packages/ui/tests/metadata.test.ts`, assert:
 
 Expected first run: FAIL until metadata is added.
 
-- [ ] **Step 2: Add `uiPrimitiveTokenGroup` source of truth**
+- [x] **Step 2: Add `uiPrimitiveTokenGroup` source of truth**
 
 In `packages/ui/src/metadata.ts`, add this source-of-truth object, adjusting only if TypeScript requires readonly helper typing:
 
@@ -514,7 +514,7 @@ export const uiPrimitiveTokenGroup = {
 
 Include groups for every Phase 16B primitive, even if the group is still named `variant`.
 
-- [ ] **Step 3: Add class naming metadata**
+- [x] **Step 3: Add class naming metadata**
 
 Add a source-of-truth map for class output so compiler and tests do not invent names independently.
 
@@ -530,7 +530,7 @@ Use these class patterns unless implementation evidence shows a local conflict:
 
 Default token values should omit the non-default class when that matches Phase 16B behavior.
 
-- [ ] **Step 4: Add 16D primitive metadata**
+- [x] **Step 4: Add 16D primitive metadata**
 
 Add metadata entries:
 
@@ -549,13 +549,13 @@ Add metadata entries:
 
 Use docs paths under `/docs/components/<plural-or-readable-name>` to match the current site convention.
 
-- [ ] **Step 5: Realign Phase 16 roadmap docs**
+- [x] **Step 5: Realign Phase 16 roadmap docs**
 
 In `docs/superpowers/specs/Phase-16.md`, remove `tabs` from Phase 16D if still present and move it to Phase 16F.
 
 In `docs/superpowers/specs/Phase-16D.md`, keep the dotted token examples aligned with the token groups in this plan: `variant`, `tone`, `orientation`, `size`, `spacing`, `cols`, `gap`, and `placement`.
 
-- [ ] **Step 6: Run UI metadata tests**
+- [x] **Step 6: Run UI metadata tests**
 
 Run:
 
@@ -579,7 +579,7 @@ Expected: metadata and compiler token tests pass together.
 - Create all `packages/ui/src/primitives/<name>/usage.home.html`
 - Modify: `packages/ui/tests/assets.test.ts`
 
-- [ ] **Step 1: Write asset red tests for 16D primitive files**
+- [x] **Step 1: Write asset red tests for 16D primitive files**
 
 Extend `packages/ui/tests/assets.test.ts` to assert every primitive in `uiPrimitiveOrder` has:
 
@@ -595,7 +595,7 @@ Extend `packages/ui/tests/assets.test.ts` to assert every primitive in `uiPrimit
 
 Expected first run: FAIL for every missing 16D primitive file.
 
-- [ ] **Step 2: Create layout primitive files**
+- [x] **Step 2: Create layout primitive files**
 
 Create the files for:
 
@@ -631,7 +631,7 @@ Each `usage.home.html` uses dotted token attributes:
 </vr-container>
 ```
 
-- [ ] **Step 3: Create navigation shell primitive files**
+- [x] **Step 3: Create navigation shell primitive files**
 
 Create the files for:
 
@@ -655,7 +655,7 @@ Each `.ts` exports:
 
 `vr-breadcrumb` must support source markup that can lower to ordered navigation semantics during compilation or through native child structure. Do not invent interactive behavior.
 
-- [ ] **Step 4: Create media primitive files**
+- [x] **Step 4: Create media primitive files**
 
 Create the files for:
 
@@ -671,7 +671,7 @@ Each `.ts` exports:
 
 `vr-src` must preserve standard source attributes such as `srcset`, `type`, `media`, `width`, and `height`.
 
-- [ ] **Step 5: Run UI asset tests**
+- [x] **Step 5: Run UI asset tests**
 
 Run:
 
@@ -707,7 +707,7 @@ Expected: UI asset tests pass, including the no-string-token guard.
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 - Modify: `packages/ui/tests/assets.test.ts`
 
-- [ ] **Step 1: Convert package usage examples**
+- [x] **Step 1: Convert package usage examples**
 
 Replace Vanrot-owned token string attributes with dotted syntax.
 
@@ -762,7 +762,7 @@ src="/..."
 alt="..."
 ```
 
-- [ ] **Step 2: Convert site component code snippets**
+- [x] **Step 2: Convert site component code snippets**
 
 Update the displayed code examples inside the Phase 16B component docs pages to use dotted tokens.
 
@@ -770,7 +770,7 @@ Do not change the approved visual layout of these pages.
 
 Do not remove the current shadcn-style preview/code cards, dotted preview backgrounds, mobile rules, or icon-only copy buttons.
 
-- [ ] **Step 3: Update tests that still expect string token examples**
+- [x] **Step 3: Update tests that still expect string token examples**
 
 Update expectations in:
 
@@ -779,7 +779,7 @@ Update expectations in:
 
 The tests should now expect dotted tokens and fail when finite token strings return.
 
-- [ ] **Step 4: Run focused cleanup tests**
+- [x] **Step 4: Run focused cleanup tests**
 
 Run:
 
@@ -803,7 +803,7 @@ Expected: no string-token guards fail.
 - Modify: `apps/vanrot-site/src/pages/components/*.page.css`
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 
-- [ ] **Step 1: Capture the current visual baseline**
+- [x] **Step 1: Capture the current visual baseline**
 
 Before changing shell markup, inspect these pages in the browser:
 
@@ -823,7 +823,7 @@ Record the baseline details in the work log:
 
 Do not use the baseline to redesign. Use it to avoid drift.
 
-- [ ] **Step 2: Add source tests for shell primitive adoption**
+- [x] **Step 2: Add source tests for shell primitive adoption**
 
 In `apps/vanrot-site/tests/site-pages.test.ts`, add assertions that the docs layout or component pages use:
 
@@ -843,7 +843,7 @@ The exact assertions should match the chosen adoption path:
 
 Expected first run: FAIL until the markup is adopted.
 
-- [ ] **Step 3: Replace shell wrapper tags with primitives**
+- [x] **Step 3: Replace shell wrapper tags with primitives**
 
 Replace only structural shell wrappers.
 
@@ -868,7 +868,7 @@ Example target shape:
 
 Do not change the sidebar menu contents, order, labels, active state, or spacing.
 
-- [ ] **Step 4: Transfer CSS ownership only where safe**
+- [x] **Step 4: Transfer CSS ownership only where safe**
 
 Move structural styles into 16D primitive CSS only when the primitive truly owns that structure.
 
@@ -881,7 +881,7 @@ Keep site-specific styles in page CSS when they are docs-page composition styles
 
 No visual drift is allowed.
 
-- [ ] **Step 5: Run site tests**
+- [x] **Step 5: Run site tests**
 
 Run:
 
@@ -903,7 +903,7 @@ Expected: route rendering, sidebar navigation, component docs structure, dotted 
 - Modify: `apps/vanrot-site/src/docs/site-navigation.ts`
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 
-- [ ] **Step 1: Use the Vanrot component docs pattern**
+- [x] **Step 1: Use the Vanrot component docs pattern**
 
 When creating each docs page, follow the local `vanrot-doc-component` skill pattern:
 
@@ -917,7 +917,7 @@ When creating each docs page, follow the local `vanrot-doc-component` skill patt
 - mobile-ready CSS;
 - same primary component sidebar.
 
-- [ ] **Step 2: Add layout component docs pages**
+- [x] **Step 2: Add layout component docs pages**
 
 Create pages for:
 
@@ -936,7 +936,7 @@ Examples must use dotted tokens where finite tokens are shown:
 <vr-stack gap.3>
 ```
 
-- [ ] **Step 3: Add navigation shell component docs pages**
+- [x] **Step 3: Add navigation shell component docs pages**
 
 Create pages for:
 
@@ -953,7 +953,7 @@ Docs must clearly state:
 - `vr-nav` keeps normal `aria-label`;
 - `vr-breadcrumb` owns navigation/current-page semantics, not app routing logic.
 
-- [ ] **Step 4: Add media component docs pages**
+- [x] **Step 4: Add media component docs pages**
 
 Create pages for:
 
@@ -969,7 +969,7 @@ Docs must show normal platform attributes:
 
 Do not invent dotted syntax for URLs or alt text.
 
-- [ ] **Step 5: Add routes and sidebar navigation**
+- [x] **Step 5: Add routes and sidebar navigation**
 
 In `apps/vanrot-site/src/routes.ts`, add route path constants, imports, and route declarations for all 16D pages.
 
@@ -992,7 +992,7 @@ Expected route paths:
 
 If user-facing pluralization would read better for any route, update this plan before implementation and keep tests aligned.
 
-- [ ] **Step 6: Add docs page tests**
+- [x] **Step 6: Add docs page tests**
 
 In `apps/vanrot-site/tests/site-pages.test.ts`, add a `phase16dComponentDocPages` table with:
 
@@ -1011,7 +1011,7 @@ Assert:
 - every code snippet preserves indentation and spaces between attributes;
 - no page reintroduces top preview/code/accessibility tabs.
 
-- [ ] **Step 7: Run site docs tests**
+- [x] **Step 7: Run site docs tests**
 
 Run:
 
@@ -1032,7 +1032,7 @@ Expected: all component docs pages pass.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-16D.md`
 
-- [ ] **Step 1: Update final TDD inventory**
+- [x] **Step 1: Update final TDD inventory**
 
 Add Phase 16D coverage for:
 
@@ -1047,7 +1047,7 @@ Add Phase 16D coverage for:
 - 16D component docs pages;
 - browser visual baseline verification.
 
-- [ ] **Step 2: Update feature maturity**
+- [x] **Step 2: Update feature maturity**
 
 When implementation and verification pass, mark Phase 16D rows as production-ready only for the completed 16D slice:
 
@@ -1058,14 +1058,14 @@ When implementation and verification pass, mark Phase 16D rows as production-rea
 
 Do not mark 16E or 16F complete.
 
-- [ ] **Step 3: Update presentation**
+- [x] **Step 3: Update presentation**
 
 Update `docs/vanrot-presentation.html` so the roadmap slide shows:
 
 - Phase 16D complete after verification;
 - Phase 16E active or next, depending on current tracker convention.
 
-- [ ] **Step 4: Tick this plan**
+- [x] **Step 4: Tick this plan**
 
 Tick every completed checkbox in `docs/superpowers/plans/Phase-16D.md` during execution.
 
@@ -1079,7 +1079,7 @@ Do not tick completion before tests and browser verification pass.
 
 - No new files unless verification reveals a related defect.
 
-- [ ] **Step 1: Run focused package checks**
+- [x] **Step 1: Run focused package checks**
 
 Run:
 
@@ -1092,7 +1092,7 @@ pnpm --filter @vanrot/vanrot-site typecheck
 
 Expected: all pass.
 
-- [ ] **Step 2: Run full verification**
+- [x] **Step 2: Run full verification**
 
 Run:
 
@@ -1102,7 +1102,7 @@ pnpm verify
 
 Expected: all pass, including `verify:phase-docs`, `verify:site-docs`, build, typecheck, tests, and size budget.
 
-- [ ] **Step 3: Check whitespace and working tree**
+- [x] **Step 3: Check whitespace and working tree**
 
 Run:
 
@@ -1113,7 +1113,7 @@ git status --short --branch
 
 Expected: no whitespace errors. Report all modified and untracked files.
 
-- [ ] **Step 4: Restart the Vanrot site dev server**
+- [x] **Step 4: Restart the Vanrot site dev server**
 
 Run:
 
@@ -1125,19 +1125,19 @@ pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 3000
 Then verify representative routes respond:
 
 - `http://localhost:3000/docs/components/badges`
-- `http://localhost:3000/docs/components/grid`
-- `http://localhost:3000/docs/components/sidebar`
-- `http://localhost:3000/docs/components/img`
+- `http://localhost:3000/docs/components/grids`
+- `http://localhost:3000/docs/components/sidebars`
+- `http://localhost:3000/docs/components/images`
 
-- [ ] **Step 5: Browser visual inspection**
+- [x] **Step 5: Browser visual inspection**
 
 Inspect in the in-app browser:
 
 - `/docs/components/badges`
 - `/docs/components/buttons`
 - `/docs/components/cards`
-- `/docs/components/grid`
-- `/docs/components/sidebar`
+- `/docs/components/grids`
+- `/docs/components/sidebars`
 
 Confirm:
 
@@ -1148,12 +1148,12 @@ Confirm:
 - 16D docs pages use dotted tokens correctly;
 - no visible redesign slipped in.
 
-- [ ] **Step 6: Queue memory observations**
+- [x] **Step 6: Queue memory observations**
 
 Use the local memory API with `contentSessionId`:
 
 ```text
-codex-2026-05-25-phase-16d-brainstorm
+codex-2026-05-25-phase-16d-execution
 ```
 
 Record:

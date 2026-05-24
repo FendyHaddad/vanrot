@@ -1,9 +1,9 @@
 <article class="docs-article">
-  <vr-badge variant="secondary">{{ article().status }}</vr-badge>
+  <vr-badge tone.secondary>{{ article().status }}</vr-badge>
   <h1>{{ article().title }}</h1>
   <p class="docs-summary">{{ article().summary }}</p>
 
-  <vr-separator variant="horizontal"></vr-separator>
+  <vr-separator orientation.horizontal></vr-separator>
 
   @for (section of article().sections; track section.id) {
     <section class="docs-section" [id]="section.id">

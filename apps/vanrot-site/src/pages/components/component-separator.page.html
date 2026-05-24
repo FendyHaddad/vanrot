@@ -1,5 +1,5 @@
 <div class="app component-gallery-app component-separator-app">
-  <aside class="sidebar">
+  <vr-sidebar class="sidebar" placement.left aria-label="Component documentation">
     <div class="brand"><span class="mark"></span>Vanrot UI</div>
     <div class="search">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -14,18 +14,30 @@
     <a class="nav-link" href="#">Theming</a>
     <a class="nav-link" href="#">CLI</a>
     <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/breadcrumbs">Breadcrumb</a>
     <a class="nav-link" href="/docs/components/buttons">Button</a>
     <a class="nav-link" href="/docs/components/cards">Card</a>
-    <a class="nav-link" href="/docs/components/badges">Badge</a>
-    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
-    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/containers">Container</a>
+    <a class="nav-link" href="/docs/components/footers">Footer</a>
+    <a class="nav-link" href="/docs/components/grids">Grid</a>
+    <a class="nav-link" href="/docs/components/headers">Header</a>
+    <a class="nav-link" href="/docs/components/images">Image</a>
+    <a class="nav-link" href="/docs/components/layouts">Layout</a>
     <a class="nav-link" href="/docs/components/loaders">Loader</a>
-    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/navigation">Navigation</a>
+    <a class="nav-link" href="/docs/components/sections">Section</a>
     <a class="nav-link active" href="/docs/components/separators">Separator</a>
-  </aside>
+    <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/sources">Source</a>
+    <a class="nav-link" href="/docs/components/stacks">Stack</a>
+  </vr-sidebar>
 
   <main>
-    <header class="topbar">
+    <vr-header class="topbar">
       <div class="topbar-left">
         <span class="bc-home">October</span>
         <span class="bc-sep">/</span>
@@ -33,13 +45,13 @@
         <span class="bc-sep">/</span>
         <span class="bc-active">Separator</span>
       </div>
-      <nav class="topbar-right">
+      <vr-nav class="topbar-right" aria-label="Component page links">
         <a href="/docs">Docs</a>
         <a href="/docs/components">Components</a>
         <a href="#">Blocks</a>
         <a href="#">Registry</a>
-      </nav>
-    </header>
+      </vr-nav>
+    </vr-header>
 
     <section class="content">
       <h1>{{ doc().title }}</h1>
@@ -50,11 +62,11 @@
           <div class="preview-body variant-grid">
             <div class="variant-tile">
               <span class="variant-name">horizontal</span>
-              <div class="separator-demo"><span>Account</span><vr-separator class="separator-horizontal" variant="horizontal"></vr-separator><span>Security</span></div>
+              <div class="separator-demo"><span>Account</span><vr-separator class="separator-horizontal" orientation.horizontal></vr-separator><span>Security</span></div>
             </div>
             <div class="variant-tile">
               <span class="variant-name">vertical</span>
-              <div class="separator-demo"><span>Preview</span><vr-separator class="separator-vertical" variant="vertical"></vr-separator><span>Code</span></div>
+              <div class="separator-demo"><span>Preview</span><vr-separator class="separator-vertical" orientation.vertical></vr-separator><span>Code</span></div>
             </div>
           </div>
         </div>
@@ -66,11 +78,11 @@
             <h2>Horizontal</h2>
             <p>Default divider for stacked content, menu groups, and card sections. It renders with separator semantics and horizontal orientation by default.</p>
           </div>
-          <span class="code-chip">variant="horizontal"</span>
+          <span class="code-chip">orientation.horizontal</span>
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <div class="separator-demo"><span>Account</span><vr-separator class="separator-horizontal" variant="horizontal"></vr-separator><span>Security</span></div>
+            <div class="separator-demo"><span>Account</span><vr-separator class="separator-horizontal" orientation.horizontal></vr-separator><span>Security</span></div>
           </div>
           <div class="code-snippet">
             <button class="copy-icon-button" type="button" aria-label="Copy horizontal separator code">
@@ -78,7 +90,7 @@
                 <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
               </svg>
             </button>
-            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-separator</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"horizontal"</span><span class="token tag">&gt;</span><span class="token tag">&lt;/vr-separator&gt;</span></span></span></code></pre>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-separator</span><span class="token attr"> orientation.horizontal</span><span class="token tag">&gt;</span><span class="token tag">&lt;/vr-separator&gt;</span></span></span></code></pre>
           </div>
         </div>
       </section>
@@ -89,11 +101,11 @@
             <h2>Vertical</h2>
             <p>Inline divider for compact toolbar groups, metadata rows, and paired controls. Keep nearby labels visible so the visual boundary does not become the only relationship cue.</p>
           </div>
-          <span class="code-chip">variant="vertical"</span>
+          <span class="code-chip">orientation.vertical</span>
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <div class="separator-demo"><span>Preview</span><vr-separator class="separator-vertical" variant="vertical"></vr-separator><span>Code</span></div>
+            <div class="separator-demo"><span>Preview</span><vr-separator class="separator-vertical" orientation.vertical></vr-separator><span>Code</span></div>
           </div>
           <div class="code-snippet">
             <button class="copy-icon-button" type="button" aria-label="Copy vertical separator code">
@@ -101,7 +113,7 @@
                 <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
               </svg>
             </button>
-            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-separator</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"vertical"</span><span class="token tag">&gt;</span><span class="token tag">&lt;/vr-separator&gt;</span></span></span></code></pre>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-separator</span><span class="token attr"> orientation.vertical</span><span class="token tag">&gt;</span><span class="token tag">&lt;/vr-separator&gt;</span></span></span></code></pre>
           </div>
         </div>
       </section>

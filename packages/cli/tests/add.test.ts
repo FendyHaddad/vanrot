@@ -46,7 +46,7 @@ describe('vr add', () => {
       "import './styles/vanrotstyles.css';",
     );
     await expect(readFile(join(appRoot, 'src', 'pages', 'home', 'home.page.html'), 'utf8')).resolves.toContain(
-      '<vr-button variant="default" type="button">',
+      '<vr-button variant.default type="button">',
     );
     await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
       "ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },",

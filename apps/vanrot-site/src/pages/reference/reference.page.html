@@ -5,10 +5,10 @@
   <section class="reference-section">
     <h2>Commands</h2>
     @for (command of commands; track command.name) {
-      <vr-card variant="default">
+      <vr-card variant.default>
         <h3>{{ command.name }}</h3>
         <code>{{ command.usage }}</code>
-        <vr-badge variant="outline">{{ command.status }}</vr-badge>
+        <vr-badge tone.outline>{{ command.status }}</vr-badge>
       </vr-card>
     }
   </section>
@@ -16,17 +16,17 @@
   <section class="reference-section">
     <h2>Packages</h2>
     @for (item of packages; track item.name) {
-      <vr-card variant="default">
+      <vr-card variant.default>
         <h3>{{ item.name }}</h3>
         <p>{{ item.area }}</p>
-        <vr-badge variant="outline">{{ item.status }}</vr-badge>
+        <vr-badge tone.outline>{{ item.status }}</vr-badge>
       </vr-card>
     }
   </section>
 
   <section class="reference-section">
     <h2>Diagnostics</h2>
-    <vr-card variant="muted">
+    <vr-card variant.muted>
       <p>Compiler: {{ diagnostics.compiler.length }}</p>
       <p>Config: {{ diagnostics.config.length }}</p>
       <p>Router: {{ diagnostics.router.length }}</p>

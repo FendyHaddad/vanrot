@@ -1,0 +1,13 @@
+.vr-sidebar {
+  border-color: var(--vr-color-line);
+  color: var(--vr-color-muted);
+  display: block;
+}
+
+.vr-sidebar-left {
+  border-right: 1px solid var(--vr-color-line);
+}
+
+.vr-sidebar-right {
+  border-left: 1px solid var(--vr-color-line);
+}

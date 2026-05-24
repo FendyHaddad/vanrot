@@ -1,0 +1,20 @@
+.vr-container {
+  margin-inline: auto;
+  width: min(100% - (var(--vr-space-4) * 2), 72rem);
+}
+
+.vr-container-sm {
+  max-width: 40rem;
+}
+
+.vr-container-md {
+  max-width: 56rem;
+}
+
+.vr-container-lg {
+  max-width: 72rem;
+}
+
+.vr-container-xl {
+  max-width: 88rem;
+}

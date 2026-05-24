@@ -1,6 +1,6 @@
 import type { CompileDiagnostic, CompileFeature, CompileOptions } from '../api/types.js';
 import type { ComponentMetadata } from '../metadata/component-metadata.js';
-import type { ElementNode, TemplateAttribute, TemplateNode } from '../template/ast.js';
+import type { ElementNode, TemplateNode } from '../template/ast.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import { rewriteExpression } from '../expressions/rewrite-expression.js';
 import { generateAttribute, generateText, quoteString } from './bindings.js';
@@ -15,11 +15,11 @@ import { generateSlotOutlet } from './slots.js';
 import { createGenerateState, type GenerateState } from './state.js';
 import {
   createUnsupportedVanrotUiMessage,
-  createInvalidUiVariantMessage,
   findCompilerUiElement,
   isVanrotUiTag,
   type CompilerUiElement,
 } from './ui-elements.js';
+import { resolveUiTokenAttributes } from './ui-token-attributes.js';
 
 export interface GenerateComponentInput {
   metadata: ComponentMetadata;
@@ -360,11 +360,19 @@ function generateCompilerUiElement(
   state.features.add(uiElement.feature);
   state.lines.push(`  const ${elementName} = document.createElement(${quoteString(uiElement.nativeTagName)});`);
   state.lines.push(`  ${elementName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
-  const variant = generateUiElementClass(node, elementName, state, uiElement);
-  generateUiAccessibilityDefaults(node, elementName, state, uiElement, variant);
+  const resolvedTokens = resolveUiTokenAttributes({
+    node,
+    templatePath: state.templatePath,
+    templateSource: state.templateSource,
+    uiElement,
+  });
+
+  state.diagnostics.push(...resolvedTokens.diagnostics);
+  generateUiElementClass(node, elementName, state, uiElement, resolvedTokens.classNames);
+  generateUiAccessibilityDefaults(node, elementName, state, uiElement, resolvedTokens.activeTokens);
 
   for (const attribute of node.attributes) {
-    if (attribute.name === 'class' || attribute.name === 'variant') {
+    if (attribute.name === 'class' || resolvedTokens.consumedAttributeNames.has(attribute.name)) {
       continue;
     }
 
@@ -383,51 +391,17 @@ function generateUiElementClass(
   elementName: string,
   state: GenerateState,
   uiElement: CompilerUiElement,
-): string {
+  tokenClassNames: readonly string[],
+): void {
   const classAttribute = node.attributes.find((attribute) => attribute.name === 'class');
-  const variantAttribute = node.attributes.find((attribute) => attribute.name === 'variant');
-  const requestedVariant = variantAttribute?.value.trim() ?? uiElement.defaultVariant;
-  const variant = resolveUiVariant(node, state, uiElement, requestedVariant, variantAttribute);
-  const variantClass = variant === uiElement.defaultVariant ? '' : `${uiElement.baseClass}-${variant}`;
   const classValue = mergeClassValue(
-    [uiElement.baseClass, variantClass].filter((className) => className.length > 0).join(' '),
+    [uiElement.baseClass, ...tokenClassNames].filter((className) => className.length > 0).join(' '),
     classAttribute?.value ?? '',
   );
 
   state.lines.push(
     `  ${elementName}.setAttribute(${quoteString('class')}, ${quoteString(classValue)});`,
   );
-
-  return variant;
-}
-
-function resolveUiVariant(
-  node: ElementNode,
-  state: GenerateState,
-  uiElement: CompilerUiElement,
-  requestedVariant: string,
-  variantAttribute: TemplateAttribute | undefined,
-): string {
-  if (uiElement.variants.includes(requestedVariant)) {
-    return requestedVariant;
-  }
-
-  state.diagnostics.push(
-    createDiagnostic(
-      'VR019',
-      'error',
-      createInvalidUiVariantMessage(uiElement.tagName, requestedVariant, uiElement.variants),
-      state.templatePath,
-      undefined,
-      undefined,
-      {
-        source: state.templateSource,
-        span: variantAttribute?.span ?? node.span,
-      },
-    ),
-  );
-
-  return uiElement.defaultVariant;
 }
 
 function generateUiAccessibilityDefaults(
@@ -435,7 +409,7 @@ function generateUiAccessibilityDefaults(
   elementName: string,
   state: GenerateState,
   uiElement: CompilerUiElement,
-  variant: string,
+  activeTokens: Readonly<Record<string, string>>,
 ): void {
   const hasAriaLabel = node.attributes.some((attribute) => attribute.name === 'aria-label');
   const hasAriaHidden = node.attributes.some((attribute) => attribute.name === 'aria-hidden');
@@ -459,7 +433,9 @@ function generateUiAccessibilityDefaults(
 
   if (!hasAriaOrientation) {
     state.lines.push(
-      `  ${elementName}.setAttribute(${quoteString('aria-orientation')}, ${quoteString(variant)});`,
+      `  ${elementName}.setAttribute(${quoteString('aria-orientation')}, ${quoteString(
+        activeTokens.orientation ?? 'horizontal',
+      )});`,
     );
   }
 }

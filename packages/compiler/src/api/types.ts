@@ -18,6 +18,8 @@ export type DiagnosticCode =
   | 'VR017'
   | 'VR018'
   | 'VR019'
+  | 'VR020'
+  | 'VR021'
   | 'VR_ROUTER_MULTIPLE_ROOTS'
   | 'VR_ROUTER_OUTSIDE_APP_LAYOUT'
   | 'VR_LAYOUT_MISSING_OUTLET'
@@ -78,6 +80,18 @@ export type CompileFeature =
   | 'ui-loader'
   | 'ui-skeleton'
   | 'ui-separator'
+  | 'ui-layout'
+  | 'ui-container'
+  | 'ui-section'
+  | 'ui-grid'
+  | 'ui-stack'
+  | 'ui-header'
+  | 'ui-footer'
+  | 'ui-sidebar'
+  | 'ui-nav'
+  | 'ui-breadcrumb'
+  | 'ui-img'
+  | 'ui-src'
   | 'slot';
 
 export interface ComponentDependencyInput {

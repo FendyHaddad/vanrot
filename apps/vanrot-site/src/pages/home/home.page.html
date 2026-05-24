@@ -1,6 +1,6 @@
 <main class="home-page">
   <section class="home-hero">
-    <vr-badge variant="secondary">October docs</vr-badge>
+    <vr-badge tone.secondary>October docs</vr-badge>
     <h1>{{ copy.title }}</h1>
     <p>{{ copy.summary }}</p>
     <div class="home-actions">
@@ -11,10 +11,10 @@
 
   <section class="home-grid" aria-label="Framework packages">
     @for (item of packages; track item.name) {
-      <vr-card variant="default">
+      <vr-card variant.default>
         <h2>{{ item.name }}</h2>
         <p>{{ item.area }}</p>
-        <vr-badge variant="outline">{{ item.status }}</vr-badge>
+        <vr-badge tone.outline>{{ item.status }}</vr-badge>
       </vr-card>
     }
   </section>

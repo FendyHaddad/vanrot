@@ -1,0 +1,6 @@
+.vr-layout {
+  background: var(--vr-color-canvas);
+  color: var(--vr-color-text);
+  display: block;
+  min-height: 100dvh;
+}

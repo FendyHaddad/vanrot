@@ -971,7 +971,6 @@ Phase 16 should be sliced to protect readability and maintainability.
 - nav
 - sidebar
 - breadcrumb
-- tabs
 - image and source primitives
 - update `apps/vanrot-site` to replace temporary shell CSS with real primitives where possible
 
@@ -996,6 +995,7 @@ Phase 16 should be sliced to protect readability and maintainability.
 - modal
 - drawer
 - dropdown
+- tabs
 - popover
 - tooltip
 - toast

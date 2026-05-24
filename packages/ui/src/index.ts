@@ -1,6 +1,7 @@
 export type {
   UiComponentPhase,
   UiFlavor,
+  UiPrimitiveTokenGroup,
   UiPrimitiveType,
   UiPrimitiveVariant,
   UiStyleMode,
@@ -15,6 +16,7 @@ export {
   uiPackageInventory,
   uiPrimitive,
   uiPrimitiveOrder,
+  uiPrimitiveTokenGroup,
   uiPrimitiveType,
   uiPrimitiveVariant,
   uiStyleMode,

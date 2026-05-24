@@ -102,6 +102,16 @@ export const diagnosticCatalog: Record<DiagnosticCode, DiagnosticInfo> = {
     suggestion: 'Use a variant listed by the primitive metadata in @vanrot/ui.',
     docsPath: '/docs/ui/primitives',
   },
+  VR020: {
+    message: 'Duplicate Vanrot UI dotted token.',
+    suggestion: 'Use only one dotted token from each finite token group.',
+    docsPath: '/docs/ui/dotted-token-attributes',
+  },
+  VR021: {
+    message: 'Unknown Vanrot UI dotted token.',
+    suggestion: 'Use a dotted token listed by the primitive metadata in @vanrot/ui.',
+    docsPath: '/docs/ui/dotted-token-attributes',
+  },
   VR_ROUTER_MULTIPLE_ROOTS: {
     message: 'App layout templates can contain only one <vr-router />.',
     suggestion: 'Keep one root <vr-router /> in app.layout.html.',

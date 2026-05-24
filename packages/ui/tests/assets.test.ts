@@ -4,9 +4,39 @@ import { readFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { uiAssetUrl, uiPrimitive, uiPrimitiveOrder, uiPrimitiveVariant } from '../src/index.js';
+import {
+  uiAssetUrl,
+  uiPrimitive,
+  uiPrimitiveOrder,
+  uiPrimitiveType,
+  uiPrimitiveVariant,
+} from '../src/index.js';
 
 const packageRoot = join(dirname(fileURLToPath(import.meta.url)), '..');
+const phase16CorePrimitiveOrder = [
+  uiPrimitiveType.button,
+  uiPrimitiveType.card,
+  uiPrimitiveType.badge,
+  uiPrimitiveType.avatar,
+  uiPrimitiveType.alert,
+  uiPrimitiveType.loader,
+  uiPrimitiveType.skeleton,
+  uiPrimitiveType.separator,
+] as const;
+const phase16LayoutNavigationMediaPrimitiveOrder = [
+  uiPrimitiveType.layout,
+  uiPrimitiveType.container,
+  uiPrimitiveType.section,
+  uiPrimitiveType.grid,
+  uiPrimitiveType.stack,
+  uiPrimitiveType.header,
+  uiPrimitiveType.footer,
+  uiPrimitiveType.sidebar,
+  uiPrimitiveType.nav,
+  uiPrimitiveType.breadcrumb,
+  uiPrimitiveType.img,
+  uiPrimitiveType.src,
+] as const;
 
 describe('@vanrot/ui assets', () => {
   it('keeps October dark and light tokens in CSS instead of TypeScript strings', async () => {
@@ -69,8 +99,18 @@ describe('@vanrot/ui assets', () => {
     const homeUsage = await readFile(fileURLToPath(uiAssetUrl.button.homeUsage), 'utf8');
 
     expect(buttonTemplate).toContain('<vr-button type="button">');
-    expect(homeUsage).toContain('<vr-button variant="default" type="button">');
+    expect(homeUsage).toContain('<vr-button variant.default type="button">');
     expect(homeUsage).toContain("{{ t('home.cta') }}");
+  });
+
+  it('uses dotted token attributes for Vanrot-owned finite UI tokens', async () => {
+    const tokenAttributePattern = /\b(?:variant|tone|orientation)="[^"]+"/;
+
+    for (const primitive of uiPrimitiveOrder) {
+      const usage = await readFile(fileURLToPath(uiAssetUrl[primitive].homeUsage), 'utf8');
+
+      expect(usage).not.toMatch(tokenAttributePattern);
+    }
   });
 
   it('keeps button styles in CSS files', async () => {
@@ -92,7 +132,31 @@ describe('@vanrot/ui assets', () => {
   });
 
   it('ships source templates for every Phase 16B primitive', async () => {
-    for (const primitive of uiPrimitiveOrder) {
+    for (const primitive of phase16CorePrimitiveOrder) {
+      const metadata = uiPrimitive[primitive];
+      const directory = join(packageRoot, 'src', 'primitives', primitive);
+      const className = `Ui${primitive[0].toUpperCase()}${primitive.slice(1)}`;
+
+      await expect(readFile(join(directory, `ui.${primitive}.ts`), 'utf8')).resolves.toContain(
+        `export class ${className}`,
+      );
+      await expect(readFile(join(directory, `ui.${primitive}.html`), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+      await expect(readFile(join(directory, `ui.${primitive}.css`), 'utf8')).resolves.toContain(
+        metadata.baseClass,
+      );
+      await expect(readFile(join(directory, `ui.${primitive}.test.ts`), 'utf8')).resolves.toContain(
+        className,
+      );
+      await expect(readFile(join(directory, 'usage.home.html'), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+    }
+  });
+
+  it('ships source templates for every Phase 16D layout, navigation, and media primitive', async () => {
+    for (const primitive of phase16LayoutNavigationMediaPrimitiveOrder) {
       const metadata = uiPrimitive[primitive];
       const directory = join(packageRoot, 'src', 'primitives', primitive);
       const className = `Ui${primitive[0].toUpperCase()}${primitive.slice(1)}`;
@@ -116,7 +180,7 @@ describe('@vanrot/ui assets', () => {
   });
 
   it('ships CSS classes for every Phase 16B non-default variant', async () => {
-    for (const primitive of uiPrimitiveOrder) {
+    for (const primitive of phase16CorePrimitiveOrder) {
       const metadata = uiPrimitive[primitive];
       const css = await readFile(
         join(packageRoot, 'src', 'primitives', primitive, `ui.${primitive}.css`),

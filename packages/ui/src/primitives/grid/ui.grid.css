@@ -1,0 +1,59 @@
+.vr-grid {
+  display: grid;
+}
+
+.vr-grid-cols-1 {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.vr-grid-cols-2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.vr-grid-cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.vr-grid-cols-4 {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.vr-grid-cols-6 {
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+}
+
+.vr-grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.vr-grid-gap-0 {
+  gap: 0;
+}
+
+.vr-grid-gap-1 {
+  gap: var(--vr-space-1);
+}
+
+.vr-grid-gap-2 {
+  gap: var(--vr-space-2);
+}
+
+.vr-grid-gap-3 {
+  gap: var(--vr-space-3);
+}
+
+.vr-grid-gap-4 {
+  gap: var(--vr-space-4);
+}
+
+.vr-grid-gap-5 {
+  gap: var(--vr-space-5);
+}
+
+.vr-grid-gap-6 {
+  gap: var(--vr-space-6);
+}
+
+.vr-grid-gap-8 {
+  gap: var(--vr-space-8);
+}

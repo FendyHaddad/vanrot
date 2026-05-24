@@ -9,10 +9,37 @@ import {
   uiPackageInventory,
   uiPrimitive,
   uiPrimitiveOrder,
+  uiPrimitiveTokenGroup,
   uiPrimitiveType,
   uiPrimitiveVariant,
   uiStyleMode,
 } from '../src/index.js';
+
+const phase16CorePrimitiveOrder = [
+  uiPrimitiveType.button,
+  uiPrimitiveType.card,
+  uiPrimitiveType.badge,
+  uiPrimitiveType.avatar,
+  uiPrimitiveType.alert,
+  uiPrimitiveType.loader,
+  uiPrimitiveType.skeleton,
+  uiPrimitiveType.separator,
+] as const;
+
+const phase16LayoutNavigationMediaPrimitiveOrder = [
+  uiPrimitiveType.layout,
+  uiPrimitiveType.container,
+  uiPrimitiveType.section,
+  uiPrimitiveType.grid,
+  uiPrimitiveType.stack,
+  uiPrimitiveType.header,
+  uiPrimitiveType.footer,
+  uiPrimitiveType.sidebar,
+  uiPrimitiveType.nav,
+  uiPrimitiveType.breadcrumb,
+  uiPrimitiveType.img,
+  uiPrimitiveType.src,
+] as const;
 
 describe('@vanrot/ui metadata', () => {
   it('exports October flavor and style mode metadata', () => {
@@ -48,15 +75,14 @@ describe('@vanrot/ui metadata', () => {
   });
 
   it('exports the Phase 16B core primitive order', () => {
-    expect(uiPrimitiveOrder).toEqual([
-      uiPrimitiveType.button,
-      uiPrimitiveType.card,
-      uiPrimitiveType.badge,
-      uiPrimitiveType.avatar,
-      uiPrimitiveType.alert,
-      uiPrimitiveType.loader,
-      uiPrimitiveType.skeleton,
-      uiPrimitiveType.separator,
+    expect(uiPrimitiveOrder.slice(0, phase16CorePrimitiveOrder.length)).toEqual([
+      ...phase16CorePrimitiveOrder,
+    ]);
+  });
+
+  it('exports the Phase 16D layout, navigation, and media primitive order', () => {
+    expect(uiPrimitiveOrder.slice(phase16CorePrimitiveOrder.length)).toEqual([
+      ...phase16LayoutNavigationMediaPrimitiveOrder,
     ]);
   });
 
@@ -85,6 +111,41 @@ describe('@vanrot/ui metadata', () => {
     expect(uiPrimitiveVariant.separator).toEqual(['horizontal', 'vertical']);
   });
 
+  it('exports dotted token groups for Phase 16B and Phase 16D primitives', () => {
+    expect(uiPrimitiveTokenGroup.button.variant.tokens).toEqual(uiPrimitiveVariant.button);
+    expect(uiPrimitiveTokenGroup.badge.tone.tokens).toEqual(uiPrimitiveVariant.badge);
+    expect(uiPrimitiveTokenGroup.alert.tone.tokens).toEqual(uiPrimitiveVariant.alert);
+    expect(uiPrimitiveTokenGroup.separator.orientation.tokens).toEqual(
+      uiPrimitiveVariant.separator,
+    );
+    expect(uiPrimitiveTokenGroup.container.size.tokens).toEqual(['sm', 'md', 'lg', 'xl']);
+    expect(uiPrimitiveTokenGroup.section.spacing.tokens).toEqual(['sm', 'md', 'lg']);
+    expect(uiPrimitiveTokenGroup.grid.cols.tokens).toEqual(['1', '2', '3', '4', '6', '12']);
+    expect(uiPrimitiveTokenGroup.grid.gap.tokens).toEqual([
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '8',
+    ]);
+    expect(uiPrimitiveTokenGroup.stack.gap.tokens).toEqual([
+      '0',
+      '1',
+      '2',
+      '3',
+      '4',
+      '5',
+      '6',
+      '8',
+    ]);
+    expect(uiPrimitiveTokenGroup.sidebar.placement.tokens).toEqual(['left', 'right']);
+    expect(uiPrimitiveTokenGroup.grid.cols.classByToken['3']).toBe('vr-grid-cols-3');
+    expect(uiPrimitiveTokenGroup.stack.gap.classByToken['3']).toBe('vr-stack-gap-3');
+  });
+
   it('exports app-owned style file paths', () => {
     expect(uiAppFile.tokens).toBe('src/styles/vanrot-tokens.css');
     expect(uiAppFile.vanrotstyles).toBe('src/styles/vanrotstyles.css');
@@ -95,7 +156,7 @@ describe('@vanrot/ui metadata', () => {
   });
 
   it('exports the Phase 16B component catalog shape', () => {
-    for (const primitive of uiPrimitiveOrder) {
+    for (const primitive of phase16CorePrimitiveOrder) {
       expect(uiPrimitive[primitive].type).toBe(primitive);
       expect(uiPrimitive[primitive].selector).toBe(`vr-${primitive}`);
       expect(uiPrimitive[primitive].directory).toBe(`src/ui/${primitive}`);
@@ -108,6 +169,22 @@ describe('@vanrot/ui metadata', () => {
     expect(uiPrimitive.button.introducedPhase).toBe('16A');
     expect(uiPrimitive.card.nativeTag).toBe('article');
     expect(uiPrimitive.separator.nativeTag).toBe('hr');
+  });
+
+  it('exports the Phase 16D component catalog shape', () => {
+    for (const primitive of phase16LayoutNavigationMediaPrimitiveOrder) {
+      expect(uiPrimitive[primitive].type).toBe(primitive);
+      expect(uiPrimitive[primitive].selector).toBe(`vr-${primitive}`);
+      expect(uiPrimitive[primitive].directory).toBe(`src/ui/${primitive}`);
+      expect(uiPrimitive[primitive].productionPhase).toBe('16D');
+      expect(uiComponentCatalog[primitive].selector).toBe(`vr-${primitive}`);
+      expect(uiComponentCatalog[primitive].productionPhase).toBe('16D');
+    }
+
+    expect(uiPrimitive.header.nativeTag).toBe('header');
+    expect(uiPrimitive.sidebar.nativeTag).toBe('aside');
+    expect(uiPrimitive.breadcrumb.nativeTag).toBe('nav');
+    expect(uiPrimitive.src.nativeTag).toBe('source');
   });
 
   it('exports file-backed package asset URLs', () => {

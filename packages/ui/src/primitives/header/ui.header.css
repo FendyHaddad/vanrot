@@ -1,0 +1,6 @@
+.vr-header {
+  align-items: center;
+  border-bottom: 1px solid var(--vr-color-line);
+  display: flex;
+  min-height: 4rem;
+}

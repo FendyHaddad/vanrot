@@ -1,0 +1,7 @@
+.vr-breadcrumb {
+  align-items: center;
+  color: var(--vr-color-muted);
+  display: flex;
+  font-size: var(--vr-text-sm);
+  gap: var(--vr-space-2);
+}

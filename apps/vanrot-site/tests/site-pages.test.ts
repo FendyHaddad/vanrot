@@ -14,6 +14,7 @@ const phase16ComponentDocPages = [
     primitive: 'badge',
     title: 'Badge',
     tagName: 'vr-badge',
+    tokenGroup: 'tone',
     variants: ['default', 'secondary', 'success', 'warning', 'danger', 'outline'],
   },
   {
@@ -23,6 +24,7 @@ const phase16ComponentDocPages = [
     primitive: 'avatar',
     title: 'Avatar',
     tagName: 'vr-avatar',
+    tokenGroup: 'variant',
     variants: ['default', 'soft', 'outline'],
   },
   {
@@ -32,6 +34,7 @@ const phase16ComponentDocPages = [
     primitive: 'alert',
     title: 'Alert',
     tagName: 'vr-alert',
+    tokenGroup: 'tone',
     variants: ['info', 'success', 'warning', 'danger'],
   },
   {
@@ -41,6 +44,7 @@ const phase16ComponentDocPages = [
     primitive: 'loader',
     title: 'Loader',
     tagName: 'vr-loader',
+    tokenGroup: 'variant',
     variants: ['spinner', 'dots', 'bar'],
   },
   {
@@ -50,6 +54,7 @@ const phase16ComponentDocPages = [
     primitive: 'skeleton',
     title: 'Skeleton',
     tagName: 'vr-skeleton',
+    tokenGroup: 'variant',
     variants: ['text', 'avatar', 'card', 'block'],
   },
   {
@@ -59,13 +64,108 @@ const phase16ComponentDocPages = [
     primitive: 'separator',
     title: 'Separator',
     tagName: 'vr-separator',
+    tokenGroup: 'orientation',
     variants: ['horizontal', 'vertical'],
+  },
+] as const;
+
+const phase16LayoutNavigationMediaDocPages = [
+  {
+    routeKey: 'componentBreadcrumbs',
+    path: '/docs/components/breadcrumbs',
+    fileBase: 'component-breadcrumb',
+    title: 'Breadcrumb',
+    tokenSnippet: 'aria-label',
+  },
+  {
+    routeKey: 'componentContainers',
+    path: '/docs/components/containers',
+    fileBase: 'component-container',
+    title: 'Container',
+    tokenSnippet: 'size.lg',
+  },
+  {
+    routeKey: 'componentFooters',
+    path: '/docs/components/footers',
+    fileBase: 'component-footer',
+    title: 'Footer',
+    tokenSnippet: 'vr-footer',
+  },
+  {
+    routeKey: 'componentGrids',
+    path: '/docs/components/grids',
+    fileBase: 'component-grid',
+    title: 'Grid',
+    tokenSnippet: 'cols.3 gap.4',
+  },
+  {
+    routeKey: 'componentHeaders',
+    path: '/docs/components/headers',
+    fileBase: 'component-header',
+    title: 'Header',
+    tokenSnippet: 'vr-header',
+  },
+  {
+    routeKey: 'componentImages',
+    path: '/docs/components/images',
+    fileBase: 'component-img',
+    title: 'Image',
+    tokenSnippet: 'src alt',
+  },
+  {
+    routeKey: 'componentLayouts',
+    path: '/docs/components/layouts',
+    fileBase: 'component-layout',
+    title: 'Layout',
+    tokenSnippet: 'vr-layout',
+  },
+  {
+    routeKey: 'componentNavigation',
+    path: '/docs/components/navigation',
+    fileBase: 'component-nav',
+    title: 'Navigation',
+    tokenSnippet: 'aria-label',
+  },
+  {
+    routeKey: 'componentSections',
+    path: '/docs/components/sections',
+    fileBase: 'component-section',
+    title: 'Section',
+    tokenSnippet: 'spacing.md',
+  },
+  {
+    routeKey: 'componentSidebars',
+    path: '/docs/components/sidebars',
+    fileBase: 'component-sidebar',
+    title: 'Sidebar',
+    tokenSnippet: 'placement.left',
+  },
+  {
+    routeKey: 'componentSources',
+    path: '/docs/components/sources',
+    fileBase: 'component-src',
+    title: 'Source',
+    tokenSnippet: 'srcset type',
+  },
+  {
+    routeKey: 'componentStacks',
+    path: '/docs/components/stacks',
+    fileBase: 'component-stack',
+    title: 'Stack',
+    tokenSnippet: 'gap.3',
   },
 ] as const;
 
 async function readSiteFile(path: string): Promise<string> {
   return readFile(join(appRoot, path), 'utf8');
 }
+
+const phase16CoreComponentFiles = [
+  'component-button',
+  'component-card',
+  ...phase16ComponentDocPages.map((page) => page.fileBase),
+  ...phase16LayoutNavigationMediaDocPages.map((page) => page.fileBase),
+] as const;
 
 describe('vanrot site pages', () => {
   it('mounts the app through Vanrot runtime and router', async () => {
@@ -80,6 +180,9 @@ describe('vanrot site pages', () => {
   it('uses a single root vr-router in the app layout', async () => {
     const appLayout = await readSiteFile('src/app/app.layout.html');
 
+    expect(appLayout).toContain('<vr-layout class="site-shell">');
+    expect(appLayout).toContain('<vr-header class="site-header">');
+    expect(appLayout).toContain('<vr-nav class="site-top-nav" aria-label="Primary">');
     expect(appLayout.match(/<vr-router><\/vr-router>/g)).toHaveLength(1);
     expect(appLayout).not.toContain('<vr-outlet>');
   });
@@ -87,6 +190,9 @@ describe('vanrot site pages', () => {
   it('uses a route outlet only in docs layout', async () => {
     const docsLayout = await readSiteFile('src/layouts/docs/docs.layout.html');
 
+    expect(docsLayout).toContain('<vr-layout class="docs-layout">');
+    expect(docsLayout).toContain('<vr-sidebar class="docs-sidebar" placement.left aria-label="Documentation">');
+    expect(docsLayout).toContain('<vr-nav class="docs-nav" aria-label="Documentation">');
     expect(docsLayout.match(/<vr-outlet><\/vr-outlet>/g)).toHaveLength(1);
     expect(docsLayout).not.toContain('<vr-router>');
   });
@@ -126,16 +232,16 @@ describe('vanrot site pages', () => {
     }
 
     for (const variant of [
-      'danger',
-      'interactive',
-      'success',
-      'soft',
-      'warning',
-      'bar',
-      'block',
-      'vertical',
+      'variant.danger',
+      'variant.interactive',
+      'tone.success',
+      'variant.soft',
+      'tone.warning',
+      'variant.bar',
+      'variant.block',
+      'orientation.vertical',
     ]) {
-      expect(gallery).toContain(`variant="${variant}"`);
+      expect(gallery).toContain(variant);
     }
   });
 
@@ -145,9 +251,7 @@ describe('vanrot site pages', () => {
     const cardPage = await readSiteFile('src/pages/components/component-card.page.html');
     const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
 
-    expect(gallery).toContain(
-      '<a class="nav-link active" href="/docs/components/buttons">Button</a>',
-    );
+    expect(gallery).toContain('<a class="nav-link" href="/docs/components/buttons">Button</a>');
     expect(gallery).not.toContain('<a class="nav-link active" href="#button">Button</a>');
     expect(gallery).toContain('<a class="nav-link" href="/docs/components/cards">Card</a>');
     expect(gallery).not.toContain('<a class="nav-link" href="#card">Card</a>');
@@ -172,12 +276,12 @@ describe('vanrot site pages', () => {
     expect(componentButtonsRoute.parent).toBeUndefined();
     expect(componentCardsRoute.parent).toBeUndefined();
     expect(buttonPage).toContain('class="app component-gallery-app component-button-app"');
-    expect(buttonPage).toContain('<aside class="sidebar">');
+    expect(buttonPage).toContain('<vr-sidebar class="sidebar" placement.left');
     expect(buttonPage).not.toContain('docs-sidebar');
     expect(buttonPage).toContain('<a class="nav-link active" href="/docs/components/buttons">Button</a>');
     expect(buttonPage).toContain('<a class="nav-link" href="/docs/components/cards">Card</a>');
     expect(cardPage).toContain('class="app component-gallery-app component-card-app"');
-    expect(cardPage).toContain('<aside class="sidebar">');
+    expect(cardPage).toContain('<vr-sidebar class="sidebar" placement.left');
     expect(cardPage).not.toContain('docs-sidebar');
     expect(cardPage).toContain('<a class="nav-link" href="/docs/components/buttons">Button</a>');
     expect(cardPage).toContain('<a class="nav-link active" href="/docs/components/cards">Card</a>');
@@ -214,6 +318,52 @@ describe('vanrot site pages', () => {
         kind: 'page',
       });
       expect(routeEntry.parent).toBeUndefined();
+    }
+  });
+
+  it('routes Phase 16D component navigation to dedicated docs pages', async () => {
+    const buttonPage = await readSiteFile('src/pages/components/component-button.page.html');
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+    const componentLabels = [
+      ...buttonPage.matchAll(/<a class="nav-link(?: active)?" href="\/docs\/components\/[^"]+">([^<]+)<\/a>/g),
+    ].map((match) => match[1] ?? '');
+
+    expect(componentLabels).toEqual([...componentLabels].sort((left, right) => left.localeCompare(right)));
+
+    for (const page of phase16LayoutNavigationMediaDocPages) {
+      const componentPage = await readSiteFile(`src/pages/components/${page.fileBase}.page.html`);
+      const routeEntry = siteRoute[page.routeKey];
+
+      if (routeEntry === undefined) {
+        throw new Error(`Expected ${page.routeKey} route to be defined.`);
+      }
+
+      expect(routeEntry).toMatchObject({
+        fullPath: page.path,
+        kind: 'page',
+      });
+      expect(routeEntry.parent).toBeUndefined();
+      expect(componentPage).toContain(
+        `class="app component-gallery-app component-${page.fileBase.replace('component-', '')}-app"`,
+      );
+      expect(componentPage).toContain('<vr-sidebar class="sidebar" placement.left');
+      expect(componentPage).toContain(
+        `<a class="nav-link active" href="${page.path}">${page.title}</a>`,
+      );
+      expect(componentPage).toContain('<h1>{{ doc().title }}</h1>');
+      expect(componentPage).toContain('<div class="variant-preview">');
+      expect(componentPage).toContain('<div class="code-snippet">');
+      expect(componentPage).toContain(page.tokenSnippet);
+    }
+  });
+
+  it('uses dotted token attributes for Vanrot-owned component docs examples', async () => {
+    const tokenAttributePattern = /\b(?:variant|tone|orientation)="[^"]+"/;
+
+    for (const fileBase of phase16CoreComponentFiles) {
+      const componentPage = await readSiteFile(`src/pages/components/${fileBase}.page.html`);
+
+      expect(componentPage).not.toMatch(tokenAttributePattern);
     }
   });
 
@@ -254,7 +404,7 @@ describe('vanrot site pages', () => {
     expect(buttonPage.match(/<span class="code-line-number">1<\/span>/g) ?? []).toHaveLength(6);
     expect(buttonPage.match(/<span class="code-line-content[^"]*">/g) ?? []).toHaveLength(18);
     expect(buttonPage.match(/<span class="code-line-content code-indent-1">/g) ?? []).toHaveLength(6);
-    expect(buttonPage.match(/<span class="token attr"> variant<\/span>/g) ?? []).toHaveLength(6);
+    expect(buttonPage.match(/<span class="token attr"> variant\.[a-z]+<\/span>/g) ?? []).toHaveLength(6);
     expect(buttonPage.match(/<span class="token attr"> type<\/span>/g) ?? []).toHaveLength(6);
     expect(buttonPage).toContain('<span class="token tag">&lt;vr-button</span>');
     expect(buttonPage).not.toContain('code-space');
@@ -276,7 +426,7 @@ describe('vanrot site pages', () => {
     expect(buttonCss).toContain('.code-line { grid-template-columns: 48px max-content; }');
 
     for (const variant of ['default', 'secondary', 'outline', 'ghost', 'danger', 'link']) {
-      expect(buttonPage).toContain(`variant="${variant}"`);
+      expect(buttonPage).toContain(`variant.${variant}`);
     }
   });
 
@@ -314,7 +464,7 @@ describe('vanrot site pages', () => {
     expect(cardPage.match(/<span class="code-line-number">1<\/span>/g) ?? []).toHaveLength(3);
     expect(cardPage.match(/<span class="code-line-content[^"]*">/g) ?? []).toHaveLength(15);
     expect(cardPage.match(/<span class="code-line-content code-indent-1">/g) ?? []).toHaveLength(9);
-    expect(cardPage.match(/<span class="token attr"> variant<\/span>/g) ?? []).toHaveLength(6);
+    expect(cardPage.match(/<span class="token attr"> variant\.[a-z]+<\/span>/g) ?? []).toHaveLength(6);
     expect(cardPage).toContain('<span class="token tag">&lt;vr-card</span>');
     expect(cardPage).not.toContain('code-space');
     expect(cardCss).toContain('.code-snippet {');
@@ -335,7 +485,7 @@ describe('vanrot site pages', () => {
     expect(cardCss).toContain('.code-line { grid-template-columns: 48px max-content; }');
 
     for (const variant of ['default', 'muted', 'interactive']) {
-      expect(cardPage).toContain(`variant="${variant}"`);
+      expect(cardPage).toContain(`variant.${variant}`);
     }
   });
 
@@ -361,7 +511,7 @@ describe('vanrot site pages', () => {
       expect(componentPage).toContain(
         `class="app component-gallery-app component-${page.primitive}-app"`,
       );
-      expect(componentPage).toContain('<aside class="sidebar">');
+      expect(componentPage).toContain('<vr-sidebar class="sidebar" placement.left');
       expect(componentPage).not.toContain('docs-sidebar');
       expect(componentPage).toContain(
         `<a class="nav-link active" href="${page.path}">${page.title}</a>`,
@@ -410,13 +560,15 @@ describe('vanrot site pages', () => {
         componentPage.match(/<span class="code-line-number">1<\/span>/g) ?? [],
       ).toHaveLength(page.variants.length);
       expect(componentPage).toContain(`<span class="token tag">&lt;${page.tagName}</span>`);
-      expect(componentPage).toContain('<span class="token attr"> variant</span>');
+      expect(componentPage).toContain(`<span class="token attr"> ${page.tokenGroup}.`);
       expect(componentPage).not.toContain('code-space');
 
       for (const variant of page.variants) {
         expect(componentPage).toContain(`id="${page.primitive}-${variant}"`);
-        expect(componentPage).toContain(`variant="${variant}"`);
-        expect(componentPage).toContain(`variant</span><span class="token operator">=</span><span class="token string">"${variant}"</span>`);
+        expect(componentPage).toContain(`${page.tokenGroup}.${variant}`);
+        expect(componentPage).toContain(
+          `<span class="token attr"> ${page.tokenGroup}.${variant}</span>`,
+        );
       }
 
       expect(componentCss).toContain('.code-snippet {');
@@ -450,9 +602,9 @@ describe('vanrot site pages', () => {
     const loaderSection = gallery.match(/<section class="primitive" id="loader">[\s\S]*?<\/section>/)?.[0] ?? '';
     const loaderElements = [...loaderSection.matchAll(/<vr-loader\b[^>]*>([\s\S]*?)<\/vr-loader>/g)];
 
-    expect(loaderSection).toContain('<vr-loader class="loader" variant="spinner" aria-label="Loading spinner"></vr-loader>');
-    expect(loaderSection).toContain('<vr-loader class="loader" variant="dots" aria-label="Loading dots"></vr-loader>');
-    expect(loaderSection).toContain('<vr-loader class="loader" variant="bar" aria-label="Loading bar"></vr-loader>');
+    expect(loaderSection).toContain('<vr-loader class="loader" variant.spinner aria-label="Loading spinner"></vr-loader>');
+    expect(loaderSection).toContain('<vr-loader class="loader" variant.dots aria-label="Loading dots"></vr-loader>');
+    expect(loaderSection).toContain('<vr-loader class="loader" variant.bar aria-label="Loading bar"></vr-loader>');
     expect(loaderElements).toHaveLength(3);
     for (const match of loaderElements) {
       const content = match[1] ?? '';
@@ -475,12 +627,12 @@ describe('vanrot site pages', () => {
     const prototypeCss = prototype.match(/<style>([\s\S]*?)<\/style>/)?.[1]?.trim();
 
     expect(gallery).toContain('class="app component-gallery-app"');
-    expect(gallery).toContain('<aside class="sidebar">');
-    expect(gallery).toContain('<header class="topbar">');
+    expect(gallery).toContain('<vr-sidebar class="sidebar" placement.left');
+    expect(gallery).toContain('<vr-header class="topbar">');
     expect(gallery).toContain('<vr-button class="btn default"');
     expect(gallery).toContain('<vr-card class="card-demo interactive"');
     expect(gallery).toContain('<vr-alert class="alert warning"');
-    expect(gallery).toContain('<vr-loader class="loader" variant="dots"');
+    expect(gallery).toContain('<vr-loader class="loader" variant.dots');
     expect(gallery).toContain('<vr-skeleton class="skeleton sk-card"');
     expect(gallery).toContain('<vr-separator class="separator-horizontal"');
     expect(gallery.match(/<vr-alert\b/g)?.length).toBe(4);

@@ -1,0 +1,6 @@
+.vr-footer {
+  border-top: 1px solid var(--vr-color-line);
+  color: var(--vr-color-muted);
+  display: block;
+  padding-block: var(--vr-space-6);
+}

@@ -1,0 +1,90 @@
+<div class="app component-gallery-app component-img-app">
+  <vr-sidebar class="sidebar" placement.left aria-label="Component documentation">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/breadcrumbs">Breadcrumb</a>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link" href="/docs/components/containers">Container</a>
+    <a class="nav-link" href="/docs/components/footers">Footer</a>
+    <a class="nav-link" href="/docs/components/grids">Grid</a>
+    <a class="nav-link" href="/docs/components/headers">Header</a>
+    <a class="nav-link active" href="/docs/components/images">Image</a>
+    <a class="nav-link" href="/docs/components/layouts">Layout</a>
+    <a class="nav-link" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/navigation">Navigation</a>
+    <a class="nav-link" href="/docs/components/sections">Section</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+    <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/sources">Source</a>
+    <a class="nav-link" href="/docs/components/stacks">Stack</a>
+  </vr-sidebar>
+
+  <main>
+    <vr-header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Image</span>
+      </div>
+      <vr-nav class="topbar-right" aria-label="Component page links">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </vr-nav>
+    </vr-header>
+
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+
+      <section class="primitive" id="img">
+        <div class="preview">
+          <div class="preview-head"><span>Patterns</span><span>1</span></div>
+          <div class="preview-body variant-grid">
+            <div class="variant-tile"><span class="variant-name">src alt</span><vr-img class="image-demo" src="/vanrot-og.png" alt="Vanrot interface preview"></vr-img></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="img-default">
+        <div class="section-head">
+          <div>
+            <h2>Image</h2>
+            <p>{{ description() }}</p>
+          </div>
+          <span class="code-chip">src alt</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-img class="image-demo" src="/vanrot-og.png" alt="Vanrot interface preview"></vr-img></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy img code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-img</span><span class="token attr"> src</span><span class="token operator">=</span><span class="token string">"/vanrot-og.png"</span><span class="token attr"> alt</span><span class="token operator">=</span><span class="token string">"Vanrot interface preview"</span><span class="token tag">&gt;</span><span class="token text"></span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+    </section>
+  </main>
+</div>
