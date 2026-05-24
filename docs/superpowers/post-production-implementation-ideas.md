@@ -1,6 +1,6 @@
 # Post-Production Implementation Ideas
 
-**Scope:** Phase 17 through Phase 22
+**Scope:** Phase 17 through Phase 22, plus later post-release tooling candidates
 **Purpose:** Park implementation ideas for later production planning without turning them into active phase plans yet.
 
 This file is an idea backlog, not an execution checklist. When a phase becomes active, move the relevant ideas into the
@@ -10,11 +10,52 @@ matching phase spec and writing plan using the normal `Phase-XX.md` naming conve
 
 - Keep Phase 17 through Phase 22 as post-production implementation candidates until the active production queue reaches
   them.
+- Keep later tooling candidates, such as IntelliJ and editor tooling, parked here until Phase 23 project intelligence and
+  Phase 26 distribution hardening make them practical.
 - Do not mark a listed idea complete from this file alone.
 - Keep each future phase sliced into small implementation passes before writing code.
 - Preserve shared contracts across related packages, especially UI flavor contracts, testing helpers, store APIs, forms,
   async resources, router integration, and SSR boundaries.
 - Prefer readable, English-like APIs and named sources of truth over clever shorthand or repeated string literals.
+
+## Later Candidate: IntelliJ And Editor Tooling
+
+Vanrot should eventually have Angular-like IDE support, but it should not be implemented before the framework language,
+route metadata, component metadata, compiler diagnostics, and distribution story are stable. The goal is to make editor
+tooling feel first-party without letting it distort the core framework design.
+
+Agreed sequence:
+
+- Ignore current IntelliJ `vr-*` squiggles as a tooling gap, not a Vanrot design problem.
+- Near Phase 23, add lightweight Web Types and metadata so JetBrains can recognize Vanrot tags, attributes, variants,
+  router elements, and documented UI primitives.
+- During Phase 23, build the project and compiler intelligence foundation that editor tooling needs: route graph,
+  component graph, template usage, source locations, diagnostics, and project metadata.
+- After post-production implementation and distribution hardening, build a real IntelliJ plugin or language service for
+  Angular-like behavior.
+- Treat the likely future phase name as `Phase 27 - IntelliJ and editor tooling`, unless Phase 23 needs a smaller
+  `Phase 23B - IDE intelligence` slice first.
+
+Long-term capabilities to carry forward:
+
+- Import suggestions or generated setup guidance for Vanrot components, pages, layouts, route helpers, and UI primitives.
+- Jump-to-route, jump-to-page, jump-to-layout, and jump-to-component from template usage.
+- Rename-safe route references for syntax such as `<vr route.docs />`.
+- Template diagnostics for unknown Vanrot elements, invalid variants, repeated route literals, router/outlet misuse, and
+  framework convention violations.
+- Auto-fixes for simple mistakes, such as adding missing generated metadata, correcting route references, or replacing
+  repeated literals with named route objects.
+- Completion and documentation for `vr-router`, `vr-outlet`, `vr-*` UI primitives, route references, variants, and
+  framework-owned attributes.
+- Compatibility with IntelliJ IDEA Ultimate, WebStorm, and future editor adapters where practical.
+
+Possible slices:
+
+- 27A Web Types and editor metadata package
+- 27B project intelligence export for editors
+- 27C IntelliJ plugin or language-service prototype
+- 27D route and template navigation
+- 27E diagnostics, quick fixes, and rename-safe refactors
 
 ## Phase 17: UI Production V02
 

@@ -1,0 +1,202 @@
+<div class="app component-gallery-app component-badge-app">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link active" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Badge</span>
+      </div>
+      <nav class="topbar-right">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </nav>
+    </header>
+
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+
+      <section class="primitive" id="badge">
+        <div class="preview">
+          <div class="preview-head"><span>Variants</span><span>6</span></div>
+          <div class="preview-body variant-grid">
+            <div class="variant-tile"><span class="variant-name">default</span><vr-badge class="badge default" variant="default">Live</vr-badge></div>
+            <div class="variant-tile"><span class="variant-name">secondary</span><vr-badge class="badge secondary" variant="secondary">Draft</vr-badge></div>
+            <div class="variant-tile"><span class="variant-name">success</span><vr-badge class="badge success" variant="success">Passed</vr-badge></div>
+            <div class="variant-tile"><span class="variant-name">warning</span><vr-badge class="badge warning" variant="warning">Review</vr-badge></div>
+            <div class="variant-tile"><span class="variant-name">danger</span><vr-badge class="badge danger" variant="danger">Blocked</vr-badge></div>
+            <div class="variant-tile"><span class="variant-name">outline</span><vr-badge class="badge outline" variant="outline">External</vr-badge></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="badge-default">
+        <div class="section-head">
+          <div>
+            <h2>Default</h2>
+            <p>Primary label for active status, featured items, and direct category tags. Keep badge copy short so repeated badges stay readable in dense tables and card headers.</p>
+          </div>
+          <span class="code-chip">variant="default"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-badge class="badge default" variant="default">Live</vr-badge></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy default badge code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-badge</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"default"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token text">Live</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content"><span class="token tag">&lt;/vr-badge&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="badge-secondary">
+        <div class="section-head">
+          <div>
+            <h2>Secondary</h2>
+            <p>Neutral label for draft, optional, or low-priority metadata. Use it when the badge should support the content without becoming the main visual target.</p>
+          </div>
+          <span class="code-chip">variant="secondary"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-badge class="badge secondary" variant="secondary">Draft</vr-badge></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy secondary badge code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-badge</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"secondary"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token text">Draft</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content"><span class="token tag">&lt;/vr-badge&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="badge-success">
+        <div class="section-head">
+          <div>
+            <h2>Success</h2>
+            <p>Positive state for completed checks, passed tests, or healthy services. Pair the color with precise text so the meaning is not color-only.</p>
+          </div>
+          <span class="code-chip">variant="success"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-badge class="badge success" variant="success">Passed</vr-badge></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy success badge code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-badge</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"success"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token text">Passed</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content"><span class="token tag">&lt;/vr-badge&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="badge-warning">
+        <div class="section-head">
+          <div>
+            <h2>Warning</h2>
+            <p>Attention state for review queues, pending configuration, or partial completion. Use concise nouns or verbs so the badge does not read like a sentence.</p>
+          </div>
+          <span class="code-chip">variant="warning"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-badge class="badge warning" variant="warning">Review</vr-badge></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy warning badge code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-badge</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"warning"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token text">Review</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content"><span class="token tag">&lt;/vr-badge&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="badge-danger">
+        <div class="section-head">
+          <div>
+            <h2>Danger</h2>
+            <p>Failure or blocked state that should be noticed without replacing an alert. Keep destructive meaning explicit and avoid using danger for neutral emphasis.</p>
+          </div>
+          <span class="code-chip">variant="danger"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-badge class="badge danger" variant="danger">Blocked</vr-badge></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy danger badge code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-badge</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"danger"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token text">Blocked</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content"><span class="token tag">&lt;/vr-badge&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="badge-outline">
+        <div class="section-head">
+          <div>
+            <h2>Outline</h2>
+            <p>Quiet label for external, optional, or classification metadata. Use outline when status color would add noise to an already dense interface.</p>
+          </div>
+          <span class="code-chip">variant="outline"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-badge class="badge outline" variant="outline">External</vr-badge></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy outline badge code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-badge</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"outline"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token text">External</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content"><span class="token tag">&lt;/vr-badge&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <div class="docs-note">{{ doc().api }}</div>
+    </section>
+  </main>
+</div>

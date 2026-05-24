@@ -1,0 +1,127 @@
+<div class="app component-gallery-app component-loader-app">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link active" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Loader</span>
+      </div>
+      <nav class="topbar-right">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </nav>
+    </header>
+
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+
+      <section class="primitive" id="loader">
+        <div class="preview">
+          <div class="preview-head"><span>Variants</span><span>3</span></div>
+          <div class="preview-body variant-grid">
+            <div class="variant-tile"><span class="variant-name">spinner</span><vr-loader class="loader" variant="spinner" aria-label="Loading spinner"></vr-loader></div>
+            <div class="variant-tile"><span class="variant-name">dots</span><vr-loader class="loader" variant="dots" aria-label="Loading dots"></vr-loader></div>
+            <div class="variant-tile"><span class="variant-name">bar</span><vr-loader class="loader" variant="bar" aria-label="Loading bar"></vr-loader></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="loader-spinner">
+        <div class="section-head">
+          <div>
+            <h2>Spinner</h2>
+            <p>Compact pending indicator for buttons, small panels, and inline loading states. Add an accessible label when the loader represents meaningful progress rather than decoration.</p>
+          </div>
+          <span class="code-chip">variant="spinner"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-loader class="loader" variant="spinner" aria-label="Loading spinner"></vr-loader></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy spinner loader code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-loader</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"spinner"</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Loading"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content"><span class="token tag">&lt;/vr-loader&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="loader-dots">
+        <div class="section-head">
+          <div>
+            <h2>Dots</h2>
+            <p>Low-footprint loading state for compact cards and background waits. The pulse reads left to right so the motion feels intentional and predictable.</p>
+          </div>
+          <span class="code-chip">variant="dots"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-loader class="loader" variant="dots" aria-label="Loading dots"></vr-loader></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy dots loader code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-loader</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"dots"</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Loading"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content"><span class="token tag">&lt;/vr-loader&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="loader-bar">
+        <div class="section-head">
+          <div>
+            <h2>Bar</h2>
+            <p>Horizontal pending state for panels, routes, and progressive work. The static fill starts at the left edge and spans three quarters of the track while the glimmer moves across it.</p>
+          </div>
+          <span class="code-chip">variant="bar"</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview"><vr-loader class="loader" variant="bar" aria-label="Loading bar"></vr-loader></div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy bar loader code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-loader</span><span class="token attr"> variant</span><span class="token operator">=</span><span class="token string">"bar"</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Loading"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content"><span class="token tag">&lt;/vr-loader&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <div class="docs-note">{{ doc().api }}</div>
+    </section>
+  </main>
+</div>

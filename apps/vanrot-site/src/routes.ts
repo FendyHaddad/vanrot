@@ -1,9 +1,15 @@
 import { createRoutes, defineRoutes } from '@vanrot/router';
 import { DocsLayout } from './layouts/docs/docs.layout.ts';
+import { ComponentAlertPage } from './pages/components/component-alert.page.ts';
 import { ComponentArticlePage } from './pages/components/component-article.page.ts';
+import { ComponentAvatarPage } from './pages/components/component-avatar.page.ts';
+import { ComponentBadgePage } from './pages/components/component-badge.page.ts';
 import { ComponentButtonPage } from './pages/components/component-button.page.ts';
 import { ComponentCardPage } from './pages/components/component-card.page.ts';
 import { ComponentGalleryPage } from './pages/components/component-gallery.page.ts';
+import { ComponentLoaderPage } from './pages/components/component-loader.page.ts';
+import { ComponentSeparatorPage } from './pages/components/component-separator.page.ts';
+import { ComponentSkeletonPage } from './pages/components/component-skeleton.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
 import { ReferencePage } from './pages/reference/reference.page.ts';
@@ -21,6 +27,12 @@ const routePath = {
   components: '/docs/components',
   componentButtons: '/docs/components/buttons',
   componentCards: '/docs/components/cards',
+  componentBadges: '/docs/components/badges',
+  componentAvatars: '/docs/components/avatars',
+  componentAlerts: '/docs/components/alerts',
+  componentLoaders: '/docs/components/loaders',
+  componentSkeletons: '/docs/components/skeletons',
+  componentSeparators: '/docs/components/separators',
   reference: '/reference',
 } as const;
 
@@ -72,6 +84,54 @@ const componentCards = routes.page({
   breadcrumb: routes.breadcrumb.root(),
 });
 
+const componentBadges = routes.page({
+  path: routePath.componentBadges,
+  label: 'Badge',
+  page: ComponentBadgePage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
+const componentAvatars = routes.page({
+  path: routePath.componentAvatars,
+  label: 'Avatar',
+  page: ComponentAvatarPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
+const componentAlerts = routes.page({
+  path: routePath.componentAlerts,
+  label: 'Alert',
+  page: ComponentAlertPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
+const componentLoaders = routes.page({
+  path: routePath.componentLoaders,
+  label: 'Loader',
+  page: ComponentLoaderPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
+const componentSkeletons = routes.page({
+  path: routePath.componentSkeletons,
+  label: 'Skeleton',
+  page: ComponentSkeletonPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
+const componentSeparators = routes.page({
+  path: routePath.componentSeparators,
+  label: 'Separator',
+  page: ComponentSeparatorPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
 const docsInstallation = articlePage(siteArticleKey.installation);
 const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
 const docsRuntime = articlePage(siteArticleKey.runtime);
@@ -110,6 +170,12 @@ export const route = defineRoutes({
   docs,
   componentButtons,
   componentCards,
+  componentBadges,
+  componentAvatars,
+  componentAlerts,
+  componentLoaders,
+  componentSkeletons,
+  componentSeparators,
   docsIntroduction,
   docsInstallation,
   docsProjectStructure,

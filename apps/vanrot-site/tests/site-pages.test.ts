@@ -6,6 +6,63 @@ import { route } from '../src/routes.ts';
 
 const appRoot = process.cwd();
 
+const phase16ComponentDocPages = [
+  {
+    routeKey: 'componentBadges',
+    path: '/docs/components/badges',
+    fileBase: 'component-badge',
+    primitive: 'badge',
+    title: 'Badge',
+    tagName: 'vr-badge',
+    variants: ['default', 'secondary', 'success', 'warning', 'danger', 'outline'],
+  },
+  {
+    routeKey: 'componentAvatars',
+    path: '/docs/components/avatars',
+    fileBase: 'component-avatar',
+    primitive: 'avatar',
+    title: 'Avatar',
+    tagName: 'vr-avatar',
+    variants: ['default', 'soft', 'outline'],
+  },
+  {
+    routeKey: 'componentAlerts',
+    path: '/docs/components/alerts',
+    fileBase: 'component-alert',
+    primitive: 'alert',
+    title: 'Alert',
+    tagName: 'vr-alert',
+    variants: ['info', 'success', 'warning', 'danger'],
+  },
+  {
+    routeKey: 'componentLoaders',
+    path: '/docs/components/loaders',
+    fileBase: 'component-loader',
+    primitive: 'loader',
+    title: 'Loader',
+    tagName: 'vr-loader',
+    variants: ['spinner', 'dots', 'bar'],
+  },
+  {
+    routeKey: 'componentSkeletons',
+    path: '/docs/components/skeletons',
+    fileBase: 'component-skeleton',
+    primitive: 'skeleton',
+    title: 'Skeleton',
+    tagName: 'vr-skeleton',
+    variants: ['text', 'avatar', 'card', 'block'],
+  },
+  {
+    routeKey: 'componentSeparators',
+    path: '/docs/components/separators',
+    fileBase: 'component-separator',
+    primitive: 'separator',
+    title: 'Separator',
+    tagName: 'vr-separator',
+    variants: ['horizontal', 'vertical'],
+  },
+] as const;
+
 async function readSiteFile(path: string): Promise<string> {
   return readFile(join(appRoot, path), 'utf8');
 }
@@ -94,7 +151,6 @@ describe('vanrot site pages', () => {
     expect(gallery).not.toContain('<a class="nav-link active" href="#button">Button</a>');
     expect(gallery).toContain('<a class="nav-link" href="/docs/components/cards">Card</a>');
     expect(gallery).not.toContain('<a class="nav-link" href="#card">Card</a>');
-    expect(gallery).toContain('<a class="nav-link" href="#separator">Separator</a>');
     const componentButtonsRoute = siteRoute.componentButtons;
     const componentCardsRoute = siteRoute.componentCards;
 
@@ -125,6 +181,40 @@ describe('vanrot site pages', () => {
     expect(cardPage).not.toContain('docs-sidebar');
     expect(cardPage).toContain('<a class="nav-link" href="/docs/components/buttons">Button</a>');
     expect(cardPage).toContain('<a class="nav-link active" href="/docs/components/cards">Card</a>');
+  });
+
+  it('routes remaining Phase 16B component navigation to dedicated docs pages', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+    const buttonPage = await readSiteFile('src/pages/components/component-button.page.html');
+    const cardPage = await readSiteFile('src/pages/components/component-card.page.html');
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+
+    for (const page of phase16ComponentDocPages) {
+      expect(gallery).toContain(
+        `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+      );
+      expect(gallery).not.toContain(
+        `<a class="nav-link" href="#${page.primitive}">${page.title}</a>`,
+      );
+      expect(buttonPage).toContain(
+        `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+      );
+      expect(cardPage).toContain(
+        `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+      );
+
+      const routeEntry = siteRoute[page.routeKey];
+
+      if (routeEntry === undefined) {
+        throw new Error(`Expected ${page.routeKey} route to be defined.`);
+      }
+
+      expect(routeEntry).toMatchObject({
+        fullPath: page.path,
+        kind: 'page',
+      });
+      expect(routeEntry.parent).toBeUndefined();
+    }
   });
 
   it('keeps Button overview separate from shadcn-style variant examples', async () => {
@@ -248,6 +338,111 @@ describe('vanrot site pages', () => {
       expect(cardPage).toContain(`variant="${variant}"`);
     }
   });
+
+  it.each(phase16ComponentDocPages)(
+    'keeps $title overview separate from shadcn-style variant examples',
+    async (page) => {
+      const componentPage = await readSiteFile(
+        `src/pages/components/${page.fileBase}.page.html`,
+      );
+      const componentCss = await readSiteFile(
+        `src/pages/components/${page.fileBase}.page.css`,
+      );
+      const variantExpression = page.variants.join('|');
+      const variantSections = [
+        ...componentPage.matchAll(
+          new RegExp(
+            `<section class="variant-doc" id="${page.primitive}-(${variantExpression})">`,
+            'g',
+          ),
+        ),
+      ];
+
+      expect(componentPage).toContain(
+        `class="app component-gallery-app component-${page.primitive}-app"`,
+      );
+      expect(componentPage).toContain('<aside class="sidebar">');
+      expect(componentPage).not.toContain('docs-sidebar');
+      expect(componentPage).toContain(
+        `<a class="nav-link active" href="${page.path}">${page.title}</a>`,
+      );
+      expect(componentPage).not.toContain(
+        `<a class="nav-link active" href="#${page.primitive}">${page.title}</a>`,
+      );
+      expect(componentPage).not.toContain(
+        '<span class="eyebrow">Component documentation</span>',
+      );
+      expect(componentPage).toContain('<h1>{{ doc().title }}</h1>');
+      expect(componentPage).not.toContain('<p class="lead">{{ doc().summary }}</p>');
+      expect(componentPage).not.toContain(`<h2>${page.title}</h2>`);
+      expect(componentPage).not.toContain('<p>{{ doc().usage }}</p>');
+      expect(componentPage).not.toContain(
+        `<span class="code-chip">&lt;${page.tagName}&gt;</span>`,
+      );
+      expect(componentPage).toContain(
+        `<div class="preview-head"><span>Variants</span><span>${page.variants.length}</span></div>`,
+      );
+      expect(componentPage).not.toContain('<div class="tabs" aria-label="Preview tabs">');
+      expect(componentPage).not.toContain('class="variant-tabs"');
+      expect(componentPage).not.toContain('<button class="tab active">Preview</button>');
+      expect(componentPage).not.toContain('<span class="panel-label">Accessibility</span>');
+      expect(variantSections.map((match) => match[1])).toEqual([...page.variants]);
+      expect(componentPage.match(/<div class="variant-preview">/g) ?? []).toHaveLength(
+        page.variants.length,
+      );
+      expect(componentPage.match(/<div class="code-snippet">/g) ?? []).toHaveLength(
+        page.variants.length,
+      );
+      expect(componentPage).not.toContain('code-snippet-toolbar');
+      expect(componentPage).not.toContain('class="copy-button"');
+      expect(
+        componentPage.match(
+          new RegExp(
+            `<button class="copy-icon-button" type="button" aria-label="Copy [^"]+ ${page.primitive} code">`,
+            'g',
+          ),
+        ) ?? [],
+      ).toHaveLength(page.variants.length);
+      expect(componentPage.match(/<pre class="code-block"><code>/g) ?? []).toHaveLength(
+        page.variants.length,
+      );
+      expect(
+        componentPage.match(/<span class="code-line-number">1<\/span>/g) ?? [],
+      ).toHaveLength(page.variants.length);
+      expect(componentPage).toContain(`<span class="token tag">&lt;${page.tagName}</span>`);
+      expect(componentPage).toContain('<span class="token attr"> variant</span>');
+      expect(componentPage).not.toContain('code-space');
+
+      for (const variant of page.variants) {
+        expect(componentPage).toContain(`id="${page.primitive}-${variant}"`);
+        expect(componentPage).toContain(`variant="${variant}"`);
+        expect(componentPage).toContain(`variant</span><span class="token operator">=</span><span class="token string">"${variant}"</span>`);
+      }
+
+      expect(componentCss).toContain('.code-snippet {');
+      expect(componentCss).toContain('.copy-icon-button {');
+      expect(componentCss).toContain('.code-line {');
+      expect(componentCss).toContain('.code-line-number {');
+      expect(componentCss).toContain('.code-line-content {');
+      expect(componentCss).toContain('.code-indent-1 {');
+      expect(componentCss).toContain('.token.tag {');
+      expect(componentCss).toContain('white-space: pre;');
+      expect(componentCss).toContain('min-height: 360px;');
+      expect(componentCss).toContain('.variant-preview {');
+      expect(componentCss).toContain(
+        'background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);',
+      );
+      expect(componentCss).toContain('background-size: 24px 24px;');
+      expect(componentCss).toContain('@media (max-width: 640px) {');
+      expect(componentCss).toContain('.code-block code { font-size: 13px; }');
+      expect(componentCss).toContain(
+        '.variant-preview { min-height: 240px; padding: 32px 16px; }',
+      );
+      expect(componentCss).toContain(
+        '.code-line { grid-template-columns: 48px max-content; }',
+      );
+    },
+  );
 
   it('uses real loader and skeleton primitives instead of hand-built demo internals', async () => {
     const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
