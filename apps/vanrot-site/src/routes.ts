@@ -1,6 +1,7 @@
 import { createRoutes, defineRoutes } from '@vanrot/router';
 import { DocsLayout } from './layouts/docs/docs.layout.ts';
 import { ComponentArticlePage } from './pages/components/component-article.page.ts';
+import { ComponentButtonPage } from './pages/components/component-button.page.ts';
 import { ComponentGalleryPage } from './pages/components/component-gallery.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
@@ -17,6 +18,7 @@ const routePath = {
   home: '/',
   docs: docsBasePath,
   components: '/docs/components',
+  componentButtons: '/docs/components/buttons',
   reference: '/reference',
 } as const;
 
@@ -50,6 +52,14 @@ const docsIntroduction = docs.page({
   page: DocsArticlePage,
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.parent(docs),
+});
+
+const componentButtons = routes.page({
+  path: routePath.componentButtons,
+  label: 'Button',
+  page: ComponentButtonPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.root(),
 });
 
 const docsInstallation = articlePage(siteArticleKey.installation);
@@ -88,6 +98,7 @@ export const route = defineRoutes({
   home,
   components,
   docs,
+  componentButtons,
   docsIntroduction,
   docsInstallation,
   docsProjectStructure,
@@ -137,6 +148,10 @@ function componentPage(primitive: string, label: string) {
 function articleChildPath(key: SiteArticleKey): string {
   const path = getSiteArticle(key).path;
 
+  return docsChildPath(path);
+}
+
+function docsChildPath(path: string): string {
   if (path === docsBasePath) {
     return '';
   }

@@ -2,6 +2,7 @@ import { existsSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { route } from '../src/routes.ts';
 
 const appRoot = process.cwd();
 
@@ -79,6 +80,35 @@ describe('vanrot site pages', () => {
     ]) {
       expect(gallery).toContain(`variant="${variant}"`);
     }
+  });
+
+  it('routes only the Button gallery navigation to a dedicated Button docs page', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+    const buttonPage = await readSiteFile('src/pages/components/component-button.page.html');
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+
+    expect(gallery).toContain(
+      '<a class="nav-link active" href="/docs/components/buttons">Button</a>',
+    );
+    expect(gallery).not.toContain('<a class="nav-link active" href="#button">Button</a>');
+    expect(gallery).toContain('<a class="nav-link" href="#card">Card</a>');
+    expect(gallery).toContain('<a class="nav-link" href="#separator">Separator</a>');
+    const componentButtonsRoute = siteRoute.componentButtons;
+
+    if (componentButtonsRoute === undefined) {
+      throw new Error('Expected componentButtons route to be defined.');
+    }
+
+    expect(componentButtonsRoute).toMatchObject({
+      fullPath: '/docs/components/buttons',
+      kind: 'page',
+    });
+    expect(componentButtonsRoute.parent).toBeUndefined();
+    expect(buttonPage).toContain('class="app component-gallery-app component-button-app"');
+    expect(buttonPage).toContain('<aside class="sidebar">');
+    expect(buttonPage).not.toContain('docs-sidebar');
+    expect(buttonPage).toContain('<a class="nav-link active" href="/docs/components/buttons">Button</a>');
+    expect(buttonPage).toContain('<a class="nav-link" href="/docs/components#card">Card</a>');
   });
 
   it('uses real loader and skeleton primitives instead of hand-built demo internals', async () => {

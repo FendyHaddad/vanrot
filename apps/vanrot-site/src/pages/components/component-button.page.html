@@ -1,0 +1,89 @@
+<div class="app component-gallery-app component-button-app">
+  <aside class="sidebar">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link active" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components#card">Card</a>
+    <a class="nav-link" href="/docs/components#badge">Badge</a>
+    <a class="nav-link" href="/docs/components#avatar">Avatar</a>
+    <a class="nav-link" href="/docs/components#alert">Alert</a>
+    <a class="nav-link" href="/docs/components#loader">Loader</a>
+    <a class="nav-link" href="/docs/components#skeleton">Skeleton</a>
+    <a class="nav-link" href="/docs/components#separator">Separator</a>
+  </aside>
+
+  <main>
+    <header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Button</span>
+      </div>
+      <nav class="topbar-right">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </nav>
+    </header>
+
+    <section class="content">
+      <span class="eyebrow">Component documentation</span>
+      <h1>{{ doc().title }}</h1>
+      <p class="lead">{{ doc().summary }}</p>
+
+      <div class="tabs" aria-label="Preview tabs">
+        <button class="tab active">Preview</button>
+        <button class="tab">Code</button>
+        <button class="tab">Accessibility</button>
+      </div>
+
+      <section class="primitive" id="button">
+        <div class="section-head">
+          <div>
+            <h2>Button</h2>
+            <p>{{ doc().usage }}</p>
+          </div>
+          <span class="code-chip">&lt;vr-button&gt;</span>
+        </div>
+        <div class="preview">
+          <div class="preview-head"><span>Variants</span><span>6</span></div>
+          <div class="preview-body variant-grid">
+            <div class="variant-tile"><span class="variant-name">default</span><vr-button class="btn default" variant="default" type="button">Save changes</vr-button></div>
+            <div class="variant-tile"><span class="variant-name">secondary</span><vr-button class="btn secondary" variant="secondary" type="button">Open menu</vr-button></div>
+            <div class="variant-tile"><span class="variant-name">outline</span><vr-button class="btn outline" variant="outline" type="button">View details</vr-button></div>
+            <div class="variant-tile"><span class="variant-name">ghost</span><vr-button class="btn ghost" variant="ghost" type="button">Dismiss</vr-button></div>
+            <div class="variant-tile"><span class="variant-name">danger</span><vr-button class="btn danger" variant="danger" type="button">Delete item</vr-button></div>
+            <div class="variant-tile"><span class="variant-name">link</span><vr-button class="btn link" variant="link" type="button">Read documentation</vr-button></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="primitive">
+        <div class="section-head">
+          <div>
+            <h2>Accessibility</h2>
+            <p>{{ doc().accessibility }}</p>
+          </div>
+          <span class="code-chip">a11y</span>
+        </div>
+      </section>
+
+      <div class="docs-note">{{ doc().api }}</div>
+    </section>
+  </main>
+</div>
