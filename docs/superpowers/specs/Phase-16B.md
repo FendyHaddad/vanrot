@@ -6,7 +6,7 @@ Phase 16B makes the first real October component slice production-ready.
 
 Phase 16A established `@vanrot/ui`, `vanrotstyles.css`, October tokens, UI config, package inventory, and starter integration. Phase 16B now proves the repeatable primitive pattern: semantic custom tags, app-owned source files, variants, accessibility defaults, docs, CLI add flow, and compiler support.
 
-This phase is intentionally narrow. It does not complete the full VR UI ecosystem. It creates the foundation that Phase 16C, 16D, and 16E reuse for layout, forms, data, overlays, and app shell components.
+This phase is intentionally narrow. It does not complete the full VR UI ecosystem. It creates the foundation that Phase 16C reuses for the Vanrot site base, then Phase 16D and later reuse for layout, forms, data, overlays, and app shell components.
 
 ## Approved Visual Direction
 
@@ -43,9 +43,10 @@ These components stay in later Phase 16 slices:
 
 | Slice | Components |
 | ----- | ---------- |
-| Phase 16C | `<vr-layout>`, `<vr-header>`, `<vr-footer>`, `<vr-sidebar>`, `<vr-nav>`, `<vr-grid>`, `<vr-breadcrumb>`, `<vr-img>`, `<vr-src>` |
-| Phase 16D | `<vr-form>`, `<vr-input>`, `<vr-select>`, `<vr-table>`, `<vr-pagination>` |
-| Phase 16E | `<vr-tab>`, `<vr-modal>`, `<vr-dialog>`, `<vr-dropdown>`, `<vr-toast>`, `<vr-tooltip>` |
+| Phase 16C | `apps/vanrot-site`, shadcn-style docs shell, component page template, Phase 16B primitive docs, and docs drift guard |
+| Phase 16D | `<vr-layout>`, `<vr-header>`, `<vr-footer>`, `<vr-sidebar>`, `<vr-nav>`, `<vr-grid>`, `<vr-breadcrumb>`, `<vr-tab>`, `<vr-img>`, `<vr-src>` |
+| Phase 16E | `<vr-form>`, `<vr-input>`, `<vr-select>`, `<vr-table>`, `<vr-pagination>` |
+| Phase 16F | `<vr-modal>`, `<vr-dialog>`, `<vr-dropdown>`, `<vr-toast>`, `<vr-tooltip>` |
 
 Phase 16B should not introduce a heavy runtime component framework. The output remains compiler-lowered, source-owned, readable, and light.
 
@@ -163,4 +164,4 @@ After Phase 16B, Vanrot should have a small but serious October primitive catalo
 - backed by typed metadata and source-of-truth constants;
 - compiler-lowered without adding heavy runtime behavior;
 - accessible by default;
-- ready for Phase 16C layout and navigation primitives to reuse the same pattern.
+- ready for Phase 16C to document the current primitives in the public site, and for Phase 16D layout and navigation primitives to reuse the same pattern.

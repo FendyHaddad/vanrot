@@ -43,6 +43,7 @@ When a phase adds or changes framework surface area:
 | docs | phase documentation verifier | Production-Ready | Verifier fails on mismatched completed phases, unchecked plan tasks, stale maturity rows, and presentation drift. | Phase 11 | Implemented by `scripts/verify-phase-docs.mjs`. |
 | docs | temporary phase completion hook | Production-Ready | Hook blocks phase-completion commits that omit required tracker, plan, presentation, or inventory updates. | Phase 11, Phase 12A | Phase 12A adds inventory enforcement. |
 | docs | final TDD inventory | Audit-Needed | Inventory grows with every phase and becomes the Phase 26 final test checklist. | Phase 12A, Phase 26 | This file is the starting population. |
+| docs and web | `apps/vanrot-site` learning surface | Planned for Phase 16C | Site documents implemented framework surface, supported commands, package references, diagnostics, conventions, examples, UI primitives, and maturity status with drift checks. | Phase 16C, Phase 24 | Phase 16C creates the learning site base from current data; Phase 24 performs the final exhaustive audit. |
 
 ## `@vanrot/runtime`
 

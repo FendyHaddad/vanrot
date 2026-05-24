@@ -15,6 +15,7 @@ This phase covers:
 - typography based on Geist text and JetBrains Mono numerics
 - tokens, themes, surfaces, motion, and responsive strategy
 - accessibility standards
+- public framework learning and documentation site dogfooding through `apps/vanrot-site`
 - package inventory and developer guidelines
 - configuration hooks for Vanrot styles, Tailwind, or user-owned styles
 
@@ -943,22 +944,52 @@ Phase 16 should be sliced to protect readability and maintainability.
 - skeleton
 - loader
 
-### Phase 16C: Layout, Navigation, And Data
+### Phase 16C: Vanrot Site Base
+
+- create `apps/vanrot-site`
+- target `vanrot.vankode.com` as the public documentation subdomain
+- make the site the main learning home for Vanrot, not only the UI catalog
+- use Phase 16B primitives in the site
+- use temporary site-local CSS only where Vanrot primitives do not exist yet
+- follow the shadcn/ui documentation layout quality bar without copying its text or implementation
+- add landing, install, framework guide, reference, and component page foundations
+- document the implemented framework surface from Phase 1 through Phase 15 plus Phase 16A and Phase 16B
+- expose current commands, packages, diagnostics, conventions, route APIs, config keys, primitive metadata, and maturity status
+- add docs drift verification so implemented primitives cannot miss site documentation
+- keep Phase 24 as the final documentation and public web presence audit
+
+### Phase 16D: Layout, Navigation, And Media
 
 - layout
 - container
 - section
 - grid
 - stack
-- tabs
+- header
+- footer
+- nav
+- sidebar
 - breadcrumb
+- tabs
+- image and source primitives
+- update `apps/vanrot-site` to replace temporary shell CSS with real primitives where possible
+
+### Phase 16E: Forms And Data
+
+- form
+- input
+- label
+- field
+- textarea
+- select shell
 - pagination
 - table
 - data table shell
 - stat
 - number
+- update `apps/vanrot-site` with matching docs, previews, API notes, and examples
 
-### Phase 16D: Overlays And Interaction
+### Phase 16F: Overlays, Interaction, And Visual QA
 
 - dialog
 - modal
@@ -968,13 +999,6 @@ Phase 16 should be sliced to protect readability and maintainability.
 - tooltip
 - toast
 - command menu
-
-### Phase 16E: App Shell And Pattern Library
-
-- header
-- footer
-- nav
-- sidebar
 - admin shell
 - dashboard patterns
 - mobile patterns
@@ -982,6 +1006,7 @@ Phase 16 should be sliced to protect readability and maintainability.
 - visual QA
 - accessibility docs
 - CLI package inventory output
+- update `apps/vanrot-site` with matching docs, previews, API notes, and examples
 
 ## Risks And Architectural Concerns
 
