@@ -1,0 +1,32 @@
+.component-article {
+  display: grid;
+  gap: 18px;
+  max-width: 820px;
+}
+
+.component-article h1 {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.05;
+}
+
+.component-summary,
+.component-section p {
+  color: var(--vr-color-muted);
+  line-height: 1.75;
+}
+
+.component-preview,
+.component-section {
+  display: grid;
+  gap: 12px;
+}
+
+.component-section pre {
+  overflow: auto;
+  margin: 0;
+  padding: 16px;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  background: var(--vr-surface-muted);
+}

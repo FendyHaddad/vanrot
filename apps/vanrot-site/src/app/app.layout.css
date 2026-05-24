@@ -1,0 +1,53 @@
+.site-shell {
+  min-height: 100vh;
+  background: var(--vr-color-canvas);
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: var(--vr-z-sticky);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 56px;
+  padding: 0 24px;
+  border-bottom: 1px solid color-mix(in srgb, var(--vr-color-line) 56%, transparent);
+  background: color-mix(in srgb, var(--vr-color-canvas) 88%, transparent);
+  backdrop-filter: blur(14px);
+}
+
+.site-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--vr-color-text);
+  font-weight: 650;
+  text-decoration: none;
+}
+
+.site-brand::before {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--vr-color-text);
+  content: "";
+}
+
+.site-top-nav {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  font-size: 14px;
+}
+
+.site-top-nav a {
+  color: var(--vr-color-muted);
+  text-decoration: none;
+  transition: color var(--vr-motion-fast);
+}
+
+.site-top-nav a:hover {
+  color: var(--vr-color-text);
+}

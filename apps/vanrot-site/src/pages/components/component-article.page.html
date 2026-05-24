@@ -1,0 +1,50 @@
+<article class="component-article">
+  <vr-badge variant="secondary">UI primitive</vr-badge>
+  <h1>{{ doc().title }}</h1>
+  <p class="component-summary">{{ doc().summary }}</p>
+
+  <section class="component-preview">
+    <h2>Preview</h2>
+    <vr-card variant="default">
+      @if (doc().primitive === 'button') {
+        <vr-button variant="default" type="button">Button</vr-button>
+      }
+      @if (doc().primitive === 'card') {
+        <vr-card variant="muted">Card surface</vr-card>
+      }
+      @if (doc().primitive === 'badge') {
+        <vr-badge variant="success">Ready</vr-badge>
+      }
+      @if (doc().primitive === 'avatar') {
+        <vr-avatar variant="soft">VR</vr-avatar>
+      }
+      @if (doc().primitive === 'alert') {
+        <vr-alert variant="info">Project ready.</vr-alert>
+      }
+      @if (doc().primitive === 'loader') {
+        <vr-loader variant="spinner" aria-label="Loading"></vr-loader>
+      }
+      @if (doc().primitive === 'skeleton') {
+        <vr-skeleton variant="text"></vr-skeleton>
+      }
+      @if (doc().primitive === 'separator') {
+        <vr-separator variant="horizontal"></vr-separator>
+      }
+    </vr-card>
+  </section>
+
+  <section class="component-section">
+    <h2>Usage</h2>
+    <pre><code>{{ doc().usage }}</code></pre>
+  </section>
+
+  <section class="component-section">
+    <h2>Accessibility</h2>
+    <p>{{ doc().accessibility }}</p>
+  </section>
+
+  <section class="component-section">
+    <h2>API</h2>
+    <p>{{ doc().api }}</p>
+  </section>
+</article>

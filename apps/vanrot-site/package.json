@@ -1,0 +1,32 @@
+{
+  "name": "@vanrot/vanrot-site",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.1.3",
+  "scripts": {
+    "prepare:deps": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/runtime build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/vite-plugin build && pnpm --filter @vanrot/cli build",
+    "dev": "vr dev",
+    "prebuild": "pnpm run prepare:deps",
+    "build": "vr build",
+    "pretest": "pnpm run prepare:deps",
+    "test": "vitest run",
+    "doctor": "vr doctor",
+    "pretypecheck": "pnpm run prepare:deps",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  },
+  "dependencies": {
+    "@vanrot/config": "file:../../packages/config",
+    "@vanrot/runtime": "file:../../packages/runtime",
+    "@vanrot/router": "file:../../packages/router",
+    "@vanrot/ui": "file:../../packages/ui"
+  },
+  "devDependencies": {
+    "@vanrot/cli": "file:../../packages/cli",
+    "@vanrot/vite-plugin": "file:../../packages/vite-plugin",
+    "typescript": "^5.9.3",
+    "vite": "^8.0.10",
+    "vitest": "^4.0.14"
+  }
+}

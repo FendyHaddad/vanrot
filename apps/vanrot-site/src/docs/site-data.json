@@ -1,0 +1,462 @@
+{
+  "articles": [
+    {
+      "key": "introduction",
+      "section": "getStarted",
+      "path": "/docs",
+      "label": "Introduction",
+      "title": "Vanrot",
+      "summary": "Vanrot is a small frontend framework with compiler-known templates, signals, route ownership, source-owned UI, and a documentation-first development path.",
+      "status": "available-now",
+      "sections": [
+        {
+          "id": "what-it-is",
+          "title": "What Vanrot Gives You",
+          "body": "Vanrot combines a small runtime, compiler role files, a Vite plugin, a typed router, a guided CLI, and source-owned UI primitives."
+        },
+        {
+          "id": "what-exists-now",
+          "title": "What Exists Now",
+          "body": "The implemented surface includes runtime signals, compiled components and pages, scoped CSS, config loading, CLI commands, production router behavior, October tokens, vanrotstyles, and Phase 16B UI primitives."
+        }
+      ]
+    },
+    {
+      "key": "installation",
+      "section": "getStarted",
+      "path": "/docs/installation",
+      "label": "Installation",
+      "title": "Installation",
+      "summary": "Create or run a Vanrot app through the CLI and workspace package graph.",
+      "status": "demo-capable",
+      "sections": [
+        {
+          "id": "create",
+          "title": "Create A Project",
+          "body": "Use vr create <name> for generated apps. In this monorepo, workspace links are used until package publishing is complete."
+        },
+        {
+          "id": "scripts",
+          "title": "Scripts",
+          "body": "Generated apps use vr dev, vr build, vr test, and vr doctor so project commands stay conventional."
+        }
+      ]
+    },
+    {
+      "key": "projectStructure",
+      "section": "getStarted",
+      "path": "/docs/project-structure",
+      "label": "Project Structure",
+      "title": "Project Structure",
+      "summary": "Vanrot keeps source roles explicit with TypeScript, HTML, and CSS side by side.",
+      "status": "available-now",
+      "sections": [
+        {
+          "id": "role-files",
+          "title": "Role Files",
+          "body": "Components use .component.ts/html/css, pages use .page.ts/html/css, layouts use .layout.ts/html/css, and UI primitives use role suffixes such as .button.ts/html/css."
+        },
+        {
+          "id": "source-root",
+          "title": "Source Root",
+          "body": "vanrot.config.ts owns the source root. The default is src."
+        }
+      ]
+    },
+    {
+      "key": "runtime",
+      "section": "framework",
+      "path": "/docs/runtime",
+      "label": "Runtime",
+      "title": "Runtime",
+      "summary": "The runtime owns signals, computed values, effects, lifecycle hooks, inputs, and mounting.",
+      "status": "production-ready-through-phase-12",
+      "sections": [
+        {
+          "id": "signals",
+          "title": "Signals",
+          "body": "Use signal(), computed(), effect(), batch(), and untrack() for reactive state. The runtime stays small and is protected by the size budget."
+        },
+        {
+          "id": "lifecycle",
+          "title": "Lifecycle",
+          "body": "Use onMount() and onDestroy() for component lifecycle work. Cleanup scopes are automatic through mount and generated code."
+        }
+      ]
+    },
+    {
+      "key": "compiler",
+      "section": "framework",
+      "path": "/docs/compiler",
+      "label": "Compiler",
+      "title": "Compiler",
+      "summary": "The compiler turns role files into mounted DOM with scoped CSS, diagnostics, source maps, control flow, child components, slots, and UI primitive lowering.",
+      "status": "production-ready-through-phase-12",
+      "sections": [
+        {
+          "id": "templates",
+          "title": "Templates",
+          "body": "Vanrot templates support interpolation, property binding, event binding, @if, @for, child components, slots, route links, and supported vr-* UI primitives."
+        },
+        {
+          "id": "diagnostics",
+          "title": "Diagnostics",
+          "body": "Compiler diagnostics include stable codes, source locations, suggestions, and docs paths."
+        }
+      ]
+    },
+    {
+      "key": "vitePlugin",
+      "section": "framework",
+      "path": "/docs/vite-plugin",
+      "label": "Vite Plugin",
+      "title": "Vite Plugin",
+      "summary": "The Vite plugin compiles Vanrot role files in dev and build, bridges diagnostics, watches sibling files, and emits source maps.",
+      "status": "production-ready-through-phase-12",
+      "sections": [
+        {
+          "id": "usage",
+          "title": "Usage",
+          "body": "Add vanrot() to Vite plugins. The plugin reads vanrot.config.ts and uses the configured source root."
+        },
+        {
+          "id": "hmr",
+          "title": "HMR",
+          "body": "HTML and CSS sibling edits invalidate the owner role module so development stays predictable."
+        }
+      ]
+    },
+    {
+      "key": "cli",
+      "section": "framework",
+      "path": "/docs/cli",
+      "label": "CLI",
+      "title": "CLI",
+      "summary": "The CLI provides project creation, generation, UI primitive add flows, dev/build/test wrappers, doctor, map, config maintenance, and AI-readable local context.",
+      "status": "demo-capable-through-phase-14",
+      "sections": [
+        {
+          "id": "commands",
+          "title": "Commands",
+          "body": "Current commands are create, generate, add, config, doctor, map, init-ai, ai, dev, build, and test."
+        },
+        {
+          "id": "output",
+          "title": "Output",
+          "body": "Phase 14 made CLI output grouped, readable, colored where supported, and structured for selected read commands."
+        }
+      ]
+    },
+    {
+      "key": "configuration",
+      "section": "framework",
+      "path": "/docs/configuration",
+      "label": "Configuration",
+      "title": "Configuration",
+      "summary": "vanrot.config.ts is the typed source of truth for source roots, dev server port, UI flavor, UI style mode, and future package domains.",
+      "status": "production-ready-through-phase-13",
+      "sections": [
+        {
+          "id": "defaults",
+          "title": "Defaults",
+          "body": "The default source root is src, the default dev server port is 1010, the default UI flavor is october, and the default UI style mode is vanrotstyles."
+        },
+        {
+          "id": "maintenance",
+          "title": "Maintenance",
+          "body": "Use vr config migrate and vr config recover to create or repair canonical config."
+        }
+      ]
+    },
+    {
+      "key": "routing",
+      "section": "framework",
+      "path": "/docs/routing",
+      "label": "Routing",
+      "title": "Routing",
+      "summary": "The router owns route refs, nested layouts, params, query strings, redirects, guards, active links, breadcrumbs, preloading, and keepAlive.",
+      "status": "production-ready-through-phase-15",
+      "sections": [
+        {
+          "id": "define-routes",
+          "title": "Define Routes",
+          "body": "Use createRoutes() and defineRoutes({ ... }) so paths, labels, navigation metadata, breadcrumbs, and route refs live in one place."
+        },
+        {
+          "id": "performance",
+          "title": "Performance",
+          "body": "Routes can opt into intent preloading and same-day keepAlive policies."
+        }
+      ]
+    },
+    {
+      "key": "uiOctober",
+      "section": "ui",
+      "path": "/docs/ui",
+      "label": "October",
+      "title": "UI October",
+      "summary": "October is Vanrot's dark-first, light-capable UI foundation with source-owned primitives, tokens, and vanrotstyles.",
+      "status": "in-progress-through-phase-16b",
+      "sections": [
+        {
+          "id": "ownership",
+          "title": "Source Ownership",
+          "body": "Vanrot UI follows a developer-owned model. Primitives are readable source files and compiler-lowered semantic tags, not opaque black boxes."
+        },
+        {
+          "id": "current-primitives",
+          "title": "Current Primitives",
+          "body": "Phase 16B includes button, card, badge, avatar, alert, loader, skeleton, and separator."
+        }
+      ]
+    },
+    {
+      "key": "theming",
+      "section": "ui",
+      "path": "/docs/theming",
+      "label": "Theming",
+      "title": "Theming",
+      "summary": "Vanrot themes use CSS custom properties for colors, surfaces, radius, shadows, typography, motion, and z-index layers.",
+      "status": "available-now",
+      "sections": [
+        {
+          "id": "dark-light",
+          "title": "Dark First, Light Capable",
+          "body": "October defaults to a dark-first theme and supports data-theme=\"light\" for light mode."
+        },
+        {
+          "id": "typography",
+          "title": "Typography",
+          "body": "The default identity uses Geist for text and JetBrains Mono for numeric UI."
+        }
+      ]
+    },
+    {
+      "key": "vanrotstyles",
+      "section": "ui",
+      "path": "/docs/vanrotstyles",
+      "label": "vanrotstyles",
+      "title": "vanrotstyles",
+      "summary": "vanrotstyles.css is Vanrot's first-party utility CSS layer with unprefixed utility classes.",
+      "status": "available-now",
+      "sections": [
+        {
+          "id": "usage",
+          "title": "Usage",
+          "body": "Use ui.styles: 'vanrotstyles' to use the first-party utility layer. Use 'tailwind' or 'none' when the app owns another style path."
+        },
+        {
+          "id": "utilities",
+          "title": "Utilities",
+          "body": "Utilities cover display, flex, grid, spacing, sizing, typography, surfaces, borders, radius, shadows, motion, overflow, z-index, and accessibility helpers."
+        }
+      ]
+    },
+    {
+      "key": "testing",
+      "section": "framework",
+      "path": "/docs/testing",
+      "label": "Testing",
+      "title": "Testing",
+      "summary": "Vanrot testing currently provides component test helpers and will expand after the production UI and site base are in place.",
+      "status": "demo-capable",
+      "sections": [
+        {
+          "id": "current",
+          "title": "Current Helper",
+          "body": "testComponent(...) mounts a component through the runtime and exposes a small screen helper."
+        },
+        {
+          "id": "future-scope",
+          "title": "Future Scope",
+          "body": "Phase 18 owns page tests, router workflows, accessibility assertions, async helpers, fake timers, and generator-wide test output."
+        }
+      ]
+    },
+    {
+      "key": "examples",
+      "section": "examples",
+      "path": "/docs/examples",
+      "label": "Examples",
+      "title": "Examples",
+      "summary": "Examples show practical Vanrot usage without hiding the source files.",
+      "status": "demo-capable",
+      "sections": [
+        {
+          "id": "counter",
+          "title": "Counter",
+          "body": "examples/counter demonstrates runtime state, compiler role files, Vite integration, and build verification."
+        },
+        {
+          "id": "site",
+          "title": "Vanrot Site",
+          "body": "apps/vanrot-site becomes the framework's living documentation example."
+        }
+      ]
+    },
+    {
+      "key": "conventions",
+      "section": "framework",
+      "path": "/docs/conventions",
+      "label": "Conventions",
+      "title": "Conventions",
+      "summary": "Vanrot conventions keep projects readable for humans and AI tools.",
+      "status": "available-now",
+      "sections": [
+        {
+          "id": "roles",
+          "title": "Role Suffixes",
+          "body": "Use .component, .page, .layout, .dialog, .widget, .form, and UI primitive role suffixes for Vanrot-owned files."
+        },
+        {
+          "id": "source-of-truth",
+          "title": "Source Of Truth",
+          "body": "Avoid reused strings for routes, command names, diagnostics, paths, labels, generated copy, and file suffixes."
+        }
+      ]
+    },
+    {
+      "key": "referenceStatus",
+      "section": "reference",
+      "path": "/reference",
+      "label": "Status",
+      "title": "Reference Status",
+      "summary": "The reference section shows what is available now, demo-capable, in progress, planned, or deferred.",
+      "status": "available-now",
+      "sections": [
+        {
+          "id": "phases",
+          "title": "Production Phases",
+          "body": "Phases 11 through 15 are complete. Phase 16A and 16B are complete slices. Phase 16C creates this learning site base."
+        },
+        {
+          "id": "audit",
+          "title": "Final Audit",
+          "body": "Phase 24 remains the final documentation and public web presence audit after the feature surface stabilizes."
+        }
+      ]
+    }
+  ],
+  "primitiveDocs": [
+    {
+      "primitive": "button",
+      "title": "Button",
+      "summary": "Use buttons for actions and command triggers.",
+      "usage": "<vr-button variant=\"default\" type=\"button\">Save</vr-button>",
+      "accessibility": "Buttons lower to native button elements and preserve focus, disabled, keyboard, and type behavior."
+    },
+    {
+      "primitive": "card",
+      "title": "Card",
+      "summary": "Use cards for grouped content surfaces.",
+      "usage": "<vr-card variant=\"default\">Content</vr-card>",
+      "accessibility": "Cards lower to article-like surfaces and keep child content readable."
+    },
+    {
+      "primitive": "badge",
+      "title": "Badge",
+      "summary": "Use badges for short status, category, or metadata labels.",
+      "usage": "<vr-badge variant=\"success\">Ready</vr-badge>",
+      "accessibility": "Badge examples should not rely on color alone for meaning."
+    },
+    {
+      "primitive": "avatar",
+      "title": "Avatar",
+      "summary": "Use avatars for person, tenant, team, or entity identity.",
+      "usage": "<vr-avatar variant=\"soft\">VR</vr-avatar>",
+      "accessibility": "Avatar content should include accessible names when it represents a person or entity."
+    },
+    {
+      "primitive": "alert",
+      "title": "Alert",
+      "summary": "Use alerts for persistent inline feedback.",
+      "usage": "<vr-alert variant=\"info\">Project ready.</vr-alert>",
+      "accessibility": "Alerts use severity-aware semantics without making every note interruptive."
+    },
+    {
+      "primitive": "loader",
+      "title": "Loader",
+      "summary": "Use loaders for pending activity.",
+      "usage": "<vr-loader variant=\"spinner\" aria-label=\"Loading\"></vr-loader>",
+      "accessibility": "Decorative loaders are hidden by default unless labelled."
+    },
+    {
+      "primitive": "skeleton",
+      "title": "Skeleton",
+      "summary": "Use skeletons to preserve layout while content loads.",
+      "usage": "<vr-skeleton variant=\"text\"></vr-skeleton>",
+      "accessibility": "Skeletons are decorative by default and should not replace real loading labels."
+    },
+    {
+      "primitive": "separator",
+      "title": "Separator",
+      "summary": "Use separators to divide related content.",
+      "usage": "<vr-separator variant=\"horizontal\"></vr-separator>",
+      "accessibility": "Separators expose orientation when semantics are needed."
+    }
+  ],
+  "commands": [
+    { "name": "create", "usage": "vr create <name>", "status": "demo-capable" },
+    { "name": "generate", "usage": "vr generate <role> <name>", "status": "demo-capable" },
+    { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16b" },
+    { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
+    { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
+    { "name": "map", "usage": "vr map", "status": "demo-capable" },
+    { "name": "init-ai", "usage": "vr init-ai", "status": "demo-capable" },
+    { "name": "ai", "usage": "vr ai <action>", "status": "demo-capable" },
+    { "name": "dev", "usage": "vr dev", "status": "demo-capable" },
+    { "name": "build", "usage": "vr build", "status": "demo-capable" },
+    { "name": "test", "usage": "vr test", "status": "demo-capable" }
+  ],
+  "packages": [
+    { "name": "@vanrot/runtime", "area": "Runtime", "status": "production-ready-through-phase-12" },
+    { "name": "@vanrot/compiler", "area": "Compiler", "status": "production-ready-through-phase-12" },
+    { "name": "@vanrot/config", "area": "Configuration", "status": "production-ready-through-phase-13" },
+    { "name": "@vanrot/router", "area": "Router", "status": "production-ready-through-phase-15" },
+    { "name": "@vanrot/vite-plugin", "area": "Vite", "status": "production-ready-through-phase-12" },
+    { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },
+    { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16b" },
+    { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" }
+  ],
+  "diagnostics": {
+    "compiler": [
+      "VR001",
+      "VR002",
+      "VR003",
+      "VR004",
+      "VR005",
+      "VR006",
+      "VR007",
+      "VR008",
+      "VR009",
+      "VR010",
+      "VR011",
+      "VR012",
+      "VR013",
+      "VR014",
+      "VR015",
+      "VR016",
+      "VR017",
+      "VR018",
+      "VR019"
+    ],
+    "config": [
+      "VRCFG001",
+      "VRCFG002",
+      "VRCFG003",
+      "VRCFG004",
+      "VRCFG005",
+      "VRCFG006",
+      "VRCFG007",
+      "VRCFG008"
+    ],
+    "router": [
+      "VR_ROUTE_DUPLICATE_PATH",
+      "VR_ROUTE_INVALID_PARENT_PATH",
+      "VR_ROUTE_MISSING_RENDER_TARGET",
+      "VR_CHILD_BEFORE_PARENT",
+      "VR_ROUTE_PRELOAD_FAILED",
+      "VR_KEEP_ALIVE_RESTORE_BLOCKED"
+    ]
+  }
+}

@@ -1,0 +1,42 @@
+import { readFile } from 'node:fs/promises';
+import { join } from 'node:path';
+import { describe, expect, it } from 'vitest';
+
+const appRoot = join(process.cwd());
+
+async function readJson<T>(path: string): Promise<T> {
+  return JSON.parse(await readFile(join(appRoot, path), 'utf8')) as T;
+}
+
+describe('vanrot site workspace', () => {
+  it('is a private workspace app with Vanrot scripts and dependencies', async () => {
+    const packageJson = await readJson<{
+      private?: boolean;
+      scripts?: Record<string, string>;
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    }>('package.json');
+
+    expect(packageJson.private).toBe(true);
+    expect(packageJson.scripts?.dev).toBe('vr dev');
+    expect(packageJson.scripts?.build).toBe('vr build');
+    expect(packageJson.scripts?.test).toBe('vitest run');
+    expect(packageJson.scripts?.typecheck).toBe('tsc -p tsconfig.json --noEmit');
+    expect(packageJson.dependencies?.['@vanrot/runtime']).toBe('file:../../packages/runtime');
+    expect(packageJson.dependencies?.['@vanrot/router']).toBe('file:../../packages/router');
+    expect(packageJson.dependencies?.['@vanrot/ui']).toBe('file:../../packages/ui');
+    expect(packageJson.devDependencies?.['@vanrot/vite-plugin']).toBe('file:../../packages/vite-plugin');
+  });
+
+  it('uses Vanrot plugin and Vanrot config', async () => {
+    await expect(readFile(join(appRoot, 'vite.config.ts'), 'utf8')).resolves.toContain(
+      "import vanrot from '@vanrot/vite-plugin';",
+    );
+    await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
+      'defineVanrotConfig',
+    );
+    await expect(readFile(join(appRoot, 'index.html'), 'utf8')).resolves.toContain(
+      'src="/src/main.ts"',
+    );
+  });
+});

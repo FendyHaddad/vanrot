@@ -1,0 +1,27 @@
+.docs-article {
+  display: grid;
+  gap: 18px;
+  max-width: 780px;
+}
+
+.docs-article h1 {
+  margin: 0;
+  font-size: 44px;
+  line-height: 1.05;
+}
+
+.docs-summary,
+.docs-section p {
+  color: var(--vr-color-muted);
+  line-height: 1.75;
+}
+
+.docs-section {
+  display: grid;
+  gap: 8px;
+}
+
+.docs-section h2 {
+  margin: 0;
+  font-size: 24px;
+}

@@ -1,0 +1,37 @@
+<div class="docs-layout">
+  <aside class="docs-sidebar" aria-label="Documentation">
+    <h2 class="docs-nav-heading">{{ labels.getStarted }}</h2>
+    @for (item of getStartedItems; track item.key) {
+      <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+    }
+
+    <h2 class="docs-nav-heading">{{ labels.framework }}</h2>
+    @for (item of frameworkItems; track item.key) {
+      <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+    }
+
+    <h2 class="docs-nav-heading">{{ labels.ui }}</h2>
+    @for (item of uiItems; track item.key) {
+      <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+    }
+
+    <h2 class="docs-nav-heading">{{ labels.components }}</h2>
+    @for (item of componentItems; track item.key) {
+      <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+    }
+
+    <h2 class="docs-nav-heading">{{ labels.examples }}</h2>
+    @for (item of exampleItems; track item.key) {
+      <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+    }
+
+    <h2 class="docs-nav-heading">{{ labels.reference }}</h2>
+    @for (item of referenceItems; track item.key) {
+      <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+    }
+  </aside>
+
+  <main class="docs-main">
+    <vr-outlet></vr-outlet>
+  </main>
+</div>

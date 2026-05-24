@@ -34,6 +34,7 @@ Create:
 - `apps/vanrot-site/src/layouts/docs/docs.layout.ts/html/css`: docs shell with left navigation and route outlet.
 - `apps/vanrot-site/src/pages/home/home.page.ts/html/css`: public landing page.
 - `apps/vanrot-site/src/pages/docs/docs-article.page.ts/html/css`: generic framework docs page.
+- `apps/vanrot-site/src/pages/components/component-gallery.page.ts/html/css`: preview-first Phase 16B primitive gallery using the saved visual baseline direction.
 - `apps/vanrot-site/src/pages/components/component-article.page.ts/html/css`: generic UI primitive docs page.
 - `apps/vanrot-site/src/pages/reference/reference.page.ts/html/css`: command/package/diagnostic/status reference page.
 - `apps/vanrot-site/src/docs/site-data.json`: source-owned docs content and route metadata.
@@ -68,7 +69,7 @@ Modify:
 - Modify: `packages/ui/src/metadata.ts`
 - Modify: `packages/ui/tests/metadata.test.ts`
 
-- [ ] **Step 1: Write the failing metadata test**
+- [x] **Step 1: Write the failing metadata test**
 
 Add `uiComponentPhase` to the import list in `packages/ui/tests/metadata.test.ts`:
 
@@ -102,7 +103,7 @@ Add this test after the October flavor/style test:
   });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run:
 
@@ -112,7 +113,7 @@ pnpm --filter @vanrot/ui test -- tests/metadata.test.ts
 
 Expected: FAIL because `uiComponentPhase.site`, `layoutNavigationMedia`, `formsData`, and `overlaysInteraction` do not exist yet.
 
-- [ ] **Step 3: Update the metadata source**
+- [x] **Step 3: Update the metadata source**
 
 In `packages/ui/src/metadata.ts`, replace the current `uiComponentPhase` object with:
 
@@ -129,7 +130,7 @@ export const uiComponentPhase = {
 
 Keep existing Phase 16B primitive `productionPhase` values pointed at `uiComponentPhase.core`.
 
-- [ ] **Step 4: Run the test to verify it passes**
+- [x] **Step 4: Run the test to verify it passes**
 
 Run:
 
@@ -139,7 +140,7 @@ pnpm --filter @vanrot/ui test -- tests/metadata.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 5: Checkpoint**
+- [x] **Step 5: Checkpoint**
 
 Run:
 
@@ -162,7 +163,7 @@ Expected: only the Phase 16 slice metadata and matching test changed.
 - Create: `apps/vanrot-site/index.html`
 - Create: `apps/vanrot-site/tests/site-workspace.test.ts`
 
-- [ ] **Step 1: Write the failing workspace test**
+- [x] **Step 1: Write the failing workspace test**
 
 Create `apps/vanrot-site/tests/site-workspace.test.ts`:
 
@@ -211,7 +212,7 @@ describe('vanrot site workspace', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run:
 
@@ -221,7 +222,7 @@ pnpm --filter @vanrot/vanrot-site test -- tests/site-workspace.test.ts
 
 Expected: FAIL because `@vanrot/vanrot-site` and the test files do not exist yet.
 
-- [ ] **Step 3: Create `apps/vanrot-site/package.json`**
+- [x] **Step 3: Create `apps/vanrot-site/package.json`**
 
 Create:
 
@@ -256,7 +257,7 @@ Create:
 }
 ```
 
-- [ ] **Step 4: Create config and mount shell files**
+- [x] **Step 4: Create config and mount shell files**
 
 Create `apps/vanrot-site/tsconfig.json`:
 
@@ -305,7 +306,7 @@ Create `apps/vanrot-site/index.html`:
 <script type="module" src="/src/main.ts"></script>
 ```
 
-- [ ] **Step 5: Run the workspace test**
+- [x] **Step 5: Run the workspace test**
 
 Run:
 
@@ -316,7 +317,7 @@ pnpm --filter @vanrot/vanrot-site test -- tests/site-workspace.test.ts
 
 Expected: PASS. `pnpm install` updates the lockfile so the new workspace dependency graph is known.
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Run:
 
@@ -339,7 +340,7 @@ Expected: new app workspace files plus lockfile changes only.
 - Create: `apps/vanrot-site/src/docs/site-reference.ts`
 - Create: `apps/vanrot-site/tests/site-data.test.ts`
 
-- [ ] **Step 1: Write the failing docs data test**
+- [x] **Step 1: Write the failing docs data test**
 
 Create `apps/vanrot-site/tests/site-data.test.ts`:
 
@@ -428,7 +429,7 @@ describe('vanrot site docs data', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run:
 
@@ -438,7 +439,7 @@ pnpm --filter @vanrot/vanrot-site test -- tests/site-data.test.ts
 
 Expected: FAIL because the docs data modules do not exist.
 
-- [ ] **Step 3: Create `site-data.json`**
+- [x] **Step 3: Create `site-data.json`**
 
 Create `apps/vanrot-site/src/docs/site-data.json` with these keys and enough prose to make the first site useful:
 
@@ -703,7 +704,7 @@ Create `apps/vanrot-site/src/docs/site-data.json` with these keys and enough pro
 }
 ```
 
-- [ ] **Step 4: Create typed docs accessors**
+- [x] **Step 4: Create typed docs accessors**
 
 Create `apps/vanrot-site/src/docs/site-data.ts`:
 
@@ -788,7 +789,7 @@ export const packageReferenceDocs = siteDataJson.packages;
 export const diagnosticReferenceDocs = siteDataJson.diagnostics;
 ```
 
-- [ ] **Step 5: Create navigation and component docs**
+- [x] **Step 5: Create navigation and component docs**
 
 Create `apps/vanrot-site/src/docs/site-navigation.ts`:
 
@@ -922,7 +923,7 @@ export const packageReference = packageReferenceDocs;
 export const diagnosticReference = diagnosticReferenceDocs;
 ```
 
-- [ ] **Step 6: Run docs data tests**
+- [x] **Step 6: Run docs data tests**
 
 Run:
 
@@ -948,7 +949,7 @@ Expected: PASS.
 - Create: `apps/vanrot-site/src/layouts/docs/docs.layout.css`
 - Create: `apps/vanrot-site/tests/site-pages.test.ts`
 
-- [ ] **Step 1: Write failing source convention tests**
+- [x] **Step 1: Write failing source convention tests**
 
 Create `apps/vanrot-site/tests/site-pages.test.ts`:
 
@@ -989,7 +990,7 @@ describe('vanrot site pages', () => {
 });
 ```
 
-- [ ] **Step 2: Run the test to verify it fails**
+- [x] **Step 2: Run the test to verify it fails**
 
 Run:
 
@@ -999,7 +1000,7 @@ pnpm --filter @vanrot/vanrot-site test -- tests/site-pages.test.ts
 
 Expected: FAIL because the route and layout files do not exist.
 
-- [ ] **Step 3: Create the app entry**
+- [x] **Step 3: Create the app entry**
 
 Create `apps/vanrot-site/src/main.ts`:
 
@@ -1030,7 +1031,7 @@ cp packages/ui/src/tokens/vanrot-tokens.css apps/vanrot-site/src/styles/vanrot-t
 cp packages/ui/src/styles/vanrotstyles.css apps/vanrot-site/src/styles/vanrotstyles.css
 ```
 
-- [ ] **Step 4: Create route definitions**
+- [x] **Step 4: Create route definitions**
 
 Create `apps/vanrot-site/src/routes.ts`:
 
@@ -1133,7 +1134,7 @@ export const route = defineRoutes({
 
 If line length becomes hard to read during implementation, split the repeated `docs.page(...)` calls into a helper that still reads labels and paths from docs data.
 
-- [ ] **Step 5: Create the app and docs layouts**
+- [x] **Step 5: Create the app and docs layouts**
 
 Create `apps/vanrot-site/src/app/app.layout.ts`:
 
@@ -1287,7 +1288,7 @@ Create `apps/vanrot-site/src/layouts/docs/docs.layout.css`:
 }
 ```
 
-- [ ] **Step 6: Run page source tests**
+- [x] **Step 6: Run page source tests**
 
 Run:
 
@@ -1305,11 +1306,12 @@ Expected: PASS.
 
 - Create: `apps/vanrot-site/src/pages/home/home.page.ts/html/css`
 - Create: `apps/vanrot-site/src/pages/docs/docs-article.page.ts/html/css`
+- Create: `apps/vanrot-site/src/pages/components/component-gallery.page.ts/html/css`
 - Create: `apps/vanrot-site/src/pages/components/component-article.page.ts/html/css`
 - Create: `apps/vanrot-site/src/pages/reference/reference.page.ts/html/css`
 - Create: `apps/vanrot-site/src/styles/site.css`
 
-- [ ] **Step 1: Create the landing page**
+- [x] **Step 1: Create the landing page**
 
 Create `apps/vanrot-site/src/pages/home/home.page.ts`:
 
@@ -1408,7 +1410,7 @@ Create `apps/vanrot-site/src/pages/home/home.page.css`:
 }
 ```
 
-- [ ] **Step 2: Create the generic framework docs page**
+- [x] **Step 2: Create the generic framework docs page**
 
 Create `apps/vanrot-site/src/pages/docs/docs-article.page.ts`:
 
@@ -1509,7 +1511,7 @@ Create `apps/vanrot-site/src/pages/docs/docs-article.page.css`:
 }
 ```
 
-- [ ] **Step 3: Create the component docs page**
+- [x] **Step 3: Create the component docs page**
 
 Create `apps/vanrot-site/src/pages/components/component-article.page.ts`:
 
@@ -1636,7 +1638,7 @@ Create `apps/vanrot-site/src/pages/components/component-article.page.css`:
 }
 ```
 
-- [ ] **Step 4: Create the reference page**
+- [x] **Step 4: Create the reference page**
 
 Create `apps/vanrot-site/src/pages/reference/reference.page.ts`:
 
@@ -1727,7 +1729,7 @@ Create `apps/vanrot-site/src/pages/reference/reference.page.css`:
 }
 ```
 
-- [ ] **Step 5: Create temporary site CSS**
+- [x] **Step 5: Create temporary site CSS**
 
 Create `apps/vanrot-site/src/styles/site.css`:
 
@@ -1763,7 +1765,7 @@ pre {
 }
 ```
 
-- [ ] **Step 6: Run site tests and typecheck**
+- [x] **Step 6: Run site tests and typecheck**
 
 Run:
 
@@ -1784,7 +1786,7 @@ Expected: PASS.
 - Create: `scripts/verify-site-docs.test.mjs`
 - Modify: `package.json`
 
-- [ ] **Step 1: Write failing guard tests**
+- [x] **Step 1: Write failing guard tests**
 
 Create `scripts/verify-site-docs.test.mjs`:
 
@@ -1843,7 +1845,7 @@ describe('site docs verification', () => {
 });
 ```
 
-- [ ] **Step 2: Run guard tests to verify they fail**
+- [x] **Step 2: Run guard tests to verify they fail**
 
 Run:
 
@@ -1853,7 +1855,7 @@ pnpm test:phase-docs
 
 Expected: FAIL because `scripts/verify-site-docs.mjs` does not exist and the root script does not include the new test.
 
-- [ ] **Step 3: Create the guard implementation**
+- [x] **Step 3: Create the guard implementation**
 
 Create `scripts/verify-site-docs.mjs`:
 
@@ -2012,7 +2014,7 @@ if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
 
 The first implementation deliberately keeps command and package docs in the guard until a shared docs metadata export exists. A later phase can move those arrays into package-owned metadata.
 
-- [ ] **Step 4: Update root scripts**
+- [x] **Step 4: Update root scripts**
 
 Modify the root `package.json` scripts:
 
@@ -2034,7 +2036,7 @@ Modify the root `package.json` scripts:
 }
 ```
 
-- [ ] **Step 5: Run guard tests and guard**
+- [x] **Step 5: Run guard tests and guard**
 
 Run:
 
@@ -2054,7 +2056,7 @@ Expected: PASS.
 
 - No new files unless visual verification finds a defect.
 
-- [ ] **Step 1: Typecheck, test, and build the site**
+- [x] **Step 1: Typecheck, test, and build the site**
 
 Run:
 
@@ -2066,7 +2068,7 @@ pnpm --filter @vanrot/vanrot-site build
 
 Expected: PASS.
 
-- [ ] **Step 2: Start the local site**
+- [x] **Step 2: Start the local site**
 
 Run:
 
@@ -2076,7 +2078,7 @@ pnpm --filter @vanrot/vanrot-site dev
 
 Expected: the dev server starts on the configured Vanrot/Vite port. If port `1010` is occupied, use the next available port printed by Vite.
 
-- [ ] **Step 3: Open the browser and inspect key pages**
+- [x] **Step 3: Open the browser and inspect key pages**
 
 Use the Browser plugin to open the local site. Check:
 
@@ -2096,7 +2098,7 @@ Expected:
 - code blocks do not overflow the viewport;
 - page copy is readable and dark-first.
 
-- [ ] **Step 4: Capture visual evidence**
+- [x] **Step 4: Capture visual evidence**
 
 Use Browser screenshots for desktop and mobile widths.
 
@@ -2113,7 +2115,7 @@ Expected: screenshots show the shadcn-style docs rhythm: top nav, left docs navi
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-16C.md`
 
-- [ ] **Step 1: Update feature maturity**
+- [x] **Step 1: Update feature maturity**
 
 Update `docs/superpowers/feature-maturity.md` after implementation and verification:
 
@@ -2125,20 +2127,20 @@ Update `docs/superpowers/feature-maturity.md` after implementation and verificat
 Expected wording:
 
 ```text
-Phase 16C creates apps/vanrot-site as the dogfooded Vanrot learning site base with current framework docs, command/reference data, Phase 16B component docs, and verify:site-docs drift checks.
+Phase 16C creates apps/vanrot-site as the dogfooded Vanrot learning site base with current framework docs, command/reference data, a preview-first Phase 16B primitive gallery, Phase 16B component docs, and verify:site-docs drift checks.
 ```
 
-- [ ] **Step 2: Update final TDD inventory**
+- [x] **Step 2: Update final TDD inventory**
 
 Add Phase 16C rows to `docs/superpowers/final-tdd-inventory.md`:
 
 ```markdown
-| docs and web | `apps/vanrot-site` workspace app | Demo-Capable through Phase 16C | Site builds as a Vanrot app with router, pages, October tokens, vanrotstyles, and Phase 16B primitives. | Phase 16C, Phase 24 | Phase 24 remains the exhaustive final docs audit. |
+| docs and web | `apps/vanrot-site` workspace app | Demo-Capable through Phase 16C | Site builds as a Vanrot app with router, pages, October tokens, vanrotstyles, the Phase 16B primitive gallery, and Phase 16B primitives. | Phase 16C, Phase 24 | Phase 24 remains the exhaustive final docs audit. |
 | docs and web | site docs data registry | Demo-Capable through Phase 16C | Registry covers implemented framework docs, commands, package references, diagnostics, conventions, examples, UI primitives, and maturity status. | Phase 16C, Phase 24 | Future package metadata can replace temporary site-owned data. |
 | docs and web | `verify:site-docs` | Demo-Capable through Phase 16C | Guard catches missing framework docs, primitive docs, command docs, package references, diagnostic paths, and maturity reference coverage. | Phase 16C, Phase 24 | Runs inside root `pnpm verify` after build. |
 ```
 
-- [ ] **Step 3: Update presentation**
+- [x] **Step 3: Update presentation**
 
 Modify `docs/vanrot-presentation.html`:
 
@@ -2153,13 +2155,13 @@ Expected status line:
 <span style="color:var(--cyan);">Active: Phase 16D layout, navigation, and media primitives</span>
 ```
 
-- [ ] **Step 4: Tick this plan**
+- [x] **Step 4: Tick this plan**
 
 After every task passes, change completed checkboxes in this file from `- [ ]` to `- [x]`.
 
 Keep unchecked tasks only if execution intentionally stops before Phase 16C completion.
 
-- [ ] **Step 5: Run phase docs verification**
+- [x] **Step 5: Run phase docs verification**
 
 Run:
 
@@ -2177,7 +2179,7 @@ Expected: PASS.
 
 - No new files unless a failing check identifies a defect.
 
-- [ ] **Step 1: Run focused checks**
+- [x] **Step 1: Run focused checks**
 
 Run:
 
@@ -2194,7 +2196,7 @@ pnpm verify:phase-docs
 
 Expected: PASS.
 
-- [ ] **Step 2: Run root verification**
+- [x] **Step 2: Run root verification**
 
 Run:
 
@@ -2204,7 +2206,7 @@ pnpm verify
 
 Expected: PASS, including typecheck, tests, build, runtime size budget, `verify:site-docs`, and `verify:phase-docs`.
 
-- [ ] **Step 3: Check whitespace**
+- [x] **Step 3: Check whitespace**
 
 Run:
 
@@ -2214,7 +2216,7 @@ git diff --check
 
 Expected: no output.
 
-- [ ] **Step 4: Check final status**
+- [x] **Step 4: Check final status**
 
 Run:
 
@@ -2228,8 +2230,8 @@ Expected: Phase 16C source, tests, scripts, docs, presentation, lockfile, and pl
 
 ## Self-Review
 
-- [ ] **Spec coverage:** Phase 16C app, framework-wide docs, existing Phase 1-15 coverage, Phase 16A/16B coverage, component pages, source data, docs drift guard, temporary CSS, build, browser verification, and Phase 24 final-audit separation are covered by tasks above.
-- [ ] **Placeholder scan:** Search this file for placeholder words before execution.
+- [x] **Spec coverage:** Phase 16C app, framework-wide docs, existing Phase 1-15 coverage, Phase 16A/16B coverage, component pages, source data, docs drift guard, temporary CSS, build, browser verification, and Phase 24 final-audit separation are covered by tasks above.
+- [x] **Placeholder scan:** Search this file for placeholder words before execution.
 
 Run:
 
@@ -2239,7 +2241,7 @@ node -e "const fs=require('fs');const text=fs.readFileSync('docs/superpowers/pla
 
 Expected: no output.
 
-- [ ] **Type consistency:** `SiteArticleKey`, `SiteSectionKey`, `ComponentDoc`, `siteNavigationGroups`, `componentDocs`, `commandReference`, `packageReference`, and `diagnosticReference` are introduced before they are used by pages.
+- [x] **Type consistency:** `SiteArticleKey`, `SiteSectionKey`, `ComponentDoc`, `siteNavigationGroups`, `componentDocs`, `commandReference`, `packageReference`, and `diagnosticReference` are introduced before they are used by pages.
 
 ---
 

@@ -953,6 +953,7 @@ Phase 16 should be sliced to protect readability and maintainability.
 - use temporary site-local CSS only where Vanrot primitives do not exist yet
 - follow the shadcn/ui documentation layout quality bar without copying its text or implementation
 - add landing, install, framework guide, reference, and component page foundations
+- expose a preview-first core primitive gallery that carries the `phase-16b-core-primitives.html` design language into the real site
 - document the implemented framework surface from Phase 1 through Phase 15 plus Phase 16A and Phase 16B
 - expose current commands, packages, diagnostics, conventions, route APIs, config keys, primitive metadata, and maturity status
 - add docs drift verification so implemented primitives cannot miss site documentation

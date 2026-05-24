@@ -1,0 +1,42 @@
+@import "../../../../packages/ui/src/primitives/button/ui.button.css";
+@import "../../../../packages/ui/src/primitives/card/ui.card.css";
+@import "../../../../packages/ui/src/primitives/badge/ui.badge.css";
+@import "../../../../packages/ui/src/primitives/avatar/ui.avatar.css";
+@import "../../../../packages/ui/src/primitives/alert/ui.alert.css";
+@import "../../../../packages/ui/src/primitives/loader/ui.loader.css";
+@import "../../../../packages/ui/src/primitives/skeleton/ui.skeleton.css";
+@import "../../../../packages/ui/src/primitives/separator/ui.separator.css";
+
+:root {
+  color-scheme: dark;
+  background: var(--vr-color-canvas);
+  color: var(--vr-color-text);
+  font-family: var(--vr-font-sans);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  min-width: 320px;
+  margin: 0;
+  background: var(--vr-color-canvas);
+  color: var(--vr-color-text);
+  font-family: var(--vr-font-sans);
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--vr-color-brand);
+}
+
+code,
+pre {
+  font-family: var(--vr-font-number);
+  font-variant-numeric: tabular-nums lining-nums;
+}

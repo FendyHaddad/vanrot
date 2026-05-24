@@ -27,6 +27,37 @@ importers:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
+  apps/vanrot-site:
+    dependencies:
+      '@vanrot/config':
+        specifier: file:../../packages/config
+        version: link:../../packages/config
+      '@vanrot/router':
+        specifier: file:../../packages/router
+        version: link:../../packages/router
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/ui':
+        specifier: file:../../packages/ui
+        version: link:../../packages/ui
+    devDependencies:
+      '@vanrot/cli':
+        specifier: file:../../packages/cli
+        version: link:../../packages/cli
+      '@vanrot/vite-plugin':
+        specifier: file:../../packages/vite-plugin
+        version: link:../../packages/vite-plugin
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^8.0.10
+        version: 8.0.13(@types/node@22.19.19)(esbuild@0.28.0)
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
   examples/counter:
     dependencies:
       '@vanrot/config':

@@ -31,12 +31,19 @@
 }
 
 .vr-loader-bar::before {
-  animation: vr-loader-bar 1.1s ease-in-out infinite;
-  background: var(--vr-color-brand);
+  animation: vr-loader-shimmer 1.6s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--vr-color-brand) 60%, transparent) 0%,
+    var(--vr-color-brand) 40%,
+    var(--vr-color-brand) 60%,
+    color-mix(in srgb, var(--vr-color-brand) 60%, transparent) 100%
+  );
+  background-size: 200% 100%;
   content: "";
   display: block;
   height: 100%;
-  width: 38%;
+  width: 58%;
 }
 
 @keyframes vr-loader-spin {
@@ -65,12 +72,12 @@
   }
 }
 
-@keyframes vr-loader-bar {
+@keyframes vr-loader-shimmer {
   0% {
-    transform: translateX(-100%);
+    background-position: 200% 0;
   }
 
   100% {
-    transform: translateX(270%);
+    background-position: -200% 0;
   }
 }

@@ -17,9 +17,10 @@ export type UiStyleMode = (typeof uiStyleMode)[keyof typeof uiStyleMode];
 export const uiComponentPhase = {
   foundation: '16A',
   core: '16B',
-  layoutData: '16C',
-  overlays: '16D',
-  shellPatterns: '16E',
+  site: '16C',
+  layoutNavigationMedia: '16D',
+  formsData: '16E',
+  overlaysInteraction: '16F',
 } as const;
 
 export type UiComponentPhase = (typeof uiComponentPhase)[keyof typeof uiComponentPhase];

@@ -1,0 +1,218 @@
+.component-gallery {
+  max-width: 1080px;
+  padding: 48px 48px 96px;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  padding: 0 10px;
+  margin-bottom: 18px;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-full);
+  color: var(--vr-color-muted);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.component-gallery h1 {
+  margin: 0 0 14px;
+  font-size: 36px;
+  font-weight: 750;
+  letter-spacing: 0;
+  line-height: 1.08;
+}
+
+.lead {
+  max-width: 680px;
+  margin: 0 0 32px;
+  color: var(--vr-color-muted);
+  font-size: 15px;
+  line-height: 1.72;
+}
+
+.tabs {
+  display: inline-flex;
+  gap: 2px;
+  padding: 3px;
+  margin-bottom: 36px;
+  border-radius: var(--vr-radius-md);
+  background: var(--vr-surface-muted);
+}
+
+.tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 12px;
+  border-radius: var(--vr-radius-sm);
+  color: var(--vr-color-muted);
+  font-size: 13px;
+}
+
+.tab.active {
+  background: var(--vr-surface-raised);
+  color: var(--vr-color-text);
+  font-weight: 650;
+  box-shadow: var(--vr-shadow-1);
+}
+
+.primitive {
+  margin: 40px 0 56px;
+}
+
+.section-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  margin: 0 0 5px;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: 0;
+}
+
+.section-head p {
+  margin: 0;
+  color: var(--vr-color-muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.code-chip {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 10px;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-sm);
+  background: var(--vr-surface-muted);
+  color: var(--vr-color-muted);
+  font-family: var(--vr-font-number);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+.preview {
+  overflow: hidden;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-lg);
+  background: var(--vr-surface-card);
+}
+
+.preview-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+  padding: 0 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--vr-color-line) 56%, transparent);
+  background: var(--vr-color-canvas);
+  color: var(--vr-color-muted);
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.preview-body {
+  padding: 28px;
+  background-color: var(--vr-surface-card);
+  background-image: radial-gradient(circle, color-mix(in srgb, var(--vr-color-text) 5%, transparent) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.variant-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+  gap: 12px;
+}
+
+.variant-tile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 108px;
+  padding: 14px;
+  border: 1px solid color-mix(in srgb, var(--vr-color-line) 56%, transparent);
+  border-radius: var(--vr-radius-md);
+  background: var(--vr-color-canvas);
+}
+
+.variant-name {
+  color: var(--vr-color-muted);
+  font-family: var(--vr-font-number);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums lining-nums;
+  letter-spacing: 0;
+}
+
+.card-grid .variant-tile {
+  min-height: 188px;
+}
+
+.card-grid h3 {
+  margin: 0 0 5px;
+  font-size: 14px;
+}
+
+.card-grid p {
+  margin: 0 0 14px;
+  color: var(--vr-color-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.alert-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.alert-stack-row {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.separator-demo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  color: var(--vr-color-muted);
+  font-size: 14px;
+}
+
+.docs-note {
+  margin-top: 28px;
+  padding: 16px 18px;
+  border: 1px solid color-mix(in srgb, var(--vr-color-line) 56%, transparent);
+  border-radius: var(--vr-radius-md);
+  background: var(--vr-surface-muted);
+  color: var(--vr-color-muted);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+@media (max-width: 860px) {
+  .component-gallery {
+    padding: 32px 20px 72px;
+  }
+
+  .component-gallery h1 {
+    font-size: 28px;
+  }
+
+  .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

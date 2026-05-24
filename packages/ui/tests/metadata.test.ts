@@ -4,6 +4,7 @@ import {
   uiAppFile,
   uiAssetUrl,
   uiComponentCatalog,
+  uiComponentPhase,
   uiFlavor,
   uiPackageInventory,
   uiPrimitive,
@@ -22,6 +23,15 @@ describe('@vanrot/ui metadata', () => {
     expect(uiPackageInventory.name).toBe('@vanrot/ui');
     expect(uiPackageInventory.flavor).toBe(uiFlavor.october);
     expect(uiPackageInventory.stylesheet).toBe('vanrotstyles.css');
+  });
+
+  it('exports the updated Phase 16 slice map', () => {
+    expect(uiComponentPhase.foundation).toBe('16A');
+    expect(uiComponentPhase.core).toBe('16B');
+    expect(uiComponentPhase.site).toBe('16C');
+    expect(uiComponentPhase.layoutNavigationMedia).toBe('16D');
+    expect(uiComponentPhase.formsData).toBe('16E');
+    expect(uiComponentPhase.overlaysInteraction).toBe('16F');
   });
 
   it('exports the Phase 9 button primitive metadata', () => {

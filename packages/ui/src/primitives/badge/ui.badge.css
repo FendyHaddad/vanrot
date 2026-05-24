@@ -2,7 +2,7 @@
   align-items: center;
   background: var(--vr-surface-raised);
   border: 1px solid transparent;
-  border-radius: var(--vr-radius-full);
+  border-radius: var(--vr-radius-md);
   color: var(--vr-color-text);
   display: inline-flex;
   font: 600 var(--vr-text-xs) / 1 var(--vr-font-sans);

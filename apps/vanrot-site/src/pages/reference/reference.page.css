@@ -1,0 +1,22 @@
+.reference-page {
+  display: grid;
+  gap: 24px;
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 32px 0 72px;
+}
+
+.reference-page h1 {
+  margin: 0;
+  font-size: 44px;
+}
+
+.reference-page > p {
+  color: var(--vr-color-muted);
+  line-height: 1.75;
+}
+
+.reference-section {
+  display: grid;
+  gap: 12px;
+}
