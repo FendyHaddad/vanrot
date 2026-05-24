@@ -122,9 +122,10 @@ describe('@vanrot/ui assets', () => {
         join(packageRoot, 'src', 'primitives', primitive, `ui.${primitive}.css`),
         'utf8',
       );
+      const [defaultVariant] = uiPrimitiveVariant[primitive];
 
       for (const variant of uiPrimitiveVariant[primitive]) {
-        if (variant === 'default') {
+        if (variant === defaultVariant) {
           continue;
         }
 

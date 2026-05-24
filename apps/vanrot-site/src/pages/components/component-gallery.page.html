@@ -1,197 +1,284 @@
-<article class="component-gallery">
-  <span class="eyebrow">Phase 16B preview</span>
-  <h1>Core primitives</h1>
-  <p class="lead">
-    Preview-first documentation for October components. These examples use the same
-    Vanrot semantic tags developers add to their own apps.
-  </p>
-
-  <div class="tabs" aria-label="Component documentation views">
-    <span class="tab active">Preview</span>
-    <span class="tab">Code</span>
-    <span class="tab">Accessibility</span>
-  </div>
-
-  <section class="primitive" id="button">
-    <div class="section-head">
-      <div>
-        <h2>Button</h2>
-        <p>Actions and command triggers with native button semantics first.</p>
-      </div>
-      <span class="code-chip">&lt;vr-button&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>6</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span class="variant-name">default</span><vr-button variant="default" type="button">Save changes</vr-button></div>
-        <div class="variant-tile"><span class="variant-name">secondary</span><vr-button variant="secondary" type="button">Open menu</vr-button></div>
-        <div class="variant-tile"><span class="variant-name">outline</span><vr-button variant="outline" type="button">View details</vr-button></div>
-        <div class="variant-tile"><span class="variant-name">ghost</span><vr-button variant="ghost" type="button">Dismiss</vr-button></div>
-        <div class="variant-tile"><span class="variant-name">danger</span><vr-button variant="danger" type="button">Delete item</vr-button></div>
-        <div class="variant-tile"><span class="variant-name">link</span><vr-button variant="link" type="button">Read documentation</vr-button></div>
-      </div>
-    </div>
-  </section>
-
-  <section class="primitive" id="card">
-    <div class="section-head">
-      <div>
-        <h2>Card</h2>
-        <p>Grouped content surfaces for dashboards, settings, and docs examples.</p>
-      </div>
-      <span class="code-chip">&lt;vr-card&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>3</span></div>
-      <div class="preview-body variant-grid card-grid">
-        <div class="variant-tile">
-          <span class="variant-name">default</span>
-          <vr-card variant="default">
-            <h3>Usage</h3>
-            <p>Standard content grouping with a quiet border.</p>
-            <vr-badge variant="outline">Docs</vr-badge>
-          </vr-card>
+<div class="app component-gallery-app">
+      <aside class="sidebar">
+        <div class="brand"><span class="mark"></span>Vanrot UI</div>
+        <div class="search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+          </svg>
+          <span>Search</span>
+          <kbd>⌘K</kbd>
         </div>
-        <div class="variant-tile">
-          <span class="variant-name">muted</span>
-          <vr-card variant="muted">
-            <h3>Metadata</h3>
-            <p>Soft secondary surface for low-priority panels.</p>
-            <vr-badge variant="secondary">Optional</vr-badge>
-          </vr-card>
-        </div>
-        <div class="variant-tile">
-          <span class="variant-name">interactive</span>
-          <vr-card variant="interactive">
-            <h3>Project Alpha</h3>
-            <p>Clickable surface with clear affordance.</p>
-            <vr-button variant="outline" type="button">Open</vr-button>
-          </vr-card>
-        </div>
-      </div>
-    </div>
-  </section>
+        <span class="nav-title">Get Started</span>
+        <a class="nav-link" href="#">Introduction</a>
+        <a class="nav-link" href="#">Installation</a>
+        <a class="nav-link" href="#">Theming</a>
+        <a class="nav-link" href="#">CLI</a>
+        <span class="nav-title">Components</span>
+        <a class="nav-link active" href="#button">Button</a>
+        <a class="nav-link" href="#card">Card</a>
+        <a class="nav-link" href="#badge">Badge</a>
+        <a class="nav-link" href="#avatar">Avatar</a>
+        <a class="nav-link" href="#alert">Alert</a>
+        <a class="nav-link" href="#loader">Loader</a>
+        <a class="nav-link" href="#skeleton">Skeleton</a>
+        <a class="nav-link" href="#separator">Separator</a>
+      </aside>
 
-  <section class="primitive" id="badge">
-    <div class="section-head">
-      <div>
-        <h2>Badge</h2>
-        <p>Small status and category labels that preserve readable contrast.</p>
-      </div>
-      <span class="code-chip">&lt;vr-badge&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>6</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span class="variant-name">default</span><vr-badge variant="default">Live</vr-badge></div>
-        <div class="variant-tile"><span class="variant-name">secondary</span><vr-badge variant="secondary">Draft</vr-badge></div>
-        <div class="variant-tile"><span class="variant-name">success</span><vr-badge variant="success">Passed</vr-badge></div>
-        <div class="variant-tile"><span class="variant-name">warning</span><vr-badge variant="warning">Review</vr-badge></div>
-        <div class="variant-tile"><span class="variant-name">danger</span><vr-badge variant="danger">Blocked</vr-badge></div>
-        <div class="variant-tile"><span class="variant-name">outline</span><vr-badge variant="outline">External</vr-badge></div>
-      </div>
-    </div>
-  </section>
+      <main>
+        <header class="topbar">
+          <div class="topbar-left">
+            <span class="bc-home">October</span>
+            <span class="bc-sep">/</span>
+            <span>Components</span>
+            <span class="bc-sep">/</span>
+            <span class="bc-active">Button</span>
+          </div>
+          <nav class="topbar-right">
+            <a href="#">Docs</a>
+            <a href="#">Components</a>
+            <a href="#">Blocks</a>
+            <a href="#">Registry</a>
+          </nav>
+        </header>
 
-  <section class="primitive" id="avatar">
-    <div class="section-head">
-      <div>
-        <h2>Avatar</h2>
-        <p>Identity primitive for people, teams, tenants, and account surfaces.</p>
-      </div>
-      <span class="code-chip">&lt;vr-avatar&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>3</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span class="variant-name">default</span><vr-avatar variant="default">FH</vr-avatar></div>
-        <div class="variant-tile"><span class="variant-name">soft</span><vr-avatar variant="soft">VR</vr-avatar></div>
-        <div class="variant-tile"><span class="variant-name">outline</span><vr-avatar variant="outline">UI</vr-avatar></div>
-      </div>
-    </div>
-  </section>
+        <section class="content">
+          <span class="eyebrow">Phase 16B preview</span>
+          <h1>Core primitives</h1>
+          <p class="lead">
+            Design-only presentation for the first production-ready October primitives.
+            The layout follows the shadcn rhythm: docs sidebar, preview-first sections,
+            compact examples, and source-owned component language.
+          </p>
 
-  <section class="primitive" id="alert">
-    <div class="section-head">
-      <div>
-        <h2>Alert</h2>
-        <p>Inline feedback message for persistent page-level status.</p>
-      </div>
-      <span class="code-chip">&lt;vr-alert&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>4</span></div>
-      <div class="preview-body alert-stack">
-        <div class="alert-stack-row"><span class="variant-name">info</span><vr-alert variant="info">Heads up. The component was added to your project.</vr-alert></div>
-        <div class="alert-stack-row"><span class="variant-name">success</span><vr-alert variant="success">Published. Your changes are available in production.</vr-alert></div>
-        <div class="alert-stack-row"><span class="variant-name">warning</span><vr-alert variant="warning">Review needed. Some settings need confirmation.</vr-alert></div>
-        <div class="alert-stack-row"><span class="variant-name">danger</span><vr-alert variant="danger">Action failed. Check diagnostics before retrying.</vr-alert></div>
-      </div>
-    </div>
-  </section>
+          <div class="tabs" aria-label="Preview tabs">
+            <button class="tab active">Preview</button>
+            <button class="tab">Code</button>
+            <button class="tab">Accessibility</button>
+          </div>
 
-  <section class="primitive" id="loader">
-    <div class="section-head">
-      <div>
-        <h2>Loader</h2>
-        <p>Small loading indicators for action, page, and inline pending states.</p>
-      </div>
-      <span class="code-chip">&lt;vr-loader&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>3</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span class="variant-name">spinner</span><vr-loader aria-label="Loading spinner" variant="spinner"></vr-loader></div>
-        <div class="variant-tile"><span class="variant-name">dots</span><vr-loader aria-label="Loading steps" variant="dots"></vr-loader></div>
-        <div class="variant-tile"><span class="variant-name">bar</span><vr-loader aria-label="Loading progress" variant="bar"></vr-loader></div>
-      </div>
-    </div>
-  </section>
+          <!-- Button -->
+          <section class="primitive" id="button">
+            <div class="section-head">
+              <div>
+                <h2>Button</h2>
+                <p>Actions and command triggers with native button semantics first.</p>
+              </div>
+              <span class="code-chip">&lt;vr-button&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>6</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">default</span><vr-button class="btn default" variant="default" type="button">Save changes</vr-button></div>
+                <div class="variant-tile"><span class="variant-name">secondary</span><vr-button class="btn secondary" variant="secondary" type="button">Open menu</vr-button></div>
+                <div class="variant-tile"><span class="variant-name">outline</span><vr-button class="btn outline" variant="outline" type="button">View details</vr-button></div>
+                <div class="variant-tile"><span class="variant-name">ghost</span><vr-button class="btn ghost" variant="ghost" type="button">Dismiss</vr-button></div>
+                <div class="variant-tile"><span class="variant-name">danger</span><vr-button class="btn danger" variant="danger" type="button">Delete item</vr-button></div>
+                <div class="variant-tile"><span class="variant-name">link</span><vr-button class="btn link" variant="link" type="button">Read documentation</vr-button></div>
+              </div>
+            </div>
+          </section>
 
-  <section class="primitive" id="skeleton">
-    <div class="section-head">
-      <div>
-        <h2>Skeleton</h2>
-        <p>Layout-preserving placeholders for content loading states.</p>
-      </div>
-      <span class="code-chip">&lt;vr-skeleton&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>4</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span class="variant-name">text</span><vr-skeleton aria-label="Loading text" variant="text"></vr-skeleton></div>
-        <div class="variant-tile"><span class="variant-name">avatar</span><vr-skeleton aria-label="Loading avatar" variant="avatar"></vr-skeleton></div>
-        <div class="variant-tile"><span class="variant-name">card</span><vr-skeleton aria-label="Loading card" variant="card"></vr-skeleton></div>
-        <div class="variant-tile"><span class="variant-name">block</span><vr-skeleton aria-label="Loading block" variant="block"></vr-skeleton></div>
-      </div>
-    </div>
-  </section>
+          <!-- Card -->
+          <section class="primitive" id="card">
+            <div class="section-head">
+              <div>
+                <h2>Card</h2>
+                <p>Grouped content surfaces for dashboards, settings, and docs examples.</p>
+              </div>
+              <span class="code-chip">&lt;vr-card&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>3</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile">
+                  <span class="variant-name">default</span>
+                  <vr-card class="card-demo" variant="default">
+                    <div class="card-title">Usage</div>
+                    <p class="card-copy">Standard content grouping with a quiet border.</p>
+                    <vr-badge class="badge outline" variant="outline">Docs</vr-badge>
+                  </vr-card>
+                </div>
+                <div class="variant-tile">
+                  <span class="variant-name">muted</span>
+                  <vr-card class="card-demo muted" variant="muted">
+                    <div class="card-title">Metadata</div>
+                    <p class="card-copy">Soft secondary surface for low-priority panels.</p>
+                    <vr-badge class="badge secondary" variant="secondary">Optional</vr-badge>
+                  </vr-card>
+                </div>
+                <div class="variant-tile">
+                  <span class="variant-name">interactive</span>
+                  <vr-card class="card-demo interactive" variant="interactive">
+                    <div class="card-title">Project Alpha</div>
+                    <p class="card-copy">Clickable surface with clear affordance.</p>
+                    <vr-button class="btn outline" variant="outline" type="button" style="height:32px;font-size:13px;padding:0 12px">Open</vr-button>
+                  </vr-card>
+                </div>
+              </div>
+            </div>
+          </section>
 
-  <section class="primitive" id="separator">
-    <div class="section-head">
-      <div>
-        <h2>Separator</h2>
-        <p>Structural separation for menus, metadata rows, cards, and forms.</p>
-      </div>
-      <span class="code-chip">&lt;vr-separator&gt;</span>
-    </div>
-    <div class="preview">
-      <div class="preview-head"><span>Variants</span><span>2</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile">
-          <span class="variant-name">horizontal</span>
-          <div class="separator-demo"><span>Account</span><vr-separator variant="horizontal"></vr-separator><span>Security</span></div>
-        </div>
-        <div class="variant-tile">
-          <span class="variant-name">vertical</span>
-          <div class="separator-demo"><span>Preview</span><vr-separator variant="vertical"></vr-separator><span>Code</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
+          <!-- Badge -->
+          <section class="primitive" id="badge">
+            <div class="section-head">
+              <div>
+                <h2>Badge</h2>
+                <p>Small status and category labels that preserve readable contrast.</p>
+              </div>
+              <span class="code-chip">&lt;vr-badge&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>6</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">default</span><vr-badge class="badge default" variant="default">Live</vr-badge></div>
+                <div class="variant-tile"><span class="variant-name">secondary</span><vr-badge class="badge secondary" variant="secondary">Draft</vr-badge></div>
+                <div class="variant-tile"><span class="variant-name">success</span><vr-badge class="badge success" variant="success">Passed</vr-badge></div>
+                <div class="variant-tile"><span class="variant-name">warning</span><vr-badge class="badge warning" variant="warning">Review</vr-badge></div>
+                <div class="variant-tile"><span class="variant-name">danger</span><vr-badge class="badge danger" variant="danger">Blocked</vr-badge></div>
+                <div class="variant-tile"><span class="variant-name">outline</span><vr-badge class="badge outline" variant="outline">External</vr-badge></div>
+              </div>
+            </div>
+          </section>
 
-  <div class="docs-note">
-    Each primitive page should keep this rhythm: preview first, install command,
-    usage snippet, examples, accessibility notes, source ownership, and clear navigation.
-  </div>
-</article>
+          <!-- Avatar -->
+          <section class="primitive" id="avatar">
+            <div class="section-head">
+              <div>
+                <h2>Avatar</h2>
+                <p>Identity primitive for people, teams, tenants, and account surfaces.</p>
+              </div>
+              <span class="code-chip">&lt;vr-avatar&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>3</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">default</span><vr-avatar class="avatar default" variant="default">FH</vr-avatar></div>
+                <div class="variant-tile"><span class="variant-name">soft</span><vr-avatar class="avatar soft" variant="soft">VR</vr-avatar></div>
+                <div class="variant-tile"><span class="variant-name">outline</span><vr-avatar class="avatar outline" variant="outline">UI</vr-avatar></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Alert -->
+          <section class="primitive" id="alert">
+            <div class="section-head">
+              <div>
+                <h2>Alert</h2>
+                <p>Inline feedback message for persistent page-level status.</p>
+              </div>
+              <span class="code-chip">&lt;vr-alert&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>4</span></div>
+              <div class="preview-body alert-stack">
+                <div class="alert-stack-row">
+                  <span class="variant-name">info</span>
+                  <vr-alert class="alert info" variant="info">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"></line>
+                    </svg>
+                    <div class="alert-body"><strong>Heads up</strong><p>The component was added to your project.</p></div>
+                  </vr-alert>
+                </div>
+                <div class="alert-stack-row">
+                  <span class="variant-name">success</span>
+                  <vr-alert class="alert success" variant="success">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle><polyline points="9 12 11 14 15 10"></polyline>
+                    </svg>
+                    <div class="alert-body"><strong>Published</strong><p>Your changes are available in production.</p></div>
+                  </vr-alert>
+                </div>
+                <div class="alert-stack-row">
+                  <span class="variant-name">warning</span>
+                  <vr-alert class="alert warning" variant="warning">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                      <line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"></line>
+                    </svg>
+                    <div class="alert-body"><strong>Review needed</strong><p>Some settings need confirmation.</p></div>
+                  </vr-alert>
+                </div>
+                <div class="alert-stack-row">
+                  <span class="variant-name">danger</span>
+                  <vr-alert class="alert danger" variant="danger">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line>
+                    </svg>
+                    <div class="alert-body"><strong>Action failed</strong><p>Check diagnostics before retrying.</p></div>
+                  </vr-alert>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Loader -->
+          <section class="primitive" id="loader">
+            <div class="section-head">
+              <div>
+                <h2>Loader</h2>
+                <p>Small loading indicators for action, page, and inline pending states.</p>
+              </div>
+              <span class="code-chip">&lt;vr-loader&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>3</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">spinner</span><vr-loader class="loader" variant="spinner" aria-label="Loading spinner"><span class="spinner"></span></vr-loader></div>
+                <div class="variant-tile"><span class="variant-name">dots</span><vr-loader class="loader dots" variant="dots" aria-label="Loading dots"><span></span><span></span><span></span></vr-loader></div>
+                <div class="variant-tile"><span class="variant-name">bar</span><vr-loader class="loader" variant="bar" aria-label="Loading bar"><span class="bar"><span></span></span></vr-loader></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Skeleton -->
+          <section class="primitive" id="skeleton">
+            <div class="section-head">
+              <div>
+                <h2>Skeleton</h2>
+                <p>Layout-preserving placeholders for content loading states.</p>
+              </div>
+              <span class="code-chip">&lt;vr-skeleton&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>4</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">text</span><vr-skeleton class="skeleton sk-text" variant="text" aria-label="Loading text"></vr-skeleton></div>
+                <div class="variant-tile"><span class="variant-name">avatar</span><vr-skeleton class="skeleton sk-avatar" variant="avatar" aria-label="Loading avatar"></vr-skeleton></div>
+                <div class="variant-tile"><span class="variant-name">card</span><vr-skeleton class="skeleton sk-card" variant="card" aria-label="Loading card"></vr-skeleton></div>
+                <div class="variant-tile"><span class="variant-name">block</span><vr-skeleton class="skeleton sk-block" variant="block" aria-label="Loading block"></vr-skeleton></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Separator -->
+          <section class="primitive" id="separator">
+            <div class="section-head">
+              <div>
+                <h2>Separator</h2>
+                <p>Structural separation for menus, metadata rows, cards, and forms.</p>
+              </div>
+              <span class="code-chip">&lt;vr-separator&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>2</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile">
+                  <span class="variant-name">horizontal</span>
+                  <div class="separator-demo"><span>Account</span><vr-separator class="separator-horizontal" variant="horizontal"></vr-separator><span>Security</span></div>
+                </div>
+                <div class="variant-tile">
+                  <span class="variant-name">vertical</span>
+                  <div class="separator-demo"><span>Preview</span><vr-separator class="separator-vertical" variant="vertical"></vr-separator><span>Code</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="docs-note">
+            Docs direction: each primitive gets a shadcn-style page with preview, install command,
+            usage snippet, examples, accessibility notes, source ownership, and previous-next navigation.
+          </div>
+        </section>
+      </main>
+    </div>

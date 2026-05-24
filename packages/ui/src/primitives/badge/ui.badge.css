@@ -1,34 +1,38 @@
 .vr-badge {
   align-items: center;
-  background: var(--vr-surface-raised);
+  background: var(--vr-color-brand);
   border: 1px solid transparent;
   border-radius: var(--vr-radius-md);
-  color: var(--vr-color-text);
+  color: var(--vr-color-brand-foreground);
   display: inline-flex;
-  font: 600 var(--vr-text-xs) / 1 var(--vr-font-sans);
+  font: 600 var(--vr-text-xs) / 1.4 var(--vr-font-sans);
+  letter-spacing: 0.01em;
   min-height: 1.5rem;
-  padding: 0 var(--vr-space-2);
+  padding: 2px var(--vr-space-2);
   white-space: nowrap;
 }
 
 .vr-badge-secondary {
-  background: var(--vr-surface-muted);
-  color: var(--vr-color-muted);
+  background: var(--vr-surface-raised);
+  color: var(--vr-color-text);
 }
 
 .vr-badge-success {
-  background: color-mix(in srgb, var(--vr-color-success) 18%, transparent);
-  color: var(--vr-color-success);
+  background: color-mix(in srgb, var(--vr-color-success) 12%, transparent);
+  border-color: color-mix(in srgb, var(--vr-color-success) 20%, transparent);
+  color: color-mix(in srgb, var(--vr-color-success) 80%, white);
 }
 
 .vr-badge-warning {
-  background: color-mix(in srgb, var(--vr-color-warning) 18%, transparent);
-  color: var(--vr-color-warning);
+  background: color-mix(in srgb, var(--vr-color-warning) 12%, transparent);
+  border-color: color-mix(in srgb, var(--vr-color-warning) 20%, transparent);
+  color: color-mix(in srgb, var(--vr-color-warning) 80%, white);
 }
 
 .vr-badge-danger {
-  background: color-mix(in srgb, var(--vr-color-danger) 18%, transparent);
-  color: var(--vr-color-danger);
+  background: color-mix(in srgb, var(--vr-color-danger) 12%, transparent);
+  border-color: color-mix(in srgb, var(--vr-color-danger) 20%, transparent);
+  color: color-mix(in srgb, var(--vr-color-danger) 80%, white);
 }
 
 .vr-badge-outline {

@@ -10,27 +10,26 @@
   border-radius: var(--vr-radius-md);
   color: transparent;
   display: block;
-  min-height: 1rem;
-  overflow: hidden;
-}
-
-.vr-skeleton-text {
   height: 1rem;
+  overflow: hidden;
   width: 12rem;
 }
 
 .vr-skeleton-avatar {
   aspect-ratio: 1;
   border-radius: var(--vr-radius-full);
+  height: unset;
   width: 2.5rem;
 }
 
 .vr-skeleton-card {
+  height: unset;
   min-height: 8rem;
   width: 100%;
 }
 
 .vr-skeleton-block {
+  height: unset;
   min-height: 4rem;
   width: 100%;
 }

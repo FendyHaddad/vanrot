@@ -3,13 +3,14 @@
   background: var(--vr-color-brand);
   border: 1px solid var(--vr-color-brand);
   border-radius: var(--vr-radius-md);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   color: var(--vr-color-brand-foreground);
   cursor: pointer;
   display: inline-flex;
-  font: 600 var(--vr-text-sm) / 1 var(--vr-font-sans);
+  font: 500 var(--vr-text-sm) / 1 var(--vr-font-sans);
   gap: var(--vr-space-2);
+  height: 2.25rem;
   justify-content: center;
-  min-height: 2.5rem;
   padding: 0 var(--vr-space-4);
   transition:
     background var(--vr-motion-fast),
@@ -44,33 +45,65 @@
 .vr-button-secondary {
   background: var(--vr-surface-raised);
   border-color: var(--vr-color-line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
   color: var(--vr-color-text);
+}
+
+.vr-button-secondary:hover {
+  background: var(--vr-surface-popover);
+  border-color: var(--vr-color-line);
 }
 
 .vr-button-outline {
   background: transparent;
   border-color: var(--vr-color-line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
   color: var(--vr-color-text);
+}
+
+.vr-button-outline:hover {
+  background: var(--vr-surface-muted);
+  border-color: var(--vr-color-line);
 }
 
 .vr-button-ghost {
   background: transparent;
   border-color: transparent;
+  box-shadow: none;
   color: var(--vr-color-text);
+}
+
+.vr-button-ghost:hover {
+  background: var(--vr-surface-muted);
+  border-color: transparent;
 }
 
 .vr-button-danger {
   background: var(--vr-color-danger);
   border-color: var(--vr-color-danger);
-  color: var(--vr-color-brand-foreground);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+  color: #fff;
+}
+
+.vr-button-danger:hover {
+  background: color-mix(in srgb, var(--vr-color-danger) 82%, #000);
+  border-color: color-mix(in srgb, var(--vr-color-danger) 82%, #000);
 }
 
 .vr-button-link {
   background: transparent;
   border-color: transparent;
-  color: var(--vr-color-brand);
-  min-height: auto;
+  box-shadow: none;
+  color: var(--vr-color-text);
+  font-weight: 400;
+  height: auto;
   padding-inline: 0;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+.vr-button-link:hover {
+  background: transparent;
+  border-color: transparent;
+  color: var(--vr-color-muted);
 }

@@ -3,6 +3,10 @@
   background: var(--vr-color-canvas);
 }
 
+.site-shell:has(.component-gallery-app) .site-header {
+  display: none;
+}
+
 .site-header {
   position: sticky;
   top: 0;

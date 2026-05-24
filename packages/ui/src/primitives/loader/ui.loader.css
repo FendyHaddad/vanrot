@@ -6,30 +6,40 @@
   gap: var(--vr-space-2);
 }
 
-.vr-loader-spinner::before {
-  animation: vr-loader-spin var(--vr-motion-slow) linear infinite;
+/* Default variant = spinner */
+.vr-loader::before {
+  animation: vr-loader-spin 0.65s linear infinite;
   border: 2px solid var(--vr-color-line);
   border-radius: var(--vr-radius-full);
-  border-top-color: var(--vr-color-brand);
+  border-top-color: var(--vr-color-text);
   content: "";
-  height: 1rem;
-  width: 1rem;
+  display: block;
+  height: 1.25rem;
+  width: 1.25rem;
 }
 
-.vr-loader-dots::after {
-  animation: vr-loader-dots 1s steps(4, end) infinite;
+/* Same specificity, later in file → overrides spinner ::before */
+.vr-loader-dots::before {
+  animation: vr-loader-pulse 1.2s ease-in-out infinite;
+  background: var(--vr-color-muted);
+  border: none;
+  border-radius: var(--vr-radius-full);
+  box-shadow: 11px 0 0 var(--vr-color-muted), 22px 0 0 var(--vr-color-muted);
   content: "";
-  min-width: 1.5rem;
+  display: block;
+  height: 6px;
+  width: 28px;
 }
 
 .vr-loader-bar {
   background: var(--vr-surface-muted);
   border-radius: var(--vr-radius-full);
-  height: 0.375rem;
+  height: 0.3125rem;
   min-width: 8rem;
   overflow: hidden;
 }
 
+/* Same specificity, later in file → overrides spinner ::before */
 .vr-loader-bar::before {
   animation: vr-loader-shimmer 1.6s ease-in-out infinite;
   background: linear-gradient(
@@ -40,6 +50,8 @@
     color-mix(in srgb, var(--vr-color-brand) 60%, transparent) 100%
   );
   background-size: 200% 100%;
+  border: none;
+  border-radius: 0;
   content: "";
   display: block;
   height: 100%;
@@ -52,23 +64,17 @@
   }
 }
 
-@keyframes vr-loader-dots {
+@keyframes vr-loader-pulse {
   0%,
-  20% {
-    content: "";
+  80%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.8);
   }
 
   40% {
-    content: ".";
-  }
-
-  60% {
-    content: "..";
-  }
-
-  80%,
-  100% {
-    content: "...";
+    opacity: 1;
+    transform: scale(1);
   }
 }
 

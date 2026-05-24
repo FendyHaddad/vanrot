@@ -16,7 +16,7 @@ const docsBasePath = '/docs';
 const routePath = {
   home: '/',
   docs: docsBasePath,
-  components: 'components',
+  components: '/docs/components',
   reference: '/reference',
 } as const;
 
@@ -24,6 +24,14 @@ const home = routes.page({
   path: routePath.home,
   label: 'Vanrot',
   page: HomePage,
+  nav: routes.nav.primary(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
+const components = routes.page({
+  path: routePath.components,
+  label: 'Components',
+  page: ComponentGalleryPage,
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -41,14 +49,6 @@ const docsIntroduction = docs.page({
   label: getSiteArticle(siteArticleKey.introduction).label,
   page: DocsArticlePage,
   nav: routes.nav.hidden(),
-  breadcrumb: routes.breadcrumb.parent(docs),
-});
-
-const components = docs.page({
-  path: routePath.components,
-  label: 'Components',
-  page: ComponentGalleryPage,
-  nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.parent(docs),
 });
 
@@ -86,8 +86,8 @@ const uiSeparator = componentPage('separator', 'Separator');
 
 export const route = defineRoutes({
   home,
-  docs,
   components,
+  docs,
   docsIntroduction,
   docsInstallation,
   docsProjectStructure,

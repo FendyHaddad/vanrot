@@ -2,18 +2,15 @@
   background: var(--vr-color-line);
   border: 0;
   display: block;
-  flex: none;
-  margin: 0;
-}
-
-.vr-separator-horizontal {
+  flex: 1;
   height: 1px;
-  width: 100%;
+  margin: 0;
+  width: auto;
 }
 
 .vr-separator-vertical {
-  align-self: stretch;
-  height: auto;
-  min-height: 1rem;
+  flex: none;
+  height: 2.75rem;
+  min-height: 0;
   width: 1px;
 }

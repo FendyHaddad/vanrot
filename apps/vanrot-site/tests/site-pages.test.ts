@@ -80,4 +80,71 @@ describe('vanrot site pages', () => {
       expect(gallery).toContain(`variant="${variant}"`);
     }
   });
+
+  it('matches the saved Phase 16B component presentation shell and CSS selectors', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+    const galleryCss = await readSiteFile('src/pages/components/component-gallery.page.css');
+    const prototype = await readFile(
+      join(appRoot, '../../.superpowers/brainstorm/75913-1779602752/content/phase-16b-core-primitives.html'),
+      'utf8',
+    );
+    const prototypeCss = prototype.match(/<style>([\s\S]*?)<\/style>/)?.[1]?.trim();
+
+    expect(gallery).toContain('class="app component-gallery-app"');
+    expect(gallery).toContain('<aside class="sidebar">');
+    expect(gallery).toContain('<header class="topbar">');
+    expect(gallery).toContain('<vr-button class="btn default"');
+    expect(gallery).toContain('<vr-card class="card-demo interactive"');
+    expect(gallery).toContain('<vr-alert class="alert warning"');
+    expect(gallery).toContain('<vr-loader class="loader dots"');
+    expect(gallery).toContain('<vr-skeleton class="skeleton sk-card"');
+    expect(gallery).toContain('<vr-separator class="separator-horizontal"');
+    expect(gallery.match(/<vr-alert\b/g)?.length).toBe(4);
+    expect(gallery.match(/<\/vr-alert>/g)?.length).toBe(4);
+
+    for (const requiredCss of [
+      '--bg: #09090b;',
+      ':global(:root) {',
+      ':global(body) {',
+      '.sidebar {',
+      '.topbar {',
+      '.content {',
+      '.btn.default {',
+      '.card-demo.interactive {',
+      '.badge.warning {',
+      '.avatar.soft {',
+      '.alert.warning {',
+      '.spinner {',
+      '.skeleton {',
+      '.separator-horizontal {',
+    ]) {
+      expect(galleryCss).toContain(requiredCss);
+    }
+
+    const expectedCss = prototypeCss
+      ?.replace(':root {', ':global(:root) {')
+      .replace('body {', ':global(body) {')
+      .replace(
+        '      }\n\n      .app {',
+        [
+          '      }',
+          '',
+          '      :global(body:has(.component-gallery-app)),',
+          '      :global(.site-shell:has(.component-gallery-app)) {',
+          '        background: var(--bg);',
+          '        color: var(--text);',
+          '        font-family: var(--font-sans);',
+          '        font-size: 14px;',
+          '        line-height: 1.5;',
+          '        letter-spacing: 0;',
+          '      }',
+          '',
+          '      .app {',
+        ].join('\n'),
+      )
+      .replace('        background: var(--bg);\n      }\n\n      .card-demo.muted', '        background: var(--bg);\n        color: var(--text);\n      }\n\n      .card-demo.muted')
+      .replace('        background: var(--bg);\n        display: flex;', '        background: var(--bg);\n        color: var(--text);\n        display: flex;');
+
+    expect(galleryCss.trim()).toBe(expectedCss);
+  });
 });
