@@ -84,7 +84,7 @@ The policy names are stored as typed metadata, not reused string literals throug
 
 ## Preloading Behavior
 
-`routes.preload.intent()` starts loading lazy route modules when a generated route link receives clear user intent:
+`routes.preload.intent()` starts loading lazy route modules when a generated route link or router-managed same-origin anchor receives clear user intent:
 
 - mouse hover
 - keyboard focus
@@ -93,9 +93,9 @@ The policy names are stored as typed metadata, not reused string literals throug
 The preloading pipeline is:
 
 ```txt
-generated route link
+generated route link or routed internal anchor
   -> user hover/focus/touch intent
-  -> build href from route ref plus params/query
+  -> build or read href from route ref plus params/query
   -> match target route chain
   -> preload lazy layouts/pages in that chain
   -> cache loaded modules through the existing lazy module cache
@@ -178,7 +178,8 @@ Expected module ownership:
 - a small preload helper owns intent-driven route-chain module warming.
 - route outlet rendering owns detach, store, reattach, and destroy behavior for keepAlive views.
 - router state owns day rollover checks, router reset cleanup, and guard-before-restore ordering.
-- route link DOM wiring owns hover/focus/touch intent hooks for generated links.
+- route link DOM wiring owns hover/focus/touch intent hooks for generated links and router-managed same-origin anchors inside outlets.
+- route outlet rendering keeps the current mounted view visible until an async next view resolves, then swaps atomically.
 
 The implementation should avoid a broad public cache API in Phase 15D. A small internal cache is enough for lazy module preload results and kept-alive route views.
 

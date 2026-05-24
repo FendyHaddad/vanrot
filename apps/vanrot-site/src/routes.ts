@@ -61,6 +61,13 @@ const routePath = {
   reference: '/reference',
 } as const;
 
+function componentRoutePerformance() {
+  return {
+    preload: routes.preload.intent(),
+    keepAlive: routes.keepAlive.sessionDay(),
+  };
+}
+
 const home = routes.page({
   path: routePath.home,
   label: 'Vanrot',
@@ -73,6 +80,7 @@ const components = routes.page({
   path: routePath.components,
   label: 'Components',
   page: ComponentGalleryPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -97,6 +105,7 @@ const componentButtons = routes.page({
   path: routePath.componentButtons,
   label: 'Button',
   page: ComponentButtonPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -105,6 +114,7 @@ const componentCards = routes.page({
   path: routePath.componentCards,
   label: 'Card',
   page: ComponentCardPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -113,6 +123,7 @@ const componentBadges = routes.page({
   path: routePath.componentBadges,
   label: 'Badge',
   page: ComponentBadgePage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -121,6 +132,7 @@ const componentAvatars = routes.page({
   path: routePath.componentAvatars,
   label: 'Avatar',
   page: ComponentAvatarPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -129,6 +141,7 @@ const componentAlerts = routes.page({
   path: routePath.componentAlerts,
   label: 'Alert',
   page: ComponentAlertPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -137,6 +150,7 @@ const componentBreadcrumbs = routes.page({
   path: routePath.componentBreadcrumbs,
   label: 'Breadcrumb',
   page: ComponentBreadcrumbPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -145,6 +159,7 @@ const componentContainers = routes.page({
   path: routePath.componentContainers,
   label: 'Container',
   page: ComponentContainerPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -153,6 +168,7 @@ const componentFooters = routes.page({
   path: routePath.componentFooters,
   label: 'Footer',
   page: ComponentFooterPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -161,6 +177,7 @@ const componentGrids = routes.page({
   path: routePath.componentGrids,
   label: 'Grid',
   page: ComponentGridPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -169,6 +186,7 @@ const componentHeaders = routes.page({
   path: routePath.componentHeaders,
   label: 'Header',
   page: ComponentHeaderPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -177,6 +195,7 @@ const componentImages = routes.page({
   path: routePath.componentImages,
   label: 'Image',
   page: ComponentImgPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -185,6 +204,7 @@ const componentLayouts = routes.page({
   path: routePath.componentLayouts,
   label: 'Layout',
   page: ComponentLayoutPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -193,6 +213,7 @@ const componentLoaders = routes.page({
   path: routePath.componentLoaders,
   label: 'Loader',
   page: ComponentLoaderPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -201,6 +222,7 @@ const componentNavigation = routes.page({
   path: routePath.componentNavigation,
   label: 'Navigation',
   page: ComponentNavPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -209,6 +231,7 @@ const componentSections = routes.page({
   path: routePath.componentSections,
   label: 'Section',
   page: ComponentSectionPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -217,6 +240,7 @@ const componentSkeletons = routes.page({
   path: routePath.componentSkeletons,
   label: 'Skeleton',
   page: ComponentSkeletonPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -225,6 +249,7 @@ const componentSeparators = routes.page({
   path: routePath.componentSeparators,
   label: 'Separator',
   page: ComponentSeparatorPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -233,6 +258,7 @@ const componentSidebars = routes.page({
   path: routePath.componentSidebars,
   label: 'Sidebar',
   page: ComponentSidebarPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -241,6 +267,7 @@ const componentSources = routes.page({
   path: routePath.componentSources,
   label: 'Source',
   page: ComponentSrcPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
@@ -249,6 +276,7 @@ const componentStacks = routes.page({
   path: routePath.componentStacks,
   label: 'Stack',
   page: ComponentStackPage,
+  ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });

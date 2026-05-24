@@ -1,6 +1,7 @@
 import { effect, mount, onDestroy, type AppHandle, type ComponentType, type Dispose } from '@vanrot/runtime';
 import { runWithoutCleanupScope } from '@vanrot/runtime/internal';
 import { readCurrentOutletDepth, runWithOutletDepth } from './route-outlet-context.js';
+import { setupRouteLinkBoundary } from './route-link.js';
 import { resolveRouteLayout, resolveRoutePage } from '../route/page-loader.js';
 import {
   createKeepAliveRouteIdentity,
@@ -29,6 +30,7 @@ interface MountedRouteView {
 export function createRouterOutlet(host: Element, options: RouterOutletOptions = {}): Dispose {
   const outletKind = options.kind ?? 'router';
   const depth = outletKind === 'router' ? 0 : readCurrentOutletDepth() + 1;
+  const disposeRouteLinks = setupRouteLinkBoundary(host);
   let mountedView: MountedRouteView | null = null;
   let version = 0;
 
@@ -49,12 +51,10 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
       return;
     }
 
-    detachOrDestroyMountedView();
-    host.replaceChildren();
-
     const restoredView = restoreMountedView(match);
 
     if (restoredView !== null) {
+      detachOrDestroyMountedView();
       mountedView = restoredView;
       host.replaceChildren(...restoredView.nodes);
       return;
@@ -80,6 +80,7 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
           return;
         }
 
+        detachOrDestroyMountedView();
         host.replaceChildren(createRouterMessage(errorMessage(error)));
       });
   });
@@ -87,6 +88,7 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
   const dispose = (): void => {
     version += 1;
     disposeEffect();
+    disposeRouteLinks();
     detachOrDestroyMountedView();
     host.replaceChildren();
   };
@@ -140,6 +142,9 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
     if (currentVersion !== version) {
       return;
     }
+
+    detachOrDestroyMountedView();
+    host.replaceChildren();
 
     runWithOutletDepth(depth, () => {
       const handle = runWithoutCleanupScope(() => mount(component, host));

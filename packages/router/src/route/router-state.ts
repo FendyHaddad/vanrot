@@ -11,7 +11,7 @@ import {
   clearRoutePreloadStateForTests,
   preloadRoutePath,
 } from './route-preload.js';
-import { routeKeepAlivePolicyKinds } from './route-types.js';
+import { routeKeepAlivePolicyKinds, routePreloadPolicyKinds } from './route-types.js';
 import { buildRouteUrl } from './url-builder.js';
 import { extractPathParamNames } from './path-params.js';
 import type {
@@ -49,6 +49,27 @@ export async function navigate(path: string): Promise<boolean> {
 
 export async function preloadRoute(path: string): Promise<boolean> {
   return preloadRoutePath(requireProvidedRoutes(), path);
+}
+
+export async function preloadRouteOnIntent(path: string): Promise<boolean> {
+  const routes = requireProvidedRoutes();
+  const match = matchRouteChain(routes, path);
+
+  if (match === null) {
+    return false;
+  }
+
+  const leaf = match.chain[match.chain.length - 1];
+
+  if (leaf === undefined) {
+    return false;
+  }
+
+  if (leaf.route.preload.kind !== routePreloadPolicyKinds.intent) {
+    return false;
+  }
+
+  return preloadRoutePath(routes, path);
 }
 
 export function getCurrentMatch(): RouteMatch | null {
