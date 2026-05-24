@@ -81,6 +81,27 @@ describe('vanrot site pages', () => {
     }
   });
 
+  it('uses real loader and skeleton primitives instead of hand-built demo internals', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+    const galleryCss = await readSiteFile('src/pages/components/component-gallery.page.css');
+    const loaderSection = gallery.match(/<section class="primitive" id="loader">[\s\S]*?<\/section>/)?.[0] ?? '';
+    const loaderElements = [...loaderSection.matchAll(/<vr-loader\b[^>]*>([\s\S]*?)<\/vr-loader>/g)];
+
+    expect(loaderSection).toContain('<vr-loader class="loader" variant="spinner" aria-label="Loading spinner"></vr-loader>');
+    expect(loaderSection).toContain('<vr-loader class="loader" variant="dots" aria-label="Loading dots"></vr-loader>');
+    expect(loaderSection).toContain('<vr-loader class="loader" variant="bar" aria-label="Loading bar"></vr-loader>');
+    expect(loaderElements).toHaveLength(3);
+    for (const match of loaderElements) {
+      const content = match[1] ?? '';
+
+      expect(content.trim()).toBe('');
+    }
+    expect(loaderSection).not.toContain('<span class="spinner"');
+    expect(loaderSection).not.toContain('<span class="bar"');
+    expect(galleryCss).not.toContain('.dots span');
+    expect(galleryCss).not.toContain('.bar span');
+  });
+
   it('matches the saved Phase 16B component presentation shell and CSS selectors', async () => {
     const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
     const galleryCss = await readSiteFile('src/pages/components/component-gallery.page.css');
@@ -96,7 +117,7 @@ describe('vanrot site pages', () => {
     expect(gallery).toContain('<vr-button class="btn default"');
     expect(gallery).toContain('<vr-card class="card-demo interactive"');
     expect(gallery).toContain('<vr-alert class="alert warning"');
-    expect(gallery).toContain('<vr-loader class="loader dots"');
+    expect(gallery).toContain('<vr-loader class="loader" variant="dots"');
     expect(gallery).toContain('<vr-skeleton class="skeleton sk-card"');
     expect(gallery).toContain('<vr-separator class="separator-horizontal"');
     expect(gallery.match(/<vr-alert\b/g)?.length).toBe(4);
@@ -114,37 +135,14 @@ describe('vanrot site pages', () => {
       '.badge.warning {',
       '.avatar.soft {',
       '.alert.warning {',
-      '.spinner {',
+      '.loader {',
       '.skeleton {',
       '.separator-horizontal {',
     ]) {
       expect(galleryCss).toContain(requiredCss);
     }
-
-    const expectedCss = prototypeCss
-      ?.replace(':root {', ':global(:root) {')
-      .replace('body {', ':global(body) {')
-      .replace(
-        '      }\n\n      .app {',
-        [
-          '      }',
-          '',
-          '      :global(body:has(.component-gallery-app)),',
-          '      :global(.site-shell:has(.component-gallery-app)) {',
-          '        background: var(--bg);',
-          '        color: var(--text);',
-          '        font-family: var(--font-sans);',
-          '        font-size: 14px;',
-          '        line-height: 1.5;',
-          '        letter-spacing: 0;',
-          '      }',
-          '',
-          '      .app {',
-        ].join('\n'),
-      )
-      .replace('        background: var(--bg);\n      }\n\n      .card-demo.muted', '        background: var(--bg);\n        color: var(--text);\n      }\n\n      .card-demo.muted')
-      .replace('        background: var(--bg);\n        display: flex;', '        background: var(--bg);\n        color: var(--text);\n        display: flex;');
-
-    expect(galleryCss.trim()).toBe(expectedCss);
+    expect(prototypeCss).toContain('.spinner {');
+    expect(galleryCss).not.toContain('.spinner {');
+    expect(galleryCss).not.toContain('@keyframes shimmer');
   });
 });

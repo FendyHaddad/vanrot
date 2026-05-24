@@ -607,79 +607,13 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        height: 40px;
-      }
-
-      @keyframes spin { to { transform: rotate(360deg); } }
-
-      .spinner {
-        width: 20px;
-        height: 20px;
-        border-radius: 999px;
-        border: 2px solid var(--panel-raised);
-        border-top-color: var(--text);
-        animation: spin 0.65s linear infinite;
-      }
-
-      @keyframes pulse-dot {
-        0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
-        40% { opacity: 1; transform: scale(1); }
-      }
-
-      .dots { display: inline-flex; gap: 5px; align-items: center; }
-
-      .dots span {
-        width: 6px;
-        height: 6px;
-        border-radius: 999px;
-        background: var(--muted);
-        animation: pulse-dot 1.2s ease-in-out infinite;
-      }
-
-      .dots span:nth-child(2) { animation-delay: 0.18s; }
-      .dots span:nth-child(3) { animation-delay: 0.36s; }
-
-      .bar {
-        width: 120px;
-        height: 5px;
-        overflow: hidden;
-        border-radius: 999px;
-        background: var(--panel-raised);
-      }
-
-      @keyframes bar-shimmer {
-        0%   { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-      }
-
-      .bar span {
-        display: block;
-        width: 58%;
-        height: 100%;
-        border-radius: inherit;
-        background: linear-gradient(90deg, #a1a1aa 0%, #fafafa 40%, #fafafa 60%, #a1a1aa 100%);
-        background-size: 200% 100%;
-        animation: bar-shimmer 1.6s ease-in-out infinite;
       }
 
       /* ── Skeleton ──────────────────────────────────────── */
 
-      @keyframes shimmer {
-        from { background-position: 200% 0; }
-        to { background-position: -200% 0; }
-      }
-
       .skeleton {
         display: block;
         border-radius: var(--radius-sm);
-        background: linear-gradient(
-          90deg,
-          var(--panel-soft) 25%,
-          var(--panel-raised) 50%,
-          var(--panel-soft) 75%
-        );
-        background-size: 200% 100%;
-        animation: shimmer 2s linear infinite;
       }
 
       .sk-text  { width: 140px; height: 12px; }

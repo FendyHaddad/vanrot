@@ -28,34 +28,49 @@
   content: "";
   display: block;
   height: 6px;
-  width: 28px;
+  width: 6px;
 }
 
-.vr-loader-bar {
+.vr-loader.vr-loader-bar {
   background: var(--vr-surface-muted);
   border-radius: var(--vr-radius-full);
+  display: block;
   height: 0.3125rem;
   min-width: 8rem;
   overflow: hidden;
+  position: relative;
 }
 
 /* Same specificity, later in file → overrides spinner ::before */
 .vr-loader-bar::before {
-  animation: vr-loader-shimmer 1.6s ease-in-out infinite;
-  background: linear-gradient(
-    90deg,
-    color-mix(in srgb, var(--vr-color-brand) 60%, transparent) 0%,
-    var(--vr-color-brand) 40%,
-    var(--vr-color-brand) 60%,
-    color-mix(in srgb, var(--vr-color-brand) 60%, transparent) 100%
-  );
-  background-size: 200% 100%;
+  animation: none;
+  background: var(--vr-color-text);
   border: none;
-  border-radius: 0;
+  border-radius: inherit;
   content: "";
   display: block;
   height: 100%;
-  width: 58%;
+  inset: 0 auto 0 0;
+  position: absolute;
+  transform: none;
+  width: 75%;
+}
+
+.vr-loader-bar::after {
+  animation: vr-loader-shimmer 1.6s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--vr-surface-card) 72%, transparent),
+    transparent
+  );
+  border-radius: inherit;
+  content: "";
+  height: 100%;
+  inset: 0 auto 0 0;
+  position: absolute;
+  transform: translateX(-100%);
+  width: 75%;
 }
 
 @keyframes vr-loader-spin {
@@ -66,24 +81,33 @@
 
 @keyframes vr-loader-pulse {
   0%,
-  80%,
   100% {
-    opacity: 0.3;
-    transform: scale(0.8);
+    background: var(--vr-color-text);
+    box-shadow: 11px 0 0 var(--vr-color-muted), 22px 0 0 var(--vr-color-muted);
   }
 
-  40% {
-    opacity: 1;
-    transform: scale(1);
+  25% {
+    background: var(--vr-color-muted);
+    box-shadow: 11px 0 0 var(--vr-color-text), 22px 0 0 var(--vr-color-muted);
+  }
+
+  50% {
+    background: var(--vr-color-muted);
+    box-shadow: 11px 0 0 var(--vr-color-muted), 22px 0 0 var(--vr-color-text);
+  }
+
+  75% {
+    background: var(--vr-color-muted);
+    box-shadow: 11px 0 0 var(--vr-color-muted), 22px 0 0 var(--vr-color-muted);
   }
 }
 
 @keyframes vr-loader-shimmer {
   0% {
-    background-position: 200% 0;
+    transform: translateX(-100%);
   }
 
   100% {
-    background-position: -200% 0;
+    transform: translateX(100%);
   }
 }

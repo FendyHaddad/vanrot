@@ -1,18 +1,26 @@
 .vr-skeleton {
-  animation: vr-skeleton-pulse 1.4s ease-in-out infinite;
-  background: linear-gradient(
-    90deg,
-    var(--vr-surface-muted),
-    var(--vr-surface-raised),
-    var(--vr-surface-muted)
-  );
-  background-size: 200% 100%;
+  background: var(--vr-surface-muted);
   border-radius: var(--vr-radius-md);
   color: transparent;
   display: block;
   height: 1rem;
   overflow: hidden;
+  position: relative;
   width: 12rem;
+}
+
+.vr-skeleton::before {
+  animation: vr-skeleton-shimmer 1.4s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--vr-surface-raised) 86%, transparent),
+    transparent
+  );
+  content: "";
+  inset: 0;
+  position: absolute;
+  transform: translateX(-100%);
 }
 
 .vr-skeleton-avatar {
@@ -34,12 +42,12 @@
   width: 100%;
 }
 
-@keyframes vr-skeleton-pulse {
+@keyframes vr-skeleton-shimmer {
   0% {
-    background-position: 200% 0;
+    transform: translateX(-100%);
   }
 
   100% {
-    background-position: -200% 0;
+    transform: translateX(100%);
   }
 }

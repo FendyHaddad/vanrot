@@ -133,4 +133,48 @@ describe('@vanrot/ui assets', () => {
       }
     }
   });
+
+  it('renders loader dots as circles instead of a pill plus dots', async () => {
+    const css = await readFile(join(packageRoot, 'src', 'primitives', 'loader', 'ui.loader.css'), 'utf8');
+    const dotsRule = css.match(/\.vr-loader-dots::before\s*{[\s\S]*?}/)?.[0] ?? '';
+
+    expect(dotsRule).toContain('width: 6px;');
+    expect(dotsRule).toContain('height: 6px;');
+    expect(dotsRule).toContain('box-shadow: 11px 0 0 var(--vr-color-muted), 22px 0 0 var(--vr-color-muted);');
+    expect(dotsRule).not.toContain('width: 28px;');
+    expect(css).toContain('25% {');
+    expect(css).toContain('box-shadow: 11px 0 0 var(--vr-color-text), 22px 0 0 var(--vr-color-muted);');
+    expect(css).toContain('50% {');
+    expect(css).toContain('box-shadow: 11px 0 0 var(--vr-color-muted), 22px 0 0 var(--vr-color-text);');
+  });
+
+  it('renders loader bar as a static three-quarter fill with a moving glimmer', async () => {
+    const css = await readFile(join(packageRoot, 'src', 'primitives', 'loader', 'ui.loader.css'), 'utf8');
+    const trackRule = css.match(/\.vr-loader\.vr-loader-bar\s*{[\s\S]*?}/)?.[0] ?? '';
+    const barRule = css.match(/\.vr-loader-bar::before\s*{[\s\S]*?}/)?.[0] ?? '';
+    const glimmerRule = css.match(/\.vr-loader-bar::after\s*{[\s\S]*?}/)?.[0] ?? '';
+
+    expect(trackRule).toContain('display: block;');
+    expect(trackRule).toContain('position: relative;');
+    expect(barRule).toContain('background: var(--vr-color-text);');
+    expect(barRule).toContain('inset: 0 auto 0 0;');
+    expect(barRule).toContain('position: absolute;');
+    expect(barRule).toContain('width: 75%;');
+    expect(barRule).toContain('animation: none;');
+    expect(barRule).toContain('transform: none;');
+    expect(glimmerRule).toContain('animation: vr-loader-shimmer 1.6s ease-in-out infinite;');
+    expect(glimmerRule).toContain('inset: 0 auto 0 0;');
+    expect(glimmerRule).toContain('width: 75%;');
+    expect(css).toContain('transform: translateX(-100%);');
+    expect(css).toContain('transform: translateX(100%);');
+  });
+
+  it('renders skeleton shimmer with an animated overlay', async () => {
+    const css = await readFile(join(packageRoot, 'src', 'primitives', 'skeleton', 'ui.skeleton.css'), 'utf8');
+
+    expect(css).toContain('.vr-skeleton::before');
+    expect(css).toContain('animation: vr-skeleton-shimmer 1.4s ease-in-out infinite;');
+    expect(css).toContain('@keyframes vr-skeleton-shimmer');
+    expect(css).toContain('transform: translateX(100%);');
+  });
 });
