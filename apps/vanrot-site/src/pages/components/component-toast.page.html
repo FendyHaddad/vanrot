@@ -80,12 +80,13 @@
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <vr-toast tone.success placement.bottomright aria-label="Notifications">
+            <vr-button data-vr-toast-trigger type="button">Show toast</vr-button>
+            <vr-toast data-vr-toast-preview tone.success placement.bottomright aria-label="Notifications">
               <vr-toast-viewport>
-                <vr-toast-item>
-                  <vr-toast-title>Changes saved</vr-toast-title>
-                  <vr-toast-description>Your profile has been updated successfully.</vr-toast-description>
-                  <button class="vr-toast-close" type="button" aria-label="Dismiss">
+                <vr-toast-item data-vr-toast-item hidden>
+                  <vr-toast-title data-vr-toast-title>Changes saved</vr-toast-title>
+                  <vr-toast-description data-vr-toast-description>Your profile has been updated successfully.</vr-toast-description>
+                  <button class="vr-toast-close" data-vr-toast-dismiss type="button" aria-label="Dismiss">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                       <path d="M18 6 6 18M6 6l12 12"></path>
                     </svg>

@@ -81,13 +81,15 @@
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <vr-tabs variant.line>
-              <vr-tabs-list>
-                <vr-tabs-trigger>Overview</vr-tabs-trigger>
-                <vr-tabs-trigger>Activity</vr-tabs-trigger>
-                <vr-tabs-trigger>Settings</vr-tabs-trigger>
+            <vr-tabs data-vr-tabs-preview="overview" variant.line>
+              <vr-tabs-list role="tablist" aria-label="Workspace sections">
+                <vr-tabs-trigger data-vr-tabs-trigger="overview" type="button">Overview</vr-tabs-trigger>
+                <vr-tabs-trigger data-vr-tabs-trigger="activity" type="button">Activity</vr-tabs-trigger>
+                <vr-tabs-trigger data-vr-tabs-trigger="settings" type="button">Settings</vr-tabs-trigger>
               </vr-tabs-list>
-              <vr-tabs-panel>Overview content goes here.</vr-tabs-panel>
+              <vr-tabs-panel data-vr-tabs-panel="overview">Workspace summary, status, and owner notes.</vr-tabs-panel>
+              <vr-tabs-panel data-vr-tabs-panel="activity" hidden>Recent deploys, approvals, and incident notes.</vr-tabs-panel>
+              <vr-tabs-panel data-vr-tabs-panel="settings" hidden>Team preferences and notification routing.</vr-tabs-panel>
             </vr-tabs>
           </div>
           <div class="code-snippet">
@@ -118,13 +120,15 @@
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <vr-tabs variant.pill>
-              <vr-tabs-list>
-                <vr-tabs-trigger>Overview</vr-tabs-trigger>
-                <vr-tabs-trigger>Activity</vr-tabs-trigger>
-                <vr-tabs-trigger>Settings</vr-tabs-trigger>
+            <vr-tabs data-vr-tabs-preview="overview" variant.pill>
+              <vr-tabs-list role="tablist" aria-label="Account sections">
+                <vr-tabs-trigger data-vr-tabs-trigger="overview" type="button">Overview</vr-tabs-trigger>
+                <vr-tabs-trigger data-vr-tabs-trigger="activity" type="button">Activity</vr-tabs-trigger>
+                <vr-tabs-trigger data-vr-tabs-trigger="settings" type="button">Settings</vr-tabs-trigger>
               </vr-tabs-list>
-              <vr-tabs-panel>Overview content goes here.</vr-tabs-panel>
+              <vr-tabs-panel data-vr-tabs-panel="overview">Account snapshot and recent health signals.</vr-tabs-panel>
+              <vr-tabs-panel data-vr-tabs-panel="activity" hidden>Session activity and permission changes.</vr-tabs-panel>
+              <vr-tabs-panel data-vr-tabs-panel="settings" hidden>Billing, access, and workspace preferences.</vr-tabs-panel>
             </vr-tabs>
           </div>
           <div class="code-snippet">

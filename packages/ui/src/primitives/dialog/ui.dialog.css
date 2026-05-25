@@ -24,6 +24,10 @@
   z-index: var(--vr-z-modal);
 }
 
+.vr-dialog-content[hidden] {
+  display: none;
+}
+
 .vr-dialog-header {
   display: flex;
   flex-direction: column;

@@ -46,6 +46,10 @@
   font: 400 var(--vr-text-sm) / var(--vr-leading-normal) var(--vr-font-sans);
 }
 
+.vr-tabs-panel[hidden] {
+  display: none;
+}
+
 /* Line variant */
 .vr-tabs-variant-line .vr-tabs-list {
   border-bottom: 1px solid var(--vr-color-line);

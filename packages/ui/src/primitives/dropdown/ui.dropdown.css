@@ -44,6 +44,10 @@
   z-index: var(--vr-z-dropdown);
 }
 
+.vr-dropdown-content[hidden] {
+  display: none;
+}
+
 .vr-dropdown-align-start .vr-dropdown-content,
 .vr-dropdown-content.vr-dropdown-align-start {
   left: 0;

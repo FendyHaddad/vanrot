@@ -5,6 +5,7 @@ import { describe, expect, it } from 'vitest';
 import { route } from '../src/routes.ts';
 
 const appRoot = process.cwd();
+const projectRoot = join(appRoot, '../..');
 
 const phase16ComponentDocPages = [
   {
@@ -193,6 +194,10 @@ const phase16InteractionDocPages = [
 
 async function readSiteFile(path: string): Promise<string> {
   return readFile(join(appRoot, path), 'utf8');
+}
+
+async function readProjectFile(path: string): Promise<string> {
+  return readFile(join(projectRoot, path), 'utf8');
 }
 
 const phase16CoreComponentFiles = [
@@ -446,6 +451,74 @@ describe('vanrot site pages', () => {
       expect(html).toContain('copy-icon-button');
       expect(html).toContain(page.tokenSnippet);
       expect(css).toContain(`component-${page.fileBase.replace('component-', '')}-app`);
+    }
+  });
+
+  it('wires Phase 16F interaction examples to runtime preview controllers', async () => {
+    const siteCss = await readSiteFile('src/styles/site.css');
+    const interactionPreviewHelper = await readSiteFile(
+      'src/pages/components/component-interaction-preview.widget.ts',
+    );
+
+    for (const primitive of ['dialog', 'drawer', 'dropdown', 'tabs', 'toast']) {
+      expect(siteCss).toContain(
+        `@import "../../../../packages/ui/src/primitives/${primitive}/ui.${primitive}.css";`,
+      );
+    }
+
+    expect(interactionPreviewHelper).toContain('createOverlayController');
+    expect(interactionPreviewHelper).toContain('createTabsController');
+    expect(interactionPreviewHelper).toContain('createToastController');
+    expect(interactionPreviewHelper).toContain('onMount');
+    expect(interactionPreviewHelper).toContain('effect');
+
+    for (const fileBase of ['component-dialog', 'component-drawer', 'component-dropdown']) {
+      const html = await readSiteFile(`src/pages/components/${fileBase}.page.html`);
+      const source = await readSiteFile(`src/pages/components/${fileBase}.page.ts`);
+
+      expect(source).toContain('setupOverlayPreview');
+      expect(html).toContain('data-vr-overlay-preview');
+      expect(html).toContain('data-vr-overlay-trigger');
+      expect(html).toContain('data-vr-overlay-content hidden');
+      expect(html).toContain('data-vr-overlay-close');
+    }
+
+    for (const fileBase of ['component-dialog', 'component-drawer']) {
+      const html = await readSiteFile(`src/pages/components/${fileBase}.page.html`);
+
+      expect(html).toContain('role="dialog"');
+      expect(html).toContain('aria-modal="true"');
+    }
+
+    const dropdownPage = await readSiteFile('src/pages/components/component-dropdown.page.html');
+    const tabsPage = await readSiteFile('src/pages/components/component-tabs.page.html');
+    const tabsSource = await readSiteFile('src/pages/components/component-tabs.page.ts');
+    const toastPage = await readSiteFile('src/pages/components/component-toast.page.html');
+    const toastSource = await readSiteFile('src/pages/components/component-toast.page.ts');
+
+    expect(dropdownPage).toContain('role="menu"');
+    expect(tabsSource).toContain('setupTabsPreview');
+    expect(tabsPage).toContain('data-vr-tabs-preview');
+    expect(tabsPage).toContain('data-vr-tabs-trigger="overview"');
+    expect(tabsPage).toContain('data-vr-tabs-panel="activity" hidden');
+    expect(toastSource).toContain('setupToastPreview');
+    expect(toastPage).toContain('data-vr-toast-trigger');
+    expect(toastPage).toContain('data-vr-toast-item hidden');
+    expect(toastPage).toContain('data-vr-toast-dismiss');
+
+    const hiddenCssContracts = [
+      ['dialog', '.vr-dialog-content[hidden]'],
+      ['drawer', '.vr-drawer-content[hidden]'],
+      ['dropdown', '.vr-dropdown-content[hidden]'],
+      ['tabs', '.vr-tabs-panel[hidden]'],
+      ['toast', '.vr-toast-item[hidden]'],
+    ] as const;
+
+    for (const [primitive, hiddenSelector] of hiddenCssContracts) {
+      const css = await readProjectFile(`packages/ui/src/primitives/${primitive}/ui.${primitive}.css`);
+
+      expect(css).toContain(hiddenSelector);
+      expect(css).toContain('display: none;');
     }
   });
 

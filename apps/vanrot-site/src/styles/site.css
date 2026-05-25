@@ -6,6 +6,11 @@
 @import "../../../../packages/ui/src/primitives/loader/ui.loader.css";
 @import "../../../../packages/ui/src/primitives/skeleton/ui.skeleton.css";
 @import "../../../../packages/ui/src/primitives/separator/ui.separator.css";
+@import "../../../../packages/ui/src/primitives/dialog/ui.dialog.css";
+@import "../../../../packages/ui/src/primitives/drawer/ui.drawer.css";
+@import "../../../../packages/ui/src/primitives/dropdown/ui.dropdown.css";
+@import "../../../../packages/ui/src/primitives/tabs/ui.tabs.css";
+@import "../../../../packages/ui/src/primitives/toast/ui.toast.css";
 @import "../pages/components/component-phase16e.css";
 
 :root {

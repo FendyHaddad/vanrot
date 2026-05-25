@@ -80,18 +80,18 @@
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <vr-dialog size.md>
+            <vr-dialog data-vr-overlay-preview size.md>
               <vr-dialog-trigger>
-                <vr-button type="button">Open dialog</vr-button>
+                <vr-button data-vr-overlay-trigger type="button" aria-haspopup="dialog">Open dialog</vr-button>
               </vr-dialog-trigger>
-              <vr-dialog-content>
+              <vr-dialog-content data-vr-overlay-content hidden role="dialog" aria-modal="true" aria-labelledby="dialog-preview-title" aria-describedby="dialog-preview-description">
                 <vr-dialog-header>
-                  <vr-dialog-title>Edit profile</vr-dialog-title>
-                  <vr-dialog-description>Update your account details below.</vr-dialog-description>
+                  <vr-dialog-title id="dialog-preview-title">Edit profile</vr-dialog-title>
+                  <vr-dialog-description id="dialog-preview-description">Update your account details below.</vr-dialog-description>
                 </vr-dialog-header>
                 <vr-dialog-footer>
-                  <vr-button variant.outline type="button">Cancel</vr-button>
-                  <vr-button type="button">Save changes</vr-button>
+                  <vr-button data-vr-overlay-close variant.outline type="button">Cancel</vr-button>
+                  <vr-button data-vr-overlay-close type="button">Save changes</vr-button>
                 </vr-dialog-footer>
               </vr-dialog-content>
             </vr-dialog>

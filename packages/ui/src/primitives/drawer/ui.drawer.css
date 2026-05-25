@@ -20,6 +20,10 @@
   z-index: var(--vr-z-modal);
 }
 
+.vr-drawer-content[hidden] {
+  display: none;
+}
+
 .vr-drawer-side-right .vr-drawer-content,
 .vr-drawer-content.vr-drawer-side-right {
   border-left: 1px solid var(--vr-color-line);

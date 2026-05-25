@@ -62,6 +62,10 @@
   transition: opacity var(--vr-motion-normal), transform var(--vr-motion-normal);
 }
 
+.vr-toast-item[hidden] {
+  display: none;
+}
+
 .vr-toast-title {
   color: var(--vr-color-text);
   font: 600 var(--vr-text-sm) / var(--vr-leading-tight) var(--vr-font-sans);
