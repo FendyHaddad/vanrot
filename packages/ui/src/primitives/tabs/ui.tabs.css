@@ -1,0 +1,10 @@
+.vr-tabs,
+.vr-tabs-list,
+.vr-tabs-trigger,
+.vr-tabs-panel,
+.vr-tabs-variant-line,
+.vr-tabs-variant-pill,
+.vr-tabs-orientation-horizontal,
+.vr-tabs-orientation-vertical {
+  color: inherit;
+}

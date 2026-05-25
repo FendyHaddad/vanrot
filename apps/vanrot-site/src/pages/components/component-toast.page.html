@@ -1,0 +1,40 @@
+<div class="app component-gallery-app component-phase16e-app component-toast-app">
+  <main class="content">
+    <h1>{{ doc().title }}</h1>
+
+    <section class="preview">
+      <div class="preview-head"><span>Examples</span><span>1</span></div>
+      <div class="preview-body variant-grid">
+        <div class="variant-tile"><span>Success</span><code>tone.success</code></div>
+      </div>
+    </section>
+
+    <section class="variant-doc">
+      <div class="variant-copy">
+        <h2>Success Toast</h2>
+        <p>Use toasts for short live-region feedback with a keyboard reachable dismiss action.</p>
+        <code>tone.success</code>
+      </div>
+      <div class="variant-preview">
+        <vr-toast tone.success placement.bottomright aria-label="Notifications">
+          <vr-toast-viewport>
+            <vr-toast-item>
+              <vr-toast-title>Saved</vr-toast-title>
+              <vr-toast-description>Changes were saved.</vr-toast-description>
+            </vr-toast-item>
+          </vr-toast-viewport>
+        </vr-toast>
+      </div>
+      <div class="code-snippet">
+        <button class="copy-icon-button" aria-label="Copy toast example" type="button"></button>
+        <pre><code>&lt;vr-toast tone.success placement.bottomright aria-label="Notifications"&gt;
+  &lt;vr-toast-viewport&gt;
+    &lt;vr-toast-item&gt;
+      &lt;vr-toast-title&gt;Saved&lt;/vr-toast-title&gt;
+    &lt;/vr-toast-item&gt;
+  &lt;/vr-toast-viewport&gt;
+&lt;/vr-toast&gt;</code></pre>
+      </div>
+    </section>
+  </main>
+</div>

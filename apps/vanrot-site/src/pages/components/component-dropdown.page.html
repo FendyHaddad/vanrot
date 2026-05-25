@@ -1,0 +1,39 @@
+<div class="app component-gallery-app component-phase16e-app component-dropdown-app">
+  <main class="content">
+    <h1>{{ doc().title }}</h1>
+
+    <section class="preview">
+      <div class="preview-head"><span>Examples</span><span>1</span></div>
+      <div class="preview-body variant-grid">
+        <div class="variant-tile"><span>End aligned</span><code>align.end</code></div>
+      </div>
+    </section>
+
+    <section class="variant-doc">
+      <div class="variant-copy">
+        <h2>Account Dropdown</h2>
+        <p>Use dropdowns for compact action lists that stay keyboard reachable and close predictably.</p>
+        <code>align.end</code>
+      </div>
+      <div class="variant-preview">
+        <vr-dropdown align.end side.bottom>
+          <vr-dropdown-trigger type="button">Account</vr-dropdown-trigger>
+          <vr-dropdown-content>
+            <vr-dropdown-label>Account</vr-dropdown-label>
+            <vr-dropdown-item>Profile</vr-dropdown-item>
+            <vr-dropdown-item>Settings</vr-dropdown-item>
+          </vr-dropdown-content>
+        </vr-dropdown>
+      </div>
+      <div class="code-snippet">
+        <button class="copy-icon-button" aria-label="Copy dropdown example" type="button"></button>
+        <pre><code>&lt;vr-dropdown align.end side.bottom&gt;
+  &lt;vr-dropdown-trigger type="button"&gt;Account&lt;/vr-dropdown-trigger&gt;
+  &lt;vr-dropdown-content&gt;
+    &lt;vr-dropdown-item&gt;Profile&lt;/vr-dropdown-item&gt;
+  &lt;/vr-dropdown-content&gt;
+&lt;/vr-dropdown&gt;</code></pre>
+      </div>
+    </section>
+  </main>
+</div>

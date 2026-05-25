@@ -159,4 +159,28 @@ describe('UI dotted token attributes', () => {
       }),
     ]);
   });
+
+  it('accepts Phase 16F dotted token attributes', () => {
+    const result = compileTemplate('<vr-drawer side.right size.lg></vr-drawer>');
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      "div0.setAttribute('class', 'vr-drawer vr-drawer-side-right vr-drawer-size-lg');",
+    );
+  });
+
+  it('diagnoses duplicate Phase 16F dotted token groups', () => {
+    const result = compileTemplate(
+      '<vr-toast placement.topright placement.bottomright></vr-toast>',
+    );
+
+    expect(result.diagnostics).toEqual([
+      expect.objectContaining({
+        code: 'VR020',
+        severity: 'error',
+        message:
+          'Duplicate placement token for <vr-toast>. Use only one of: placement.topright, placement.topleft, placement.bottomright, placement.bottomleft.',
+      }),
+    ]);
+  });
 });

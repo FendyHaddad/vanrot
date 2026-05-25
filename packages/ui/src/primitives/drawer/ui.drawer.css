@@ -1,0 +1,17 @@
+.vr-drawer,
+.vr-drawer-trigger,
+.vr-drawer-content,
+.vr-drawer-header,
+.vr-drawer-title,
+.vr-drawer-description,
+.vr-drawer-footer,
+.vr-drawer-close,
+.vr-drawer-side-left,
+.vr-drawer-side-right,
+.vr-drawer-side-top,
+.vr-drawer-side-bottom,
+.vr-drawer-size-sm,
+.vr-drawer-size-md,
+.vr-drawer-size-lg {
+  color: inherit;
+}

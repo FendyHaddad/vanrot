@@ -15,8 +15,10 @@ import { generateSlotOutlet } from './slots.js';
 import { createGenerateState, type GenerateState } from './state.js';
 import {
   createUnsupportedVanrotUiMessage,
+  findCompilerUiAnatomyElement,
   findCompilerUiElement,
   isVanrotUiTag,
+  type CompilerUiAnatomyElement,
   type CompilerUiElement,
 } from './ui-elements.js';
 import { resolveUiTokenAttributes } from './ui-token-attributes.js';
@@ -197,6 +199,12 @@ function generateElement(
     return;
   }
 
+  const anatomyElement = findCompilerUiAnatomyElement(node.tagName);
+  if (anatomyElement !== null) {
+    generateCompilerUiAnatomyElement(node, parentName, scopeAttribute, state, anatomyElement);
+    return;
+  }
+
   if (isChildComponentTag(node.tagName)) {
     generateChildComponent(node, parentName, scopeAttribute, state, generateNode);
     return;
@@ -374,6 +382,47 @@ function generateCompilerUiElement(
 
   for (const attribute of node.attributes) {
     if (attribute.name === 'class' || resolvedTokens.consumedAttributeNames.has(attribute.name)) {
+      continue;
+    }
+
+    generateAttribute(attribute, elementName, state);
+  }
+
+  for (const child of node.children) {
+    generateNode(child, elementName, scopeAttribute, state);
+  }
+
+  state.lines.push(`  ${parentName}.append(${elementName});`);
+}
+
+function generateCompilerUiAnatomyElement(
+  node: ElementNode,
+  parentName: string,
+  scopeAttribute: string,
+  state: GenerateState,
+  anatomyElement: CompilerUiAnatomyElement,
+): void {
+  const elementName = state.ids.next(anatomyElement.nativeTagName);
+  const classAttribute = node.attributes.find((attribute) => attribute.name === 'class');
+  const classValue = mergeClassValue(anatomyElement.baseClass, classAttribute?.value ?? '');
+
+  state.features.add(anatomyElement.feature);
+  state.lines.push(
+    `  const ${elementName} = document.createElement(${quoteString(anatomyElement.nativeTagName)});`,
+  );
+  state.lines.push(`  ${elementName}.setAttribute(${quoteString(scopeAttribute)}, '');`);
+  state.lines.push(
+    `  ${elementName}.setAttribute(${quoteString('class')}, ${quoteString(classValue)});`,
+  );
+
+  if (anatomyElement.role !== undefined) {
+    state.lines.push(
+      `  ${elementName}.setAttribute(${quoteString('role')}, ${quoteString(anatomyElement.role)});`,
+    );
+  }
+
+  for (const attribute of node.attributes) {
+    if (attribute.name === 'class') {
       continue;
     }
 

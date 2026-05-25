@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   phase16FormsDataPrimitiveOrder,
+  phase16InteractionPrimitiveOrder,
   uiAssetUrl,
   uiPrimitive,
   uiPrimitiveOrder,
@@ -212,6 +213,30 @@ describe('@vanrot/ui assets', () => {
       await expect(readFile(fileURLToPath(uiAssetUrl[primitive].homeUsage), 'utf8')).resolves.toContain(
         metadata.selector,
       );
+    }
+  });
+
+  it('ships source templates for every Phase 16F interaction primitive', async () => {
+    for (const primitive of phase16InteractionPrimitiveOrder) {
+      const metadata = uiPrimitive[primitive];
+      const kebabPrimitive = toKebabCase(primitive);
+
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].typescript), 'utf8')).resolves.toContain(
+        `export class Ui${primitive[0].toUpperCase()}${primitive.slice(1)}`,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].html), 'utf8')).resolves.toContain(
+        `<${metadata.selector}`,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].css), 'utf8')).resolves.toContain(
+        metadata.baseClass,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].test), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].homeUsage), 'utf8')).resolves.toContain(
+        `<${metadata.selector}`,
+      );
+      expect(kebabPrimitive).toMatch(/^[a-z-]+$/);
     }
   });
 

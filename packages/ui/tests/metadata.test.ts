@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   defaultUiPrefix,
   phase16FormsDataPrimitiveOrder,
+  phase16InteractionPrimitiveOrder,
   uiAppFile,
   uiAssetUrl,
   uiComponentCatalog,
@@ -96,8 +97,23 @@ describe('@vanrot/ui metadata', () => {
   it('exports the Phase 16E forms and data primitive order', () => {
     const formsDataStart =
       phase16CorePrimitiveOrder.length + phase16LayoutNavigationMediaPrimitiveOrder.length;
+    const formsDataEnd = formsDataStart + phase16FormsDataPrimitiveOrder.length;
 
-    expect(uiPrimitiveOrder.slice(formsDataStart)).toEqual([...phase16FormsDataPrimitiveOrder]);
+    expect(uiPrimitiveOrder.slice(formsDataStart, formsDataEnd)).toEqual([
+      ...phase16FormsDataPrimitiveOrder,
+    ]);
+  });
+
+  it('exports the Phase 16F interaction primitive order', () => {
+    expect(phase16InteractionPrimitiveOrder).toEqual([
+      'dialog',
+      'drawer',
+      'dropdown',
+      'tabs',
+      'toast',
+    ]);
+
+    expect(uiPrimitiveOrder).toEqual(expect.arrayContaining(phase16InteractionPrimitiveOrder));
   });
 
   it('exports source-of-truth variants for Phase 16B primitives', () => {
@@ -245,6 +261,43 @@ describe('@vanrot/ui metadata', () => {
       'loading',
     ]);
     expect(uiComponentRegistry.table.examples[0]?.code).toContain('density.compact');
+  });
+
+  it('exports rich registry data for Phase 16F interaction primitives', () => {
+    expect(uiComponentRegistry.dialog).toMatchObject({
+      selector: 'vr-dialog',
+      nativeTag: 'div',
+      category: 'interaction',
+      phase: '16F',
+      docsPath: '/docs/components/dialogs',
+    });
+    expect(uiComponentRegistry.dialog.tokens.size.tokens).toEqual(['sm', 'md', 'lg']);
+    expect(uiComponentRegistry.dialog.tokens.motion.tokens).toEqual(['instant', 'subtle']);
+    expect(uiComponentRegistry.dialog.anatomy.map((part) => part.selector)).toEqual([
+      'vr-dialog-trigger',
+      'vr-dialog-content',
+      'vr-dialog-header',
+      'vr-dialog-title',
+      'vr-dialog-description',
+      'vr-dialog-footer',
+      'vr-dialog-close',
+    ]);
+
+    expect(uiComponentRegistry.drawer.tokens.side.tokens).toEqual(['left', 'right', 'top', 'bottom']);
+    expect(uiComponentRegistry.dropdown.tokens.align.tokens).toEqual(['start', 'center', 'end']);
+    expect(uiComponentRegistry.tabs.tokens.orientation.tokens).toEqual(['horizontal', 'vertical']);
+    expect(uiComponentRegistry.toast.tokens.tone.tokens).toEqual([
+      'default',
+      'success',
+      'warning',
+      'danger',
+    ]);
+    expect(uiComponentRegistry.toast.tokens.placement.tokens).toEqual([
+      'topright',
+      'topleft',
+      'bottomright',
+      'bottomleft',
+    ]);
   });
 
   it('derives Phase 16E compatibility token groups from the rich registry', () => {

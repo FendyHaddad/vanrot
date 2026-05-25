@@ -1,7 +1,9 @@
 import {
   phase16FormsDataPrimitiveOrder,
+  phase16InteractionPrimitiveOrder,
   uiComponentRegistry,
   type Phase16FormsDataPrimitive,
+  type Phase16InteractionPrimitive,
 } from './registry/component-registry.js';
 
 export const defaultUiPrefix = 'ui';
@@ -30,6 +32,13 @@ export const uiComponentPhase = {
 } as const;
 
 export type UiComponentPhase = (typeof uiComponentPhase)[keyof typeof uiComponentPhase];
+
+const registryBackedPrimitiveOrder = [
+  ...phase16FormsDataPrimitiveOrder,
+  ...phase16InteractionPrimitiveOrder,
+] as const;
+
+type RegistryBackedPrimitive = Phase16FormsDataPrimitive | Phase16InteractionPrimitive;
 
 export const uiPrimitiveType = {
   button: 'button',
@@ -76,6 +85,11 @@ export const uiPrimitiveType = {
   listItem: 'listItem',
   stat: 'stat',
   emptyState: 'emptyState',
+  dialog: 'dialog',
+  drawer: 'drawer',
+  dropdown: 'dropdown',
+  tabs: 'tabs',
+  toast: 'toast',
 } as const;
 
 export type UiPrimitiveType = (typeof uiPrimitiveType)[keyof typeof uiPrimitiveType];
@@ -102,6 +116,7 @@ export const uiPrimitiveOrder = [
   uiPrimitiveType.img,
   uiPrimitiveType.src,
   ...phase16FormsDataPrimitiveOrder.map((primitive) => uiPrimitiveType[primitive]),
+  ...phase16InteractionPrimitiveOrder.map((primitive) => uiPrimitiveType[primitive]),
 ] as const;
 
 export const uiPrimitiveVariant = {
@@ -149,6 +164,11 @@ export const uiPrimitiveVariant = {
   listItem: [],
   stat: [],
   emptyState: [],
+  dialog: [],
+  drawer: [],
+  dropdown: [],
+  tabs: [],
+  toast: [],
 } as const satisfies Record<UiPrimitiveType, readonly string[]>;
 
 export type UiPrimitiveVariant = (typeof uiPrimitiveVariant)[UiPrimitiveType][number];
@@ -424,8 +444,12 @@ export const uiPrimitive = {
     docsPath: '/docs/ui/src',
   },
   ...Object.fromEntries(
-    phase16FormsDataPrimitiveOrder.map((primitive) => {
+    registryBackedPrimitiveOrder.map((primitive) => {
       const registryItem = uiComponentRegistry[primitive];
+      const productionPhase =
+        registryItem.phase === uiComponentPhase.overlaysInteraction
+          ? uiComponentPhase.overlaysInteraction
+          : uiComponentPhase.formsData;
 
       return [
         primitive,
@@ -441,15 +465,15 @@ export const uiPrimitive = {
           selector: registryItem.selector,
           nativeTag: registryItem.nativeTag,
           baseClass: registryItem.baseClass,
-          introducedPhase: uiComponentPhase.formsData,
-          productionPhase: uiComponentPhase.formsData,
+          introducedPhase: productionPhase,
+          productionPhase,
           variants: uiPrimitiveVariant[primitive],
           docsPath: registryItem.docsPath,
         },
       ];
     }),
   ) as unknown as Record<
-    Phase16FormsDataPrimitive,
+    RegistryBackedPrimitive,
     {
       type: UiPrimitiveType;
       directory: string;
@@ -568,7 +592,7 @@ export const uiPrimitiveTokenGroup = {
   img: {},
   src: {},
   ...Object.fromEntries(
-    phase16FormsDataPrimitiveOrder.map((primitive) => [
+    registryBackedPrimitiveOrder.map((primitive) => [
       primitive,
       Object.fromEntries(
         Object.entries(uiComponentRegistry[primitive].tokens).map(([groupName, group]) => [
@@ -581,7 +605,7 @@ export const uiPrimitiveTokenGroup = {
         ]),
       ),
     ]),
-  ) as Record<Phase16FormsDataPrimitive, Readonly<Record<string, UiPrimitiveTokenGroup>>>,
+  ) as Record<RegistryBackedPrimitive, Readonly<Record<string, UiPrimitiveTokenGroup>>>,
 } as const satisfies Record<UiPrimitiveType, Readonly<Record<string, UiPrimitiveTokenGroup>>>;
 
 export const uiComponentCatalog = {
@@ -726,22 +750,26 @@ export const uiComponentCatalog = {
     status: 'compiler-lowered',
   },
   ...Object.fromEntries(
-    phase16FormsDataPrimitiveOrder.map((primitive) => {
+    registryBackedPrimitiveOrder.map((primitive) => {
       const registryItem = uiComponentRegistry[primitive];
+      const productionPhase =
+        registryItem.phase === uiComponentPhase.overlaysInteraction
+          ? uiComponentPhase.overlaysInteraction
+          : uiComponentPhase.formsData;
 
       return [
         primitive,
         {
           selector: registryItem.selector,
           nativeTag: registryItem.nativeTag,
-          phase: uiComponentPhase.formsData,
-          productionPhase: uiComponentPhase.formsData,
+          phase: productionPhase,
+          productionPhase,
           status: 'compiler-lowered',
         },
       ];
     }),
   ) as Record<
-    Phase16FormsDataPrimitive,
+    RegistryBackedPrimitive,
     {
       selector: string;
       nativeTag: string;
@@ -925,10 +953,10 @@ export const uiAssetUrl = {
     homeUsage: new URL('../src/primitives/src/usage.home.html', import.meta.url),
   },
   ...Object.fromEntries(
-    phase16FormsDataPrimitiveOrder.map((primitive) => {
+    registryBackedPrimitiveOrder.map((primitive) => {
       const kebabPrimitive = toKebabCase(primitive);
 
       return [primitive, primitiveAssetUrl(kebabPrimitive)];
     }),
-  ) as Record<Phase16FormsDataPrimitive, UiPrimitiveAssetUrl>,
+  ) as Record<RegistryBackedPrimitive, UiPrimitiveAssetUrl>,
 } as const;

@@ -36,4 +36,20 @@ describe('vr ui', () => {
     expect(output).toContain('Examples');
     expect(output).toContain('<vr-input type.email size.md name="email" placeholder="Email"></vr-input>');
   });
+
+  it('prints Phase 16F anatomy in component help', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['ui', 'dialog', '--help'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+    const output = reporter.output();
+
+    expect(result.exitCode).toBe(0);
+    expect(output).toContain('vr-dialog');
+    expect(output).toContain('Docs: /docs/components/dialogs');
+    expect(output).toContain('Anatomy');
+    expect(output).toContain('vr-dialog-trigger: Registers the element that opens the dialog.');
+    expect(output).toContain('vr-dialog-content: Renders the accessible dialog surface.');
+  });
 });

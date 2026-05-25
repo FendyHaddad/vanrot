@@ -9,6 +9,9 @@ export const componentDocPath = {
   [uiPrimitiveType.card]: '/docs/components/cards',
   [uiPrimitiveType.checkbox]: '/docs/components/checkboxes',
   [uiPrimitiveType.container]: '/docs/components/containers',
+  [uiPrimitiveType.dialog]: '/docs/components/dialogs',
+  [uiPrimitiveType.drawer]: '/docs/components/drawers',
+  [uiPrimitiveType.dropdown]: '/docs/components/dropdowns',
   [uiPrimitiveType.emptyState]: '/docs/components/empty-states',
   [uiPrimitiveType.footer]: '/docs/components/footers',
   [uiPrimitiveType.form]: '/docs/components/forms',
@@ -44,5 +47,7 @@ export const componentDocPath = {
   [uiPrimitiveType.tableHead]: '/docs/components/table-heads',
   [uiPrimitiveType.tableHeader]: '/docs/components/table-headers',
   [uiPrimitiveType.tableRow]: '/docs/components/table-rows',
+  [uiPrimitiveType.tabs]: '/docs/components/tabs',
   [uiPrimitiveType.textarea]: '/docs/components/textareas',
+  [uiPrimitiveType.toast]: '/docs/components/toasts',
 } as const satisfies Record<UiPrimitiveType, string>;

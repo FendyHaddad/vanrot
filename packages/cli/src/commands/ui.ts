@@ -54,6 +54,9 @@ function printComponentHelp(component: string, context: CommandContext): Command
   );
   const eventLines = registryItem.events.map((event) => `  ${event.name}: ${event.description}`);
   const slotLines = registryItem.slots.map((slot) => `  ${slot.name}: ${slot.description}`);
+  const anatomyLines = registryItem.anatomy.map(
+    (part) => `  ${part.selector}: ${part.description}`,
+  );
   const exampleLines = registryItem.examples.map((example) => `  ${example.label}: ${example.code}`);
 
   context.reporter.line(
@@ -68,6 +71,7 @@ function printComponentHelp(component: string, context: CommandContext): Command
       section('Open attributes', openAttributeLines),
       section('Events', eventLines),
       section('Slots', slotLines),
+      section('Anatomy', anatomyLines),
       section('Examples', exampleLines),
     ]
       .filter((line) => line.length > 0)
@@ -115,6 +119,7 @@ function basicRegistryItem(component: UiPrimitiveType): UiComponentRegistryItem 
     openAttributes: [],
     events: [],
     slots: [],
+    anatomy: [],
     examples: [],
     accessibility: [],
   };

@@ -1,0 +1,42 @@
+<div class="app component-gallery-app component-phase16e-app component-drawer-app">
+  <main class="content">
+    <h1>{{ doc().title }}</h1>
+
+    <section class="preview">
+      <div class="preview-head"><span>Examples</span><span>1</span></div>
+      <div class="preview-body variant-grid">
+        <div class="variant-tile"><span>Right</span><code>side.right</code></div>
+      </div>
+    </section>
+
+    <section class="variant-doc">
+      <div class="variant-copy">
+        <h2>Right Drawer</h2>
+        <p>Use drawers for focused side panels that keep the underlying page context visible.</p>
+        <code>side.right</code>
+      </div>
+      <div class="variant-preview">
+        <vr-drawer side.right size.md>
+          <vr-drawer-trigger>
+            <vr-button variant.outline type="button">Open drawer</vr-button>
+          </vr-drawer-trigger>
+          <vr-drawer-content>
+            <vr-drawer-title>Filters</vr-drawer-title>
+            <vr-drawer-description>Filter the current workspace view.</vr-drawer-description>
+          </vr-drawer-content>
+        </vr-drawer>
+      </div>
+      <div class="code-snippet">
+        <button class="copy-icon-button" aria-label="Copy drawer example" type="button"></button>
+        <pre><code>&lt;vr-drawer side.right size.md&gt;
+  &lt;vr-drawer-trigger&gt;
+    &lt;vr-button variant.outline type="button"&gt;Open drawer&lt;/vr-button&gt;
+  &lt;/vr-drawer-trigger&gt;
+  &lt;vr-drawer-content&gt;
+    &lt;vr-drawer-title&gt;Filters&lt;/vr-drawer-title&gt;
+  &lt;/vr-drawer-content&gt;
+&lt;/vr-drawer&gt;</code></pre>
+      </div>
+    </section>
+  </main>
+</div>

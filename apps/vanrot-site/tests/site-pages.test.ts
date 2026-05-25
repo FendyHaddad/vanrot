@@ -183,6 +183,14 @@ const phase16FormsDataDocPages = [
   { routeKey: 'componentTextareas', path: '/docs/components/textareas', fileBase: 'component-textarea', title: 'Textarea', tokenSnippet: 'vr-textarea' },
 ] as const;
 
+const phase16InteractionDocPages = [
+  { routeKey: 'componentDialogs', path: '/docs/components/dialogs', fileBase: 'component-dialog', title: 'Dialog', tokenSnippet: 'size.md' },
+  { routeKey: 'componentDrawers', path: '/docs/components/drawers', fileBase: 'component-drawer', title: 'Drawer', tokenSnippet: 'side.right' },
+  { routeKey: 'componentDropdowns', path: '/docs/components/dropdowns', fileBase: 'component-dropdown', title: 'Dropdown', tokenSnippet: 'align.end' },
+  { routeKey: 'componentTabs', path: '/docs/components/tabs', fileBase: 'component-tabs', title: 'Tabs', tokenSnippet: 'variant.line' },
+  { routeKey: 'componentToasts', path: '/docs/components/toasts', fileBase: 'component-toast', title: 'Toast', tokenSnippet: 'tone.success' },
+] as const;
+
 async function readSiteFile(path: string): Promise<string> {
   return readFile(join(appRoot, path), 'utf8');
 }
@@ -410,6 +418,34 @@ describe('vanrot site pages', () => {
       expect(html).toContain('Phase 16E');
       expect(html).toContain('Registry API');
       expect(css).not.toContain('component-phase16e.css');
+    }
+  });
+
+  it('routes Phase 16F interaction docs to example-only pages', async () => {
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+
+    for (const page of phase16InteractionDocPages) {
+      const html = await readSiteFile(`src/pages/components/${page.fileBase}.page.html`);
+      const css = await readSiteFile(`src/pages/components/${page.fileBase}.page.css`);
+      const source = await readSiteFile(`src/pages/components/${page.fileBase}.page.ts`);
+      const routeEntry = siteRoute[page.routeKey];
+
+      if (routeEntry === undefined) {
+        throw new Error(`Expected ${page.routeKey} route to be defined.`);
+      }
+
+      expect(routeEntry).toMatchObject({
+        fullPath: page.path,
+        kind: 'page',
+      });
+      expect(routeEntry.parent).toBeUndefined();
+      expect(source).toContain(`${page.title} component docs`);
+      expect(html).toContain('<h1>{{ doc().title }}</h1>');
+      expect(html).toContain('class="variant-doc"');
+      expect(html).toContain('class="code-snippet"');
+      expect(html).toContain('copy-icon-button');
+      expect(html).toContain(page.tokenSnippet);
+      expect(css).toContain(`component-${page.fileBase.replace('component-', '')}-app`);
     }
   });
 

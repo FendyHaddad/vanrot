@@ -1,4 +1,5 @@
 import {
+  uiComponentRegistry,
   uiPrimitive,
   uiPrimitiveOrder,
   uiPrimitiveTokenGroup,
@@ -60,6 +61,11 @@ const uiPrimitiveFeature = {
   listItem: 'ui-list-item',
   stat: 'ui-stat',
   emptyState: 'ui-empty-state',
+  dialog: 'ui-dialog',
+  drawer: 'ui-drawer',
+  dropdown: 'ui-dropdown',
+  tabs: 'ui-tabs',
+  toast: 'ui-toast',
 } as const satisfies Record<UiPrimitiveType, CompileFeature>;
 
 export const compilerUiElement = uiPrimitiveOrder.reduce<Record<UiPrimitiveType, CompilerUiElement>>(
@@ -83,6 +89,35 @@ export function findCompilerUiElement(tagName: string): CompilerUiElement | null
   const element = Object.values(compilerUiElement).find((candidate) => candidate.tagName === tagName);
 
   return element ?? null;
+}
+
+export interface CompilerUiAnatomyElement {
+  tagName: string;
+  nativeTagName: string;
+  baseClass: string;
+  role?: string;
+  owner: UiPrimitiveType;
+  feature: CompileFeature;
+}
+
+export const compilerUiAnatomyElement = Object.fromEntries(
+  Object.values(uiComponentRegistry).flatMap((component) =>
+    component.anatomy.map((anatomy) => [
+      anatomy.selector,
+      {
+        tagName: anatomy.selector,
+        nativeTagName: anatomy.nativeTag,
+        baseClass: anatomy.baseClass,
+        role: anatomy.role,
+        owner: component.type as UiPrimitiveType,
+        feature: uiPrimitiveFeature[component.type as UiPrimitiveType],
+      },
+    ]),
+  ),
+) as Record<string, CompilerUiAnatomyElement>;
+
+export function findCompilerUiAnatomyElement(tagName: string): CompilerUiAnatomyElement | null {
+  return compilerUiAnatomyElement[tagName] === undefined ? null : compilerUiAnatomyElement[tagName];
 }
 
 export function isVanrotUiTag(tagName: string): boolean {

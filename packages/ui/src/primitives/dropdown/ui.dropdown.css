@@ -1,0 +1,15 @@
+.vr-dropdown,
+.vr-dropdown-trigger,
+.vr-dropdown-content,
+.vr-dropdown-item,
+.vr-dropdown-label,
+.vr-dropdown-separator,
+.vr-dropdown-align-start,
+.vr-dropdown-align-center,
+.vr-dropdown-align-end,
+.vr-dropdown-side-top,
+.vr-dropdown-side-bottom,
+.vr-dropdown-size-sm,
+.vr-dropdown-size-md {
+  color: inherit;
+}

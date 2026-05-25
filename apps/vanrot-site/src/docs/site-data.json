@@ -645,13 +645,48 @@
       "summary": "Use empty states when a data view has no available records.",
       "usage": "<vr-empty-state tone.muted>No records yet</vr-empty-state>",
       "accessibility": "Empty states should explain the missing content and expose recovery actions when available."
+    },
+    {
+      "primitive": "dialog",
+      "title": "Dialog",
+      "summary": "Use dialogs for focused modal decisions, edits, or confirmations.",
+      "usage": "<vr-dialog size.md><vr-dialog-trigger>Open</vr-dialog-trigger><vr-dialog-content>Content</vr-dialog-content></vr-dialog>",
+      "accessibility": "Dialogs move focus into content when opened and restore focus to the trigger when closed."
+    },
+    {
+      "primitive": "drawer",
+      "title": "Drawer",
+      "summary": "Use drawers for temporary side panels that keep users in the current page context.",
+      "usage": "<vr-drawer side.right><vr-drawer-trigger>Open</vr-drawer-trigger><vr-drawer-content>Content</vr-drawer-content></vr-drawer>",
+      "accessibility": "Drawers use the shared overlay controller, close on escape or outside pointer, and preserve focus return."
+    },
+    {
+      "primitive": "dropdown",
+      "title": "Dropdown",
+      "summary": "Use dropdowns for compact action lists and contextual menus.",
+      "usage": "<vr-dropdown align.end side.bottom><vr-dropdown-trigger>Account</vr-dropdown-trigger><vr-dropdown-content><vr-dropdown-item>Profile</vr-dropdown-item></vr-dropdown-content></vr-dropdown>",
+      "accessibility": "Dropdown triggers remain keyboard reachable and content closes predictably through the overlay controller."
+    },
+    {
+      "primitive": "tabs",
+      "title": "Tabs",
+      "summary": "Use tabs for switching between related panels without leaving the page.",
+      "usage": "<vr-tabs value.overview><vr-tabs-list><vr-tabs-trigger value.overview>Overview</vr-tabs-trigger></vr-tabs-list><vr-tabs-panel value.overview>Overview</vr-tabs-panel></vr-tabs>",
+      "accessibility": "Tabs wire tab and tabpanel roles, selected state, focus order, and arrow-key movement through a small controller."
+    },
+    {
+      "primitive": "toast",
+      "title": "Toast",
+      "summary": "Use toasts for short, non-blocking feedback messages.",
+      "usage": "<vr-toast tone.success><vr-toast-title>Saved</vr-toast-title><vr-toast-description>Changes were saved.</vr-toast-description></vr-toast>",
+      "accessibility": "Toast queues should use a labelled viewport and keep messages dismissible without stealing focus."
     }
   ],
   "commands": [
     { "name": "create", "usage": "vr create <name>", "status": "demo-capable" },
     { "name": "generate", "usage": "vr generate <role> <name>", "status": "demo-capable" },
-    { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16b" },
-    { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16E" },
+    { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16f" },
+    { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16F" },
     { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
     { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
     { "name": "map", "usage": "vr map", "status": "demo-capable" },
@@ -668,7 +703,7 @@
     { "name": "@vanrot/router", "area": "Router", "status": "production-ready-through-phase-15" },
     { "name": "@vanrot/vite-plugin", "area": "Vite", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },
-    { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16b" },
+    { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16f" },
     { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" }
   ],
   "diagnostics": {

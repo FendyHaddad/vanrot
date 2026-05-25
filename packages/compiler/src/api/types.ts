@@ -116,6 +116,11 @@ export type CompileFeature =
   | 'ui-list-item'
   | 'ui-stat'
   | 'ui-empty-state'
+  | 'ui-dialog'
+  | 'ui-drawer'
+  | 'ui-dropdown'
+  | 'ui-tabs'
+  | 'ui-toast'
   | 'slot';
 
 export interface ComponentDependencyInput {

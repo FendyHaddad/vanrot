@@ -9,6 +9,9 @@ import { ComponentButtonPage } from './pages/components/component-button.page.ts
 import { ComponentCardPage } from './pages/components/component-card.page.ts';
 import { ComponentCheckboxPage } from './pages/components/component-checkbox.page.ts';
 import { ComponentContainerPage } from './pages/components/component-container.page.ts';
+import { ComponentDialogPage } from './pages/components/component-dialog.page.ts';
+import { ComponentDrawerPage } from './pages/components/component-drawer.page.ts';
+import { ComponentDropdownPage } from './pages/components/component-dropdown.page.ts';
 import { ComponentEmptyStatePage } from './pages/components/component-empty-state.page.ts';
 import { ComponentFooterPage } from './pages/components/component-footer.page.ts';
 import { ComponentFormFieldPage } from './pages/components/component-form-field.page.ts';
@@ -37,6 +40,7 @@ import { ComponentSrcPage } from './pages/components/component-src.page.ts';
 import { ComponentStackPage } from './pages/components/component-stack.page.ts';
 import { ComponentStatPage } from './pages/components/component-stat.page.ts';
 import { ComponentSwitchPage } from './pages/components/component-switch.page.ts';
+import { ComponentTabsPage } from './pages/components/component-tabs.page.ts';
 import { ComponentTableBodyPage } from './pages/components/component-table-body.page.ts';
 import { ComponentTableCaptionPage } from './pages/components/component-table-caption.page.ts';
 import { ComponentTableCellPage } from './pages/components/component-table-cell.page.ts';
@@ -46,6 +50,7 @@ import { ComponentTableHeaderPage } from './pages/components/component-table-hea
 import { ComponentTableRowPage } from './pages/components/component-table-row.page.ts';
 import { ComponentTablePage } from './pages/components/component-table.page.ts';
 import { ComponentTextareaPage } from './pages/components/component-textarea.page.ts';
+import { ComponentToastPage } from './pages/components/component-toast.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
 import { ReferencePage } from './pages/reference/reference.page.ts';
@@ -70,6 +75,9 @@ const routePath = {
   componentCards: componentDocPath.card,
   componentContainers: componentDocPath.container,
   componentCheckboxes: componentDocPath.checkbox,
+  componentDialogs: componentDocPath.dialog,
+  componentDrawers: componentDocPath.drawer,
+  componentDropdowns: componentDocPath.dropdown,
   componentEmptyStates: componentDocPath.emptyState,
   componentFooters: componentDocPath.footer,
   componentForms: componentDocPath.form,
@@ -97,6 +105,7 @@ const routePath = {
   componentStacks: componentDocPath.stack,
   componentStats: componentDocPath.stat,
   componentSwitches: componentDocPath.switch,
+  componentTabs: componentDocPath.tabs,
   componentTables: componentDocPath.table,
   componentTableBodies: componentDocPath.tableBody,
   componentTableCaptions: componentDocPath.tableCaption,
@@ -106,6 +115,7 @@ const routePath = {
   componentTableHeaders: componentDocPath.tableHeader,
   componentTableRows: componentDocPath.tableRow,
   componentTextareas: componentDocPath.textarea,
+  componentToasts: componentDocPath.toast,
   reference: '/reference',
 } as const;
 
@@ -386,6 +396,13 @@ const componentCheckboxes = componentDocsPage(
   'Checkbox',
   ComponentCheckboxPage,
 );
+const componentDialogs = componentDocsPage(routePath.componentDialogs, 'Dialog', ComponentDialogPage);
+const componentDrawers = componentDocsPage(routePath.componentDrawers, 'Drawer', ComponentDrawerPage);
+const componentDropdowns = componentDocsPage(
+  routePath.componentDropdowns,
+  'Dropdown',
+  ComponentDropdownPage,
+);
 const componentEmptyStates = componentDocsPage(
   routePath.componentEmptyStates,
   'Empty State',
@@ -420,6 +437,7 @@ const componentSelects = componentDocsPage(routePath.componentSelects, 'Select',
 const componentSliders = componentDocsPage(routePath.componentSliders, 'Slider', ComponentSliderPage);
 const componentStats = componentDocsPage(routePath.componentStats, 'Stat', ComponentStatPage);
 const componentSwitches = componentDocsPage(routePath.componentSwitches, 'Switch', ComponentSwitchPage);
+const componentTabs = componentDocsPage(routePath.componentTabs, 'Tabs', ComponentTabsPage);
 const componentTables = componentDocsPage(routePath.componentTables, 'Table', ComponentTablePage);
 const componentTableBodies = componentDocsPage(
   routePath.componentTableBodies,
@@ -461,6 +479,7 @@ const componentTextareas = componentDocsPage(
   'Textarea',
   ComponentTextareaPage,
 );
+const componentToasts = componentDocsPage(routePath.componentToasts, 'Toast', ComponentToastPage);
 
 const docsInstallation = articlePage(siteArticleKey.installation);
 const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
@@ -519,6 +538,9 @@ export const route = defineRoutes({
   componentBreadcrumbs,
   componentCheckboxes,
   componentContainers,
+  componentDialogs,
+  componentDrawers,
+  componentDropdowns,
   componentEmptyStates,
   componentFooters,
   componentForms,
@@ -546,6 +568,7 @@ export const route = defineRoutes({
   componentStacks,
   componentStats,
   componentSwitches,
+  componentTabs,
   componentTables,
   componentTableBodies,
   componentTableCaptions,
@@ -555,6 +578,7 @@ export const route = defineRoutes({
   componentTableHeaders,
   componentTableRows,
   componentTextareas,
+  componentToasts,
   docsIntroduction,
   docsInstallation,
   docsProjectStructure,

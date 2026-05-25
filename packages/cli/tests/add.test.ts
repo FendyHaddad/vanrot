@@ -122,6 +122,21 @@ describe('vr add', () => {
     ).resolves.toContain(`<vr-${primitiveFileName}`);
   });
 
+  it('adds Phase 16F interaction primitives from registry-backed assets', async () => {
+    for (const primitive of ['dialog', 'drawer', 'dropdown', 'tabs', 'toast'] as const) {
+      const cwd = await tempRoot();
+      const reporter = createMemoryReporter();
+
+      const result = await runCli(['add', primitive], { cwd, reporter });
+
+      expect(result.exitCode).toBe(0);
+      await expect(
+        readFile(join(cwd, 'src', 'ui', primitive, `ui.${primitive}.html`), 'utf8'),
+      ).resolves.toContain(`<vr-${primitive}`);
+      expect(reporter.output()).toContain(`Added ${primitive}`);
+    }
+  });
+
   it('adds a locally prefixed Phase 16B primitive', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
@@ -258,10 +273,10 @@ describe('vr add', () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
 
-    const result = await runCli(['add', 'dialog'], { cwd, reporter });
+    const result = await runCli(['add', 'popover'], { cwd, reporter });
 
     expect(result.exitCode).toBe(1);
-    expect(reporter.output()).toContain('Unsupported UI primitive: dialog');
+    expect(reporter.output()).toContain('Unsupported UI primitive: popover');
     expect(reporter.output()).toContain(`Supported UI primitives: ${uiPrimitiveOrder.join(', ')}`);
   });
 

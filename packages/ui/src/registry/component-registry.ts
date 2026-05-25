@@ -18,12 +18,20 @@ export interface UiAttributeRegistryItem {
   description: string;
 }
 
+export interface UiAnatomyRegistryItem {
+  selector: string;
+  nativeTag: string;
+  baseClass: string;
+  role?: string;
+  description: string;
+}
+
 export interface UiComponentRegistryItem {
   type: string;
   selector: string;
   nativeTag: string;
   baseClass: string;
-  category: 'core' | 'layout' | 'forms' | 'data';
+  category: 'core' | 'layout' | 'forms' | 'data' | 'interaction';
   phase: '16A' | '16B' | '16C' | '16D' | '16E' | '16F';
   docsPath: string;
   tokens: Readonly<Record<string, UiTokenGroupRegistry>>;
@@ -31,6 +39,7 @@ export interface UiComponentRegistryItem {
   openAttributes: readonly UiAttributeRegistryItem[];
   events: readonly UiAttributeRegistryItem[];
   slots: readonly UiAttributeRegistryItem[];
+  anatomy: readonly UiAnatomyRegistryItem[];
   examples: readonly {
     label: string;
     code: string;
@@ -67,6 +76,18 @@ export const phase16FormsDataPrimitiveOrder = [
 
 export type Phase16FormsDataPrimitive = (typeof phase16FormsDataPrimitiveOrder)[number];
 
+export const phase16InteractionPrimitiveOrder = [
+  'dialog',
+  'drawer',
+  'dropdown',
+  'tabs',
+  'toast',
+] as const;
+
+export type Phase16InteractionPrimitive = (typeof phase16InteractionPrimitiveOrder)[number];
+
+type RegistryBackedPrimitive = Phase16FormsDataPrimitive | Phase16InteractionPrimitive;
+
 const phase16FormsDataNativeTags = {
   form: 'form',
   formField: 'div',
@@ -93,6 +114,14 @@ const phase16FormsDataNativeTags = {
   stat: 'section',
   emptyState: 'section',
 } as const satisfies Record<Phase16FormsDataPrimitive, string>;
+
+const phase16InteractionNativeTags = {
+  dialog: 'div',
+  drawer: 'div',
+  dropdown: 'div',
+  tabs: 'div',
+  toast: 'section',
+} as const satisfies Record<Phase16InteractionPrimitive, string>;
 
 const phase16FormsDataSelectors = {
   form: 'vr-form',
@@ -121,6 +150,14 @@ const phase16FormsDataSelectors = {
   emptyState: 'vr-empty-state',
 } as const satisfies Record<Phase16FormsDataPrimitive, string>;
 
+const phase16InteractionSelectors = {
+  dialog: 'vr-dialog',
+  drawer: 'vr-drawer',
+  dropdown: 'vr-dropdown',
+  tabs: 'vr-tabs',
+  toast: 'vr-toast',
+} as const satisfies Record<Phase16InteractionPrimitive, string>;
+
 const docsPathByPrimitive = {
   form: '/docs/components/forms',
   formField: '/docs/components/form-fields',
@@ -147,6 +184,14 @@ const docsPathByPrimitive = {
   stat: '/docs/components/stats',
   emptyState: '/docs/components/empty-states',
 } as const satisfies Record<Phase16FormsDataPrimitive, string>;
+
+const phase16InteractionDocsPathByPrimitive = {
+  dialog: '/docs/components/dialogs',
+  drawer: '/docs/components/drawers',
+  dropdown: '/docs/components/dropdowns',
+  tabs: '/docs/components/tabs',
+  toast: '/docs/components/toasts',
+} as const satisfies Record<Phase16InteractionPrimitive, string>;
 
 const formControlBooleans = [
   { name: 'required', description: 'Marks the field required for validation.' },
@@ -200,33 +245,38 @@ function tokenGroup(
 }
 
 function registryEntry(
-  primitive: Phase16FormsDataPrimitive,
+  primitive: RegistryBackedPrimitive,
   input: {
-    category: 'forms' | 'data';
+    nativeTag?: string;
+    category: 'forms' | 'data' | 'interaction';
+    phase?: '16E' | '16F';
+    docsPath?: string;
     tokens?: Readonly<Record<string, UiTokenGroupRegistry>>;
     booleans?: readonly UiAttributeRegistryItem[];
     openAttributes?: readonly UiAttributeRegistryItem[];
     events?: readonly UiAttributeRegistryItem[];
     slots?: readonly UiAttributeRegistryItem[];
+    anatomy?: readonly UiAnatomyRegistryItem[];
     examples?: readonly { label: string; code: string }[];
     accessibility?: readonly string[];
   },
 ): UiComponentRegistryItem {
-  const selector = phase16FormsDataSelectors[primitive];
+  const selector = selectorForPrimitive(primitive);
 
   return {
     type: primitive,
     selector,
-    nativeTag: phase16FormsDataNativeTags[primitive],
+    nativeTag: input.nativeTag === undefined ? nativeTagForPrimitive(primitive) : input.nativeTag,
     baseClass: selector,
     category: input.category,
-    phase: '16E',
-    docsPath: docsPathByPrimitive[primitive],
+    phase: input.phase === undefined ? '16E' : input.phase,
+    docsPath: input.docsPath === undefined ? docsPathForPrimitive(primitive) : input.docsPath,
     tokens: input.tokens ?? {},
     booleans: input.booleans ?? [],
     openAttributes: input.openAttributes ?? [],
     events: input.events ?? [],
     slots: input.slots ?? defaultSlots,
+    anatomy: input.anatomy === undefined ? [] : input.anatomy,
     examples: input.examples ?? [
       {
         label: `${selector} example`,
@@ -235,6 +285,34 @@ function registryEntry(
     ],
     accessibility: input.accessibility ?? ['Keep labels, roles, and keyboard behavior native.'],
   };
+}
+
+function selectorForPrimitive(primitive: RegistryBackedPrimitive): string {
+  if (isFormsDataPrimitive(primitive)) {
+    return phase16FormsDataSelectors[primitive];
+  }
+
+  return phase16InteractionSelectors[primitive];
+}
+
+function nativeTagForPrimitive(primitive: RegistryBackedPrimitive): string {
+  if (isFormsDataPrimitive(primitive)) {
+    return phase16FormsDataNativeTags[primitive];
+  }
+
+  return phase16InteractionNativeTags[primitive];
+}
+
+function docsPathForPrimitive(primitive: RegistryBackedPrimitive): string {
+  if (isFormsDataPrimitive(primitive)) {
+    return docsPathByPrimitive[primitive];
+  }
+
+  return phase16InteractionDocsPathByPrimitive[primitive];
+}
+
+function isFormsDataPrimitive(primitive: RegistryBackedPrimitive): primitive is Phase16FormsDataPrimitive {
+  return phase16FormsDataPrimitiveOrder.includes(primitive as Phase16FormsDataPrimitive);
 }
 
 const formFieldOpenAttributes = [
@@ -495,7 +573,368 @@ export const uiComponentRegistry = {
       { name: 'actions', description: 'Recovery actions.' },
     ],
   }),
-} as const satisfies Record<Phase16FormsDataPrimitive, UiComponentRegistryItem>;
+  dialog: registryEntry('dialog', {
+    nativeTag: 'div',
+    category: 'interaction',
+    phase: '16F',
+    docsPath: '/docs/components/dialogs',
+    tokens: {
+      size: tokenGroup('size', ['sm', 'md', 'lg'], 'md', (value) => `vr-dialog-size-${value}`, true),
+      motion: tokenGroup(
+        'motion',
+        ['instant', 'subtle'],
+        'subtle',
+        (value) => `vr-dialog-motion-${value}`,
+        true,
+      ),
+    },
+    openAttributes: [
+      { name: 'open', description: 'Controls whether the dialog starts open.' },
+      { name: 'aria-label', description: 'Accessible label when no title anatomy is present.' },
+      { name: 'aria-labelledby', description: 'Id of the visible dialog title.' },
+      { name: 'aria-describedby', description: 'Id of the dialog description.' },
+    ],
+    events: [
+      { name: 'openchange', description: 'Emitted when the dialog opens or closes.' },
+      { name: 'close', description: 'Emitted after the dialog closes.' },
+    ],
+    anatomy: [
+      {
+        selector: 'vr-dialog-trigger',
+        nativeTag: 'span',
+        baseClass: 'vr-dialog-trigger',
+        description: 'Registers the element that opens the dialog.',
+      },
+      {
+        selector: 'vr-dialog-content',
+        nativeTag: 'div',
+        baseClass: 'vr-dialog-content',
+        role: 'dialog',
+        description: 'Renders the accessible dialog surface.',
+      },
+      {
+        selector: 'vr-dialog-header',
+        nativeTag: 'div',
+        baseClass: 'vr-dialog-header',
+        description: 'Groups title and description content.',
+      },
+      {
+        selector: 'vr-dialog-title',
+        nativeTag: 'h2',
+        baseClass: 'vr-dialog-title',
+        description: 'Provides the visible dialog title.',
+      },
+      {
+        selector: 'vr-dialog-description',
+        nativeTag: 'p',
+        baseClass: 'vr-dialog-description',
+        description: 'Provides supporting dialog description text.',
+      },
+      {
+        selector: 'vr-dialog-footer',
+        nativeTag: 'div',
+        baseClass: 'vr-dialog-footer',
+        description: 'Groups secondary and primary actions.',
+      },
+      {
+        selector: 'vr-dialog-close',
+        nativeTag: 'button',
+        baseClass: 'vr-dialog-close',
+        description: 'Closes the dialog.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Edit profile dialog',
+        code: '<vr-dialog size.md><vr-dialog-trigger><vr-button>Open</vr-button></vr-dialog-trigger><vr-dialog-content><vr-dialog-title>Edit profile</vr-dialog-title></vr-dialog-content></vr-dialog>',
+      },
+    ],
+    accessibility: [
+      'Focus moves into the dialog when it opens.',
+      'Focus returns to the trigger when the dialog closes.',
+    ],
+  }),
+  drawer: registryEntry('drawer', {
+    nativeTag: 'div',
+    category: 'interaction',
+    phase: '16F',
+    docsPath: '/docs/components/drawers',
+    tokens: {
+      side: tokenGroup(
+        'side',
+        ['left', 'right', 'top', 'bottom'],
+        'right',
+        (value) => `vr-drawer-side-${value}`,
+        true,
+      ),
+      size: tokenGroup('size', ['sm', 'md', 'lg'], 'md', (value) => `vr-drawer-size-${value}`, true),
+    },
+    openAttributes: [
+      { name: 'open', description: 'Controls whether the drawer starts open.' },
+      { name: 'aria-label', description: 'Accessible label when no title anatomy is present.' },
+    ],
+    events: [
+      { name: 'openchange', description: 'Emitted when the drawer opens or closes.' },
+      { name: 'close', description: 'Emitted after the drawer closes.' },
+    ],
+    anatomy: [
+      {
+        selector: 'vr-drawer-trigger',
+        nativeTag: 'span',
+        baseClass: 'vr-drawer-trigger',
+        description: 'Registers the element that opens the drawer.',
+      },
+      {
+        selector: 'vr-drawer-content',
+        nativeTag: 'aside',
+        baseClass: 'vr-drawer-content',
+        role: 'dialog',
+        description: 'Renders the drawer surface.',
+      },
+      {
+        selector: 'vr-drawer-header',
+        nativeTag: 'div',
+        baseClass: 'vr-drawer-header',
+        description: 'Groups drawer title and description.',
+      },
+      {
+        selector: 'vr-drawer-title',
+        nativeTag: 'h2',
+        baseClass: 'vr-drawer-title',
+        description: 'Provides the visible drawer title.',
+      },
+      {
+        selector: 'vr-drawer-description',
+        nativeTag: 'p',
+        baseClass: 'vr-drawer-description',
+        description: 'Provides supporting drawer description text.',
+      },
+      {
+        selector: 'vr-drawer-footer',
+        nativeTag: 'div',
+        baseClass: 'vr-drawer-footer',
+        description: 'Groups drawer actions.',
+      },
+      {
+        selector: 'vr-drawer-close',
+        nativeTag: 'button',
+        baseClass: 'vr-drawer-close',
+        description: 'Closes the drawer.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Filter drawer',
+        code: '<vr-drawer side.right size.md><vr-drawer-trigger><vr-button variant.outline>Filters</vr-button></vr-drawer-trigger><vr-drawer-content><vr-drawer-title>Filters</vr-drawer-title></vr-drawer-content></vr-drawer>',
+      },
+    ],
+    accessibility: ['Focus moves into the drawer when it opens.', 'Escape closes the drawer.'],
+  }),
+  dropdown: registryEntry('dropdown', {
+    nativeTag: 'div',
+    category: 'interaction',
+    phase: '16F',
+    docsPath: '/docs/components/dropdowns',
+    tokens: {
+      align: tokenGroup(
+        'align',
+        ['start', 'center', 'end'],
+        'start',
+        (value) => `vr-dropdown-align-${value}`,
+        true,
+      ),
+      side: tokenGroup(
+        'side',
+        ['top', 'bottom'],
+        'bottom',
+        (value) => `vr-dropdown-side-${value}`,
+        true,
+      ),
+      size: tokenGroup('size', ['sm', 'md'], 'md', (value) => `vr-dropdown-size-${value}`, true),
+    },
+    openAttributes: [
+      { name: 'open', description: 'Controls whether the dropdown starts open.' },
+      { name: 'aria-label', description: 'Accessible label for icon-only dropdown triggers.' },
+    ],
+    events: [
+      { name: 'openchange', description: 'Emitted when the dropdown opens or closes.' },
+      { name: 'select', description: 'Emitted when an item is selected.' },
+    ],
+    anatomy: [
+      {
+        selector: 'vr-dropdown-trigger',
+        nativeTag: 'button',
+        baseClass: 'vr-dropdown-trigger',
+        description: 'Opens and closes the dropdown.',
+      },
+      {
+        selector: 'vr-dropdown-content',
+        nativeTag: 'div',
+        baseClass: 'vr-dropdown-content',
+        description: 'Renders dropdown options.',
+      },
+      {
+        selector: 'vr-dropdown-item',
+        nativeTag: 'button',
+        baseClass: 'vr-dropdown-item',
+        description: 'Represents a selectable dropdown item.',
+      },
+      {
+        selector: 'vr-dropdown-label',
+        nativeTag: 'div',
+        baseClass: 'vr-dropdown-label',
+        description: 'Labels a group of items.',
+      },
+      {
+        selector: 'vr-dropdown-separator',
+        nativeTag: 'hr',
+        baseClass: 'vr-dropdown-separator',
+        description: 'Separates item groups.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Account dropdown',
+        code: '<vr-dropdown align.end><vr-dropdown-trigger>Open</vr-dropdown-trigger><vr-dropdown-content><vr-dropdown-item>Profile</vr-dropdown-item></vr-dropdown-content></vr-dropdown>',
+      },
+    ],
+    accessibility: [
+      'Trigger exposes aria-expanded.',
+      'Escape and outside pointer input close the dropdown.',
+    ],
+  }),
+  tabs: registryEntry('tabs', {
+    nativeTag: 'div',
+    category: 'interaction',
+    phase: '16F',
+    docsPath: '/docs/components/tabs',
+    tokens: {
+      variant: tokenGroup(
+        'variant',
+        ['line', 'pill'],
+        'line',
+        (value) => `vr-tabs-variant-${value}`,
+        true,
+      ),
+      orientation: tokenGroup(
+        'orientation',
+        ['horizontal', 'vertical'],
+        'horizontal',
+        (value) => `vr-tabs-orientation-${value}`,
+        true,
+      ),
+    },
+    openAttributes: [
+      { name: 'value', description: 'Selected tab value.' },
+      { name: 'aria-label', description: 'Accessible label for the tab group.' },
+    ],
+    events: [{ name: 'change', description: 'Emitted when the selected tab value changes.' }],
+    anatomy: [
+      {
+        selector: 'vr-tabs-list',
+        nativeTag: 'div',
+        baseClass: 'vr-tabs-list',
+        role: 'tablist',
+        description: 'Groups tab triggers.',
+      },
+      {
+        selector: 'vr-tabs-trigger',
+        nativeTag: 'button',
+        baseClass: 'vr-tabs-trigger',
+        role: 'tab',
+        description: 'Selects a matching panel by value.',
+      },
+      {
+        selector: 'vr-tabs-panel',
+        nativeTag: 'div',
+        baseClass: 'vr-tabs-panel',
+        role: 'tabpanel',
+        description: 'Displays content for a matching trigger value.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Overview tabs',
+        code: '<vr-tabs value.overview><vr-tabs-list><vr-tabs-trigger value.overview>Overview</vr-tabs-trigger></vr-tabs-list><vr-tabs-panel value.overview>Overview content</vr-tabs-panel></vr-tabs>',
+      },
+    ],
+    accessibility: [
+      'Triggers expose selected state.',
+      'Arrow keys move between registered triggers.',
+    ],
+  }),
+  toast: registryEntry('toast', {
+    nativeTag: 'section',
+    category: 'interaction',
+    phase: '16F',
+    docsPath: '/docs/components/toasts',
+    tokens: {
+      tone: tokenGroup(
+        'tone',
+        ['default', 'success', 'warning', 'danger'],
+        'default',
+        (value) => `vr-toast-tone-${value}`,
+        true,
+      ),
+      placement: tokenGroup(
+        'placement',
+        ['topright', 'topleft', 'bottomright', 'bottomleft'],
+        'bottomright',
+        (value) => `vr-toast-placement-${value}`,
+        true,
+      ),
+    },
+    openAttributes: [
+      { name: 'aria-label', description: 'Accessible label for the toast live region.' },
+    ],
+    events: [{ name: 'dismiss', description: 'Emitted when a toast is dismissed.' }],
+    anatomy: [
+      {
+        selector: 'vr-toast-viewport',
+        nativeTag: 'div',
+        baseClass: 'vr-toast-viewport',
+        description: 'Positions queued toast items.',
+      },
+      {
+        selector: 'vr-toast-item',
+        nativeTag: 'div',
+        baseClass: 'vr-toast-item',
+        description: 'Renders one queued toast message.',
+      },
+      {
+        selector: 'vr-toast-title',
+        nativeTag: 'strong',
+        baseClass: 'vr-toast-title',
+        description: 'Displays toast title text.',
+      },
+      {
+        selector: 'vr-toast-description',
+        nativeTag: 'p',
+        baseClass: 'vr-toast-description',
+        description: 'Displays optional toast body text.',
+      },
+      {
+        selector: 'vr-toast-close',
+        nativeTag: 'button',
+        baseClass: 'vr-toast-close',
+        description: 'Dismisses one toast.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Success toast',
+        code: '<vr-toast tone.success placement.bottomright><vr-toast-item><vr-toast-title>Saved</vr-toast-title></vr-toast-item></vr-toast>',
+      },
+    ],
+    accessibility: [
+      'Toast viewport uses a live region.',
+      'Manual dismiss remains keyboard reachable.',
+    ],
+  }),
+} as const satisfies Record<
+  Phase16FormsDataPrimitive | Phase16InteractionPrimitive,
+  UiComponentRegistryItem
+>;
 
 export function getUiComponentRegistryItem(type: string): UiComponentRegistryItem | undefined {
   return Object.values(uiComponentRegistry).find((item) => item.type === type);

@@ -200,6 +200,41 @@ describe('generateComponent', () => {
     );
   });
 
+  it('lowers Phase 16F interaction primitives and anatomy to semantic DOM', () => {
+    const templateSource = [
+      '<vr-dialog size.lg>',
+      '  <vr-dialog-trigger><vr-button>Open</vr-button></vr-dialog-trigger>',
+      '  <vr-dialog-content>',
+      '    <vr-dialog-title>Edit profile</vr-dialog-title>',
+      '    <vr-dialog-description>Update account details.</vr-dialog-description>',
+      '  </vr-dialog-content>',
+      '</vr-dialog>',
+      '<vr-tabs value.overview>',
+      '  <vr-tabs-list>',
+      '    <vr-tabs-trigger value.overview>Overview</vr-tabs-trigger>',
+      '  </vr-tabs-list>',
+      '  <vr-tabs-panel value.overview>Overview content</vr-tabs-panel>',
+      '</vr-tabs>',
+    ].join('');
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'counter.component.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("document.createElement('div')");
+    expect(result.js).toContain('vr-dialog vr-dialog-size-lg');
+    expect(result.js).toContain('vr-dialog-motion-subtle');
+    expect(result.js).toContain('vr-dialog-content');
+    expect(result.js).toContain("setAttribute('role', 'dialog')");
+    expect(result.js).toContain('vr-tabs-trigger');
+    expect(result.features).toEqual(expect.arrayContaining(['ui-dialog', 'ui-tabs']));
+  });
+
   it('generates interpolation effects', () => {
     const templateSource = '<p>Count: {{ count() }}</p>';
 
@@ -832,7 +867,7 @@ describe('generateComponent', () => {
   });
 
   it('diagnoses unsupported Vanrot UI primitive tags', () => {
-    const templateSource = '<vr-dialog>Dialog</vr-dialog>';
+    const templateSource = '<vr-popover>Popover</vr-popover>';
 
     const result = generateComponent({
       metadata,
@@ -842,13 +877,13 @@ describe('generateComponent', () => {
       templateSource,
     });
 
-    expect(result.js).not.toContain("document.createElement('vr-dialog')");
+    expect(result.js).not.toContain("document.createElement('vr-popover')");
     expect(result.diagnostics).toMatchObject([
       {
         code: 'VR010',
         severity: 'error',
         message:
-          '<vr-dialog> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
+          '<vr-popover> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
       },
     ]);
   });

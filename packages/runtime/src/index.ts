@@ -21,6 +21,18 @@ export {
   minLengthValidator,
   requiredValidator,
 } from './forms/form-controller.js';
+export type { OverlayController, OverlayControllerOptions } from './ui/overlay-controller.js';
+export { createOverlayController } from './ui/overlay-controller.js';
+export type { TabsController, TabsControllerOptions } from './ui/tabs-controller.js';
+export { createTabsController } from './ui/tabs-controller.js';
+export type {
+  ToastController,
+  ToastControllerOptions,
+  ToastMessage,
+  ToastMessageInput,
+  ToastTone,
+} from './ui/toast-controller.js';
+export { createToastController } from './ui/toast-controller.js';
 
 export { onDestroy } from './lifecycle/on-destroy.js';
 export { onMount } from './lifecycle/on-mount.js';

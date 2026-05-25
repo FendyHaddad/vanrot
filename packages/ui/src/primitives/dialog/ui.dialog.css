@@ -1,0 +1,15 @@
+.vr-dialog,
+.vr-dialog-trigger,
+.vr-dialog-content,
+.vr-dialog-header,
+.vr-dialog-title,
+.vr-dialog-description,
+.vr-dialog-footer,
+.vr-dialog-close,
+.vr-dialog-size-sm,
+.vr-dialog-size-md,
+.vr-dialog-size-lg,
+.vr-dialog-motion-instant,
+.vr-dialog-motion-subtle {
+  color: inherit;
+}

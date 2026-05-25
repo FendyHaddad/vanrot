@@ -1,0 +1,39 @@
+<div class="app component-gallery-app component-phase16e-app component-tabs-app">
+  <main class="content">
+    <h1>{{ doc().title }}</h1>
+
+    <section class="preview">
+      <div class="preview-head"><span>Examples</span><span>1</span></div>
+      <div class="preview-body variant-grid">
+        <div class="variant-tile"><span>Line</span><code>variant.line</code></div>
+      </div>
+    </section>
+
+    <section class="variant-doc">
+      <div class="variant-copy">
+        <h2>Line Tabs</h2>
+        <p>Use tabs to switch between related panels while keeping trigger and panel values aligned.</p>
+        <code>variant.line</code>
+      </div>
+      <div class="variant-preview">
+        <vr-tabs value.overview variant.line>
+          <vr-tabs-list>
+            <vr-tabs-trigger value.overview>Overview</vr-tabs-trigger>
+            <vr-tabs-trigger value.activity>Activity</vr-tabs-trigger>
+          </vr-tabs-list>
+          <vr-tabs-panel value.overview>Overview content</vr-tabs-panel>
+          <vr-tabs-panel value.activity>Activity content</vr-tabs-panel>
+        </vr-tabs>
+      </div>
+      <div class="code-snippet">
+        <button class="copy-icon-button" aria-label="Copy tabs example" type="button"></button>
+        <pre><code>&lt;vr-tabs value.overview variant.line&gt;
+  &lt;vr-tabs-list&gt;
+    &lt;vr-tabs-trigger value.overview&gt;Overview&lt;/vr-tabs-trigger&gt;
+  &lt;/vr-tabs-list&gt;
+  &lt;vr-tabs-panel value.overview&gt;Overview content&lt;/vr-tabs-panel&gt;
+&lt;/vr-tabs&gt;</code></pre>
+      </div>
+    </section>
+  </main>
+</div>

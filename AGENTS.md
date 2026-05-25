@@ -131,13 +131,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-25 8:22pm GMT+8
+# [vanrot] recent context, 2026-05-25 10:53pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,387t read) | 1,820,575t work | 99% savings
+Stats: 50 obs (12,575t read) | 1,727,791t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -151,23 +151,6 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-1830 3:02p 🔵 Phase-14 CLI UI Enhancement Details
-1831 " 🔵 CLI Package Structure and Scripts
-1833 " 🔵 CLI Diagnostics and Doctor Checks Implementation
-1835 " 🔵 Phase-14 CLI Output and Interaction Specifications
-1837 " 🔵 Phase-14 Planning Context and Self-Review
-1832 " 🔵 CLI Command Metadata and Structure
-1841 " 🔵 Phase-14 CLI Implementation Plan and Spec Outline
-1843 3:04p 🔵 Phase-14 CLI Implementation Plan Tasks
-1856 3:07p ✅ Phase-14 CLI Product Experience Implementation Plan
-1858 " 🔵 Phase-14 Plan Self-Review and Git Status
-1850 3:08p 🔵 CLI Command Context and Intelligence Modules
-1863 " ✅ Phase-14 Plan Placeholder Scan Update
-1861 " 🔵 Phase-14 Plan Placeholder Scan
-1869 3:14p 🔵 Phase-14 Plan Self-Review Checks
-1876 4:50p 🟣 Brainstorming Phase 15 Initiated
-1877 " ✅ Updated Project Plan
-1878 4:51p 🔵 Project File Discovery
 1880 7:36p 🔵 Route definition order impacts UI menu order
 1881 8:52p ⚖️ Proposed separation of VR Router and VR Outlet responsibilities
 1882 9:04p ⚖️ Simplify routing module by excluding 'group'
@@ -203,6 +186,23 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1921 3:02p 🔴 Browser Navigation Blocked by Client
 ### May 25, 2026
 1947 8:21p 🟣 Execute Plans Superpower Integration
+1948 8:22p 🔵 Phase 16E Plan and Spec Details
+1949 " 🔵 Vanrot AGENTS Git Ownership and Workflow Protocols
+1950 " 🔵 Repository Status and Key Files Identified
+1951 " 🔵 Memory Registry Search for Phase 16 Context
+1952 " 🔵 Phase 16E Plan Checklist Extraction
+1953 " 🔵 Phase 16E Plan Task Breakdown
+1955 " 🔵 Phase 16E Plan Task Details and Steps
+1965 8:23p 🔵 Vanrot UI Metadata Structure and Constants
+1960 8:24p 🔵 Phase 16E Plan Task Breakdown and Steps
+1967 " 🔵 Vanrot Site Routing and Component Documentation Structure
+1968 " 🔵 Vanrot Component Page Structure and Examples
+1969 " 🔵 Vanrot Site Testing and Routing Verification
+1970 " 🔵 Vanrot Component Documentation Structure
+1971 8:25p 🔵 Vanrot Component Documentation Skill Workflow
+1966 " 🔵 Vanrot UI Metadata Structure and Constants
+1972 " 🔵 Vanrot Component Code Generation for Accessibility
+1974 " 🔵 Vanrot Component Code Generation Logic
 
-Access 1821k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1728k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

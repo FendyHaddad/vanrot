@@ -1,0 +1,42 @@
+<div class="app component-gallery-app component-phase16e-app component-dialog-app">
+  <main class="content">
+    <h1>{{ doc().title }}</h1>
+
+    <section class="preview">
+      <div class="preview-head"><span>Examples</span><span>1</span></div>
+      <div class="preview-body variant-grid">
+        <div class="variant-tile"><span>Default</span><code>size.md</code></div>
+      </div>
+    </section>
+
+    <section class="variant-doc">
+      <div class="variant-copy">
+        <h2>Default Dialog</h2>
+        <p>Focus moves into the dialog when it opens and returns to the trigger when it closes.</p>
+        <code>size.md</code>
+      </div>
+      <div class="variant-preview">
+        <vr-dialog size.md>
+          <vr-dialog-trigger>
+            <vr-button type="button">Open dialog</vr-button>
+          </vr-dialog-trigger>
+          <vr-dialog-content>
+            <vr-dialog-title>Edit profile</vr-dialog-title>
+            <vr-dialog-description>Update account details.</vr-dialog-description>
+          </vr-dialog-content>
+        </vr-dialog>
+      </div>
+      <div class="code-snippet">
+        <button class="copy-icon-button" aria-label="Copy dialog example" type="button"></button>
+        <pre><code>&lt;vr-dialog size.md&gt;
+  &lt;vr-dialog-trigger&gt;
+    &lt;vr-button type="button"&gt;Open dialog&lt;/vr-button&gt;
+  &lt;/vr-dialog-trigger&gt;
+  &lt;vr-dialog-content&gt;
+    &lt;vr-dialog-title&gt;Edit profile&lt;/vr-dialog-title&gt;
+  &lt;/vr-dialog-content&gt;
+&lt;/vr-dialog&gt;</code></pre>
+      </div>
+    </section>
+  </main>
+</div>

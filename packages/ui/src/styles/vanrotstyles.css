@@ -403,6 +403,224 @@
     place-items: center;
   }
 
+  .vr-dialog,
+  .vr-drawer,
+  .vr-dropdown,
+  .vr-tabs,
+  .vr-toast {
+    color: var(--vr-color-text);
+    font-family: var(--vr-font-sans);
+  }
+
+  .vr-dialog-content,
+  .vr-drawer-content,
+  .vr-dropdown-content,
+  .vr-toast-item {
+    background: var(--vr-surface-popover);
+    border: 1px solid var(--vr-color-line);
+    border-radius: var(--vr-radius-lg);
+    box-shadow: var(--vr-shadow-3);
+  }
+
+  .vr-dialog-content,
+  .vr-drawer-content {
+    max-width: min(32rem, calc(100vw - var(--vr-space-6)));
+    padding: var(--vr-space-5);
+  }
+
+  .vr-dialog-size-sm,
+  .vr-drawer-size-sm {
+    max-width: min(24rem, calc(100vw - var(--vr-space-6)));
+  }
+
+  .vr-dialog-size-lg,
+  .vr-drawer-size-lg {
+    max-width: min(42rem, calc(100vw - var(--vr-space-6)));
+  }
+
+  .vr-dialog-motion-instant {
+    transition-duration: 1ms;
+  }
+
+  .vr-dialog-motion-subtle {
+    transition: opacity var(--vr-motion-fast) var(--vr-ease-standard);
+  }
+
+  .vr-dialog-header,
+  .vr-drawer-header {
+    display: grid;
+    gap: var(--vr-space-2);
+  }
+
+  .vr-dialog-title,
+  .vr-drawer-title {
+    font-size: 1.125rem;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .vr-dialog-description,
+  .vr-drawer-description,
+  .vr-toast-description {
+    color: var(--vr-color-muted);
+    margin: 0;
+  }
+
+  .vr-dialog-footer,
+  .vr-drawer-footer {
+    align-items: center;
+    display: flex;
+    gap: var(--vr-space-2);
+    justify-content: flex-end;
+    margin-top: var(--vr-space-5);
+  }
+
+  .vr-drawer-side-left,
+  .vr-drawer-side-right {
+    min-height: 100%;
+  }
+
+  .vr-drawer-side-top,
+  .vr-drawer-side-bottom {
+    width: 100%;
+  }
+
+  .vr-dropdown {
+    position: relative;
+  }
+
+  .vr-dropdown-content {
+    display: grid;
+    gap: var(--vr-space-1);
+    min-width: 12rem;
+    padding: var(--vr-space-2);
+  }
+
+  .vr-dropdown-align-center {
+    text-align: center;
+  }
+
+  .vr-dropdown-align-end {
+    text-align: right;
+  }
+
+  .vr-dropdown-side-top {
+    margin-bottom: var(--vr-space-2);
+  }
+
+  .vr-dropdown-side-bottom {
+    margin-top: var(--vr-space-2);
+  }
+
+  .vr-dropdown-size-sm {
+    min-width: 9rem;
+  }
+
+  .vr-dropdown-item,
+  .vr-dropdown-trigger,
+  .vr-dialog-close,
+  .vr-drawer-close,
+  .vr-toast-close,
+  .vr-tabs-trigger {
+    border-radius: var(--vr-radius-md);
+  }
+
+  .vr-dropdown-item {
+    background: transparent;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    padding: var(--vr-space-2) var(--vr-space-3);
+    text-align: inherit;
+  }
+
+  .vr-dropdown-label {
+    color: var(--vr-color-muted);
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: var(--vr-space-2) var(--vr-space-3);
+    text-transform: uppercase;
+  }
+
+  .vr-dropdown-separator {
+    border: 0;
+    border-top: 1px solid var(--vr-color-line);
+    margin: var(--vr-space-1) 0;
+  }
+
+  .vr-tabs-list {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--vr-space-1);
+  }
+
+  .vr-tabs-trigger {
+    background: transparent;
+    border: 1px solid transparent;
+    color: inherit;
+    font: inherit;
+    padding: var(--vr-space-2) var(--vr-space-3);
+  }
+
+  .vr-tabs-variant-line .vr-tabs-trigger[aria-selected="true"] {
+    border-bottom-color: var(--vr-color-brand);
+  }
+
+  .vr-tabs-variant-pill .vr-tabs-trigger[aria-selected="true"] {
+    background: var(--vr-surface-muted);
+  }
+
+  .vr-tabs-orientation-vertical .vr-tabs-list {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .vr-tabs-panel {
+    padding-block: var(--vr-space-4);
+  }
+
+  .vr-toast-viewport {
+    display: grid;
+    gap: var(--vr-space-3);
+  }
+
+  .vr-toast-item {
+    display: grid;
+    gap: var(--vr-space-1);
+    padding: var(--vr-space-3);
+  }
+
+  .vr-toast-title {
+    font-weight: 700;
+  }
+
+  .vr-toast-tone-success {
+    border-color: var(--vr-color-success);
+  }
+
+  .vr-toast-tone-warning {
+    border-color: var(--vr-color-warning);
+  }
+
+  .vr-toast-tone-danger {
+    border-color: var(--vr-color-danger);
+  }
+
+  .vr-toast-placement-topright,
+  .vr-toast-placement-topleft {
+    align-content: start;
+  }
+
+  .vr-toast-placement-bottomright,
+  .vr-toast-placement-bottomleft {
+    align-content: end;
+  }
+
+  .vr-toast-placement-topright,
+  .vr-toast-placement-bottomright {
+    justify-items: end;
+  }
+
 .grid > .col,
 .grid > [class*=col] {
     box-sizing: border-box;

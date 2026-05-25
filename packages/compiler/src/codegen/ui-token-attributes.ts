@@ -66,6 +66,10 @@ function collectDottedTokens(
     const token = match[2] ?? '';
     const tokenGroup = input.uiElement.tokenGroups[groupName];
 
+    if (tokenGroup === undefined && isDottedOpenAttribute(groupName)) {
+      continue;
+    }
+
     if (tokenGroup === undefined || !tokenGroup.tokens.includes(token)) {
       diagnostics.push(createUnknownTokenDiagnostic(input, attribute));
       continue;
@@ -82,6 +86,10 @@ function collectDottedTokens(
       token,
     });
   }
+}
+
+function isDottedOpenAttribute(groupName: string): boolean {
+  return groupName === 'value';
 }
 
 function collectLegacyVariantToken(
@@ -153,10 +161,28 @@ function createTokenClassNames(
   selectedTokens: ReadonlyMap<string, SelectedToken>,
 ): string[] {
   const classNames: string[] = [];
+  const emittedGroups = new Set<string>();
 
   for (const selectedToken of selectedTokens.values()) {
     const className =
       uiElement.tokenGroups[selectedToken.groupName]?.classByToken[selectedToken.token] ?? '';
+
+    emittedGroups.add(selectedToken.groupName);
+
+    if (className.length === 0) {
+      continue;
+    }
+
+    classNames.push(className);
+  }
+
+  for (const [groupName, tokenGroup] of Object.entries(uiElement.tokenGroups)) {
+    if (emittedGroups.has(groupName)) {
+      continue;
+    }
+
+    const token = tokenGroup.defaultToken;
+    const className = tokenGroup.classByToken[token] ?? '';
 
     if (className.length === 0) {
       continue;

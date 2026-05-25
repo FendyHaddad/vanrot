@@ -1,0 +1,16 @@
+.vr-toast,
+.vr-toast-viewport,
+.vr-toast-item,
+.vr-toast-title,
+.vr-toast-description,
+.vr-toast-close,
+.vr-toast-tone-default,
+.vr-toast-tone-success,
+.vr-toast-tone-warning,
+.vr-toast-tone-danger,
+.vr-toast-placement-topright,
+.vr-toast-placement-topleft,
+.vr-toast-placement-bottomright,
+.vr-toast-placement-bottomleft {
+  color: inherit;
+}
