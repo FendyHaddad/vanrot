@@ -1,16 +1,119 @@
-.vr-toast,
-.vr-toast-viewport,
-.vr-toast-item,
-.vr-toast-title,
-.vr-toast-description,
-.vr-toast-close,
-.vr-toast-tone-default,
-.vr-toast-tone-success,
-.vr-toast-tone-warning,
-.vr-toast-tone-danger,
-.vr-toast-placement-topright,
-.vr-toast-placement-topleft,
-.vr-toast-placement-bottomright,
-.vr-toast-placement-bottomleft {
-  color: inherit;
+.vr-toast {
+  display: contents;
+}
+
+.vr-toast-viewport {
+  bottom: var(--vr-space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--vr-space-2);
+  max-width: 420px;
+  pointer-events: none;
+  position: fixed;
+  right: var(--vr-space-4);
+  width: 100%;
+  z-index: var(--vr-z-toast);
+}
+
+.vr-toast-placement-topright .vr-toast-viewport,
+.vr-toast-viewport.vr-toast-placement-topright {
+  bottom: auto;
+  left: auto;
+  right: var(--vr-space-4);
+  top: var(--vr-space-4);
+}
+
+.vr-toast-placement-topleft .vr-toast-viewport,
+.vr-toast-viewport.vr-toast-placement-topleft {
+  bottom: auto;
+  left: var(--vr-space-4);
+  right: auto;
+  top: var(--vr-space-4);
+}
+
+.vr-toast-placement-bottomright .vr-toast-viewport,
+.vr-toast-viewport.vr-toast-placement-bottomright {
+  bottom: var(--vr-space-4);
+  left: auto;
+  right: var(--vr-space-4);
+  top: auto;
+}
+
+.vr-toast-placement-bottomleft .vr-toast-viewport,
+.vr-toast-viewport.vr-toast-placement-bottomleft {
+  bottom: var(--vr-space-4);
+  left: var(--vr-space-4);
+  right: auto;
+  top: auto;
+}
+
+.vr-toast-item {
+  background: var(--vr-surface-raised);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  box-shadow: var(--vr-shadow-2);
+  display: flex;
+  flex-direction: column;
+  gap: var(--vr-space-1);
+  min-width: 320px;
+  padding: var(--vr-space-4);
+  pointer-events: all;
+  position: relative;
+  transition: opacity var(--vr-motion-normal), transform var(--vr-motion-normal);
+}
+
+.vr-toast-title {
+  color: var(--vr-color-text);
+  font: 600 var(--vr-text-sm) / var(--vr-leading-tight) var(--vr-font-sans);
+  margin: 0;
+}
+
+.vr-toast-description {
+  color: var(--vr-color-muted);
+  font: 400 var(--vr-text-sm) / var(--vr-leading-normal) var(--vr-font-sans);
+  margin: 0;
+}
+
+.vr-toast-close {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--vr-radius-sm);
+  color: var(--vr-color-muted);
+  cursor: pointer;
+  display: inline-flex;
+  height: 1.5rem;
+  justify-content: center;
+  padding: 0;
+  position: absolute;
+  right: var(--vr-space-3);
+  top: var(--vr-space-3);
+  transition: background var(--vr-motion-fast), color var(--vr-motion-fast);
+  width: 1.5rem;
+}
+
+.vr-toast-close:hover {
+  background: var(--vr-surface-popover);
+  color: var(--vr-color-text);
+}
+
+/* Tone variants — left border accent */
+.vr-toast-tone-default .vr-toast-item,
+.vr-toast-item.vr-toast-tone-default {
+  border-left: 4px solid var(--vr-color-line);
+}
+
+.vr-toast-tone-success .vr-toast-item,
+.vr-toast-item.vr-toast-tone-success {
+  border-left: 4px solid var(--vr-color-success);
+}
+
+.vr-toast-tone-warning .vr-toast-item,
+.vr-toast-item.vr-toast-tone-warning {
+  border-left: 4px solid var(--vr-color-warning);
+}
+
+.vr-toast-tone-danger .vr-toast-item,
+.vr-toast-item.vr-toast-tone-danger {
+  border-left: 4px solid var(--vr-color-danger);
 }

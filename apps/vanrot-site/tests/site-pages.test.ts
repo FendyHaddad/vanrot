@@ -184,11 +184,11 @@ const phase16FormsDataDocPages = [
 ] as const;
 
 const phase16InteractionDocPages = [
-  { routeKey: 'componentDialogs', path: '/docs/components/dialogs', fileBase: 'component-dialog', title: 'Dialog', tokenSnippet: 'size.md' },
-  { routeKey: 'componentDrawers', path: '/docs/components/drawers', fileBase: 'component-drawer', title: 'Drawer', tokenSnippet: 'side.right' },
-  { routeKey: 'componentDropdowns', path: '/docs/components/dropdowns', fileBase: 'component-dropdown', title: 'Dropdown', tokenSnippet: 'align.end' },
-  { routeKey: 'componentTabs', path: '/docs/components/tabs', fileBase: 'component-tabs', title: 'Tabs', tokenSnippet: 'variant.line' },
-  { routeKey: 'componentToasts', path: '/docs/components/toasts', fileBase: 'component-toast', title: 'Toast', tokenSnippet: 'tone.success' },
+  { routeKey: 'componentDialogs', path: '/docs/components/dialogs', fileBase: 'component-dialog', primitive: 'dialog', title: 'Dialog', tokenSnippet: 'size.md' },
+  { routeKey: 'componentDrawers', path: '/docs/components/drawers', fileBase: 'component-drawer', primitive: 'drawer', title: 'Drawer', tokenSnippet: 'side.right' },
+  { routeKey: 'componentDropdowns', path: '/docs/components/dropdowns', fileBase: 'component-dropdown', primitive: 'dropdown', title: 'Dropdown', tokenSnippet: 'align.end' },
+  { routeKey: 'componentTabs', path: '/docs/components/tabs', fileBase: 'component-tabs', primitive: 'tabs', title: 'Tabs', tokenSnippet: 'variant.line' },
+  { routeKey: 'componentToasts', path: '/docs/components/toasts', fileBase: 'component-toast', primitive: 'toast', title: 'Toast', tokenSnippet: 'tone.success' },
 ] as const;
 
 async function readSiteFile(path: string): Promise<string> {
@@ -446,6 +446,40 @@ describe('vanrot site pages', () => {
       expect(html).toContain('copy-icon-button');
       expect(html).toContain(page.tokenSnippet);
       expect(css).toContain(`component-${page.fileBase.replace('component-', '')}-app`);
+    }
+  });
+
+  it('exposes Phase 16F interaction docs from the component gallery navigation', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+
+    for (const page of phase16InteractionDocPages) {
+      expect(gallery).toContain(
+        `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+      );
+      expect(gallery).toContain(
+        `<a class="variant-tile component-page-link" href="${page.path}">`,
+      );
+      expect(gallery).not.toContain(
+        `<a class="nav-link" href="#${page.primitive}">${page.title}</a>`,
+      );
+    }
+  });
+
+  it('exposes Phase 16F interaction docs from established component page sidebars', async () => {
+    const establishedPages = [
+      'component-button',
+      'component-separator',
+      'component-skeleton',
+    ];
+
+    for (const fileBase of establishedPages) {
+      const html = await readSiteFile(`src/pages/components/${fileBase}.page.html`);
+
+      for (const page of phase16InteractionDocPages) {
+        expect(html).toContain(
+          `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+        );
+      }
     }
   });
 

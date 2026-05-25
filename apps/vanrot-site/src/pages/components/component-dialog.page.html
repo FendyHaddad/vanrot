@@ -1,42 +1,127 @@
-<div class="app component-gallery-app component-phase16e-app component-dialog-app">
-  <main class="content">
-    <h1>{{ doc().title }}</h1>
+<div class="app component-gallery-app component-dialog-app">
+  <vr-sidebar class="sidebar" placement.left aria-label="Component documentation">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/breadcrumbs">Breadcrumb</a>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link" href="/docs/components/containers">Container</a>
+    <a class="nav-link active" href="/docs/components/dialogs">Dialog</a>
+    <a class="nav-link" href="/docs/components/drawers">Drawer</a>
+    <a class="nav-link" href="/docs/components/dropdowns">Dropdown</a>
+    <a class="nav-link" href="/docs/components/footers">Footer</a>
+    <a class="nav-link" href="/docs/components/grids">Grid</a>
+    <a class="nav-link" href="/docs/components/headers">Header</a>
+    <a class="nav-link" href="/docs/components/images">Image</a>
+    <a class="nav-link" href="/docs/components/layouts">Layout</a>
+    <a class="nav-link" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/navigation">Navigation</a>
+    <a class="nav-link" href="/docs/components/sections">Section</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+    <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/sources">Source</a>
+    <a class="nav-link" href="/docs/components/stacks">Stack</a>
+    <a class="nav-link" href="/docs/components/tabs">Tabs</a>
+    <a class="nav-link" href="/docs/components/toasts">Toast</a>
+  </vr-sidebar>
 
-    <section class="preview">
-      <div class="preview-head"><span>Examples</span><span>1</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span>Default</span><code>size.md</code></div>
+  <main>
+    <vr-header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Dialog</span>
       </div>
-    </section>
+      <vr-nav class="topbar-right" aria-label="Component page links">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </vr-nav>
+    </vr-header>
 
-    <section class="variant-doc">
-      <div class="variant-copy">
-        <h2>Default Dialog</h2>
-        <p>Focus moves into the dialog when it opens and returns to the trigger when it closes.</p>
-        <code>size.md</code>
-      </div>
-      <div class="variant-preview">
-        <vr-dialog size.md>
-          <vr-dialog-trigger>
-            <vr-button type="button">Open dialog</vr-button>
-          </vr-dialog-trigger>
-          <vr-dialog-content>
-            <vr-dialog-title>Edit profile</vr-dialog-title>
-            <vr-dialog-description>Update account details.</vr-dialog-description>
-          </vr-dialog-content>
-        </vr-dialog>
-      </div>
-      <div class="code-snippet">
-        <button class="copy-icon-button" aria-label="Copy dialog example" type="button"></button>
-        <pre><code>&lt;vr-dialog size.md&gt;
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+
+      <section class="primitive" id="dialog">
+        <div class="preview">
+          <div class="preview-head"><span>Examples</span><span>1</span></div>
+          <div class="preview-body variant-grid">
+            <div class="variant-tile"><span class="variant-name">default</span><span class="code-chip">size.md</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="dialog-default">
+        <div class="section-head">
+          <div>
+            <h2>Default</h2>
+            <p>Focus moves into the dialog when it opens and returns to the trigger when it closes. Use dialogs for decisions or tasks that require immediate attention.</p>
+          </div>
+          <span class="code-chip">size.md</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview">
+            <vr-dialog size.md>
+              <vr-dialog-trigger>
+                <vr-button type="button">Open dialog</vr-button>
+              </vr-dialog-trigger>
+              <vr-dialog-content>
+                <vr-dialog-header>
+                  <vr-dialog-title>Edit profile</vr-dialog-title>
+                  <vr-dialog-description>Update your account details below.</vr-dialog-description>
+                </vr-dialog-header>
+                <vr-dialog-footer>
+                  <vr-button variant.outline type="button">Cancel</vr-button>
+                  <vr-button type="button">Save changes</vr-button>
+                </vr-dialog-footer>
+              </vr-dialog-content>
+            </vr-dialog>
+          </div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy dialog code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code>&lt;vr-dialog size.md&gt;
   &lt;vr-dialog-trigger&gt;
     &lt;vr-button type="button"&gt;Open dialog&lt;/vr-button&gt;
   &lt;/vr-dialog-trigger&gt;
   &lt;vr-dialog-content&gt;
-    &lt;vr-dialog-title&gt;Edit profile&lt;/vr-dialog-title&gt;
+    &lt;vr-dialog-header&gt;
+      &lt;vr-dialog-title&gt;Edit profile&lt;/vr-dialog-title&gt;
+      &lt;vr-dialog-description&gt;Update your account details.&lt;/vr-dialog-description&gt;
+    &lt;/vr-dialog-header&gt;
+    &lt;vr-dialog-footer&gt;
+      &lt;vr-button variant.outline type="button"&gt;Cancel&lt;/vr-button&gt;
+      &lt;vr-button type="button"&gt;Save changes&lt;/vr-button&gt;
+    &lt;/vr-dialog-footer&gt;
   &lt;/vr-dialog-content&gt;
 &lt;/vr-dialog&gt;</code></pre>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="docs-note">{{ doc().api }}</div>
     </section>
   </main>
 </div>

@@ -1,40 +1,118 @@
-<div class="app component-gallery-app component-phase16e-app component-toast-app">
-  <main class="content">
-    <h1>{{ doc().title }}</h1>
+<div class="app component-gallery-app component-toast-app">
+  <vr-sidebar class="sidebar" placement.left aria-label="Component documentation">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/breadcrumbs">Breadcrumb</a>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link" href="/docs/components/containers">Container</a>
+    <a class="nav-link" href="/docs/components/dialogs">Dialog</a>
+    <a class="nav-link" href="/docs/components/drawers">Drawer</a>
+    <a class="nav-link" href="/docs/components/dropdowns">Dropdown</a>
+    <a class="nav-link" href="/docs/components/footers">Footer</a>
+    <a class="nav-link" href="/docs/components/grids">Grid</a>
+    <a class="nav-link" href="/docs/components/headers">Header</a>
+    <a class="nav-link" href="/docs/components/images">Image</a>
+    <a class="nav-link" href="/docs/components/layouts">Layout</a>
+    <a class="nav-link" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/navigation">Navigation</a>
+    <a class="nav-link" href="/docs/components/sections">Section</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+    <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/sources">Source</a>
+    <a class="nav-link" href="/docs/components/stacks">Stack</a>
+    <a class="nav-link" href="/docs/components/tabs">Tabs</a>
+    <a class="nav-link active" href="/docs/components/toasts">Toast</a>
+  </vr-sidebar>
 
-    <section class="preview">
-      <div class="preview-head"><span>Examples</span><span>1</span></div>
-      <div class="preview-body variant-grid">
-        <div class="variant-tile"><span>Success</span><code>tone.success</code></div>
+  <main>
+    <vr-header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Toast</span>
       </div>
-    </section>
+      <vr-nav class="topbar-right" aria-label="Component page links">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </vr-nav>
+    </vr-header>
 
-    <section class="variant-doc">
-      <div class="variant-copy">
-        <h2>Success Toast</h2>
-        <p>Use toasts for short live-region feedback with a keyboard reachable dismiss action.</p>
-        <code>tone.success</code>
-      </div>
-      <div class="variant-preview">
-        <vr-toast tone.success placement.bottomright aria-label="Notifications">
-          <vr-toast-viewport>
-            <vr-toast-item>
-              <vr-toast-title>Saved</vr-toast-title>
-              <vr-toast-description>Changes were saved.</vr-toast-description>
-            </vr-toast-item>
-          </vr-toast-viewport>
-        </vr-toast>
-      </div>
-      <div class="code-snippet">
-        <button class="copy-icon-button" aria-label="Copy toast example" type="button"></button>
-        <pre><code>&lt;vr-toast tone.success placement.bottomright aria-label="Notifications"&gt;
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+
+      <section class="primitive" id="toast">
+        <div class="preview">
+          <div class="preview-head"><span>Examples</span><span>1</span></div>
+          <div class="preview-body variant-grid">
+            <div class="variant-tile"><span class="variant-name">success</span><span class="code-chip">tone.success</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="toast-success">
+        <div class="section-head">
+          <div>
+            <h2>Success Toast</h2>
+            <p>Use toasts for short live-region feedback with a keyboard reachable dismiss action.</p>
+          </div>
+          <span class="code-chip">tone.success</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview">
+            <vr-toast tone.success placement.bottomright aria-label="Notifications">
+              <vr-toast-viewport>
+                <vr-toast-item>
+                  <vr-toast-title>Changes saved</vr-toast-title>
+                  <vr-toast-description>Your profile has been updated successfully.</vr-toast-description>
+                  <button class="vr-toast-close" type="button" aria-label="Dismiss">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d="M18 6 6 18M6 6l12 12"></path>
+                    </svg>
+                  </button>
+                </vr-toast-item>
+              </vr-toast-viewport>
+            </vr-toast>
+          </div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy toast code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code>&lt;vr-toast tone.success placement.bottomright aria-label="Notifications"&gt;
   &lt;vr-toast-viewport&gt;
     &lt;vr-toast-item&gt;
-      &lt;vr-toast-title&gt;Saved&lt;/vr-toast-title&gt;
+      &lt;vr-toast-title&gt;Changes saved&lt;/vr-toast-title&gt;
+      &lt;vr-toast-description&gt;Your profile has been updated successfully.&lt;/vr-toast-description&gt;
     &lt;/vr-toast-item&gt;
   &lt;/vr-toast-viewport&gt;
 &lt;/vr-toast&gt;</code></pre>
-      </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="docs-note">{{ doc().api }}</div>
     </section>
   </main>
 </div>

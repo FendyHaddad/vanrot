@@ -363,6 +363,23 @@
         background: var(--bg);
       }
 
+      .component-page-link {
+        color: var(--text);
+        text-decoration: none;
+        transition: border-color 0.12s, background 0.12s;
+      }
+
+      .component-page-link:hover {
+        border-color: rgba(255,255,255,0.18);
+        background: var(--panel-soft);
+      }
+
+      .component-page-link code {
+        color: var(--muted);
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+
       .variant-name {
         color: var(--faint);
         font-family: var(--font-mono);

@@ -1,10 +1,99 @@
-.vr-tabs,
-.vr-tabs-list,
-.vr-tabs-trigger,
-.vr-tabs-panel,
-.vr-tabs-variant-line,
-.vr-tabs-variant-pill,
-.vr-tabs-orientation-horizontal,
+.vr-tabs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--vr-space-4);
+  width: 100%;
+}
+
+.vr-tabs-list {
+  display: flex;
+  flex-shrink: 0;
+  gap: var(--vr-space-1);
+}
+
+.vr-tabs-trigger {
+  align-items: center;
+  background: transparent;
+  border: none;
+  border-radius: var(--vr-radius-md);
+  color: var(--vr-color-muted);
+  cursor: pointer;
+  display: inline-flex;
+  font: 500 var(--vr-text-sm) / 1 var(--vr-font-sans);
+  height: 2.25rem;
+  padding: 0 var(--vr-space-3);
+  transition: color var(--vr-motion-fast), background var(--vr-motion-fast);
+  white-space: nowrap;
+}
+
+.vr-tabs-trigger:hover {
+  color: var(--vr-color-text);
+}
+
+.vr-tabs-trigger:focus-visible {
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--vr-color-focus) 28%, transparent);
+  outline: 2px solid var(--vr-color-focus);
+  outline-offset: 2px;
+}
+
+.vr-tabs-trigger[aria-selected="true"],
+.vr-tabs-trigger[data-state="active"] {
+  color: var(--vr-color-text);
+}
+
+.vr-tabs-panel {
+  color: var(--vr-color-text);
+  font: 400 var(--vr-text-sm) / var(--vr-leading-normal) var(--vr-font-sans);
+}
+
+/* Line variant */
+.vr-tabs-variant-line .vr-tabs-list {
+  border-bottom: 1px solid var(--vr-color-line);
+  border-radius: 0;
+  gap: 0;
+  padding: 0;
+}
+
+.vr-tabs-variant-line .vr-tabs-trigger {
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  margin-bottom: -1px;
+  padding: 0 var(--vr-space-4);
+}
+
+.vr-tabs-variant-line .vr-tabs-trigger[aria-selected="true"],
+.vr-tabs-variant-line .vr-tabs-trigger[data-state="active"] {
+  border-bottom-color: var(--vr-color-brand);
+  color: var(--vr-color-text);
+}
+
+/* Pill variant */
+.vr-tabs-variant-pill .vr-tabs-list {
+  background: var(--vr-surface-muted);
+  border-radius: var(--vr-radius-md);
+  padding: var(--vr-space-1);
+}
+
+.vr-tabs-variant-pill .vr-tabs-trigger {
+  border-radius: calc(var(--vr-radius-md) - 2px);
+}
+
+.vr-tabs-variant-pill .vr-tabs-trigger[aria-selected="true"],
+.vr-tabs-variant-pill .vr-tabs-trigger[data-state="active"] {
+  background: var(--vr-surface-raised);
+  box-shadow: var(--vr-shadow-1);
+  color: var(--vr-color-text);
+}
+
+/* Orientation */
+.vr-tabs-orientation-horizontal {
+  flex-direction: column;
+}
+
 .vr-tabs-orientation-vertical {
-  color: inherit;
+  flex-direction: row;
+}
+
+.vr-tabs-orientation-vertical .vr-tabs-list {
+  flex-direction: column;
 }
