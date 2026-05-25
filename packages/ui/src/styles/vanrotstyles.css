@@ -179,6 +179,230 @@
     margin-top: -0.5rem;
 }
 
+  .vr-form {
+    display: grid;
+    gap: var(--vr-space-4);
+  }
+
+  .vr-form-field {
+    display: grid;
+    gap: var(--vr-space-2);
+  }
+
+  .vr-label {
+    color: var(--vr-color-text);
+    font-weight: 600;
+  }
+
+  .vr-input,
+  .vr-textarea,
+  .vr-select {
+    background: var(--vr-surface-card);
+    border: 1px solid var(--vr-border-subtle);
+    border-radius: var(--vr-radius-md);
+    color: var(--vr-color-text);
+    font: inherit;
+    min-height: 2.5rem;
+    padding-inline: var(--vr-space-3);
+  }
+
+  .vr-textarea {
+    min-height: 7rem;
+    padding-block: var(--vr-space-3);
+    resize: vertical;
+  }
+
+  .vr-control-size-xs,
+  .vr-input-size-xs {
+    min-height: 1.875rem;
+  }
+
+  .vr-control-size-sm,
+  .vr-input-size-sm,
+  .vr-textarea-size-sm,
+  .vr-select-size-sm,
+  .vr-pagination-size-sm,
+  .vr-empty-state-size-sm {
+    font-size: 0.875rem;
+    min-height: 2rem;
+  }
+
+  .vr-control-size-lg,
+  .vr-input-size-lg,
+  .vr-textarea-size-lg,
+  .vr-select-size-lg,
+  .vr-pagination-size-lg,
+  .vr-empty-state-size-lg {
+    font-size: 1rem;
+    min-height: 3rem;
+  }
+
+  .vr-input-size-xl,
+  .vr-textarea-size-xl,
+  .vr-select-size-xl {
+    font-size: 1.0625rem;
+    min-height: 3.5rem;
+  }
+
+  .vr-input-tone-success,
+  .vr-control-tone-success {
+    border-color: var(--vr-color-success);
+  }
+
+  .vr-input-tone-warning,
+  .vr-control-tone-warning {
+    border-color: var(--vr-color-warning);
+  }
+
+  .vr-input-tone-danger,
+  .vr-control-tone-danger {
+    border-color: var(--vr-color-danger);
+  }
+
+  .vr-checkbox,
+  .vr-radio,
+  .vr-slider {
+    accent-color: var(--vr-color-brand);
+  }
+
+  .vr-radio-group {
+    display: grid;
+    gap: var(--vr-space-2);
+  }
+
+  .vr-switch {
+    align-items: center;
+    background: var(--vr-surface-card);
+    border: 1px solid var(--vr-border-subtle);
+    border-radius: 999px;
+    display: inline-flex;
+    min-height: 2rem;
+    min-width: 3.5rem;
+  }
+
+  .vr-table {
+    border-collapse: collapse;
+    color: var(--vr-color-text);
+    width: 100%;
+  }
+
+  .vr-table-density-compact .vr-table-cell,
+  .vr-table-density-compact .vr-table-head {
+    padding-block: var(--vr-space-2);
+  }
+
+  .vr-table-density-dense .vr-table-cell,
+  .vr-table-density-dense .vr-table-head {
+    padding-block: var(--vr-space-1);
+  }
+
+  .vr-table-tone-muted {
+    color: var(--vr-color-muted);
+  }
+
+  .vr-table-header,
+  .vr-table-footer,
+  .vr-table-row {
+    border-color: var(--vr-border-subtle);
+  }
+
+  .vr-table-head,
+  .vr-table-cell {
+    padding: var(--vr-space-3);
+    text-align: left;
+  }
+
+  .vr-table-head {
+    color: var(--vr-color-muted);
+    font-weight: 600;
+  }
+
+  .vr-table-caption {
+    color: var(--vr-color-muted);
+    padding: var(--vr-space-2);
+    text-align: left;
+  }
+
+  .vr-pagination {
+    align-items: center;
+    display: inline-flex;
+    gap: var(--vr-space-2);
+  }
+
+  .vr-pagination-compact {
+    gap: var(--vr-space-1);
+  }
+
+  .vr-pagination-numbers {
+    font-variant-numeric: var(--vr-font-feature-numeric);
+  }
+
+  .vr-list {
+    display: grid;
+    gap: var(--vr-space-2);
+    margin: 0;
+    padding-inline-start: var(--vr-space-5);
+  }
+
+  .vr-list-marker-none {
+    list-style: none;
+    padding-inline-start: 0;
+  }
+
+  .vr-list-marker-check {
+    list-style: "✓ ";
+  }
+
+  .vr-list-density-compact {
+    gap: var(--vr-space-1);
+  }
+
+  .vr-list-density-dense {
+    gap: 0;
+  }
+
+  .vr-stat,
+  .vr-empty-state {
+    background: var(--vr-surface-card);
+    border: 1px solid var(--vr-border-subtle);
+    border-radius: var(--vr-radius-lg);
+    display: grid;
+    gap: var(--vr-space-2);
+    padding: var(--vr-space-4);
+  }
+
+  .vr-stat-tone-success {
+    border-color: var(--vr-color-success);
+  }
+
+  .vr-stat-tone-warning {
+    border-color: var(--vr-color-warning);
+  }
+
+  .vr-stat-tone-danger {
+    border-color: var(--vr-color-danger);
+  }
+
+  .vr-stat-tone-muted,
+  .vr-empty-state-muted {
+    color: var(--vr-color-muted);
+  }
+
+  .vr-stat-align-center {
+    text-align: center;
+  }
+
+  .vr-stat-align-right {
+    text-align: right;
+  }
+
+  .vr-empty-state {
+    align-items: center;
+    border-style: dashed;
+    min-height: 10rem;
+    place-items: center;
+  }
+
 .grid > .col,
 .grid > [class*=col] {
     box-sizing: border-box;

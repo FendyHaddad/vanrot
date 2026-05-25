@@ -1,0 +1,6 @@
+.vr-table-head {
+  color: var(--vr-color-muted);
+  font-weight: 600;
+  padding: var(--vr-space-3);
+  text-align: left;
+}

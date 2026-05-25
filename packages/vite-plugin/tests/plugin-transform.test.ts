@@ -71,6 +71,22 @@ describe('vanrot plugin transform', () => {
     expect(result).toBeUndefined();
   });
 
+  it('ignores component entries imported as static URL assets', async () => {
+    const plugin = createVanrotPluginForTests({
+      compile: async () => {
+        throw new Error('Static URL asset imports must not compile component entries.');
+      },
+    });
+
+    const result = await getTransformHook(plugin).call(
+      {} as never,
+      'export class UiLayout {}',
+      '/repo/src/ui/layout/ui.layout.ts?url',
+    );
+
+    expect(result).toBeUndefined();
+  });
+
   it('transforms component entries and registers sibling files', async () => {
     const watched: string[] = [];
     const plugin = createVanrotPluginForTests({

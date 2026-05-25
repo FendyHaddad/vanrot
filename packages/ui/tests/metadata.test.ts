@@ -1,11 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import {
   defaultUiPrefix,
+  phase16FormsDataPrimitiveOrder,
   uiAppFile,
   uiAssetUrl,
   uiComponentCatalog,
   uiComponentPhase,
+  uiComponentRegistry,
+  uiDensityToken,
   uiFlavor,
+  uiInputTypeToken,
   uiPackageInventory,
   uiPrimitive,
   uiPrimitiveOrder,
@@ -81,9 +85,19 @@ describe('@vanrot/ui metadata', () => {
   });
 
   it('exports the Phase 16D layout, navigation, and media primitive order', () => {
-    expect(uiPrimitiveOrder.slice(phase16CorePrimitiveOrder.length)).toEqual([
+    const layoutStart = phase16CorePrimitiveOrder.length;
+    const layoutEnd = layoutStart + phase16LayoutNavigationMediaPrimitiveOrder.length;
+
+    expect(uiPrimitiveOrder.slice(layoutStart, layoutEnd)).toEqual([
       ...phase16LayoutNavigationMediaPrimitiveOrder,
     ]);
+  });
+
+  it('exports the Phase 16E forms and data primitive order', () => {
+    const formsDataStart =
+      phase16CorePrimitiveOrder.length + phase16LayoutNavigationMediaPrimitiveOrder.length;
+
+    expect(uiPrimitiveOrder.slice(formsDataStart)).toEqual([...phase16FormsDataPrimitiveOrder]);
   });
 
   it('exports source-of-truth variants for Phase 16B primitives', () => {
@@ -187,24 +201,85 @@ describe('@vanrot/ui metadata', () => {
     expect(uiPrimitive.src.nativeTag).toBe('source');
   });
 
+  it('exports the Phase 16E forms and data component catalog shape', () => {
+    for (const primitive of phase16FormsDataPrimitiveOrder) {
+      const metadata = uiPrimitive[primitive];
+      const registryItem = uiComponentRegistry[primitive];
+
+      expect(metadata.type).toBe(primitive);
+      expect(metadata.selector).toBe(registryItem.selector);
+      expect(metadata.directory).toBe(`src/ui/${primitive.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}`);
+      expect(metadata.productionPhase).toBe('16E');
+      expect(metadata.nativeTag).toBe(registryItem.nativeTag);
+      expect(metadata.docsPath).toBe(registryItem.docsPath);
+      expect(uiComponentCatalog[primitive].selector).toBe(registryItem.selector);
+    }
+
+    expect(uiPrimitive.form.nativeTag).toBe('form');
+    expect(uiPrimitive.input.nativeTag).toBe('input');
+    expect(uiPrimitive.table.nativeTag).toBe('table');
+    expect(uiPrimitive.tableHead.nativeTag).toBe('th');
+    expect(uiPrimitive.emptyState.nativeTag).toBe('section');
+  });
+
+  it('exports rich token scales and registry data for Phase 16E', () => {
+    expect(uiInputTypeToken).toEqual(['text', 'email', 'password', 'number', 'search', 'tel', 'url']);
+    expect(uiDensityToken).toEqual(['comfortable', 'compact', 'dense']);
+    expect(uiComponentRegistry.input.tokens.type.tokens).toEqual(uiInputTypeToken);
+    expect(uiComponentRegistry.input.tokens.size.tokens).toEqual(['xs', 'sm', 'md', 'lg', 'xl']);
+    expect(uiComponentRegistry.input.booleans.map((attribute) => attribute.name)).toEqual([
+      'required',
+      'disabled',
+      'readonly',
+      'invalid',
+    ]);
+    expect(uiComponentRegistry.input.openAttributes.map((attribute) => attribute.name)).toContain(
+      'placeholder',
+    );
+    expect(uiComponentRegistry.table.tokens.density.tokens).toEqual(uiDensityToken);
+    expect(uiComponentRegistry.table.booleans.map((attribute) => attribute.name)).toEqual([
+      'sortable',
+      'filterable',
+      'paginated',
+      'selectable',
+      'loading',
+    ]);
+    expect(uiComponentRegistry.table.examples[0]?.code).toContain('density.compact');
+  });
+
+  it('derives Phase 16E compatibility token groups from the rich registry', () => {
+    expect(uiPrimitiveTokenGroup.input.type.tokens).toEqual(uiInputTypeToken);
+    expect(uiPrimitiveTokenGroup.input.size.classByToken.lg).toBe('vr-input-size-lg');
+    expect(uiPrimitiveTokenGroup.input.tone.classByToken.danger).toBe('vr-input-tone-danger');
+    expect(uiPrimitiveTokenGroup.table.density.classByToken.compact).toBe(
+      'vr-table-density-compact',
+    );
+    expect(uiPrimitiveTokenGroup.pagination.variant.classByToken.numbers).toBe(
+      'vr-pagination-numbers',
+    );
+    expect(uiPrimitiveTokenGroup.stat.align.classByToken.right).toBe('vr-stat-align-right');
+  });
+
   it('exports file-backed package asset URLs', () => {
     expect(uiAssetUrl.tokens.href).toContain('/src/tokens/vanrot-tokens.css');
 
     for (const primitive of uiPrimitiveOrder) {
+      const primitiveFileName = primitive.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+
       expect(uiAssetUrl[primitive].typescript.href).toContain(
-        `/src/primitives/${primitive}/ui.${primitive}.ts`,
+        `/src/primitives/${primitiveFileName}/ui.${primitiveFileName}.ts`,
       );
       expect(uiAssetUrl[primitive].html.href).toContain(
-        `/src/primitives/${primitive}/ui.${primitive}.html`,
+        `/src/primitives/${primitiveFileName}/ui.${primitiveFileName}.html`,
       );
       expect(uiAssetUrl[primitive].css.href).toContain(
-        `/src/primitives/${primitive}/ui.${primitive}.css`,
+        `/src/primitives/${primitiveFileName}/ui.${primitiveFileName}.css`,
       );
       expect(uiAssetUrl[primitive].test.href).toContain(
-        `/src/primitives/${primitive}/ui.${primitive}.test.ts`,
+        `/src/primitives/${primitiveFileName}/ui.${primitiveFileName}.test.ts`,
       );
       expect(uiAssetUrl[primitive].homeUsage.href).toContain(
-        `/src/primitives/${primitive}/usage.home.html`,
+        `/src/primitives/${primitiveFileName}/usage.home.html`,
       );
     }
   });

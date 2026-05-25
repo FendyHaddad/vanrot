@@ -1,0 +1,5 @@
+.vr-table {
+  border-collapse: collapse;
+  color: var(--vr-color-text);
+  width: 100%;
+}

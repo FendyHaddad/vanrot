@@ -77,6 +77,50 @@ describe('UI dotted token attributes', () => {
     expect(result.js).not.toContain('gap.3');
   });
 
+  it('lowers Phase 16E form and data tokens into static classes and native defaults', () => {
+    const result = compileTemplate(`
+      <vr-input type.email size.lg tone.danger name="email"></vr-input>
+      <vr-table density.compact tone.muted sortable>
+        <vr-table-body><vr-table-row><vr-table-cell>Paid</vr-table-cell></vr-table-row></vr-table-body>
+      </vr-table>
+      <vr-pagination size.sm variant.numbers></vr-pagination>
+      <vr-list marker.check density.dense></vr-list>
+      <vr-stat tone.success align.right></vr-stat>
+    `);
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      "input0.setAttribute('class', 'vr-input vr-input-type-email vr-input-size-lg vr-input-tone-danger');",
+    );
+    expect(result.js).toContain("input0.setAttribute('type', 'email');");
+    expect(result.js).toContain(
+      "table0.setAttribute('class', 'vr-table vr-table-density-compact vr-table-tone-muted');",
+    );
+    expect(result.js).toContain(
+      "nav0.setAttribute('class', 'vr-pagination vr-pagination-size-sm vr-pagination-numbers');",
+    );
+    expect(result.js).toContain(
+      "ul0.setAttribute('class', 'vr-list vr-list-marker-check vr-list-density-dense');",
+    );
+    expect(result.js).toContain(
+      "section0.setAttribute('class', 'vr-stat vr-stat-tone-success vr-stat-align-right');",
+    );
+    expect(result.js).not.toContain('type.email');
+    expect(result.js).not.toContain('density.compact');
+    expect(result.features).toEqual(
+      expect.arrayContaining(['ui-input', 'ui-table', 'ui-pagination', 'ui-list', 'ui-stat']),
+    );
+  });
+
+  it('keeps user classes after Phase 16E generated classes', () => {
+    const result = compileTemplate('<vr-input class="invoice-input" size.sm></vr-input>');
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      "input0.setAttribute('class', 'vr-input vr-input-size-sm invoice-input');",
+    );
+  });
+
   it('diagnoses duplicate dotted tokens within the same token group', () => {
     const result = compileTemplate('<vr-grid cols.3 cols.4>Content</vr-grid>');
 
@@ -99,6 +143,19 @@ describe('UI dotted token attributes', () => {
         severity: 'error',
         message:
           'Unknown token "cols.13" for <vr-grid>. Supported tokens: cols.1, cols.2, cols.3, cols.4, cols.6, cols.12, gap.0, gap.1, gap.2, gap.3, gap.4, gap.5, gap.6, gap.8.',
+      }),
+    ]);
+  });
+
+  it('diagnoses unknown Phase 16E dotted token values', () => {
+    const result = compileTemplate('<vr-table density.nano>Content</vr-table>');
+
+    expect(result.diagnostics).toEqual([
+      expect.objectContaining({
+        code: 'VR021',
+        severity: 'error',
+        message:
+          'Unknown token "density.nano" for <vr-table>. Supported tokens: density.comfortable, density.compact, density.dense, tone.default, tone.muted.',
       }),
     ]);
   });

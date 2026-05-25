@@ -2,6 +2,7 @@ export const commandName = {
   create: 'create',
   generate: 'generate',
   add: 'add',
+  ui: 'ui',
   config: 'config',
   doctor: 'doctor',
   map: 'map',
@@ -69,6 +70,20 @@ Primitives
 Examples
   vr add button
   vr add primary button`,
+  },
+  {
+    name: commandName.ui,
+    usage: 'vr ui list',
+    rootUsage: 'ui <component>',
+    description: 'Inspect UI component APIs and tokens',
+    secondaryUsages: ['vr ui <component> --help'],
+    help: `vr ui list
+vr ui <component> --help
+
+Examples
+  vr ui list
+  vr ui input --help
+  vr ui table --help`,
   },
   {
     name: commandName.config,
@@ -140,7 +155,10 @@ vr ai summarize`,
 ] as const;
 
 export const commandGroups = [
-  { label: 'Scaffold', commands: [commandName.create, commandName.generate, commandName.add] },
+  {
+    label: 'Scaffold',
+    commands: [commandName.create, commandName.generate, commandName.add, commandName.ui],
+  },
   { label: 'Development', commands: [commandName.dev, commandName.build, commandName.test] },
   {
     label: 'Maintenance',

@@ -1,0 +1,9 @@
+.vr-switch {
+  align-items: center;
+  background: var(--vr-surface-card);
+  border: 1px solid var(--vr-border-subtle);
+  border-radius: 999px;
+  display: inline-flex;
+  min-height: 2rem;
+  min-width: 3.5rem;
+}

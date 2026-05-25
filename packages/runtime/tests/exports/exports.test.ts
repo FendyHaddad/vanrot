@@ -12,6 +12,8 @@ describe('runtime exports', () => {
     expect(runtime.mount).toBeTypeOf('function');
     expect(runtime.onMount).toBeTypeOf('function');
     expect(runtime.onDestroy).toBeTypeOf('function');
+    expect(runtime.createFormController).toBeTypeOf('function');
+    expect(runtime.emailValidator).toBeTypeOf('function');
   });
 
   it('exposes the compiler-facing internal API', () => {
@@ -20,6 +22,9 @@ describe('runtime exports', () => {
     expect(internal.runWithoutCleanupScope).toBeTypeOf('function');
     expect(internal.disposeCleanupScope).toBeTypeOf('function');
     expect(internal.listen).toBeTypeOf('function');
+    expect(internal.connectFormControl).toBeTypeOf('function');
+    expect(internal.createTableController).toBeTypeOf('function');
+    expect(internal.connectTableFilter).toBeTypeOf('function');
   });
 
   it('exports input helpers', async () => {

@@ -6,6 +6,21 @@ export { batch } from './reactive/batch.js';
 export { untrack } from './reactive/untrack.js';
 export type { InputSignal } from './inputs/input.js';
 export { input } from './inputs/input.js';
+export type {
+  FormController,
+  FormErrors,
+  FormFieldController,
+  FormFieldOptions,
+  FormFieldValue,
+  FormValidator,
+  FormValues,
+} from './forms/form-controller.js';
+export {
+  createFormController,
+  emailValidator,
+  minLengthValidator,
+  requiredValidator,
+} from './forms/form-controller.js';
 
 export { onDestroy } from './lifecycle/on-destroy.js';
 export { onMount } from './lifecycle/on-mount.js';

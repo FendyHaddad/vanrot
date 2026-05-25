@@ -7,21 +7,45 @@ import { ComponentBadgePage } from './pages/components/component-badge.page.ts';
 import { ComponentBreadcrumbPage } from './pages/components/component-breadcrumb.page.ts';
 import { ComponentButtonPage } from './pages/components/component-button.page.ts';
 import { ComponentCardPage } from './pages/components/component-card.page.ts';
+import { ComponentCheckboxPage } from './pages/components/component-checkbox.page.ts';
 import { ComponentContainerPage } from './pages/components/component-container.page.ts';
+import { ComponentEmptyStatePage } from './pages/components/component-empty-state.page.ts';
 import { ComponentFooterPage } from './pages/components/component-footer.page.ts';
+import { ComponentFormFieldPage } from './pages/components/component-form-field.page.ts';
+import { ComponentFormPage } from './pages/components/component-form.page.ts';
 import { ComponentGalleryPage } from './pages/components/component-gallery.page.ts';
 import { ComponentGridPage } from './pages/components/component-grid.page.ts';
 import { ComponentHeaderPage } from './pages/components/component-header.page.ts';
 import { ComponentImgPage } from './pages/components/component-img.page.ts';
+import { ComponentInputPage } from './pages/components/component-input.page.ts';
+import { ComponentLabelPage } from './pages/components/component-label.page.ts';
 import { ComponentLayoutPage } from './pages/components/component-layout.page.ts';
+import { ComponentListItemPage } from './pages/components/component-list-item.page.ts';
+import { ComponentListPage } from './pages/components/component-list.page.ts';
 import { ComponentLoaderPage } from './pages/components/component-loader.page.ts';
 import { ComponentNavPage } from './pages/components/component-nav.page.ts';
+import { ComponentPaginationPage } from './pages/components/component-pagination.page.ts';
+import { ComponentRadioGroupPage } from './pages/components/component-radio-group.page.ts';
+import { ComponentRadioPage } from './pages/components/component-radio.page.ts';
 import { ComponentSectionPage } from './pages/components/component-section.page.ts';
+import { ComponentSelectPage } from './pages/components/component-select.page.ts';
 import { ComponentSeparatorPage } from './pages/components/component-separator.page.ts';
 import { ComponentSidebarPage } from './pages/components/component-sidebar.page.ts';
 import { ComponentSkeletonPage } from './pages/components/component-skeleton.page.ts';
+import { ComponentSliderPage } from './pages/components/component-slider.page.ts';
 import { ComponentSrcPage } from './pages/components/component-src.page.ts';
 import { ComponentStackPage } from './pages/components/component-stack.page.ts';
+import { ComponentStatPage } from './pages/components/component-stat.page.ts';
+import { ComponentSwitchPage } from './pages/components/component-switch.page.ts';
+import { ComponentTableBodyPage } from './pages/components/component-table-body.page.ts';
+import { ComponentTableCaptionPage } from './pages/components/component-table-caption.page.ts';
+import { ComponentTableCellPage } from './pages/components/component-table-cell.page.ts';
+import { ComponentTableFooterPage } from './pages/components/component-table-footer.page.ts';
+import { ComponentTableHeadPage } from './pages/components/component-table-head.page.ts';
+import { ComponentTableHeaderPage } from './pages/components/component-table-header.page.ts';
+import { ComponentTableRowPage } from './pages/components/component-table-row.page.ts';
+import { ComponentTablePage } from './pages/components/component-table.page.ts';
+import { ComponentTextareaPage } from './pages/components/component-textarea.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
 import { ReferencePage } from './pages/reference/reference.page.ts';
@@ -45,19 +69,43 @@ const routePath = {
   componentButtons: componentDocPath.button,
   componentCards: componentDocPath.card,
   componentContainers: componentDocPath.container,
+  componentCheckboxes: componentDocPath.checkbox,
+  componentEmptyStates: componentDocPath.emptyState,
   componentFooters: componentDocPath.footer,
+  componentForms: componentDocPath.form,
+  componentFormFields: componentDocPath.formField,
   componentGrids: componentDocPath.grid,
   componentHeaders: componentDocPath.header,
   componentImages: componentDocPath.img,
+  componentInputs: componentDocPath.input,
+  componentLabels: componentDocPath.label,
   componentLayouts: componentDocPath.layout,
+  componentLists: componentDocPath.list,
+  componentListItems: componentDocPath.listItem,
   componentLoaders: componentDocPath.loader,
   componentNavigation: componentDocPath.nav,
+  componentPagination: componentDocPath.pagination,
+  componentRadios: componentDocPath.radio,
+  componentRadioGroups: componentDocPath.radioGroup,
   componentSections: componentDocPath.section,
+  componentSelects: componentDocPath.select,
   componentSeparators: componentDocPath.separator,
   componentSidebars: componentDocPath.sidebar,
   componentSkeletons: componentDocPath.skeleton,
+  componentSliders: componentDocPath.slider,
   componentSources: componentDocPath.src,
   componentStacks: componentDocPath.stack,
+  componentStats: componentDocPath.stat,
+  componentSwitches: componentDocPath.switch,
+  componentTables: componentDocPath.table,
+  componentTableBodies: componentDocPath.tableBody,
+  componentTableCaptions: componentDocPath.tableCaption,
+  componentTableCells: componentDocPath.tableCell,
+  componentTableFooters: componentDocPath.tableFooter,
+  componentTableHeads: componentDocPath.tableHead,
+  componentTableHeaders: componentDocPath.tableHeader,
+  componentTableRows: componentDocPath.tableRow,
+  componentTextareas: componentDocPath.textarea,
   reference: '/reference',
 } as const;
 
@@ -79,6 +127,18 @@ function siteDocument(label: string, description: string) {
 
 function componentDocument(label: string) {
   return siteDocument(label, `${label} component documentation for Vanrot UI.`);
+}
+
+function componentDocsPage(path: string, label: string, page: new () => object) {
+  return routes.page({
+    path,
+    label,
+    ...componentDocument(label),
+    page,
+    ...componentRoutePerformance(),
+    nav: routes.nav.hidden(),
+    breadcrumb: routes.breadcrumb.root(),
+  });
 }
 
 const home = routes.page({
@@ -321,6 +381,87 @@ const componentStacks = routes.page({
   breadcrumb: routes.breadcrumb.root(),
 });
 
+const componentCheckboxes = componentDocsPage(
+  routePath.componentCheckboxes,
+  'Checkbox',
+  ComponentCheckboxPage,
+);
+const componentEmptyStates = componentDocsPage(
+  routePath.componentEmptyStates,
+  'Empty State',
+  ComponentEmptyStatePage,
+);
+const componentForms = componentDocsPage(routePath.componentForms, 'Form', ComponentFormPage);
+const componentFormFields = componentDocsPage(
+  routePath.componentFormFields,
+  'Form Field',
+  ComponentFormFieldPage,
+);
+const componentInputs = componentDocsPage(routePath.componentInputs, 'Input', ComponentInputPage);
+const componentLabels = componentDocsPage(routePath.componentLabels, 'Label', ComponentLabelPage);
+const componentLists = componentDocsPage(routePath.componentLists, 'List', ComponentListPage);
+const componentListItems = componentDocsPage(
+  routePath.componentListItems,
+  'List Item',
+  ComponentListItemPage,
+);
+const componentPagination = componentDocsPage(
+  routePath.componentPagination,
+  'Pagination',
+  ComponentPaginationPage,
+);
+const componentRadioGroups = componentDocsPage(
+  routePath.componentRadioGroups,
+  'Radio Group',
+  ComponentRadioGroupPage,
+);
+const componentRadios = componentDocsPage(routePath.componentRadios, 'Radio', ComponentRadioPage);
+const componentSelects = componentDocsPage(routePath.componentSelects, 'Select', ComponentSelectPage);
+const componentSliders = componentDocsPage(routePath.componentSliders, 'Slider', ComponentSliderPage);
+const componentStats = componentDocsPage(routePath.componentStats, 'Stat', ComponentStatPage);
+const componentSwitches = componentDocsPage(routePath.componentSwitches, 'Switch', ComponentSwitchPage);
+const componentTables = componentDocsPage(routePath.componentTables, 'Table', ComponentTablePage);
+const componentTableBodies = componentDocsPage(
+  routePath.componentTableBodies,
+  'Table Body',
+  ComponentTableBodyPage,
+);
+const componentTableCaptions = componentDocsPage(
+  routePath.componentTableCaptions,
+  'Table Caption',
+  ComponentTableCaptionPage,
+);
+const componentTableCells = componentDocsPage(
+  routePath.componentTableCells,
+  'Table Cell',
+  ComponentTableCellPage,
+);
+const componentTableFooters = componentDocsPage(
+  routePath.componentTableFooters,
+  'Table Footer',
+  ComponentTableFooterPage,
+);
+const componentTableHeads = componentDocsPage(
+  routePath.componentTableHeads,
+  'Table Head',
+  ComponentTableHeadPage,
+);
+const componentTableHeaders = componentDocsPage(
+  routePath.componentTableHeaders,
+  'Table Header',
+  ComponentTableHeaderPage,
+);
+const componentTableRows = componentDocsPage(
+  routePath.componentTableRows,
+  'Table Row',
+  ComponentTableRowPage,
+);
+const componentTextareas = componentDocsPage(
+  routePath.componentTextareas,
+  'Textarea',
+  ComponentTextareaPage,
+);
+
 const docsInstallation = articlePage(siteArticleKey.installation);
 const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
 const docsRuntime = articlePage(siteArticleKey.runtime);
@@ -376,20 +517,44 @@ export const route = defineRoutes({
   componentAvatars,
   componentAlerts,
   componentBreadcrumbs,
+  componentCheckboxes,
   componentContainers,
+  componentEmptyStates,
   componentFooters,
+  componentForms,
+  componentFormFields,
   componentGrids,
   componentHeaders,
   componentImages,
+  componentInputs,
+  componentLabels,
   componentLayouts,
+  componentLists,
+  componentListItems,
   componentLoaders,
   componentNavigation,
+  componentPagination,
+  componentRadios,
+  componentRadioGroups,
   componentSections,
+  componentSelects,
   componentSkeletons,
   componentSeparators,
   componentSidebars,
+  componentSliders,
   componentSources,
   componentStacks,
+  componentStats,
+  componentSwitches,
+  componentTables,
+  componentTableBodies,
+  componentTableCaptions,
+  componentTableCells,
+  componentTableFooters,
+  componentTableHeads,
+  componentTableHeaders,
+  componentTableRows,
+  componentTextareas,
   docsIntroduction,
   docsInstallation,
   docsProjectStructure,

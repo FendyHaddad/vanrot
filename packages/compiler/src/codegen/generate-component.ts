@@ -370,6 +370,7 @@ function generateCompilerUiElement(
   state.diagnostics.push(...resolvedTokens.diagnostics);
   generateUiElementClass(node, elementName, state, uiElement, resolvedTokens.classNames);
   generateUiAccessibilityDefaults(node, elementName, state, uiElement, resolvedTokens.activeTokens);
+  generateUiSemanticDefaults(node, elementName, state, uiElement, resolvedTokens.activeTokens);
 
   for (const attribute of node.attributes) {
     if (attribute.name === 'class' || resolvedTokens.consumedAttributeNames.has(attribute.name)) {
@@ -437,6 +438,39 @@ function generateUiAccessibilityDefaults(
         activeTokens.orientation ?? 'horizontal',
       )});`,
     );
+  }
+}
+
+function generateUiSemanticDefaults(
+  node: ElementNode,
+  elementName: string,
+  state: GenerateState,
+  uiElement: CompilerUiElement,
+  activeTokens: Readonly<Record<string, string>>,
+): void {
+  const hasType = node.attributes.some((attribute) => attribute.name === 'type');
+  const hasRole = node.attributes.some((attribute) => attribute.name === 'role');
+
+  if (uiElement.tagName === 'vr-input' && !hasType) {
+    state.lines.push(
+      `  ${elementName}.setAttribute(${quoteString('type')}, ${quoteString(activeTokens.type ?? 'text')});`,
+    );
+  }
+
+  if (uiElement.tagName === 'vr-checkbox' && !hasType) {
+    state.lines.push(`  ${elementName}.setAttribute(${quoteString('type')}, 'checkbox');`);
+  }
+
+  if (uiElement.tagName === 'vr-radio' && !hasType) {
+    state.lines.push(`  ${elementName}.setAttribute(${quoteString('type')}, 'radio');`);
+  }
+
+  if (uiElement.tagName === 'vr-slider' && !hasType) {
+    state.lines.push(`  ${elementName}.setAttribute(${quoteString('type')}, 'range');`);
+  }
+
+  if (uiElement.tagName === 'vr-switch' && !hasRole) {
+    state.lines.push(`  ${elementName}.setAttribute(${quoteString('role')}, 'switch');`);
   }
 }
 

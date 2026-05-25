@@ -5,6 +5,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
+  phase16FormsDataPrimitiveOrder,
   uiAssetUrl,
   uiPrimitive,
   uiPrimitiveOrder,
@@ -37,6 +38,17 @@ const phase16LayoutNavigationMediaPrimitiveOrder = [
   uiPrimitiveType.img,
   uiPrimitiveType.src,
 ] as const;
+
+function toKebabCase(value: string): string {
+  return value.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+}
+
+function toPascalCase(value: string): string {
+  return value
+    .split('-')
+    .map((part) => `${part[0]?.toUpperCase() ?? ''}${part.slice(1)}`)
+    .join('');
+}
 
 describe('@vanrot/ui assets', () => {
   it('keeps October dark and light tokens in CSS instead of TypeScript strings', async () => {
@@ -104,7 +116,7 @@ describe('@vanrot/ui assets', () => {
   });
 
   it('uses dotted token attributes for Vanrot-owned finite UI tokens', async () => {
-    const tokenAttributePattern = /\b(?:variant|tone|orientation)="[^"]+"/;
+    const tokenAttributePattern = /\b(?:variant|tone|orientation|size|density|marker|align)="[^"]+"/;
 
     for (const primitive of uiPrimitiveOrder) {
       const usage = await readFile(fileURLToPath(uiAssetUrl[primitive].homeUsage), 'utf8');
@@ -174,6 +186,30 @@ describe('@vanrot/ui assets', () => {
         className,
       );
       await expect(readFile(join(directory, 'usage.home.html'), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+    }
+  });
+
+  it('ships source templates for every Phase 16E forms and data primitive', async () => {
+    for (const primitive of phase16FormsDataPrimitiveOrder) {
+      const metadata = uiPrimitive[primitive];
+      const kebabPrimitive = toKebabCase(primitive);
+      const className = `Ui${toPascalCase(kebabPrimitive)}`;
+
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].typescript), 'utf8')).resolves.toContain(
+        `export class ${className}`,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].html), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].css), 'utf8')).resolves.toContain(
+        metadata.baseClass,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].test), 'utf8')).resolves.toContain(
+        className,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].homeUsage), 'utf8')).resolves.toContain(
         metadata.selector,
       );
     }

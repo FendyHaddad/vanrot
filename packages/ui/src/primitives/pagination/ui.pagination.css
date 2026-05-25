@@ -1,0 +1,5 @@
+.vr-pagination {
+  align-items: center;
+  display: inline-flex;
+  gap: var(--vr-space-2);
+}

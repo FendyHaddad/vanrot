@@ -1,0 +1,8 @@
+.vr-select {
+  background: var(--vr-surface-card);
+  border: 1px solid var(--vr-border-subtle);
+  border-radius: var(--vr-radius-md);
+  color: var(--vr-color-text);
+  min-height: 2.5rem;
+  padding-inline: var(--vr-space-3);
+}

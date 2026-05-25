@@ -6,6 +6,7 @@
 @import "../../../../packages/ui/src/primitives/loader/ui.loader.css";
 @import "../../../../packages/ui/src/primitives/skeleton/ui.skeleton.css";
 @import "../../../../packages/ui/src/primitives/separator/ui.separator.css";
+@import "../pages/components/component-phase16e.css";
 
 :root {
   color-scheme: dark;

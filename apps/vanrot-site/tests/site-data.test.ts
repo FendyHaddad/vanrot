@@ -39,7 +39,7 @@ describe('vanrot site docs data', () => {
     }
   });
 
-  it('documents every current Phase 16B primitive from @vanrot/ui metadata', () => {
+  it('documents every current primitive from @vanrot/ui metadata', () => {
     expect(componentDocs.map((doc) => doc.primitive).sort()).toEqual([...uiPrimitiveOrder].sort());
     expect(componentDocs.map((doc) => doc.title)).toEqual(
       [...componentDocs.map((doc) => doc.title)].sort((left, right) => left.localeCompare(right)),
@@ -58,6 +58,7 @@ describe('vanrot site docs data', () => {
       'create',
       'generate',
       'add',
+      'ui',
       'config',
       'doctor',
       'map',

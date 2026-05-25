@@ -156,6 +156,33 @@ const phase16LayoutNavigationMediaDocPages = [
   },
 ] as const;
 
+const phase16FormsDataDocPages = [
+  { routeKey: 'componentCheckboxes', path: '/docs/components/checkboxes', fileBase: 'component-checkbox', title: 'Checkbox', tokenSnippet: 'vr-checkbox' },
+  { routeKey: 'componentEmptyStates', path: '/docs/components/empty-states', fileBase: 'component-empty-state', title: 'Empty State', tokenSnippet: 'tone.muted' },
+  { routeKey: 'componentForms', path: '/docs/components/forms', fileBase: 'component-form', title: 'Form', tokenSnippet: 'vr-form' },
+  { routeKey: 'componentFormFields', path: '/docs/components/form-fields', fileBase: 'component-form-field', title: 'Form Field', tokenSnippet: 'required' },
+  { routeKey: 'componentInputs', path: '/docs/components/inputs', fileBase: 'component-input', title: 'Input', tokenSnippet: 'type.email' },
+  { routeKey: 'componentLabels', path: '/docs/components/labels', fileBase: 'component-label', title: 'Label', tokenSnippet: 'vr-label' },
+  { routeKey: 'componentLists', path: '/docs/components/lists', fileBase: 'component-list', title: 'List', tokenSnippet: 'marker.check' },
+  { routeKey: 'componentListItems', path: '/docs/components/list-items', fileBase: 'component-list-item', title: 'List Item', tokenSnippet: 'vr-list-item' },
+  { routeKey: 'componentPagination', path: '/docs/components/pagination', fileBase: 'component-pagination', title: 'Pagination', tokenSnippet: 'variant.numbers' },
+  { routeKey: 'componentRadioGroups', path: '/docs/components/radio-groups', fileBase: 'component-radio-group', title: 'Radio Group', tokenSnippet: 'vr-radio-group' },
+  { routeKey: 'componentRadios', path: '/docs/components/radios', fileBase: 'component-radio', title: 'Radio', tokenSnippet: 'vr-radio' },
+  { routeKey: 'componentSelects', path: '/docs/components/selects', fileBase: 'component-select', title: 'Select', tokenSnippet: 'vr-select' },
+  { routeKey: 'componentSliders', path: '/docs/components/sliders', fileBase: 'component-slider', title: 'Slider', tokenSnippet: 'vr-slider' },
+  { routeKey: 'componentStats', path: '/docs/components/stats', fileBase: 'component-stat', title: 'Stat', tokenSnippet: 'align.left' },
+  { routeKey: 'componentSwitches', path: '/docs/components/switches', fileBase: 'component-switch', title: 'Switch', tokenSnippet: 'vr-switch' },
+  { routeKey: 'componentTables', path: '/docs/components/tables', fileBase: 'component-table', title: 'Table', tokenSnippet: 'density.compact' },
+  { routeKey: 'componentTableBodies', path: '/docs/components/table-bodies', fileBase: 'component-table-body', title: 'Table Body', tokenSnippet: 'vr-table-body' },
+  { routeKey: 'componentTableCaptions', path: '/docs/components/table-captions', fileBase: 'component-table-caption', title: 'Table Caption', tokenSnippet: 'vr-table-caption' },
+  { routeKey: 'componentTableCells', path: '/docs/components/table-cells', fileBase: 'component-table-cell', title: 'Table Cell', tokenSnippet: 'vr-table-cell' },
+  { routeKey: 'componentTableFooters', path: '/docs/components/table-footers', fileBase: 'component-table-footer', title: 'Table Footer', tokenSnippet: 'vr-table-footer' },
+  { routeKey: 'componentTableHeads', path: '/docs/components/table-heads', fileBase: 'component-table-head', title: 'Table Head', tokenSnippet: 'vr-table-head' },
+  { routeKey: 'componentTableHeaders', path: '/docs/components/table-headers', fileBase: 'component-table-header', title: 'Table Header', tokenSnippet: 'vr-table-header' },
+  { routeKey: 'componentTableRows', path: '/docs/components/table-rows', fileBase: 'component-table-row', title: 'Table Row', tokenSnippet: 'vr-table-row' },
+  { routeKey: 'componentTextareas', path: '/docs/components/textareas', fileBase: 'component-textarea', title: 'Textarea', tokenSnippet: 'vr-textarea' },
+] as const;
+
 async function readSiteFile(path: string): Promise<string> {
   return readFile(join(appRoot, path), 'utf8');
 }
@@ -354,6 +381,35 @@ describe('vanrot site pages', () => {
       expect(componentPage).toContain('<div class="variant-preview">');
       expect(componentPage).toContain('<div class="code-snippet">');
       expect(componentPage).toContain(page.tokenSnippet);
+    }
+  });
+
+  it('routes Phase 16E forms and data docs to dedicated pages', async () => {
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+    const siteCss = await readSiteFile('src/styles/site.css');
+
+    expect(siteCss).toContain('@import "../pages/components/component-phase16e.css";');
+
+    for (const page of phase16FormsDataDocPages) {
+      const html = await readSiteFile(`src/pages/components/${page.fileBase}.page.html`);
+      const css = await readSiteFile(`src/pages/components/${page.fileBase}.page.css`);
+      const source = await readSiteFile(`src/pages/components/${page.fileBase}.page.ts`);
+      const routeEntry = siteRoute[page.routeKey];
+
+      if (routeEntry === undefined) {
+        throw new Error(`Expected ${page.routeKey} route to be defined.`);
+      }
+
+      expect(routeEntry).toMatchObject({
+        fullPath: page.path,
+        kind: 'page',
+      });
+      expect(routeEntry.parent).toBeUndefined();
+      expect(source).toContain('ComponentRegistryDocPage');
+      expect(html).toContain('<h1>{{ doc().title }}</h1>');
+      expect(html).toContain('Phase 16E');
+      expect(html).toContain('Registry API');
+      expect(css).not.toContain('component-phase16e.css');
     }
   });
 

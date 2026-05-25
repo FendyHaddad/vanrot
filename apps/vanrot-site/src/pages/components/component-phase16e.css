@@ -1,0 +1,63 @@
+.component-phase16e-app .content {
+  display: grid;
+  gap: 1rem;
+}
+
+.component-phase16e-app .preview,
+.component-phase16e-app .variant-preview {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.component-phase16e-app .preview {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.component-phase16e-app .preview-head,
+.component-phase16e-app .section-head {
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.component-phase16e-app .preview-head {
+  border-bottom: 1px solid var(--border);
+  color: var(--muted);
+  padding: 0.75rem 1rem;
+}
+
+.component-phase16e-app .preview-body,
+.component-phase16e-app .variant-preview {
+  padding: 1rem;
+}
+
+.component-phase16e-app .variant-doc {
+  display: grid;
+  gap: 1rem;
+}
+
+.component-phase16e-app .code-snippet {
+  background: #09090b;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  overflow-x: auto;
+  padding: 1rem;
+}
+
+.component-phase16e-app .code-chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  padding: 0.25rem 0.625rem;
+}
+
+@media (max-width: 760px) {
+  .component-phase16e-app .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}

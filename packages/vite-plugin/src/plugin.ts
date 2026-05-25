@@ -236,6 +236,10 @@ function resolveVirtualSourceImport(source: string, importer: string | undefined
 }
 
 function shouldTransform(id: string, options: NormalizedVanrotPluginOptions): boolean {
+  if (hasStaticAssetQuery(id)) {
+    return false;
+  }
+
   if (!isComponentEntry(id)) {
     return false;
   }
@@ -245,6 +249,20 @@ function shouldTransform(id: string, options: NormalizedVanrotPluginOptions): bo
   }
 
   return matchesAny(options.include, id);
+}
+
+const staticAssetQueryFlags = ['url', 'raw'] as const;
+
+function hasStaticAssetQuery(id: string): boolean {
+  const query = id.split('?')[1];
+
+  if (query === undefined) {
+    return false;
+  }
+
+  return query
+    .split('&')
+    .some((part) => staticAssetQueryFlags.some((flag) => part === flag || part.startsWith(`${flag}=`)));
 }
 
 function matchesAny(patterns: RegExp[], value: string): boolean {

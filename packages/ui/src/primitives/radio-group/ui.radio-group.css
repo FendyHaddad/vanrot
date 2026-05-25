@@ -1,0 +1,4 @@
+.vr-radio-group {
+  display: grid;
+  gap: var(--vr-space-2);
+}

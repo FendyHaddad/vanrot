@@ -1,0 +1,6 @@
+.vr-list {
+  display: grid;
+  gap: var(--vr-space-2);
+  margin: 0;
+  padding-inline-start: var(--vr-space-5);
+}

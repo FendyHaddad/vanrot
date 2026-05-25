@@ -1,0 +1,9 @@
+.vr-empty-state {
+  align-items: center;
+  border: 1px dashed var(--vr-border-subtle);
+  border-radius: var(--vr-radius-lg);
+  color: var(--vr-color-muted);
+  display: grid;
+  min-height: 10rem;
+  place-items: center;
+}

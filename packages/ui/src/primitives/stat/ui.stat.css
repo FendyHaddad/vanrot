@@ -1,0 +1,8 @@
+.vr-stat {
+  background: var(--vr-surface-card);
+  border: 1px solid var(--vr-border-subtle);
+  border-radius: var(--vr-radius-lg);
+  display: grid;
+  gap: var(--vr-space-2);
+  padding: var(--vr-space-4);
+}

@@ -1,0 +1,4 @@
+.vr-form {
+  display: grid;
+  gap: var(--vr-space-4);
+}

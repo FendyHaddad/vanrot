@@ -131,13 +131,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-25 1:20pm GMT+8
+# [vanrot] recent context, 2026-05-25 8:22pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,663t read) | 1,832,430t work | 99% savings
+Stats: 50 obs (13,387t read) | 1,820,575t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -151,7 +151,6 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-1829 3:01p 🔵 Phase-14 Requirements and Documentation Context
 1830 3:02p 🔵 Phase-14 CLI UI Enhancement Details
 1831 " 🔵 CLI Package Structure and Scripts
 1833 " 🔵 CLI Diagnostics and Doctor Checks Implementation
@@ -202,6 +201,8 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1919 " 🔵 Comprehensive Browser Skill Documentation Retrieved
 1931 " 🔵 Git Diffs Checked for Trailing Whitespace
 1921 3:02p 🔴 Browser Navigation Blocked by Client
+### May 25, 2026
+1947 8:21p 🟣 Execute Plans Superpower Integration
 
-Access 1832k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1821k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

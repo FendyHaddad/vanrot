@@ -151,6 +151,55 @@ describe('generateComponent', () => {
     );
   });
 
+  it('lowers Phase 16E semantic UI tags to native DOM elements', () => {
+    const templateSource = `
+      <vr-form>
+        <vr-form-field>
+          <vr-label>Email</vr-label>
+          <vr-input type.email size.md name="email"></vr-input>
+        </vr-form-field>
+      </vr-form>
+      <vr-table density.compact>
+        <vr-table-caption>Recent invoices</vr-table-caption>
+        <vr-table-header><vr-table-row><vr-table-head>Status</vr-table-head></vr-table-row></vr-table-header>
+        <vr-table-body><vr-table-row><vr-table-cell>Paid</vr-table-cell></vr-table-row></vr-table-body>
+      </vr-table>
+      <vr-empty-state tone.muted size.md>No records</vr-empty-state>
+    `;
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'counter.component.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("const form0 = document.createElement('form');");
+    expect(result.js).toContain("const label0 = document.createElement('label');");
+    expect(result.js).toContain("const input0 = document.createElement('input');");
+    expect(result.js).toContain("input0.setAttribute('type', 'email');");
+    expect(result.js).toContain("const table0 = document.createElement('table');");
+    expect(result.js).toContain("const caption0 = document.createElement('caption');");
+    expect(result.js).toContain("const thead0 = document.createElement('thead');");
+    expect(result.js).toContain("const tbody0 = document.createElement('tbody');");
+    expect(result.js).toContain("const th0 = document.createElement('th');");
+    expect(result.js).toContain("const td0 = document.createElement('td');");
+    expect(result.js).toContain(
+      "section0.setAttribute('class', 'vr-empty-state vr-empty-state-muted');",
+    );
+    expect(result.features).toEqual(
+      expect.arrayContaining([
+        'ui-form',
+        'ui-input',
+        'ui-table',
+        'ui-table-caption',
+        'ui-empty-state',
+      ]),
+    );
+  });
+
   it('generates interpolation effects', () => {
     const templateSource = '<p>Count: {{ count() }}</p>';
 

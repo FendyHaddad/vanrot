@@ -477,12 +477,181 @@
       "summary": "Use sources inside picture or media elements.",
       "usage": "<vr-src srcset=\"/image.avif\" type=\"image/avif\"></vr-src>",
       "accessibility": "Sources are media candidates and rely on the parent media element for accessible text."
+    },
+    {
+      "primitive": "form",
+      "title": "Form",
+      "summary": "Use forms to group registered controls and submit application-owned data.",
+      "usage": "<vr-form><vr-form-field name=\"email\" required><vr-input type.email></vr-input></vr-form-field></vr-form>",
+      "accessibility": "Submit orchestration marks invalid fields touched before preventing submit."
+    },
+    {
+      "primitive": "formField",
+      "title": "Form Field",
+      "summary": "Use form fields to bind a label, help text, validation message, and control.",
+      "usage": "<vr-form-field name=\"email\" label=\"Email\"><vr-input name=\"email\"></vr-input></vr-form-field>",
+      "accessibility": "Connect labels, descriptions, and validation messages to the control with stable field names."
+    },
+    {
+      "primitive": "label",
+      "title": "Label",
+      "summary": "Use labels for visible control names that can target a native input.",
+      "usage": "<vr-label for=\"email\">Email</vr-label>",
+      "accessibility": "Labels should use for when targeting a separate control and remain visible for editable fields."
+    },
+    {
+      "primitive": "input",
+      "title": "Input",
+      "summary": "Use inputs for single-line form values with typed dotted tokens.",
+      "usage": "<vr-input type.email size.md name=\"email\" placeholder=\"Email\"></vr-input>",
+      "accessibility": "Use a visible <vr-label> or aria-label. Validation sets aria-invalid and aria-describedby when an error element is present."
+    },
+    {
+      "primitive": "textarea",
+      "title": "Textarea",
+      "summary": "Use textareas for multi-line form values.",
+      "usage": "<vr-textarea name=\"notes\" placeholder=\"Notes\"></vr-textarea>",
+      "accessibility": "Pair each textarea with a visible label or aria-label and connect help text through aria-describedby."
+    },
+    {
+      "primitive": "select",
+      "title": "Select",
+      "summary": "Use selects for choosing one value from application-owned options.",
+      "usage": "<vr-select name=\"status\"><option>Draft</option><option>Ready</option></vr-select>",
+      "accessibility": "Keep a visible label or aria-label and preserve native option semantics."
+    },
+    {
+      "primitive": "checkbox",
+      "title": "Checkbox",
+      "summary": "Use checkboxes for independent boolean choices.",
+      "usage": "<vr-checkbox name=\"accepted\" checked></vr-checkbox>",
+      "accessibility": "Checkboxes keep native checked state; pair each control with an accessible label."
+    },
+    {
+      "primitive": "radioGroup",
+      "title": "Radio Group",
+      "summary": "Use radio groups to collect mutually exclusive choices.",
+      "usage": "<vr-radio-group name=\"plan\"><vr-radio value=\"basic\"></vr-radio><vr-radio value=\"pro\"></vr-radio></vr-radio-group>",
+      "accessibility": "Use a group label and keep radio options keyboard reachable."
+    },
+    {
+      "primitive": "radio",
+      "title": "Radio",
+      "summary": "Use radios for one option inside a shared group.",
+      "usage": "<vr-radio name=\"plan\" value=\"pro\" checked></vr-radio>",
+      "accessibility": "Radios keep native checked state and should share a name with related options."
+    },
+    {
+      "primitive": "switch",
+      "title": "Switch",
+      "summary": "Use switches for immediate on/off settings.",
+      "usage": "<vr-switch checked aria-label=\"Notifications\"></vr-switch>",
+      "accessibility": "Compiler lowering keeps switch as a button with role switch."
+    },
+    {
+      "primitive": "slider",
+      "title": "Slider",
+      "summary": "Use sliders for bounded numeric values.",
+      "usage": "<vr-slider name=\"volume\" min=\"0\" max=\"100\" step=\"5\"></vr-slider>",
+      "accessibility": "Expose a label and keep min, max, step, and value understandable to assistive technology."
+    },
+    {
+      "primitive": "table",
+      "title": "Table",
+      "summary": "Use tables for structured data with optional sorting, filtering, pagination, and selection state.",
+      "usage": "<vr-table density.compact sortable filterable paginated selectable></vr-table>",
+      "accessibility": "Use <vr-table-caption> for accessible context when visible title copy helps."
+    },
+    {
+      "primitive": "tableHeader",
+      "title": "Table Header",
+      "summary": "Use table headers to group heading rows.",
+      "usage": "<vr-table-header><vr-table-row><vr-table-head>Name</vr-table-head></vr-table-row></vr-table-header>",
+      "accessibility": "Table headers lower to thead and should contain header cells for column context."
+    },
+    {
+      "primitive": "tableBody",
+      "title": "Table Body",
+      "summary": "Use table bodies to group data rows.",
+      "usage": "<vr-table-body><vr-table-row><vr-table-cell>Value</vr-table-cell></vr-table-row></vr-table-body>",
+      "accessibility": "Table bodies lower to tbody and should keep rows aligned with table headers."
+    },
+    {
+      "primitive": "tableRow",
+      "title": "Table Row",
+      "summary": "Use table rows inside table header, body, or footer groups.",
+      "usage": "<vr-table-row selected><vr-table-cell>Value</vr-table-cell></vr-table-row>",
+      "accessibility": "Rows can expose selected or disabled state while preserving native row structure."
+    },
+    {
+      "primitive": "tableHead",
+      "title": "Table Head",
+      "summary": "Use table head cells for column or row headings.",
+      "usage": "<vr-table-head sort=\"name\">Name</vr-table-head>",
+      "accessibility": "Header cells lower to th and should describe their related table cells."
+    },
+    {
+      "primitive": "tableCell",
+      "title": "Table Cell",
+      "summary": "Use table cells for regular tabular values.",
+      "usage": "<vr-table-cell>Value</vr-table-cell>",
+      "accessibility": "Cells lower to td and should stay aligned with row and column headers."
+    },
+    {
+      "primitive": "tableFooter",
+      "title": "Table Footer",
+      "summary": "Use table footers for totals, summaries, or repeated table actions.",
+      "usage": "<vr-table-footer><vr-table-row><vr-table-cell>Total</vr-table-cell></vr-table-row></vr-table-footer>",
+      "accessibility": "Footers lower to tfoot and should not replace row or column headers."
+    },
+    {
+      "primitive": "tableCaption",
+      "title": "Table Caption",
+      "summary": "Use table captions for concise table context.",
+      "usage": "<vr-table-caption>Recent invoices</vr-table-caption>",
+      "accessibility": "Captions lower to caption and should describe the table content."
+    },
+    {
+      "primitive": "pagination",
+      "title": "Pagination",
+      "summary": "Use pagination for navigating paged data sets.",
+      "usage": "<vr-pagination page=\"1\" total=\"120\" pageSize=\"20\"></vr-pagination>",
+      "accessibility": "Pagination lowers to nav and should include a useful aria-label when multiple nav regions exist."
+    },
+    {
+      "primitive": "list",
+      "title": "List",
+      "summary": "Use lists for ordered or unordered grouped content.",
+      "usage": "<vr-list marker.disc><vr-list-item>One</vr-list-item><vr-list-item>Two</vr-list-item></vr-list>",
+      "accessibility": "Lists keep native list semantics; choose marker and density without removing item meaning."
+    },
+    {
+      "primitive": "listItem",
+      "title": "List Item",
+      "summary": "Use list items inside Vanrot list primitives.",
+      "usage": "<vr-list-item>Checklist item</vr-list-item>",
+      "accessibility": "List items lower to li and should remain children of a list."
+    },
+    {
+      "primitive": "stat",
+      "title": "Stat",
+      "summary": "Use stats for compact metric readouts with tone and alignment tokens.",
+      "usage": "<vr-stat tone.success align.left>98%</vr-stat>",
+      "accessibility": "Stats should keep labels close to values so the metric is understandable out of context."
+    },
+    {
+      "primitive": "emptyState",
+      "title": "Empty State",
+      "summary": "Use empty states when a data view has no available records.",
+      "usage": "<vr-empty-state tone.muted>No records yet</vr-empty-state>",
+      "accessibility": "Empty states should explain the missing content and expose recovery actions when available."
     }
   ],
   "commands": [
     { "name": "create", "usage": "vr create <name>", "status": "demo-capable" },
     { "name": "generate", "usage": "vr generate <role> <name>", "status": "demo-capable" },
     { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16b" },
+    { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16E" },
     { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
     { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
     { "name": "map", "usage": "vr map", "status": "demo-capable" },

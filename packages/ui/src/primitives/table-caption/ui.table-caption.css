@@ -1,0 +1,5 @@
+.vr-table-caption {
+  color: var(--vr-color-muted);
+  padding: var(--vr-space-2);
+  text-align: left;
+}

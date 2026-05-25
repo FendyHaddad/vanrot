@@ -16,6 +16,7 @@ import {
   commandName,
 } from './commands/metadata.js';
 import { testCommand } from './commands/test.js';
+import { uiCommand } from './commands/ui.js';
 import { parseOutputMode, renderJsonEvent, renderJsonLineEvent } from './reporter/modes.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
@@ -27,6 +28,7 @@ const commandHandlers = new Map<string, CommandHandler>([
   [commandName.generate, generateCommand],
   [commandAlias.generate, generateCommand],
   [commandName.add, addCommand],
+  [commandName.ui, uiCommand],
   [commandName.config, configCommand],
   [commandName.doctor, doctorCommand],
   [commandName.map, mapCommand],
@@ -93,7 +95,7 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
     return ok();
   }
 
-  if (rest.includes('--help') || rest.includes('-h')) {
+  if (command !== commandName.ui && (rest.includes('--help') || rest.includes('-h'))) {
     return printCommandHelp(command, context);
   }
 

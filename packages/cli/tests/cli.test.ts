@@ -21,6 +21,7 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('map');
     expect(reporter.output()).toContain('init-ai');
     expect(reporter.output()).toContain('add <primitive>');
+    expect(reporter.output()).toContain('ui <component>');
   });
 
   it('prints grouped root help with descriptions and examples', async () => {
@@ -39,6 +40,7 @@ describe('runCli', () => {
     expect(out).toContain('create <name>              Create a new Vanrot project');
     expect(out).toContain('generate <role> <name>     Generate a component or page');
     expect(out).toContain('add <primitive>            Add a UI primitive to the project');
+    expect(out).toContain('ui <component>             Inspect UI component APIs and tokens');
     expect(out).toContain('DEVELOPMENT');
     expect(out).toContain('dev                        Start dev server with HMR');
     expect(out).toContain('build                      Compile and bundle for production');
@@ -63,6 +65,7 @@ describe('runCli', () => {
       'create',
       'generate',
       'add',
+      'ui',
       'dev',
       'build',
       'test',
@@ -116,6 +119,18 @@ describe('runCli', () => {
     expect(result.exitCode).toBe(0);
     expect(reporter.output()).toContain('vr add button');
     expect(reporter.output()).toContain('vr add <local-prefix> button');
+  });
+
+  it('prints ui command help without dispatching component help', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['ui', '--help'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+
+    expect(result.exitCode).toBe(0);
+    expect(reporter.output()).toContain('vr ui list');
+    expect(reporter.output()).toContain('vr ui <component> --help');
   });
 
   it('prints config command help', async () => {

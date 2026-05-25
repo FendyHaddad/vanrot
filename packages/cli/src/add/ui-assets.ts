@@ -19,6 +19,7 @@ export async function renderUiPrimitiveFiles(
 ): Promise<RenderedUiFile[]> {
   const metadata = uiPrimitive[primitive];
   const asset = uiAssetUrl[primitive];
+  const primitiveFileName = toPrimitiveFileName(primitive);
   const [typescript, html, css] = await Promise.all([
     readAsset(asset.typescript),
     readAsset(asset.html),
@@ -27,15 +28,15 @@ export async function renderUiPrimitiveFiles(
   const className = `${toPascalCase(prefix)}${toPascalCase(primitive)}`;
   const files: RenderedUiFile[] = [
     {
-      path: `${metadata.directory}/${prefix}.${primitive}.ts`,
+      path: `${metadata.directory}/${prefix}.${primitiveFileName}.ts`,
       content: renamePrimitiveSymbol(typescript, primitive, className),
     },
     {
-      path: `${metadata.directory}/${prefix}.${primitive}.html`,
+      path: `${metadata.directory}/${prefix}.${primitiveFileName}.html`,
       content: html,
     },
     {
-      path: `${metadata.directory}/${prefix}.${primitive}.css`,
+      path: `${metadata.directory}/${prefix}.${primitiveFileName}.css`,
       content: css,
     },
   ];
@@ -43,7 +44,7 @@ export async function renderUiPrimitiveFiles(
   if (options.includeTest === true) {
     const test = await readAsset(asset.test);
     files.push({
-      path: `${metadata.directory}/${prefix}.${primitive}.test.ts`,
+      path: `${metadata.directory}/${prefix}.${primitiveFileName}.test.ts`,
       content: renamePrimitiveFilePrefix(
         renamePrimitiveSymbol(test, primitive, className),
         primitive,
@@ -68,7 +69,10 @@ export async function readPrimitiveHomeUsage(primitive: UiPrimitiveType): Promis
 }
 
 export function primitiveStyleImport(primitive: UiPrimitiveType, prefix: string): string {
-  return `@import '../ui/${primitive}/${prefix}.${primitive}.css';`;
+  const metadata = uiPrimitive[primitive];
+  const directory = metadata.directory.replace(/^src\//, '../');
+
+  return `@import '${directory}/${prefix}.${toPrimitiveFileName(primitive)}.css';`;
 }
 
 async function readAsset(url: URL): Promise<string> {
@@ -90,5 +94,14 @@ function renamePrimitiveFilePrefix(source: string, primitive: UiPrimitiveType, p
     return source;
   }
 
-  return source.replaceAll(`./${defaultUiPrefix}.${primitive}`, `./${prefix}.${primitive}`);
+  const primitiveFileName = toPrimitiveFileName(primitive);
+
+  return source.replaceAll(
+    `./${defaultUiPrefix}.${primitiveFileName}`,
+    `./${prefix}.${primitiveFileName}`,
+  );
+}
+
+function toPrimitiveFileName(primitive: UiPrimitiveType): string {
+  return primitive.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
 }

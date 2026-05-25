@@ -1,3 +1,9 @@
+import {
+  phase16FormsDataPrimitiveOrder,
+  uiComponentRegistry,
+  type Phase16FormsDataPrimitive,
+} from './registry/component-registry.js';
+
 export const defaultUiPrefix = 'ui';
 
 export const uiFlavor = {
@@ -46,6 +52,30 @@ export const uiPrimitiveType = {
   breadcrumb: 'breadcrumb',
   img: 'img',
   src: 'src',
+  form: 'form',
+  formField: 'formField',
+  label: 'label',
+  input: 'input',
+  textarea: 'textarea',
+  select: 'select',
+  checkbox: 'checkbox',
+  radioGroup: 'radioGroup',
+  radio: 'radio',
+  switch: 'switch',
+  slider: 'slider',
+  table: 'table',
+  tableHeader: 'tableHeader',
+  tableBody: 'tableBody',
+  tableRow: 'tableRow',
+  tableHead: 'tableHead',
+  tableCell: 'tableCell',
+  tableFooter: 'tableFooter',
+  tableCaption: 'tableCaption',
+  pagination: 'pagination',
+  list: 'list',
+  listItem: 'listItem',
+  stat: 'stat',
+  emptyState: 'emptyState',
 } as const;
 
 export type UiPrimitiveType = (typeof uiPrimitiveType)[keyof typeof uiPrimitiveType];
@@ -71,6 +101,7 @@ export const uiPrimitiveOrder = [
   uiPrimitiveType.breadcrumb,
   uiPrimitiveType.img,
   uiPrimitiveType.src,
+  ...phase16FormsDataPrimitiveOrder.map((primitive) => uiPrimitiveType[primitive]),
 ] as const;
 
 export const uiPrimitiveVariant = {
@@ -94,6 +125,30 @@ export const uiPrimitiveVariant = {
   breadcrumb: [],
   img: [],
   src: [],
+  form: [],
+  formField: [],
+  label: [],
+  input: [],
+  textarea: [],
+  select: [],
+  checkbox: [],
+  radioGroup: [],
+  radio: [],
+  switch: [],
+  slider: [],
+  table: [],
+  tableHeader: [],
+  tableBody: [],
+  tableRow: [],
+  tableHead: [],
+  tableCell: [],
+  tableFooter: [],
+  tableCaption: [],
+  pagination: [],
+  list: [],
+  listItem: [],
+  stat: [],
+  emptyState: [],
 } as const satisfies Record<UiPrimitiveType, readonly string[]>;
 
 export type UiPrimitiveVariant = (typeof uiPrimitiveVariant)[UiPrimitiveType][number];
@@ -368,6 +423,47 @@ export const uiPrimitive = {
     variants: uiPrimitiveVariant.src,
     docsPath: '/docs/ui/src',
   },
+  ...Object.fromEntries(
+    phase16FormsDataPrimitiveOrder.map((primitive) => {
+      const registryItem = uiComponentRegistry[primitive];
+
+      return [
+        primitive,
+        {
+          type: uiPrimitiveType[primitive],
+          directory: `src/ui/${toKebabCase(primitive)}`,
+          role: toKebabCase(primitive),
+          defaultFiles: [
+            `ui.${toKebabCase(primitive)}.ts`,
+            `ui.${toKebabCase(primitive)}.html`,
+            `ui.${toKebabCase(primitive)}.css`,
+          ],
+          selector: registryItem.selector,
+          nativeTag: registryItem.nativeTag,
+          baseClass: registryItem.baseClass,
+          introducedPhase: uiComponentPhase.formsData,
+          productionPhase: uiComponentPhase.formsData,
+          variants: uiPrimitiveVariant[primitive],
+          docsPath: registryItem.docsPath,
+        },
+      ];
+    }),
+  ) as unknown as Record<
+    Phase16FormsDataPrimitive,
+    {
+      type: UiPrimitiveType;
+      directory: string;
+      role: string;
+      defaultFiles: readonly string[];
+      selector: string;
+      nativeTag: string;
+      baseClass: string;
+      introducedPhase: UiComponentPhase;
+      productionPhase: UiComponentPhase;
+      variants: readonly string[];
+      docsPath: string;
+    }
+  >,
 } as const satisfies Record<
   UiPrimitiveType,
   {
@@ -406,6 +502,20 @@ function tokenGroup(
         token === defaultToken && !emitDefaultClass ? '' : classNameForToken(token),
       ]),
     ),
+  };
+}
+
+function toKebabCase(value: string): string {
+  return value.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+}
+
+function primitiveAssetUrl(primitive: string): UiPrimitiveAssetUrl {
+  return {
+    typescript: new URL(`../src/primitives/${primitive}/ui.${primitive}.ts`, import.meta.url),
+    html: new URL(`../src/primitives/${primitive}/ui.${primitive}.html`, import.meta.url),
+    css: new URL(`../src/primitives/${primitive}/ui.${primitive}.css`, import.meta.url),
+    test: new URL(`../src/primitives/${primitive}/ui.${primitive}.test.ts`, import.meta.url),
+    homeUsage: new URL(`../src/primitives/${primitive}/usage.home.html`, import.meta.url),
   };
 }
 
@@ -457,6 +567,21 @@ export const uiPrimitiveTokenGroup = {
   breadcrumb: {},
   img: {},
   src: {},
+  ...Object.fromEntries(
+    phase16FormsDataPrimitiveOrder.map((primitive) => [
+      primitive,
+      Object.fromEntries(
+        Object.entries(uiComponentRegistry[primitive].tokens).map(([groupName, group]) => [
+          groupName,
+          {
+            defaultToken: group.defaultToken,
+            tokens: group.tokens,
+            classByToken: group.classByToken,
+          },
+        ]),
+      ),
+    ]),
+  ) as Record<Phase16FormsDataPrimitive, Readonly<Record<string, UiPrimitiveTokenGroup>>>,
 } as const satisfies Record<UiPrimitiveType, Readonly<Record<string, UiPrimitiveTokenGroup>>>;
 
 export const uiComponentCatalog = {
@@ -600,6 +725,31 @@ export const uiComponentCatalog = {
     productionPhase: uiComponentPhase.layoutNavigationMedia,
     status: 'compiler-lowered',
   },
+  ...Object.fromEntries(
+    phase16FormsDataPrimitiveOrder.map((primitive) => {
+      const registryItem = uiComponentRegistry[primitive];
+
+      return [
+        primitive,
+        {
+          selector: registryItem.selector,
+          nativeTag: registryItem.nativeTag,
+          phase: uiComponentPhase.formsData,
+          productionPhase: uiComponentPhase.formsData,
+          status: 'compiler-lowered',
+        },
+      ];
+    }),
+  ) as Record<
+    Phase16FormsDataPrimitive,
+    {
+      selector: string;
+      nativeTag: string;
+      phase: UiComponentPhase;
+      productionPhase: UiComponentPhase;
+      status: 'compiler-lowered';
+    }
+  >,
 } as const satisfies Record<
   UiPrimitiveType,
   {
@@ -618,6 +768,14 @@ export const uiPackageInventory = {
   tokens: 'vanrot-tokens.css',
   ownership: 'developer-owned',
 } as const;
+
+interface UiPrimitiveAssetUrl {
+  typescript: URL;
+  html: URL;
+  css: URL;
+  test: URL;
+  homeUsage: URL;
+}
 
 export const uiAssetUrl = {
   tokens: new URL('../src/tokens/vanrot-tokens.css', import.meta.url),
@@ -766,4 +924,11 @@ export const uiAssetUrl = {
     test: new URL('../src/primitives/src/ui.src.test.ts', import.meta.url),
     homeUsage: new URL('../src/primitives/src/usage.home.html', import.meta.url),
   },
+  ...Object.fromEntries(
+    phase16FormsDataPrimitiveOrder.map((primitive) => {
+      const kebabPrimitive = toKebabCase(primitive);
+
+      return [primitive, primitiveAssetUrl(kebabPrimitive)];
+    }),
+  ) as Record<Phase16FormsDataPrimitive, UiPrimitiveAssetUrl>,
 } as const;

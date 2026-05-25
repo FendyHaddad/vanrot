@@ -13,6 +13,10 @@ async function tempRoot() {
   return mkdtemp(join(tmpdir(), 'vanrot-cli-add-'));
 }
 
+function toPrimitiveFileName(primitive: string): string {
+  return primitive.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+}
+
 describe('vr add', () => {
   it('adds the default button primitive to a generated app', async () => {
     const cwd = await tempRoot();
@@ -104,16 +108,18 @@ describe('vr add', () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
     const className = `Ui${toPascalCase(primitive)}`;
+    const primitiveFileName = toPrimitiveFileName(primitive);
+    const directory = join(cwd, 'src', 'ui', primitiveFileName);
 
     const result = await runCli(['add', primitive], { cwd, reporter });
 
     expect(result.exitCode).toBe(0);
     await expect(
-      readFile(join(cwd, 'src', 'ui', primitive, `ui.${primitive}.ts`), 'utf8'),
+      readFile(join(directory, `ui.${primitiveFileName}.ts`), 'utf8'),
     ).resolves.toContain(`export class ${className}`);
     await expect(
-      readFile(join(cwd, 'src', 'ui', primitive, `ui.${primitive}.html`), 'utf8'),
-    ).resolves.toContain(`<vr-${primitive}`);
+      readFile(join(directory, `ui.${primitiveFileName}.html`), 'utf8'),
+    ).resolves.toContain(`<vr-${primitiveFileName}`);
   });
 
   it('adds a locally prefixed Phase 16B primitive', async () => {
