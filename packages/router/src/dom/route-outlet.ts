@@ -13,6 +13,7 @@ import {
   getCurrentRouteChain,
   getRouteDefinitionVersion,
 } from '../route/router-state.js';
+import { focusRouteView } from '../route/navigation-polish.js';
 import { routeKeepAlivePolicyKinds } from '../route/route-types.js';
 import type { DefinedRoute, RouteMatch } from '../route/route-types.js';
 
@@ -57,6 +58,7 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
       detachOrDestroyMountedView();
       mountedView = restoredView;
       host.replaceChildren(...restoredView.nodes);
+      focusRouteView(host);
       return;
     }
 
@@ -156,6 +158,8 @@ export function createRouterOutlet(host: Element, options: RouterOutletOptions =
         handle,
         nodes: Array.from(host.childNodes),
       };
+
+      focusRouteView(host);
     });
   }
 }

@@ -5,6 +5,18 @@ export default defineVanrotConfig({
   project: { name: 'Vanrot Site' },
   source: { root: 'src' },
   devServer: { port: 3000 },
+  router: {
+    navigationPolish: {
+      title: true,
+      meta: true,
+      scroll: true,
+      focus: true,
+    },
+    diagnostics: {
+      missingTitle: 'warn',
+      missingMetaDescription: 'warn',
+    },
+  },
   ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },
   docs: { site: 'vanrot.vankode.com' },
 });

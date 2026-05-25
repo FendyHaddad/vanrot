@@ -12,6 +12,15 @@ export const vanrotUiStyleMode = {
 
 export type VanrotUiStyleMode = (typeof vanrotUiStyleMode)[keyof typeof vanrotUiStyleMode];
 
+export const vanrotRouterDiagnosticLevel = {
+  off: 'off',
+  warn: 'warn',
+  error: 'error',
+} as const;
+
+export type VanrotRouterDiagnosticLevel =
+  (typeof vanrotRouterDiagnosticLevel)[keyof typeof vanrotRouterDiagnosticLevel];
+
 export interface VanrotUiConfig {
   flavor?: VanrotUiFlavor;
   styles?: VanrotUiStyleMode;
@@ -24,12 +33,46 @@ export interface NormalizedVanrotUiConfig {
   prefix: string;
 }
 
+export interface VanrotRouterNavigationPolishConfig {
+  title?: boolean;
+  meta?: boolean;
+  scroll?: boolean;
+  focus?: boolean;
+}
+
+export interface NormalizedVanrotRouterNavigationPolishConfig {
+  title: boolean;
+  meta: boolean;
+  scroll: boolean;
+  focus: boolean;
+}
+
+export interface VanrotRouterDiagnosticsConfig {
+  missingTitle?: VanrotRouterDiagnosticLevel;
+  missingMetaDescription?: VanrotRouterDiagnosticLevel;
+}
+
+export interface NormalizedVanrotRouterDiagnosticsConfig {
+  missingTitle: VanrotRouterDiagnosticLevel;
+  missingMetaDescription: VanrotRouterDiagnosticLevel;
+}
+
+export interface VanrotRouterConfig {
+  navigationPolish?: VanrotRouterNavigationPolishConfig;
+  diagnostics?: VanrotRouterDiagnosticsConfig;
+}
+
+export interface NormalizedVanrotRouterConfig {
+  navigationPolish: NormalizedVanrotRouterNavigationPolishConfig;
+  diagnostics: NormalizedVanrotRouterDiagnosticsConfig;
+}
+
 export interface VanrotConfig {
   schemaVersion?: number;
   project?: { name?: string };
   source?: { root?: string };
   devServer?: { port?: number };
-  router?: Record<string, unknown>;
+  router?: VanrotRouterConfig;
   ui?: VanrotUiConfig;
   store?: Record<string, unknown>;
   testing?: Record<string, unknown>;
@@ -41,9 +84,10 @@ export interface VanrotConfig {
 }
 
 export interface NormalizedVanrotConfig
-  extends Omit<VanrotConfig, 'schemaVersion' | 'source' | 'devServer' | 'ui'> {
+  extends Omit<VanrotConfig, 'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui'> {
   schemaVersion: number;
   source: { root: string };
   devServer: { port: number };
+  router: NormalizedVanrotRouterConfig;
   ui: NormalizedVanrotUiConfig;
 }

@@ -68,9 +68,26 @@ function componentRoutePerformance() {
   };
 }
 
+const siteTitleSuffix = ' - Vanrot';
+
+function siteDocument(label: string, description: string) {
+  return {
+    title: `${label}${siteTitleSuffix}`,
+    meta: { description },
+  };
+}
+
+function componentDocument(label: string) {
+  return siteDocument(label, `${label} component documentation for Vanrot UI.`);
+}
+
 const home = routes.page({
   path: routePath.home,
   label: 'Vanrot',
+  ...siteDocument(
+    'Vanrot',
+    'Vanrot framework documentation, UI components, commands, and production readiness.',
+  ),
   page: HomePage,
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
@@ -79,6 +96,7 @@ const home = routes.page({
 const components = routes.page({
   path: routePath.components,
   label: 'Components',
+  ...siteDocument('Components', 'Vanrot UI component gallery and documentation.'),
   page: ComponentGalleryPage,
   ...componentRoutePerformance(),
   nav: routes.nav.primary(),
@@ -88,6 +106,7 @@ const components = routes.page({
 const docs = routes.layout({
   path: routePath.docs,
   label: 'Docs',
+  ...siteDocument('Docs', 'Vanrot framework guides, package references, and conventions.'),
   layout: DocsLayout,
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
@@ -96,6 +115,7 @@ const docs = routes.layout({
 const docsIntroduction = docs.page({
   path: articleChildPath(siteArticleKey.introduction),
   label: getSiteArticle(siteArticleKey.introduction).label,
+  ...articleDocument(siteArticleKey.introduction),
   page: DocsArticlePage,
   nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.parent(docs),
@@ -104,6 +124,7 @@ const docsIntroduction = docs.page({
 const componentButtons = routes.page({
   path: routePath.componentButtons,
   label: 'Button',
+  ...componentDocument('Button'),
   page: ComponentButtonPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -113,6 +134,7 @@ const componentButtons = routes.page({
 const componentCards = routes.page({
   path: routePath.componentCards,
   label: 'Card',
+  ...componentDocument('Card'),
   page: ComponentCardPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -122,6 +144,7 @@ const componentCards = routes.page({
 const componentBadges = routes.page({
   path: routePath.componentBadges,
   label: 'Badge',
+  ...componentDocument('Badge'),
   page: ComponentBadgePage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -131,6 +154,7 @@ const componentBadges = routes.page({
 const componentAvatars = routes.page({
   path: routePath.componentAvatars,
   label: 'Avatar',
+  ...componentDocument('Avatar'),
   page: ComponentAvatarPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -140,6 +164,7 @@ const componentAvatars = routes.page({
 const componentAlerts = routes.page({
   path: routePath.componentAlerts,
   label: 'Alert',
+  ...componentDocument('Alert'),
   page: ComponentAlertPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -149,6 +174,7 @@ const componentAlerts = routes.page({
 const componentBreadcrumbs = routes.page({
   path: routePath.componentBreadcrumbs,
   label: 'Breadcrumb',
+  ...componentDocument('Breadcrumb'),
   page: ComponentBreadcrumbPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -158,6 +184,7 @@ const componentBreadcrumbs = routes.page({
 const componentContainers = routes.page({
   path: routePath.componentContainers,
   label: 'Container',
+  ...componentDocument('Container'),
   page: ComponentContainerPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -167,6 +194,7 @@ const componentContainers = routes.page({
 const componentFooters = routes.page({
   path: routePath.componentFooters,
   label: 'Footer',
+  ...componentDocument('Footer'),
   page: ComponentFooterPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -176,6 +204,7 @@ const componentFooters = routes.page({
 const componentGrids = routes.page({
   path: routePath.componentGrids,
   label: 'Grid',
+  ...componentDocument('Grid'),
   page: ComponentGridPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -185,6 +214,7 @@ const componentGrids = routes.page({
 const componentHeaders = routes.page({
   path: routePath.componentHeaders,
   label: 'Header',
+  ...componentDocument('Header'),
   page: ComponentHeaderPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -194,6 +224,7 @@ const componentHeaders = routes.page({
 const componentImages = routes.page({
   path: routePath.componentImages,
   label: 'Image',
+  ...componentDocument('Image'),
   page: ComponentImgPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -203,6 +234,7 @@ const componentImages = routes.page({
 const componentLayouts = routes.page({
   path: routePath.componentLayouts,
   label: 'Layout',
+  ...componentDocument('Layout'),
   page: ComponentLayoutPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -212,6 +244,7 @@ const componentLayouts = routes.page({
 const componentLoaders = routes.page({
   path: routePath.componentLoaders,
   label: 'Loader',
+  ...componentDocument('Loader'),
   page: ComponentLoaderPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -221,6 +254,7 @@ const componentLoaders = routes.page({
 const componentNavigation = routes.page({
   path: routePath.componentNavigation,
   label: 'Navigation',
+  ...componentDocument('Navigation'),
   page: ComponentNavPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -230,6 +264,7 @@ const componentNavigation = routes.page({
 const componentSections = routes.page({
   path: routePath.componentSections,
   label: 'Section',
+  ...componentDocument('Section'),
   page: ComponentSectionPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -239,6 +274,7 @@ const componentSections = routes.page({
 const componentSkeletons = routes.page({
   path: routePath.componentSkeletons,
   label: 'Skeleton',
+  ...componentDocument('Skeleton'),
   page: ComponentSkeletonPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -248,6 +284,7 @@ const componentSkeletons = routes.page({
 const componentSeparators = routes.page({
   path: routePath.componentSeparators,
   label: 'Separator',
+  ...componentDocument('Separator'),
   page: ComponentSeparatorPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -257,6 +294,7 @@ const componentSeparators = routes.page({
 const componentSidebars = routes.page({
   path: routePath.componentSidebars,
   label: 'Sidebar',
+  ...componentDocument('Sidebar'),
   page: ComponentSidebarPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -266,6 +304,7 @@ const componentSidebars = routes.page({
 const componentSources = routes.page({
   path: routePath.componentSources,
   label: 'Source',
+  ...componentDocument('Source'),
   page: ComponentSrcPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -275,6 +314,7 @@ const componentSources = routes.page({
 const componentStacks = routes.page({
   path: routePath.componentStacks,
   label: 'Stack',
+  ...componentDocument('Stack'),
   page: ComponentStackPage,
   ...componentRoutePerformance(),
   nav: routes.nav.hidden(),
@@ -299,6 +339,7 @@ const docsConventions = articlePage(siteArticleKey.conventions);
 const reference = routes.page({
   path: routePath.reference,
   label: getSiteArticle(siteArticleKey.referenceStatus).label,
+  ...articleDocument(siteArticleKey.referenceStatus),
   page: ReferencePage,
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
@@ -393,6 +434,7 @@ function articlePage(key: SiteArticleKey) {
   return docs.page({
     path: articleChildPath(key),
     label: article.label,
+    ...articleDocument(key),
     page: DocsArticlePage,
     breadcrumb: routes.breadcrumb.parent(docs),
   });
@@ -402,9 +444,16 @@ function componentPage(primitive: string, label: string) {
   return docs.page({
     path: `ui/${primitive}`,
     label,
+    ...componentDocument(label),
     page: ComponentArticlePage,
     breadcrumb: routes.breadcrumb.parent(docs),
   });
+}
+
+function articleDocument(key: SiteArticleKey) {
+  const article = getSiteArticle(key);
+
+  return siteDocument(article.title, article.summary);
 }
 
 function articleChildPath(key: SiteArticleKey): string {

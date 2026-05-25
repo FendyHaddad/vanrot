@@ -11,6 +11,13 @@ import {
   clearRoutePreloadStateForTests,
   preloadRoutePath,
 } from './route-preload.js';
+import {
+  applyDocumentMetadata,
+  applyScrollPolish,
+  recordScrollPosition,
+  resetNavigationPolishForTests,
+  type NavigationSource,
+} from './navigation-polish.js';
 import { routeKeepAlivePolicyKinds, routePreloadPolicyKinds } from './route-types.js';
 import { buildRouteUrl } from './url-builder.js';
 import { extractPathParamNames } from './path-params.js';
@@ -40,11 +47,11 @@ export async function provideRouter(routes: DefinedRouteTable): Promise<boolean>
   routeDefinitionVersion += 1;
   removePopstateListener?.();
   removePopstateListener = listenForPopstate();
-  return startNavigation(readBrowserPath(), { history: 'replace' });
+  return startNavigation(readBrowserPath(), { history: 'replace', source: 'initial' });
 }
 
 export async function navigate(path: string): Promise<boolean> {
-  return startNavigation(path, { history: 'push' });
+  return startNavigation(path, { history: 'push', source: 'push' });
 }
 
 export async function preloadRoute(path: string): Promise<boolean> {
@@ -113,11 +120,12 @@ export function resetRouterForTests(): void {
   clearRouteModuleCacheForTests();
   clearRoutePreloadStateForTests();
   clearRouteKeepAliveStoreForTests();
+  resetNavigationPolishForTests();
 }
 
 async function startNavigation(
   path: string,
-  options: { history: 'push' | 'replace' | 'none' },
+  options: { history: 'push' | 'replace' | 'none'; source: NavigationSource },
   visitedPaths: Set<string> = new Set(),
 ): Promise<boolean> {
   if (visitedPaths.has(path)) {
@@ -131,6 +139,7 @@ async function startNavigation(
   const routes = requireProvidedRoutes();
   const nextNavigationId = navigationId + 1;
   navigationId = nextNavigationId;
+  const fromPath = getCurrentRouteChain()?.path ?? null;
   const decision = await resolveNavigationDecision({
     routes,
     path,
@@ -151,13 +160,20 @@ async function startNavigation(
   if (decision.kind === 'redirect') {
     return startNavigation(
       decision.path,
-      { history: decision.replace ? 'replace' : options.history },
+      { history: decision.replace ? 'replace' : options.history, source: options.source },
       visitedPaths,
     );
   }
 
+  recordScrollPosition(fromPath);
   commitRouteChain(decision.match);
+  applyDocumentMetadata(decision.match);
   writeHistory(decision.path, options.history);
+  applyScrollPolish({
+    fromPath,
+    toPath: decision.path,
+    source: options.source,
+  });
 
   return true;
 }
@@ -223,7 +239,7 @@ function listenForPopstate(): (() => void) | null {
   }
 
   const listener = (): void => {
-    void startNavigation(readBrowserPath(), { history: 'replace' });
+    void startNavigation(readBrowserPath(), { history: 'none', source: 'popstate' });
   };
 
   globalThis.window.addEventListener('popstate', listener);

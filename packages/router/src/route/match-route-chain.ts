@@ -134,7 +134,8 @@ function matchSegments(routeSegments: string[], pathSegments: string[]): RoutePa
 }
 
 function normalizePath(path: string): string {
-  const [pathname = '/'] = path.split('?');
+  const [pathWithoutHash = '/'] = path.split('#');
+  const [pathname = '/'] = pathWithoutHash.split('?');
   const normalizedPath = pathname.startsWith('/') ? pathname : `/${pathname}`;
 
   return normalizedPath.replace(/\/+$/u, '') || '/';

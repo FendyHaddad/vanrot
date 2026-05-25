@@ -30,6 +30,10 @@ export const routeDiagnosticCodes = {
   routePreloadFailed: 'VR_ROUTE_PRELOAD_FAILED',
   keepAliveIdentityMissing: 'VR_KEEP_ALIVE_IDENTITY_MISSING',
   keepAliveRestoreBlocked: 'VR_KEEP_ALIVE_RESTORE_BLOCKED',
+  missingTitle: 'VR_ROUTE_MISSING_TITLE',
+  missingMetaDescription: 'VR_ROUTE_MISSING_META_DESCRIPTION',
+  invalidTitle: 'VR_ROUTE_INVALID_TITLE',
+  invalidMetaDescription: 'VR_ROUTE_INVALID_META_DESCRIPTION',
 } as const;
 
 export type RouteDiagnosticCode =

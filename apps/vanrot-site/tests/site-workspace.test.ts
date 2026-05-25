@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { route } from '../src/routes.ts';
 
 const appRoot = join(process.cwd());
 
@@ -37,6 +38,15 @@ describe('vanrot site workspace', () => {
     );
     await expect(readFile(join(appRoot, 'index.html'), 'utf8')).resolves.toContain(
       'src="/src/main.ts"',
+    );
+  });
+
+  it('keeps route titles on every site route', () => {
+    const siteRoutes = Object.values(route);
+    const visibleRoutes = siteRoutes.filter((item) => item.kind !== 'redirect');
+
+    expect(visibleRoutes.every((item) => typeof item.title === 'string' && item.title.length > 0)).toBe(
+      true,
     );
   });
 });

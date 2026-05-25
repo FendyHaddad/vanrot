@@ -3,7 +3,7 @@ import type { RouteQuery, RouteQueryDefinitionMap, RouteQueryValue } from './rou
 export type ParsedRouteQuery = Record<string, string | string[]>;
 
 export function parseRouteQuery(path: string): ParsedRouteQuery {
-  const queryText = path.split('?')[1] ?? '';
+  const queryText = path.split('?')[1]?.split('#')[0] ?? '';
   const searchParams = new URLSearchParams(queryText);
   const query: ParsedRouteQuery = {};
 

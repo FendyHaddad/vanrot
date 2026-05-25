@@ -1,5 +1,6 @@
 import { configSchemaVersion, defaultDevServerPort, defaultSourceRoot } from './constants.js';
 import {
+  vanrotRouterDiagnosticLevel,
   vanrotUiFlavor,
   vanrotUiStyleMode,
   type NormalizedVanrotConfig,
@@ -15,6 +16,19 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
     },
     devServer: {
       port: config.devServer?.port ?? defaultDevServerPort,
+    },
+    router: {
+      navigationPolish: {
+        title: config.router?.navigationPolish?.title ?? true,
+        meta: config.router?.navigationPolish?.meta ?? true,
+        scroll: config.router?.navigationPolish?.scroll ?? true,
+        focus: config.router?.navigationPolish?.focus ?? true,
+      },
+      diagnostics: {
+        missingTitle: config.router?.diagnostics?.missingTitle ?? vanrotRouterDiagnosticLevel.warn,
+        missingMetaDescription:
+          config.router?.diagnostics?.missingMetaDescription ?? vanrotRouterDiagnosticLevel.off,
+      },
     },
     ui: {
       flavor: config.ui?.flavor ?? vanrotUiFlavor.october,

@@ -47,6 +47,16 @@ function createVanrotPlugin(
   return {
     name: 'vanrot',
     enforce: 'pre',
+    async config(config) {
+      const root = resolve(options.root ?? config.root ?? process.cwd());
+      const loaded = await loadVanrotProjectConfig(root);
+
+      return {
+        define: {
+          __VANROT_ROUTER_NAVIGATION_POLISH__: JSON.stringify(loaded.config.router),
+        },
+      };
+    },
     async configResolved(config: ResolvedConfig) {
       resolvedConfig = config;
       const loaded = await loadVanrotProjectConfig(config.root);

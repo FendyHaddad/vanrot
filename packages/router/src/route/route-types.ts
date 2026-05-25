@@ -61,6 +61,15 @@ export interface RouteBreadcrumbDefinition {
   parent?: RouteRef;
 }
 
+export interface RouteDocumentMetadata {
+  description?: string;
+}
+
+export interface RouteMetadataDefinition {
+  title?: string;
+  meta?: RouteDocumentMetadata;
+}
+
 export interface RouteDefinitionBase {
   path: string;
   label: string;
@@ -68,6 +77,8 @@ export interface RouteDefinitionBase {
   query?: RouteQueryDefinitionMap;
   breadcrumb?: RouteBreadcrumbDefinition;
   canEnter?: RouteGuardInput;
+  title?: string;
+  meta?: RouteDocumentMetadata;
 }
 
 export interface RoutePerformancePolicyDefinition {

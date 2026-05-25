@@ -1,14 +1,18 @@
 import { configDomain } from './constants.js';
 import { configDiagnosticCode, type ConfigDiagnostic } from './diagnostics.js';
 import {
+  vanrotRouterDiagnosticLevel,
   vanrotUiFlavor,
   vanrotUiStyleMode,
   type VanrotConfig,
 } from './types.js';
 
 const knownTopLevelKeys = new Set<string>(['schemaVersion', ...Object.values(configDomain)]);
+const knownRouterDiagnosticLevels = new Set<string>(Object.values(vanrotRouterDiagnosticLevel));
 const knownUiFlavors = new Set<string>(Object.values(vanrotUiFlavor));
 const knownUiStyleModes = new Set<string>(Object.values(vanrotUiStyleMode));
+const routerPolishKeys = ['title', 'meta', 'scroll', 'focus'] as const;
+const routerDiagnosticKeys = ['missingTitle', 'missingMetaDescription'] as const;
 const uiPrefixPattern = /^[a-z][a-z0-9-]*$/;
 
 export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
@@ -35,6 +39,39 @@ export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
       message: `Invalid devServer.port: ${String(port)}`,
       suggestion: 'Use an integer from 1 to 65535.',
     });
+  }
+
+  const router = config.router;
+  if (router !== undefined) {
+    for (const key of routerPolishKeys) {
+      const value = router.navigationPolish?.[key];
+
+      if (value === undefined || typeof value === 'boolean') {
+        continue;
+      }
+
+      diagnostics.push({
+        code: configDiagnosticCode.invalidRouterNavigationPolish,
+        severity: 'error',
+        message: `Invalid router.navigationPolish.${key}: ${String(value)}`,
+        suggestion: 'Use true or false.',
+      });
+    }
+
+    for (const key of routerDiagnosticKeys) {
+      const value = router.diagnostics?.[key];
+
+      if (value === undefined || knownRouterDiagnosticLevels.has(String(value))) {
+        continue;
+      }
+
+      diagnostics.push({
+        code: configDiagnosticCode.invalidRouterDiagnosticLevel,
+        severity: 'error',
+        message: `Invalid router.diagnostics.${key}: ${String(value)}`,
+        suggestion: 'Use off, warn, or error.',
+      });
+    }
   }
 
   const ui = config.ui;

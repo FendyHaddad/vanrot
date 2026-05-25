@@ -66,6 +66,44 @@ describe('validateVanrotConfig', () => {
     );
   });
 
+  it('reports invalid router navigation polish booleans', () => {
+    const diagnostics = validateVanrotConfig({
+      router: {
+        navigationPolish: {
+          scroll: 'yes',
+        },
+      },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual([
+      {
+        code: configDiagnosticCode.invalidRouterNavigationPolish,
+        severity: 'error',
+        message: 'Invalid router.navigationPolish.scroll: yes',
+        suggestion: 'Use true or false.',
+      },
+    ]);
+  });
+
+  it('reports invalid router diagnostic levels', () => {
+    const diagnostics = validateVanrotConfig({
+      router: {
+        diagnostics: {
+          missingTitle: 'loud',
+        },
+      },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual([
+      {
+        code: configDiagnosticCode.invalidRouterDiagnosticLevel,
+        severity: 'error',
+        message: 'Invalid router.diagnostics.missingTitle: loud',
+        suggestion: 'Use off, warn, or error.',
+      },
+    ]);
+  });
+
   it('reports unknown top-level keys as schema errors', () => {
     const diagnostics = validateVanrotConfig({
       schemaVersion: 1,

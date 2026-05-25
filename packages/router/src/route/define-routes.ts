@@ -1,4 +1,9 @@
 import { isRouteRef } from './create-routes.js';
+import {
+  getRouterNavigationPolishConfig,
+  routerDiagnosticLevel,
+  type RouterDiagnosticLevel,
+} from './navigation-polish-config.js';
 import { routeDiagnosticCodes } from './route-diagnostic-codes.js';
 import { createRouteDiagnostic } from './route-diagnostics.js';
 import type { RouteDiagnostic } from './route-diagnostics.js';
@@ -85,6 +90,7 @@ function normalizeRouteRef(
   };
 
   validateRenderTarget(key, route, diagnostics);
+  validateRouteMetadata(route, diagnostics);
 
   return route;
 }
@@ -109,6 +115,7 @@ function normalizeObjectRoute(key: string, definition: RouteDefinition): Defined
   };
 
   validateRenderTarget(key, route, diagnostics);
+  validateRouteMetadata(route, diagnostics);
 
   return route;
 }
@@ -380,6 +387,117 @@ function validatePerformancePolicy(route: DefinedRoute): void {
       message: `Route "${route.key}" declares preload intent but has no lazy page or lazy layout.`,
       suggestion: `Remove preload from "${route.key}" or switch the route to loadPage/loadLayout.`,
       docsPath: 'router/routes#preload-policy',
+    }),
+  );
+}
+
+function validateRouteMetadata(route: DefinedRoute, diagnostics: RouteDiagnostic[]): void {
+  if (route.kind === 'redirect' || routeHasNoRenderTarget(route)) {
+    return;
+  }
+
+  const config = getRouterNavigationPolishConfig();
+
+  if (route.title !== undefined) {
+    validateStringMetadata({
+      route,
+      value: route.title,
+      code: routeDiagnosticCodes.invalidTitle,
+      field: 'title',
+      docsPath: 'router/routes#title',
+    });
+  } else if (config.navigationPolish.title) {
+    reportConfigurableMetadataDiagnostic({
+      route,
+      diagnostics,
+      level: config.diagnostics.missingTitle,
+      code: routeDiagnosticCodes.missingTitle,
+      message: `Route "${route.key}" is missing title metadata.`,
+      suggestion: `Add title to route "${route.key}" or set router.diagnostics.missingTitle to off.`,
+      docsPath: 'router/routes#title',
+    });
+  }
+
+  const description = route.meta?.description;
+
+  if (description !== undefined) {
+    validateStringMetadata({
+      route,
+      value: description,
+      code: routeDiagnosticCodes.invalidMetaDescription,
+      field: 'meta.description',
+      docsPath: 'router/routes#meta-description',
+    });
+    return;
+  }
+
+  if (!config.navigationPolish.meta) {
+    return;
+  }
+
+  reportConfigurableMetadataDiagnostic({
+    route,
+    diagnostics,
+    level: config.diagnostics.missingMetaDescription,
+    code: routeDiagnosticCodes.missingMetaDescription,
+    message: `Route "${route.key}" is missing meta.description metadata.`,
+    suggestion: `Add meta.description to route "${route.key}" or set router.diagnostics.missingMetaDescription to off.`,
+    docsPath: 'router/routes#meta-description',
+  });
+}
+
+function routeHasNoRenderTarget(route: DefinedRoute): boolean {
+  return (
+    route.page === undefined &&
+    route.loadPage === undefined &&
+    route.layout === undefined &&
+    route.loadLayout === undefined
+  );
+}
+
+function validateStringMetadata(input: {
+  route: DefinedRoute;
+  value: unknown;
+  code: Parameters<typeof throwRouteDiagnostic>[0];
+  field: string;
+  docsPath: string;
+}): void {
+  if (typeof input.value === 'string' && input.value.trim().length > 0) {
+    return;
+  }
+
+  throwRouteDiagnostic(
+    input.code,
+    `Route "${input.route.key}" has invalid ${input.field} metadata.`,
+    `Use a non-empty string for ${input.field}.`,
+    input.docsPath,
+  );
+}
+
+function reportConfigurableMetadataDiagnostic(input: {
+  route: DefinedRoute;
+  diagnostics: RouteDiagnostic[];
+  level: RouterDiagnosticLevel;
+  code: Parameters<typeof throwRouteDiagnostic>[0];
+  message: string;
+  suggestion: string;
+  docsPath: string;
+}): void {
+  if (input.level === routerDiagnosticLevel.off) {
+    return;
+  }
+
+  if (input.level === routerDiagnosticLevel.error) {
+    throwRouteDiagnostic(input.code, input.message, input.suggestion, input.docsPath);
+  }
+
+  input.diagnostics.push(
+    createRouteDiagnostic({
+      code: input.code,
+      severity: 'warning',
+      message: input.message,
+      suggestion: input.suggestion,
+      docsPath: input.docsPath,
     }),
   );
 }

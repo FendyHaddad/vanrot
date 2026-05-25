@@ -18,6 +18,23 @@ describe('normalizeVanrotConfig', () => {
     expect(normalized.ui.prefix).toBe('ui');
   });
 
+  it('normalizes router navigation polish defaults', () => {
+    const normalized = normalizeVanrotConfig({});
+
+    expect(normalized.router).toEqual({
+      navigationPolish: {
+        title: true,
+        meta: true,
+        scroll: true,
+        focus: true,
+      },
+      diagnostics: {
+        missingTitle: 'warn',
+        missingMetaDescription: 'off',
+      },
+    });
+  });
+
   it('respects explicit user values', () => {
     const normalized = normalizeVanrotConfig({
       schemaVersion: 1,
@@ -43,5 +60,29 @@ describe('normalizeVanrotConfig', () => {
     expect(normalized.ui.flavor).toBe(vanrotUiFlavor.october);
     expect(normalized.ui.styles).toBe(vanrotUiStyleMode.tailwind);
     expect(normalized.ui.prefix).toBe('marketing');
+  });
+
+  it('respects explicit router navigation polish config', () => {
+    const normalized = normalizeVanrotConfig({
+      router: {
+        navigationPolish: {
+          title: false,
+          meta: false,
+          scroll: false,
+          focus: false,
+        },
+        diagnostics: {
+          missingTitle: 'off',
+          missingMetaDescription: 'error',
+        },
+      },
+    });
+
+    expect(normalized.router.navigationPolish.title).toBe(false);
+    expect(normalized.router.navigationPolish.meta).toBe(false);
+    expect(normalized.router.navigationPolish.scroll).toBe(false);
+    expect(normalized.router.navigationPolish.focus).toBe(false);
+    expect(normalized.router.diagnostics.missingTitle).toBe('off');
+    expect(normalized.router.diagnostics.missingMetaDescription).toBe('error');
   });
 });
