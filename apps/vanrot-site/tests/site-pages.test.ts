@@ -148,13 +148,6 @@ const phase16LayoutNavigationMediaDocPages = [
     title: 'Source',
     tokenSnippet: 'srcset type',
   },
-  {
-    routeKey: 'componentStacks',
-    path: '/docs/components/stacks',
-    fileBase: 'component-stack',
-    title: 'Stack',
-    tokenSnippet: 'gap.3',
-  },
 ] as const;
 
 const phase16FormsDataDocPages = [
@@ -187,7 +180,7 @@ const phase16FormsDataDocPages = [
 const phase16InteractionDocPages = [
   { routeKey: 'componentDialogs', path: '/docs/components/dialogs', fileBase: 'component-dialog', primitive: 'dialog', title: 'Dialog', tokenSnippet: 'size.md' },
   { routeKey: 'componentDrawers', path: '/docs/components/drawers', fileBase: 'component-drawer', primitive: 'drawer', title: 'Drawer', tokenSnippet: 'side.right' },
-  { routeKey: 'componentDropdowns', path: '/docs/components/dropdowns', fileBase: 'component-dropdown', primitive: 'dropdown', title: 'Dropdown', tokenSnippet: 'align.end' },
+  { routeKey: 'componentDropdowns', path: '/docs/components/dropdowns', fileBase: 'component-dropdown', primitive: 'dropdown', title: 'Dropdown', tokenSnippet: 'align.start' },
   { routeKey: 'componentTabs', path: '/docs/components/tabs', fileBase: 'component-tabs', primitive: 'tabs', title: 'Tabs', tokenSnippet: 'variant.line' },
   { routeKey: 'componentToasts', path: '/docs/components/toasts', fileBase: 'component-toast', primitive: 'toast', title: 'Toast', tokenSnippet: 'tone.success' },
 ] as const;
@@ -397,6 +390,18 @@ describe('vanrot site pages', () => {
     }
   });
 
+  it('does not expose Stack in component feature navigation', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+    const buttonPage = await readSiteFile('src/pages/components/component-button.page.html');
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+
+    expect(siteRoute.componentStacks).toBeUndefined();
+    expect(gallery).not.toContain('/docs/components/stacks');
+    expect(buttonPage).not.toContain('/docs/components/stacks');
+    expect(gallery).not.toContain('>Stack</a>');
+    expect(buttonPage).not.toContain('>Stack</a>');
+  });
+
   it('routes Phase 16E forms and data docs to dedicated pages', async () => {
     const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
     const siteCss = await readSiteFile('src/styles/site.css');
@@ -475,6 +480,28 @@ describe('vanrot site pages', () => {
     expect(dialogCss).toContain('.dialog-input {');
     expect(dialogCss).toContain('.dialog-close-button {');
     expect(dialogCss).toContain('.dialog-footer-actions {');
+  });
+
+  it('renders the Dropdown docs as a shadcn-style grouped menu with shortcuts', async () => {
+    const dropdownPage = await readSiteFile('src/pages/components/component-dropdown.page.html');
+    const dropdownCss = await readSiteFile('src/pages/components/component-dropdown.page.css');
+
+    expect(dropdownPage).toContain('<vr-dropdown class="dropdown-demo" data-vr-overlay-preview align.start>');
+    expect(dropdownPage).toContain('<vr-dropdown-trigger class="dropdown-demo-trigger"');
+    expect(dropdownPage).toContain('<vr-dropdown-content class="dropdown-preview-content" data-vr-overlay-content hidden role="menu">');
+    expect(dropdownPage).toContain('<vr-dropdown-label class="dropdown-preview-label">My Account</vr-dropdown-label>');
+    expect(dropdownPage).toContain('<span class="dropdown-item-text">Profile</span>');
+    expect(dropdownPage).toContain('<span class="dropdown-shortcut">⇧⌘P</span>');
+    expect(dropdownPage).toContain('<span class="dropdown-item-text">Invite users</span>');
+    expect(dropdownPage).toContain('<span class="dropdown-chevron" aria-hidden="true">›</span>');
+    expect(dropdownPage).toContain('<span class="dropdown-item-text">API</span>');
+    expect(dropdownPage).toContain('aria-disabled="true"');
+    expect(dropdownPage).toContain('<span class="dropdown-shortcut">⇧⌘Q</span>');
+    expect(dropdownCss).toContain('.dropdown-preview-content {');
+    expect(dropdownCss).toContain('width: 232px;');
+    expect(dropdownCss).toContain('border-radius: 12px;');
+    expect(dropdownCss).toContain('.dropdown-shortcut {');
+    expect(dropdownCss).toContain('.dropdown-menu-item.is-disabled {');
   });
 
   it('wires Phase 16F interaction examples to runtime preview controllers', async () => {

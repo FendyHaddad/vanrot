@@ -50,11 +50,6 @@ Create:
 - `packages/ui/src/primitives/grid/ui.grid.css`
 - `packages/ui/src/primitives/grid/ui.grid.test.ts`
 - `packages/ui/src/primitives/grid/usage.home.html`
-- `packages/ui/src/primitives/stack/ui.stack.ts`
-- `packages/ui/src/primitives/stack/ui.stack.html`
-- `packages/ui/src/primitives/stack/ui.stack.css`
-- `packages/ui/src/primitives/stack/ui.stack.test.ts`
-- `packages/ui/src/primitives/stack/usage.home.html`
 - `packages/ui/src/primitives/header/ui.header.ts`
 - `packages/ui/src/primitives/header/ui.header.html`
 - `packages/ui/src/primitives/header/ui.header.css`
@@ -102,9 +97,6 @@ Create:
 - `apps/vanrot-site/src/pages/components/component-grid.page.ts`
 - `apps/vanrot-site/src/pages/components/component-grid.page.html`
 - `apps/vanrot-site/src/pages/components/component-grid.page.css`
-- `apps/vanrot-site/src/pages/components/component-stack.page.ts`
-- `apps/vanrot-site/src/pages/components/component-stack.page.html`
-- `apps/vanrot-site/src/pages/components/component-stack.page.css`
 - `apps/vanrot-site/src/pages/components/component-header.page.ts`
 - `apps/vanrot-site/src/pages/components/component-header.page.html`
 - `apps/vanrot-site/src/pages/components/component-header.page.css`
@@ -173,7 +165,6 @@ Phase 16D token groups:
 - `<vr-container>`: `size.sm`, `size.md`, `size.lg`, `size.xl`
 - `<vr-section>`: `spacing.sm`, `spacing.md`, `spacing.lg`
 - `<vr-grid>`: `cols.1`, `cols.2`, `cols.3`, `cols.4`, `cols.6`, `cols.12`, plus `gap.0`, `gap.1`, `gap.2`, `gap.3`, `gap.4`, `gap.5`, `gap.6`, `gap.8`
-- `<vr-stack>`: `gap.0`, `gap.1`, `gap.2`, `gap.3`, `gap.4`, `gap.5`, `gap.6`, `gap.8`
 - `<vr-sidebar>`: `placement.left`, `placement.right`
 
 No first-pass token groups:
@@ -238,9 +229,7 @@ In the same test file, add tests for:
 ```html
 <vr-container size.lg>
   <vr-section spacing.md>
-    <vr-grid cols.3 gap.4>
-      <vr-stack gap.3>Content</vr-stack>
-    </vr-grid>
+    <vr-grid cols.3 gap.4>Content</vr-grid>
   </vr-section>
 </vr-container>
 ```
@@ -253,9 +242,7 @@ Assert generated output contains:
 - `vr-section-md`;
 - `vr-grid`;
 - `vr-grid-cols-3`;
-- `gap-4` or `vr-grid-gap-4`, whichever class name is chosen in Task 3;
-- `vr-stack`;
-- `gap-3` or `vr-stack-gap-3`, whichever class name is chosen in Task 3.
+- `gap-4` or `vr-grid-gap-4`, whichever class name is chosen in Task 3.
 
 Expected first run: FAIL because 16D primitives and token groups do not exist yet.
 
@@ -503,9 +490,6 @@ export const uiPrimitiveTokenGroup = {
     cols: ['1', '2', '3', '4', '6', '12'],
     gap: ['0', '1', '2', '3', '4', '5', '6', '8'],
   },
-  stack: {
-    gap: ['0', '1', '2', '3', '4', '5', '6', '8'],
-  },
   sidebar: {
     placement: ['left', 'right'],
   },
@@ -538,7 +522,6 @@ Add metadata entries:
 - `container`: selector `vr-container`, native tag `div`, base class `vr-container`
 - `section`: selector `vr-section`, native tag `section`, base class `vr-section`
 - `grid`: selector `vr-grid`, native tag `div`, base class `vr-grid`
-- `stack`: selector `vr-stack`, native tag `div`, base class `vr-stack`
 - `header`: selector `vr-header`, native tag `header`, base class `vr-header`
 - `footer`: selector `vr-footer`, native tag `footer`, base class `vr-footer`
 - `sidebar`: selector `vr-sidebar`, native tag `aside`, base class `vr-sidebar`
@@ -603,7 +586,6 @@ Create the files for:
 - `container`
 - `section`
 - `grid`
-- `stack`
 
 Each `.ts` exports the matching class:
 
@@ -611,7 +593,6 @@ Each `.ts` exports the matching class:
 - `UiContainer`
 - `UiSection`
 - `UiGrid`
-- `UiStack`
 
 Each `.html` contains the selector with slot content.
 
@@ -622,11 +603,7 @@ Each `usage.home.html` uses dotted token attributes:
 ```html
 <vr-container size.lg>
   <vr-section spacing.md>
-    <vr-grid cols.3 gap.4>
-      <vr-stack gap.3>
-        Content
-      </vr-stack>
-    </vr-grid>
+    <vr-grid cols.3 gap.4>Content</vr-grid>
   </vr-section>
 </vr-container>
 ```
@@ -925,7 +902,6 @@ Create pages for:
 - `container`
 - `section`
 - `grid`
-- `stack`
 
 Examples must use dotted tokens where finite tokens are shown:
 
@@ -933,7 +909,6 @@ Examples must use dotted tokens where finite tokens are shown:
 <vr-container size.lg>
 <vr-section spacing.md>
 <vr-grid cols.3 gap.4>
-<vr-stack gap.3>
 ```
 
 - [x] **Step 3: Add navigation shell component docs pages**

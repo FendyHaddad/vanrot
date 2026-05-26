@@ -56,9 +56,7 @@ describe('UI dotted token attributes', () => {
     const result = compileTemplate(`
       <vr-container size.lg>
         <vr-section spacing.md>
-          <vr-grid cols.3 gap.4>
-            <vr-stack gap.3>Content</vr-stack>
-          </vr-grid>
+          <vr-grid cols.3 gap.4>Content</vr-grid>
         </vr-section>
       </vr-container>
     `);
@@ -69,12 +67,10 @@ describe('UI dotted token attributes', () => {
     expect(result.js).toContain(
       "div1.setAttribute('class', 'vr-grid vr-grid-cols-3 vr-grid-gap-4');",
     );
-    expect(result.js).toContain("div2.setAttribute('class', 'vr-stack vr-stack-gap-3');");
     expect(result.js).not.toContain('size.lg');
     expect(result.js).not.toContain('spacing.md');
     expect(result.js).not.toContain('cols.3');
     expect(result.js).not.toContain('gap.4');
-    expect(result.js).not.toContain('gap.3');
   });
 
   it('lowers Phase 16E form and data tokens into static classes and native defaults', () => {

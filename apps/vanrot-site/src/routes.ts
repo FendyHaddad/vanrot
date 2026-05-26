@@ -37,7 +37,6 @@ import { ComponentSidebarPage } from './pages/components/component-sidebar.page.
 import { ComponentSkeletonPage } from './pages/components/component-skeleton.page.ts';
 import { ComponentSliderPage } from './pages/components/component-slider.page.ts';
 import { ComponentSrcPage } from './pages/components/component-src.page.ts';
-import { ComponentStackPage } from './pages/components/component-stack.page.ts';
 import { ComponentStatPage } from './pages/components/component-stat.page.ts';
 import { ComponentSwitchPage } from './pages/components/component-switch.page.ts';
 import { ComponentTabsPage } from './pages/components/component-tabs.page.ts';
@@ -102,7 +101,6 @@ const routePath = {
   componentSkeletons: componentDocPath.skeleton,
   componentSliders: componentDocPath.slider,
   componentSources: componentDocPath.src,
-  componentStacks: componentDocPath.stack,
   componentStats: componentDocPath.stat,
   componentSwitches: componentDocPath.switch,
   componentTabs: componentDocPath.tabs,
@@ -381,16 +379,6 @@ const componentSources = routes.page({
   breadcrumb: routes.breadcrumb.root(),
 });
 
-const componentStacks = routes.page({
-  path: routePath.componentStacks,
-  label: 'Stack',
-  ...componentDocument('Stack'),
-  page: ComponentStackPage,
-  ...componentRoutePerformance(),
-  nav: routes.nav.hidden(),
-  breadcrumb: routes.breadcrumb.root(),
-});
-
 const componentCheckboxes = componentDocsPage(
   routePath.componentCheckboxes,
   'Checkbox',
@@ -517,7 +505,6 @@ const uiLayout = componentPage('layout', 'Layout');
 const uiContainer = componentPage('container', 'Container');
 const uiSection = componentPage('section', 'Section');
 const uiGrid = componentPage('grid', 'Grid');
-const uiStack = componentPage('stack', 'Stack');
 const uiHeader = componentPage('header', 'Header');
 const uiFooter = componentPage('footer', 'Footer');
 const uiSidebar = componentPage('sidebar', 'Sidebar');
@@ -565,7 +552,6 @@ export const route = defineRoutes({
   componentSidebars,
   componentSliders,
   componentSources,
-  componentStacks,
   componentStats,
   componentSwitches,
   componentTabs,
@@ -607,7 +593,6 @@ export const route = defineRoutes({
   uiContainer,
   uiSection,
   uiGrid,
-  uiStack,
   uiHeader,
   uiFooter,
   uiSidebar,

@@ -36,7 +36,6 @@ export const componentDocPath = {
   [uiPrimitiveType.skeleton]: '/docs/components/skeletons',
   [uiPrimitiveType.slider]: '/docs/components/sliders',
   [uiPrimitiveType.src]: '/docs/components/sources',
-  [uiPrimitiveType.stack]: '/docs/components/stacks',
   [uiPrimitiveType.stat]: '/docs/components/stats',
   [uiPrimitiveType.switch]: '/docs/components/switches',
   [uiPrimitiveType.table]: '/docs/components/tables',

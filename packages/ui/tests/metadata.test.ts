@@ -36,7 +36,6 @@ const phase16LayoutNavigationMediaPrimitiveOrder = [
   uiPrimitiveType.container,
   uiPrimitiveType.section,
   uiPrimitiveType.grid,
-  uiPrimitiveType.stack,
   uiPrimitiveType.header,
   uiPrimitiveType.footer,
   uiPrimitiveType.sidebar,
@@ -161,19 +160,8 @@ describe('@vanrot/ui metadata', () => {
       '6',
       '8',
     ]);
-    expect(uiPrimitiveTokenGroup.stack.gap.tokens).toEqual([
-      '0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '8',
-    ]);
     expect(uiPrimitiveTokenGroup.sidebar.placement.tokens).toEqual(['left', 'right']);
     expect(uiPrimitiveTokenGroup.grid.cols.classByToken['3']).toBe('vr-grid-cols-3');
-    expect(uiPrimitiveTokenGroup.stack.gap.classByToken['3']).toBe('vr-stack-gap-3');
   });
 
   it('exports app-owned style file paths', () => {

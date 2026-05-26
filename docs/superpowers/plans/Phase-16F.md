@@ -1587,7 +1587,6 @@ const uiPrimitiveFeature = {
   container: 'ui-container',
   section: 'ui-section',
   grid: 'ui-grid',
-  stack: 'ui-stack',
   header: 'ui-header',
   footer: 'ui-footer',
   sidebar: 'ui-sidebar',

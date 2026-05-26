@@ -24,7 +24,6 @@ Phase 16D includes these primitives:
 - `<vr-container>`
 - `<vr-section>`
 - `<vr-grid>`
-- `<vr-stack>`
 - `<vr-header>`
 - `<vr-footer>`
 - `<vr-sidebar>`
@@ -88,7 +87,6 @@ Approved examples:
 <vr-container size.lg>
 <vr-section spacing.md>
 <vr-grid cols.3 gap.4>
-<vr-stack gap.3>
 <vr-button variant.danger>
 <vr-badge tone.success>
 ```

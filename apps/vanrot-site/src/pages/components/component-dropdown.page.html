@@ -36,7 +36,6 @@
     <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
     <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
     <a class="nav-link" href="/docs/components/sources">Source</a>
-    <a class="nav-link" href="/docs/components/stacks">Stack</a>
     <a class="nav-link" href="/docs/components/tabs">Tabs</a>
     <a class="nav-link" href="/docs/components/toasts">Toast</a>
   </vr-sidebar>
@@ -65,7 +64,7 @@
         <div class="preview">
           <div class="preview-head"><span>Examples</span><span>1</span></div>
           <div class="preview-body variant-grid">
-            <div class="variant-tile"><span class="variant-name">end aligned</span><span class="code-chip">align.end</span></div>
+            <div class="variant-tile"><span class="variant-name">start aligned</span><span class="code-chip">align.start</span></div>
           </div>
         </div>
       </section>
@@ -73,21 +72,56 @@
       <section class="variant-doc" id="dropdown-default">
         <div class="section-head">
           <div>
-            <h2>Account Dropdown</h2>
-            <p>Use dropdowns for compact action lists that stay keyboard reachable and close predictably.</p>
+            <h2>Dropdown Menu</h2>
+            <p>Use dropdowns for grouped actions, keyboard shortcuts, disabled items, and nested menu cues.</p>
           </div>
-          <span class="code-chip">align.end</span>
+          <span class="code-chip">align.start</span>
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <vr-dropdown data-vr-overlay-preview align.end>
-              <vr-dropdown-trigger data-vr-overlay-trigger type="button" aria-haspopup="menu">Account</vr-dropdown-trigger>
-              <vr-dropdown-content data-vr-overlay-content hidden role="menu">
-                <vr-dropdown-label>Account</vr-dropdown-label>
-                <vr-dropdown-item data-vr-overlay-close role="menuitem" tabindex="-1">Profile</vr-dropdown-item>
-                <vr-dropdown-item data-vr-overlay-close role="menuitem" tabindex="-1">Settings</vr-dropdown-item>
-                <vr-dropdown-separator></vr-dropdown-separator>
-                <vr-dropdown-item data-vr-overlay-close role="menuitem" tabindex="-1">Sign out</vr-dropdown-item>
+            <vr-dropdown class="dropdown-demo" data-vr-overlay-preview align.start>
+              <vr-dropdown-trigger class="dropdown-demo-trigger" data-vr-overlay-trigger type="button" aria-haspopup="menu">Open</vr-dropdown-trigger>
+              <vr-dropdown-content class="dropdown-preview-content" data-vr-overlay-content hidden role="menu">
+                <vr-dropdown-label class="dropdown-preview-label">My Account</vr-dropdown-label>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Profile</span>
+                  <span class="dropdown-shortcut">⇧⌘P</span>
+                </vr-dropdown-item>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Billing</span>
+                  <span class="dropdown-shortcut">⌘B</span>
+                </vr-dropdown-item>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Settings</span>
+                  <span class="dropdown-shortcut">⌘S</span>
+                </vr-dropdown-item>
+                <vr-dropdown-separator class="dropdown-preview-separator"></vr-dropdown-separator>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Team</span>
+                </vr-dropdown-item>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Invite users</span>
+                  <span class="dropdown-chevron" aria-hidden="true">›</span>
+                </vr-dropdown-item>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">New Team</span>
+                  <span class="dropdown-shortcut">⌘+T</span>
+                </vr-dropdown-item>
+                <vr-dropdown-separator class="dropdown-preview-separator"></vr-dropdown-separator>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">GitHub</span>
+                </vr-dropdown-item>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Support</span>
+                </vr-dropdown-item>
+                <vr-dropdown-item class="dropdown-menu-item is-disabled" role="menuitem" aria-disabled="true" tabindex="-1">
+                  <span class="dropdown-item-text">API</span>
+                </vr-dropdown-item>
+                <vr-dropdown-separator class="dropdown-preview-separator"></vr-dropdown-separator>
+                <vr-dropdown-item class="dropdown-menu-item" data-vr-overlay-close role="menuitem" tabindex="-1">
+                  <span class="dropdown-item-text">Log out</span>
+                  <span class="dropdown-shortcut">⇧⌘Q</span>
+                </vr-dropdown-item>
               </vr-dropdown-content>
             </vr-dropdown>
           </div>
@@ -97,16 +131,19 @@
                 <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
               </svg>
             </button>
-            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-dropdown</span><span class="token attr"> align.end</span><span class="token tag">&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;vr-dropdown-trigger</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Account</span><span class="token tag">&lt;/vr-dropdown-trigger&gt;</span></span></span>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-dropdown</span><span class="token attr"> align.start</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;vr-dropdown-trigger</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Open</span><span class="token tag">&lt;/vr-dropdown-trigger&gt;</span></span></span>
 <span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;vr-dropdown-content&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-label&gt;</span><span class="token text">Account</span><span class="token tag">&lt;/vr-dropdown-label&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-label&gt;</span><span class="token text">My Account</span><span class="token tag">&lt;/vr-dropdown-label&gt;</span></span></span>
 <span class="code-line"><span class="code-line-number">5</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Profile</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">6</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Settings</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">7</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-separator&gt;&lt;/vr-dropdown-separator&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">8</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Sign out</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">9</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/vr-dropdown-content&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">10</span><span class="code-line-content"><span class="token tag">&lt;/vr-dropdown&gt;</span></span></span></code></pre>
+<span class="code-line"><span class="code-line-number">6</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Billing</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">7</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Settings</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">8</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-separator&gt;&lt;/vr-dropdown-separator&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">9</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Invite users</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">10</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item</span><span class="token attr"> aria-disabled</span><span class="token operator">=</span><span class="token string">"true"</span><span class="token tag">&gt;</span><span class="token text">API</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">11</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dropdown-item&gt;</span><span class="token text">Log out</span><span class="token tag">&lt;/vr-dropdown-item&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">12</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/vr-dropdown-content&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">13</span><span class="code-line-content"><span class="token tag">&lt;/vr-dropdown&gt;</span></span></span></code></pre>
           </div>
         </div>
       </section>

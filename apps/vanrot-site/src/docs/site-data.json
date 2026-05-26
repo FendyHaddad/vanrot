@@ -423,13 +423,6 @@
       "accessibility": "Grids control layout only; keep reading order meaningful in the source."
     },
     {
-      "primitive": "stack",
-      "title": "Stack",
-      "summary": "Use stacks for vertical rhythm between related items.",
-      "usage": "<vr-stack gap.3>Content</vr-stack>",
-      "accessibility": "Stacks do not add semantics, so use lists or landmarks when the content requires them."
-    },
-    {
       "primitive": "header",
       "title": "Header",
       "summary": "Use headers for top-level page or section identity.",

@@ -30,7 +30,6 @@ const phase16LayoutNavigationMediaPrimitiveOrder = [
   uiPrimitiveType.container,
   uiPrimitiveType.section,
   uiPrimitiveType.grid,
-  uiPrimitiveType.stack,
   uiPrimitiveType.header,
   uiPrimitiveType.footer,
   uiPrimitiveType.sidebar,

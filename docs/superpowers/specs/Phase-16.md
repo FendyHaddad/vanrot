@@ -157,7 +157,6 @@ The inventory below is the long-term October catalog. Phase 16 implementation ca
 - `<vr-container>`
 - `<vr-section>`
 - `<vr-grid>`
-- `<vr-stack>`
 - `<vr-cluster>`
 - `<vr-split>`
 - `<vr-panel>`

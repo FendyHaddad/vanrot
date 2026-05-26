@@ -84,7 +84,6 @@ export type CompileFeature =
   | 'ui-container'
   | 'ui-section'
   | 'ui-grid'
-  | 'ui-stack'
   | 'ui-header'
   | 'ui-footer'
   | 'ui-sidebar'

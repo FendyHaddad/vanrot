@@ -873,7 +873,6 @@
 .layout-demo-section { border: 1px dashed var(--border); border-radius: var(--radius-sm); padding: 18px; }
 .container-demo { width: min(100%, 520px); text-align: center; }
 .grid-demo { width: min(100%, 620px); }
-.stack-demo { min-width: min(100%, 320px); }
 .header-demo { align-items: center; display: flex; justify-content: space-between; min-width: min(100%, 560px); }
 .footer-demo { min-width: min(100%, 520px); text-align: center; }
 .sidebar-demo { min-height: 220px; width: min(100%, 260px); }
