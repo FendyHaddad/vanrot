@@ -42,6 +42,14 @@ export type {
   ToastTone,
 } from './ui/toast-controller.js';
 export { createToastController } from './ui/toast-controller.js';
+export type {
+  RuntimeGraphEdge,
+  RuntimeGraphEvent,
+  RuntimeGraphNode,
+  RuntimeGraphSession,
+  RuntimeGraphSessionOptions,
+} from './devtools/runtime-graph.js';
+export { createRuntimeGraphSession } from './devtools/runtime-graph.js';
 
 export { onDestroy } from './lifecycle/on-destroy.js';
 export { onMount } from './lifecycle/on-mount.js';

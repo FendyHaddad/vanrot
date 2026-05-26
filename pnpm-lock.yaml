@@ -88,9 +88,15 @@ importers:
       '@vanrot/config':
         specifier: file:../config
         version: link:../config
+      '@vanrot/devtools':
+        specifier: file:../devtools
+        version: link:../devtools
       '@vanrot/ui':
         specifier: file:../ui
         version: link:../ui
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
 
   packages/compiler:
     dependencies:
@@ -116,13 +122,19 @@ importers:
         specifier: ^5.9.3
         version: 5.9.3
 
+  packages/devtools: {}
+
   packages/router:
     dependencies:
       '@vanrot/runtime':
         specifier: file:../runtime
         version: link:../runtime
 
-  packages/runtime: {}
+  packages/runtime:
+    dependencies:
+      '@vanrot/devtools':
+        specifier: file:../devtools
+        version: link:../devtools
 
   packages/testing:
     dependencies:
@@ -148,6 +160,9 @@ importers:
       '@vanrot/config':
         specifier: file:../config
         version: link:../config
+      '@vanrot/devtools':
+        specifier: file:../devtools
+        version: link:../devtools
       '@vanrot/router':
         specifier: file:../router
         version: link:../router

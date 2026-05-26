@@ -1,3 +1,4 @@
+import { loadVanrotProjectConfig } from '@vanrot/config';
 import { writeAiContext } from '../ai/context.js';
 import { writeAiDoctor } from '../ai/doctor.js';
 import { writeAiPrompt } from '../ai/prompt.js';
@@ -21,7 +22,12 @@ export async function initAiCommand(
   }
 
   try {
-    const rulesPath = await writeVanrotFile(context.cwd, 'ai-rules.md', createAiRules());
+    const loaded = await loadVanrotProjectConfig(context.cwd);
+    const rulesPath = await writeVanrotFile(
+      context.cwd,
+      'ai-rules.md',
+      createAiRules({ ai: loaded.config.ai }),
+    );
     const contextPath = await writeAiContext(context.cwd);
     const promptPath = await writeAiPrompt(context.cwd);
     const doctorPath = await writeAiDoctor(context.cwd);

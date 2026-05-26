@@ -1,6 +1,7 @@
 import { configDomain } from './constants.js';
 import { configDiagnosticCode, type ConfigDiagnostic } from './diagnostics.js';
 import {
+  vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
   vanrotUiFlavor,
   vanrotUiStyleMode,
@@ -11,6 +12,7 @@ const knownTopLevelKeys = new Set<string>(['schemaVersion', ...Object.values(con
 const knownRouterDiagnosticLevels = new Set<string>(Object.values(vanrotRouterDiagnosticLevel));
 const knownUiFlavors = new Set<string>(Object.values(vanrotUiFlavor));
 const knownUiStyleModes = new Set<string>(Object.values(vanrotUiStyleMode));
+const knownAiRuleSections = new Set<string>(Object.values(vanrotAiRuleSection));
 const routerPolishKeys = ['title', 'meta', 'scroll', 'focus'] as const;
 const routerDiagnosticKeys = ['missingTitle', 'missingMetaDescription'] as const;
 const uiPrefixPattern = /^[a-z][a-z0-9-]*$/;
@@ -100,6 +102,37 @@ export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
         severity: 'error',
         message: `Invalid ui.prefix: ${String(ui.prefix)}`,
         suggestion: 'Use lowercase kebab-case, for example ui or marketing-primary.',
+      });
+    }
+  }
+
+  const aiRules = config.ai?.rules;
+  if (aiRules !== undefined) {
+    const customSectionIds = new Set(aiRules.customSections?.map((section) => section.id) ?? []);
+    for (const sectionId of aiRules.enabledSections ?? []) {
+      if (knownAiRuleSections.has(sectionId) || customSectionIds.has(sectionId)) {
+        continue;
+      }
+
+      diagnostics.push({
+        code: configDiagnosticCode.invalidAiRuleSection,
+        severity: 'error',
+        message: `Unknown ai.rules.enabledSections entry: ${sectionId}`,
+        suggestion:
+          'Use project-rules, commands, file-conventions, or custom section ids declared in ai.rules.customSections.',
+      });
+    }
+
+    for (const section of aiRules.customSections ?? []) {
+      if (section.id !== '' && section.title !== '' && section.body !== '') {
+        continue;
+      }
+
+      diagnostics.push({
+        code: configDiagnosticCode.invalidAiRuleCustomSection,
+        severity: 'error',
+        message: `Invalid ai.rules.customSections entry: ${section.id}`,
+        suggestion: 'Custom AI rule sections need non-empty id, title, and body fields.',
       });
     }
   }

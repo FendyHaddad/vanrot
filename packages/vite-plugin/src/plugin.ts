@@ -5,6 +5,10 @@ import { formatConfigDiagnostic, loadVanrotProjectConfig } from '@vanrot/config'
 import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
+import {
+  createDevtoolsMetadataResponse,
+  vanrotDevtoolsMetadataEndpoint,
+} from './devtools-metadata.js';
 import { formatDiagnostic } from './diagnostics.js';
 import { handleVanrotHotUpdate } from './hot-update.js';
 import { createViteSourceMap } from './source-maps.js';
@@ -78,6 +82,20 @@ function createVanrotPlugin(
         },
         config.root,
       );
+    },
+    configureServer(server) {
+      server.middlewares.use(async (request, response, next) => {
+        if (request.url !== vanrotDevtoolsMetadataEndpoint) {
+          next();
+          return;
+        }
+
+        const root = resolvedConfig?.root ?? server.config.root;
+        const payload = await createDevtoolsMetadataResponse(root);
+        response.statusCode = 200;
+        response.setHeader('Content-Type', 'application/json; charset=utf-8');
+        response.end(JSON.stringify(payload));
+      });
     },
     async resolveId(source, importer) {
       const virtualImport = resolveVirtualSourceImport(source, importer);

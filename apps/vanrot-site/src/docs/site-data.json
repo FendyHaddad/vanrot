@@ -729,7 +729,7 @@
     { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16F" },
     { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
     { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
-    { "name": "map", "usage": "vr map", "status": "demo-capable" },
+    { "name": "map", "usage": "vr map", "status": "production-ready-through-phase-23" },
     { "name": "init-ai", "usage": "vr init-ai", "status": "demo-capable" },
     { "name": "ai", "usage": "vr ai <action>", "status": "demo-capable" },
     { "name": "dev", "usage": "vr dev", "status": "demo-capable" },
@@ -744,7 +744,8 @@
     { "name": "@vanrot/vite-plugin", "area": "Vite", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },
     { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16g" },
-    { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" }
+    { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" },
+    { "name": "@vanrot/devtools", "area": "Devtools", "status": "production-ready-through-phase-23" }
   ],
   "diagnostics": {
     "compiler": [

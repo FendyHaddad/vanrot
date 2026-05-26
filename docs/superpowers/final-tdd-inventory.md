@@ -309,3 +309,12 @@ into isolated audit tests.
 | Devtools and AI intelligence | devtools, cli, docs | Project map demo works | Red/green tests for route/component graphs, runtime graph metadata, MCP/Skill.sh manifests, and AI rules. | Phase 23, Phase 25 |
 | Docs and web presence | docs, web | Deferred | Completeness tests prove every package, command, convention, feature, and limitation is documented. | Phase 24 |
 | Distribution | distribution | Deferred | Clean-machine install matrix, package provenance, npm publish dry runs, Homebrew formula, and release checks pass. | Phase 26 |
+
+### Phase 23 Devtools And Project Intelligence
+
+- `@vanrot/devtools`: graph manifest types, manifest normalization, Node manifest reader, source fingerprinting, panel state, Chrome/Edge extension assets.
+- `@vanrot/cli`: `vr map` writes schema v2 graph manifests with app graph nodes, edges, route metadata, compiler metadata placeholders, AI metadata, and warn-only stale state.
+- `@vanrot/vite-plugin`: serves `/__vanrot/devtools/metadata` during local development.
+- `@vanrot/runtime`: exposes minimal runtime graph session contract and no-op hooks.
+- `@vanrot/config`: validates and normalizes provider-neutral AI rules config.
+- Tests: graph manifest schema, fingerprint freshness, project map generation, route graph extraction, import graph extraction, project graph integration, AI rules config, Vite metadata endpoint, panel state, runtime graph contract, and `vr map` graph output.

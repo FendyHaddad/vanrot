@@ -1,0 +1,32 @@
+:root {
+  color: #e8ecef;
+  background: #111417;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  margin: 0;
+}
+
+.vanrot-devtools-panel {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.panel-header h1 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.panel-header p {
+  margin: 4px 0 0;
+  color: #a7b0b8;
+  font-size: 12px;
+}
+
+.graph-root {
+  border: 1px solid #2f363d;
+  padding: 12px;
+}

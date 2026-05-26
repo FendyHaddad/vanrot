@@ -85,6 +85,7 @@ describe('vanrot site docs data', () => {
       '@vanrot/cli',
       '@vanrot/ui',
       '@vanrot/testing',
+      '@vanrot/devtools',
     ]);
   });
 

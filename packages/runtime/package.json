@@ -18,9 +18,15 @@
   "files": [
     "dist"
   ],
+  "dependencies": {
+    "@vanrot/devtools": "file:../devtools"
+  },
   "scripts": {
+    "prebuild": "pnpm --filter @vanrot/devtools build",
     "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm --filter @vanrot/devtools build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/devtools build",
     "test": "vitest run",
     "size": "size-limit",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""

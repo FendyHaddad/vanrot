@@ -1,3 +1,4 @@
+import { vanrotAiRuleSection, type NormalizedVanrotAiConfig } from '@vanrot/config';
 import { createAiRules } from '@/intelligence/ai-rules.js';
 import { writeVanrotFile } from '@/intelligence/write-vanrot-file.js';
 import { mkdtemp, readFile, stat } from 'node:fs/promises';
@@ -5,9 +6,25 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
+function aiConfig(
+  overrides: Partial<NormalizedVanrotAiConfig['rules']> = {},
+): NormalizedVanrotAiConfig {
+  return {
+    rules: {
+      enabledSections: [
+        vanrotAiRuleSection.projectRules,
+        vanrotAiRuleSection.commands,
+        vanrotAiRuleSection.fileConventions,
+      ],
+      customSections: [],
+      ...overrides,
+    },
+  };
+}
+
 describe('createAiRules', () => {
   it('contains the required Vanrot rules', () => {
-    const content = createAiRules();
+    const content = createAiRules({ ai: aiConfig() });
 
     expect(content).toContain('# Vanrot AI Rules');
     expect(content).toContain('Use guard clauses instead of nested control flow.');
@@ -18,6 +35,28 @@ describe('createAiRules', () => {
     expect(content).toContain('Use scoped CSS for component styling.');
     expect(content).toContain('Read `.vanrot/project-map.json` before making broad project changes.');
     expect(content).toContain('Do not assume an AI provider is required for Vanrot projects.');
+  });
+
+  it('omits disabled known sections', () => {
+    const rules = createAiRules({
+      ai: aiConfig({ enabledSections: [vanrotAiRuleSection.commands] }),
+    });
+
+    expect(rules).toContain('## Commands');
+    expect(rules).not.toContain('## Project Rules');
+    expect(rules).not.toContain('## File Conventions');
+  });
+
+  it('renders custom sections in enabled order', () => {
+    const rules = createAiRules({
+      ai: aiConfig({
+        enabledSections: ['team-notes', vanrotAiRuleSection.commands],
+        customSections: [{ id: 'team-notes', title: 'Team Notes', body: 'Prefer small focused phases.' }],
+      }),
+    });
+
+    expect(rules.indexOf('## Team Notes')).toBeLessThan(rules.indexOf('## Commands'));
+    expect(rules).toContain('Prefer small focused phases.');
   });
 });
 

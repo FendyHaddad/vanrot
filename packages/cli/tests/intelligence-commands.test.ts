@@ -27,6 +27,7 @@ describe('project intelligence commands', () => {
     expect(result.exitCode).toBe(0);
     expect(reporter.output()).toContain('Vanrot Project Map');
     expect(reporter.output()).toContain('.vanrot/project-map.json');
+    expect(reporter.output()).toContain('graph manifest ready');
 
     const map = JSON.parse(await readFile(join(cwd, '.vanrot', 'project-map.json'), 'utf8')) as {
       roles: { components: Array<{ path: string }> };

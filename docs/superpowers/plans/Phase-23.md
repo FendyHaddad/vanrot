@@ -59,6 +59,7 @@
 - Create: `packages/devtools/src/panel/panel.css`
   - Panel scoped styling.
 - Create: `packages/devtools/src/extension/devtools.ts`
+- Create: `packages/devtools/src/extension/chrome.d.ts`
   - Chrome DevTools page script that creates the Vanrot panel.
 - Create: `packages/devtools/src/extension/devtools.html`
   - Chrome DevTools extension page.
@@ -158,7 +159,7 @@
 - Create: `packages/devtools/src/graph/normalize.ts`
 - Create: `packages/devtools/tests/graph-manifest.test.ts`
 
-- [ ] **Step 1: Write failing graph manifest normalization tests**
+- [x] **Step 1: Write failing graph manifest normalization tests**
 
 Create `packages/devtools/tests/graph-manifest.test.ts`:
 
@@ -236,7 +237,7 @@ describe('normalizeGraphManifest', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing test**
+- [x] **Step 2: Run the failing test**
 
 Run:
 
@@ -246,7 +247,7 @@ pnpm --filter @vanrot/devtools test -- tests/graph-manifest.test.ts
 
 Expected: FAIL because `@vanrot/devtools` does not exist.
 
-- [ ] **Step 3: Add the package shell**
+- [x] **Step 3: Add the package shell**
 
 Create `packages/devtools/package.json`:
 
@@ -328,7 +329,7 @@ for (const [from, to] of assets) {
 }
 ```
 
-- [ ] **Step 4: Add graph types and normalization**
+- [x] **Step 4: Add graph types and normalization**
 
 Create `packages/devtools/src/graph/types.ts`:
 
@@ -532,7 +533,7 @@ export {
 export { normalizeGraphManifest } from './graph/normalize.js';
 ```
 
-- [ ] **Step 5: Add temporary extension assets so build copy succeeds**
+- [x] **Step 5: Add temporary extension assets so build copy succeeds**
 
 Create `packages/devtools/src/panel/panel.html`:
 
@@ -608,7 +609,25 @@ Create `packages/devtools/src/extension/devtools.html`:
 Create `packages/devtools/src/extension/devtools.ts`:
 
 ```ts
-chrome.devtools.panels.create('Vanrot', '', '../panel/panel.html');
+const panelPath = '../panel/panel.html';
+
+if (typeof chrome !== 'undefined' && chrome.devtools?.panels !== undefined) {
+  chrome.devtools.panels.create('Vanrot', '', panelPath);
+}
+```
+
+Create `packages/devtools/src/extension/chrome.d.ts`:
+
+```ts
+declare const chrome:
+  | {
+      devtools?: {
+        panels?: {
+          create: (title: string, iconPath: string, pagePath: string) => void;
+        };
+      };
+    }
+  | undefined;
 ```
 
 Create `packages/devtools/src/extension/manifest.json`:
@@ -623,7 +642,7 @@ Create `packages/devtools/src/extension/manifest.json`:
 }
 ```
 
-- [ ] **Step 6: Run tests and typecheck**
+- [x] **Step 6: Run tests and typecheck**
 
 Run:
 
@@ -635,7 +654,7 @@ pnpm --filter @vanrot/devtools build
 
 Expected: PASS.
 
-- [ ] **Step 7: Status checkpoint**
+- [x] **Step 7: Status checkpoint**
 
 Run:
 
@@ -655,7 +674,7 @@ Expected: new `packages/devtools/**` files. Do not stage.
 - Create: `packages/devtools/src/node/manifest-reader.ts`
 - Create: `packages/devtools/tests/source-fingerprint.test.ts`
 
-- [ ] **Step 1: Write failing source fingerprint tests**
+- [x] **Step 1: Write failing source fingerprint tests**
 
 Create `packages/devtools/tests/source-fingerprint.test.ts`:
 
@@ -705,7 +724,7 @@ describe('readProjectGraphManifest', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing test**
+- [x] **Step 2: Run the failing test**
 
 Run:
 
@@ -715,7 +734,7 @@ pnpm --filter @vanrot/devtools test -- tests/source-fingerprint.test.ts
 
 Expected: FAIL because `@/node/index.js` does not exist.
 
-- [ ] **Step 3: Implement fingerprint helper**
+- [x] **Step 3: Implement fingerprint helper**
 
 Create `packages/devtools/src/node/source-fingerprint.ts`:
 
@@ -773,7 +792,7 @@ function hasIncludedExtension(fileName: string): boolean {
 }
 ```
 
-- [ ] **Step 4: Implement manifest reader**
+- [x] **Step 4: Implement manifest reader**
 
 Create `packages/devtools/src/node/manifest-reader.ts`:
 
@@ -840,7 +859,7 @@ export { readProjectGraphManifest } from './manifest-reader.js';
 export { computeProjectSourceFingerprint } from './source-fingerprint.js';
 ```
 
-- [ ] **Step 5: Run tests and typecheck**
+- [x] **Step 5: Run tests and typecheck**
 
 Run:
 
@@ -861,7 +880,7 @@ Expected: PASS.
 - Modify: `packages/cli/src/intelligence/project-map.ts`
 - Modify: `packages/cli/tests/intelligence/project-map.test.ts`
 
-- [ ] **Step 1: Write failing schema v2 project map test**
+- [x] **Step 1: Write failing schema v2 project map test**
 
 Modify `packages/cli/tests/intelligence/project-map.test.ts` expected map in `builds a stable project map grouped by role`:
 
@@ -917,7 +936,7 @@ expect(map.compiler).toEqual({ components: [], diagnostics: [], warnings: [] });
 expect(map.ai.rulesPath).toBe('.vanrot/ai-rules.md');
 ```
 
-- [ ] **Step 2: Run the failing CLI test**
+- [x] **Step 2: Run the failing CLI test**
 
 Run:
 
@@ -927,7 +946,7 @@ pnpm --filter @vanrot/cli test -- tests/intelligence/project-map.test.ts
 
 Expected: FAIL because current map is schema v1 and has no graph fields.
 
-- [ ] **Step 3: Add package dependency and TypeScript reference**
+- [x] **Step 3: Add package dependency and TypeScript reference**
 
 Modify `packages/cli/package.json`:
 
@@ -954,7 +973,7 @@ Update `packages/cli/package.json` lifecycle scripts so `@vanrot/devtools` build
 "pretest": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/devtools build"
 ```
 
-- [ ] **Step 4: Update project map generation**
+- [x] **Step 4: Update project map generation**
 
 Modify `packages/cli/src/intelligence/project-map.ts` so `ProjectMap` is imported from `@vanrot/devtools` and graph defaults are written:
 
@@ -1031,7 +1050,7 @@ export async function buildProjectMap(
 
 Keep the existing `groupRoles`, `discoverI18n`, `assertExists`, `exists`, and `toProjectPath` helpers below this code.
 
-- [ ] **Step 5: Add initial graph builder**
+- [x] **Step 5: Add initial graph builder**
 
 Create `packages/cli/src/intelligence/project-graph.ts`:
 
@@ -1140,7 +1159,7 @@ function sortEdges(edges: ProjectGraphEdge[]): ProjectGraphEdge[] {
 }
 ```
 
-- [ ] **Step 6: Run the test**
+- [x] **Step 6: Run the test**
 
 Run:
 
@@ -1163,7 +1182,7 @@ Expected: PASS.
 - Create: `packages/cli/tests/intelligence/import-graph.test.ts`
 - Create: `packages/cli/tests/intelligence/project-graph.test.ts`
 
-- [ ] **Step 1: Write failing route graph test**
+- [x] **Step 1: Write failing route graph test**
 
 Create `packages/cli/tests/intelligence/route-graph.test.ts`:
 
@@ -1215,7 +1234,7 @@ describe('discoverRouteGraph', () => {
 });
 ```
 
-- [ ] **Step 2: Write failing import graph test**
+- [x] **Step 2: Write failing import graph test**
 
 Create `packages/cli/tests/intelligence/import-graph.test.ts`:
 
@@ -1247,7 +1266,7 @@ describe('discoverImportGraph', () => {
 });
 ```
 
-- [ ] **Step 3: Run failing tests**
+- [x] **Step 3: Run failing tests**
 
 Run:
 
@@ -1257,7 +1276,7 @@ pnpm --filter @vanrot/cli test -- tests/intelligence/route-graph.test.ts tests/i
 
 Expected: FAIL because the extraction files do not exist.
 
-- [ ] **Step 4: Implement route graph extraction with TypeScript AST**
+- [x] **Step 4: Implement route graph extraction with TypeScript AST**
 
 Create `packages/cli/src/intelligence/route-graph.ts`:
 
@@ -1422,7 +1441,7 @@ function toProjectPath(cwd: string, filePath: string): string {
 }
 ```
 
-- [ ] **Step 5: Implement import graph extraction with TypeScript AST**
+- [x] **Step 5: Implement import graph extraction with TypeScript AST**
 
 Create `packages/cli/src/intelligence/import-graph.ts`:
 
@@ -1471,7 +1490,7 @@ function toProjectPath(cwd: string, filePath: string): string {
 }
 ```
 
-- [ ] **Step 6: Wire route and import graph into project graph**
+- [x] **Step 6: Wire route and import graph into project graph**
 
 Modify `packages/cli/src/intelligence/project-graph.ts`:
 
@@ -1507,7 +1526,7 @@ Update `buildProjectGraph` before return:
   };
 ```
 
-- [ ] **Step 7: Run graph tests**
+- [x] **Step 7: Run graph tests**
 
 Run:
 
@@ -1529,7 +1548,7 @@ Expected: PASS.
 - Modify: `packages/runtime/src/index.ts`
 - Create: `packages/runtime/tests/devtools-runtime-graph.test.ts`
 
-- [ ] **Step 1: Write failing runtime graph test**
+- [x] **Step 1: Write failing runtime graph test**
 
 Create `packages/runtime/tests/devtools-runtime-graph.test.ts`:
 
@@ -1575,7 +1594,7 @@ describe('runtime graph devtools contract', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing runtime test**
+- [x] **Step 2: Run the failing runtime test**
 
 Run:
 
@@ -1585,7 +1604,7 @@ pnpm --filter @vanrot/runtime test -- tests/devtools-runtime-graph.test.ts
 
 Expected: FAIL because runtime graph exports do not exist.
 
-- [ ] **Step 3: Add runtime graph types to devtools**
+- [x] **Step 3: Add runtime graph types to devtools**
 
 Append to `packages/devtools/src/graph/types.ts`:
 
@@ -1619,7 +1638,7 @@ export type RuntimeGraphEvent =
 
 Export those types from `packages/devtools/src/index.ts`.
 
-- [ ] **Step 4: Add runtime no-op session**
+- [x] **Step 4: Add runtime no-op session**
 
 Create `packages/runtime/src/devtools/runtime-graph.ts`:
 
@@ -1688,7 +1707,7 @@ export type {
 export { createRuntimeGraphSession } from './devtools/runtime-graph.js';
 ```
 
-- [ ] **Step 5: Add runtime dependency on devtools**
+- [x] **Step 5: Add runtime dependency on devtools**
 
 Modify `packages/runtime/package.json`:
 
@@ -1712,7 +1731,7 @@ Modify `packages/runtime/tsconfig.json` references:
 "references": [{ "path": "../devtools" }]
 ```
 
-- [ ] **Step 6: Run runtime tests**
+- [x] **Step 6: Run runtime tests**
 
 Run:
 
@@ -1734,7 +1753,7 @@ Expected: PASS.
 - Modify: `packages/vite-plugin/src/plugin.ts`
 - Create: `packages/vite-plugin/tests/devtools-metadata.test.ts`
 
-- [ ] **Step 1: Write failing endpoint helper tests**
+- [x] **Step 1: Write failing endpoint helper tests**
 
 Create `packages/vite-plugin/tests/devtools-metadata.test.ts`:
 
@@ -1795,7 +1814,7 @@ describe('createDevtoolsMetadataResponse', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing endpoint test**
+- [x] **Step 2: Run the failing endpoint test**
 
 Run:
 
@@ -1805,7 +1824,7 @@ pnpm --filter @vanrot/vite-plugin test -- tests/devtools-metadata.test.ts
 
 Expected: FAIL because `devtools-metadata.ts` does not exist.
 
-- [ ] **Step 3: Add dependency and reference**
+- [x] **Step 3: Add dependency and reference**
 
 Modify `packages/vite-plugin/package.json` dependencies:
 
@@ -1831,7 +1850,7 @@ Modify `packages/vite-plugin/tsconfig.json` references:
 
 Update `prebuild`, `pretypecheck`, and `pretest` scripts to build `@vanrot/devtools` before `@vanrot/vite-plugin`.
 
-- [ ] **Step 4: Implement response helper**
+- [x] **Step 4: Implement response helper**
 
 Create `packages/vite-plugin/src/devtools-metadata.ts`:
 
@@ -1857,7 +1876,7 @@ export async function createDevtoolsMetadataResponse(
 }
 ```
 
-- [ ] **Step 5: Wire middleware into Vite plugin**
+- [x] **Step 5: Wire middleware into Vite plugin**
 
 Modify imports in `packages/vite-plugin/src/plugin.ts`:
 
@@ -1887,7 +1906,7 @@ Add a `configureServer` hook inside the returned plugin object:
     },
 ```
 
-- [ ] **Step 6: Run endpoint tests and Vite plugin checks**
+- [x] **Step 6: Run endpoint tests and Vite plugin checks**
 
 Run:
 
@@ -1910,7 +1929,7 @@ Expected: PASS.
 - Modify: `packages/devtools/src/panel/panel.css`
 - Create: `packages/devtools/tests/panel-state.test.ts`
 
-- [ ] **Step 1: Write failing panel state tests**
+- [x] **Step 1: Write failing panel state tests**
 
 Create `packages/devtools/tests/panel-state.test.ts`:
 
@@ -1973,7 +1992,7 @@ describe('createPanelState', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing test**
+- [x] **Step 2: Run failing test**
 
 Run:
 
@@ -1983,7 +2002,7 @@ pnpm --filter @vanrot/devtools test -- tests/panel-state.test.ts
 
 Expected: FAIL because `panel/state.ts` does not exist.
 
-- [ ] **Step 3: Implement panel state**
+- [x] **Step 3: Implement panel state**
 
 Create `packages/devtools/src/panel/state.ts`:
 
@@ -2053,7 +2072,7 @@ function labelForStatus(status: NormalizedGraphManifest['status']): string {
 }
 ```
 
-- [ ] **Step 4: Render panel UI from endpoint**
+- [x] **Step 4: Render panel UI from endpoint**
 
 Modify `packages/devtools/src/panel/panel.ts`:
 
@@ -2115,7 +2134,7 @@ function renderState(state: ReturnType<typeof createPanelState>): void {
 }
 ```
 
-- [ ] **Step 5: Run panel tests and build**
+- [x] **Step 5: Run panel tests and build**
 
 Run:
 
@@ -2138,12 +2157,13 @@ Expected: PASS.
 - Modify: `packages/devtools/src/panel/panel.css`
 - Modify: `packages/devtools/package.json`
 
-- [ ] **Step 1: Verify extension build artifacts**
+- [x] **Step 1: Verify extension build artifacts**
 
 Run:
 
 ```sh
 pnpm --filter @vanrot/devtools build
+test -f packages/devtools/dist/manifest.json
 test -f packages/devtools/dist/extension/manifest.json
 test -f packages/devtools/dist/extension/devtools.html
 test -f packages/devtools/dist/panel/panel.html
@@ -2153,9 +2173,9 @@ test -f packages/devtools/dist/panel/panel.js
 
 Expected: PASS. If `panel.js` is under another generated path, update `panel.html` and `copy-assets.mjs` so Chrome can load it from `dist/panel/panel.html`.
 
-- [ ] **Step 2: Update devtools page to use Chrome API guard**
+- [x] **Step 2: Verify devtools page uses Chrome API guard**
 
-Modify `packages/devtools/src/extension/devtools.ts`:
+Confirm `packages/devtools/src/extension/devtools.ts` uses:
 
 ```ts
 const panelPath = '../panel/panel.html';
@@ -2165,23 +2185,7 @@ if (typeof chrome !== 'undefined' && chrome.devtools?.panels !== undefined) {
 }
 ```
 
-- [ ] **Step 3: Add Chrome global type**
-
-Create `packages/devtools/src/extension/chrome.d.ts`:
-
-```ts
-declare const chrome:
-  | {
-      devtools?: {
-        panels?: {
-          create: (title: string, iconPath: string, pagePath: string) => void;
-        };
-      };
-    }
-  | undefined;
-```
-
-- [ ] **Step 4: Run typecheck and build**
+- [x] **Step 3: Run typecheck and build**
 
 Run:
 
@@ -2192,9 +2196,14 @@ pnpm --filter @vanrot/devtools build
 
 Expected: PASS.
 
-- [ ] **Step 5: Manual browser verification checkpoint**
+- [x] **Step 5: Browser verification checkpoint**
 
-Use Chrome or Edge extension loading from `packages/devtools/dist/extension`.
+Use Chrome or Edge extension loading from `packages/devtools/dist`.
+
+Automated verification evidence:
+
+- Headless Chromium accepted `packages/devtools/dist` through `--load-extension`.
+- Built panel fixture rendered `Ready - 2 nodes, 1 edges` and route row `home / page:src/pages/home.page.ts`.
 
 Expected manual result:
 
@@ -2219,7 +2228,7 @@ Record any manual result in the final task notes before marking Phase 23 complet
 - Modify: `packages/cli/src/intelligence/ai-rules.ts`
 - Modify: `packages/cli/tests/intelligence/ai-rules.test.ts`
 
-- [ ] **Step 1: Write failing config tests**
+- [x] **Step 1: Write failing config tests**
 
 Create `packages/config/tests/ai-rules-config.test.ts`:
 
@@ -2262,7 +2271,7 @@ describe('AI rules config', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing config tests**
+- [x] **Step 2: Run failing config tests**
 
 Run:
 
@@ -2272,7 +2281,7 @@ pnpm --filter @vanrot/config test -- tests/ai-rules-config.test.ts
 
 Expected: FAIL because AI rules config types/constants do not exist.
 
-- [ ] **Step 3: Add config types and defaults**
+- [x] **Step 3: Add config types and defaults**
 
 Modify `packages/config/src/types.ts`:
 
@@ -2339,7 +2348,7 @@ ai: {
 },
 ```
 
-- [ ] **Step 4: Add diagnostics**
+- [x] **Step 4: Add diagnostics**
 
 Modify `packages/config/src/diagnostics.ts`:
 
@@ -2389,7 +2398,7 @@ Add validation:
   }
 ```
 
-- [ ] **Step 5: Export AI config symbols**
+- [x] **Step 5: Export AI config symbols**
 
 Modify `packages/config/src/index.ts` exports:
 
@@ -2405,7 +2414,7 @@ export type {
 } from './types.js';
 ```
 
-- [ ] **Step 6: Run config tests**
+- [x] **Step 6: Run config tests**
 
 Run:
 
@@ -2427,7 +2436,7 @@ Expected: PASS.
 - Modify: `packages/cli/tests/intelligence/ai-rules.test.ts`
 - Modify: `packages/cli/tests/intelligence/project-map.test.ts`
 
-- [ ] **Step 1: Write failing AI rules generation tests**
+- [x] **Step 1: Write failing AI rules generation tests**
 
 Modify `packages/cli/tests/intelligence/ai-rules.test.ts`:
 
@@ -2475,7 +2484,7 @@ describe('createAiRules', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing AI rules test**
+- [x] **Step 2: Run failing AI rules test**
 
 Run:
 
@@ -2485,7 +2494,7 @@ pnpm --filter @vanrot/cli test -- tests/intelligence/ai-rules.test.ts
 
 Expected: FAIL because `createAiRules` takes no config.
 
-- [ ] **Step 3: Update AI rules generator**
+- [x] **Step 3: Update AI rules generator**
 
 Modify `packages/cli/src/intelligence/ai-rules.ts`:
 
@@ -2557,7 +2566,7 @@ function fileConventionsSection(): string {
 }
 ```
 
-- [ ] **Step 4: Pass normalized config into AI rules and project map**
+- [x] **Step 4: Pass normalized config into AI rules and project map**
 
 Where `createAiRules` is called, load normalized config through `loadVanrotProjectConfig(context.cwd)` and pass `loaded.config.ai`.
 
@@ -2593,7 +2602,7 @@ ai: {
 },
 ```
 
-- [ ] **Step 5: Run AI tests**
+- [x] **Step 5: Run AI tests**
 
 Run:
 
@@ -2612,7 +2621,7 @@ Expected: PASS.
 - Modify: `packages/cli/src/commands/map.ts`
 - Modify: `packages/cli/tests/intelligence-commands.test.ts`
 
-- [ ] **Step 1: Write failing command output test**
+- [x] **Step 1: Write failing command output test**
 
 Modify `packages/cli/tests/intelligence-commands.test.ts` with a `vr map` assertion:
 
@@ -2630,7 +2639,7 @@ it('reports graph manifest output from vr map', async () => {
 });
 ```
 
-- [ ] **Step 2: Run failing command test**
+- [x] **Step 2: Run failing command test**
 
 Run:
 
@@ -2640,7 +2649,7 @@ pnpm --filter @vanrot/cli test -- tests/intelligence-commands.test.ts
 
 Expected: FAIL because `graph manifest ready` is not reported.
 
-- [ ] **Step 3: Update map command reporting**
+- [x] **Step 3: Update map command reporting**
 
 Modify `packages/cli/src/commands/map.ts` after `wrote project map`:
 
@@ -2659,7 +2668,7 @@ If `map.stale.value` is true, add:
     }
 ```
 
-- [ ] **Step 4: Run command tests**
+- [x] **Step 4: Run command tests**
 
 Run:
 
@@ -2679,7 +2688,7 @@ Expected: PASS.
 - Modify: `packages/ui/package.json` only if package graph needs explicit devtools build ordering.
 - Modify: package `tsconfig.json` references touched in earlier tasks.
 
-- [ ] **Step 1: Run recursive typecheck to find build graph issues**
+- [x] **Step 1: Run recursive typecheck to find build graph issues**
 
 Run:
 
@@ -2689,7 +2698,7 @@ pnpm typecheck
 
 Expected: either PASS or FAIL with package reference/build order errors involving `@vanrot/devtools`.
 
-- [ ] **Step 2: Fix only package reference errors**
+- [x] **Step 2: Fix only package reference errors**
 
 If TypeScript reports missing referenced project output, add `../devtools` references only to packages that import `@vanrot/devtools` directly.
 
@@ -2699,7 +2708,7 @@ Expected direct importers:
 - `packages/vite-plugin/tsconfig.json`
 - `packages/runtime/tsconfig.json`
 
-- [ ] **Step 3: Re-run recursive typecheck**
+- [x] **Step 3: Re-run recursive typecheck**
 
 Run:
 
@@ -2717,7 +2726,7 @@ Expected: PASS.
 - Modify: `apps/vanrot-site/src/docs/site-data.json`
 - Modify: docs page files only if existing command/package docs are generated from code.
 
-- [ ] **Step 1: Search current docs metadata for packages and commands**
+- [x] **Step 1: Search current docs metadata for packages and commands**
 
 Run:
 
@@ -2727,7 +2736,7 @@ rg -n '"@vanrot/|devtools|map|ai-rules|project-map' apps/vanrot-site/src docs/su
 
 Expected: existing package and command metadata locations are visible.
 
-- [ ] **Step 2: Add package metadata entry if site data owns packages**
+- [x] **Step 2: Add package metadata entry if site data owns packages**
 
 If `apps/vanrot-site/src/docs/site-data.json` has package entries, add:
 
@@ -2739,7 +2748,7 @@ If `apps/vanrot-site/src/docs/site-data.json` has package entries, add:
 }
 ```
 
-- [ ] **Step 3: Add command metadata note for `vr map`**
+- [x] **Step 3: Add command metadata note for `vr map`**
 
 If `site-data.json` has command entries, update the `map` command summary to mention graph manifest generation:
 
@@ -2752,7 +2761,7 @@ If `site-data.json` has command entries, update the `map` command summary to men
 }
 ```
 
-- [ ] **Step 4: Run site docs verification**
+- [x] **Step 4: Run site docs verification**
 
 Run:
 
@@ -2769,7 +2778,7 @@ Expected: PASS.
 **Files:**
 - Modify: `docs/superpowers/final-tdd-inventory.md`
 
-- [ ] **Step 1: Add Phase 23 inventory entries**
+- [x] **Step 1: Add Phase 23 inventory entries**
 
 Add a Phase 23 section or append to the existing package inventory with these exact items:
 
@@ -2784,7 +2793,7 @@ Add a Phase 23 section or append to the existing package inventory with these ex
 - Tests: graph manifest schema, fingerprint freshness, project map generation, route graph extraction, import graph extraction, AI rules config, Vite metadata endpoint, panel state, runtime graph contract.
 ```
 
-- [ ] **Step 2: Run phase docs verification**
+- [x] **Step 2: Run phase docs verification**
 
 Run:
 
@@ -2804,11 +2813,11 @@ Expected: PASS or a clear failure pointing to tracker/presentation sync that wil
 - Modify: `docs/superpowers/plans/Phase-23.md`
 - Modify: `docs/superpowers/specs/Phase-23.md` only if implementation changed approved scope.
 
-- [ ] **Step 1: Mark plan tasks complete only after implementation passes**
+- [x] **Step 1: Mark plan tasks complete only after implementation passes**
 
 In `docs/superpowers/plans/Phase-23.md`, mark each completed step with `[x]`.
 
-- [ ] **Step 2: Update feature maturity ledger**
+- [x] **Step 2: Update feature maturity ledger**
 
 In `docs/superpowers/feature-maturity.md`, update Phase 23 only when every completion criterion passes:
 
@@ -2818,11 +2827,11 @@ In `docs/superpowers/feature-maturity.md`, update Phase 23 only when every compl
 
 Update detailed rows for project route/dependency graphing, compiler-aware project intelligence, AI rules customization, and devtools from `Deferred` or `Demo-Capable` to the status proven by implementation.
 
-- [ ] **Step 3: Update presentation roadmap**
+- [x] **Step 3: Update presentation roadmap**
 
 In `docs/vanrot-presentation.html`, mark Phase 23 as done and the next appropriate phase as active according to the existing roadmap markup.
 
-- [ ] **Step 4: Run phase documentation gate**
+- [x] **Step 4: Run phase documentation gate**
 
 Run:
 
@@ -2839,7 +2848,7 @@ Expected: PASS.
 **Files:**
 - No new files unless verification exposes a defect.
 
-- [ ] **Step 1: Run focused package checks**
+- [x] **Step 1: Run focused package checks**
 
 Run:
 
@@ -2853,7 +2862,7 @@ pnpm --filter @vanrot/runtime test
 
 Expected: PASS.
 
-- [ ] **Step 2: Run recursive typecheck**
+- [x] **Step 2: Run recursive typecheck**
 
 Run:
 
@@ -2863,7 +2872,7 @@ pnpm typecheck
 
 Expected: PASS.
 
-- [ ] **Step 3: Run full verification**
+- [x] **Step 3: Run full verification**
 
 Run:
 
@@ -2873,7 +2882,7 @@ pnpm verify
 
 Expected: PASS.
 
-- [ ] **Step 4: Check working tree**
+- [x] **Step 4: Check working tree**
 
 Run:
 

@@ -1,15 +1,15 @@
+import { type NormalizedVanrotAiConfig, vanrotAiRuleSection } from '@vanrot/config';
+import { computeProjectSourceFingerprint } from '@vanrot/devtools/node';
+import {
+  projectMapGraphSchemaVersion,
+  type ProjectGraphManifest,
+} from '@vanrot/devtools';
 import { access, readdir } from 'node:fs/promises';
 import { join, relative, sep } from 'node:path';
+import { buildProjectGraph } from './project-graph.js';
 import { discoverRoleFiles, type RoleFile } from './role-files.js';
 
-export interface ProjectMap {
-  schemaVersion: 1;
-  generatedAt: string;
-  projectRoot: '.';
-  sourceRoot: 'src';
-  roles: ProjectMapRoles;
-  i18n: ProjectMapI18n;
-}
+export type ProjectMap = ProjectGraphManifest;
 
 export interface ProjectMapRoles {
   components: RoleFile[];
@@ -27,6 +27,8 @@ export interface ProjectMapI18n {
 
 export interface BuildProjectMapOptions {
   now?: () => Date;
+  ai?: NormalizedVanrotAiConfig;
+  configSource?: string | null;
 }
 
 export async function buildProjectMap(
@@ -37,16 +39,43 @@ export async function buildProjectMap(
   await assertExists(join(cwd, 'src'), 'Missing src directory');
 
   const roles = await discoverRoleFiles(cwd);
+  const groupedRoles = groupRoles(roles);
+  const graph = await buildProjectGraph(cwd, groupedRoles);
   const i18n = await discoverI18n(cwd);
   const now = options.now ?? (() => new Date());
+  const generatedAt = now().toISOString();
+  const ai = options.ai ?? {
+    enabled: true,
+    rules: {
+      enabledSections: [
+        vanrotAiRuleSection.projectRules,
+        vanrotAiRuleSection.commands,
+        vanrotAiRuleSection.fileConventions,
+      ],
+      customSections: [],
+    },
+  };
 
   return {
-    schemaVersion: 1,
-    generatedAt: now().toISOString(),
+    schemaVersion: projectMapGraphSchemaVersion,
+    generatedAt,
     projectRoot: '.',
     sourceRoot: 'src',
-    roles: groupRoles(roles),
+    sourceFingerprint: await computeProjectSourceFingerprint(cwd),
+    stale: { value: false, reasons: [] },
+    roles: groupedRoles,
     i18n,
+    graph: graph.graph,
+    routes: graph.routes,
+    compiler: compilerMetadataFor(groupedRoles),
+    ai: {
+      rulesPath: '.vanrot/ai-rules.md',
+      enabledSections: ai.rules.enabledSections,
+      customSections: ai.rules.customSections.map((section) => section.id),
+      configSource: options.configSource ?? null,
+      warnings: [],
+      generatedAt,
+    },
   };
 }
 
@@ -58,6 +87,27 @@ function groupRoles(roles: RoleFile[]): ProjectMapRoles {
     layouts: roles.filter((role) => role.role === 'layout'),
     widgets: roles.filter((role) => role.role === 'widget'),
     forms: roles.filter((role) => role.role === 'form'),
+  };
+}
+
+function compilerMetadataFor(roles: ProjectMapRoles): ProjectMap['compiler'] {
+  return {
+    components: [
+      ...roles.components,
+      ...roles.pages,
+      ...roles.dialogs,
+      ...roles.layouts,
+      ...roles.widgets,
+      ...roles.forms,
+    ].map((role) => ({
+      path: role.path,
+      templatePath: role.templatePath,
+      stylePath: role.stylePath,
+      bindings: [],
+      diagnostics: [],
+    })),
+    diagnostics: [],
+    warnings: [],
   };
 }
 

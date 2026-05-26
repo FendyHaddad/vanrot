@@ -1,5 +1,6 @@
 import { configSchemaVersion, defaultDevServerPort, defaultSourceRoot } from './constants.js';
 import {
+  vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
   vanrotUiFlavor,
   vanrotUiStyleMode,
@@ -34,6 +35,17 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
       flavor: config.ui?.flavor ?? vanrotUiFlavor.october,
       styles: config.ui?.styles ?? vanrotUiStyleMode.vanrotstyles,
       prefix: config.ui?.prefix ?? 'ui',
+    },
+    ai: {
+      enabled: config.ai?.enabled ?? true,
+      rules: {
+        enabledSections: config.ai?.rules?.enabledSections ?? [
+          vanrotAiRuleSection.projectRules,
+          vanrotAiRuleSection.commands,
+          vanrotAiRuleSection.fileConventions,
+        ],
+        customSections: config.ai?.rules?.customSections ?? [],
+      },
     },
   };
 }

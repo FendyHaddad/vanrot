@@ -1,3 +1,4 @@
+import { loadVanrotProjectConfig } from '@vanrot/config';
 import { buildProjectMap } from '../intelligence/project-map.js';
 import { writeVanrotFile } from '../intelligence/write-vanrot-file.js';
 import type { CommandContext, CommandResult } from '../result.js';
@@ -14,7 +15,11 @@ export async function mapCommand(args: string[], context: CommandContext): Promi
   }
 
   try {
-    const map = await buildProjectMap(context.cwd);
+    const loaded = await loadVanrotProjectConfig(context.cwd);
+    const map = await buildProjectMap(context.cwd, {
+      ai: loaded.config.ai,
+      configSource: loaded.exists ? 'vanrot.config.ts' : null,
+    });
     const writtenPath = await writeVanrotFile(
       context.cwd,
       'project-map.json',
@@ -23,6 +28,13 @@ export async function mapCommand(args: string[], context: CommandContext): Promi
 
     context.reporter.heading('Vanrot Project Map');
     context.reporter.success('wrote project map', writtenPath);
+    context.reporter.success(
+      'graph manifest ready',
+      `${map.graph.nodes.length} nodes, ${map.graph.edges.length} edges`,
+    );
+    for (const reason of map.stale.reasons) {
+      context.reporter.warning('graph manifest stale', reason);
+    }
     return ok();
   } catch (error) {
     context.reporter.error('Could not write project map', messageFrom(error));

@@ -25,10 +25,12 @@ describe('buildProjectMap', () => {
     });
 
     expect(map).toEqual({
-      schemaVersion: 1,
+      schemaVersion: 2,
       generatedAt: '2026-05-22T00:00:00.000Z',
       projectRoot: '.',
       sourceRoot: 'src',
+      sourceFingerprint: expect.stringMatching(/^sha256:/),
+      stale: { value: false, reasons: [] },
       roles: {
         components: [
           {
@@ -48,6 +50,71 @@ describe('buildProjectMap', () => {
       i18n: {
         locales: ['en'],
         files: ['src/i18n/en.json'],
+      },
+      graph: {
+        nodes: [
+          {
+            id: 'component:src/counter/counter.component.ts',
+            kind: 'component',
+            label: 'counter',
+            path: 'src/counter/counter.component.ts',
+            role: 'component',
+            metadata: {
+              templatePath: 'src/counter/counter.component.html',
+              stylePath: 'src/counter/counter.component.css',
+            },
+          },
+          {
+            id: 'style:src/counter/counter.component.css',
+            kind: 'style',
+            label: 'counter.component.css',
+            path: 'src/counter/counter.component.css',
+            metadata: {},
+          },
+          {
+            id: 'template:src/counter/counter.component.html',
+            kind: 'template',
+            label: 'counter.component.html',
+            path: 'src/counter/counter.component.html',
+            metadata: {},
+          },
+        ],
+        edges: [
+          {
+            id: 'component:src/counter/counter.component.ts->style:src/counter/counter.component.css:component-to-style',
+            from: 'component:src/counter/counter.component.ts',
+            to: 'style:src/counter/counter.component.css',
+            kind: 'component-to-style',
+          },
+          {
+            id: 'component:src/counter/counter.component.ts->template:src/counter/counter.component.html:component-to-template',
+            from: 'component:src/counter/counter.component.ts',
+            to: 'template:src/counter/counter.component.html',
+            kind: 'component-to-template',
+          },
+        ],
+      },
+      routes: [],
+      compiler: {
+        components: [
+          {
+            path: 'src/counter/counter.component.ts',
+            templatePath: 'src/counter/counter.component.html',
+            stylePath: 'src/counter/counter.component.css',
+            bindings: [],
+            diagnostics: [],
+          },
+        ],
+        diagnostics: [],
+        warnings: [],
+      },
+      ai: {
+        rulesPath: '.vanrot/ai-rules.md',
+        enabledSections: ['project-rules', 'commands', 'file-conventions'],
+        customSections: [],
+        configSource: null,
+        warnings: [],
+        generatedAt: '2026-05-22T00:00:00.000Z',
       },
     });
   });

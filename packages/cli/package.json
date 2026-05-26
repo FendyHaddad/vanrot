@@ -19,14 +19,16 @@
   ],
   "dependencies": {
     "@vanrot/config": "file:../config",
-    "@vanrot/ui": "file:../ui"
+    "@vanrot/devtools": "file:../devtools",
+    "@vanrot/ui": "file:../ui",
+    "typescript": "^5.9.3"
   },
   "scripts": {
-    "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build",
+    "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/devtools build",
     "build": "tsc -p tsconfig.json",
-    "pretypecheck": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build",
+    "pretypecheck": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/devtools build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "pretest": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build",
+    "pretest": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/devtools build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
   }
