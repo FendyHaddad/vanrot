@@ -101,6 +101,8 @@ Do not mark a phase done until its verification criteria pass.
 
 Production phases must be sliced from `docs/superpowers/feature-maturity.md`, not squeezed into vague all-in-one milestones. Treat the maturity ledger as the full production backlog. When a ledger section is broad, split it into the smallest coherent executable phase or sub-phase, keep unfinished production requirements tracked in `feature-maturity.md`, and only mark rows `Production-Ready` when the exact slice has implementation, edge-case coverage, integration coverage where relevant, diagnostics or docs hooks where relevant, and verification evidence.
 
+Post-production phases are a separate bucket. In `docs/superpowers/feature-maturity.md`, Phase 17 through Phase 22 are explicitly `Post-production implementation` phases, not immediate core production-readiness phases. After Phase 16, do not flatten them into "next production phases" unless the user explicitly chooses to enter post-production work. When asked what comes next, first call out Phase 16 closeout if its subplans are done, then separate Phase 17-22 post-production candidates from Phase 23-26 hardening, docs, AI-consumption, and distribution work. Before opening or planning Phase 17-22, check `docs/superpowers/post-production-implementation-ideas.md`.
+
 `docs/superpowers/final-tdd-inventory.md` is the final release testing memory. It must grow with each production phase so Phase 26 can run complete failing and passing TDD coverage across every package, command, component, convention, helper, example, and generated file before distribution.
 
 `pnpm verify:phase-docs` enforces the phase documentation guardrail:
@@ -161,13 +163,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-26 11:22pm GMT+8
+# [vanrot] recent context, 2026-05-27 1:01am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (12,929t read) | 1,569,108t work | 99% savings
+Stats: 50 obs (12,901t read) | 1,519,061t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -182,8 +184,6 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 24, 2026
-1895 3:16a ⚖️ VR UI Framework Naming and Theming
-1899 3:55a 🟣 Enhanced CSS Token and Utility Testing
 1898 3:56a ✅ Execution Plans Skill Documentation
 1900 1:50p ✅ CSS File Management Strategy
 1901 1:51p 🔵 Context Search Yielded No Results
@@ -234,6 +234,8 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2018 6:51p 🔵 Claude-Mem MCP server configuration details extracted
 2046 6:52p 🔵 Codex TOML configuration for Claude-Mem server validated
 2055 6:53p 🔵 Relevant lines identified in AGENTS.md for memory protocol
+2065 11:22p ✅ Staged files for Vanrot commit
+2066 " 🔵 Phase 16G completion status and next steps identified
 
-Access 1569k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1519k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
