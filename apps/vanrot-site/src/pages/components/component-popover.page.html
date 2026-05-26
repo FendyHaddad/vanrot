@@ -1,0 +1,103 @@
+<div class="app component-gallery-app component-popover-app component-phase16g-app">
+  <vr-sidebar class="sidebar" placement.left aria-label="Component documentation">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/breadcrumbs">Breadcrumb</a>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link" href="/docs/components/command-menu">Command Menu</a>
+    <a class="nav-link" href="/docs/components/containers">Container</a>
+    <a class="nav-link" href="/docs/components/dialogs">Dialog</a>
+    <a class="nav-link" href="/docs/components/drawers">Drawer</a>
+    <a class="nav-link" href="/docs/components/dropdowns">Dropdown</a>
+    <a class="nav-link" href="/docs/components/footers">Footer</a>
+    <a class="nav-link" href="/docs/components/grids">Grid</a>
+    <a class="nav-link" href="/docs/components/headers">Header</a>
+    <a class="nav-link" href="/docs/components/images">Image</a>
+    <a class="nav-link" href="/docs/components/layouts">Layout</a>
+    <a class="nav-link" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/navigation">Navigation</a>
+    <a class="nav-link active" href="/docs/components/popovers">Popover</a>
+    <a class="nav-link" href="/docs/components/sections">Section</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+    <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/sources">Source</a>
+    <a class="nav-link" href="/docs/components/tabs">Tabs</a>
+    <a class="nav-link" href="/docs/components/toasts">Toast</a>
+    <a class="nav-link" href="/docs/components/tooltips">Tooltip</a>
+  </vr-sidebar>
+
+  <main>
+    <vr-header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Popover</span>
+      </div>
+      <vr-nav class="topbar-right" aria-label="Component page links">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </vr-nav>
+    </vr-header>
+
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+      <section class="primitive" id="popover">
+        <div class="preview">
+          <div class="preview-head"><span>{{ selector() }}</span><span>Phase 16G</span></div>
+          <div class="preview-body phase16g-preview-frame">
+            <vr-popover class="shadcn-popover-demo" data-vr-overlay-preview side.bottom align.center>
+              <vr-popover-trigger data-vr-overlay-trigger><vr-button variant.outline type="button">Open popover</vr-button></vr-popover-trigger>
+              <vr-popover-content class="shadcn-popover-content" data-vr-overlay-content hidden>
+                <vr-popover-title>Dimensions</vr-popover-title>
+                <vr-popover-description>Set the dimensions for the layer.</vr-popover-description>
+                <form class="shadcn-popover-form" aria-label="Layer dimensions">
+                  <label>Width</label>
+                  <input value="100%" aria-label="Width" />
+                  <label>Max. width</label>
+                  <input value="300px" aria-label="Max. width" />
+                  <label>Height</label>
+                  <input value="25px" aria-label="Height" />
+                  <label>Max. height</label>
+                  <input value="none" aria-label="Max. height" />
+                </form>
+              </vr-popover-content>
+            </vr-popover>
+          </div>
+        </div>
+      </section>
+      <section class="variant-doc" id="popover-side-bottom">
+        <div class="section-head"><h2>Positioned</h2><span class="code-chip">side.bottom align.end</span></div>
+        <div class="variant-preview">Popover keeps focus return, Escape close, and outside pointer close behavior available to runtime controllers.</div>
+        <pre class="code-snippet"><code>&lt;vr-popover side.bottom align.end&gt;
+  &lt;vr-popover-trigger&gt;Open popover&lt;/vr-popover-trigger&gt;
+  &lt;vr-popover-content&gt;
+    &lt;vr-popover-title&gt;Dimensions&lt;/vr-popover-title&gt;
+    &lt;label&gt;Width&lt;/label&gt;
+    &lt;input value="100%" /&gt;
+  &lt;/vr-popover-content&gt;
+&lt;/vr-popover&gt;</code></pre>
+      </section>
+    </section>
+  </main>
+</div>

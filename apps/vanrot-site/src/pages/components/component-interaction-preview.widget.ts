@@ -1,9 +1,12 @@
 import {
+  createCommandMenuController,
   createOverlayController,
   createTabsController,
+  createTooltipController,
   createToastController,
   effect,
   onMount,
+  positionLayer,
   type Dispose,
   type ToastMessage,
 } from '@vanrot/runtime';
@@ -16,6 +19,12 @@ const interactionPreviewSelector = {
   tabs: '[data-vr-tabs-preview]',
   tabsTrigger: '[data-vr-tabs-trigger]',
   tabsPanel: '[data-vr-tabs-panel]',
+  tooltip: '[data-vr-tooltip-preview]',
+  tooltipTrigger: '[data-vr-tooltip-trigger]',
+  tooltipContent: '[data-vr-tooltip-content]',
+  commandMenu: '[data-vr-command-menu-preview]',
+  commandMenuInput: '[data-vr-command-menu-input]',
+  commandMenuItem: '[data-vr-command-menu-item]',
   toast: '[data-vr-toast-preview]',
   toastTrigger: '[data-vr-toast-trigger]',
   toastItem: '[data-vr-toast-item]',
@@ -30,6 +39,8 @@ const interactionPreviewState = {
 } as const;
 
 const defaultTabsValue = 'overview';
+const layerOffset = 8;
+const noop: Dispose = () => {};
 const toastId = 'component-preview-toast';
 
 export function setupOverlayPreview(): void {
@@ -130,6 +141,32 @@ export function setupToastPreview(): void {
   });
 }
 
+export function setupTooltipPreview(): void {
+  onMount(() => {
+    const roots = queryElements(document, interactionPreviewSelector.tooltip);
+    const disposers = roots.map((root) => setupTooltipPreviewRoot(root));
+
+    return () => {
+      for (const dispose of disposers) {
+        dispose();
+      }
+    };
+  });
+}
+
+export function setupCommandMenuPreview(): void {
+  onMount(() => {
+    const roots = queryElements(document, interactionPreviewSelector.commandMenu);
+    const disposers = roots.map((root) => setupCommandMenuPreviewRoot(root));
+
+    return () => {
+      for (const dispose of disposers) {
+        dispose();
+      }
+    };
+  });
+}
+
 function setupTabsPreviewRoot(root: HTMLElement): Dispose {
   const controller = createTabsController({
     defaultValue: root.dataset.vrTabsPreview ?? defaultTabsValue,
@@ -156,6 +193,63 @@ function setupTabsPreviewRoot(root: HTMLElement): Dispose {
   }
 
   return () => controller.dispose();
+}
+
+function setupTooltipPreviewRoot(root: HTMLElement): Dispose {
+  const trigger = queryElement(root, interactionPreviewSelector.tooltipTrigger);
+  const content = queryElement(root, interactionPreviewSelector.tooltipContent);
+
+  if (trigger === null || content === null) {
+    return noop;
+  }
+
+  const controller = createTooltipController({
+    delay: 120,
+    onOpenChange(open) {
+      if (!open || content.hasAttribute('data-vr-tooltip-static')) {
+        return;
+      }
+
+      positionLayer(trigger, content, { align: 'center', offset: layerOffset, side: 'top' });
+    },
+  });
+  const disposers = [controller.registerTrigger(trigger), controller.registerContent(content)];
+
+  return () => {
+    for (const dispose of disposers) {
+      dispose();
+    }
+
+    controller.dispose();
+  };
+}
+
+function setupCommandMenuPreviewRoot(root: HTMLElement): Dispose {
+  const input = queryInput(root, interactionPreviewSelector.commandMenuInput);
+
+  if (input === null) {
+    return noop;
+  }
+
+  const controller = createCommandMenuController({
+    onSelect(_value, item) {
+      queryAnchor(item)?.click();
+    },
+  });
+  const disposers = [
+    controller.registerInput(input),
+    ...queryElements(root, interactionPreviewSelector.commandMenuItem).map((item, index) =>
+      controller.registerItem(commandMenuItemValue(item, index), item),
+    ),
+  ];
+
+  return () => {
+    for (const dispose of disposers) {
+      dispose();
+    }
+
+    controller.dispose();
+  };
 }
 
 function syncOverlayPreview(trigger: HTMLElement, content: HTMLElement, open: boolean): void {
@@ -185,6 +279,26 @@ function queryElement(root: ParentNode, selector: string): HTMLElement | null {
   return null;
 }
 
+function queryInput(root: ParentNode, selector: string): HTMLInputElement | null {
+  const element = root.querySelector(selector);
+
+  if (element instanceof HTMLInputElement) {
+    return element;
+  }
+
+  return null;
+}
+
+function queryAnchor(root: ParentNode): HTMLAnchorElement | null {
+  const element = root.querySelector('a[href]');
+
+  if (element instanceof HTMLAnchorElement) {
+    return element;
+  }
+
+  return null;
+}
+
 function queryElements(root: ParentNode, selector: string): HTMLElement[] {
   return Array.from(root.querySelectorAll(selector)).filter(
     (element): element is HTMLElement => element instanceof HTMLElement,
@@ -193,6 +307,10 @@ function queryElements(root: ParentNode, selector: string): HTMLElement[] {
 
 function queryText(root: ParentNode, selector: string): string | undefined {
   return queryElement(root, selector)?.textContent?.trim();
+}
+
+function commandMenuItemValue(item: HTMLElement, index: number): string {
+  return queryAnchor(item)?.href ?? `command-preview-${index}`;
 }
 
 function register<K extends keyof HTMLElementEventMap>(

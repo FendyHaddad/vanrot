@@ -14,6 +14,9 @@ describe('runtime exports', () => {
     expect(runtime.onDestroy).toBeTypeOf('function');
     expect(runtime.createFormController).toBeTypeOf('function');
     expect(runtime.emailValidator).toBeTypeOf('function');
+    expect(runtime.positionLayer).toBeTypeOf('function');
+    expect(runtime.createTooltipController).toBeTypeOf('function');
+    expect(runtime.createCommandMenuController).toBeTypeOf('function');
   });
 
   it('exposes the compiler-facing internal API', () => {

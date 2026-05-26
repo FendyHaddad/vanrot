@@ -185,6 +185,12 @@ const phase16InteractionDocPages = [
   { routeKey: 'componentToasts', path: '/docs/components/toasts', fileBase: 'component-toast', primitive: 'toast', title: 'Toast', tokenSnippet: 'tone.success' },
 ] as const;
 
+const phase16FinalDocPages = [
+  { routeKey: 'componentPopovers', path: '/docs/components/popovers', fileBase: 'component-popover', primitive: 'popover', title: 'Popover', tokenSnippet: 'side.bottom' },
+  { routeKey: 'componentTooltips', path: '/docs/components/tooltips', fileBase: 'component-tooltip', primitive: 'tooltip', title: 'Tooltip', tokenSnippet: 'delay.normal' },
+  { routeKey: 'componentCommandMenu', path: '/docs/components/command-menu', fileBase: 'component-command-menu', primitive: 'commandMenu', title: 'Command Menu', tokenSnippet: 'density.compact' },
+] as const;
+
 async function readSiteFile(path: string): Promise<string> {
   return readFile(join(appRoot, path), 'utf8');
 }
@@ -572,10 +578,229 @@ describe('vanrot site pages', () => {
     }
   });
 
+  it('routes Phase 16G final docs to dedicated registry-backed pages', async () => {
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+    const siteCss = await readSiteFile('src/styles/site.css');
+
+    expect(siteCss).toContain('@import "../pages/components/component-phase16g.css";');
+
+    for (const primitive of ['popover', 'tooltip', 'command-menu']) {
+      expect(siteCss).toContain(
+        `@import \"../../../../packages/ui/src/primitives/${primitive}/ui.${primitive}.css\";`,
+      );
+    }
+
+    for (const page of phase16FinalDocPages) {
+      const html = await readSiteFile(`src/pages/components/${page.fileBase}.page.html`);
+      const css = await readSiteFile(`src/pages/components/${page.fileBase}.page.css`);
+      const source = await readSiteFile(`src/pages/components/${page.fileBase}.page.ts`);
+      const routeEntry = siteRoute[page.routeKey];
+
+      if (routeEntry === undefined) {
+        throw new Error(`Expected ${page.routeKey} route to be defined.`);
+      }
+
+      expect(routeEntry).toMatchObject({
+        fullPath: page.path,
+        kind: 'page',
+      });
+      expect(routeEntry.parent).toBeUndefined();
+      expect(source).toContain(`${page.title} component docs`);
+      expect(html).toContain('<vr-sidebar class="sidebar" placement.left');
+      expect(html).toContain('<vr-header class="topbar">');
+      expect(html).toContain('<section class="content">');
+      expect(html).toContain(
+        `<a class="nav-link active" href="${page.path}">${page.title}</a>`,
+      );
+      expect(html).toContain('<h1>{{ doc().title }}</h1>');
+      expect(html).toContain('Phase 16G');
+      expect(html).toContain('class=\"variant-preview\"');
+      expect(html).toContain('class=\"code-snippet\"');
+      expect(html).toContain(page.tokenSnippet);
+      expect(css).toContain(`component-${page.fileBase.replace('component-', '')}-app`);
+    }
+  });
+
+  it('wires Phase 16G final docs previews to runtime interaction controllers', async () => {
+    const previewWidget = await readSiteFile(
+      'src/pages/components/component-interaction-preview.widget.ts',
+    );
+    const popoverSource = await readSiteFile('src/pages/components/component-popover.page.ts');
+    const popoverHtml = await readSiteFile('src/pages/components/component-popover.page.html');
+    const tooltipSource = await readSiteFile('src/pages/components/component-tooltip.page.ts');
+    const tooltipHtml = await readSiteFile('src/pages/components/component-tooltip.page.html');
+    const commandMenuSource = await readSiteFile(
+      'src/pages/components/component-command-menu.page.ts',
+    );
+    const commandMenuHtml = await readSiteFile(
+      'src/pages/components/component-command-menu.page.html',
+    );
+    const showcaseSource = await readSiteFile('src/pages/examples/october-showcase.page.ts');
+    const showcaseHtml = await readSiteFile('src/pages/examples/october-showcase.page.html');
+
+    expect(previewWidget).toContain('createCommandMenuController');
+    expect(previewWidget).toContain('createTooltipController');
+    expect(previewWidget).toContain('positionLayer');
+    expect(previewWidget).toContain('setupCommandMenuPreview');
+    expect(previewWidget).toContain('setupTooltipPreview');
+    expect(popoverSource).toContain('setupOverlayPreview();');
+    expect(popoverHtml).toContain('data-vr-overlay-preview');
+    expect(popoverHtml).toContain('data-vr-overlay-trigger');
+    expect(popoverHtml).toContain('data-vr-overlay-content hidden');
+    expect(tooltipSource).toContain('setupTooltipPreview();');
+    expect(tooltipHtml).toContain('data-vr-tooltip-preview');
+    expect(tooltipHtml).toContain('data-vr-tooltip-trigger');
+    expect(tooltipHtml).toContain('data-vr-tooltip-content hidden');
+    expect(commandMenuSource).toContain('setupCommandMenuPreview();');
+    expect(commandMenuHtml).toContain('data-vr-command-menu-preview');
+    expect(commandMenuHtml).toContain('data-vr-command-menu-input');
+    expect(commandMenuHtml).toContain('data-vr-command-menu-item');
+    expect(showcaseSource).toContain('setupOverlayPreview();');
+    expect(showcaseSource).toContain('setupCommandMenuPreview();');
+    expect(showcaseHtml).toContain('data-vr-overlay-content hidden');
+    expect(showcaseHtml).toContain('data-vr-command-menu-preview');
+  });
+
+  it('renders Phase 16G final docs with shadcn-style interactive previews', async () => {
+    const popoverHtml = await readSiteFile('src/pages/components/component-popover.page.html');
+    const tooltipHtml = await readSiteFile('src/pages/components/component-tooltip.page.html');
+    const commandMenuHtml = await readSiteFile(
+      'src/pages/components/component-command-menu.page.html',
+    );
+    const phase16gCss = await readSiteFile('src/pages/components/component-phase16g.css');
+    const popoverCss = await readSiteFile('src/pages/components/component-popover.page.css');
+
+    expect(tooltipHtml).toContain('<vr-button variant.outline type="button">Hover</vr-button>');
+    expect(tooltipHtml).toContain('data-vr-tooltip-content hidden data-vr-tooltip-static>Add to library');
+    expect(tooltipHtml).toContain('&lt;vr-tooltip-trigger&gt;Hover&lt;/vr-tooltip-trigger&gt;');
+
+    expect(popoverHtml).toContain('<vr-button variant.outline type="button">Open popover</vr-button>');
+    expect(popoverHtml).toContain('<form class="shadcn-popover-form"');
+    for (const label of ['Width', 'Max. width', 'Height', 'Max. height']) {
+      expect(popoverHtml).toContain(`<label>${label}</label>`);
+    }
+    for (const value of ['100%', '300px', '25px', 'none']) {
+      expect(popoverHtml).toContain(`value="${value}"`);
+    }
+    expect(popoverCss).toContain('.component-phase16g-app.component-popover-app .preview');
+    expect(popoverCss).toContain('overflow: visible;');
+    expect(popoverCss).toContain(
+      '.component-phase16g-app.component-popover-app .primitive:has([data-vr-overlay-content][data-state="open"])',
+    );
+
+    expect(commandMenuHtml).toContain('placeholder="Type a command or search..."');
+    expect(commandMenuHtml).toContain('data-vr-command-empty hidden>No results found.');
+    expect(commandMenuHtml).toContain('<div class="command-group-heading">Suggestions</div>');
+    expect(commandMenuHtml).toContain('<div class="command-group-heading">Settings</div>');
+    expect(commandMenuHtml).toContain('>Calendar<');
+    expect(commandMenuHtml).toContain('>Search Emoji<');
+    expect(commandMenuHtml).toContain('aria-disabled="true">');
+    expect(commandMenuHtml).toContain('>Calculator<');
+    expect(commandMenuHtml).toContain('<vr-command-menu-shortcut class="command-shortcut">⌘P</vr-command-menu-shortcut>');
+    expect(commandMenuHtml).toContain('<vr-command-menu-shortcut class="command-shortcut">⌘B</vr-command-menu-shortcut>');
+    expect(commandMenuHtml).toContain('<vr-command-menu-shortcut class="command-shortcut">⌘S</vr-command-menu-shortcut>');
+
+    for (const selector of [
+      '.phase16g-preview-frame',
+      '.shadcn-tooltip-content::after',
+      '.shadcn-popover-form',
+      '.vr-popover-title',
+      '.vr-popover-description',
+      '.command-empty',
+      '.command-group-heading',
+      '.command-separator',
+      '.command-shortcut',
+    ]) {
+      expect(phase16gCss).toContain(selector);
+    }
+  });
+
+  it('routes the October showcase to a dedicated example page', async () => {
+    const siteRoute = route as Record<string, { fullPath: string; kind: string; parent?: unknown }>;
+    const siteData = await readSiteFile('src/docs/site-data.json');
+    const siteNavigation = await readSiteFile('src/docs/site-navigation.ts');
+    const routeSource = await readSiteFile('src/routes.ts');
+    const showcaseSource = await readSiteFile('src/pages/examples/october-showcase.page.ts');
+    const showcaseHtml = await readSiteFile('src/pages/examples/october-showcase.page.html');
+    const showcaseCss = await readSiteFile('src/pages/examples/october-showcase.page.css');
+
+    expect(siteRoute.docsOctoberShowcase).toMatchObject({
+      fullPath: '/docs/examples/october-showcase',
+      kind: 'page',
+    });
+    expect(routeSource).toContain(
+      "import { OctoberShowcasePage } from './pages/examples/october-showcase.page.ts';",
+    );
+    expect(routeSource).toContain('page: OctoberShowcasePage');
+    expect(routeSource).not.toContain(
+      'const docsOctoberShowcase = articlePage(siteArticleKey.octoberShowcase);',
+    );
+    expect(showcaseSource).toContain('October showcase example page.');
+    expect(showcaseSource).toContain('siteArticleKey.octoberShowcase');
+    expect(showcaseHtml).toContain('<article class="october-showcase-page">');
+    expect(showcaseHtml).toContain('class="showcase-grid"');
+    expect(showcaseHtml).toContain('class="showcase-pattern"');
+    expect(showcaseHtml).toContain('vr-popover');
+    expect(showcaseHtml).toContain('vr-tooltip');
+    expect(showcaseHtml).toContain('vr-command-menu');
+    expect(showcaseCss).toContain('.october-showcase-page');
+    expect(showcaseCss).toContain('.showcase-grid');
+    expect(showcaseCss).toContain('@media (max-width: 780px)');
+    expect(siteData).toContain('"key": "octoberShowcase"');
+    expect(siteData).toContain('"title": "October Showcase"');
+    expect(siteData).toContain('"title": "Admin"');
+    expect(siteData).toContain('"title": "Dashboard"');
+    expect(siteData).toContain('"title": "Mobile"');
+    expect(siteNavigation).toContain('siteArticleKey.octoberShowcase');
+  });
+
+  it('wires docs shell interactions through a dedicated runtime widget', async () => {
+    const layoutSource = await readSiteFile('src/layouts/docs/docs.layout.ts');
+    const layoutHtml = await readSiteFile('src/layouts/docs/docs.layout.html');
+    const widgetSource = await readSiteFile('src/layouts/docs/docs-shell-interactions.widget.ts');
+
+    expect(layoutSource).toContain(
+      "import { setupDocsShellInteractions } from './docs-shell-interactions.widget.ts';",
+    );
+    expect(layoutSource).toContain('setupDocsShellInteractions();');
+    expect(layoutHtml).toContain('data-vr-docs-command-menu');
+    expect(layoutHtml).toContain('data-vr-docs-command-input');
+    expect(layoutHtml).toContain('data-vr-docs-command-item');
+    expect(layoutHtml).toContain('data-vr-docs-popover');
+    expect(layoutHtml).toContain('data-vr-docs-popover-trigger');
+    expect(layoutHtml).toContain('data-vr-docs-popover-content');
+    expect(layoutHtml).toContain('data-vr-docs-tooltip-trigger');
+    expect(layoutHtml).toContain('data-vr-docs-tooltip-content');
+    expect(widgetSource).toContain('createCommandMenuController');
+    expect(widgetSource).toContain('createOverlayController');
+    expect(widgetSource).toContain('createTooltipController');
+    expect(widgetSource).toContain('positionLayer');
+    expect(widgetSource).toContain('setupDocsShellInteractions');
+    expect(widgetSource).toContain('syncNestedOverlayPreview');
+    expect(widgetSource).toContain('data-vr-overlay-preview');
+    expect(widgetSource).toContain('data-vr-command-menu-preview');
+  });
+
   it('exposes Phase 16F interaction docs from the component gallery navigation', async () => {
     const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
 
     for (const page of phase16InteractionDocPages) {
+      expect(gallery).toContain(
+        `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+      );
+      expect(gallery).toContain(
+        `<a class="variant-tile component-page-link" href="${page.path}">`,
+      );
+      expect(gallery).not.toContain(
+        `<a class="nav-link" href="#${page.primitive}">${page.title}</a>`,
+      );
+    }
+  });
+
+  it('exposes Phase 16G final docs from the component gallery navigation', async () => {
+    const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
+
+    for (const page of phase16FinalDocPages) {
       expect(gallery).toContain(
         `<a class="nav-link" href="${page.path}">${page.title}</a>`,
       );
@@ -599,6 +824,24 @@ describe('vanrot site pages', () => {
       const html = await readSiteFile(`src/pages/components/${fileBase}.page.html`);
 
       for (const page of phase16InteractionDocPages) {
+        expect(html).toContain(
+          `<a class="nav-link" href="${page.path}">${page.title}</a>`,
+        );
+      }
+    }
+  });
+
+  it('exposes Phase 16G final docs from established component page sidebars', async () => {
+    const establishedPages = [
+      'component-button',
+      'component-separator',
+      'component-skeleton',
+    ];
+
+    for (const fileBase of establishedPages) {
+      const html = await readSiteFile(`src/pages/components/${fileBase}.page.html`);
+
+      for (const page of phase16FinalDocPages) {
         expect(html).toContain(
           `<a class="nav-link" href="${page.path}">${page.title}</a>`,
         );

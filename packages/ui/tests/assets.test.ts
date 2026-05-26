@@ -6,6 +6,7 @@ import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import {
   phase16FormsDataPrimitiveOrder,
+  phase16FinalPrimitiveOrder,
   phase16InteractionPrimitiveOrder,
   uiAssetUrl,
   uiPrimitive,
@@ -193,6 +194,30 @@ describe('@vanrot/ui assets', () => {
 
   it('ships source templates for every Phase 16E forms and data primitive', async () => {
     for (const primitive of phase16FormsDataPrimitiveOrder) {
+      const metadata = uiPrimitive[primitive];
+      const kebabPrimitive = toKebabCase(primitive);
+      const className = `Ui${toPascalCase(kebabPrimitive)}`;
+
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].typescript), 'utf8')).resolves.toContain(
+        `export class ${className}`,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].html), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].css), 'utf8')).resolves.toContain(
+        metadata.baseClass,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].test), 'utf8')).resolves.toContain(
+        className,
+      );
+      await expect(readFile(fileURLToPath(uiAssetUrl[primitive].homeUsage), 'utf8')).resolves.toContain(
+        metadata.selector,
+      );
+    }
+  });
+
+  it('ships source templates for every Phase 16G final October primitive', async () => {
+    for (const primitive of phase16FinalPrimitiveOrder) {
       const metadata = uiPrimitive[primitive];
       const kebabPrimitive = toKebabCase(primitive);
       const className = `Ui${toPascalCase(kebabPrimitive)}`;

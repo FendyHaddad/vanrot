@@ -1,0 +1,25 @@
+.vr-popover {
+  display: inline-block;
+  position: relative;
+}
+
+.vr-popover-content {
+  background: var(--vr-surface-popover);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  box-shadow: var(--vr-shadow-2);
+  color: var(--vr-color-text);
+  min-width: 14rem;
+  padding: var(--vr-space-4);
+  z-index: var(--vr-z-popover);
+}
+
+.vr-popover-title {
+  font-weight: 600;
+  margin: 0 0 var(--vr-space-2);
+}
+
+.vr-popover-description {
+  color: var(--vr-color-muted);
+  margin: 0;
+}

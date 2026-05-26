@@ -165,6 +165,33 @@ describe('UI dotted token attributes', () => {
     );
   });
 
+  it('accepts Phase 16G dotted token attributes', () => {
+    const result = compileTemplate(
+      '<vr-popover side.bottom align.end></vr-popover><vr-command-menu density.compact></vr-command-menu>',
+    );
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      "div0.setAttribute('class', 'vr-popover vr-popover-side-bottom vr-popover-align-end vr-popover-size-md vr-popover-motion-subtle');",
+    );
+    expect(result.js).toContain(
+      "div1.setAttribute('class', 'vr-command-menu vr-command-menu-density-compact vr-command-menu-size-md vr-command-menu-tone-default');",
+    );
+  });
+
+  it('diagnoses duplicate Phase 16G dotted token groups', () => {
+    const result = compileTemplate('<vr-tooltip side.top side.bottom>Copy</vr-tooltip>');
+
+    expect(result.diagnostics).toEqual([
+      expect.objectContaining({
+        code: 'VR020',
+        severity: 'error',
+        message:
+          'Duplicate side token for <vr-tooltip>. Use only one of: side.top, side.right, side.bottom, side.left.',
+      }),
+    ]);
+  });
+
   it('diagnoses duplicate Phase 16F dotted token groups', () => {
     const result = compileTemplate(
       '<vr-toast placement.topright placement.bottomright></vr-toast>',

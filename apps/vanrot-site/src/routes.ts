@@ -8,6 +8,7 @@ import { ComponentBreadcrumbPage } from './pages/components/component-breadcrumb
 import { ComponentButtonPage } from './pages/components/component-button.page.ts';
 import { ComponentCardPage } from './pages/components/component-card.page.ts';
 import { ComponentCheckboxPage } from './pages/components/component-checkbox.page.ts';
+import { ComponentCommandMenuPage } from './pages/components/component-command-menu.page.ts';
 import { ComponentContainerPage } from './pages/components/component-container.page.ts';
 import { ComponentDialogPage } from './pages/components/component-dialog.page.ts';
 import { ComponentDrawerPage } from './pages/components/component-drawer.page.ts';
@@ -28,6 +29,7 @@ import { ComponentListPage } from './pages/components/component-list.page.ts';
 import { ComponentLoaderPage } from './pages/components/component-loader.page.ts';
 import { ComponentNavPage } from './pages/components/component-nav.page.ts';
 import { ComponentPaginationPage } from './pages/components/component-pagination.page.ts';
+import { ComponentPopoverPage } from './pages/components/component-popover.page.ts';
 import { ComponentRadioGroupPage } from './pages/components/component-radio-group.page.ts';
 import { ComponentRadioPage } from './pages/components/component-radio.page.ts';
 import { ComponentSectionPage } from './pages/components/component-section.page.ts';
@@ -49,8 +51,10 @@ import { ComponentTableHeaderPage } from './pages/components/component-table-hea
 import { ComponentTableRowPage } from './pages/components/component-table-row.page.ts';
 import { ComponentTablePage } from './pages/components/component-table.page.ts';
 import { ComponentTextareaPage } from './pages/components/component-textarea.page.ts';
+import { ComponentTooltipPage } from './pages/components/component-tooltip.page.ts';
 import { ComponentToastPage } from './pages/components/component-toast.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
+import { OctoberShowcasePage } from './pages/examples/october-showcase.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
 import { ReferencePage } from './pages/reference/reference.page.ts';
 import {
@@ -74,6 +78,7 @@ const routePath = {
   componentCards: componentDocPath.card,
   componentContainers: componentDocPath.container,
   componentCheckboxes: componentDocPath.checkbox,
+  componentCommandMenu: componentDocPath.commandMenu,
   componentDialogs: componentDocPath.dialog,
   componentDrawers: componentDocPath.drawer,
   componentDropdowns: componentDocPath.dropdown,
@@ -92,6 +97,7 @@ const routePath = {
   componentLoaders: componentDocPath.loader,
   componentNavigation: componentDocPath.nav,
   componentPagination: componentDocPath.pagination,
+  componentPopovers: componentDocPath.popover,
   componentRadios: componentDocPath.radio,
   componentRadioGroups: componentDocPath.radioGroup,
   componentSections: componentDocPath.section,
@@ -113,6 +119,7 @@ const routePath = {
   componentTableHeaders: componentDocPath.tableHeader,
   componentTableRows: componentDocPath.tableRow,
   componentTextareas: componentDocPath.textarea,
+  componentTooltips: componentDocPath.tooltip,
   componentToasts: componentDocPath.toast,
   reference: '/reference',
 } as const;
@@ -468,6 +475,13 @@ const componentTextareas = componentDocsPage(
   ComponentTextareaPage,
 );
 const componentToasts = componentDocsPage(routePath.componentToasts, 'Toast', ComponentToastPage);
+const componentPopovers = componentDocsPage(routePath.componentPopovers, 'Popover', ComponentPopoverPage);
+const componentTooltips = componentDocsPage(routePath.componentTooltips, 'Tooltip', ComponentTooltipPage);
+const componentCommandMenu = componentDocsPage(
+  routePath.componentCommandMenu,
+  'Command Menu',
+  ComponentCommandMenuPage,
+);
 
 const docsInstallation = articlePage(siteArticleKey.installation);
 const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
@@ -482,6 +496,13 @@ const docsTheming = articlePage(siteArticleKey.theming);
 const docsVanrotstyles = articlePage(siteArticleKey.vanrotstyles);
 const docsTesting = articlePage(siteArticleKey.testing);
 const docsExamples = articlePage(siteArticleKey.examples);
+const docsOctoberShowcase = docs.page({
+  path: articleChildPath(siteArticleKey.octoberShowcase),
+  label: getSiteArticle(siteArticleKey.octoberShowcase).label,
+  ...articleDocument(siteArticleKey.octoberShowcase),
+  page: OctoberShowcasePage,
+  breadcrumb: routes.breadcrumb.parent(docs),
+});
 const docsConventions = articlePage(siteArticleKey.conventions);
 
 const reference = routes.page({
@@ -524,6 +545,7 @@ export const route = defineRoutes({
   componentAlerts,
   componentBreadcrumbs,
   componentCheckboxes,
+  componentCommandMenu,
   componentContainers,
   componentDialogs,
   componentDrawers,
@@ -543,6 +565,7 @@ export const route = defineRoutes({
   componentLoaders,
   componentNavigation,
   componentPagination,
+  componentPopovers,
   componentRadios,
   componentRadioGroups,
   componentSections,
@@ -564,6 +587,7 @@ export const route = defineRoutes({
   componentTableHeaders,
   componentTableRows,
   componentTextareas,
+  componentTooltips,
   componentToasts,
   docsIntroduction,
   docsInstallation,
@@ -579,6 +603,7 @@ export const route = defineRoutes({
   docsVanrotstyles,
   docsTesting,
   docsExamples,
+  docsOctoberShowcase,
   docsConventions,
   reference,
   uiButton,

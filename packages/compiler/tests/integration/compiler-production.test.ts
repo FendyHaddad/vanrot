@@ -102,4 +102,24 @@ describe('compiler production integration', () => {
     expect(result.metadata.mappings.length).toBeGreaterThan(0);
     expect(result.css).toContain('[data-vr-');
   });
+
+  it('compiles Phase 16G final primitive features in production output', () => {
+    const result = compileComponent({
+      componentPath: '/app/docs-shell.page.ts',
+      componentSource: 'export class DocsShellPage {}',
+      templatePath: '/app/docs-shell.page.html',
+      templateSource: [
+        '<vr-popover side.bottom align.end><vr-popover-content>Actions</vr-popover-content></vr-popover>',
+        '<vr-tooltip side.top><vr-tooltip-content>Copy page</vr-tooltip-content></vr-tooltip>',
+        '<vr-command-menu density.compact><vr-command-menu-item value.dialog>Dialog</vr-command-menu-item></vr-command-menu>',
+      ].join(''),
+      stylePath: '/app/docs-shell.page.css',
+      styleSource: '',
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.metadata.features).toEqual(
+      expect.arrayContaining(['ui-popover', 'ui-tooltip', 'ui-command-menu']),
+    );
+  });
 });

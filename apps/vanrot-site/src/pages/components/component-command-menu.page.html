@@ -1,0 +1,104 @@
+<div class="app component-gallery-app component-command-menu-app component-phase16g-app">
+  <vr-sidebar class="sidebar" placement.left aria-label="Component documentation">
+    <div class="brand"><span class="mark"></span>Vanrot UI</div>
+    <div class="search">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <span>Search</span>
+      <kbd>⌘K</kbd>
+    </div>
+    <span class="nav-title">Get Started</span>
+    <a class="nav-link" href="/docs/components">Introduction</a>
+    <a class="nav-link" href="#">Installation</a>
+    <a class="nav-link" href="#">Theming</a>
+    <a class="nav-link" href="#">CLI</a>
+    <span class="nav-title">Components</span>
+    <a class="nav-link" href="/docs/components/alerts">Alert</a>
+    <a class="nav-link" href="/docs/components/avatars">Avatar</a>
+    <a class="nav-link" href="/docs/components/badges">Badge</a>
+    <a class="nav-link" href="/docs/components/breadcrumbs">Breadcrumb</a>
+    <a class="nav-link" href="/docs/components/buttons">Button</a>
+    <a class="nav-link" href="/docs/components/cards">Card</a>
+    <a class="nav-link active" href="/docs/components/command-menu">Command Menu</a>
+    <a class="nav-link" href="/docs/components/containers">Container</a>
+    <a class="nav-link" href="/docs/components/dialogs">Dialog</a>
+    <a class="nav-link" href="/docs/components/drawers">Drawer</a>
+    <a class="nav-link" href="/docs/components/dropdowns">Dropdown</a>
+    <a class="nav-link" href="/docs/components/footers">Footer</a>
+    <a class="nav-link" href="/docs/components/grids">Grid</a>
+    <a class="nav-link" href="/docs/components/headers">Header</a>
+    <a class="nav-link" href="/docs/components/images">Image</a>
+    <a class="nav-link" href="/docs/components/layouts">Layout</a>
+    <a class="nav-link" href="/docs/components/loaders">Loader</a>
+    <a class="nav-link" href="/docs/components/navigation">Navigation</a>
+    <a class="nav-link" href="/docs/components/popovers">Popover</a>
+    <a class="nav-link" href="/docs/components/sections">Section</a>
+    <a class="nav-link" href="/docs/components/separators">Separator</a>
+    <a class="nav-link" href="/docs/components/sidebars">Sidebar</a>
+    <a class="nav-link" href="/docs/components/skeletons">Skeleton</a>
+    <a class="nav-link" href="/docs/components/sources">Source</a>
+    <a class="nav-link" href="/docs/components/tabs">Tabs</a>
+    <a class="nav-link" href="/docs/components/toasts">Toast</a>
+    <a class="nav-link" href="/docs/components/tooltips">Tooltip</a>
+  </vr-sidebar>
+
+  <main>
+    <vr-header class="topbar">
+      <div class="topbar-left">
+        <span class="bc-home">October</span>
+        <span class="bc-sep">/</span>
+        <span>Components</span>
+        <span class="bc-sep">/</span>
+        <span class="bc-active">Command Menu</span>
+      </div>
+      <vr-nav class="topbar-right" aria-label="Component page links">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+        <a href="#">Blocks</a>
+        <a href="#">Registry</a>
+      </vr-nav>
+    </vr-header>
+
+    <section class="content">
+      <h1>{{ doc().title }}</h1>
+      <section class="primitive" id="command-menu">
+        <div class="preview">
+          <div class="preview-head"><span>{{ selector() }}</span><span>Phase 16G</span></div>
+          <div class="preview-body phase16g-preview-frame">
+            <vr-command-menu class="shadcn-command-menu" data-vr-command-menu-preview density.compact>
+              <vr-command-menu-input data-vr-command-menu-input placeholder="Type a command or search..."></vr-command-menu-input>
+              <vr-command-menu-list>
+                <vr-command-menu-empty class="command-empty" data-vr-command-empty hidden>No results found.</vr-command-menu-empty>
+                <vr-command-menu-group>
+                  <div class="command-group-heading">Suggestions</div>
+                  <vr-command-menu-item data-vr-command-menu-item value.calendar><span>Calendar</span></vr-command-menu-item>
+                  <vr-command-menu-item data-vr-command-menu-item value.emoji><span>Search Emoji</span></vr-command-menu-item>
+                  <vr-command-menu-item data-vr-command-menu-item value.calculator aria-disabled="true"><span>Calculator</span></vr-command-menu-item>
+                </vr-command-menu-group>
+                <div class="command-separator"></div>
+                <vr-command-menu-group>
+                  <div class="command-group-heading">Settings</div>
+                  <vr-command-menu-item data-vr-command-menu-item value.profile><span>Profile</span><vr-command-menu-shortcut class="command-shortcut">⌘P</vr-command-menu-shortcut></vr-command-menu-item>
+                  <vr-command-menu-item data-vr-command-menu-item value.billing><span>Billing</span><vr-command-menu-shortcut class="command-shortcut">⌘B</vr-command-menu-shortcut></vr-command-menu-item>
+                  <vr-command-menu-item data-vr-command-menu-item value.settings><span>Settings</span><vr-command-menu-shortcut class="command-shortcut">⌘S</vr-command-menu-shortcut></vr-command-menu-item>
+                </vr-command-menu-group>
+              </vr-command-menu-list>
+            </vr-command-menu>
+          </div>
+        </div>
+      </section>
+      <section class="variant-doc" id="command-menu-density-compact">
+        <div class="section-head"><h2>Compact</h2><span class="code-chip">density.compact</span></div>
+        <div class="variant-preview">Command menu owns active descendant movement, disabled skipping, and select events while filtering stays app-owned.</div>
+        <pre class="code-snippet"><code>&lt;vr-command-menu density.compact&gt;
+  &lt;vr-command-menu-input placeholder="Type a command or search..."&gt;&lt;/vr-command-menu-input&gt;
+  &lt;vr-command-menu-group heading="Suggestions"&gt;
+    &lt;vr-command-menu-item value.calendar&gt;Calendar&lt;/vr-command-menu-item&gt;
+    &lt;vr-command-menu-item value.emoji&gt;Search Emoji&lt;/vr-command-menu-item&gt;
+  &lt;/vr-command-menu-group&gt;
+&lt;/vr-command-menu&gt;</code></pre>
+      </section>
+    </section>
+  </main>
+</div>

@@ -1,0 +1,39 @@
+.vr-command-menu {
+  background: var(--vr-surface-popover);
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  box-shadow: var(--vr-shadow-2);
+  color: var(--vr-color-text);
+  overflow: hidden;
+  width: min(100%, 22rem);
+}
+
+.vr-command-menu-input {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--vr-color-line);
+  color: inherit;
+  outline: none;
+  padding: var(--vr-space-3);
+  width: 100%;
+}
+
+.vr-command-menu-list {
+  padding: var(--vr-space-2);
+}
+
+.vr-command-menu-item {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  border-radius: var(--vr-radius-sm);
+  color: inherit;
+  display: flex;
+  justify-content: space-between;
+  padding: var(--vr-space-2) var(--vr-space-3);
+  width: 100%;
+}
+
+.vr-command-menu-item[aria-selected='true'] {
+  background: var(--vr-surface-raised);
+}

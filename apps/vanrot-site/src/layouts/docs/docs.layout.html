@@ -1,5 +1,15 @@
 <vr-layout class="docs-layout">
   <vr-sidebar class="docs-sidebar" placement.left aria-label="Documentation">
+    <vr-command-menu class="docs-command-menu" data-vr-docs-command-menu density.compact>
+      <vr-command-menu-input data-vr-docs-command-input placeholder="Search docs..."></vr-command-menu-input>
+      <vr-command-menu-list>
+        @for (item of commandItems; track item.key) {
+          <vr-command-menu-item data-vr-docs-command-item [value]="item.key">
+            <a class="docs-command-link" [href]="item.href">{{ item.label }}</a>
+          </vr-command-menu-item>
+        }
+      </vr-command-menu-list>
+    </vr-command-menu>
     <vr-nav class="docs-nav" aria-label="Documentation">
       <h2 class="docs-nav-heading">{{ labels.getStarted }}</h2>
       @for (item of getStartedItems; track item.key) {
@@ -34,6 +44,23 @@
   </vr-sidebar>
 
   <main class="docs-main">
+    <div class="docs-page-actions" aria-label="Page actions">
+      <vr-tooltip side.bottom align.center>
+        <vr-tooltip-trigger data-vr-docs-tooltip-trigger>
+          <a class="docs-icon-action" href="/docs/components/command-menu" aria-label="Command menu docs">⌘</a>
+        </vr-tooltip-trigger>
+        <vr-tooltip-content data-vr-docs-tooltip-content hidden>Command menu</vr-tooltip-content>
+      </vr-tooltip>
+      <vr-popover class="docs-page-popover" data-vr-docs-popover side.bottom align.end>
+        <vr-popover-trigger data-vr-docs-popover-trigger>
+          <button class="docs-icon-action" type="button" aria-label="Page actions">•••</button>
+        </vr-popover-trigger>
+        <vr-popover-content data-vr-docs-popover-content hidden>
+          <vr-popover-title>Docs actions</vr-popover-title>
+          <vr-popover-description>Open the final October primitives.</vr-popover-description>
+        </vr-popover-content>
+      </vr-popover>
+    </div>
     <vr-outlet></vr-outlet>
   </main>
 </vr-layout>

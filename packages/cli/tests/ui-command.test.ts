@@ -52,4 +52,20 @@ describe('vr ui', () => {
     expect(output).toContain('vr-dialog-trigger: Registers the element that opens the dialog.');
     expect(output).toContain('vr-dialog-content: Renders the accessible dialog surface.');
   });
+
+  it('prints Phase 16G component help from the rich registry', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['ui', 'commandMenu', '--help'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+    const output = reporter.output();
+
+    expect(result.exitCode).toBe(0);
+    expect(output).toContain('vr-command-menu');
+    expect(output).toContain('Docs: /docs/components/command-menu');
+    expect(output).toContain('density: comfortable, compact, dense');
+    expect(output).toContain('vr-command-menu-item: Represents one selectable command.');
+    expect(output).toContain('select: Emitted when an enabled command item is selected.');
+  });
 });

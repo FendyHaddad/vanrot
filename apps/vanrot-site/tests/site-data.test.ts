@@ -5,6 +5,7 @@ import { siteNavigationGroups } from '../src/docs/site-navigation.ts';
 import {
   cliCommandDocs,
   packageReferenceDocs,
+  primitiveDocCopy,
   siteArticleKeys,
   siteArticles,
 } from '../src/docs/site-data.ts';
@@ -26,6 +27,7 @@ describe('vanrot site docs data', () => {
       'vanrotstyles',
       'testing',
       'examples',
+      'octoberShowcase',
       'conventions',
       'referenceStatus',
     ]);
@@ -51,6 +53,12 @@ describe('vanrot site docs data', () => {
       expect(doc.accessibility.length).toBeGreaterThan(0);
       expect(doc.api.length).toBeGreaterThan(0);
     }
+  });
+
+  it('keeps raw site primitive docs aligned with @vanrot/ui metadata', () => {
+    expect(primitiveDocCopy.map((doc) => doc.primitive).sort()).toEqual(
+      [...uiPrimitiveOrder].sort(),
+    );
   });
 
   it('documents current commands and implemented packages', () => {

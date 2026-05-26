@@ -56,6 +56,7 @@ export const siteArticleKey = {
   vanrotstyles: 'vanrotstyles',
   testing: 'testing',
   examples: 'examples',
+  octoberShowcase: 'octoberShowcase',
   conventions: 'conventions',
   referenceStatus: 'referenceStatus',
 } as const;

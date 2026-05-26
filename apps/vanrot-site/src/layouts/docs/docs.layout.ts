@@ -2,6 +2,7 @@ import {
   siteNavigationBySection,
   siteNavigationSectionLabel,
 } from '../../docs/site-navigation.ts';
+import { setupDocsShellInteractions } from './docs-shell-interactions.widget.ts';
 
 export class DocsLayout {
   labels = siteNavigationSectionLabel;
@@ -11,4 +12,14 @@ export class DocsLayout {
   componentItems = siteNavigationBySection.components;
   exampleItems = siteNavigationBySection.examples;
   referenceItems = siteNavigationBySection.reference;
+  commandItems = [
+    ...siteNavigationBySection.getStarted,
+    ...siteNavigationBySection.ui,
+    ...siteNavigationBySection.components,
+    ...siteNavigationBySection.examples,
+  ];
+
+  constructor() {
+    setupDocsShellInteractions();
+  }
 }

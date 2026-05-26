@@ -32,7 +32,7 @@ export interface UiComponentRegistryItem {
   nativeTag: string;
   baseClass: string;
   category: 'core' | 'layout' | 'forms' | 'data' | 'interaction';
-  phase: '16A' | '16B' | '16C' | '16D' | '16E' | '16F';
+  phase: '16A' | '16B' | '16C' | '16D' | '16E' | '16F' | '16G';
   docsPath: string;
   tokens: Readonly<Record<string, UiTokenGroupRegistry>>;
   booleans: readonly UiAttributeRegistryItem[];
@@ -86,7 +86,14 @@ export const phase16InteractionPrimitiveOrder = [
 
 export type Phase16InteractionPrimitive = (typeof phase16InteractionPrimitiveOrder)[number];
 
-type RegistryBackedPrimitive = Phase16FormsDataPrimitive | Phase16InteractionPrimitive;
+export const phase16FinalPrimitiveOrder = ['popover', 'tooltip', 'commandMenu'] as const;
+
+export type Phase16FinalPrimitive = (typeof phase16FinalPrimitiveOrder)[number];
+
+type RegistryBackedPrimitive =
+  | Phase16FormsDataPrimitive
+  | Phase16InteractionPrimitive
+  | Phase16FinalPrimitive;
 
 const phase16FormsDataNativeTags = {
   form: 'form',
@@ -158,6 +165,12 @@ const phase16InteractionSelectors = {
   toast: 'vr-toast',
 } as const satisfies Record<Phase16InteractionPrimitive, string>;
 
+const phase16FinalSelectors = {
+  popover: 'vr-popover',
+  tooltip: 'vr-tooltip',
+  commandMenu: 'vr-command-menu',
+} as const satisfies Record<Phase16FinalPrimitive, string>;
+
 const docsPathByPrimitive = {
   form: '/docs/components/forms',
   formField: '/docs/components/form-fields',
@@ -192,6 +205,12 @@ const phase16InteractionDocsPathByPrimitive = {
   tabs: '/docs/components/tabs',
   toast: '/docs/components/toasts',
 } as const satisfies Record<Phase16InteractionPrimitive, string>;
+
+const phase16FinalDocsPathByPrimitive = {
+  popover: '/docs/components/popovers',
+  tooltip: '/docs/components/tooltips',
+  commandMenu: '/docs/components/command-menu',
+} as const satisfies Record<Phase16FinalPrimitive, string>;
 
 const formControlBooleans = [
   { name: 'required', description: 'Marks the field required for validation.' },
@@ -249,7 +268,7 @@ function registryEntry(
   input: {
     nativeTag?: string;
     category: 'forms' | 'data' | 'interaction';
-    phase?: '16E' | '16F';
+    phase?: '16E' | '16F' | '16G';
     docsPath?: string;
     tokens?: Readonly<Record<string, UiTokenGroupRegistry>>;
     booleans?: readonly UiAttributeRegistryItem[];
@@ -292,12 +311,20 @@ function selectorForPrimitive(primitive: RegistryBackedPrimitive): string {
     return phase16FormsDataSelectors[primitive];
   }
 
+  if (isFinalPrimitive(primitive)) {
+    return phase16FinalSelectors[primitive];
+  }
+
   return phase16InteractionSelectors[primitive];
 }
 
 function nativeTagForPrimitive(primitive: RegistryBackedPrimitive): string {
   if (isFormsDataPrimitive(primitive)) {
     return phase16FormsDataNativeTags[primitive];
+  }
+
+  if (isFinalPrimitive(primitive)) {
+    return primitive === 'commandMenu' ? 'div' : 'div';
   }
 
   return phase16InteractionNativeTags[primitive];
@@ -308,11 +335,19 @@ function docsPathForPrimitive(primitive: RegistryBackedPrimitive): string {
     return docsPathByPrimitive[primitive];
   }
 
+  if (isFinalPrimitive(primitive)) {
+    return phase16FinalDocsPathByPrimitive[primitive];
+  }
+
   return phase16InteractionDocsPathByPrimitive[primitive];
 }
 
 function isFormsDataPrimitive(primitive: RegistryBackedPrimitive): primitive is Phase16FormsDataPrimitive {
   return phase16FormsDataPrimitiveOrder.includes(primitive as Phase16FormsDataPrimitive);
+}
+
+function isFinalPrimitive(primitive: RegistryBackedPrimitive): primitive is Phase16FinalPrimitive {
+  return phase16FinalPrimitiveOrder.includes(primitive as Phase16FinalPrimitive);
 }
 
 const formFieldOpenAttributes = [
@@ -931,8 +966,175 @@ export const uiComponentRegistry = {
       'Manual dismiss remains keyboard reachable.',
     ],
   }),
+  popover: registryEntry('popover', {
+    nativeTag: 'div',
+    category: 'interaction',
+    phase: '16G',
+    tokens: {
+      side: tokenGroup('side', ['top', 'right', 'bottom', 'left'], 'bottom', (value) => `vr-popover-side-${value}`, true),
+      align: tokenGroup('align', ['start', 'center', 'end'], 'center', (value) => `vr-popover-align-${value}`, true),
+      size: tokenGroup('size', ['sm', 'md', 'lg'], 'md', (value) => `vr-popover-size-${value}`, true),
+      motion: tokenGroup('motion', ['instant', 'subtle'], 'subtle', (value) => `vr-popover-motion-${value}`, true),
+    },
+    openAttributes: [
+      { name: 'open', description: 'Controls whether the popover starts open.' },
+      { name: 'aria-label', description: 'Accessible label when no title anatomy is present.' },
+    ],
+    events: [
+      { name: 'openchange', description: 'Emitted when the popover opens or closes.' },
+      { name: 'close', description: 'Emitted after the popover closes.' },
+    ],
+    anatomy: [
+      {
+        selector: 'vr-popover-trigger',
+        nativeTag: 'span',
+        baseClass: 'vr-popover-trigger',
+        description: 'Registers the element that opens the popover.',
+      },
+      {
+        selector: 'vr-popover-content',
+        nativeTag: 'div',
+        baseClass: 'vr-popover-content',
+        role: 'dialog',
+        description: 'Renders the positioned popover surface.',
+      },
+      {
+        selector: 'vr-popover-title',
+        nativeTag: 'h3',
+        baseClass: 'vr-popover-title',
+        description: 'Provides the visible popover title.',
+      },
+      {
+        selector: 'vr-popover-description',
+        nativeTag: 'p',
+        baseClass: 'vr-popover-description',
+        description: 'Provides supporting popover copy.',
+      },
+      {
+        selector: 'vr-popover-close',
+        nativeTag: 'button',
+        baseClass: 'vr-popover-close',
+        description: 'Closes the popover.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Dimensions popover',
+        code: '<vr-popover align.end side.bottom><vr-popover-trigger><vr-button variant.outline>Open</vr-button></vr-popover-trigger><vr-popover-content><vr-popover-title>Dimensions</vr-popover-title></vr-popover-content></vr-popover>',
+      },
+    ],
+    accessibility: [
+      'Trigger focus is restored after close.',
+      'Escape and outside pointer input close the surface.',
+    ],
+  }),
+  tooltip: registryEntry('tooltip', {
+    nativeTag: 'span',
+    category: 'interaction',
+    phase: '16G',
+    tokens: {
+      side: tokenGroup('side', ['top', 'right', 'bottom', 'left'], 'top', (value) => `vr-tooltip-side-${value}`, true),
+      align: tokenGroup('align', ['start', 'center', 'end'], 'center', (value) => `vr-tooltip-align-${value}`, true),
+      delay: tokenGroup('delay', ['instant', 'short', 'normal'], 'normal', (value) => `vr-tooltip-delay-${value}`, true),
+      tone: tokenGroup('tone', ['default', 'muted'], 'default', (value) => `vr-tooltip-tone-${value}`, true),
+    },
+    openAttributes: [
+      { name: 'aria-label', description: 'Accessible trigger label remains owned by the trigger.' },
+    ],
+    events: [{ name: 'openchange', description: 'Emitted when the tooltip opens or closes.' }],
+    anatomy: [
+      {
+        selector: 'vr-tooltip-trigger',
+        nativeTag: 'span',
+        baseClass: 'vr-tooltip-trigger',
+        description: 'Registers the hover and focus target.',
+      },
+      {
+        selector: 'vr-tooltip-content',
+        nativeTag: 'span',
+        baseClass: 'vr-tooltip-content',
+        role: 'tooltip',
+        description: 'Renders short supporting text.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Icon tooltip',
+        code: '<vr-tooltip side.top align.center><vr-tooltip-trigger><vr-button aria-label="Copy">Copy</vr-button></vr-tooltip-trigger><vr-tooltip-content>Copy page</vr-tooltip-content></vr-tooltip>',
+      },
+    ],
+    accessibility: [
+      'Tooltip content never replaces a visible or aria trigger label.',
+      'Tooltip disclosure does not move focus.',
+    ],
+  }),
+  commandMenu: registryEntry('commandMenu', {
+    nativeTag: 'div',
+    category: 'interaction',
+    phase: '16G',
+    tokens: {
+      size: tokenGroup('size', ['sm', 'md', 'lg'], 'md', (value) => `vr-command-menu-size-${value}`, true),
+      density: tokenGroup('density', uiDensityToken, 'comfortable', (value) => `vr-command-menu-density-${value}`, true),
+      tone: tokenGroup('tone', ['default', 'muted'], 'default', (value) => `vr-command-menu-tone-${value}`, true),
+    },
+    openAttributes: [
+      { name: 'aria-label', description: 'Accessible label for the command menu.' },
+      { name: 'placeholder', description: 'Search input placeholder text.' },
+    ],
+    events: [{ name: 'select', description: 'Emitted when an enabled command item is selected.' }],
+    anatomy: [
+      {
+        selector: 'vr-command-menu-input',
+        nativeTag: 'input',
+        baseClass: 'vr-command-menu-input',
+        description: 'Receives search text and keyboard navigation.',
+      },
+      {
+        selector: 'vr-command-menu-list',
+        nativeTag: 'div',
+        baseClass: 'vr-command-menu-list',
+        role: 'listbox',
+        description: 'Groups command items.',
+      },
+      {
+        selector: 'vr-command-menu-group',
+        nativeTag: 'div',
+        baseClass: 'vr-command-menu-group',
+        description: 'Groups related commands under a heading.',
+      },
+      {
+        selector: 'vr-command-menu-item',
+        nativeTag: 'button',
+        baseClass: 'vr-command-menu-item',
+        role: 'option',
+        description: 'Represents one selectable command.',
+      },
+      {
+        selector: 'vr-command-menu-empty',
+        nativeTag: 'p',
+        baseClass: 'vr-command-menu-empty',
+        description: 'Displays empty search state.',
+      },
+      {
+        selector: 'vr-command-menu-shortcut',
+        nativeTag: 'kbd',
+        baseClass: 'vr-command-menu-shortcut',
+        description: 'Displays an optional keyboard shortcut.',
+      },
+    ],
+    examples: [
+      {
+        label: 'Docs command menu',
+        code: '<vr-command-menu><vr-command-menu-input placeholder="Search docs..." /><vr-command-menu-list><vr-command-menu-group heading="Components"><vr-command-menu-item value.dialog>Dialog</vr-command-menu-item></vr-command-menu-group></vr-command-menu-list></vr-command-menu>',
+      },
+    ],
+    accessibility: [
+      'Input uses active descendant state for keyboard movement.',
+      'Disabled items are skipped during keyboard navigation.',
+    ],
+  }),
 } as const satisfies Record<
-  Phase16FormsDataPrimitive | Phase16InteractionPrimitive,
+  Phase16FormsDataPrimitive | Phase16InteractionPrimitive | Phase16FinalPrimitive,
   UiComponentRegistryItem
 >;
 

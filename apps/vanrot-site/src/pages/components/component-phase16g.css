@@ -1,0 +1,430 @@
+.component-phase16g-app {
+  --bg: #09090b;
+  --panel: #0f0f11;
+  --panel-soft: #18181b;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-soft: rgba(255, 255, 255, 0.06);
+  --text: #fafafa;
+  --muted: #a1a1aa;
+  --faint: #71717a;
+  --radius-sm: 6px;
+
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.component-phase16g-app .sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  border-right: 1px solid var(--border-soft);
+  padding: 20px 12px;
+  background: var(--bg);
+  scrollbar-width: none;
+}
+
+.component-phase16g-app .sidebar::-webkit-scrollbar {
+  display: none;
+}
+
+.component-phase16g-app .brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  padding: 0 8px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  font-size: 15px;
+  letter-spacing: 0;
+}
+
+.component-phase16g-app .mark {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: var(--text);
+}
+
+.component-phase16g-app .search {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 36px;
+  margin-bottom: 16px;
+  padding: 0 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--faint);
+  font-size: 13px;
+}
+
+.component-phase16g-app .search span {
+  flex: 1;
+}
+
+.component-phase16g-app .search kbd {
+  border: 1px solid var(--border-soft);
+  border-radius: 4px;
+  padding: 1px 5px;
+  color: var(--faint);
+  font: inherit;
+  font-size: 11px;
+}
+
+.component-phase16g-app .nav-title {
+  display: block;
+  margin: 14px 0 2px;
+  padding: 4px 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.component-phase16g-app .nav-link {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 8px;
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.12s, background 0.12s;
+}
+
+.component-phase16g-app .nav-link:hover,
+.component-phase16g-app .nav-link.active {
+  background: var(--panel-soft);
+  color: var(--text);
+}
+
+.component-phase16g-app .nav-link.active {
+  font-weight: 500;
+}
+
+.component-phase16g-app main {
+  min-width: 0;
+}
+
+.component-phase16g-app .topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 32px;
+  border-bottom: 1px solid var(--border-soft);
+  background: rgba(9, 9, 11, 0.88);
+  backdrop-filter: blur(14px);
+}
+
+.component-phase16g-app .topbar-left,
+.component-phase16g-app .topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--muted);
+}
+
+.component-phase16g-app .topbar-left .bc-home,
+.component-phase16g-app .topbar-left .bc-active {
+  color: var(--text);
+}
+
+.component-phase16g-app .topbar-right {
+  gap: 22px;
+}
+
+.component-phase16g-app .topbar-right a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.component-phase16g-app .topbar-right a:hover {
+  color: var(--text);
+}
+
+.component-phase16g-app .content {
+  display: grid;
+  gap: 24px;
+  max-width: 1080px;
+  padding: 48px 48px 96px;
+}
+
+.component-phase16g-app h1 {
+  margin: 0;
+  font-size: 42px;
+  line-height: 1.05;
+  letter-spacing: 0;
+}
+
+.component-phase16g-app .preview,
+.component-phase16g-app .variant-doc {
+  display: grid;
+  gap: 16px;
+}
+
+.component-phase16g-app .preview {
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.component-phase16g-app .preview-head,
+.component-phase16g-app .section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.component-phase16g-app .preview-head {
+  border-bottom: 1px solid var(--border);
+  padding: 12px 16px;
+  color: var(--muted);
+}
+
+.component-phase16g-app .preview-body,
+.component-phase16g-app .variant-preview {
+  padding: 24px;
+}
+
+.component-phase16g-app .variant-preview {
+  min-height: 120px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--muted);
+}
+
+.component-phase16g-app .code-snippet {
+  overflow-x: auto;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  color: var(--text);
+  padding: 16px;
+}
+
+.component-phase16g-app .code-chip {
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  padding: 4px 10px;
+}
+
+.component-phase16g-app .phase16g-preview-frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 420px;
+}
+
+.component-phase16g-app .shadcn-tooltip-demo,
+.component-phase16g-app .shadcn-popover-demo {
+  position: relative;
+}
+
+.component-phase16g-app .shadcn-tooltip-content {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  z-index: 20;
+  width: max-content;
+  transform: translateX(-50%);
+  border: 0;
+  border-radius: 8px;
+  background: #fafafa;
+  color: #09090b;
+  font-size: 14px;
+  line-height: 1;
+  padding: 10px 14px;
+}
+
+.component-phase16g-app .shadcn-tooltip-content::after {
+  position: absolute;
+  left: 50%;
+  bottom: -5px;
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  content: "";
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.component-phase16g-app .shadcn-popover-content {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  z-index: 20;
+  width: min(420px, calc(100vw - 64px));
+  transform: translateX(-50%);
+  border-color: rgba(255, 255, 255, 0.14);
+  border-radius: 12px;
+  background: #18181b;
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.38);
+  padding: 22px;
+}
+
+.component-phase16g-app .shadcn-popover-content vr-popover-title,
+.component-phase16g-app .shadcn-popover-content .vr-popover-title {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--text);
+  font-size: 18px;
+}
+
+.component-phase16g-app .shadcn-popover-content vr-popover-description,
+.component-phase16g-app .shadcn-popover-content .vr-popover-description {
+  display: block;
+  margin-bottom: 24px;
+  color: var(--muted);
+}
+
+.component-phase16g-app .shadcn-popover-form {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  gap: 12px 16px;
+  align-items: center;
+}
+
+.component-phase16g-app .shadcn-popover-form label {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.component-phase16g-app .shadcn-popover-form input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: #27272a;
+  color: var(--text);
+  font: inherit;
+  padding: 0 12px;
+}
+
+.component-phase16g-app .shadcn-popover-form input:focus {
+  border-color: rgba(255, 255, 255, 0.36);
+  outline: 2px solid rgba(255, 255, 255, 0.22);
+  outline-offset: 2px;
+}
+
+.component-phase16g-app .shadcn-command-menu {
+  width: min(100%, 560px);
+  border-color: rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  background: #18181b;
+  box-shadow: none;
+}
+
+.component-phase16g-app .shadcn-command-menu .vr-command-menu-input {
+  height: 48px;
+  margin: 16px 16px 8px;
+  width: calc(100% - 32px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  background: #27272a;
+  color: var(--text);
+  font-size: 15px;
+  padding: 0 16px;
+}
+
+.component-phase16g-app .shadcn-command-menu .vr-command-menu-input::placeholder {
+  color: var(--muted);
+}
+
+.component-phase16g-app .shadcn-command-menu .vr-command-menu-list {
+  display: grid;
+  gap: 6px;
+  padding: 10px 16px 18px;
+}
+
+.component-phase16g-app .command-empty {
+  margin: 0;
+  padding: 12px 16px;
+  color: var(--muted);
+}
+
+.component-phase16g-app .vr-command-menu-group,
+.component-phase16g-app vr-command-menu-group {
+  display: grid;
+  gap: 4px;
+}
+
+.component-phase16g-app .command-group-heading {
+  padding: 10px 16px 6px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.component-phase16g-app .shadcn-command-menu .vr-command-menu-item {
+  min-height: 42px;
+  justify-content: space-between;
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 15px;
+  padding: 0 16px;
+}
+
+.component-phase16g-app .shadcn-command-menu .vr-command-menu-item[aria-selected="true"] {
+  background: #27272a;
+}
+
+.component-phase16g-app .shadcn-command-menu .vr-command-menu-item[aria-disabled="true"] {
+  color: var(--faint);
+  cursor: not-allowed;
+}
+
+.component-phase16g-app .command-separator {
+  height: 1px;
+  margin: 8px 0;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.component-phase16g-app .command-shortcut {
+  color: var(--muted);
+  font: inherit;
+}
+
+@media (max-width: 760px) {
+  .component-phase16g-app {
+    display: block;
+  }
+
+  .component-phase16g-app .sidebar {
+    position: static;
+    height: auto;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .component-phase16g-app .topbar {
+    position: static;
+    align-items: flex-start;
+    flex-direction: column;
+    height: auto;
+    gap: 10px;
+    padding: 16px 24px;
+  }
+
+  .component-phase16g-app .content {
+    padding: 32px 24px 72px;
+  }
+
+  .component-phase16g-app .phase16g-preview-frame {
+    min-height: 320px;
+  }
+
+  .component-phase16g-app .shadcn-popover-form {
+    grid-template-columns: 1fr;
+  }
+}

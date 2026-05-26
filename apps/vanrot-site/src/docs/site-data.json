@@ -273,9 +273,9 @@
         }
       ]
     },
-    {
-      "key": "examples",
-      "section": "examples",
+  {
+    "key": "examples",
+    "section": "examples",
       "path": "/docs/examples",
       "label": "Examples",
       "title": "Examples",
@@ -291,11 +291,37 @@
           "id": "site",
           "title": "Vanrot Site",
           "body": "apps/vanrot-site becomes the framework's living documentation example."
-        }
-      ]
-    },
-    {
-      "key": "conventions",
+      }
+    ]
+  },
+  {
+    "key": "octoberShowcase",
+    "section": "examples",
+    "path": "/docs/examples/october-showcase",
+    "label": "October Showcase",
+    "title": "October Showcase",
+    "summary": "A broad Phase 16G composition surface for admin, dashboard, and mobile patterns.",
+    "status": "demo-capable",
+    "sections": [
+      {
+        "id": "admin",
+        "title": "Admin",
+        "body": "Admin examples compose layout, sidebar, nav, popover actions, tooltips, dialogs, dropdowns, and command-menu search without adding new admin-specific primitives."
+      },
+      {
+        "id": "dashboard",
+        "title": "Dashboard",
+        "body": "Dashboard examples use cards, stats, tables, tabs, toasts, and compact popovers to prove production-density surfaces remain readable."
+      },
+      {
+        "id": "mobile",
+        "title": "Mobile",
+        "body": "Mobile examples keep actions reachable with drawers, tooltips on compact controls, and responsive command-menu navigation."
+      }
+    ]
+  },
+  {
+    "key": "conventions",
       "section": "framework",
       "path": "/docs/conventions",
       "label": "Conventions",
@@ -673,6 +699,27 @@
       "summary": "Use toasts for short, non-blocking feedback messages.",
       "usage": "<vr-toast tone.success><vr-toast-title>Saved</vr-toast-title><vr-toast-description>Changes were saved.</vr-toast-description></vr-toast>",
       "accessibility": "Toast queues should use a labelled viewport and keep messages dismissible without stealing focus."
+    },
+    {
+      "primitive": "popover",
+      "title": "Popover",
+      "summary": "Use popovers for anchored contextual panels that keep users in the current workflow.",
+      "usage": "<vr-popover align.center side.bottom><vr-popover-trigger><vr-button variant.outline>Open popover</vr-button></vr-popover-trigger><vr-popover-content><vr-popover-title>Dimensions</vr-popover-title><input value=\"100%\" /></vr-popover-content></vr-popover>",
+      "accessibility": "Popovers return focus to their trigger, close on escape or outside pointer, and keep labelled content available to assistive technology."
+    },
+    {
+      "primitive": "tooltip",
+      "title": "Tooltip",
+      "summary": "Use tooltips for short supporting copy on compact controls.",
+      "usage": "<vr-tooltip side.top align.center><vr-tooltip-trigger><vr-button variant.outline>Hover</vr-button></vr-tooltip-trigger><vr-tooltip-content>Add to library</vr-tooltip-content></vr-tooltip>",
+      "accessibility": "Tooltips supplement the trigger label and should not hide information needed to complete the task."
+    },
+    {
+      "primitive": "commandMenu",
+      "title": "Command Menu",
+      "summary": "Use command menus for searchable keyboard-first action and navigation surfaces.",
+      "usage": "<vr-command-menu density.compact><vr-command-menu-input placeholder=\"Type a command or search...\"></vr-command-menu-input><vr-command-menu-group><vr-command-menu-item value.calendar>Calendar</vr-command-menu-item></vr-command-menu-group></vr-command-menu>",
+      "accessibility": "Command menus keep active descendant state, skip disabled items, and expose selectable actions through predictable keyboard movement."
     }
   ],
   "commands": [
@@ -696,7 +743,7 @@
     { "name": "@vanrot/router", "area": "Router", "status": "production-ready-through-phase-15" },
     { "name": "@vanrot/vite-plugin", "area": "Vite", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },
-    { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16f" },
+    { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16g" },
     { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" }
   ],
   "diagnostics": {

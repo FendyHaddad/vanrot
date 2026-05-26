@@ -120,6 +120,9 @@ export type CompileFeature =
   | 'ui-dropdown'
   | 'ui-tabs'
   | 'ui-toast'
+  | 'ui-popover'
+  | 'ui-tooltip'
+  | 'ui-command-menu'
   | 'slot';
 
 export interface ComponentDependencyInput {

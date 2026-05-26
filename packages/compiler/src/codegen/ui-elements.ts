@@ -65,6 +65,9 @@ const uiPrimitiveFeature = {
   dropdown: 'ui-dropdown',
   tabs: 'ui-tabs',
   toast: 'ui-toast',
+  popover: 'ui-popover',
+  tooltip: 'ui-tooltip',
+  commandMenu: 'ui-command-menu',
 } as const satisfies Record<UiPrimitiveType, CompileFeature>;
 
 export const compilerUiElement = uiPrimitiveOrder.reduce<Record<UiPrimitiveType, CompilerUiElement>>(

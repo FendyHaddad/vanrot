@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   defaultUiPrefix,
   phase16FormsDataPrimitiveOrder,
+  phase16FinalPrimitiveOrder,
   phase16InteractionPrimitiveOrder,
   uiAppFile,
   uiAssetUrl,
@@ -63,6 +64,7 @@ describe('@vanrot/ui metadata', () => {
     expect(uiComponentPhase.layoutNavigationMedia).toBe('16D');
     expect(uiComponentPhase.formsData).toBe('16E');
     expect(uiComponentPhase.overlaysInteraction).toBe('16F');
+    expect(uiComponentPhase.finalOctober).toBe('16G');
   });
 
   it('exports the Phase 9 button primitive metadata', () => {
@@ -286,6 +288,50 @@ describe('@vanrot/ui metadata', () => {
       'bottomright',
       'bottomleft',
     ]);
+  });
+
+  it('exports the Phase 16G final October primitive order', () => {
+    expect(phase16FinalPrimitiveOrder).toEqual(['popover', 'tooltip', 'commandMenu']);
+  });
+
+  it('exports the Phase 16G final October component catalog shape', () => {
+    for (const primitive of phase16FinalPrimitiveOrder) {
+      const metadata = uiPrimitive[primitive];
+      const registryItem = uiComponentRegistry[primitive];
+
+      expect(metadata.type).toBe(primitive);
+      expect(metadata.selector).toBe(registryItem.selector);
+      expect(metadata.directory).toBe(`src/ui/${primitive.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`)}`);
+      expect(metadata.productionPhase).toBe('16G');
+      expect(metadata.nativeTag).toBe(registryItem.nativeTag);
+      expect(metadata.docsPath).toBe(registryItem.docsPath);
+      expect(uiComponentCatalog[primitive].selector).toBe(registryItem.selector);
+    }
+
+    expect(uiComponentRegistry.popover.docsPath).toBe('/docs/components/popovers');
+    expect(uiComponentRegistry.tooltip.docsPath).toBe('/docs/components/tooltips');
+    expect(uiComponentRegistry.commandMenu.docsPath).toBe('/docs/components/command-menu');
+  });
+
+  it('exports rich registry data for Phase 16G final primitives', () => {
+    expect(uiComponentRegistry.popover.tokens.side.tokens).toEqual([
+      'top',
+      'right',
+      'bottom',
+      'left',
+    ]);
+    expect(uiComponentRegistry.popover.tokens.align.tokens).toEqual(['start', 'center', 'end']);
+    expect(uiComponentRegistry.tooltip.tokens.delay.tokens).toEqual(['instant', 'short', 'normal']);
+    expect(uiComponentRegistry.commandMenu.tokens.density.tokens).toEqual(uiDensityToken);
+    expect(uiComponentRegistry.commandMenu.anatomy.map((item) => item.selector)).toEqual([
+      'vr-command-menu-input',
+      'vr-command-menu-list',
+      'vr-command-menu-group',
+      'vr-command-menu-item',
+      'vr-command-menu-empty',
+      'vr-command-menu-shortcut',
+    ]);
+    expect(uiPrimitiveTokenGroup.commandMenu.density.tokens).toEqual(uiDensityToken);
   });
 
   it('derives Phase 16E compatibility token groups from the rich registry', () => {

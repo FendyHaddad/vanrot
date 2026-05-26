@@ -1,8 +1,10 @@
 import {
   phase16FormsDataPrimitiveOrder,
+  phase16FinalPrimitiveOrder,
   phase16InteractionPrimitiveOrder,
   uiComponentRegistry,
   type Phase16FormsDataPrimitive,
+  type Phase16FinalPrimitive,
   type Phase16InteractionPrimitive,
 } from './registry/component-registry.js';
 
@@ -29,6 +31,7 @@ export const uiComponentPhase = {
   layoutNavigationMedia: '16D',
   formsData: '16E',
   overlaysInteraction: '16F',
+  finalOctober: '16G',
 } as const;
 
 export type UiComponentPhase = (typeof uiComponentPhase)[keyof typeof uiComponentPhase];
@@ -36,9 +39,13 @@ export type UiComponentPhase = (typeof uiComponentPhase)[keyof typeof uiComponen
 const registryBackedPrimitiveOrder = [
   ...phase16FormsDataPrimitiveOrder,
   ...phase16InteractionPrimitiveOrder,
+  ...phase16FinalPrimitiveOrder,
 ] as const;
 
-type RegistryBackedPrimitive = Phase16FormsDataPrimitive | Phase16InteractionPrimitive;
+type RegistryBackedPrimitive =
+  | Phase16FormsDataPrimitive
+  | Phase16InteractionPrimitive
+  | Phase16FinalPrimitive;
 
 export const uiPrimitiveType = {
   button: 'button',
@@ -89,6 +96,9 @@ export const uiPrimitiveType = {
   dropdown: 'dropdown',
   tabs: 'tabs',
   toast: 'toast',
+  popover: 'popover',
+  tooltip: 'tooltip',
+  commandMenu: 'commandMenu',
 } as const;
 
 export type UiPrimitiveType = (typeof uiPrimitiveType)[keyof typeof uiPrimitiveType];
@@ -115,6 +125,7 @@ export const uiPrimitiveOrder = [
   uiPrimitiveType.src,
   ...phase16FormsDataPrimitiveOrder.map((primitive) => uiPrimitiveType[primitive]),
   ...phase16InteractionPrimitiveOrder.map((primitive) => uiPrimitiveType[primitive]),
+  ...phase16FinalPrimitiveOrder.map((primitive) => uiPrimitiveType[primitive]),
 ] as const;
 
 export const uiPrimitiveVariant = {
@@ -166,6 +177,9 @@ export const uiPrimitiveVariant = {
   dropdown: [],
   tabs: [],
   toast: [],
+  popover: [],
+  tooltip: [],
+  commandMenu: [],
 } as const satisfies Record<UiPrimitiveType, readonly string[]>;
 
 export type UiPrimitiveVariant = (typeof uiPrimitiveVariant)[UiPrimitiveType][number];
@@ -430,10 +444,7 @@ export const uiPrimitive = {
   ...Object.fromEntries(
     registryBackedPrimitiveOrder.map((primitive) => {
       const registryItem = uiComponentRegistry[primitive];
-      const productionPhase =
-        registryItem.phase === uiComponentPhase.overlaysInteraction
-          ? uiComponentPhase.overlaysInteraction
-          : uiComponentPhase.formsData;
+      const productionPhase = registryItem.phase;
 
       return [
         primitive,
@@ -726,10 +737,7 @@ export const uiComponentCatalog = {
   ...Object.fromEntries(
     registryBackedPrimitiveOrder.map((primitive) => {
       const registryItem = uiComponentRegistry[primitive];
-      const productionPhase =
-        registryItem.phase === uiComponentPhase.overlaysInteraction
-          ? uiComponentPhase.overlaysInteraction
-          : uiComponentPhase.formsData;
+      const productionPhase = registryItem.phase;
 
       return [
         primitive,

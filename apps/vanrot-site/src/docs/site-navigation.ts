@@ -87,7 +87,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
   {
     section: siteSectionKey.examples,
     label: siteNavigationSectionLabel.examples,
-    items: [navItem(siteArticleKey.examples)],
+    items: [navItem(siteArticleKey.examples), navItem(siteArticleKey.octoberShowcase)],
   },
   {
     section: siteSectionKey.reference,

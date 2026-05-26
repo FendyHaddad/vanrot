@@ -1,0 +1,62 @@
+<article class="october-showcase-page">
+  <header class="showcase-hero">
+    <vr-badge tone.secondary>{{ article().status }}</vr-badge>
+    <h1>{{ article().title }}</h1>
+    <p>{{ article().summary }}</p>
+  </header>
+
+  <section class="showcase-grid" aria-label="October showcase patterns">
+    @for (pattern of patterns(); track pattern.id) {
+      <vr-card class="showcase-pattern" variant.default>
+        <span>{{ pattern.id }}</span>
+        <h2>{{ pattern.title }}</h2>
+        <p>{{ pattern.body }}</p>
+      </vr-card>
+    }
+  </section>
+
+  <section class="showcase-surface" aria-label="Phase 16G primitives">
+    <div class="showcase-surface-head">
+      <h2>Phase 16G</h2>
+      <vr-tooltip side.bottom align.center>
+        <vr-tooltip-trigger>
+          <vr-badge tone.outline>Final October slice</vr-badge>
+        </vr-tooltip-trigger>
+        <vr-tooltip-content>Popover, tooltip, and command menu complete the October interaction set.</vr-tooltip-content>
+      </vr-tooltip>
+    </div>
+
+    <div class="showcase-primitives">
+      @for (primitive of primitives(); track primitive.key) {
+        <a class="showcase-primitive-link" [href]="primitive.href">
+          <strong>{{ primitive.title }}</strong>
+          <code>{{ primitive.selector }}</code>
+          <span>{{ primitive.summary }}</span>
+        </a>
+      }
+    </div>
+
+    <div class="showcase-demo">
+      <vr-popover data-vr-overlay-preview side.bottom align.end>
+        <vr-popover-trigger data-vr-overlay-trigger>
+          <vr-button variant.outline type="button">Open checklist</vr-button>
+        </vr-popover-trigger>
+        <vr-popover-content data-vr-overlay-content hidden>
+          <vr-popover-title>October readiness</vr-popover-title>
+          <vr-popover-description>Runtime helpers, docs pages, and composition examples ship together.</vr-popover-description>
+        </vr-popover-content>
+      </vr-popover>
+
+      <vr-command-menu data-vr-command-menu-preview density.compact>
+        <vr-command-menu-input data-vr-command-menu-input placeholder="Jump to a pattern"></vr-command-menu-input>
+        <vr-command-menu-list>
+          @for (pattern of patterns(); track pattern.id) {
+            <vr-command-menu-item data-vr-command-menu-item [value]="pattern.id">
+              <a [href]="'#' + pattern.id">{{ pattern.title }}</a>
+            </vr-command-menu-item>
+          }
+        </vr-command-menu-list>
+      </vr-command-menu>
+    </div>
+  </section>
+</article>

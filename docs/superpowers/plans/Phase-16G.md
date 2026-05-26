@@ -1,6 +1,6 @@
 # Phase 16G Final October Showcase Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task. This repository forbids subagents, parallel agents, worktrees, `git add`, `git commit`, and `git push` unless the user explicitly asks. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task. This repository forbids subagents, parallel agents, worktrees, `git add`, `git commit`, and `git push` unless the user explicitly asks. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Ship the final October showcase slice with `popover`, `tooltip`, and `command-menu` primitives, docs-shell dogfooding, polished component docs, and the admin/dashboard/mobile showcase patterns.
 
@@ -129,7 +129,7 @@ Modify:
 - Modify: `packages/runtime/src/internal.ts`
 - Modify: `packages/runtime/tests/exports/exports.test.ts`
 
-- [ ] **Step 1: Write failing positioned-layer tests**
+- [x] **Step 1: Write failing positioned-layer tests**
 
 Create `packages/runtime/tests/ui/positioned-layer.test.ts`:
 
@@ -223,7 +223,7 @@ describe('positionLayer', () => {
 });
 ```
 
-- [ ] **Step 2: Run positioned-layer test and confirm it fails**
+- [x] **Step 2: Run positioned-layer test and confirm it fails**
 
 Run:
 
@@ -233,7 +233,7 @@ pnpm --filter @vanrot/runtime test -- --run tests/ui/positioned-layer.test.ts
 
 Expected: FAIL with `Cannot find module '../../src/ui/positioned-layer.js'`.
 
-- [ ] **Step 3: Implement positioned-layer helper**
+- [x] **Step 3: Implement positioned-layer helper**
 
 Create `packages/runtime/src/ui/positioned-layer.ts`:
 
@@ -341,7 +341,7 @@ function transformOrigin(side: LayerSide, align: LayerAlign): string {
 }
 ```
 
-- [ ] **Step 4: Run positioned-layer test and confirm it passes**
+- [x] **Step 4: Run positioned-layer test and confirm it passes**
 
 Run:
 
@@ -351,7 +351,7 @@ pnpm --filter @vanrot/runtime test -- --run tests/ui/positioned-layer.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 5: Write failing tooltip-controller tests**
+- [x] **Step 5: Write failing tooltip-controller tests**
 
 Create `packages/runtime/tests/ui/tooltip-controller.test.ts`:
 
@@ -405,7 +405,7 @@ describe('createTooltipController', () => {
 });
 ```
 
-- [ ] **Step 6: Run tooltip-controller test and confirm it fails**
+- [x] **Step 6: Run tooltip-controller test and confirm it fails**
 
 Run:
 
@@ -415,7 +415,7 @@ pnpm --filter @vanrot/runtime test -- --run tests/ui/tooltip-controller.test.ts
 
 Expected: FAIL with `Cannot find module '../../src/ui/tooltip-controller.js'`.
 
-- [ ] **Step 7: Implement tooltip-controller helper**
+- [x] **Step 7: Implement tooltip-controller helper**
 
 Create `packages/runtime/src/ui/tooltip-controller.ts`:
 
@@ -569,7 +569,7 @@ function register<K extends keyof HTMLElementEventMap>(
 }
 ```
 
-- [ ] **Step 8: Run tooltip-controller test and confirm it passes**
+- [x] **Step 8: Run tooltip-controller test and confirm it passes**
 
 Run:
 
@@ -579,7 +579,7 @@ pnpm --filter @vanrot/runtime test -- --run tests/ui/tooltip-controller.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 9: Write failing command-menu-controller tests**
+- [x] **Step 9: Write failing command-menu-controller tests**
 
 Create `packages/runtime/tests/ui/command-menu-controller.test.ts`:
 
@@ -663,7 +663,7 @@ function commandItem(value: string): HTMLElement {
 }
 ```
 
-- [ ] **Step 10: Run command-menu-controller test and confirm it fails**
+- [x] **Step 10: Run command-menu-controller test and confirm it fails**
 
 Run:
 
@@ -673,7 +673,7 @@ pnpm --filter @vanrot/runtime test -- --run tests/ui/command-menu-controller.tes
 
 Expected: FAIL with `Cannot find module '../../src/ui/command-menu-controller.js'`.
 
-- [ ] **Step 11: Implement command-menu-controller helper**
+- [x] **Step 11: Implement command-menu-controller helper**
 
 Create `packages/runtime/src/ui/command-menu-controller.ts`:
 
@@ -871,7 +871,7 @@ function register<K extends keyof HTMLElementEventMap>(
 }
 ```
 
-- [ ] **Step 12: Export runtime helpers and verify exports**
+- [x] **Step 12: Export runtime helpers and verify exports**
 
 Modify `packages/runtime/src/index.ts`:
 
@@ -902,7 +902,7 @@ expect(runtime).toHaveProperty('createTooltipController');
 expect(runtime).toHaveProperty('createCommandMenuController');
 ```
 
-- [ ] **Step 13: Run runtime UI and export tests**
+- [x] **Step 13: Run runtime UI and export tests**
 
 Run:
 
@@ -924,7 +924,7 @@ Expected: PASS.
 - Modify: `packages/ui/tests/metadata.test.ts`
 - Modify: `packages/ui/tests/assets.test.ts`
 
-- [ ] **Step 1: Write failing UI metadata tests**
+- [x] **Step 1: Write failing UI metadata tests**
 
 Append to `packages/ui/tests/metadata.test.ts`:
 
@@ -985,7 +985,7 @@ it('exports rich registry data for Phase 16G final primitives', () => {
 
 Add `phase16FinalPrimitiveOrder` to the imports from `../src/index.js`.
 
-- [ ] **Step 2: Run UI metadata test and confirm it fails**
+- [x] **Step 2: Run UI metadata test and confirm it fails**
 
 Run:
 
@@ -995,7 +995,7 @@ pnpm --filter @vanrot/ui test -- --run tests/metadata.test.ts
 
 Expected: FAIL with an export error for `phase16FinalPrimitiveOrder`.
 
-- [ ] **Step 3: Add 16G registry constants and registry entries**
+- [x] **Step 3: Add 16G registry constants and registry entries**
 
 Modify `packages/ui/src/registry/component-registry.ts`:
 
@@ -1134,7 +1134,7 @@ const phase16FinalRegistryEntries = {
 
 Add these entries to `uiComponentRegistry` with the existing registry spread pattern.
 
-- [ ] **Step 4: Add metadata primitive types, order, token groups, and asset URLs**
+- [x] **Step 4: Add metadata primitive types, order, token groups, and asset URLs**
 
 Modify `packages/ui/src/metadata.ts`:
 
@@ -1257,11 +1257,11 @@ commandMenu: {
 },
 ```
 
-- [ ] **Step 5: Export the 16G order**
+- [x] **Step 5: Export the 16G order**
 
 Modify `packages/ui/src/index.ts` to export `phase16FinalPrimitiveOrder` from `./registry/component-registry.js`.
 
-- [ ] **Step 6: Create source templates and source tests**
+- [x] **Step 6: Create source templates and source tests**
 
 Create `packages/ui/src/primitives/popover/ui.popover.ts`:
 
@@ -1371,7 +1371,7 @@ describe('UiPopover', () => {
 
 Repeat the same shape for `UiTooltip` and `UiCommandMenu` using their stable copy above.
 
-- [ ] **Step 7: Write failing asset tests**
+- [x] **Step 7: Write failing asset tests**
 
 Append to `packages/ui/tests/assets.test.ts`:
 
@@ -1389,7 +1389,7 @@ it('ships Phase 16G final primitive source assets', async () => {
 });
 ```
 
-- [ ] **Step 8: Add CSS classes for 16G primitives**
+- [x] **Step 8: Add CSS classes for 16G primitives**
 
 Append to `packages/ui/src/styles/vanrotstyles.css` and mirror the scoped primitive CSS files:
 
@@ -1465,7 +1465,7 @@ Append to `packages/ui/src/styles/vanrotstyles.css` and mirror the scoped primit
 }
 ```
 
-- [ ] **Step 9: Run UI tests**
+- [x] **Step 9: Run UI tests**
 
 Run:
 
@@ -1486,7 +1486,7 @@ Expected: PASS.
 - Modify: `packages/compiler/tests/codegen/ui-token-attributes.test.ts`
 - Modify: `packages/compiler/tests/integration/compiler-production.test.ts`
 
-- [ ] **Step 1: Write failing 16G lowering test**
+- [x] **Step 1: Write failing 16G lowering test**
 
 Append to `packages/compiler/tests/codegen/generate-component.test.ts`:
 
@@ -1534,7 +1534,7 @@ it('lowers Phase 16G final primitives and anatomy to semantic DOM', () => {
 });
 ```
 
-- [ ] **Step 2: Run lowering test and confirm it fails**
+- [x] **Step 2: Run lowering test and confirm it fails**
 
 Run:
 
@@ -1544,7 +1544,7 @@ pnpm --filter @vanrot/compiler test -- --run tests/codegen/generate-component.te
 
 Expected: FAIL with unsupported compile features or missing `uiPrimitiveFeature` entries.
 
-- [ ] **Step 3: Add compile feature union entries**
+- [x] **Step 3: Add compile feature union entries**
 
 Modify `packages/compiler/src/api/types.ts`:
 
@@ -1556,7 +1556,7 @@ Modify `packages/compiler/src/api/types.ts`:
 
 Place the entries after `| 'ui-toast'` and before `| 'slot'`.
 
-- [ ] **Step 4: Add compiler feature map entries**
+- [x] **Step 4: Add compiler feature map entries**
 
 Modify `packages/compiler/src/codegen/ui-elements.ts`:
 
@@ -1568,7 +1568,7 @@ commandMenu: 'ui-command-menu',
 
 Expected type result: `uiPrimitiveFeature` still satisfies `Record<UiPrimitiveType, CompileFeature>`.
 
-- [ ] **Step 5: Write failing dotted-token diagnostics test**
+- [x] **Step 5: Write failing dotted-token diagnostics test**
 
 Append to `packages/compiler/tests/codegen/ui-token-attributes.test.ts`:
 
@@ -1594,7 +1594,7 @@ it('accepts Phase 16G dotted tokens and rejects duplicates', () => {
 });
 ```
 
-- [ ] **Step 6: Run token diagnostics test and make metadata-driven code pass**
+- [x] **Step 6: Run token diagnostics test and make metadata-driven code pass**
 
 Run:
 
@@ -1604,7 +1604,7 @@ pnpm --filter @vanrot/compiler test -- --run tests/codegen/ui-token-attributes.t
 
 Expected after metadata and feature-map updates: PASS without changing the token parser unless the parser has hardcoded primitive allowlists.
 
-- [ ] **Step 7: Add production feature reporting coverage**
+- [x] **Step 7: Add production feature reporting coverage**
 
 Append to `packages/compiler/tests/integration/compiler-production.test.ts`:
 
@@ -1630,7 +1630,7 @@ it('reports Phase 16G UI features in production output', async () => {
 });
 ```
 
-- [ ] **Step 8: Run compiler tests**
+- [x] **Step 8: Run compiler tests**
 
 Run:
 
@@ -1649,7 +1649,7 @@ Expected: PASS.
 - Modify: `packages/cli/tests/add.test.ts`
 - Modify: `packages/cli/tests/ui-command.test.ts`
 
-- [ ] **Step 1: Write failing `vr add` tests**
+- [x] **Step 1: Write failing `vr add` tests**
 
 Append to `packages/cli/tests/add.test.ts`:
 
@@ -1678,7 +1678,7 @@ it('adds Phase 16G final primitives from registry-backed assets', async () => {
 
 Add `uiPrimitive` to imports from `@vanrot/ui` if it is not already imported.
 
-- [ ] **Step 2: Run `vr add` test and confirm it fails**
+- [x] **Step 2: Run `vr add` test and confirm it fails**
 
 Run:
 
@@ -1688,7 +1688,7 @@ pnpm --filter @vanrot/cli test -- --run tests/add.test.ts -t "Phase 16G"
 
 Expected: FAIL until `commandMenu` asset URLs and accepted names are wired.
 
-- [ ] **Step 3: Ensure `add-ui` and `ui-assets` read from registry metadata**
+- [x] **Step 3: Ensure `add-ui` and `ui-assets` read from registry metadata**
 
 Inspect `packages/cli/src/add/add-ui.ts` and `packages/cli/src/add/ui-assets.ts`.
 
@@ -1702,7 +1702,7 @@ If either file has a hardcoded allowlist, extend it with:
 
 If the file already loops over `uiPrimitiveOrder` and `uiAssetUrl`, keep the implementation unchanged and let the metadata additions satisfy the test.
 
-- [ ] **Step 4: Write failing component help tests**
+- [x] **Step 4: Write failing component help tests**
 
 Append to `packages/cli/tests/ui-command.test.ts`:
 
@@ -1726,7 +1726,7 @@ it('prints Phase 16G final primitive help from the rich registry', async () => {
 });
 ```
 
-- [ ] **Step 5: Run CLI help test and confirm it fails**
+- [x] **Step 5: Run CLI help test and confirm it fails**
 
 Run:
 
@@ -1736,7 +1736,7 @@ pnpm --filter @vanrot/cli test -- --run tests/ui-command.test.ts -t "Phase 16G"
 
 Expected: FAIL until registry data is present and command name parsing accepts `commandMenu`.
 
-- [ ] **Step 6: Normalize CLI component name lookup**
+- [x] **Step 6: Normalize CLI component name lookup**
 
 Modify `packages/cli/src/commands/ui.ts` only if `command-menu` cannot be resolved.
 
@@ -1750,7 +1750,7 @@ function normalizeUiPrimitiveName(input: string): string {
 
 Use it when resolving `ui command-menu --help` and keep `ui commandMenu --help` working.
 
-- [ ] **Step 7: Run CLI tests**
+- [x] **Step 7: Run CLI tests**
 
 Run:
 
@@ -1778,7 +1778,7 @@ Expected: PASS.
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 - Modify: `apps/vanrot-site/tests/site-data.test.ts`
 
-- [ ] **Step 1: Use the local docs-component skill instructions before editing pages**
+- [x] **Step 1: Use the local docs-component skill instructions before editing pages**
 
 Read:
 
@@ -1788,7 +1788,7 @@ sed -n '1,220p' /Users/user/.codex/skills/vanrot-doc-component/SKILL.md
 
 Apply its approved Button docs pattern while implementing the three pages: title only at the top, no old eyebrow/lead/generic usage/top selector chip, variants overview card, dedicated variant sections, dotted preview backgrounds, shadcn-style code snippets, icon-only copy buttons, and mobile-ready CSS.
 
-- [ ] **Step 2: Write failing route and page tests**
+- [x] **Step 2: Write failing route and page tests**
 
 Append these entries to `phase16InteractionDocPages` in `apps/vanrot-site/tests/site-pages.test.ts`:
 
@@ -1818,7 +1818,7 @@ it('renders Phase 16G docs with shadcn-style preview and copy affordances', asyn
 });
 ```
 
-- [ ] **Step 3: Run site page tests and confirm they fail**
+- [x] **Step 3: Run site page tests and confirm they fail**
 
 Run:
 
@@ -1828,7 +1828,7 @@ pnpm --filter @vanrot/vanrot-site test -- --run tests/site-pages.test.ts -t "Pha
 
 Expected: FAIL with missing route keys or missing page files.
 
-- [ ] **Step 4: Add docs path source-of-truth entries**
+- [x] **Step 4: Add docs path source-of-truth entries**
 
 Modify `apps/vanrot-site/src/docs/component-doc-paths.ts`:
 
@@ -1838,7 +1838,7 @@ Modify `apps/vanrot-site/src/docs/component-doc-paths.ts`:
 [uiPrimitiveType.commandMenu]: '/docs/components/command-menu',
 ```
 
-- [ ] **Step 5: Add primitive doc copy**
+- [x] **Step 5: Add primitive doc copy**
 
 Append these objects to `primitiveDocs` in `apps/vanrot-site/src/docs/site-data.json`:
 
@@ -1872,7 +1872,7 @@ Append these objects to `primitiveDocs` in `apps/vanrot-site/src/docs/site-data.
 }
 ```
 
-- [ ] **Step 6: Create page TypeScript files**
+- [x] **Step 6: Create page TypeScript files**
 
 Create `component-popover.page.ts`, `component-tooltip.page.ts`, and `component-command-menu.page.ts` using this pattern:
 
@@ -1906,7 +1906,7 @@ For `ComponentTooltipPage`, call `setupTooltipPreview()` and use `uiPrimitiveTyp
 
 For `ComponentCommandMenuPage`, call `setupCommandMenuPreview()` and use `uiPrimitiveType.commandMenu`.
 
-- [ ] **Step 7: Extend component interaction preview widget**
+- [x] **Step 7: Extend component interaction preview widget**
 
 Modify `apps/vanrot-site/src/pages/components/component-interaction-preview.widget.ts` imports:
 
@@ -1989,7 +1989,7 @@ export function setupCommandMenuPreview(): void {
 }
 ```
 
-- [ ] **Step 8: Create docs HTML pages**
+- [x] **Step 8: Create docs HTML pages**
 
 Each page starts with:
 
@@ -2032,7 +2032,7 @@ Each page starts with:
 
 Use the same page shape for tooltip and command menu with their selectors, preview data attributes, and code snippets. Keep actual page copy short and practical.
 
-- [ ] **Step 9: Create docs page CSS**
+- [x] **Step 9: Create docs page CSS**
 
 Use shared shadcn-like section styles in each page CSS or move shared rules to `component-phase16e.css` if the existing import pattern allows it:
 
@@ -2082,7 +2082,7 @@ Use shared shadcn-like section styles in each page CSS or move shared rules to `
 }
 ```
 
-- [ ] **Step 10: Wire routes**
+- [x] **Step 10: Wire routes**
 
 Modify `apps/vanrot-site/src/routes.ts`:
 
@@ -2114,7 +2114,7 @@ const componentPopovers = docs.page({
 
 Repeat for Tooltip and Command Menu with their page classes.
 
-- [ ] **Step 11: Run site docs tests**
+- [x] **Step 11: Run site docs tests**
 
 Run:
 
@@ -2133,7 +2133,7 @@ Expected: PASS.
 - Modify: `apps/vanrot-site/src/layouts/docs/docs.layout.css`
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 
-- [ ] **Step 1: Write failing docs-shell dogfooding test**
+- [x] **Step 1: Write failing docs-shell dogfooding test**
 
 Append to `apps/vanrot-site/tests/site-pages.test.ts`:
 
@@ -2154,7 +2154,7 @@ it('dogfoods shipped interaction primitives in the docs shell', async () => {
 });
 ```
 
-- [ ] **Step 2: Run docs-shell dogfooding test and confirm it fails**
+- [x] **Step 2: Run docs-shell dogfooding test and confirm it fails**
 
 Run:
 
@@ -2164,7 +2164,7 @@ pnpm --filter @vanrot/vanrot-site test -- --run tests/site-pages.test.ts -t "dog
 
 Expected: FAIL because shell primitives are not yet present.
 
-- [ ] **Step 3: Create docs shell interaction widget**
+- [x] **Step 3: Create docs shell interaction widget**
 
 Create `apps/vanrot-site/src/layouts/docs/docs-shell-interactions.widget.ts`:
 
@@ -2259,7 +2259,7 @@ function requireElement(root: ParentNode, selector: string): HTMLElement {
 }
 ```
 
-- [ ] **Step 4: Expose docs command items from the layout class**
+- [x] **Step 4: Expose docs command items from the layout class**
 
 Modify `apps/vanrot-site/src/layouts/docs/docs.layout.ts`:
 
@@ -2293,7 +2293,7 @@ export class DocsLayout {
 }
 ```
 
-- [ ] **Step 5: Update shell markup to dogfood 16G primitives**
+- [x] **Step 5: Update shell markup to dogfood 16G primitives**
 
 Modify `apps/vanrot-site/src/layouts/docs/docs.layout.html` near the top of `<vr-layout>`:
 
@@ -2337,7 +2337,7 @@ Modify `apps/vanrot-site/src/layouts/docs/docs.layout.html` near the top of `<vr
 
 Keep the existing `vr-sidebar`, `vr-nav`, and `vr-outlet` structure.
 
-- [ ] **Step 6: Add shell polish and blur**
+- [x] **Step 6: Add shell polish and blur**
 
 Modify `apps/vanrot-site/src/layouts/docs/docs.layout.css`:
 
@@ -2382,7 +2382,7 @@ Modify `apps/vanrot-site/src/layouts/docs/docs.layout.css`:
 }
 ```
 
-- [ ] **Step 7: Run docs shell test**
+- [x] **Step 7: Run docs shell test**
 
 Run:
 
@@ -2405,7 +2405,7 @@ Expected: PASS.
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
 - Modify: `apps/vanrot-site/tests/site-data.test.ts`
 
-- [ ] **Step 1: Write failing showcase route and section tests**
+- [x] **Step 1: Write failing showcase route and section tests**
 
 Append to `apps/vanrot-site/tests/site-pages.test.ts`:
 
@@ -2437,7 +2437,7 @@ it('includes the October showcase article in examples navigation', () => {
 });
 ```
 
-- [ ] **Step 2: Run showcase tests and confirm they fail**
+- [x] **Step 2: Run showcase tests and confirm they fail**
 
 Run:
 
@@ -2447,7 +2447,7 @@ pnpm --filter @vanrot/vanrot-site test -- --run tests/site-pages.test.ts tests/s
 
 Expected: FAIL because the route, article key, and page do not exist.
 
-- [ ] **Step 3: Add showcase data**
+- [x] **Step 3: Add showcase data**
 
 Modify `apps/vanrot-site/src/docs/site-data.ts`:
 
@@ -2475,7 +2475,7 @@ Modify `apps/vanrot-site/src/docs/site-navigation.ts` examples group:
 items: [navItem(siteArticleKey.examples), navItem(siteArticleKey.octoberShowcase)],
 ```
 
-- [ ] **Step 4: Create showcase page class**
+- [x] **Step 4: Create showcase page class**
 
 Create `apps/vanrot-site/src/pages/examples/october-showcase.page.ts`:
 
@@ -2491,7 +2491,7 @@ export class OctoberShowcasePage {
 }
 ```
 
-- [ ] **Step 5: Create showcase HTML**
+- [x] **Step 5: Create showcase HTML**
 
 Create `apps/vanrot-site/src/pages/examples/october-showcase.page.html`:
 
@@ -2612,7 +2612,7 @@ Create `apps/vanrot-site/src/pages/examples/october-showcase.page.html`:
 </div>
 ```
 
-- [ ] **Step 6: Create showcase CSS**
+- [x] **Step 6: Create showcase CSS**
 
 Create `apps/vanrot-site/src/pages/examples/october-showcase.page.css`:
 
@@ -2677,7 +2677,7 @@ Create `apps/vanrot-site/src/pages/examples/october-showcase.page.css`:
 }
 ```
 
-- [ ] **Step 7: Wire showcase route**
+- [x] **Step 7: Wire showcase route**
 
 Modify `apps/vanrot-site/src/routes.ts`:
 
@@ -2705,7 +2705,7 @@ const octoberShowcase = docs.page({
 
 Export it through the existing route object so `route.octoberShowcase.fullPath()` works.
 
-- [ ] **Step 8: Run showcase tests**
+- [x] **Step 8: Run showcase tests**
 
 Run:
 
@@ -2723,7 +2723,7 @@ Expected: PASS.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-16G.md`
 
-- [ ] **Step 1: Run package-focused tests**
+- [x] **Step 1: Run package-focused tests**
 
 Run:
 
@@ -2737,7 +2737,7 @@ pnpm --filter @vanrot/vanrot-site test -- --run tests/site-pages.test.ts tests/s
 
 Expected: all PASS.
 
-- [ ] **Step 2: Run full verification before tracker completion**
+- [x] **Step 2: Run full verification before tracker completion**
 
 Run:
 
@@ -2747,7 +2747,7 @@ pnpm verify
 
 Expected: PASS, including `verify:phase-docs` and runtime size budget.
 
-- [ ] **Step 3: Mark Phase 16G complete in tracker docs**
+- [x] **Step 3: Mark Phase 16G complete in tracker docs**
 
 Modify `docs/superpowers/feature-maturity.md`:
 
@@ -2770,11 +2770,11 @@ Modify `docs/superpowers/final-tdd-inventory.md` with a Phase 16G section:
 
 Modify `docs/vanrot-presentation.html` so the roadmap shows Phase 16G done and Phase 17 active.
 
-- [ ] **Step 4: Mark this plan's completed tasks**
+- [x] **Step 4: Mark this plan's completed tasks**
 
-After all implementation and verification pass, change each completed checkbox in `docs/superpowers/plans/Phase-16G.md` from `- [ ]` to `- [x]`.
+After all implementation and verification pass, change each completed checkbox in `docs/superpowers/plans/Phase-16G.md` from `- [x]` to `- [x]`.
 
-- [ ] **Step 5: Re-run phase docs and diff hygiene**
+- [x] **Step 5: Re-run phase docs and diff hygiene**
 
 Run:
 
@@ -2785,7 +2785,7 @@ git diff --check
 
 Expected: both commands pass.
 
-- [ ] **Step 6: Restart the local site dev server**
+- [x] **Step 6: Restart the local site dev server**
 
 Run:
 
@@ -2796,7 +2796,7 @@ pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1990
 
 Expected: Vite serves on `http://127.0.0.1:1990/`. Keep the server running for browser QA.
 
-- [ ] **Step 7: Verify local routes respond**
+- [x] **Step 7: Verify local routes respond**
 
 Run in another shell:
 
@@ -2809,7 +2809,7 @@ curl -I http://127.0.0.1:1990/docs/examples/october-showcase
 
 Expected: each response is `HTTP/1.1 200 OK`.
 
-- [ ] **Step 8: Browser visual QA**
+- [x] **Step 8: Browser visual QA**
 
 Use the Browser skill to inspect:
 
@@ -2834,7 +2834,7 @@ Mobile viewport expected:
 - mobile frame does not occlude following content;
 - no text overlaps buttons, cards, code panels, or overlay layers.
 
-- [ ] **Step 9: Final git status report**
+- [x] **Step 9: Final git status report**
 
 Run:
 
@@ -2846,8 +2846,8 @@ Expected: working tree contains only Phase 16G files and any pre-existing unrela
 
 ## Self-Review Checklist
 
-- [ ] Spec coverage: runtime helpers, three primitives, metadata, compiler, CLI, docs pages, docs shell dogfooding, showcase patterns, tracker docs, verification, server restart, and browser QA are each mapped to a task.
-- [ ] Placeholder scan: run a red-flag search for unfinished planning language in `docs/superpowers/plans/Phase-16G.md` and fix any matches.
-- [ ] Type consistency: confirm `commandMenu`, `vr-command-menu`, `ui-command-menu`, `componentCommandMenu`, and `/docs/components/command-menu` are spelled consistently across tasks.
-- [ ] Repo protocol: no subagents, no worktrees, no staging, no commits, and no pushes are part of execution.
-- [ ] Phase protocol: do not mark 16G done until tests, `pnpm verify`, site restart, route checks, and browser QA all pass.
+- [x] Spec coverage: runtime helpers, three primitives, metadata, compiler, CLI, docs pages, docs shell dogfooding, showcase patterns, tracker docs, verification, server restart, and browser QA are each mapped to a task.
+- [x] Placeholder scan: run a red-flag search for unfinished planning language in `docs/superpowers/plans/Phase-16G.md` and fix any matches.
+- [x] Type consistency: confirm `commandMenu`, `vr-command-menu`, `ui-command-menu`, `componentCommandMenu`, and `/docs/components/command-menu` are spelled consistently across tasks.
+- [x] Repo protocol: no subagents, no worktrees, no staging, no commits, and no pushes are part of execution.
+- [x] Phase protocol: do not mark 16G done until tests, `pnpm verify`, site restart, route checks, and browser QA all pass.

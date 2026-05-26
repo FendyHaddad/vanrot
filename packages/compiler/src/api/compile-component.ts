@@ -31,6 +31,9 @@ const featureOrder: CompileFeature[] = [
   'router-outlet',
   'router-link',
   'ui-button',
+  'ui-popover',
+  'ui-tooltip',
+  'ui-command-menu',
   'slot',
 ];
 

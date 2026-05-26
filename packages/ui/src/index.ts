@@ -1,5 +1,6 @@
 export type {
   Phase16FormsDataPrimitive,
+  Phase16FinalPrimitive,
   Phase16InteractionPrimitive,
   UiAnatomyRegistryItem,
   UiAttributeRegistryItem,
@@ -9,6 +10,7 @@ export type {
 export {
   getUiComponentRegistryItem,
   phase16FormsDataPrimitiveOrder,
+  phase16FinalPrimitiveOrder,
   phase16InteractionPrimitiveOrder,
   uiComponentRegistry,
 } from './registry/component-registry.js';

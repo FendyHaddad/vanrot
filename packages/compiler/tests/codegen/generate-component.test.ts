@@ -235,6 +235,45 @@ describe('generateComponent', () => {
     expect(result.features).toEqual(expect.arrayContaining(['ui-dialog', 'ui-tabs']));
   });
 
+  it('lowers Phase 16G final primitives and anatomy to semantic DOM', () => {
+    const templateSource = [
+      '<vr-popover align.end side.bottom>',
+      '  <vr-popover-trigger><vr-button>Open</vr-button></vr-popover-trigger>',
+      '  <vr-popover-content>',
+      '    <vr-popover-title>Dimensions</vr-popover-title>',
+      '  </vr-popover-content>',
+      '</vr-popover>',
+      '<vr-tooltip side.top align.center>',
+      '  <vr-tooltip-trigger><vr-button>Copy</vr-button></vr-tooltip-trigger>',
+      '  <vr-tooltip-content>Copy page</vr-tooltip-content>',
+      '</vr-tooltip>',
+      '<vr-command-menu density.compact>',
+      '  <vr-command-menu-input placeholder="Search docs..."></vr-command-menu-input>',
+      '  <vr-command-menu-list>',
+      '    <vr-command-menu-item value.dialog>Dialog</vr-command-menu-item>',
+      '  </vr-command-menu-list>',
+      '</vr-command-menu>',
+    ].join('');
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'counter.component.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain('vr-popover vr-popover-align-end vr-popover-side-bottom');
+    expect(result.js).toContain('vr-popover-content');
+    expect(result.js).toContain('vr-tooltip vr-tooltip-side-top');
+    expect(result.js).toContain('vr-command-menu vr-command-menu-density-compact');
+    expect(result.js).toContain('vr-command-menu-item');
+    expect(result.features).toEqual(
+      expect.arrayContaining(['ui-popover', 'ui-tooltip', 'ui-command-menu']),
+    );
+  });
+
   it('generates interpolation effects', () => {
     const templateSource = '<p>Count: {{ count() }}</p>';
 
@@ -867,7 +906,7 @@ describe('generateComponent', () => {
   });
 
   it('diagnoses unsupported Vanrot UI primitive tags', () => {
-    const templateSource = '<vr-popover>Popover</vr-popover>';
+    const templateSource = '<vr-combobox>Combobox</vr-combobox>';
 
     const result = generateComponent({
       metadata,
@@ -877,13 +916,13 @@ describe('generateComponent', () => {
       templateSource,
     });
 
-    expect(result.js).not.toContain("document.createElement('vr-popover')");
+    expect(result.js).not.toContain("document.createElement('vr-combobox')");
     expect(result.diagnostics).toMatchObject([
       {
         code: 'VR010',
         severity: 'error',
         message:
-          '<vr-popover> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
+          '<vr-combobox> is not available in UI October yet. Add the primitive through a Phase 16 UI slice before using it.',
       },
     ]);
   });

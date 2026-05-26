@@ -1,0 +1,19 @@
+.component-popover-app .preview-body,
+.component-popover-app .variant-preview {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.component-phase16g-app.component-popover-app .preview {
+  overflow: visible;
+}
+
+.component-phase16g-app.component-popover-app .primitive:has([data-vr-overlay-content][data-state="open"]) {
+  margin-bottom: 340px;
+}
+
+@media (max-width: 760px) {
+  .component-phase16g-app.component-popover-app .primitive:has([data-vr-overlay-content][data-state="open"]) {
+    margin-bottom: 520px;
+  }
+}
