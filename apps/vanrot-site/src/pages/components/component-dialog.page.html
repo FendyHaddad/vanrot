@@ -74,24 +74,38 @@
         <div class="section-head">
           <div>
             <h2>Default</h2>
-            <p>Focus moves into the dialog when it opens and returns to the trigger when it closes. Use dialogs for decisions or tasks that require immediate attention.</p>
+            <p>Focus moves into the dialog when it opens and returns to the trigger when it closes. The page behind the modal becomes inert, dimmed, and softly blurred.</p>
           </div>
           <span class="code-chip">size.md</span>
         </div>
         <div class="variant-example">
           <div class="variant-preview">
-            <vr-dialog data-vr-overlay-preview size.md>
+            <vr-dialog class="dialog-demo" data-vr-overlay-preview size.md>
               <vr-dialog-trigger>
-                <vr-button data-vr-overlay-trigger type="button" aria-haspopup="dialog">Open dialog</vr-button>
+                <vr-button class="dialog-demo-trigger" data-vr-overlay-trigger type="button" aria-haspopup="dialog">Open dialog</vr-button>
               </vr-dialog-trigger>
-              <vr-dialog-content data-vr-overlay-content hidden role="dialog" aria-modal="true" aria-labelledby="dialog-preview-title" aria-describedby="dialog-preview-description">
-                <vr-dialog-header>
+              <vr-dialog-content class="dialog-preview-content" data-vr-overlay-content hidden role="dialog" aria-modal="true" aria-labelledby="dialog-preview-title" aria-describedby="dialog-preview-description">
+                <button class="dialog-close-button" data-vr-overlay-close type="button" aria-label="Close dialog">
+                  <span class="dialog-close-line one" aria-hidden="true"></span>
+                  <span class="dialog-close-line two" aria-hidden="true"></span>
+                </button>
+                <vr-dialog-header class="dialog-header">
                   <vr-dialog-title id="dialog-preview-title">Edit profile</vr-dialog-title>
-                  <vr-dialog-description id="dialog-preview-description">Update your account details below.</vr-dialog-description>
+                  <vr-dialog-description id="dialog-preview-description">Make changes to your profile here. Click save when you are done.</vr-dialog-description>
                 </vr-dialog-header>
-                <vr-dialog-footer>
-                  <vr-button data-vr-overlay-close variant.outline type="button">Cancel</vr-button>
-                  <vr-button data-vr-overlay-close type="button">Save changes</vr-button>
+                <div class="dialog-form">
+                  <div class="dialog-field">
+                    <label for="dialog-preview-name">Name</label>
+                    <input class="dialog-input" id="dialog-preview-name" type="text" value="Pedro Duarte">
+                  </div>
+                  <div class="dialog-field">
+                    <label for="dialog-preview-username">Username</label>
+                    <input class="dialog-input" id="dialog-preview-username" type="text" value="@peduarte">
+                  </div>
+                </div>
+                <vr-dialog-footer class="dialog-footer-actions">
+                  <vr-button class="dialog-action secondary" data-vr-overlay-close variant.outline type="button">Cancel</vr-button>
+                  <vr-button class="dialog-action primary" data-vr-overlay-close type="button">Save changes</vr-button>
                 </vr-dialog-footer>
               </vr-dialog-content>
             </vr-dialog>
@@ -106,17 +120,24 @@
 <span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;vr-dialog-trigger&gt;</span></span></span>
 <span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-button</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Open dialog</span><span class="token tag">&lt;/vr-button&gt;</span></span></span>
 <span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/vr-dialog-trigger&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">5</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;vr-dialog-content&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">6</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dialog-header&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">7</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-dialog-title&gt;</span><span class="token text">Edit profile</span><span class="token tag">&lt;/vr-dialog-title&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">8</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-dialog-description&gt;</span><span class="token text">Update your account details.</span><span class="token tag">&lt;/vr-dialog-description&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">9</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;/vr-dialog-header&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">10</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dialog-footer&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">11</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-button</span><span class="token attr"> variant.outline</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Cancel</span><span class="token tag">&lt;/vr-button&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">12</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-button</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Save changes</span><span class="token tag">&lt;/vr-button&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">13</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;/vr-dialog-footer&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">14</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/vr-dialog-content&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">15</span><span class="code-line-content"><span class="token tag">&lt;/vr-dialog&gt;</span></span></span></code></pre>
+<span class="code-line"><span class="code-line-number">5</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;vr-dialog-content</span><span class="token attr"> aria-labelledby</span><span class="token operator">=</span><span class="token string">"profile-title"</span><span class="token attr"> aria-describedby</span><span class="token operator">=</span><span class="token string">"profile-description"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">6</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dialog-close</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Close dialog"</span><span class="token tag">&gt;&lt;/vr-dialog-close&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">7</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dialog-header&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">8</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-dialog-title</span><span class="token attr"> id</span><span class="token operator">=</span><span class="token string">"profile-title"</span><span class="token tag">&gt;</span><span class="token text">Edit profile</span><span class="token tag">&lt;/vr-dialog-title&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">9</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-dialog-description</span><span class="token attr"> id</span><span class="token operator">=</span><span class="token string">"profile-description"</span><span class="token tag">&gt;</span><span class="token text">Make changes to your profile here. Click save when you are done.</span><span class="token tag">&lt;/vr-dialog-description&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">10</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;/vr-dialog-header&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">11</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;div</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"dialog-form"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">12</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;label</span><span class="token attr"> for</span><span class="token operator">=</span><span class="token string">"name"</span><span class="token tag">&gt;</span><span class="token text">Name</span><span class="token tag">&lt;/label&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">13</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;input</span><span class="token attr"> id</span><span class="token operator">=</span><span class="token string">"name"</span><span class="token attr"> value</span><span class="token operator">=</span><span class="token string">"Pedro Duarte"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">14</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;label</span><span class="token attr"> for</span><span class="token operator">=</span><span class="token string">"username"</span><span class="token tag">&gt;</span><span class="token text">Username</span><span class="token tag">&lt;/label&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">15</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;input</span><span class="token attr"> id</span><span class="token operator">=</span><span class="token string">"username"</span><span class="token attr"> value</span><span class="token operator">=</span><span class="token string">"@peduarte"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">16</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;/div&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">17</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;vr-dialog-footer&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">18</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-button</span><span class="token attr"> variant.outline</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Cancel</span><span class="token tag">&lt;/vr-button&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">19</span><span class="code-line-content code-indent-3"><span class="token tag">&lt;vr-button</span><span class="token attr"> type</span><span class="token operator">=</span><span class="token string">"button"</span><span class="token tag">&gt;</span><span class="token text">Save changes</span><span class="token tag">&lt;/vr-button&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">20</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;/vr-dialog-footer&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">21</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/vr-dialog-content&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">22</span><span class="code-line-content"><span class="token tag">&lt;/vr-dialog&gt;</span></span></span></code></pre>
           </div>
         </div>
       </section>

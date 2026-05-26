@@ -454,6 +454,29 @@ describe('vanrot site pages', () => {
     }
   });
 
+  it('renders the Dialog docs as a shadcn-style modal with blurred backdrop', async () => {
+    const dialogPage = await readSiteFile('src/pages/components/component-dialog.page.html');
+    const dialogCss = await readSiteFile('src/pages/components/component-dialog.page.css');
+
+    expect(dialogPage).toContain('<div class="preview-head"><span>Examples</span><span>1</span></div>');
+    expect(dialogPage).toContain('<div class="dialog-form">');
+    expect(dialogPage).toContain('<label for="dialog-preview-name">Name</label>');
+    expect(dialogPage).toContain('value="Pedro Duarte"');
+    expect(dialogPage).toContain('<label for="dialog-preview-username">Username</label>');
+    expect(dialogPage).toContain('value="@peduarte"');
+    expect(dialogPage).toContain('class="dialog-close-button"');
+    expect(dialogPage).toContain('aria-label="Close dialog"');
+    expect(dialogPage).toContain('class="dialog-footer-actions"');
+    expect(dialogPage).toContain('Make changes to your profile here. Click save when you are done.');
+    expect(dialogCss).toContain('.component-dialog-app:has([data-vr-overlay-content][data-state="open"])::before');
+    expect(dialogCss).toContain('backdrop-filter: blur(14px);');
+    expect(dialogCss).toContain('.component-dialog-app [data-vr-overlay-content]');
+    expect(dialogCss).toContain('.dialog-form {');
+    expect(dialogCss).toContain('.dialog-input {');
+    expect(dialogCss).toContain('.dialog-close-button {');
+    expect(dialogCss).toContain('.dialog-footer-actions {');
+  });
+
   it('wires Phase 16F interaction examples to runtime preview controllers', async () => {
     const siteCss = await readSiteFile('src/styles/site.css');
     const interactionPreviewHelper = await readSiteFile(
