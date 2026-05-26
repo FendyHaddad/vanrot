@@ -20,7 +20,7 @@ describe('recoverVanrotConfig', () => {
 
     const source = await readFile(join(cwd, 'vanrot.config.ts'), 'utf8');
     expect(source).toContain("root: 'src'");
-    expect(source).toContain('port: 1010');
+    expect(source).toContain('port: 1990');
   });
 
   it('infers router and ui domains from installed dependencies', async () => {

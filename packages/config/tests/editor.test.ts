@@ -9,7 +9,7 @@ describe('upsertVanrotConfigDomain', () => {
       'export default defineVanrotConfig({',
       '  schemaVersion: 1,',
       "  source: { root: 'src' },",
-      '  devServer: { port: 1010 },',
+      '  devServer: { port: 1990 },',
       '});',
       '',
     ].join('\n');
@@ -28,7 +28,7 @@ describe('upsertVanrotConfigDomain', () => {
       'export default defineVanrotConfig({',
       '  schemaVersion: 1,',
       "  source: { root: 'src' },",
-      '  devServer: { port: 1010 },',
+      '  devServer: { port: 1990 },',
       '  ui: { prefix: "ui" },',
       '});',
       '',

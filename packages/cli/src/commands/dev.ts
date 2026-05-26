@@ -20,7 +20,7 @@ export async function devCommand(
 
   const exitCode = await (context.runner ?? createNodeProcessRunner()).run(
     'vite',
-    ['--port', String(loaded.config.devServer.port)],
+    ['--host', '127.0.0.1', '--port', String(loaded.config.devServer.port)],
     {
       cwd: context.cwd,
     },

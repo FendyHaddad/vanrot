@@ -108,7 +108,7 @@ describe('validateVanrotConfig', () => {
     const diagnostics = validateVanrotConfig({
       schemaVersion: 1,
       source: { root: 'src' },
-      devServer: { port: 1010 },
+      devServer: { port: 1990 },
       ghost: true,
     } as unknown as Parameters<typeof validateVanrotConfig>[0]);
 

@@ -20,11 +20,11 @@ When finishing changes to `apps/vanrot-site`, restart the local site dev server 
 Use the standard local preview target:
 
 ```sh
-pkill -f "vite/bin/vite.js.*--port 3000" || true
-pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 3000
+pkill -f "vite/bin/vite.js.*--port 1990" || true
+pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1990
 ```
 
-After restart, verify the relevant site route responds on `http://localhost:3000`.
+After restart, verify the relevant site route responds on `http://localhost:1990`.
 
 ## Vanrot Component Docs Protocol
 
