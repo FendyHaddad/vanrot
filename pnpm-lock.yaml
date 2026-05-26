@@ -58,6 +58,47 @@ importers:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
+  examples/build-deploy:
+    dependencies:
+      '@vanrot/config':
+        specifier: file:../../packages/config
+        version: link:../../packages/config
+      '@vanrot/vite-plugin':
+        specifier: file:../../packages/vite-plugin
+        version: link:../../packages/vite-plugin
+    devDependencies:
+      '@vanrot/cli':
+        specifier: file:../../packages/cli
+        version: link:../../packages/cli
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^8.0.10
+        version: 8.0.13(@types/node@22.19.19)(esbuild@0.28.0)
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
+  examples/compiler-templates:
+    dependencies:
+      '@vanrot/compiler':
+        specifier: file:../../packages/compiler
+        version: link:../../packages/compiler
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/vite-plugin':
+        specifier: file:../../packages/vite-plugin
+        version: link:../../packages/vite-plugin
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
   examples/counter:
     dependencies:
       '@vanrot/config':
@@ -79,6 +120,98 @@ importers:
       vite:
         specifier: ^8.0.10
         version: 8.0.13(@types/node@22.19.19)(esbuild@0.28.0)
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
+  examples/devtools-intelligence:
+    dependencies:
+      '@vanrot/cli':
+        specifier: file:../../packages/cli
+        version: link:../../packages/cli
+      '@vanrot/config':
+        specifier: file:../../packages/config
+        version: link:../../packages/config
+      '@vanrot/devtools':
+        specifier: file:../../packages/devtools
+        version: link:../../packages/devtools
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
+  examples/routing-workflows:
+    dependencies:
+      '@vanrot/router':
+        specifier: file:../../packages/router
+        version: link:../../packages/router
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/vite-plugin':
+        specifier: file:../../packages/vite-plugin
+        version: link:../../packages/vite-plugin
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
+  examples/runtime-lifecycle:
+    dependencies:
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
+  examples/testing-helpers:
+    dependencies:
+      '@vanrot/compiler':
+        specifier: file:../../packages/compiler
+        version: link:../../packages/compiler
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/testing':
+        specifier: file:../../packages/testing
+        version: link:../../packages/testing
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
+  examples/ui-framework-usage:
+    dependencies:
+      '@vanrot/compiler':
+        specifier: file:../../packages/compiler
+        version: link:../../packages/compiler
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/ui':
+        specifier: file:../../packages/ui
+        version: link:../../packages/ui
+      '@vanrot/vite-plugin':
+        specifier: file:../../packages/vite-plugin
+        version: link:../../packages/vite-plugin
+    devDependencies:
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
       vitest:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))

@@ -1,7 +1,18 @@
 <vr-layout class="docs-layout">
   <vr-sidebar class="docs-sidebar" placement.left aria-label="Documentation">
-    <vr-command-menu class="docs-command-menu" data-vr-docs-command-menu density.compact>
-      <vr-command-menu-input data-vr-docs-command-input placeholder="Search docs..."></vr-command-menu-input>
+    <a class="docs-brand" href="/">
+      <span class="docs-mark" aria-hidden="true"></span>
+      <span>Vanrot</span>
+    </a>
+
+    <button class="docs-search" type="button">
+      <span aria-hidden="true">/</span>
+      <span>Search</span>
+      <kbd>Cmd K</kbd>
+    </button>
+
+    <vr-command-menu class="docs-command-menu-hidden" data-vr-docs-command-menu density.compact hidden>
+      <vr-command-menu-input data-vr-docs-command-input placeholder="Search"></vr-command-menu-input>
       <vr-command-menu-list>
         @for (item of commandItems; track item.key) {
           <vr-command-menu-item data-vr-docs-command-item [value]="item.key">
@@ -10,50 +21,53 @@
         }
       </vr-command-menu-list>
     </vr-command-menu>
+
     <vr-nav class="docs-nav" aria-label="Documentation">
-      <h2 class="docs-nav-heading">{{ labels.getStarted }}</h2>
+      <span class="docs-nav-title">{{ labels.getStarted }}</span>
       @for (item of getStartedItems; track item.key) {
         <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
       }
 
-      <h2 class="docs-nav-heading">{{ labels.framework }}</h2>
+      <span class="docs-nav-title">{{ labels.framework }}</span>
       @for (item of frameworkItems; track item.key) {
         <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
       }
 
-      <h2 class="docs-nav-heading">{{ labels.ui }}</h2>
-      @for (item of uiItems; track item.key) {
-        <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
-      }
-
-      <h2 class="docs-nav-heading">{{ labels.components }}</h2>
-      @for (item of componentItems; track item.key) {
-        <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
-      }
-
-      <h2 class="docs-nav-heading">{{ labels.examples }}</h2>
+      <span class="docs-nav-title">{{ labels.examples }}</span>
       @for (item of exampleItems; track item.key) {
         <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
       }
 
-      <h2 class="docs-nav-heading">{{ labels.reference }}</h2>
+      <span class="docs-nav-title">{{ labels.reference }}</span>
       @for (item of referenceItems; track item.key) {
+        <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+      }
+
+      <span class="docs-nav-title">{{ labels.components }}</span>
+      @for (item of componentItems; track item.key) {
         <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
       }
     </vr-nav>
   </vr-sidebar>
 
   <main class="docs-main">
+    <vr-header class="docs-topbar">
+      <span>Framework Documentation</span>
+      <vr-nav class="docs-topbar-nav" aria-label="Documentation sections">
+        <a href="/docs">Docs</a>
+        <a href="/docs/components">Components</a>
+      </vr-nav>
+    </vr-header>
     <div class="docs-page-actions" aria-label="Page actions">
       <vr-tooltip side.bottom align.center>
         <vr-tooltip-trigger data-vr-docs-tooltip-trigger>
-          <a class="docs-icon-action" href="/docs/components/command-menu" aria-label="Command menu docs">⌘</a>
+          <a class="docs-icon-action" href="/docs/components/command-menu" aria-label="Command menu docs">CM</a>
         </vr-tooltip-trigger>
         <vr-tooltip-content data-vr-docs-tooltip-content hidden>Command menu</vr-tooltip-content>
       </vr-tooltip>
       <vr-popover class="docs-page-popover" data-vr-docs-popover side.bottom align.end>
         <vr-popover-trigger data-vr-docs-popover-trigger>
-          <button class="docs-icon-action" type="button" aria-label="Page actions">•••</button>
+          <button class="docs-icon-action" type="button" aria-label="Page actions">...</button>
         </vr-popover-trigger>
         <vr-popover-content data-vr-docs-popover-content hidden>
           <vr-popover-title>Docs actions</vr-popover-title>
@@ -61,6 +75,8 @@
         </vr-popover-content>
       </vr-popover>
     </div>
-    <vr-outlet></vr-outlet>
+    <section class="docs-content">
+      <vr-outlet></vr-outlet>
+    </section>
   </main>
 </vr-layout>

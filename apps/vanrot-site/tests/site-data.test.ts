@@ -26,9 +26,16 @@ describe('vanrot site docs data', () => {
       'theming',
       'vanrotstyles',
       'testing',
+      'devtools',
       'examples',
+      'exampleMatrix',
+      'deployment',
+      'publicApi',
+      'diagnostics',
+      'generatedFiles',
       'octoberShowcase',
       'conventions',
+      'limitations',
       'referenceStatus',
     ]);
 
@@ -87,6 +94,8 @@ describe('vanrot site docs data', () => {
       '@vanrot/testing',
       '@vanrot/devtools',
     ]);
+    expect(packageReferenceDocs.every((item) => item.docsPath.startsWith('/docs'))).toBe(true);
+    expect(cliCommandDocs.every((command) => command.docsPath.startsWith('/docs'))).toBe(true);
   });
 
   it('builds navigation for the whole framework, not only UI', () => {

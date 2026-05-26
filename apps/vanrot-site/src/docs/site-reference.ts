@@ -1,9 +1,25 @@
 import {
-  cliCommandDocs,
+  commandReferenceDocs,
+  conventionReferenceDocs,
+  deploymentReference,
   diagnosticReferenceDocs,
+  exampleReferenceDocs,
+  generatedFileReferenceDocs,
+  limitationReferenceDocs,
+  maturityReferenceDocs,
   packageReferenceDocs,
-} from './site-data.ts';
+  publicExportReferenceDocs,
+  publicRouteMetadata,
+} from './framework-reference.ts';
 
-export const commandReference = cliCommandDocs;
+export const commandReference = commandReferenceDocs;
 export const packageReference = packageReferenceDocs;
 export const diagnosticReference = diagnosticReferenceDocs;
+export const publicExportReference = publicExportReferenceDocs;
+export const generatedFileReference = generatedFileReferenceDocs;
+export const conventionReference = conventionReferenceDocs;
+export const exampleReference = exampleReferenceDocs;
+export const limitationReference = limitationReferenceDocs;
+export const maturityReference = maturityReferenceDocs;
+export const routeMetadataReference = publicRouteMetadata;
+export const deployment = deploymentReference;

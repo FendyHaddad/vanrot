@@ -1,0 +1,39 @@
+import { siteArticleKey, type SiteArticleKey } from './site-data.ts';
+
+export const frameworkGuideArticleKeys = [
+  siteArticleKey.installation,
+  siteArticleKey.projectStructure,
+  siteArticleKey.runtime,
+  siteArticleKey.compiler,
+  siteArticleKey.vitePlugin,
+  siteArticleKey.cli,
+  siteArticleKey.configuration,
+  siteArticleKey.routing,
+  siteArticleKey.testing,
+  siteArticleKey.devtools,
+  siteArticleKey.deployment,
+  siteArticleKey.publicApi,
+  siteArticleKey.diagnostics,
+  siteArticleKey.generatedFiles,
+  siteArticleKey.conventions,
+  siteArticleKey.limitations,
+] as const satisfies readonly SiteArticleKey[];
+
+export const frameworkGuideLabels = {
+  [siteArticleKey.installation]: 'Install',
+  [siteArticleKey.projectStructure]: 'Project Structure',
+  [siteArticleKey.runtime]: 'Runtime',
+  [siteArticleKey.compiler]: 'Compiler',
+  [siteArticleKey.vitePlugin]: 'Vite Plugin',
+  [siteArticleKey.cli]: 'CLI',
+  [siteArticleKey.configuration]: 'Configuration',
+  [siteArticleKey.routing]: 'Routing',
+  [siteArticleKey.testing]: 'Testing',
+  [siteArticleKey.devtools]: 'Devtools',
+  [siteArticleKey.deployment]: 'Deployment',
+  [siteArticleKey.publicApi]: 'Public API',
+  [siteArticleKey.diagnostics]: 'Diagnostics',
+  [siteArticleKey.generatedFiles]: 'Generated Files',
+  [siteArticleKey.conventions]: 'Conventions',
+  [siteArticleKey.limitations]: 'Limitations',
+} as const satisfies Record<(typeof frameworkGuideArticleKeys)[number], string>;

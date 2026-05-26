@@ -1,0 +1,60 @@
+<article class="docs-reference">
+  <vr-badge tone.secondary>Framework reference</vr-badge>
+  <h1>Framework Reference</h1>
+  <p class="reference-summary">
+    Packages, public exports, commands, diagnostics, generated files, conventions, and known limitations are listed from the structured registry that powers docs verification.
+  </p>
+
+  <section class="reference-section">
+    <h2>Packages</h2>
+    <div class="reference-grid">
+      @for (item of packageReference; track item.name) {
+        <vr-card variant.default>
+          <span class="reference-kicker">{{ item.status }}</span>
+          <h3>{{ item.name }}</h3>
+          <p>{{ item.summary }}</p>
+          <a href="{{ item.docsPath }}">Open docs</a>
+        </vr-card>
+      }
+    </div>
+  </section>
+
+  <section class="reference-section">
+    <h2>Public API</h2>
+    <div class="reference-list">
+      @for (item of publicExportReference; track item.packageName + item.name) {
+        <div class="reference-row">
+          <code>{{ item.packageName }}#{{ item.name }}</code>
+          <span>{{ item.kind }}</span>
+          <p>{{ item.summary }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="reference-section">
+    <h2>Commands</h2>
+    <div class="reference-list">
+      @for (item of commandReference; track item.name) {
+        <div class="reference-row">
+          <code>{{ item.usage }}</code>
+          <span>{{ item.status }}</span>
+          <p>{{ item.summary }}</p>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="reference-section">
+    <h2>Diagnostics</h2>
+    <div class="reference-list">
+      @for (item of diagnosticReference; track item.family + item.code) {
+        <div class="reference-row">
+          <code>{{ item.code }}</code>
+          <span>{{ item.family }}</span>
+          <p>{{ item.summary }}</p>
+        </div>
+      }
+    </div>
+  </section>
+</article>

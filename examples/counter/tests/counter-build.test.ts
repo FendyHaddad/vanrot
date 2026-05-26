@@ -1,3 +1,4 @@
+import { readFileSync } from 'node:fs';
 import { readdir, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { build } from 'vite';
@@ -26,5 +27,18 @@ describe('counter example build', () => {
     expect(assets).toEqual(
       expect.arrayContaining([expect.stringMatching(/\.js$/), expect.stringMatching(/\.css$/)]),
     );
+  });
+
+  it('stays registered in the framework example matrix', () => {
+    const reference = JSON.parse(
+      readFileSync(
+        resolve(appRoot, '../../apps/vanrot-site/src/docs/framework-reference.json'),
+        'utf8',
+      ),
+    );
+
+    expect(
+      reference.examples.some((example: { path: string }) => example.path === 'examples/counter'),
+    ).toBe(true);
   });
 });

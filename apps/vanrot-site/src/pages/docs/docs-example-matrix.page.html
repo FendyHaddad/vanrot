@@ -1,0 +1,18 @@
+<article class="docs-example-matrix">
+  <vr-badge tone.secondary>Runnable examples</vr-badge>
+  <h1>Example Matrix</h1>
+  <p class="matrix-summary">
+    Runnable workspaces are the source of truth for framework examples. Guide pages link back to these examples instead of drifting into unchecked snippets.
+  </p>
+
+  <section class="matrix-grid">
+    @for (example of exampleReference; track example.id) {
+      <vr-card variant.default>
+        <span class="matrix-kicker">{{ example.path }}</span>
+        <h2>{{ example.title }}</h2>
+        <p>{{ example.workflows.join(', ') }}</p>
+        <a href="{{ example.docsPath }}">Read guide</a>
+      </vr-card>
+    }
+  </section>
+</article>

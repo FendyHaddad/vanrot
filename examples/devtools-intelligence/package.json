@@ -1,0 +1,19 @@
+{
+  "name": "@vanrot/example-devtools-intelligence",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@vanrot/cli": "file:../../packages/cli",
+    "@vanrot/config": "file:../../packages/config",
+    "@vanrot/devtools": "file:../../packages/devtools"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}

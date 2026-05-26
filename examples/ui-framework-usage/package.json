@@ -1,0 +1,20 @@
+{
+  "name": "@vanrot/example-ui-framework-usage",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@vanrot/compiler": "file:../../packages/compiler",
+    "@vanrot/runtime": "file:../../packages/runtime",
+    "@vanrot/ui": "file:../../packages/ui",
+    "@vanrot/vite-plugin": "file:../../packages/vite-plugin"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}

@@ -1,0 +1,8 @@
+:host {
+  display: block;
+}
+
+.status-card {
+  display: grid;
+  gap: 8px;
+}

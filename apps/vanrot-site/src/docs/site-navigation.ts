@@ -67,6 +67,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.configuration),
       navItem(siteArticleKey.routing),
       navItem(siteArticleKey.testing),
+      navItem(siteArticleKey.devtools),
       navItem(siteArticleKey.conventions),
     ],
   },
@@ -87,12 +88,23 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
   {
     section: siteSectionKey.examples,
     label: siteNavigationSectionLabel.examples,
-    items: [navItem(siteArticleKey.examples), navItem(siteArticleKey.octoberShowcase)],
+    items: [
+      navItem(siteArticleKey.examples),
+      navItem(siteArticleKey.exampleMatrix),
+      navItem(siteArticleKey.octoberShowcase),
+    ],
   },
   {
     section: siteSectionKey.reference,
     label: siteNavigationSectionLabel.reference,
-    items: [navItem(siteArticleKey.referenceStatus)],
+    items: [
+      navItem(siteArticleKey.publicApi),
+      navItem(siteArticleKey.diagnostics),
+      navItem(siteArticleKey.generatedFiles),
+      navItem(siteArticleKey.deployment),
+      navItem(siteArticleKey.limitations),
+      navItem(siteArticleKey.referenceStatus),
+    ],
   },
 ];
 

@@ -1,0 +1,170 @@
+{
+  "packages": [
+    {
+      "name": "@vanrot/runtime",
+      "area": "Reactive runtime",
+      "status": "production-ready",
+      "summary": "Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, forms helpers, overlay helpers, and runtime graph contracts.",
+      "docsPath": "/docs/runtime"
+    },
+    {
+      "name": "@vanrot/compiler",
+      "area": "Component compiler",
+      "status": "production-ready",
+      "summary": "Template compilation, scoped CSS rewriting, diagnostics, source maps, child components, slots, metadata readers, and generated component modules.",
+      "docsPath": "/docs/compiler"
+    },
+    {
+      "name": "@vanrot/config",
+      "area": "Project configuration",
+      "status": "production-ready",
+      "summary": "Typed Vanrot config helpers, defaults, normalization, validation, migrations, diagnostics, and install-aware config edits.",
+      "docsPath": "/docs/configuration"
+    },
+    {
+      "name": "@vanrot/router",
+      "area": "Application routing",
+      "status": "production-ready",
+      "summary": "Route refs, layouts, nested outlets, navigation helpers, route metadata, preloading, keep-alive policies, and router diagnostics.",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "name": "@vanrot/vite-plugin",
+      "area": "Vite integration",
+      "status": "production-ready",
+      "summary": "Vanrot component transforms, virtual modules, scoped CSS modules, diagnostics bridge, project metadata, and production builds.",
+      "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "name": "@vanrot/cli",
+      "area": "Command line",
+      "status": "demo-capable",
+      "summary": "Project creation, generation, UI additions, config inspection, doctor checks, project maps, AI rule files, dev, build, and test commands.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "name": "@vanrot/ui",
+      "area": "October UI primitives",
+      "status": "production-ready",
+      "summary": "Shadcn-inspired Vanrot-native primitives used by the site and the component documentation catalog.",
+      "docsPath": "/docs/ui"
+    },
+    {
+      "name": "@vanrot/testing",
+      "area": "Testing helpers",
+      "status": "demo-capable",
+      "summary": "Readable component and workflow test helpers that stay lightweight until the post-production testing package phase.",
+      "docsPath": "/docs/testing"
+    },
+    {
+      "name": "@vanrot/devtools",
+      "area": "Devtools and project intelligence",
+      "status": "production-ready",
+      "summary": "Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers.",
+      "docsPath": "/docs/devtools"
+    }
+  ],
+  "publicExports": [
+    { "packageName": "@vanrot/runtime", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/runtime are covered by the runtime and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/runtime", "name": "signal", "kind": "function", "status": "production-ready", "summary": "Creates a writable Vanrot signal for local state.", "docsPath": "/docs/runtime" },
+    { "packageName": "@vanrot/runtime", "name": "computed", "kind": "function", "status": "production-ready", "summary": "Creates a derived value that tracks signal reads.", "docsPath": "/docs/runtime" },
+    { "packageName": "@vanrot/runtime", "name": "effect", "kind": "function", "status": "production-ready", "summary": "Runs reactive side effects with cleanup and disposal.", "docsPath": "/docs/runtime" },
+    { "packageName": "@vanrot/compiler", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/compiler are covered by compiler and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/compiler", "name": "compileComponent", "kind": "function", "status": "production-ready", "summary": "Compiles a Vanrot component source into executable output.", "docsPath": "/docs/compiler" },
+    { "packageName": "@vanrot/compiler", "name": "parseTemplate", "kind": "function", "status": "production-ready", "summary": "Parses Vanrot template source into the compiler AST.", "docsPath": "/docs/compiler" },
+    { "packageName": "@vanrot/compiler", "name": "diagnosticCatalog", "kind": "constant", "status": "production-ready", "summary": "Exposes compiler diagnostic metadata for docs and tools.", "docsPath": "/docs/diagnostics" },
+    { "packageName": "@vanrot/config", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/config are covered by configuration and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/config", "name": "defineVanrotConfig", "kind": "function", "status": "production-ready", "summary": "Defines a typed Vanrot config object.", "docsPath": "/docs/configuration" },
+    { "packageName": "@vanrot/config", "name": "normalizeVanrotConfig", "kind": "function", "status": "production-ready", "summary": "Normalizes config defaults and domains.", "docsPath": "/docs/configuration" },
+    { "packageName": "@vanrot/config", "name": "configDiagnosticCode", "kind": "constant", "status": "production-ready", "summary": "Lists config diagnostic codes.", "docsPath": "/docs/diagnostics" },
+    { "packageName": "@vanrot/router", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/router are covered by routing and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/router", "name": "createRoutes", "kind": "function", "status": "production-ready", "summary": "Creates the typed route builder used by apps.", "docsPath": "/docs/routing" },
+    { "packageName": "@vanrot/router", "name": "defineRoutes", "kind": "function", "status": "production-ready", "summary": "Defines route refs from a route table.", "docsPath": "/docs/routing" },
+    { "packageName": "@vanrot/router", "name": "provideRouter", "kind": "function", "status": "production-ready", "summary": "Installs router state into a Vanrot app.", "docsPath": "/docs/routing" },
+    { "packageName": "@vanrot/vite-plugin", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/vite-plugin are covered by Vite plugin and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/vite-plugin", "name": "vanrot", "kind": "function", "status": "production-ready", "summary": "Creates the Vanrot Vite plugin.", "docsPath": "/docs/vite-plugin" },
+    { "packageName": "@vanrot/vite-plugin", "name": "vanrotPlugin", "kind": "function", "status": "production-ready", "summary": "Named Vanrot Vite plugin factory.", "docsPath": "/docs/vite-plugin" },
+    { "packageName": "@vanrot/vite-plugin", "name": "default", "kind": "default", "status": "production-ready", "summary": "Default Vanrot Vite plugin export.", "docsPath": "/docs/vite-plugin" },
+    { "packageName": "@vanrot/cli", "name": "*", "kind": "default", "status": "demo-capable", "summary": "All public exports from @vanrot/cli are covered by CLI and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/cli", "name": "runCli", "kind": "function", "status": "demo-capable", "summary": "Runs the Vanrot CLI command dispatcher.", "docsPath": "/docs/cli" },
+    { "packageName": "@vanrot/cli", "name": "createConsoleReporter", "kind": "function", "status": "demo-capable", "summary": "Creates the terminal reporter used by CLI commands.", "docsPath": "/docs/cli" },
+    { "packageName": "@vanrot/cli", "name": "createMemoryReporter", "kind": "function", "status": "demo-capable", "summary": "Creates an in-memory reporter for tests and integrations.", "docsPath": "/docs/cli" },
+    { "packageName": "@vanrot/ui", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ui are covered by UI and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/ui", "name": "uiPrimitiveOrder", "kind": "constant", "status": "production-ready", "summary": "Canonical order for UI primitive docs.", "docsPath": "/docs/ui" },
+    { "packageName": "@vanrot/ui", "name": "uiComponentRegistry", "kind": "constant", "status": "production-ready", "summary": "Structured UI component registry.", "docsPath": "/docs/ui" },
+    { "packageName": "@vanrot/ui", "name": "getUiComponentRegistryItem", "kind": "function", "status": "production-ready", "summary": "Looks up a UI component registry entry.", "docsPath": "/docs/ui" },
+    { "packageName": "@vanrot/testing", "name": "*", "kind": "default", "status": "demo-capable", "summary": "All public exports from @vanrot/testing are covered by testing and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/testing", "name": "testComponent", "kind": "function", "status": "demo-capable", "summary": "Builds a Vanrot component test harness.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/devtools", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" }
+  ],
+  "commands": [
+    { "name": "create", "usage": "vr create <project-name>", "status": "demo-capable", "summary": "Creates a routed Vanrot app with the configured package manager and starter files.", "docsPath": "/docs/cli" },
+    { "name": "generate", "usage": "vr generate <kind> <name>", "status": "demo-capable", "summary": "Generates convention-based component and page files.", "docsPath": "/docs/cli" },
+    { "name": "add", "usage": "vr add <package-or-primitive>", "status": "demo-capable", "summary": "Adds Vanrot packages or UI primitives and updates config when needed.", "docsPath": "/docs/cli" },
+    { "name": "ui", "usage": "vr ui <subcommand>", "status": "demo-capable", "summary": "Inspects and manages Vanrot UI primitive metadata.", "docsPath": "/docs/cli" },
+    { "name": "config", "usage": "vr config <subcommand>", "status": "production-ready", "summary": "Reads, validates, and reports normalized Vanrot config.", "docsPath": "/docs/cli" },
+    { "name": "doctor", "usage": "vr doctor", "status": "demo-capable", "summary": "Runs local project diagnostics with readable guidance.", "docsPath": "/docs/cli" },
+    { "name": "map", "usage": "vr map", "status": "production-ready", "summary": "Writes the project intelligence manifest at `.vanrot/project-map.json`.", "docsPath": "/docs/devtools" },
+    { "name": "init-ai", "usage": "vr init-ai", "status": "production-ready", "summary": "Writes provider-neutral project rules for AI assistants from normalized config.", "docsPath": "/docs/devtools" },
+    { "name": "ai", "usage": "vr ai <subcommand>", "status": "production-ready", "summary": "Inspects AI rule configuration and project intelligence files.", "docsPath": "/docs/devtools" },
+    { "name": "dev", "usage": "vr dev", "status": "production-ready", "summary": "Starts the configured Vite development server through the Vanrot CLI.", "docsPath": "/docs/cli" },
+    { "name": "build", "usage": "vr build", "status": "production-ready", "summary": "Runs a production build through the Vanrot CLI.", "docsPath": "/docs/deployment" },
+    { "name": "test", "usage": "vr test", "status": "demo-capable", "summary": "Runs the configured test command for a Vanrot project.", "docsPath": "/docs/testing" }
+  ],
+  "diagnostics": [
+    { "family": "compiler", "code": "VR001", "status": "production-ready", "summary": "Compiler diagnostic for unsupported or invalid component source.", "docsPath": "/docs/diagnostics" },
+    { "family": "compiler", "code": "VR019", "status": "production-ready", "summary": "Compiler diagnostic for the final current compiler catalog entry.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG001", "status": "production-ready", "summary": "Config diagnostic for invalid config shape or loading failure.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG008", "status": "production-ready", "summary": "Config diagnostic for the Phase 13 validation catalog.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG009", "status": "production-ready", "summary": "Config diagnostic for AI rule section validation.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG010", "status": "production-ready", "summary": "Config diagnostic for AI rule ordering validation.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG011", "status": "production-ready", "summary": "Config diagnostic for AI rule customization validation.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG012", "status": "production-ready", "summary": "Config diagnostic for AI rule source validation.", "docsPath": "/docs/diagnostics" },
+    { "family": "router", "code": "VR_CHILD_BEFORE_PARENT", "status": "production-ready", "summary": "Router diagnostic for child routes declared before a valid parent.", "docsPath": "/docs/diagnostics" }
+  ],
+  "generatedFiles": [
+    { "path": "package.json", "owner": "@vanrot/cli", "status": "demo-capable", "summary": "Project manifest containing scripts, dependencies, package manager metadata, and private workspace state.", "docsPath": "/docs/project-structure" },
+    { "path": "tsconfig.json", "owner": "@vanrot/cli", "status": "demo-capable", "summary": "TypeScript project configuration generated for Vanrot app source files and package resolution.", "docsPath": "/docs/project-structure" },
+    { "path": "vite.config.ts", "owner": "@vanrot/vite-plugin", "status": "production-ready", "summary": "Vite configuration that installs the Vanrot plugin.", "docsPath": "/docs/vite-plugin" },
+    { "path": "vanrot.config.ts", "owner": "@vanrot/config", "status": "production-ready", "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, and AI rule settings.", "docsPath": "/docs/configuration" },
+    { "path": "src/routes.ts", "owner": "@vanrot/router", "status": "production-ready", "summary": "Named route refs and route metadata for app navigation without repeated route strings.", "docsPath": "/docs/routing" },
+    { "path": ".vanrot/project-map.json", "owner": "@vanrot/devtools", "status": "production-ready", "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.", "docsPath": "/docs/devtools" }
+  ],
+  "conventions": [
+    { "id": "role-suffixes", "title": "Role suffixes", "status": "production-ready", "summary": "Components, pages, dialogs, layouts, widgets, and forms use explicit role-based file suffixes.", "docsPath": "/docs/conventions" },
+    { "id": "scoped-css", "title": "Scoped CSS", "status": "production-ready", "summary": "Component styles live in sibling scoped CSS files instead of global style buckets.", "docsPath": "/docs/conventions" },
+    { "id": "signals-for-state", "title": "Signals for state", "status": "production-ready", "summary": "Vanrot application state uses signals and readable helpers instead of nested imperative flow.", "docsPath": "/docs/conventions" },
+    { "id": "route-refs", "title": "Route refs", "status": "production-ready", "summary": "Routes use named refs and central sources of truth instead of repeated path strings.", "docsPath": "/docs/conventions" },
+    { "id": "no-ui-markup-in-typescript", "title": "No UI markup in TypeScript", "status": "production-ready", "summary": "UI markup belongs in HTML templates, while TypeScript owns state, imports, and behavior.", "docsPath": "/docs/conventions" }
+  ],
+  "examples": [
+    { "id": "counter", "title": "Counter Starter", "path": "examples/counter", "packages": ["@vanrot/runtime", "@vanrot/compiler", "@vanrot/config", "@vanrot/vite-plugin", "@vanrot/cli"], "workflows": ["starter-flow", "build-deploy"], "docsPath": "/docs/examples" },
+    { "id": "runtime-lifecycle", "title": "Runtime Lifecycle", "path": "examples/runtime-lifecycle", "packages": ["@vanrot/runtime"], "workflows": ["runtime-lifecycle"], "docsPath": "/docs/runtime" },
+    { "id": "compiler-templates", "title": "Compiler Templates", "path": "examples/compiler-templates", "packages": ["@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["compiler-templates"], "docsPath": "/docs/compiler" },
+    { "id": "routing-workflows", "title": "Routing Workflows", "path": "examples/routing-workflows", "packages": ["@vanrot/router", "@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["routing-workflows"], "docsPath": "/docs/routing" },
+    { "id": "testing-helpers", "title": "Testing Helpers", "path": "examples/testing-helpers", "packages": ["@vanrot/testing", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["testing-helpers"], "docsPath": "/docs/testing" },
+    { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/cli", "@vanrot/config"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands"], "docsPath": "/docs/devtools" },
+    { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
+    { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" }
+  ],
+  "limitations": [
+    { "id": "post-production-phases", "title": "Post-production features are not current framework behavior", "status": "deferred", "summary": "Brutalist UI, the expanded testing package, store, forms and async primitives, and SSR or hydration remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
+    { "id": "deployment-boundary", "title": "Deployment is prepared, not launched", "status": "limited", "summary": "The site is prepared for production hosting, but DNS, credentials, analytics setup, and live deployment are outside this phase.", "docsPath": "/docs/deployment" }
+  ],
+  "maturity": [
+    { "phase": "Phase 24", "title": "Documentation and web presence", "status": "limited", "summary": "Phase 24 is active while framework docs, examples, site polish, and drift checks are being implemented.", "docsPath": "/docs/status" },
+    { "phase": "Phase 25", "title": "AI consumption", "status": "deferred", "summary": "AI-readable docs bundles, MCP transport, and Skill.sh packaging are deferred to Phase 25.", "docsPath": "/docs/limitations" }
+  ],
+  "routeMetadata": [
+    { "path": "/", "title": "Vanrot - Framework Documentation And Design Components", "description": "Vanrot's public landing page for framework documentation, design components, examples, and production-readiness notes." },
+    { "path": "/docs", "title": "Vanrot Framework Documentation", "description": "Framework documentation for Vanrot packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation." },
+    { "path": "/docs/components", "title": "Vanrot Design Component Catalog", "description": "Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes." }
+  ],
+  "deployment": {
+    "targetHost": "vanrot.vankode.com",
+    "status": "limited",
+    "summary": "The site is prepared for production hosting, but DNS, credentials, analytics, and live deployment are not performed by this repository phase.",
+    "docsPath": "/docs/deployment"
+  }
+}

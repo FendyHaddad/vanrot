@@ -1,16 +1,15 @@
-import { componentDocs } from '../../docs/component-docs.ts';
 import { packageReferenceDocs } from '../../docs/site-data.ts';
 
 const homeCopy = {
-  title: 'Vanrot',
+  eyebrow: 'Vanrot framework',
+  title: 'Framework docs and design components for Vanrot.',
   summary:
-    'A small frontend framework with signals, compiler role files, typed routes, source-owned UI, and documentation that grows with the framework.',
-  primaryCta: 'Read the docs',
-  secondaryCta: 'View components',
+    'Learn the framework surface, inspect the October component system, and verify what is production-ready before building real apps.',
+  primaryCta: 'Framework Documentation',
+  secondaryCta: 'Design Component',
 } as const;
 
 export class HomePage {
   copy = homeCopy;
-  components = componentDocs.slice(0, 4);
   packages = packageReferenceDocs;
 }

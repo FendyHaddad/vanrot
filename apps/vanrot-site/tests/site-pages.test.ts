@@ -236,6 +236,33 @@ describe('vanrot site pages', () => {
     expect(docsLayout).not.toContain('<vr-router>');
   });
 
+  it('routes framework reference and example matrix pages', async () => {
+    expect(route.docsPublicApi.path).toBe('public-api');
+    expect(route.docsDiagnostics.path).toBe('diagnostics');
+    expect(route.docsGeneratedFiles.path).toBe('generated-files');
+    expect(route.docsExampleMatrix.path).toBe('example-matrix');
+
+    const referenceHtml = await readSiteFile('src/pages/docs/docs-reference.page.html');
+    const exampleMatrixHtml = await readSiteFile('src/pages/docs/docs-example-matrix.page.html');
+
+    expect(referenceHtml).toContain('<vr-badge');
+    expect(referenceHtml).toContain('<vr-card');
+    expect(referenceHtml).toContain('publicExportReference');
+    expect(exampleMatrixHtml).toContain('<vr-badge');
+    expect(exampleMatrixHtml).toContain('exampleReference');
+  });
+
+  it('renders framework guide sections with Vanrot-native surfaces', async () => {
+    const html = await readSiteFile('src/pages/docs/docs-article.page.html');
+    const css = await readSiteFile('src/pages/docs/docs-article.page.css');
+
+    expect(html).toContain('<vr-card');
+    expect(html).toContain('<vr-separator');
+    expect(html).toContain('article().sections');
+    expect(css).toContain('.docs-section-grid');
+    expect(css).toContain('code');
+  });
+
   it('keeps docs sidebar rendering away from loop-local nested controls', async () => {
     const docsLayout = await readSiteFile('src/layouts/docs/docs.layout.html');
     const docsLayoutSource = await readSiteFile('src/layouts/docs/docs.layout.ts');

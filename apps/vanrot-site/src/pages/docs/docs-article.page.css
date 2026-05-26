@@ -1,13 +1,20 @@
 .docs-article {
   display: grid;
   gap: 18px;
-  max-width: 780px;
+  max-width: 900px;
+}
+
+.docs-article h1,
+.docs-article h2,
+.docs-article p {
+  margin: 0;
 }
 
 .docs-article h1 {
-  margin: 0;
+  max-width: 760px;
   font-size: 44px;
   line-height: 1.05;
+  letter-spacing: 0;
 }
 
 .docs-summary,
@@ -16,12 +23,24 @@
   line-height: 1.75;
 }
 
+.docs-section-grid {
+  display: grid;
+  gap: 12px;
+}
+
 .docs-section {
   display: grid;
-  gap: 8px;
+  gap: 10px;
 }
 
 .docs-section h2 {
-  margin: 0;
   font-size: 24px;
+}
+
+.docs-section code {
+  padding: 2px 5px;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-sm);
+  background: var(--vr-surface-muted);
+  color: var(--vr-color-text);
 }

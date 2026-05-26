@@ -1,0 +1,17 @@
+{
+  "name": "@vanrot/example-runtime-lifecycle",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@vanrot/runtime": "file:../../packages/runtime"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}

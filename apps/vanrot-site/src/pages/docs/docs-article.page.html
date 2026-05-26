@@ -5,10 +5,14 @@
 
   <vr-separator orientation.horizontal></vr-separator>
 
-  @for (section of article().sections; track section.id) {
-    <section class="docs-section" [id]="section.id">
-      <h2>{{ section.title }}</h2>
-      <p>{{ section.body }}</p>
-    </section>
-  }
+  <div class="docs-section-grid">
+    @for (section of article().sections; track section.id) {
+      <vr-card variant.default>
+        <section class="docs-section" [id]="section.id">
+          <h2>{{ section.title }}</h2>
+          <p>{{ section.body }}</p>
+        </section>
+      </vr-card>
+    }
+  </div>
 </article>

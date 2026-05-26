@@ -1,0 +1,33 @@
+.docs-example-matrix {
+  display: grid;
+  gap: 22px;
+  max-width: 980px;
+}
+
+.docs-example-matrix h1,
+.docs-example-matrix h2,
+.docs-example-matrix p {
+  margin: 0;
+}
+
+.docs-example-matrix h1 {
+  font-size: 44px;
+  line-height: 1.05;
+}
+
+.matrix-summary,
+.matrix-grid p,
+.matrix-kicker {
+  color: var(--vr-color-muted);
+  line-height: 1.7;
+}
+
+.matrix-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.matrix-kicker {
+  font-size: 12px;
+}

@@ -1,0 +1,8 @@
+@if (status() === 'ready') {
+  <section class="status-card">
+    <slot></slot>
+    @for (item of items(); track item.id) {
+      <span>{{ item.label }}</span>
+    }
+  </section>
+}

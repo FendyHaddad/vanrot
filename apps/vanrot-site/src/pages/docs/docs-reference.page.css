@@ -1,0 +1,68 @@
+.docs-reference {
+  display: grid;
+  gap: 24px;
+  max-width: 980px;
+}
+
+.docs-reference h1,
+.docs-reference h2,
+.docs-reference h3,
+.docs-reference p {
+  margin: 0;
+}
+
+.docs-reference h1 {
+  font-size: 44px;
+  line-height: 1.05;
+}
+
+.reference-summary,
+.reference-row p,
+.reference-grid p {
+  color: var(--vr-color-muted);
+  line-height: 1.7;
+}
+
+.reference-section {
+  display: grid;
+  gap: 14px;
+}
+
+.reference-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 12px;
+}
+
+.reference-list {
+  display: grid;
+  overflow: hidden;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+}
+
+.reference-row {
+  display: grid;
+  gap: 6px;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--vr-color-line);
+  background: var(--vr-color-canvas);
+}
+
+.reference-row:last-child {
+  border-bottom: 0;
+}
+
+.reference-kicker,
+.reference-row span {
+  color: var(--vr-color-muted);
+  font-size: 12px;
+}
+
+.reference-row code {
+  width: fit-content;
+  padding: 2px 6px;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-sm);
+  background: var(--vr-surface-muted);
+}

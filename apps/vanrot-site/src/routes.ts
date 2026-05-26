@@ -54,6 +54,8 @@ import { ComponentTextareaPage } from './pages/components/component-textarea.pag
 import { ComponentTooltipPage } from './pages/components/component-tooltip.page.ts';
 import { ComponentToastPage } from './pages/components/component-toast.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
+import { DocsExampleMatrixPage } from './pages/docs/docs-example-matrix.page.ts';
+import { DocsReferencePage } from './pages/docs/docs-reference.page.ts';
 import { OctoberShowcasePage } from './pages/examples/october-showcase.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
 import { ReferencePage } from './pages/reference/reference.page.ts';
@@ -70,6 +72,10 @@ const routePath = {
   home: '/',
   docs: docsBasePath,
   components: '/docs/components',
+  docsPublicApi: '/docs/public-api',
+  docsDiagnostics: '/docs/diagnostics',
+  docsGeneratedFiles: '/docs/generated-files',
+  docsExampleMatrix: '/docs/example-matrix',
   componentAlerts: componentDocPath.alert,
   componentAvatars: componentDocPath.avatar,
   componentBadges: componentDocPath.badge,
@@ -495,7 +501,15 @@ const docsUi = articlePage(siteArticleKey.uiOctober);
 const docsTheming = articlePage(siteArticleKey.theming);
 const docsVanrotstyles = articlePage(siteArticleKey.vanrotstyles);
 const docsTesting = articlePage(siteArticleKey.testing);
+const docsDevtools = articlePage(siteArticleKey.devtools);
 const docsExamples = articlePage(siteArticleKey.examples);
+const docsExampleMatrix = docs.page({
+  path: docsChildPath(routePath.docsExampleMatrix),
+  label: getSiteArticle(siteArticleKey.exampleMatrix).label,
+  ...articleDocument(siteArticleKey.exampleMatrix),
+  page: DocsExampleMatrixPage,
+  breadcrumb: routes.breadcrumb.parent(docs),
+});
 const docsOctoberShowcase = docs.page({
   path: articleChildPath(siteArticleKey.octoberShowcase),
   label: getSiteArticle(siteArticleKey.octoberShowcase).label,
@@ -504,6 +518,33 @@ const docsOctoberShowcase = docs.page({
   breadcrumb: routes.breadcrumb.parent(docs),
 });
 const docsConventions = articlePage(siteArticleKey.conventions);
+const docsDeployment = articlePage(siteArticleKey.deployment);
+const docsLimitations = articlePage(siteArticleKey.limitations);
+const docsReferenceStatus = articlePage(siteArticleKey.referenceStatus);
+
+const docsPublicApi = docs.page({
+  path: docsChildPath(routePath.docsPublicApi),
+  label: getSiteArticle(siteArticleKey.publicApi).label,
+  ...articleDocument(siteArticleKey.publicApi),
+  page: DocsReferencePage,
+  breadcrumb: routes.breadcrumb.parent(docs),
+});
+
+const docsDiagnostics = docs.page({
+  path: docsChildPath(routePath.docsDiagnostics),
+  label: getSiteArticle(siteArticleKey.diagnostics).label,
+  ...articleDocument(siteArticleKey.diagnostics),
+  page: DocsReferencePage,
+  breadcrumb: routes.breadcrumb.parent(docs),
+});
+
+const docsGeneratedFiles = docs.page({
+  path: docsChildPath(routePath.docsGeneratedFiles),
+  label: getSiteArticle(siteArticleKey.generatedFiles).label,
+  ...articleDocument(siteArticleKey.generatedFiles),
+  page: DocsReferencePage,
+  breadcrumb: routes.breadcrumb.parent(docs),
+});
 
 const reference = routes.page({
   path: routePath.reference,
@@ -602,9 +643,17 @@ export const route = defineRoutes({
   docsTheming,
   docsVanrotstyles,
   docsTesting,
+  docsDevtools,
   docsExamples,
+  docsExampleMatrix,
   docsOctoberShowcase,
   docsConventions,
+  docsDeployment,
+  docsPublicApi,
+  docsDiagnostics,
+  docsGeneratedFiles,
+  docsLimitations,
+  docsReferenceStatus,
   reference,
   uiButton,
   uiCard,

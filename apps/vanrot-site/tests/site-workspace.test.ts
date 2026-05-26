@@ -1,6 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { deploymentReference, publicRouteMetadata } from '../src/docs/framework-reference.ts';
 import { route } from '../src/routes.ts';
 
 const appRoot = join(process.cwd());
@@ -48,5 +49,20 @@ describe('vanrot site workspace', () => {
     expect(visibleRoutes.every((item) => typeof item.title === 'string' && item.title.length > 0)).toBe(
       true,
     );
+  });
+});
+
+describe('deployment-ready web presence', () => {
+  it('documents deployment target without claiming live deployment', () => {
+    expect(deploymentReference.targetHost).toBe('vanrot.vankode.com');
+    expect(deploymentReference.summary).toContain('DNS');
+    expect(deploymentReference.summary).toContain('live deployment');
+  });
+
+  it('keeps SEO metadata for public routes substantial', () => {
+    for (const routeMetadata of publicRouteMetadata) {
+      expect(routeMetadata.title.length).toBeGreaterThan(10);
+      expect(routeMetadata.description.length).toBeGreaterThan(50);
+    }
   });
 });

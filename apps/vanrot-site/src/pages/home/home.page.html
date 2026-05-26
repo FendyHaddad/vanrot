@@ -1,11 +1,26 @@
 <main class="home-page">
   <section class="home-hero">
-    <vr-badge tone.secondary>October docs</vr-badge>
-    <h1>{{ copy.title }}</h1>
-    <p>{{ copy.summary }}</p>
-    <div class="home-actions">
-      <a class="home-action home-action-primary" href="/docs">{{ copy.primaryCta }}</a>
-      <a class="home-action home-action-secondary" href="/docs/components">{{ copy.secondaryCta }}</a>
+    <div class="hero-copy">
+      <vr-badge tone.secondary>{{ copy.eyebrow }}</vr-badge>
+      <h1>{{ copy.title }}</h1>
+      <p>{{ copy.summary }}</p>
+      <div class="hero-actions">
+        <a class="primary-action" href="/docs">{{ copy.primaryCta }}</a>
+        <a class="secondary-action" href="/docs/components">{{ copy.secondaryCta }}</a>
+      </div>
+    </div>
+
+    <div class="path-grid" aria-label="Documentation paths">
+      <vr-card variant.default>
+        <span class="path-kicker">Framework Documentation</span>
+        <h2>Documentation</h2>
+        <p>Packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation.</p>
+      </vr-card>
+      <vr-card variant.default>
+        <span class="path-kicker">Design Component</span>
+        <h2>Components</h2>
+        <p>October UI primitives, variants, copyable examples, and design-system usage from the component catalog.</p>
+      </vr-card>
     </div>
   </section>
 

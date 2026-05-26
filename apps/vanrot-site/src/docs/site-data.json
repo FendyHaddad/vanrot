@@ -273,6 +273,32 @@
         }
       ]
     },
+    {
+      "key": "devtools",
+      "section": "framework",
+      "path": "/docs/devtools",
+      "label": "Devtools",
+      "title": "Devtools And Project Intelligence",
+      "summary": "Use Vanrot project intelligence, graph metadata, and devtools contracts without relying on AI-specific bundles from Phase 25.",
+      "status": "production-ready-through-phase-23",
+      "sections": [
+        {
+          "id": "project-map",
+          "title": "Project Map",
+          "body": "vr map writes .vanrot/project-map.json as the local project intelligence manifest. The manifest describes roles, routes, components, imports, metadata, and freshness state from the authoritative Vanrot project structure."
+        },
+        {
+          "id": "runtime-graph",
+          "title": "Runtime Graph",
+          "body": "The runtime graph contract exposes enough metadata for local inspection without changing normal app behavior. Production apps can ignore the hook, while devtools can read the stable contract during development."
+        },
+        {
+          "id": "phase-boundary",
+          "title": "Phase Boundary",
+          "body": "Phase 24 documents current project intelligence behavior. AI-readable docs bundles, MCP transport, Skill.sh packages, and AI command expansions remain Phase 25 work."
+        }
+      ]
+    },
   {
     "key": "examples",
     "section": "examples",
@@ -291,6 +317,136 @@
           "id": "site",
           "title": "Vanrot Site",
           "body": "apps/vanrot-site becomes the framework's living documentation example."
+      }
+    ]
+  },
+  {
+    "key": "exampleMatrix",
+    "section": "examples",
+    "path": "/docs/example-matrix",
+    "label": "Example Matrix",
+    "title": "Runnable Example Matrix",
+    "summary": "Use verified example workspaces as the source of truth for framework workflows and docs snippets.",
+    "status": "phase-24-active",
+    "sections": [
+      {
+        "id": "source-of-truth",
+        "title": "Source Of Truth",
+        "body": "Runnable example workspaces own the real code for guide snippets. Documentation should reference or mirror these examples so snippets stay connected to tests and package behavior."
+      },
+      {
+        "id": "workflow-coverage",
+        "title": "Workflow Coverage",
+        "body": "The matrix covers starter creation, runtime lifecycle, compiler templates, routing, config diagnostics, CLI commands, UI usage, testing helpers, devtools intelligence, and build deployment preparation."
+      },
+      {
+        "id": "package-coverage",
+        "title": "Package Coverage",
+        "body": "Every workspace package appears in at least one registered example. Packages without a browser-facing workflow still appear through command, config, devtools, or build examples."
+      }
+    ]
+  },
+  {
+    "key": "deployment",
+    "section": "reference",
+    "path": "/docs/deployment",
+    "label": "Deployment",
+    "title": "Build And Deployment Preparation",
+    "summary": "Prepare a Vanrot site for production hosting without pretending this repository controls DNS, credentials, analytics, or live deployment.",
+    "status": "phase-24-active",
+    "sections": [
+      {
+        "id": "target-host",
+        "title": "Target Host",
+        "body": "Phase 24 prepares the public site for vanrot.vankode.com. The documentation describes hosting assumptions, production build commands, and public route expectations, while DNS records, hosting credentials, analytics setup, and live launch remain outside this phase."
+      },
+      {
+        "id": "production-build",
+        "title": "Production Build",
+        "body": "Use pnpm --filter @vanrot/vanrot-site build to run the site production build through the Vanrot CLI. This verifies the Vite plugin, runtime, router, UI package, and docs data together in the deployment target app."
+      },
+      {
+        "id": "route-readiness",
+        "title": "Route Readiness",
+        "body": "The public routes must clearly connect the landing page, Framework Documentation, and Design Component surfaces. Route metadata must include titles and descriptions so the site is ready for a hosting layer to expose useful previews."
+      }
+    ]
+  },
+  {
+    "key": "publicApi",
+    "section": "reference",
+    "path": "/docs/public-api",
+    "label": "Public API",
+    "title": "Public API Reference",
+    "summary": "Read the documented public exports for each current Vanrot package and see which guide owns the behavior.",
+    "status": "phase-24-active",
+    "sections": [
+      {
+        "id": "export-coverage",
+        "title": "Export Coverage",
+        "body": "Every public export from package index files must have structured reference coverage. The verification script compares package source exports with the registry before Phase 24 can close."
+      },
+      {
+        "id": "status-language",
+        "title": "Status Language",
+        "body": "Each export uses explicit status language such as production-ready, demo-capable, limited, deferred, or not-browser-facing. The docs explain capability without overstating unfinished work."
+      },
+      {
+        "id": "docs-links",
+        "title": "Docs Links",
+        "body": "Each export points to the guide or reference route that explains it. This keeps the registry useful for humans and keeps Phase 25 free to build AI-readable output from clean data."
+      }
+    ]
+  },
+  {
+    "key": "diagnostics",
+    "section": "reference",
+    "path": "/docs/diagnostics",
+    "label": "Diagnostics",
+    "title": "Diagnostics Reference",
+    "summary": "Find the current compiler, config, router, CLI, and Vite-plugin diagnostic codes with user-facing explanations.",
+    "status": "phase-24-active",
+    "sections": [
+      {
+        "id": "families",
+        "title": "Families",
+        "body": "Diagnostics are grouped by owning package so users know whether an error comes from the compiler, config loader, router contract, CLI command, or Vite integration."
+      },
+      {
+        "id": "coverage-check",
+        "title": "Coverage Check",
+        "body": "verify:site-docs fails when a known diagnostic code is missing from the public reference. That keeps new compiler, config, and router errors from shipping without docs."
+      },
+      {
+        "id": "reader-guidance",
+        "title": "Reader Guidance",
+        "body": "Diagnostic descriptions explain what happened, where the user should look, and whether the behavior is production-ready, limited, or deferred to a later phase."
+      }
+    ]
+  },
+  {
+    "key": "generatedFiles",
+    "section": "reference",
+    "path": "/docs/generated-files",
+    "label": "Generated Files",
+    "title": "Generated Files And Directories",
+    "summary": "Understand generated files Vanrot users should expect in starter apps, config flows, route workflows, and project intelligence output.",
+    "status": "phase-24-active",
+    "sections": [
+      {
+        "id": "starter-files",
+        "title": "Starter Files",
+        "body": "Starter projects use familiar JavaScript files such as package.json, tsconfig.json, vite.config.ts, and vanrot.config.ts. The docs explain which package owns each file."
+      },
+      {
+        "id": "route-files",
+        "title": "Route Files",
+        "body": "src/routes.ts is the framework-owned convention for route refs, route paths, and route metadata. Docs and examples point users to named route refs instead of repeated strings."
+      },
+      {
+        "id": "project-intelligence",
+        "title": "Project Intelligence",
+        "body": ".vanrot/project-map.json is generated by vr map and belongs to the devtools and project intelligence story. It is documented as local metadata, not as a Phase 25 AI bundle."
       }
     ]
   },
@@ -342,9 +498,35 @@
       ]
     },
     {
+      "key": "limitations",
+      "section": "reference",
+      "path": "/docs/limitations",
+      "label": "Limitations",
+      "title": "Limitations And Deferred Work",
+      "summary": "Read honest status notes for demo-capable, limited, deferred, and not-browser-facing areas before using Vanrot in production contexts.",
+      "status": "phase-24-active",
+      "sections": [
+        {
+          "id": "post-production",
+          "title": "Post-Production Work",
+          "body": "Phase 17 through Phase 22 remain post-production implementation ideas. The docs must not present brutalist UI, expanded testing, store, forms, async resources, SSR, or hydration as current behavior."
+        },
+        {
+          "id": "deployment",
+          "title": "Deployment Limits",
+          "body": "Phase 24 prepares docs and site output for deployment readiness. It does not perform DNS changes, manage credentials, configure analytics vendors, or launch the live site."
+        },
+        {
+          "id": "small-fixes",
+          "title": "Small Fixes",
+          "body": "If documentation reveals a small broken contract that blocks truthful docs, fix it inside the owning package with tests. Do not add new framework features under the cover of documentation."
+        }
+      ]
+    },
+    {
       "key": "referenceStatus",
       "section": "reference",
-      "path": "/reference",
+      "path": "/docs/status",
       "label": "Status",
       "title": "Reference Status",
       "summary": "The reference section shows what is available now, demo-capable, in progress, planned, or deferred.",

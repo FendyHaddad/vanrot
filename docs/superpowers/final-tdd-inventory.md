@@ -318,3 +318,18 @@ into isolated audit tests.
 - `@vanrot/runtime`: exposes minimal runtime graph session contract and no-op hooks.
 - `@vanrot/config`: validates and normalizes provider-neutral AI rules config.
 - Tests: graph manifest schema, fingerprint freshness, project map generation, route graph extraction, import graph extraction, project graph integration, AI rules config, Vite metadata endpoint, panel state, runtime graph contract, and `vr map` graph output.
+
+### Phase 24 Documentation And Web Presence
+
+- `apps/vanrot-site/src/docs/framework-reference.json`: package, public export, command, diagnostic, generated file, convention, example, limitation, maturity, deployment, and public route metadata registry.
+- `apps/vanrot-site/src/docs/framework-reference.ts`: typed framework reference facade for docs pages and tests.
+- `apps/vanrot-site/src/docs/example-matrix.ts`: required example workflow coverage and docs-facing example matrix source.
+- `apps/vanrot-site/src/docs/framework-guides.ts`: canonical framework guide article keys and labels.
+- `apps/vanrot-site/src/pages/home/*`: landing page CTA labels and public front door for `Framework Documentation` and `Design Component`.
+- `apps/vanrot-site/src/layouts/docs/*`: framework docs sidebar aligned with the component docs visual language while retaining docs-shell interaction hooks.
+- `apps/vanrot-site/src/pages/docs/docs-reference.page.*`: structured framework reference surface for packages, public exports, commands, and diagnostics.
+- `apps/vanrot-site/src/pages/docs/docs-example-matrix.page.*`: runnable example matrix surface.
+- `apps/vanrot-site/src/pages/docs/docs-article.page.*`: Vanrot-native guide section rendering with badges, separators, cards, and scoped styling.
+- `scripts/verify-site-docs.mjs`: docs drift checks for packages, public exports, commands, diagnostics, generated files, conventions, examples, CTA labels, public route metadata, and docs-shell visual contract.
+- `examples/runtime-lifecycle`, `examples/compiler-templates`, `examples/routing-workflows`, `examples/testing-helpers`, `examples/devtools-intelligence`, `examples/ui-framework-usage`, and `examples/build-deploy`: runnable example workspaces registered by the framework reference.
+- Tests: site data, site pages, site polish, framework reference, example workspace tests, `verify:site-docs`, `verify:phase-docs`, site typecheck, site build, and full `pnpm verify`.
