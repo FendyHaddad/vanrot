@@ -1,6 +1,17 @@
+.component-phase16e-app {
+  display: block;
+  min-height: 100vh;
+}
+
+.component-phase16e-app main {
+  min-width: 0;
+}
+
 .component-phase16e-app .content {
   display: grid;
   gap: 1rem;
+  max-width: 1080px;
+  padding: 48px 48px 96px;
 }
 
 .component-phase16e-app .preview,
@@ -56,6 +67,10 @@
 }
 
 @media (max-width: 760px) {
+  .component-phase16e-app .content {
+    padding: 32px 18px 64px;
+  }
+
   .component-phase16e-app .section-head {
     align-items: flex-start;
     flex-direction: column;

@@ -270,8 +270,10 @@ describe('vanrot site pages', () => {
     expect(docsLayout).not.toContain('@if ');
     expect(docsLayout).not.toContain('group.items');
     expect(docsLayout).not.toContain('row.kind');
-    expect(docsLayout).toContain('item of componentItems');
-    expect(docsLayoutSource).toContain('componentItems = siteNavigationBySection.components;');
+    expect(docsLayout).toContain('item of frameworkItems');
+    expect(docsLayout).toContain('item of referenceItems');
+    expect(docsLayout).not.toContain('item of componentItems');
+    expect(docsLayoutSource).not.toContain('componentItems = siteNavigationBySection.components;');
   });
 
   it('ships the Phase 16B primitive gallery visual baseline', async () => {
@@ -793,15 +795,12 @@ describe('vanrot site pages', () => {
     expect(layoutHtml).toContain('data-vr-docs-command-menu');
     expect(layoutHtml).toContain('data-vr-docs-command-input');
     expect(layoutHtml).toContain('data-vr-docs-command-item');
-    expect(layoutHtml).toContain('data-vr-docs-popover');
-    expect(layoutHtml).toContain('data-vr-docs-popover-trigger');
-    expect(layoutHtml).toContain('data-vr-docs-popover-content');
-    expect(layoutHtml).toContain('data-vr-docs-tooltip-trigger');
-    expect(layoutHtml).toContain('data-vr-docs-tooltip-content');
+    expect(layoutHtml).not.toContain('data-vr-docs-popover');
+    expect(layoutHtml).not.toContain('data-vr-docs-tooltip-trigger');
     expect(widgetSource).toContain('createCommandMenuController');
     expect(widgetSource).toContain('createOverlayController');
-    expect(widgetSource).toContain('createTooltipController');
-    expect(widgetSource).toContain('positionLayer');
+    expect(widgetSource).not.toContain('createTooltipController');
+    expect(widgetSource).not.toContain('positionLayer');
     expect(widgetSource).toContain('setupDocsShellInteractions');
     expect(widgetSource).toContain('syncNestedOverlayPreview');
     expect(widgetSource).toContain('data-vr-overlay-preview');

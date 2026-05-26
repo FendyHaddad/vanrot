@@ -1,5 +1,9 @@
 <div class="app component-gallery-app component-phase16e-app">
-  <main class="content">
+  <main>
+    <vr-header class="topbar">
+      <span>Design Components</span>
+    </vr-header>
+    <section class="content">
     <h1>{{ doc().title }}</h1>
     <section class="preview">
       <div class="preview-head"><span>{{ selector() }}</span><span>Phase 16E</span></div>
@@ -9,6 +13,7 @@
       <div class="section-head"><h2>Registry API</h2><span class="code-chip">{{ docsPath() }}</span></div>
       <div class="variant-preview">{{ doc().summary }}</div>
       <pre class="code-snippet"><code>{{ doc().api }}</code></pre>
+    </section>
     </section>
   </main>
 </div>

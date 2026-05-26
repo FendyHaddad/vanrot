@@ -22,6 +22,7 @@
   background: var(--vr-color-canvas);
   color: var(--vr-color-text);
   font-family: var(--vr-font-sans);
+  --vr-site-header-height: 56px;
 }
 
 * {
@@ -49,4 +50,31 @@ code,
 pre {
   font-family: var(--vr-font-number);
   font-variant-numeric: tabular-nums lining-nums;
+}
+
+.component-gallery-app .sidebar {
+  top: var(--vr-site-header-height) !important;
+  height: calc(100vh - var(--vr-site-header-height)) !important;
+  padding: 18px 12px !important;
+  border-right: 1px solid var(--vr-color-line) !important;
+  background: var(--vr-color-canvas) !important;
+}
+
+.component-gallery-app .brand,
+.component-gallery-app .mark {
+  display: none !important;
+}
+
+.component-gallery-app .topbar {
+  top: var(--vr-site-header-height) !important;
+  justify-content: flex-start !important;
+  height: 56px !important;
+  padding: 0 32px !important;
+  border-bottom: 1px solid var(--vr-color-line) !important;
+  background: color-mix(in srgb, var(--vr-color-canvas) 88%, transparent) !important;
+  backdrop-filter: blur(14px);
+}
+
+.component-gallery-app .topbar-right {
+  display: none !important;
 }

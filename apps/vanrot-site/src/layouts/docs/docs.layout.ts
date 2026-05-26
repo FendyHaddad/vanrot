@@ -8,15 +8,13 @@ export class DocsLayout {
   labels = siteNavigationSectionLabel;
   getStartedItems = siteNavigationBySection.getStarted;
   frameworkItems = siteNavigationBySection.framework;
-  uiItems = siteNavigationBySection.ui;
-  componentItems = siteNavigationBySection.components;
   exampleItems = siteNavigationBySection.examples;
   referenceItems = siteNavigationBySection.reference;
   commandItems = [
     ...siteNavigationBySection.getStarted,
-    ...siteNavigationBySection.ui,
-    ...siteNavigationBySection.components,
+    ...siteNavigationBySection.framework,
     ...siteNavigationBySection.examples,
+    ...siteNavigationBySection.reference,
   ];
 
   constructor() {

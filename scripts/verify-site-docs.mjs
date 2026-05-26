@@ -171,7 +171,13 @@ export function checkRouteMetadataCoverage(requiredPaths, routeMetadata) {
 
 export function checkDocsShellVisualContract(layoutHtml, layoutCss) {
   const failures = [];
-  const requiredClasses = ['docs-brand', 'docs-search', 'docs-nav-title', 'docs-nav-link'];
+  const requiredClasses = ['docs-search', 'docs-nav-title', 'docs-nav-link'];
+  const forbiddenSnippets = [
+    { snippet: 'docs-brand', message: 'Docs shell must not duplicate the global Vanrot brand' },
+    { snippet: 'docs-topbar-nav', message: 'Docs shell must not duplicate global Docs/Components navigation' },
+    { snippet: 'docs-page-actions', message: 'Docs shell must not show duplicate page action buttons' },
+    { snippet: 'item of componentItems', message: 'Framework docs sidebar must not list component docs' },
+  ];
 
   for (const className of requiredClasses) {
     if (!layoutHtml.includes(className)) {
@@ -179,8 +185,91 @@ export function checkDocsShellVisualContract(layoutHtml, layoutCss) {
     }
   }
 
+  for (const forbidden of forbiddenSnippets) {
+    if (layoutHtml.includes(forbidden.snippet)) {
+      failures.push(forbidden.message);
+    }
+  }
+
   if (!layoutCss.includes('grid-template-columns: 240px minmax(0, 1fr)')) {
     failures.push('Docs shell CSS missing 240px sidebar grid');
+  }
+
+  if (!layoutCss.includes('top: 56px')) {
+    failures.push('Docs shell header/sidebar must stay below the global navbar');
+  }
+
+  if (!layoutHtml.includes('class="docs-search-icon"')) {
+    failures.push('Docs shell search must use the same icon treatment as component docs');
+  }
+
+  if (layoutHtml.includes('Cmd K') || !layoutHtml.includes('⌘K')) {
+    failures.push('Docs shell search shortcut must match component docs');
+  }
+
+  const requiredSidebarStyleSnippets = [
+    {
+      snippet: '--docs-sidebar-muted: #a1a1aa',
+      message: 'Docs shell sidebar muted color must match component docs',
+    },
+    {
+      snippet: '--docs-sidebar-faint: #71717a',
+      message: 'Docs shell sidebar faint color must match component docs',
+    },
+    {
+      snippet: 'font-family: var(--font-sans, var(--vr-font-sans))',
+      message: 'Docs shell sidebar font stack must match component docs',
+    },
+    {
+      snippet: 'border-radius: 6px',
+      message: 'Docs shell sidebar controls must use the component docs radius',
+    },
+    {
+      snippet: 'font-size: 13px',
+      message: 'Docs shell search font size must match component docs',
+    },
+    {
+      snippet: '.docs-nav-title:first-child',
+      message: 'Docs shell first nav section must align with component docs spacing',
+    },
+  ];
+
+  for (const { snippet, message } of requiredSidebarStyleSnippets) {
+    if (!layoutCss.includes(snippet)) {
+      failures.push(message);
+    }
+  }
+
+  return failures;
+}
+
+export function checkComponentDocsShellVisualContract(appLayoutCss, siteCss, componentHtmlFiles) {
+  const failures = [];
+
+  if (appLayoutCss.includes('.site-shell:has(.component-gallery-app) .site-header')) {
+    failures.push('Component docs must keep the global navbar visible');
+  }
+
+  if (!siteCss.includes('.component-gallery-app .topbar')) {
+    failures.push('Component docs missing shared topbar styling');
+  }
+
+  if (!siteCss.includes('top: var(--vr-site-header-height) !important')) {
+    failures.push('Component docs topbar/sidebar must stay below the global navbar');
+  }
+
+  for (const [label, html] of Object.entries(componentHtmlFiles)) {
+    if (!html.includes('<span>Design Components</span>')) {
+      failures.push(`Component docs missing Design Components header: ${label}`);
+    }
+
+    if (html.includes('Vanrot UI')) {
+      failures.push(`Component docs must not duplicate the Vanrot brand: ${label}`);
+    }
+
+    if (html.includes('topbar-right')) {
+      failures.push(`Component docs must not duplicate global top navigation: ${label}`);
+    }
   }
 
   return failures;
@@ -319,6 +408,25 @@ async function verifySiteDocs() {
     join(projectRoot, 'apps/vanrot-site/src/layouts/docs/docs.layout.css'),
     'utf8',
   );
+  const appLayoutCss = readFileSync(
+    join(projectRoot, 'apps/vanrot-site/src/app/app.layout.css'),
+    'utf8',
+  );
+  const siteCss = readFileSync(join(projectRoot, 'apps/vanrot-site/src/styles/site.css'), 'utf8');
+  const componentHtmlFiles = {
+    gallery: readFileSync(
+      join(projectRoot, 'apps/vanrot-site/src/pages/components/component-gallery.page.html'),
+      'utf8',
+    ),
+    button: readFileSync(
+      join(projectRoot, 'apps/vanrot-site/src/pages/components/component-button.page.html'),
+      'utf8',
+    ),
+    checkbox: readFileSync(
+      join(projectRoot, 'apps/vanrot-site/src/pages/components/component-checkbox.page.html'),
+      'utf8',
+    ),
+  };
   const requiredArticleKeys = [
     'introduction',
     'installation',
@@ -384,6 +492,7 @@ async function verifySiteDocs() {
     ...checkCtaLabels(homePageSource),
     ...checkRouteMetadataCoverage(['/', '/docs', '/docs/components'], frameworkReference.routeMetadata),
     ...checkDocsShellVisualContract(docsLayoutHtml, docsLayoutCss),
+    ...checkComponentDocsShellVisualContract(appLayoutCss, siteCss, componentHtmlFiles),
   ];
 
   if (failures.length > 0) {

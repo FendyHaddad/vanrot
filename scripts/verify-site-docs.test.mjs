@@ -4,6 +4,7 @@ import {
   checkConventionCoverage,
   checkCtaLabels,
   checkDiagnosticCoverage,
+  checkComponentDocsShellVisualContract,
   checkDocsShellVisualContract,
   checkExampleFreshness,
   checkExampleRegistration,
@@ -153,11 +154,76 @@ describe('expanded site docs verification', () => {
     const failures = checkDocsShellVisualContract('<vr-sidebar></vr-sidebar>', '.docs-layout {}');
 
     expect(failures).toEqual([
-      'Docs shell missing class: docs-brand',
       'Docs shell missing class: docs-search',
       'Docs shell missing class: docs-nav-title',
       'Docs shell missing class: docs-nav-link',
       'Docs shell CSS missing 240px sidebar grid',
+      'Docs shell header/sidebar must stay below the global navbar',
+      'Docs shell search must use the same icon treatment as component docs',
+      'Docs shell search shortcut must match component docs',
+      'Docs shell sidebar muted color must match component docs',
+      'Docs shell sidebar faint color must match component docs',
+      'Docs shell sidebar font stack must match component docs',
+      'Docs shell sidebar controls must use the component docs radius',
+      'Docs shell search font size must match component docs',
+      'Docs shell first nav section must align with component docs spacing',
+    ]);
+  });
+
+  it('fails when docs shell duplicates global navigation or component sidebar links', () => {
+    const failures = checkDocsShellVisualContract(
+      [
+        '<button class="docs-search"></button>',
+        '<span class="docs-nav-title"></span>',
+        '<a class="docs-nav-link"></a>',
+        '<a class="docs-brand"></a>',
+        '<vr-nav class="docs-topbar-nav"></vr-nav>',
+        '<div class="docs-page-actions"></div>',
+        '@for (item of componentItems; track item.key) {}',
+      ].join(''),
+      '.docs-layout { grid-template-columns: 240px minmax(0, 1fr); }',
+    );
+
+    expect(failures).toEqual([
+      'Docs shell must not duplicate the global Vanrot brand',
+      'Docs shell must not duplicate global Docs/Components navigation',
+      'Docs shell must not show duplicate page action buttons',
+      'Framework docs sidebar must not list component docs',
+      'Docs shell header/sidebar must stay below the global navbar',
+      'Docs shell search must use the same icon treatment as component docs',
+      'Docs shell search shortcut must match component docs',
+      'Docs shell sidebar muted color must match component docs',
+      'Docs shell sidebar faint color must match component docs',
+      'Docs shell sidebar font stack must match component docs',
+      'Docs shell sidebar controls must use the component docs radius',
+      'Docs shell search font size must match component docs',
+      'Docs shell first nav section must align with component docs spacing',
+    ]);
+  });
+
+  it('fails when component docs drift away from the shared fixed shell', () => {
+    const failures = checkComponentDocsShellVisualContract(
+      '.site-shell:has(.component-gallery-app) .site-header { display: none; }',
+      '.component-gallery-app {}',
+      {
+        button: [
+          '<div class="brand">Vanrot UI</div>',
+          '<vr-header class="topbar">',
+          '<vr-nav class="topbar-right"></vr-nav>',
+          '</vr-header>',
+        ].join(''),
+        checkbox: '<h1>Checkbox</h1>',
+      },
+    );
+
+    expect(failures).toEqual([
+      'Component docs must keep the global navbar visible',
+      'Component docs missing shared topbar styling',
+      'Component docs topbar/sidebar must stay below the global navbar',
+      'Component docs missing Design Components header: button',
+      'Component docs must not duplicate the Vanrot brand: button',
+      'Component docs must not duplicate global top navigation: button',
+      'Component docs missing Design Components header: checkbox',
     ]);
   });
 });

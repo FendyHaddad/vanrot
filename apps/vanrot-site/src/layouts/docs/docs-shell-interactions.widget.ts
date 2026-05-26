@@ -1,9 +1,7 @@
 import {
   createCommandMenuController,
   createOverlayController,
-  createTooltipController,
   onMount,
-  positionLayer,
   type Dispose,
 } from '@vanrot/runtime';
 
@@ -11,11 +9,6 @@ const docsShellSelector = {
   commandMenu: '[data-vr-docs-command-menu]',
   commandInput: '[data-vr-docs-command-input]',
   commandItem: '[data-vr-docs-command-item]',
-  popover: '[data-vr-docs-popover]',
-  popoverTrigger: '[data-vr-docs-popover-trigger]',
-  popoverContent: '[data-vr-docs-popover-content]',
-  tooltipTrigger: '[data-vr-docs-tooltip-trigger]',
-  tooltipContent: '[data-vr-docs-tooltip-content]',
   nestedOverlay: '[data-vr-overlay-preview]',
   nestedOverlayTrigger: '[data-vr-overlay-trigger]',
   nestedOverlayContent: '[data-vr-overlay-content]',
@@ -24,15 +17,12 @@ const docsShellSelector = {
   nestedCommandItem: '[data-vr-command-menu-item]',
 } as const;
 
-const layerOffset = 8;
 const noop: Dispose = () => {};
 
 export function setupDocsShellInteractions(): void {
   onMount(() => {
     const disposers = [
       setupCommandMenu(),
-      setupPopover(),
-      setupTooltip(),
       ...setupNestedOverlayPreviews(),
       ...setupNestedCommandMenuPreviews(),
     ];
@@ -81,67 +71,6 @@ function setupCommandMenu(): Dispose {
       controller.registerItem(commandItemValue(item, index), item),
     ),
   ];
-
-  return () => {
-    for (const dispose of disposers) {
-      dispose();
-    }
-
-    controller.dispose();
-  };
-}
-
-function setupPopover(): Dispose {
-  const root = queryElement(document, docsShellSelector.popover);
-
-  if (root === null) {
-    return noop;
-  }
-
-  const trigger = queryElement(root, docsShellSelector.popoverTrigger);
-  const content = queryElement(root, docsShellSelector.popoverContent);
-
-  if (trigger === null || content === null) {
-    return noop;
-  }
-
-  const controller = createOverlayController({
-    onOpenChange(open) {
-      syncPopover(trigger, content, open);
-    },
-  });
-  const disposers = [controller.registerTrigger(trigger), controller.registerContent(content)];
-
-  syncPopover(trigger, content, controller.open());
-
-  return () => {
-    for (const dispose of disposers) {
-      dispose();
-    }
-
-    controller.dispose();
-  };
-}
-
-function setupTooltip(): Dispose {
-  const trigger = queryElement(document, docsShellSelector.tooltipTrigger);
-  const content = queryElement(document, docsShellSelector.tooltipContent);
-
-  if (trigger === null || content === null) {
-    return noop;
-  }
-
-  const controller = createTooltipController({
-    delay: 120,
-    onOpenChange(open) {
-      if (!open) {
-        return;
-      }
-
-      positionLayer(trigger, content, { align: 'center', offset: layerOffset, side: 'bottom' });
-    },
-  });
-  const disposers = [controller.registerTrigger(trigger), controller.registerContent(content)];
 
   return () => {
     for (const dispose of disposers) {
@@ -211,18 +140,6 @@ function syncNestedOverlayPreview(trigger: HTMLElement, content: HTMLElement, op
   trigger.dataset.state = open ? 'open' : 'closed';
   content.hidden = !open;
   content.dataset.state = open ? 'open' : 'closed';
-}
-
-function syncPopover(trigger: HTMLElement, content: HTMLElement, open: boolean): void {
-  trigger.setAttribute('aria-expanded', String(open));
-  content.hidden = !open;
-  content.dataset.state = open ? 'open' : 'closed';
-
-  if (!open) {
-    return;
-  }
-
-  positionLayer(trigger, content, { align: 'end', offset: layerOffset, side: 'bottom' });
 }
 
 function commandItemValue(item: HTMLElement, index: number): string {
