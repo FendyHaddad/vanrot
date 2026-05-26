@@ -63,36 +63,209 @@
 
       <section class="primitive" id="breadcrumb">
         <div class="preview">
-          <div class="preview-head"><span>Patterns</span><span>1</span></div>
+          <div class="preview-head"><span>Examples</span><span>4</span></div>
           <div class="preview-body variant-grid">
-            <div class="variant-tile"><span class="variant-name">aria-label</span><vr-breadcrumb class="breadcrumb-demo" aria-label="Breadcrumb"><a href="/docs">Docs</a><span>/</span><span>Components</span></vr-breadcrumb></div>
+            <div class="variant-tile">
+              <span class="variant-name">basic</span>
+              <vr-breadcrumb class="breadcrumb-demo" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                  <li class="breadcrumb-separator" aria-hidden="true">/</li>
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components">Components</a></li>
+                  <li class="breadcrumb-separator" aria-hidden="true">/</li>
+                  <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+                </ol>
+              </vr-breadcrumb>
+            </div>
+            <div class="variant-tile">
+              <span class="variant-name">custom separator</span>
+              <vr-breadcrumb class="breadcrumb-demo" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components">Components</a></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+                </ol>
+              </vr-breadcrumb>
+            </div>
+            <div class="variant-tile">
+              <span class="variant-name">collapsed</span>
+              <vr-breadcrumb class="breadcrumb-demo" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item"><span class="breadcrumb-ellipsis" aria-label="Collapsed pages">...</span></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+                </ol>
+              </vr-breadcrumb>
+            </div>
+            <div class="variant-tile">
+              <span class="variant-name">responsive</span>
+              <vr-breadcrumb class="breadcrumb-demo responsive-breadcrumb" aria-label="Breadcrumb">
+                <ol class="breadcrumb-list">
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components">Components</a></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components/navigation">Navigation</a></li>
+                  <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                  <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+                </ol>
+              </vr-breadcrumb>
+            </div>
           </div>
         </div>
       </section>
 
-      <section class="variant-doc" id="breadcrumb-default">
+      <section class="variant-doc" id="breadcrumb-basic">
         <div class="section-head">
           <div>
-            <h2>Breadcrumb</h2>
+            <h2>Basic</h2>
             <p>{{ description() }}</p>
           </div>
           <span class="code-chip">aria-label</span>
         </div>
         <div class="variant-example">
-          <div class="variant-preview"><vr-breadcrumb class="breadcrumb-demo" aria-label="Breadcrumb"><a href="/docs">Docs</a><span>/</span><span>Components</span></vr-breadcrumb></div>
+          <div class="variant-preview">
+            <vr-breadcrumb class="breadcrumb-demo large-breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                <li class="breadcrumb-separator" aria-hidden="true">/</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components">Components</a></li>
+                <li class="breadcrumb-separator" aria-hidden="true">/</li>
+                <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+              </ol>
+            </vr-breadcrumb>
+          </div>
           <div class="code-snippet">
-            <button class="copy-icon-button" type="button" aria-label="Copy breadcrumb code">
+            <button class="copy-icon-button" type="button" aria-label="Copy basic breadcrumb code">
               <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
               </svg>
             </button>
             <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-breadcrumb</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Breadcrumb"</span><span class="token tag">&gt;</span></span></span>
-<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;a</span><span class="token attr"> href</span><span class="token operator">=</span><span class="token string">"/docs"</span><span class="token tag">&gt;</span><span class="token text">Docs</span></span></span>
-<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;span</span><span class="token tag">&gt;</span><span class="token text">Components</span></span></span>
-<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content"><span class="token tag">&lt;/vr-breadcrumb&gt;</span></span></span></code></pre>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;ol</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-list"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-item"</span><span class="token tag">&gt;</span><span class="token text">Docs</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-separator"</span><span class="token tag">&gt;</span><span class="token text">/</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">5</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token attr"> aria-current</span><span class="token operator">=</span><span class="token string">"page"</span><span class="token tag">&gt;</span><span class="token text">Breadcrumb</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">6</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/ol&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">7</span><span class="code-line-content"><span class="token tag">&lt;/vr-breadcrumb&gt;</span></span></span></code></pre>
           </div>
         </div>
       </section>
+
+      <section class="variant-doc" id="breadcrumb-custom-separator">
+        <div class="section-head">
+          <div>
+            <h2>Custom Separator</h2>
+            <p>Swap the separator glyph when a product needs a quieter or more directional trail. Keep separators hidden from assistive technology so the list text remains readable.</p>
+          </div>
+          <span class="code-chip">separator</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview">
+            <vr-breadcrumb class="breadcrumb-demo large-breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components">Components</a></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+              </ol>
+            </vr-breadcrumb>
+          </div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy custom separator breadcrumb code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-breadcrumb</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Breadcrumb"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;ol</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-list"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-separator chevron"</span><span class="token attr"> aria-hidden</span><span class="token operator">=</span><span class="token string">"true"</span><span class="token tag">&gt;</span><span class="token text">&amp;rsaquo;</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/ol&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">5</span><span class="code-line-content"><span class="token tag">&lt;/vr-breadcrumb&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="breadcrumb-collapsed">
+        <div class="section-head">
+          <div>
+            <h2>Collapsed</h2>
+            <p>Use an ellipsis when the middle of a long hierarchy is less important than the entry point and current page. Give the collapsed marker an accessible name.</p>
+          </div>
+          <span class="code-chip">ellipsis</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview">
+            <vr-breadcrumb class="breadcrumb-demo large-breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item"><span class="breadcrumb-ellipsis" aria-label="Collapsed pages">...</span></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+              </ol>
+            </vr-breadcrumb>
+          </div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy collapsed breadcrumb code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-breadcrumb</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Breadcrumb"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;ol</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-list"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token tag">&gt;</span><span class="token tag">&lt;span</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Collapsed pages"</span><span class="token tag">&gt;</span><span class="token text">...</span><span class="token tag">&lt;/span&gt;</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/ol&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">5</span><span class="code-line-content"><span class="token tag">&lt;/vr-breadcrumb&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <section class="variant-doc" id="breadcrumb-responsive">
+        <div class="section-head">
+          <div>
+            <h2>Responsive</h2>
+            <p>Let longer trails wrap instead of shrinking text. Keep the current page visible and use short labels for every ancestor link.</p>
+          </div>
+          <span class="code-chip">wrap</span>
+        </div>
+        <div class="variant-example">
+          <div class="variant-preview">
+            <vr-breadcrumb class="breadcrumb-demo large-breadcrumb responsive-breadcrumb" aria-label="Breadcrumb">
+              <ol class="breadcrumb-list">
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs">Docs</a></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components">Components</a></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item"><a class="breadcrumb-link" href="/docs/components/navigation">Navigation</a></li>
+                <li class="breadcrumb-separator chevron" aria-hidden="true">&rsaquo;</li>
+                <li class="breadcrumb-item breadcrumb-page" aria-current="page">Breadcrumb</li>
+              </ol>
+            </vr-breadcrumb>
+          </div>
+          <div class="code-snippet">
+            <button class="copy-icon-button" type="button" aria-label="Copy responsive breadcrumb code">
+              <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect width="14" height="14" x="8" y="8" rx="2"></rect><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+            </button>
+            <pre class="code-block"><code><span class="code-line"><span class="code-line-number">1</span><span class="code-line-content"><span class="token tag">&lt;vr-breadcrumb</span><span class="token attr"> aria-label</span><span class="token operator">=</span><span class="token string">"Breadcrumb"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">2</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;ol</span><span class="token attr"> class</span><span class="token operator">=</span><span class="token string">"breadcrumb-list"</span><span class="token tag">&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">3</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token tag">&gt;</span><span class="token text">Docs</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">4</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token tag">&gt;</span><span class="token text">Components</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">5</span><span class="code-line-content code-indent-2"><span class="token tag">&lt;li</span><span class="token attr"> aria-current</span><span class="token operator">=</span><span class="token string">"page"</span><span class="token tag">&gt;</span><span class="token text">Breadcrumb</span><span class="token tag">&lt;/li&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">6</span><span class="code-line-content code-indent-1"><span class="token tag">&lt;/ol&gt;</span></span></span>
+<span class="code-line"><span class="code-line-number">7</span><span class="code-line-content"><span class="token tag">&lt;/vr-breadcrumb&gt;</span></span></span></code></pre>
+          </div>
+        </div>
+      </section>
+
+      <div class="docs-note">{{ doc().api }}</div>
     </section>
   </main>
 </div>

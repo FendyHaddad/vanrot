@@ -349,6 +349,10 @@
         padding-left: 54px;
       }
 
+      .code-indent-2 {
+        padding-left: 86px;
+      }
+
       .copy-icon-button {
         position: absolute;
         top: 30px;
@@ -854,6 +858,8 @@
 
         .code-indent-1 { padding-left: 40px; }
 
+        .code-indent-2 { padding-left: 64px; }
+
         .copy-icon-button {
           top: 18px;
           right: 18px;
@@ -878,6 +884,102 @@
 .footer-demo { min-width: min(100%, 520px); text-align: center; }
 .sidebar-demo { min-height: 220px; width: min(100%, 260px); }
 .nav-demo { align-items: center; display: flex; gap: 18px; justify-content: center; }
-.breadcrumb-demo { align-items: center; display: flex; gap: 10px; }
+.breadcrumb-demo {
+  align-items: center;
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  display: block;
+  gap: 0;
+  padding: 0;
+  width: min(100%, 680px);
+}
+
+.large-breadcrumb {
+  font-size: 15px;
+}
+
+.breadcrumb-list {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0;
+  min-width: 0;
+  padding: 0;
+}
+
+.breadcrumb-item {
+  align-items: center;
+  display: inline-flex;
+  min-width: 0;
+}
+
+.breadcrumb-link {
+  color: var(--muted);
+  text-decoration: none;
+  transition: color 0.12s;
+}
+
+.breadcrumb-link:hover {
+  color: var(--text);
+}
+
+.breadcrumb-page {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  color: var(--faint);
+  line-height: 1;
+  user-select: none;
+}
+
+.breadcrumb-separator.chevron {
+  font-size: 18px;
+}
+
+.breadcrumb-ellipsis {
+  align-items: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  color: var(--muted);
+  display: inline-flex;
+  font-family: var(--font-mono);
+  height: 24px;
+  justify-content: center;
+  line-height: 1;
+  width: 32px;
+}
+
+.responsive-breadcrumb .breadcrumb-list {
+  max-width: 560px;
+  row-gap: 8px;
+}
+
+.variant-tile .breadcrumb-list {
+  font-size: 13px;
+  gap: 6px;
+}
+
+.variant-tile .breadcrumb-page {
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .breadcrumb-list {
+    gap: 6px;
+  }
+
+  .large-breadcrumb {
+    font-size: 14px;
+  }
+}
 .image-demo { aspect-ratio: 16 / 9; border: 1px solid var(--border); border-radius: var(--radius-sm); object-fit: cover; width: min(100%, 480px); }
 .source-demo { display: block; width: min(100%, 480px); }
