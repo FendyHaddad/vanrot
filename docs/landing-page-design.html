@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanrot — Landing Page</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --orange: #D97757;
+  --orange-dim: rgba(217,119,87,0.10);
+  --orange-border: rgba(217,119,87,0.25);
+  --canvas: #08080f;
+  --surface: #0e0e18;
+  --surface-2: #13131f;
+  --surface-3: #1a1a2e;
+  --line: rgba(255,255,255,0.06);
+  --line-2: rgba(255,255,255,0.04);
+  --text: #f0ebe5;
+  --muted: #6b7280;
+  --muted-dim: #374151;
+  --blue: #63b3ff;
+  --green: #48c78e;
+  --red: #ff6b6b;
+  --mono: 'JetBrains Mono', 'SFMono-Regular', monospace;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+/* ── Shared container ── */
+.container {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 56px;
+}
+
+/* ════════════════════════════════════
+   NAV
+════════════════════════════════════ */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(8,8,15,0.85);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-inner {
+  padding: 0 56px;
+  height: 56px; display: flex; align-items: center; gap: 32px;
+}
+.logo { font-weight: 900; font-size: 16px; letter-spacing: -0.05em; color: var(--text); }
+.nav-links { display: flex; gap: 24px; }
+.nav-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+.nav-links a:hover { color: var(--text); }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.badge-alpha {
+  padding: 3px 11px; border-radius: 999px; font-size: 11px; font-weight: 600;
+  background: var(--orange-dim); border: 1px solid var(--orange-border); color: var(--orange);
+}
+.nav-gh {
+  padding: 6px 16px; border-radius: 5px; font-size: 12px; font-weight: 500;
+  color: var(--muted); border: 1px solid var(--line); text-decoration: none;
+}
+
+/* ════════════════════════════════════
+   SECTION 1 — HERO
+════════════════════════════════════ */
+.hero {
+  padding: 100px 0 96px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -180px; left: -200px;
+  width: 800px; height: 800px;
+  background: radial-gradient(ellipse, rgba(217,119,87,0.10) 0%, rgba(217,119,87,0.02) 42%, transparent 68%);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 4px 14px; border-radius: 999px; margin-bottom: 28px;
+  background: var(--orange-dim); border: 1px solid var(--orange-border); color: var(--orange);
+  font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+}
+.hero-eyebrow::before {
+  content: ''; width: 6px; height: 6px; border-radius: 50%;
+  background: var(--orange); box-shadow: 0 0 8px var(--orange);
+}
+h1 {
+  font-size: 82px; font-weight: 900; line-height: 1.0; letter-spacing: -0.04em;
+  color: var(--text); max-width: 760px; margin-bottom: 22px;
+}
+h1 em { color: var(--orange); font-style: normal; }
+.hero-sub {
+  font-size: 18px; color: var(--muted); line-height: 1.65; max-width: 520px;
+  border-left: 2px solid var(--orange-border); padding-left: 18px; margin-bottom: 36px;
+}
+.hero-ctas { display: flex; gap: 12px; margin-bottom: 44px; }
+.btn-primary {
+  background: var(--orange); color: #08080f;
+  border-radius: 6px; padding: 13px 28px;
+  font-size: 14px; font-weight: 800; border: none; cursor: pointer; letter-spacing: 0.01em;
+}
+.btn-ghost {
+  background: transparent; color: var(--muted);
+  border-radius: 6px; padding: 13px 24px;
+  font-size: 14px; font-weight: 500; border: 1px solid var(--line); cursor: pointer;
+}
+
+/* ════════════════════════════════════
+   SECTION 2 — PACKAGES
+════════════════════════════════════ */
+.section-packages {
+  border-top: 1px solid var(--line);
+  padding: 80px 0 88px;
+  position: relative;
+}
+.section-packages::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--orange), transparent);
+}
+.section-eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--orange); margin-bottom: 10px;
+}
+.section-title {
+  font-size: 40px; font-weight: 900; letter-spacing: -0.04em; color: var(--text);
+  line-height: 1.05; margin-bottom: 10px;
+}
+.section-title em { color: var(--orange); font-style: normal; }
+.section-sub {
+  font-size: 15px; color: var(--muted); line-height: 1.65; max-width: 520px;
+  margin-bottom: 40px;
+}
+
+.pkg-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+.pkg-card {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 20px 22px;
+  position: relative; overflow: hidden;
+}
+.pkg-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, var(--orange-border), transparent);
+}
+.pkg-card .pkg-name {
+  font-family: var(--mono); font-size: 10.5px; color: var(--orange);
+  display: block; margin-bottom: 8px; font-weight: 500;
+}
+.pkg-card h3 { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.pkg-card p { font-size: 12px; color: var(--muted); line-height: 1.55; }
+.pkg-card .pkg-tags { display: flex; gap: 5px; margin-top: 12px; flex-wrap: wrap; }
+.pkg-tag {
+  padding: 2px 8px; border-radius: 999px; font-size: 10px; font-weight: 600;
+  background: rgba(255,255,255,0.04); border: 1px solid var(--line); color: var(--muted-dim);
+}
+.pkg-tag.stable { background: rgba(72,199,142,0.07); border-color: rgba(72,199,142,0.18); color: #48c78e; }
+.pkg-tag.alpha  { background: var(--orange-dim); border-color: var(--orange-border); color: var(--orange); }
+.pkg-tag.beta   { background: rgba(99,179,255,0.07); border-color: rgba(99,179,255,0.18); color: var(--blue); }
+.pkg-icon { font-size: 20px; margin-bottom: 10px; line-height: 1; }
+
+/* ════════════════════════════════════
+   SECTION 3 — WHY SIGNALS (Apple-style)
+════════════════════════════════════ */
+.section-signals {
+  border-top: 1px solid var(--line);
+  padding: 88px 0 96px;
+  position: relative;
+}
+.section-signals::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--orange), transparent);
+}
+
+/* Headline block */
+.signals-head {
+  max-width: 680px;
+  margin-bottom: 56px;
+}
+.signals-head .section-title { margin-bottom: 14px; }
+.signals-head .section-sub { margin-bottom: 0; max-width: 560px; }
+
+/* Three stat blocks */
+.signals-stats {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px;
+  margin-bottom: 56px;
+}
+.stat-block {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 28px 28px 24px;
+  position: relative; overflow: hidden;
+}
+.stat-block::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(to right, transparent, var(--orange-border), transparent);
+}
+.stat-num {
+  font-size: 48px; font-weight: 900; letter-spacing: -0.04em;
+  color: var(--text); line-height: 1; margin-bottom: 8px;
+}
+.stat-num.orange { color: var(--orange); }
+.stat-label { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.stat-desc { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+/* Code + diagram stacked */
+.signals-body {
+  display: flex; flex-direction: column; gap: 16px;
+}
+.code-block {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; overflow: hidden;
+}
+.code-titlebar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 10px 16px; border-bottom: 1px solid var(--line);
+  background: rgba(255,255,255,0.02);
+}
+.dot { width: 9px; height: 9px; border-radius: 50%; }
+.code-filename { margin-left: auto; font-size: 10px; color: var(--muted-dim); font-family: var(--mono); }
+pre {
+  padding: 24px;
+  font-family: var(--mono); font-size: 12.5px; line-height: 1.9;
+  color: #9ca3af; overflow-x: auto;
+}
+.kw  { color: #569cd6; }
+.fn  { color: #dcdcaa; }
+.str { color: #ce9178; }
+.cm  { color: #4b5563; }
+.val { color: #b5cea8; }
+.hl  {
+  display: block;
+  background: rgba(217,119,87,0.08);
+  border-left: 2px solid var(--orange);
+  margin: 0 -24px; padding: 0 24px 0 22px;
+}
+
+/* Dependency graph panel */
+.dep-panel {
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 10px; padding: 32px 36px;
+  display: flex; flex-direction: column; gap: 0;
+}
+.dep-label {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--muted-dim); margin-bottom: 36px;
+}
+
+/* Grid-based graph: 5 cols [sig] [arrow] [cmp] [arrow] [dom], 3 rows */
+.dep-graph {
+  display: grid;
+  grid-template-columns: auto 1fr auto 1fr auto;
+  grid-template-rows: auto 24px auto;
+  align-items: center;
+  width: 100%;
+}
+
+/* Nodes */
+.dep-node {
+  border-radius: 8px; padding: 14px 20px;
+  font-family: var(--mono); font-size: 11px; font-weight: 500;
+  line-height: 1.4; min-width: 148px;
+}
+.dep-node.sig {
+  background: rgba(217,119,87,0.10); border: 1px solid rgba(217,119,87,0.30);
+  color: var(--orange); grid-column: 1; grid-row: 1;
+}
+.dep-node.cmp {
+  background: rgba(99,179,255,0.08); border: 1px solid rgba(99,179,255,0.25);
+  color: var(--blue); grid-column: 3; grid-row: 1;
+}
+.dep-node.dom {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--line);
+  color: var(--muted); grid-column: 5; grid-row: 1;
+}
+.dep-node.eff {
+  background: rgba(72,199,142,0.08); border: 1px solid rgba(72,199,142,0.22);
+  color: var(--green); grid-column: 3; grid-row: 3; justify-self: center;
+}
+.dep-node .node-label { font-size: 9px; opacity: 0.6; display: block; margin-bottom: 3px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
+.dep-node .node-val { font-size: 13px; font-weight: 700; }
+
+/* Horizontal arrows — auto-placed to cols 2 & 4 by grid flow */
+.dep-arrow {
+  height: 1px;
+  background: linear-gradient(to right, rgba(255,255,255,0.10), rgba(255,255,255,0.04));
+  position: relative; align-self: center; min-width: 24px;
+}
+.dep-arrow::after {
+  content: '›'; position: absolute; right: -2px; top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.12); font-size: 14px; line-height: 1;
+}
+
+/* Vertical connector: col 3, row 2 — directly below computed, above effect */
+.dep-vert {
+  grid-column: 3; grid-row: 2;
+  width: 1px; height: 100%;
+  background: linear-gradient(to bottom, rgba(72,199,142,0.25), rgba(72,199,142,0.10));
+  justify-self: center;
+}
+
+.dep-note {
+  font-size: 12px; color: var(--muted-dim); margin-top: 28px; line-height: 1.65;
+}
+.dep-note strong { color: var(--muted); font-weight: 600; }
+
+/* ════════════════════════════════════
+   SECTION 4 — OCTOBER (Dashboard)
+════════════════════════════════════ */
+.section-design {
+  border-top: 1px solid var(--line);
+  padding: 88px 0 96px;
+  position: relative;
+}
+.section-design::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--orange), transparent);
+}
+.design-head {
+  max-width: 680px;
+  margin-bottom: 48px;
+}
+.design-head .section-title { margin-bottom: 14px; }
+.design-head .section-sub { margin-bottom: 0; }
+
+/* Browser chrome frame */
+.browser-frame {
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 12px; overflow: hidden;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.65), 0 0 0 1px rgba(255,255,255,0.04);
+}
+.browser-chrome {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 16px;
+  background: #111113; border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.chrome-dots { display: flex; gap: 6px; }
+.chrome-dot { width: 10px; height: 10px; border-radius: 50%; }
+.chrome-url {
+  flex: 1; margin-left: 12px; text-align: center;
+  font-family: var(--mono); font-size: 10px; color: #52525b;
+}
+
+/* Dashboard — Vanrot component-page design */
+.dashboard {
+  display: grid; grid-template-columns: 220px 1fr;
+  min-height: 500px;
+  background: #09090b;
+}
+
+/* Sidebar — mirrors docs.layout.css */
+.db-sidebar {
+  background: #09090b;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  padding: 16px 12px;
+  display: flex; flex-direction: column;
+}
+.db-sidebar-logo {
+  display: flex; align-items: center; gap: 10px;
+  padding: 4px 8px 16px; margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.db-logo-mark {
+  width: 20px; height: 20px; border-radius: 5px;
+  background: #fafafa; flex-shrink: 0;
+}
+.db-logo-name { font-size: 14px; font-weight: 700; letter-spacing: -0.03em; color: #fafafa; }
+
+/* Search button */
+.db-search {
+  display: flex; align-items: center; gap: 6px;
+  height: 36px; padding: 0 10px; margin-bottom: 4px;
+  border: 1px solid rgba(255,255,255,0.10); border-radius: 6px;
+  background: transparent; color: #71717a; cursor: pointer;
+  font-size: 12px; font-family: inherit; width: 100%; text-align: left;
+}
+.db-search-icon { font-size: 12px; }
+.db-kbd { margin-left: auto; font-size: 10px; color: #3f3f46; font-family: var(--mono); }
+
+/* Nav section title */
+.db-nav-title {
+  font-size: 12px; font-weight: 600; color: #a1a1aa;
+  padding: 4px 8px; margin: 14px 0 2px;
+}
+
+/* Nav items */
+.db-nav { display: flex; flex-direction: column; gap: 1px; }
+.db-nav-item {
+  display: flex; align-items: center; gap: 8px;
+  height: 32px; padding: 0 8px; border-radius: 6px;
+  font-size: 14px; color: #a1a1aa; cursor: pointer;
+}
+.db-nav-item:hover { background: #18181b; color: #fafafa; }
+.db-nav-item.active { background: #18181b; color: #fafafa; font-weight: 500; }
+.db-nav-icon { font-size: 13px; flex-shrink: 0; opacity: 0.65; }
+
+/* Main content area */
+.db-main { display: flex; flex-direction: column; overflow: hidden; }
+
+/* Topbar — mirrors component page header */
+.db-topbar {
+  display: flex; align-items: center; gap: 12px;
+  height: 56px; padding: 0 20px;
+  background: rgba(9,9,11,0.88);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  flex-shrink: 0;
+}
+.db-breadcrumb { font-size: 12px; color: #a1a1aa; display: flex; align-items: center; gap: 5px; }
+.db-breadcrumb span { color: #fafafa; font-weight: 600; }
+.db-breadcrumb .sep { color: #3f3f46; }
+.db-topbar-right { margin-left: auto; display: flex; align-items: center; gap: 8px; }
+.db-btn {
+  padding: 5px 12px; border-radius: 6px; font-size: 11px; font-weight: 600;
+  cursor: pointer; border: none;
+}
+.db-btn.primary { background: var(--orange); color: #08080f; }
+.db-btn.ghost { background: transparent; color: #a1a1aa; border: 1px solid rgba(255,255,255,0.10); }
+.db-avatar {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #18181b; border: 1px solid rgba(255,255,255,0.10);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: #a1a1aa; font-weight: 700;
+}
+
+/* Body */
+.db-body { padding: 20px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
+
+/* Stat cards */
+.db-stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.db-stat-card {
+  background: #18181b; border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 14px 16px;
+}
+.db-stat-label { font-size: 10px; color: #71717a; margin-bottom: 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.db-stat-val { font-size: 22px; font-weight: 800; letter-spacing: -0.03em; color: #fafafa; line-height: 1; }
+.db-stat-delta { font-size: 10px; margin-top: 4px; }
+.db-stat-delta.up { color: var(--green); }
+.db-stat-delta.down { color: var(--red); }
+
+/* Content grid */
+.db-content { display: grid; grid-template-columns: 1fr 252px; gap: 10px; flex: 1; min-height: 0; }
+
+/* Table */
+.db-table-card {
+  background: #18181b; border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; overflow: hidden;
+}
+.db-table-head {
+  display: flex; align-items: center; padding: 12px 16px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.db-table-head h4 { font-size: 12px; font-weight: 700; color: #fafafa; }
+.db-table-head .db-badge {
+  margin-left: 8px; padding: 1px 7px; border-radius: 999px; font-size: 9px; font-weight: 700;
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.10); color: #a1a1aa;
+}
+.db-input {
+  margin-left: auto; padding: 5px 10px; border-radius: 5px;
+  font-size: 11px; background: #09090b; border: 1px solid rgba(255,255,255,0.08);
+  color: #a1a1aa; font-family: inherit; width: 120px;
+}
+table { width: 100%; border-collapse: collapse; }
+thead th {
+  padding: 9px 16px; font-size: 10px; font-weight: 700;
+  color: #52525b; text-align: left; letter-spacing: 0.06em; text-transform: uppercase;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+tbody tr { border-bottom: 1px solid rgba(255,255,255,0.04); }
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: 9px 16px; font-size: 11px; color: #a1a1aa; }
+tbody td:first-child { color: #fafafa; font-weight: 600; }
+.row-badge {
+  display: inline-block; padding: 1px 7px; border-radius: 999px; font-size: 9px; font-weight: 700;
+}
+.row-badge.stable { background: rgba(72,199,142,0.08); border: 1px solid rgba(72,199,142,0.20); color: var(--green); }
+.row-badge.alpha  { background: var(--orange-dim); border: 1px solid var(--orange-border); color: var(--orange); }
+.row-badge.beta   { background: rgba(99,179,255,0.08); border: 1px solid rgba(99,179,255,0.20); color: var(--blue); }
+
+/* Form panel */
+.db-form-card {
+  background: #18181b; border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px; padding: 16px;
+  display: flex; flex-direction: column;
+}
+.db-form-card h4 { font-size: 12px; font-weight: 700; color: #fafafa; margin-bottom: 14px; }
+.form-field { margin-bottom: 12px; }
+.form-label { font-size: 10px; font-weight: 700; color: #71717a; margin-bottom: 5px; display: block; letter-spacing: 0.04em; text-transform: uppercase; }
+.form-ctrl {
+  width: 100%; padding: 7px 10px; border-radius: 5px;
+  font-size: 11px; background: #09090b; border: 1px solid rgba(255,255,255,0.10);
+  color: #fafafa; font-family: inherit; appearance: none;
+}
+.form-ctrl:focus { outline: none; border-color: rgba(255,255,255,0.22); }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.form-actions { display: flex; gap: 6px; margin-top: 4px; }
+
+/* Component label strip */
+.component-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 20px; }
+.comp-ref {
+  font-family: var(--mono); font-size: 10px; color: var(--muted-dim);
+  background: var(--surface); border: 1px solid var(--line);
+  border-radius: 4px; padding: 3px 9px;
+}
+.comp-ref em { color: var(--orange); font-style: normal; }
+</style>
+</head>
+<body>
+
+<!-- ══ NAV ══ -->
+<nav>
+  <div class="nav-inner">
+    <span class="logo">VANROT</span>
+    <div class="nav-links">
+      <a>Docs</a><a>Components</a><a>Packages</a><a>Changelog</a>
+    </div>
+    <div class="nav-right">
+      <span class="badge-alpha">Alpha Stage</span>
+      <a class="nav-gh">GitHub ↗</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ══ SECTION 1: HERO ══ -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-eyebrow">Alpha Stage</div>
+
+    <h1>The Hitchhiker's Guide To The <em>Only</em> Framework You Need!</h1>
+
+    <p class="hero-sub">
+      Signals, typed routing, scoped styles, and the October design system.
+      No runtime deps. No VDOM. No compromises.
+    </p>
+
+    <div class="hero-ctas">
+      <button class="btn-primary">Read the Docs →</button>
+      <button class="btn-ghost">Explore Components</button>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 2: PACKAGES ══ -->
+<section class="section-packages">
+  <div class="container">
+    <div class="section-eyebrow">The monorepo</div>
+    <div class="section-title">Every primitive. <em>Built-in.</em></div>
+    <p class="section-sub">Nine packages. One coherent system. Install only what you need — each is independently versioned and tree-shakeable.</p>
+
+    <div class="pkg-grid">
+      <div class="pkg-card">
+        <div class="pkg-icon">⚡</div>
+        <span class="pkg-name">@vanrot/runtime</span>
+        <h3>Signals &amp; Lifecycle</h3>
+        <p>signal, computed, effect, batch, untrack. onMount, onDestroy. The reactive core — zero deps, &lt;4kb.</p>
+        <div class="pkg-tags"><span class="pkg-tag stable">stable</span><span class="pkg-tag">&lt;4kb</span><span class="pkg-tag">zero deps</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🔧</div>
+        <span class="pkg-name">@vanrot/compiler</span>
+        <h3>Template Codegen</h3>
+        <p>Parses .html templates into AST via parse5. Emits optimised JS — bindings, control flow, slots, scoped styles — all at build time.</p>
+        <div class="pkg-tags"><span class="pkg-tag stable">stable</span><span class="pkg-tag">parse5</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">⚙️</div>
+        <span class="pkg-name">@vanrot/config</span>
+        <h3>Project Configuration</h3>
+        <p>Load, validate, and migrate vanrot.config files. Schema evolution across releases without breaking changes.</p>
+        <div class="pkg-tags"><span class="pkg-tag stable">stable</span><span class="pkg-tag">zero deps</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🗺️</div>
+        <span class="pkg-name">@vanrot/router</span>
+        <h3>Typed Routing</h3>
+        <p>defineRoutes, createRoutes, RouteOutlet, RouteLink. Guards, keep-alive, preload, nested layouts, path params, query strings.</p>
+        <div class="pkg-tags"><span class="pkg-tag stable">stable</span><span class="pkg-tag">type-safe</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🎨</div>
+        <span class="pkg-name">@vanrot/ui</span>
+        <h3>October Design System</h3>
+        <p>Design tokens, CSS primitives, 30+ components, scoped styles. Dark and light themes. Tailwind and vanrotstyles support.</p>
+        <div class="pkg-tags"><span class="pkg-tag alpha">alpha</span><span class="pkg-tag">30+ components</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🧪</div>
+        <span class="pkg-name">@vanrot/testing</span>
+        <h3>Test Helpers</h3>
+        <p>Vitest-based utilities for mounting components, triggering signals, asserting DOM state, and testing reactive behaviour.</p>
+        <div class="pkg-tags"><span class="pkg-tag beta">beta</span><span class="pkg-tag">vitest</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">⚡</div>
+        <span class="pkg-name">@vanrot/vite-plugin</span>
+        <h3>Vite Integration</h3>
+        <p>Wires the compiler into Vite. HMR for components, scoped CSS injection, pre* script orchestration. One import, zero config.</p>
+        <div class="pkg-tags"><span class="pkg-tag stable">stable</span><span class="pkg-tag">vite 6</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🖥️</div>
+        <span class="pkg-name">@vanrot/devtools</span>
+        <h3>Developer Tools</h3>
+        <p>Runtime signal graph inspection, component tree, mount lifecycle tracing. Integrates with Vite plugin and browser panel.</p>
+        <div class="pkg-tags"><span class="pkg-tag alpha">alpha</span></div>
+      </div>
+
+      <div class="pkg-card">
+        <div class="pkg-icon">🔡</div>
+        <span class="pkg-name">@vanrot/cli</span>
+        <h3>The vr Binary</h3>
+        <p>dev, build, create, generate, add, config, doctor, test, map, metadata, ai, init-ai. One tool for the entire project lifecycle.</p>
+        <div class="pkg-tags"><span class="pkg-tag stable">stable</span><span class="pkg-tag">12 commands</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 3: WHY SIGNALS ══ -->
+<section class="section-signals">
+  <div class="container">
+
+    <div class="signals-head">
+      <div class="section-eyebrow">The reactive model</div>
+      <div class="section-title">Only what changed.<br><em>Nothing else.</em></div>
+      <p class="section-sub">No virtual DOM. No diffing. When a signal changes, Vanrot updates the exact DOM nodes that read it — and nothing else fires.</p>
+    </div>
+
+    <!-- Three stats -->
+    <div class="signals-stats">
+      <div class="stat-block">
+        <div class="stat-num orange">0</div>
+        <div class="stat-label">Diffs per update</div>
+        <div class="stat-desc">Signals track their own subscribers. No tree walking, no reconciliation pass.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">&lt;4kb</div>
+        <div class="stat-label">Runtime, gzipped</div>
+        <div class="stat-desc">The entire reactive engine — signals, computed, effects, lifecycle — fits in 4 kilobytes.</div>
+      </div>
+      <div class="stat-block">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Composable anywhere</div>
+        <div class="stat-desc">No Rules of Hooks. Create signals in loops, conditions, callbacks. They just work.</div>
+      </div>
+    </div>
+
+    <!-- Code + dependency graph -->
+    <div class="signals-body">
+
+      <!-- Code block -->
+      <div class="code-block">
+        <div class="code-titlebar">
+          <div class="dot" style="background:#ff5f57"></div>
+          <div class="dot" style="background:#febc2e"></div>
+          <div class="dot" style="background:#28c840"></div>
+          <span class="code-filename">counter.component.ts</span>
+        </div>
+        <pre><span class="hl"><span class="kw">import</span> { <span class="fn">signal</span>, <span class="fn">computed</span>, <span class="fn">effect</span> } <span class="kw">from</span> <span class="str">'@vanrot/runtime'</span>;</span>
+
+<span class="cm">// reactive source</span>
+<span class="kw">const</span> count = <span class="fn">signal</span>(<span class="val">0</span>);
+
+<span class="cm">// derived — lazy, cached, never stale</span>
+<span class="kw">const</span> doubled = <span class="fn">computed</span>(<span class="kw">() =></span> count() * <span class="val">2</span>);
+
+<span class="cm">// side effect — auto-tracks deps</span>
+<span class="fn">effect</span>(<span class="kw">() =></span> {
+  console.<span class="fn">log</span>(<span class="str">`doubled: <span class="val">${doubled()}</span>`</span>);
+});
+
+count.<span class="fn">set</span>(<span class="val">3</span>); <span class="cm">// → "doubled: 6"</span></pre>
+      </div>
+
+      <!-- Dependency graph -->
+      <div class="dep-panel">
+        <div class="dep-label">Reactive dependency graph</div>
+
+        <div class="dep-graph">
+          <!-- Row 1, col 1: signal source -->
+          <div class="dep-node sig">
+            <span class="node-label">source</span>
+            <span class="node-val">signal(count)</span>
+            <span style="font-size:10px;opacity:0.55;display:block;margin-top:3px;">value = 3</span>
+          </div>
+          <!-- Row 1, col 2: arrow -->
+          <div class="dep-arrow"></div>
+          <!-- Row 1, col 3: computed -->
+          <div class="dep-node cmp">
+            <span class="node-label">derived</span>
+            <span class="node-val">computed(doubled)</span>
+            <span style="font-size:10px;opacity:0.55;display:block;margin-top:3px;">value = 6</span>
+          </div>
+          <!-- Row 1, col 4: arrow -->
+          <div class="dep-arrow"></div>
+          <!-- Row 1, col 5: DOM output -->
+          <div class="dep-node dom">
+            <span class="node-label">DOM</span>
+            <span class="node-val">&lt;span&gt;6&lt;/span&gt;</span>
+          </div>
+          <!-- Row 2, col 3: vertical connector (directly below computed) -->
+          <div class="dep-vert"></div>
+          <!-- Row 3, col 3: effect (directly below computed) -->
+          <div class="dep-node eff">
+            <span class="node-label">side effect</span>
+            <span class="node-val">effect()</span>
+            <span style="font-size:10px;opacity:0.55;display:block;margin-top:3px;">fires on change</span>
+          </div>
+        </div>
+
+        <p class="dep-note">
+          <strong>Change propagates forward, never backward.</strong>
+          computed() is lazy and cached — it only re-evaluates when a dependency changes, and only once per change no matter how many times it's read.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4: OCTOBER DESIGN SYSTEM ══ -->
+<section class="section-design">
+  <div class="container">
+
+    <div class="design-head">
+      <div class="section-eyebrow">October design system</div>
+      <div class="section-title">Components built for <em>production.</em></div>
+      <p class="section-sub">30+ signal-native components, design tokens, and scoped styles — co-designed with the framework, not bolted on after.</p>
+    </div>
+
+    <!-- Browser-framed dashboard -->
+    <div class="browser-frame">
+      <div class="browser-chrome">
+        <div class="chrome-dots">
+          <div class="chrome-dot" style="background:#ff5f57"></div>
+          <div class="chrome-dot" style="background:#febc2e"></div>
+          <div class="chrome-dot" style="background:#28c840"></div>
+        </div>
+        <div class="chrome-url">localhost:4200 — Vanrot App</div>
+      </div>
+
+      <div class="dashboard">
+        <!-- Sidebar — mirrors docs.layout.css pattern -->
+        <div class="db-sidebar">
+          <div class="db-sidebar-logo">
+            <div class="db-logo-mark"></div>
+            <span class="db-logo-name">Vanrot</span>
+          </div>
+          <button class="db-search">
+            <span class="db-search-icon">⌕</span>
+            Search...
+            <span class="db-kbd">⌘K</span>
+          </button>
+          <div class="db-nav-title">Framework</div>
+          <div class="db-nav">
+            <div class="db-nav-item active"><span class="db-nav-icon">◈</span> Dashboard</div>
+            <div class="db-nav-item"><span class="db-nav-icon">◈</span> Packages</div>
+            <div class="db-nav-item"><span class="db-nav-icon">◈</span> Components</div>
+            <div class="db-nav-item"><span class="db-nav-icon">◈</span> Changelog</div>
+          </div>
+          <div class="db-nav-title">Tools</div>
+          <div class="db-nav">
+            <div class="db-nav-item"><span class="db-nav-icon">◈</span> Settings</div>
+            <div class="db-nav-item"><span class="db-nav-icon">◈</span> Doctor</div>
+          </div>
+        </div>
+
+        <!-- Main -->
+        <div class="db-main">
+          <!-- Topbar — mirrors component page header -->
+          <div class="db-topbar">
+            <div class="db-breadcrumb">
+              Overview <span class="sep">/</span> <span>Dashboard</span>
+            </div>
+            <div class="db-topbar-right">
+              <button class="db-btn ghost">vr doctor</button>
+              <button class="db-btn primary">+ New project</button>
+              <div class="db-avatar">FH</div>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="db-body">
+            <!-- Stats — vr-card x4 -->
+            <div class="db-stats">
+              <div class="db-stat-card">
+                <div class="db-stat-label">Packages</div>
+                <div class="db-stat-val">9</div>
+                <div class="db-stat-delta up">↑ 2 this release</div>
+              </div>
+              <div class="db-stat-card">
+                <div class="db-stat-label">Components</div>
+                <div class="db-stat-val">32</div>
+                <div class="db-stat-delta up">↑ 5 this sprint</div>
+              </div>
+              <div class="db-stat-card">
+                <div class="db-stat-label">Runtime size</div>
+                <div class="db-stat-val">&lt;4kb</div>
+                <div class="db-stat-delta up">↓ 200b from last</div>
+              </div>
+              <div class="db-stat-card">
+                <div class="db-stat-label">Runtime deps</div>
+                <div class="db-stat-val">0</div>
+                <div class="db-stat-delta" style="color:var(--muted-dim)">unchanged</div>
+              </div>
+            </div>
+
+            <!-- Content area -->
+            <div class="db-content">
+              <!-- Table — vr-table -->
+              <div class="db-table-card">
+                <div class="db-table-head">
+                  <h4>Packages</h4>
+                  <span class="db-badge">9 total</span>
+                  <input class="db-input" placeholder="Search…" />
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Package</th>
+                      <th>Version</th>
+                      <th>Size</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>@vanrot/runtime</td>
+                      <td>0.9.1</td>
+                      <td>&lt;4kb</td>
+                      <td><span class="row-badge stable">stable</span></td>
+                    </tr>
+                    <tr>
+                      <td>@vanrot/compiler</td>
+                      <td>0.9.1</td>
+                      <td>18kb</td>
+                      <td><span class="row-badge stable">stable</span></td>
+                    </tr>
+                    <tr>
+                      <td>@vanrot/router</td>
+                      <td>0.9.0</td>
+                      <td>6kb</td>
+                      <td><span class="row-badge stable">stable</span></td>
+                    </tr>
+                    <tr>
+                      <td>@vanrot/ui</td>
+                      <td>0.4.2</td>
+                      <td>—</td>
+                      <td><span class="row-badge alpha">alpha</span></td>
+                    </tr>
+                    <tr>
+                      <td>@vanrot/devtools</td>
+                      <td>0.2.0</td>
+                      <td>—</td>
+                      <td><span class="row-badge alpha">alpha</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <!-- Form panel — vr-form, vr-input, vr-select, vr-button -->
+              <div class="db-form-card">
+                <h4>Generate component</h4>
+                <div class="form-field">
+                  <label class="form-label">Component name</label>
+                  <input class="form-ctrl" type="text" placeholder="my-button" />
+                </div>
+                <div class="form-field">
+                  <label class="form-label">Package</label>
+                  <select class="form-ctrl">
+                    <option>@vanrot/ui</option>
+                    <option>@vanrot/runtime</option>
+                  </select>
+                </div>
+                <div class="form-row">
+                  <div class="form-field">
+                    <label class="form-label">Style mode</label>
+                    <select class="form-ctrl">
+                      <option>vanrotstyles</option>
+                      <option>tailwind</option>
+                      <option>none</option>
+                    </select>
+                  </div>
+                  <div class="form-field">
+                    <label class="form-label">Type</label>
+                    <select class="form-ctrl">
+                      <option>component</option>
+                      <option>page</option>
+                      <option>dialog</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="form-actions">
+                  <button class="db-btn primary" style="flex:1;padding:8px 0">Generate →</button>
+                  <button class="db-btn ghost" style="padding:8px 12px">Preview</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Component tag strip -->
+    <div class="component-tags">
+      <span class="comp-ref"><em>vr-sidebar</em></span>
+      <span class="comp-ref"><em>vr-nav</em></span>
+      <span class="comp-ref"><em>vr-header</em></span>
+      <span class="comp-ref"><em>vr-breadcrumb</em></span>
+      <span class="comp-ref"><em>vr-card</em></span>
+      <span class="comp-ref"><em>vr-badge</em></span>
+      <span class="comp-ref"><em>vr-button</em></span>
+      <span class="comp-ref"><em>vr-table</em></span>
+      <span class="comp-ref"><em>vr-input</em></span>
+      <span class="comp-ref"><em>vr-select</em></span>
+      <span class="comp-ref"><em>vr-form-field</em></span>
+      <span class="comp-ref">+ 21 more</span>
+    </div>
+
+  </div>
+</section>
+
+</body>
+</html>

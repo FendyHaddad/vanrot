@@ -23,9 +23,8 @@ describe('site polish', () => {
     const html = await readSiteFile('src/pages/home/home.page.html');
     const css = await readSiteFile('src/pages/home/home.page.css');
 
-    expect(html).toContain('Framework Documentation');
-    expect(html).toContain('Design Component');
-    expect(html).toContain('<vr-card');
+    expect(html).toContain('href="/docs"');
+    expect(html).toContain('href="/docs/components"');
     expect(html).toContain('<vr-badge');
     expect(css).not.toContain('min-height: calc(100vh');
     expect(css).toContain('align-items: center');
