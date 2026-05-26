@@ -384,11 +384,11 @@ Final verification should include:
 
 ```sh
 pnpm verify
-pkill -f "vite/bin/vite.js.*--port 1990" || true
-pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1990
+pkill -f "vite/bin/vite.js.*--port 1964" || true
+pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1964
 ```
 
-The relevant routes should respond on `http://localhost:1990` and be inspected in the browser before completion is claimed.
+The relevant routes should respond on `http://localhost:1964` and be inspected in the browser before completion is claimed.
 
 ## Tracker Updates
 

@@ -22,7 +22,7 @@ async function tempProject() {
   await writeFile(join(cwd, 'vite.config.ts'), "import vanrot from '@vanrot/vite-plugin';\n");
   await writeFile(
     join(cwd, 'vanrot.config.ts'),
-    "export default { schemaVersion: 1, source: { root: 'src' }, devServer: { port: 1990 } };",
+    "export default { schemaVersion: 1, source: { root: 'src' }, devServer: { port: 1964 } };",
   );
   await writeFile(join(cwd, 'src', 'app.component.ts'), 'export class AppComponent {}\n');
   await writeFile(join(cwd, 'src', 'app.component.html'), '<main>{{ title() }}</main>\n');

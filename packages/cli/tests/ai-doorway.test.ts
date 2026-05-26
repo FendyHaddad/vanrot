@@ -11,7 +11,7 @@ async function tempProject() {
   await writeFile(join(cwd, 'package.json'), JSON.stringify({ name: 'demo', private: true }));
   await writeFile(
     join(cwd, 'vanrot.config.ts'),
-    "export default { schemaVersion: 1, source: { root: 'src' }, devServer: { port: 1990 }, ai: { enabled: true, directory: '.vanrot/ai', history: true } };\n",
+    "export default { schemaVersion: 1, source: { root: 'src' }, devServer: { port: 1964 }, ai: { enabled: true, directory: '.vanrot/ai', history: true } };\n",
   );
   await writeFile(join(cwd, 'src', 'home.page.ts'), 'export class HomePage {}\n');
   await writeFile(join(cwd, 'src', 'home.page.html'), '<main>{{ title() }}</main>\n');

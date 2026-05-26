@@ -159,7 +159,7 @@
         {
           "id": "defaults",
           "title": "Defaults",
-          "body": "The default source root is src, the default dev server port is 1990, the default UI flavor is october, and the default UI style mode is vanrotstyles."
+          "body": "The default source root is src, the default dev server port is 1964, the default UI flavor is october, and the default UI style mode is vanrotstyles."
         },
         {
           "id": "maintenance",

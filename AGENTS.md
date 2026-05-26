@@ -1,3 +1,33 @@
+## Memory Protocol
+
+Use the local claude-mem HTTP API at `http://localhost:37777`.
+
+Do not call memory endpoints without a `contentSessionId`.
+
+At the start of a significant Codex task, initialize a deterministic session id:
+
+```sh
+curl -sS -X POST http://localhost:37777/api/sessions/init \
+  -H 'Content-Type: application/json' \
+  -d '{"contentSessionId":"codex-YYYY-MM-DD-short-task-name","project":"CURRENT_WORKING_DIRECTORY","prompt":"Brief task description","platformSource":"codex"}'
+```
+
+After completing significant work, queue observations. This claude-mem version requires `tool_name`:
+
+```sh
+curl -sS -X POST http://localhost:37777/api/sessions/observations \
+  -H 'Content-Type: application/json' \
+  -d '{"contentSessionId":"codex-YYYY-MM-DD-short-task-name","platformSource":"codex","tool_name":"codex","observations":["What changed, with file paths and verification details."]}'
+```
+
+At session end, queue a summary:
+
+```sh
+curl -sS -X POST http://localhost:37777/api/sessions/summarize \
+  -H 'Content-Type: application/json' \
+  -d '{"contentSessionId":"codex-YYYY-MM-DD-short-task-name","platformSource":"codex","last_assistant_message":"Concise final result and any verification performed."}'
+```
+
 ## Vanrot Project Rules
 
 All Vanrot code, examples, generated output, specs, and plans should follow the framework rules we expect users to follow:
@@ -20,11 +50,11 @@ When finishing changes to `apps/vanrot-site`, restart the local site dev server 
 Use the standard local preview target:
 
 ```sh
-pkill -f "vite/bin/vite.js.*--port 1990" || true
-pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1990
+pkill -f "vite/bin/vite.js.*--port 1964" || true
+pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1964
 ```
 
-After restart, verify the relevant site route responds on `http://localhost:1990`.
+After restart, verify the relevant site route responds on `http://localhost:1964`.
 
 ## Vanrot Component Docs Protocol
 
@@ -131,13 +161,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-26 1:00am GMT+8
+# [vanrot] recent context, 2026-05-26 11:22pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (12,575t read) | 1,727,791t work | 99% savings
+Stats: 50 obs (12,929t read) | 1,569,108t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -151,23 +181,8 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-1880 7:36p 🔵 Route definition order impacts UI menu order
-1881 8:52p ⚖️ Proposed separation of VR Router and VR Outlet responsibilities
-1882 9:04p ⚖️ Simplify routing module by excluding 'group'
-1884 9:06p 🔵 Phase 15A spec details and file structure identified
-1885 9:13p 🟣 Phase 15B: Nested Layout Routing Implemented
-1886 " ⚖️ Exclude 'group' routing construct in Phase 15B
-1887 10:59p 🔵 User questions the method's complexity
-1888 11:06p 🔵 Phase 15B Nested Layout Routing Specification
 ### May 24, 2026
-1889 12:05a ✅ Initiate cleanup before planning next writing task
-1891 12:07a 🔵 Review of tsconfig.base.json compiler options
-1890 " 🔵 Review of AGENTS.md project rules
-1892 12:08a 🔵 Code search for routing-related types
-1894 1:42a 🔵 User confirms understanding of caching requirements
 1895 3:16a ⚖️ VR UI Framework Naming and Theming
-1896 " ⚖️ Package Distribution and Documentation
-1897 " ⚖️ Framework Configuration for CSS
 1899 3:55a 🟣 Enhanced CSS Token and Utility Testing
 1898 3:56a ✅ Execution Plans Skill Documentation
 1900 1:50p ✅ CSS File Management Strategy
@@ -203,6 +218,22 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 1966 " 🔵 Vanrot UI Metadata Structure and Constants
 1972 " 🔵 Vanrot Component Code Generation for Accessibility
 1974 " 🔵 Vanrot Component Code Generation Logic
+### May 26, 2026
+1977 6:29p 🔵 Dev server port configuration in AGENTS.md
+1976 " 🔴 Localhost port mismatch
+1981 6:48p 🔴 Fix Claude-Mem codex integration issue
+1982 " 🔵 Memory registry file is empty
+1983 " 🟣 Initialized new Claude-Mem session
+1984 6:49p 🔵 Codex configuration files lack specific MCP server details
+1985 " 🔵 Codex HTTP service is healthy and ready
+1988 " 🔵 Codex configuration includes MCP server and plugin definitions
+1989 " 🔵 Claude-Mem MCP server configured for stdio communication
+1991 " 🔵 Claude-Mem mem-search skill defines a 3-layer workflow
+1993 6:50p 🔵 Codex configuration specifies project trust levels and MCP server details
+2005 " 🔵 Codex configuration and Claude-Mem MCP server smoke test validation
+2018 6:51p 🔵 Claude-Mem MCP server configuration details extracted
+2046 6:52p 🔵 Codex TOML configuration for Claude-Mem server validated
+2055 6:53p 🔵 Relevant lines identified in AGENTS.md for memory protocol
 
-Access 1728k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1569k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

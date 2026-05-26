@@ -205,7 +205,7 @@ describe('vr create', () => {
     expect(source).toContain('export default defineVanrotConfig({');
     expect(source).toContain('schemaVersion: 1');
     expect(source).toContain("root: 'src'");
-    expect(source).toContain('port: 1990');
+    expect(source).toContain('port: 1964');
     expect(source).toContain("ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },");
   });
 

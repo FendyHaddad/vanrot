@@ -1,7 +1,7 @@
 export const vanrotConfigFileName = 'vanrot.config.ts';
 export const configSchemaVersion = 1;
 export const defaultSourceRoot = 'src';
-export const defaultDevServerPort = 1990;
+export const defaultDevServerPort = 1964;
 
 export const configDomain = {
   project: 'project',

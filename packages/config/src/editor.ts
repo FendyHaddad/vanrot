@@ -17,7 +17,7 @@ export function upsertVanrotConfigDomain(
     return sourceText;
   }
 
-  const marker = 'devServer: { port: 1990 },';
+  const marker = 'devServer: { port: 1964 },';
   if (sourceText.includes(marker)) {
     return sourceText.replace(marker, `${marker}\n  ${domainName}: ${domainValueSource},`);
   }

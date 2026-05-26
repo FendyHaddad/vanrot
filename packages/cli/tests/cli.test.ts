@@ -155,7 +155,7 @@ describe('runCli', () => {
     expect(result.exitCode).toBe(0);
     const source = await readFile(join(cwd, 'vanrot.config.ts'), 'utf8');
     expect(source).toContain('defineVanrotConfig');
-    expect(source).toContain('port: 1990');
+    expect(source).toContain('port: 1964');
   });
 
   it('runs config recover and includes inferred optional domains', async () => {

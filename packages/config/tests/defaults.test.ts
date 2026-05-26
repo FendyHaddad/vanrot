@@ -7,7 +7,7 @@ describe('normalizeVanrotConfig', () => {
 
     expect(normalized.schemaVersion).toBe(1);
     expect(normalized.source.root).toBe('src');
-    expect(normalized.devServer.port).toBe(1990);
+    expect(normalized.devServer.port).toBe(1964);
   });
 
   it('fills UI October defaults', () => {

@@ -6,7 +6,7 @@
 
 **Architecture:** Extend the existing Phase 16 registry-first UI pipeline: `@vanrot/ui` owns primitive metadata, source templates, token groups, anatomy, asset URLs, and docs paths; the compiler consumes that metadata to lower root and anatomy tags; the CLI copies registry-backed files and prints registry-backed help. Add small runtime helpers for positioned layers, tooltip disclosure, and command-menu keyboard state, then use those helpers from the docs site interaction widgets. Keep admin, dashboard, and mobile as showcase sections built from shipped primitives, not new primitive tags.
 
-**Tech Stack:** TypeScript, Vanrot signals/runtime controllers, DOM APIs, Vitest with jsdom, `@vanrot/ui` registry metadata and source assets, `@vanrot/compiler` code generation, `@vanrot/cli`, `apps/vanrot-site`, local Vite preview on port `1990`, and browser visual QA.
+**Tech Stack:** TypeScript, Vanrot signals/runtime controllers, DOM APIs, Vitest with jsdom, `@vanrot/ui` registry metadata and source assets, `@vanrot/compiler` code generation, `@vanrot/cli`, `apps/vanrot-site`, local Vite preview on port `1964`, and browser visual QA.
 
 ---
 
@@ -2790,21 +2790,21 @@ Expected: both commands pass.
 Run:
 
 ```bash
-pkill -f "vite/bin/vite.js.*--port 1990" || true
-pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1990
+pkill -f "vite/bin/vite.js.*--port 1964" || true
+pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1964
 ```
 
-Expected: Vite serves on `http://127.0.0.1:1990/`. Keep the server running for browser QA.
+Expected: Vite serves on `http://127.0.0.1:1964/`. Keep the server running for browser QA.
 
 - [x] **Step 7: Verify local routes respond**
 
 Run in another shell:
 
 ```bash
-curl -I http://127.0.0.1:1990/docs/components/popovers
-curl -I http://127.0.0.1:1990/docs/components/tooltips
-curl -I http://127.0.0.1:1990/docs/components/command-menu
-curl -I http://127.0.0.1:1990/docs/examples/october-showcase
+curl -I http://127.0.0.1:1964/docs/components/popovers
+curl -I http://127.0.0.1:1964/docs/components/tooltips
+curl -I http://127.0.0.1:1964/docs/components/command-menu
+curl -I http://127.0.0.1:1964/docs/examples/october-showcase
 ```
 
 Expected: each response is `HTTP/1.1 200 OK`.
@@ -2813,11 +2813,11 @@ Expected: each response is `HTTP/1.1 200 OK`.
 
 Use the Browser skill to inspect:
 
-- `http://127.0.0.1:1990/docs/components/popovers`
-- `http://127.0.0.1:1990/docs/components/tooltips`
-- `http://127.0.0.1:1990/docs/components/command-menu`
-- `http://127.0.0.1:1990/docs/examples/october-showcase`
-- `http://127.0.0.1:1990/docs`
+- `http://127.0.0.1:1964/docs/components/popovers`
+- `http://127.0.0.1:1964/docs/components/tooltips`
+- `http://127.0.0.1:1964/docs/components/command-menu`
+- `http://127.0.0.1:1964/docs/examples/october-showcase`
+- `http://127.0.0.1:1964/docs`
 
 Desktop viewport expected:
 

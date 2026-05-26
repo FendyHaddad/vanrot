@@ -23,7 +23,7 @@ describe('runner-backed commands', () => {
 
     expect(result.exitCode).toBe(0);
     expect(calls).toEqual([
-      { command: 'vite', args: ['--host', '127.0.0.1', '--port', '1990'], cwd: '/demo' },
+      { command: 'vite', args: ['--host', '127.0.0.1', '--port', '1964'], cwd: '/demo' },
     ]);
     expect(reporter.output()).toContain('Starting Vanrot dev server');
   });

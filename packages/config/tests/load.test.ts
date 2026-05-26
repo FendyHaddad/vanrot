@@ -14,7 +14,7 @@ describe('loadVanrotProjectConfig', () => {
     const result = await loadVanrotProjectConfig(cwd);
 
     expect(result.config.source.root).toBe('src');
-    expect(result.config.devServer.port).toBe(1990);
+    expect(result.config.devServer.port).toBe(1964);
     expect(result.diagnostics).toEqual(
       expect.arrayContaining([
         expect.objectContaining({ code: 'VRCFG004', severity: 'warning' }),

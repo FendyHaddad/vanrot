@@ -16,6 +16,6 @@ describe('@vanrot/config exports', () => {
 
     expect(normalized.schemaVersion).toBe(1);
     expect(normalized.source.root).toBe('src');
-    expect(normalized.devServer.port).toBe(1990);
+    expect(normalized.devServer.port).toBe(1964);
   });
 });

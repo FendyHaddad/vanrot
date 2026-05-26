@@ -4,7 +4,7 @@ export default defineVanrotConfig({
   schemaVersion: 1,
   project: { name: 'Vanrot Site' },
   source: { root: 'src' },
-  devServer: { port: 1990 },
+  devServer: { port: 1964 },
   router: {
     navigationPolish: {
       title: true,
