@@ -124,9 +124,12 @@ Options
     name: commandName.ai,
     usage: commandInvocation(commandName.ai),
     rootUsage: 'ai <action>',
-    description: 'Write AI-readable project context',
+    description: 'Build and inspect AI-readable Vanrot knowledge',
     help: `vr ai context
+vr ai build
+vr ai verify
 vr ai doctor
+vr ai mcp --help
 vr ai prompt
 vr ai record --code <code> --message <message>
 vr ai summarize`,

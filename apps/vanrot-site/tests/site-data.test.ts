@@ -93,6 +93,7 @@ describe('vanrot site docs data', () => {
       '@vanrot/ui',
       '@vanrot/testing',
       '@vanrot/devtools',
+      '@vanrot/ai',
     ]);
     expect(packageReferenceDocs.every((item) => item.docsPath.startsWith('/docs'))).toBe(true);
     expect(cliCommandDocs.every((command) => command.docsPath.startsWith('/docs'))).toBe(true);

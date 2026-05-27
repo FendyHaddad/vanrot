@@ -23,6 +23,7 @@ describe('framework reference registry', () => {
       '@vanrot/ui',
       '@vanrot/testing',
       '@vanrot/devtools',
+      '@vanrot/ai',
     ]);
   });
 
@@ -104,6 +105,7 @@ describe('example matrix', () => {
       'ui-framework-usage',
       'testing-helpers',
       'devtools-intelligence',
+      'ai-consumption',
       'build-deploy',
     ]);
 

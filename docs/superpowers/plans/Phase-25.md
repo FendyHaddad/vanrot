@@ -125,7 +125,7 @@ Do not split this into separate implementation plans. The consumers are only cor
 - Create: `packages/ai/tests/bundle.test.ts`
 - Modify: `tsconfig.json`
 
-- [ ] **Step 1: Write failing schema tests**
+- [x] **Step 1: Write failing schema tests**
 
 Add this first section to `packages/ai/tests/bundle.test.ts`:
 
@@ -177,7 +177,7 @@ describe('AI bundle schema', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing package test**
+- [x] **Step 2: Run the failing package test**
 
 Run:
 
@@ -187,7 +187,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: FAIL because `@vanrot/ai` package and exports do not exist.
 
-- [ ] **Step 3: Create package manifest**
+- [x] **Step 3: Create package manifest**
 
 Create `packages/ai/package.json`:
 
@@ -228,7 +228,7 @@ Create `packages/ai/package.json`:
 }
 ```
 
-- [ ] **Step 4: Create package tsconfig**
+- [x] **Step 4: Create package tsconfig**
 
 Create `packages/ai/tsconfig.json`:
 
@@ -246,7 +246,7 @@ Create `packages/ai/tsconfig.json`:
 }
 ```
 
-- [ ] **Step 5: Add root project reference**
+- [x] **Step 5: Add root project reference**
 
 Modify `tsconfig.json` so `./packages/ai` is included before `./packages/cli`:
 
@@ -266,7 +266,7 @@ Modify `tsconfig.json` so `./packages/ai` is included before `./packages/cli`:
 }
 ```
 
-- [ ] **Step 6: Implement path constants**
+- [x] **Step 6: Implement path constants**
 
 Create `packages/ai/src/bundle/paths.ts`:
 
@@ -285,7 +285,7 @@ export const defaultAiBundlePaths = {
 } as const;
 ```
 
-- [ ] **Step 7: Implement schema types and guards**
+- [x] **Step 7: Implement schema types and guards**
 
 Create `packages/ai/src/bundle/schema.ts`:
 
@@ -360,7 +360,7 @@ export function isAiBundleManifest(value: unknown): value is AiBundleManifest {
 }
 ```
 
-- [ ] **Step 8: Export public API**
+- [x] **Step 8: Export public API**
 
 Create `packages/ai/src/index.ts`:
 
@@ -383,7 +383,7 @@ export {
 } from './bundle/schema.js';
 ```
 
-- [ ] **Step 9: Run package test**
+- [x] **Step 9: Run package test**
 
 Run:
 
@@ -393,7 +393,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: PASS.
 
-- [ ] **Step 10: Checkpoint**
+- [x] **Step 10: Checkpoint**
 
 Report changed files and whether `pnpm --filter @vanrot/ai test` passed.
 
@@ -404,7 +404,7 @@ Report changed files and whether `pnpm --filter @vanrot/ai test` passed.
 - Create: `packages/ai/src/bundle/source.ts`
 - Modify: `packages/ai/tests/bundle.test.ts`
 
-- [ ] **Step 1: Add failing source reader tests**
+- [x] **Step 1: Add failing source reader tests**
 
 Append to `packages/ai/tests/bundle.test.ts`:
 
@@ -475,7 +475,7 @@ describe('AI knowledge source reader', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing source tests**
+- [x] **Step 2: Run failing source tests**
 
 Run:
 
@@ -485,7 +485,7 @@ pnpm --filter @vanrot/ai test -- --runInBand
 
 Expected: FAIL because `readAiKnowledgeSource` and `readJsonFile` are not exported.
 
-- [ ] **Step 3: Implement source reader**
+- [x] **Step 3: Implement source reader**
 
 Create `packages/ai/src/bundle/source.ts`:
 
@@ -582,7 +582,7 @@ function fingerprintText(text: string): string {
 }
 ```
 
-- [ ] **Step 4: Export source reader**
+- [x] **Step 4: Export source reader**
 
 Modify `packages/ai/src/index.ts`:
 
@@ -598,7 +598,7 @@ export {
 
 Keep the exports from Task 1 in the same file.
 
-- [ ] **Step 5: Run source tests**
+- [x] **Step 5: Run source tests**
 
 Run:
 
@@ -608,7 +608,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: PASS.
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Report that source reader tests pass and list the three source groups now fingerprinted.
 
@@ -619,7 +619,7 @@ Report that source reader tests pass and list the three source groups now finger
 - Modify: `packages/ai/src/index.ts`
 - Modify: `packages/ai/tests/bundle.test.ts`
 
-- [ ] **Step 1: Add failing generator tests**
+- [x] **Step 1: Add failing generator tests**
 
 Append to `packages/ai/tests/bundle.test.ts`:
 
@@ -649,7 +649,7 @@ describe('AI knowledge bundle generator', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing generator test**
+- [x] **Step 2: Run failing generator test**
 
 Run:
 
@@ -659,7 +659,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: FAIL because `buildAiKnowledgeBundle` is missing.
 
-- [ ] **Step 3: Implement generator**
+- [x] **Step 3: Implement generator**
 
 Create `packages/ai/src/bundle/generator.ts`:
 
@@ -867,7 +867,7 @@ function readString(value: unknown, key: string): string {
 }
 ```
 
-- [ ] **Step 4: Export generator**
+- [x] **Step 4: Export generator**
 
 Modify `packages/ai/src/index.ts`:
 
@@ -883,7 +883,7 @@ export {
 } from './bundle/generator.js';
 ```
 
-- [ ] **Step 5: Run generator tests**
+- [x] **Step 5: Run generator tests**
 
 Run:
 
@@ -893,7 +893,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: PASS.
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Report generated sections and confirm the rules document is provider-neutral.
 
@@ -915,7 +915,7 @@ Report generated sections and confirm the rules document is provider-neutral.
 - Create: `docs/ai/knowledge/examples.md`
 - Create: `docs/ai/knowledge/public-api.md`
 
-- [ ] **Step 1: Add failing writer and verifier tests**
+- [x] **Step 1: Add failing writer and verifier tests**
 
 Append to `packages/ai/tests/bundle.test.ts`:
 
@@ -988,7 +988,7 @@ describe('AI bundle writer and verifier', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing writer tests**
+- [x] **Step 2: Run failing writer tests**
 
 Run:
 
@@ -998,7 +998,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: FAIL because writer and verifier exports are missing.
 
-- [ ] **Step 3: Implement bundle writer**
+- [x] **Step 3: Implement bundle writer**
 
 Create `packages/ai/src/bundle/writer.ts`:
 
@@ -1032,7 +1032,7 @@ function json(value: unknown): string {
 }
 ```
 
-- [ ] **Step 4: Implement bundle verifier**
+- [x] **Step 4: Implement bundle verifier**
 
 Create `packages/ai/src/bundle/verify.ts`:
 
@@ -1096,7 +1096,7 @@ function requiredBundlePaths(documentPaths: string[]): string[] {
 }
 ```
 
-- [ ] **Step 5: Export writer and verifier**
+- [x] **Step 5: Export writer and verifier**
 
 Modify `packages/ai/src/index.ts`:
 
@@ -1105,7 +1105,7 @@ export { verifyAiKnowledgeBundle, type AiBundleVerificationResult } from './bund
 export { writeAiKnowledgeBundle } from './bundle/writer.js';
 ```
 
-- [ ] **Step 6: Run writer and verifier tests**
+- [x] **Step 6: Run writer and verifier tests**
 
 Run:
 
@@ -1115,7 +1115,7 @@ pnpm --filter @vanrot/ai test
 
 Expected: PASS.
 
-- [ ] **Step 7: Generate official bundle**
+- [x] **Step 7: Generate official bundle**
 
 Run:
 
@@ -1126,7 +1126,7 @@ node -e "import('./packages/ai/dist/index.js').then(({ writeAiKnowledgeBundle })
 
 Expected: creates `docs/ai/manifest.json`, `docs/ai/index.json`, `docs/ai/rules.md`, and `docs/ai/knowledge/*.md`.
 
-- [ ] **Step 8: Checkpoint**
+- [x] **Step 8: Checkpoint**
 
 Report generated file paths and verify that `docs/ai/manifest.json` has `coverageStatus: "complete"`.
 
@@ -1137,7 +1137,7 @@ Report generated file paths and verify that `docs/ai/manifest.json` has `coverag
 - Create: `scripts/verify-ai-docs.test.mjs`
 - Modify: `package.json`
 
-- [ ] **Step 1: Write failing verification script tests**
+- [x] **Step 1: Write failing verification script tests**
 
 Create `scripts/verify-ai-docs.test.mjs`:
 
@@ -1157,7 +1157,7 @@ describe('verify-ai-docs', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing script test**
+- [x] **Step 2: Run failing script test**
 
 Run:
 
@@ -1167,7 +1167,7 @@ vitest run scripts/verify-ai-docs.test.mjs
 
 Expected: FAIL because `scripts/verify-ai-docs.mjs` does not exist.
 
-- [ ] **Step 3: Implement verification script**
+- [x] **Step 3: Implement verification script**
 
 Create `scripts/verify-ai-docs.mjs`:
 
@@ -1199,7 +1199,7 @@ if (import.meta.url === `file://${process.argv[1]}`) {
 }
 ```
 
-- [ ] **Step 4: Update root scripts**
+- [x] **Step 4: Update root scripts**
 
 Modify `package.json` scripts:
 
@@ -1213,7 +1213,7 @@ Modify `package.json` scripts:
 
 Keep all existing scripts not shown here.
 
-- [ ] **Step 5: Run focused verification**
+- [x] **Step 5: Run focused verification**
 
 Run:
 
@@ -1225,7 +1225,7 @@ pnpm verify:ai-docs
 
 Expected: PASS and `AI docs verification passed.`
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Report that `verify:ai-docs` is wired into root `verify`.
 
@@ -1240,7 +1240,7 @@ Report that `verify:ai-docs` is wired into root `verify`.
 - Modify: `packages/cli/tests/ai-doorway.test.ts`
 - Modify: `packages/cli/tests/cli.test.ts`
 
-- [ ] **Step 1: Add failing CLI tests**
+- [x] **Step 1: Add failing CLI tests**
 
 Append to `packages/cli/tests/ai-doorway.test.ts`:
 
@@ -1289,7 +1289,7 @@ Modify `packages/cli/tests/cli.test.ts` root help expectation:
 expect(out).toContain('ai <action>                Build and inspect AI-readable Vanrot knowledge');
 ```
 
-- [ ] **Step 2: Run failing CLI tests**
+- [x] **Step 2: Run failing CLI tests**
 
 Run:
 
@@ -1299,7 +1299,7 @@ pnpm --filter @vanrot/cli test -- ai-doorway.test.ts cli.test.ts
 
 Expected: FAIL because CLI does not call the new bundle APIs and help text still uses old wording.
 
-- [ ] **Step 3: Add CLI package dependency and reference**
+- [x] **Step 3: Add CLI package dependency and reference**
 
 Modify `packages/cli/package.json` dependencies and prebuild scripts:
 
@@ -1333,7 +1333,7 @@ Modify `packages/cli/tsconfig.json` references:
 ]
 ```
 
-- [ ] **Step 4: Extend AI paths**
+- [x] **Step 4: Extend AI paths**
 
 Modify `packages/cli/src/ai/paths.ts`:
 
@@ -1352,7 +1352,7 @@ export interface AiPaths {
 bundle: join(root, 'bundle'),
 ```
 
-- [ ] **Step 5: Update command metadata**
+- [x] **Step 5: Update command metadata**
 
 Modify the `commandName.ai` metadata in `packages/cli/src/commands/metadata.ts`:
 
@@ -1373,7 +1373,7 @@ vr ai summarize`,
 },
 ```
 
-- [ ] **Step 6: Add CLI action handling**
+- [x] **Step 6: Add CLI action handling**
 
 Modify `packages/cli/src/commands/ai.ts`. Add imports:
 
@@ -1446,7 +1446,7 @@ if (action === 'mcp') {
 
 Keep existing `context`, `prompt`, `record`, and `summarize` branches below these branches.
 
-- [ ] **Step 7: Run CLI tests**
+- [x] **Step 7: Run CLI tests**
 
 Run:
 
@@ -1456,7 +1456,7 @@ pnpm --filter @vanrot/cli test -- ai-doorway.test.ts cli.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 8: Checkpoint**
+- [x] **Step 8: Checkpoint**
 
 Report new `vr ai` actions and confirm old AI doorway tests still pass.
 
@@ -1468,7 +1468,7 @@ Report new `vr ai` actions and confirm old AI doorway tests still pass.
 - Modify: `packages/ai/src/index.ts`
 - Create: `packages/ai/tests/mcp.test.ts`
 
-- [ ] **Step 1: Write failing MCP tests**
+- [x] **Step 1: Write failing MCP tests**
 
 Create `packages/ai/tests/mcp.test.ts`:
 
@@ -1509,7 +1509,7 @@ describe('Vanrot MCP server', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing MCP tests**
+- [x] **Step 2: Run failing MCP tests**
 
 Run:
 
@@ -1519,7 +1519,7 @@ pnpm --filter @vanrot/ai test -- mcp.test.ts
 
 Expected: FAIL because MCP exports are missing.
 
-- [ ] **Step 3: Implement MCP server factory**
+- [x] **Step 3: Implement MCP server factory**
 
 Create `packages/ai/src/mcp/server.ts`:
 
@@ -1593,7 +1593,7 @@ function searchBundle(bundle: AiKnowledgeBundle, query: string): string {
 }
 ```
 
-- [ ] **Step 4: Implement MCP stdio bin**
+- [x] **Step 4: Implement MCP stdio bin**
 
 Create `packages/ai/src/mcp/bin.ts`:
 
@@ -1610,7 +1610,7 @@ await server.connect(transport);
 console.error('Vanrot MCP server running on stdio');
 ```
 
-- [ ] **Step 5: Export MCP APIs**
+- [x] **Step 5: Export MCP APIs**
 
 Modify `packages/ai/src/index.ts`:
 
@@ -1618,7 +1618,7 @@ Modify `packages/ai/src/index.ts`:
 export { createVanrotMcpServer, type VanrotMcpServer } from './mcp/server.js';
 ```
 
-- [ ] **Step 6: Run MCP tests**
+- [x] **Step 6: Run MCP tests**
 
 Run:
 
@@ -1629,7 +1629,7 @@ pnpm --filter @vanrot/ai typecheck
 
 Expected: PASS.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Report MCP resources and search tool names.
 
@@ -1643,7 +1643,7 @@ Report MCP resources and search tool names.
 - Create: `docs/ai/skill/SKILL.md`
 - Create: `docs/ai/skill/skill.json`
 
-- [ ] **Step 1: Write failing Skill.sh tests**
+- [x] **Step 1: Write failing Skill.sh tests**
 
 Create `packages/ai/tests/skill.test.ts`:
 
@@ -1669,7 +1669,7 @@ describe('Skill.sh package generator', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing Skill.sh tests**
+- [x] **Step 2: Run failing Skill.sh tests**
 
 Run:
 
@@ -1679,7 +1679,7 @@ pnpm --filter @vanrot/ai test -- skill.test.ts
 
 Expected: FAIL because `createSkillPackageFiles` is missing.
 
-- [ ] **Step 3: Implement Skill.sh generator**
+- [x] **Step 3: Implement Skill.sh generator**
 
 Create `packages/ai/src/skill/generator.ts`:
 
@@ -1736,7 +1736,7 @@ export function createSkillPackageFiles(
 }
 ```
 
-- [ ] **Step 4: Write Skill.sh files during bundle generation**
+- [x] **Step 4: Write Skill.sh files during bundle generation**
 
 Modify `packages/ai/src/bundle/writer.ts`:
 
@@ -1754,7 +1754,7 @@ for (const file of createSkillPackageFiles({
 }
 ```
 
-- [ ] **Step 5: Export Skill.sh generator**
+- [x] **Step 5: Export Skill.sh generator**
 
 Modify `packages/ai/src/index.ts`:
 
@@ -1766,7 +1766,7 @@ export {
 } from './skill/generator.js';
 ```
 
-- [ ] **Step 6: Run Skill.sh tests and regenerate bundle**
+- [x] **Step 6: Run Skill.sh tests and regenerate bundle**
 
 Run:
 
@@ -1778,7 +1778,7 @@ node -e "import('./packages/ai/dist/index.js').then(({ writeAiKnowledgeBundle })
 
 Expected: PASS and creates `docs/ai/skill/SKILL.md` plus `docs/ai/skill/skill.json`.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Report Skill.sh generated files and confirm they reference `docs/ai/manifest.json`.
 
@@ -1789,7 +1789,7 @@ Report Skill.sh generated files and confirm they reference `docs/ai/manifest.jso
 - Modify: `packages/ai/tests/bundle.test.ts`
 - Modify: `scripts/verify-ai-docs.test.mjs`
 
-- [ ] **Step 1: Add failing coverage tests**
+- [x] **Step 1: Add failing coverage tests**
 
 Append to `packages/ai/tests/bundle.test.ts`:
 
@@ -1823,7 +1823,7 @@ describe('AI bundle coverage', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing coverage tests**
+- [x] **Step 2: Run failing coverage tests**
 
 Run:
 
@@ -1833,7 +1833,7 @@ pnpm --filter @vanrot/ai test -- bundle.test.ts
 
 Expected: FAIL because verifier does not inspect index count or Skill.sh file content yet.
 
-- [ ] **Step 3: Add index and Skill.sh checks**
+- [x] **Step 3: Add index and Skill.sh checks**
 
 Modify `packages/ai/src/bundle/verify.ts`:
 
@@ -1890,7 +1890,7 @@ async function checkNonEmptyFile(root: string, path: string, failures: string[])
 }
 ```
 
-- [ ] **Step 4: Run coverage tests**
+- [x] **Step 4: Run coverage tests**
 
 Run:
 
@@ -1901,7 +1901,7 @@ vitest run scripts/verify-ai-docs.test.mjs
 
 Expected: PASS.
 
-- [ ] **Step 5: Regenerate and verify official bundle**
+- [x] **Step 5: Regenerate and verify official bundle**
 
 Run:
 
@@ -1913,7 +1913,7 @@ pnpm verify:ai-docs
 
 Expected: PASS.
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Report the stale, missing, unsupported, and incomplete states covered by tests.
 
@@ -1925,7 +1925,7 @@ Report the stale, missing, unsupported, and incomplete states covered by tests.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-25.md`
 
-- [ ] **Step 1: Confirm implementation tasks are complete**
+- [x] **Step 1: Confirm implementation tasks are complete**
 
 Run:
 
@@ -1935,7 +1935,7 @@ rg -n "^- \\[ \\]" docs/superpowers/plans/Phase-25.md
 
 Expected before closeout: output only for Task 10 unchecked steps. Do not mark Phase 25 complete while earlier task checkboxes remain unchecked.
 
-- [ ] **Step 2: Update feature maturity**
+- [x] **Step 2: Update feature maturity**
 
 Modify the Phase 25 row in `docs/superpowers/feature-maturity.md`:
 
@@ -1945,7 +1945,7 @@ Modify the Phase 25 row in `docs/superpowers/feature-maturity.md`:
 
 Leave Phase 26 unchecked and next.
 
-- [ ] **Step 3: Update final TDD inventory**
+- [x] **Step 3: Update final TDD inventory**
 
 Add rows to `docs/superpowers/final-tdd-inventory.md` under the most relevant section:
 
@@ -1956,15 +1956,15 @@ Add rows to `docs/superpowers/final-tdd-inventory.md` under the most relevant se
 | ai consumption | `vr ai` bundle commands | Production-Ready | `vr ai build`, `verify`, `doctor`, and `mcp` use the same bundle contract as MCP and Skill.sh. | Phase 25, Phase 26 | Existing project-context AI doorway commands remain covered. |
 ```
 
-- [ ] **Step 4: Update presentation roadmap**
+- [x] **Step 4: Update presentation roadmap**
 
 Modify `docs/vanrot-presentation.html` so Phase 25 is visually done and Phase 26 is the next active phase. Use the same markup pattern used for Phase 23 and Phase 24 completion.
 
-- [ ] **Step 5: Mark plan tasks complete**
+- [x] **Step 5: Mark plan tasks complete**
 
 Tick completed steps in `docs/superpowers/plans/Phase-25.md`. Keep any failed verification step unchecked until it passes.
 
-- [ ] **Step 6: Run phase docs verification**
+- [x] **Step 6: Run phase docs verification**
 
 Run:
 
@@ -1974,7 +1974,7 @@ pnpm verify:phase-docs
 
 Expected: PASS. If it fails, fix only the reported tracker, plan, inventory, or presentation mismatch.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Report the tracker, inventory, presentation, and plan updates.
 
@@ -1983,7 +1983,7 @@ Report the tracker, inventory, presentation, and plan updates.
 **Files:**
 - No new files.
 
-- [ ] **Step 1: Run focused package tests**
+- [x] **Step 1: Run focused package tests**
 
 Run:
 
@@ -1994,7 +1994,7 @@ pnpm --filter @vanrot/cli test -- ai-doorway.test.ts cli.test.ts
 
 Expected: PASS.
 
-- [ ] **Step 2: Run focused verification scripts**
+- [x] **Step 2: Run focused verification scripts**
 
 Run:
 
@@ -2006,7 +2006,7 @@ pnpm verify:phase-docs
 
 Expected: PASS.
 
-- [ ] **Step 3: Run full verification**
+- [x] **Step 3: Run full verification**
 
 Run:
 
@@ -2016,7 +2016,7 @@ pnpm verify
 
 Expected: PASS.
 
-- [ ] **Step 4: Capture git status**
+- [x] **Step 4: Capture git status**
 
 Run:
 
@@ -2026,7 +2026,7 @@ git status --short --branch
 
 Expected: branch remains `main...origin/main`; modified files are the Phase 25 implementation files and any pre-existing unrelated local edits remain untouched.
 
-- [ ] **Step 5: Final checkpoint**
+- [x] **Step 5: Final checkpoint**
 
 Report:
 

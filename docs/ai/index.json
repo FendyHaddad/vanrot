@@ -1,0 +1,650 @@
+{
+  "packages": [
+    {
+      "id": "package:@vanrot/runtime",
+      "title": "@vanrot/runtime",
+      "summary": "Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, forms helpers, overlay helpers, and runtime graph contracts."
+    },
+    {
+      "id": "package:@vanrot/compiler",
+      "title": "@vanrot/compiler",
+      "summary": "Template compilation, scoped CSS rewriting, diagnostics, source maps, child components, slots, metadata readers, and generated component modules."
+    },
+    {
+      "id": "package:@vanrot/config",
+      "title": "@vanrot/config",
+      "summary": "Typed Vanrot config helpers, defaults, normalization, validation, migrations, diagnostics, and install-aware config edits."
+    },
+    {
+      "id": "package:@vanrot/router",
+      "title": "@vanrot/router",
+      "summary": "Route refs, layouts, nested outlets, navigation helpers, route metadata, preloading, keep-alive policies, and router diagnostics."
+    },
+    {
+      "id": "package:@vanrot/vite-plugin",
+      "title": "@vanrot/vite-plugin",
+      "summary": "Vanrot component transforms, virtual modules, scoped CSS modules, diagnostics bridge, project metadata, and production builds."
+    },
+    {
+      "id": "package:@vanrot/cli",
+      "title": "@vanrot/cli",
+      "summary": "Project creation, generation, UI additions, config inspection, doctor checks, project maps, AI rule files, dev, build, and test commands."
+    },
+    {
+      "id": "package:@vanrot/ui",
+      "title": "@vanrot/ui",
+      "summary": "Shadcn-inspired Vanrot-native primitives used by the site and the component documentation catalog."
+    },
+    {
+      "id": "package:@vanrot/testing",
+      "title": "@vanrot/testing",
+      "summary": "Readable component and workflow test helpers that stay lightweight until the post-production testing package phase."
+    },
+    {
+      "id": "package:@vanrot/devtools",
+      "title": "@vanrot/devtools",
+      "summary": "Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers."
+    },
+    {
+      "id": "package:@vanrot/ai",
+      "title": "@vanrot/ai",
+      "summary": "Generated AI knowledge bundle, verification, MCP server resources, Skill.sh package files, and provider-neutral framework rules."
+    }
+  ],
+  "publicExports": [
+    {
+      "id": "export:@vanrot/runtime:*",
+      "title": "@vanrot/runtime *",
+      "summary": "All public exports from @vanrot/runtime are covered by the runtime and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/runtime:signal",
+      "title": "@vanrot/runtime signal",
+      "summary": "Creates a writable Vanrot signal for local state.",
+      "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "export:@vanrot/runtime:computed",
+      "title": "@vanrot/runtime computed",
+      "summary": "Creates a derived value that tracks signal reads.",
+      "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "export:@vanrot/runtime:effect",
+      "title": "@vanrot/runtime effect",
+      "summary": "Runs reactive side effects with cleanup and disposal.",
+      "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "export:@vanrot/compiler:*",
+      "title": "@vanrot/compiler *",
+      "summary": "All public exports from @vanrot/compiler are covered by compiler and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/compiler:compileComponent",
+      "title": "@vanrot/compiler compileComponent",
+      "summary": "Compiles a Vanrot component source into executable output.",
+      "docsPath": "/docs/compiler"
+    },
+    {
+      "id": "export:@vanrot/compiler:parseTemplate",
+      "title": "@vanrot/compiler parseTemplate",
+      "summary": "Parses Vanrot template source into the compiler AST.",
+      "docsPath": "/docs/compiler"
+    },
+    {
+      "id": "export:@vanrot/compiler:diagnosticCatalog",
+      "title": "@vanrot/compiler diagnosticCatalog",
+      "summary": "Exposes compiler diagnostic metadata for docs and tools.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "export:@vanrot/config:*",
+      "title": "@vanrot/config *",
+      "summary": "All public exports from @vanrot/config are covered by configuration and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/config:defineVanrotConfig",
+      "title": "@vanrot/config defineVanrotConfig",
+      "summary": "Defines a typed Vanrot config object.",
+      "docsPath": "/docs/configuration"
+    },
+    {
+      "id": "export:@vanrot/config:normalizeVanrotConfig",
+      "title": "@vanrot/config normalizeVanrotConfig",
+      "summary": "Normalizes config defaults and domains.",
+      "docsPath": "/docs/configuration"
+    },
+    {
+      "id": "export:@vanrot/config:configDiagnosticCode",
+      "title": "@vanrot/config configDiagnosticCode",
+      "summary": "Lists config diagnostic codes.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "export:@vanrot/router:*",
+      "title": "@vanrot/router *",
+      "summary": "All public exports from @vanrot/router are covered by routing and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/router:createRoutes",
+      "title": "@vanrot/router createRoutes",
+      "summary": "Creates the typed route builder used by apps.",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "id": "export:@vanrot/router:defineRoutes",
+      "title": "@vanrot/router defineRoutes",
+      "summary": "Defines route refs from a route table.",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "id": "export:@vanrot/router:provideRouter",
+      "title": "@vanrot/router provideRouter",
+      "summary": "Installs router state into a Vanrot app.",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "id": "export:@vanrot/vite-plugin:*",
+      "title": "@vanrot/vite-plugin *",
+      "summary": "All public exports from @vanrot/vite-plugin are covered by Vite plugin and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/vite-plugin:vanrot",
+      "title": "@vanrot/vite-plugin vanrot",
+      "summary": "Creates the Vanrot Vite plugin.",
+      "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "id": "export:@vanrot/vite-plugin:vanrotPlugin",
+      "title": "@vanrot/vite-plugin vanrotPlugin",
+      "summary": "Named Vanrot Vite plugin factory.",
+      "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "id": "export:@vanrot/vite-plugin:default",
+      "title": "@vanrot/vite-plugin default",
+      "summary": "Default Vanrot Vite plugin export.",
+      "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "id": "export:@vanrot/cli:*",
+      "title": "@vanrot/cli *",
+      "summary": "All public exports from @vanrot/cli are covered by CLI and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/cli:runCli",
+      "title": "@vanrot/cli runCli",
+      "summary": "Runs the Vanrot CLI command dispatcher.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "export:@vanrot/cli:createConsoleReporter",
+      "title": "@vanrot/cli createConsoleReporter",
+      "summary": "Creates the terminal reporter used by CLI commands.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "export:@vanrot/cli:createMemoryReporter",
+      "title": "@vanrot/cli createMemoryReporter",
+      "summary": "Creates an in-memory reporter for tests and integrations.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "export:@vanrot/ui:*",
+      "title": "@vanrot/ui *",
+      "summary": "All public exports from @vanrot/ui are covered by UI and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/ui:uiPrimitiveOrder",
+      "title": "@vanrot/ui uiPrimitiveOrder",
+      "summary": "Canonical order for UI primitive docs.",
+      "docsPath": "/docs/ui"
+    },
+    {
+      "id": "export:@vanrot/ui:uiComponentRegistry",
+      "title": "@vanrot/ui uiComponentRegistry",
+      "summary": "Structured UI component registry.",
+      "docsPath": "/docs/ui"
+    },
+    {
+      "id": "export:@vanrot/ui:getUiComponentRegistryItem",
+      "title": "@vanrot/ui getUiComponentRegistryItem",
+      "summary": "Looks up a UI component registry entry.",
+      "docsPath": "/docs/ui"
+    },
+    {
+      "id": "export:@vanrot/testing:*",
+      "title": "@vanrot/testing *",
+      "summary": "All public exports from @vanrot/testing are covered by testing and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/testing:testComponent",
+      "title": "@vanrot/testing testComponent",
+      "summary": "Builds a Vanrot component test harness.",
+      "docsPath": "/docs/testing"
+    },
+    {
+      "id": "export:@vanrot/devtools:*",
+      "title": "@vanrot/devtools *",
+      "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/devtools:normalizeGraphManifest",
+      "title": "@vanrot/devtools normalizeGraphManifest",
+      "summary": "Normalizes a project graph manifest for devtools consumers.",
+      "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "export:@vanrot/ai:*",
+      "title": "@vanrot/ai *",
+      "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.",
+      "docsPath": "/docs/public-api"
+    }
+  ],
+  "commands": [
+    {
+      "id": "command:create",
+      "title": "vr create <project-name>",
+      "summary": "Creates a routed Vanrot app with the configured package manager and starter files.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:generate",
+      "title": "vr generate <kind> <name>",
+      "summary": "Generates convention-based component and page files.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:add",
+      "title": "vr add <package-or-primitive>",
+      "summary": "Adds Vanrot packages or UI primitives and updates config when needed.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:ui",
+      "title": "vr ui <subcommand>",
+      "summary": "Inspects and manages Vanrot UI primitive metadata.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:config",
+      "title": "vr config <subcommand>",
+      "summary": "Reads, validates, and reports normalized Vanrot config.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:doctor",
+      "title": "vr doctor",
+      "summary": "Runs local project diagnostics with readable guidance.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:map",
+      "title": "vr map",
+      "summary": "Writes the project intelligence manifest at `.vanrot/project-map.json`.",
+      "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "command:init-ai",
+      "title": "vr init-ai",
+      "summary": "Writes provider-neutral project rules for AI assistants from normalized config.",
+      "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "command:ai",
+      "title": "vr ai <subcommand>",
+      "summary": "Builds, verifies, and inspects AI-readable Vanrot knowledge alongside project AI doorway files.",
+      "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "command:dev",
+      "title": "vr dev",
+      "summary": "Starts the configured Vite development server through the Vanrot CLI.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:build",
+      "title": "vr build",
+      "summary": "Runs a production build through the Vanrot CLI.",
+      "docsPath": "/docs/deployment"
+    },
+    {
+      "id": "command:test",
+      "title": "vr test",
+      "summary": "Runs the configured test command for a Vanrot project.",
+      "docsPath": "/docs/testing"
+    }
+  ],
+  "diagnostics": [
+    {
+      "id": "diagnostic:VR001",
+      "title": "VR001",
+      "summary": "Compiler diagnostic for unsupported or invalid component source.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VR019",
+      "title": "VR019",
+      "summary": "Compiler diagnostic for the final current compiler catalog entry.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG001",
+      "title": "VRCFG001",
+      "summary": "Config diagnostic for invalid config shape or loading failure.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG008",
+      "title": "VRCFG008",
+      "summary": "Config diagnostic for the Phase 13 validation catalog.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG009",
+      "title": "VRCFG009",
+      "summary": "Config diagnostic for AI rule section validation.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG010",
+      "title": "VRCFG010",
+      "summary": "Config diagnostic for AI rule ordering validation.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG011",
+      "title": "VRCFG011",
+      "summary": "Config diagnostic for AI rule customization validation.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG012",
+      "title": "VRCFG012",
+      "summary": "Config diagnostic for AI rule source validation.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VR_CHILD_BEFORE_PARENT",
+      "title": "VR_CHILD_BEFORE_PARENT",
+      "summary": "Router diagnostic for child routes declared before a valid parent.",
+      "docsPath": "/docs/diagnostics"
+    }
+  ],
+  "generatedFiles": [
+    {
+      "id": "generated-file:package.json",
+      "title": "package.json",
+      "summary": "Project manifest containing scripts, dependencies, package manager metadata, and private workspace state.",
+      "docsPath": "/docs/project-structure"
+    },
+    {
+      "id": "generated-file:tsconfig.json",
+      "title": "tsconfig.json",
+      "summary": "TypeScript project configuration generated for Vanrot app source files and package resolution.",
+      "docsPath": "/docs/project-structure"
+    },
+    {
+      "id": "generated-file:vite.config.ts",
+      "title": "vite.config.ts",
+      "summary": "Vite configuration that installs the Vanrot plugin.",
+      "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "id": "generated-file:vanrot.config.ts",
+      "title": "vanrot.config.ts",
+      "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, and AI rule settings.",
+      "docsPath": "/docs/configuration"
+    },
+    {
+      "id": "generated-file:src/routes.ts",
+      "title": "src/routes.ts",
+      "summary": "Named route refs and route metadata for app navigation without repeated route strings.",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "id": "generated-file:.vanrot/project-map.json",
+      "title": ".vanrot/project-map.json",
+      "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.",
+      "docsPath": "/docs/devtools"
+    }
+  ],
+  "conventions": [
+    {
+      "id": "convention:role-suffixes",
+      "title": "Role suffixes",
+      "summary": "Components, pages, dialogs, layouts, widgets, and forms use explicit role-based file suffixes.",
+      "docsPath": "/docs/conventions"
+    },
+    {
+      "id": "convention:scoped-css",
+      "title": "Scoped CSS",
+      "summary": "Component styles live in sibling scoped CSS files instead of global style buckets.",
+      "docsPath": "/docs/conventions"
+    },
+    {
+      "id": "convention:signals-for-state",
+      "title": "Signals for state",
+      "summary": "Vanrot application state uses signals and readable helpers instead of nested imperative flow.",
+      "docsPath": "/docs/conventions"
+    },
+    {
+      "id": "convention:route-refs",
+      "title": "Route refs",
+      "summary": "Routes use named refs and central sources of truth instead of repeated path strings.",
+      "docsPath": "/docs/conventions"
+    },
+    {
+      "id": "convention:no-ui-markup-in-typescript",
+      "title": "No UI markup in TypeScript",
+      "summary": "UI markup belongs in HTML templates, while TypeScript owns state, imports, and behavior.",
+      "docsPath": "/docs/conventions"
+    }
+  ],
+  "examples": [
+    {
+      "id": "example:Counter Starter",
+      "title": "Counter Starter",
+      "summary": "",
+      "docsPath": "/docs/examples"
+    },
+    {
+      "id": "example:Runtime Lifecycle",
+      "title": "Runtime Lifecycle",
+      "summary": "",
+      "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "example:Compiler Templates",
+      "title": "Compiler Templates",
+      "summary": "",
+      "docsPath": "/docs/compiler"
+    },
+    {
+      "id": "example:Routing Workflows",
+      "title": "Routing Workflows",
+      "summary": "",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "id": "example:Testing Helpers",
+      "title": "Testing Helpers",
+      "summary": "",
+      "docsPath": "/docs/testing"
+    },
+    {
+      "id": "example:Devtools And Project Intelligence",
+      "title": "Devtools And Project Intelligence",
+      "summary": "",
+      "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "example:UI From Framework Docs",
+      "title": "UI From Framework Docs",
+      "summary": "",
+      "docsPath": "/docs/ui"
+    },
+    {
+      "id": "example:Build And Deploy",
+      "title": "Build And Deploy",
+      "summary": "",
+      "docsPath": "/docs/deployment"
+    }
+  ],
+  "docs": [
+    {
+      "id": "doc:introduction",
+      "title": "Vanrot",
+      "summary": "Vanrot is a small frontend framework with compiler-known templates, signals, route ownership, source-owned UI, and a documentation-first development path.",
+      "docsPath": "/docs"
+    },
+    {
+      "id": "doc:installation",
+      "title": "Installation",
+      "summary": "Create or run a Vanrot app through the CLI and workspace package graph.",
+      "docsPath": "/docs/installation"
+    },
+    {
+      "id": "doc:projectStructure",
+      "title": "Project Structure",
+      "summary": "Vanrot keeps source roles explicit with TypeScript, HTML, and CSS side by side.",
+      "docsPath": "/docs/project-structure"
+    },
+    {
+      "id": "doc:runtime",
+      "title": "Runtime",
+      "summary": "The runtime owns signals, computed values, effects, lifecycle hooks, inputs, and mounting.",
+      "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "doc:compiler",
+      "title": "Compiler",
+      "summary": "The compiler turns role files into mounted DOM with scoped CSS, diagnostics, source maps, control flow, child components, slots, and UI primitive lowering.",
+      "docsPath": "/docs/compiler"
+    },
+    {
+      "id": "doc:vitePlugin",
+      "title": "Vite Plugin",
+      "summary": "The Vite plugin compiles Vanrot role files in dev and build, bridges diagnostics, watches sibling files, and emits source maps.",
+      "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "id": "doc:cli",
+      "title": "CLI",
+      "summary": "The CLI provides project creation, generation, UI primitive add flows, dev/build/test wrappers, doctor, map, config maintenance, and AI-readable local context.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "doc:configuration",
+      "title": "Configuration",
+      "summary": "vanrot.config.ts is the typed source of truth for source roots, dev server port, UI flavor, UI style mode, and future package domains.",
+      "docsPath": "/docs/configuration"
+    },
+    {
+      "id": "doc:routing",
+      "title": "Routing",
+      "summary": "The router owns route refs, nested layouts, params, query strings, redirects, guards, active links, breadcrumbs, preloading, and keepAlive.",
+      "docsPath": "/docs/routing"
+    },
+    {
+      "id": "doc:uiOctober",
+      "title": "UI October",
+      "summary": "October is Vanrot's dark-first, light-capable UI foundation with source-owned primitives, tokens, and vanrotstyles.",
+      "docsPath": "/docs/ui"
+    },
+    {
+      "id": "doc:theming",
+      "title": "Theming",
+      "summary": "Vanrot themes use CSS custom properties for colors, surfaces, radius, shadows, typography, motion, and z-index layers.",
+      "docsPath": "/docs/theming"
+    },
+    {
+      "id": "doc:vanrotstyles",
+      "title": "vanrotstyles",
+      "summary": "vanrotstyles.css is Vanrot's first-party utility CSS layer with unprefixed utility classes.",
+      "docsPath": "/docs/vanrotstyles"
+    },
+    {
+      "id": "doc:testing",
+      "title": "Testing",
+      "summary": "Vanrot testing currently provides component test helpers and will expand after the production UI and site base are in place.",
+      "docsPath": "/docs/testing"
+    },
+    {
+      "id": "doc:devtools",
+      "title": "Devtools And Project Intelligence",
+      "summary": "Use Vanrot project intelligence, graph metadata, and devtools contracts without relying on AI-specific bundles from Phase 25.",
+      "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "doc:examples",
+      "title": "Examples",
+      "summary": "Examples show practical Vanrot usage without hiding the source files.",
+      "docsPath": "/docs/examples"
+    },
+    {
+      "id": "doc:exampleMatrix",
+      "title": "Runnable Example Matrix",
+      "summary": "Use verified example workspaces as the source of truth for framework workflows and docs snippets.",
+      "docsPath": "/docs/example-matrix"
+    },
+    {
+      "id": "doc:deployment",
+      "title": "Build And Deployment Preparation",
+      "summary": "Prepare a Vanrot site for production hosting without pretending this repository controls DNS, credentials, analytics, or live deployment.",
+      "docsPath": "/docs/deployment"
+    },
+    {
+      "id": "doc:publicApi",
+      "title": "Public API Reference",
+      "summary": "Read the documented public exports for each current Vanrot package and see which guide owns the behavior.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "doc:diagnostics",
+      "title": "Diagnostics Reference",
+      "summary": "Find the current compiler, config, router, CLI, and Vite-plugin diagnostic codes with user-facing explanations.",
+      "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "doc:generatedFiles",
+      "title": "Generated Files And Directories",
+      "summary": "Understand generated files Vanrot users should expect in starter apps, config flows, route workflows, and project intelligence output.",
+      "docsPath": "/docs/generated-files"
+    },
+    {
+      "id": "doc:octoberShowcase",
+      "title": "October Showcase",
+      "summary": "A broad Phase 16G composition surface for admin, dashboard, and mobile patterns.",
+      "docsPath": "/docs/examples/october-showcase"
+    },
+    {
+      "id": "doc:conventions",
+      "title": "Conventions",
+      "summary": "Vanrot conventions keep projects readable for humans and AI tools.",
+      "docsPath": "/docs/conventions"
+    },
+    {
+      "id": "doc:limitations",
+      "title": "Limitations And Deferred Work",
+      "summary": "Read honest status notes for demo-capable, limited, deferred, and not-browser-facing areas before using Vanrot in production contexts.",
+      "docsPath": "/docs/limitations"
+    },
+    {
+      "id": "doc:referenceStatus",
+      "title": "Reference Status",
+      "summary": "The reference section shows what is available now, demo-capable, in progress, planned, or deferred.",
+      "docsPath": "/docs/status"
+    }
+  ]
+}

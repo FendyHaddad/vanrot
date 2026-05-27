@@ -50,7 +50,7 @@ describe('runCli', () => {
     expect(out).toContain('config <action>            Validate, migrate, or recover config');
     expect(out).toContain('map                        Print the project structure map');
     expect(out).toContain('init-ai                    Set up AI context rules for this project');
-    expect(out).toContain('ai <action>                Write AI-readable project context');
+    expect(out).toContain('ai <action>                Build and inspect AI-readable Vanrot knowledge');
     expect(out).toContain(
       'e.g.  vr create my-app  ·  vr generate component header  ·  vr add button',
     );

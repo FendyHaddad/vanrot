@@ -10,6 +10,7 @@ export interface AiPaths {
   prompt: string;
   history: string;
   summary: string;
+  bundle: string;
 }
 
 export async function ensureAiDirectory(
@@ -26,5 +27,6 @@ export async function ensureAiDirectory(
     prompt: join(root, 'prompt.md'),
     history: join(root, 'history.jsonl'),
     summary: join(root, 'summary.md'),
+    bundle: join(root, 'bundle'),
   };
 }

@@ -62,6 +62,13 @@
       "status": "production-ready",
       "summary": "Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers.",
       "docsPath": "/docs/devtools"
+    },
+    {
+      "name": "@vanrot/ai",
+      "area": "AI consumption",
+      "status": "production-ready",
+      "summary": "Generated AI knowledge bundle, verification, MCP server resources, Skill.sh package files, and provider-neutral framework rules.",
+      "docsPath": "/docs/public-api"
     }
   ],
   "publicExports": [
@@ -96,7 +103,8 @@
     { "packageName": "@vanrot/testing", "name": "*", "kind": "default", "status": "demo-capable", "summary": "All public exports from @vanrot/testing are covered by testing and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/testing", "name": "testComponent", "kind": "function", "status": "demo-capable", "summary": "Builds a Vanrot component test harness.", "docsPath": "/docs/testing" },
     { "packageName": "@vanrot/devtools", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.", "docsPath": "/docs/public-api" },
-    { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" }
+    { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" },
+    { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" }
   ],
   "commands": [
     { "name": "create", "usage": "vr create <project-name>", "status": "demo-capable", "summary": "Creates a routed Vanrot app with the configured package manager and starter files.", "docsPath": "/docs/cli" },
@@ -107,7 +115,7 @@
     { "name": "doctor", "usage": "vr doctor", "status": "demo-capable", "summary": "Runs local project diagnostics with readable guidance.", "docsPath": "/docs/cli" },
     { "name": "map", "usage": "vr map", "status": "production-ready", "summary": "Writes the project intelligence manifest at `.vanrot/project-map.json`.", "docsPath": "/docs/devtools" },
     { "name": "init-ai", "usage": "vr init-ai", "status": "production-ready", "summary": "Writes provider-neutral project rules for AI assistants from normalized config.", "docsPath": "/docs/devtools" },
-    { "name": "ai", "usage": "vr ai <subcommand>", "status": "production-ready", "summary": "Inspects AI rule configuration and project intelligence files.", "docsPath": "/docs/devtools" },
+    { "name": "ai", "usage": "vr ai <subcommand>", "status": "production-ready", "summary": "Builds, verifies, and inspects AI-readable Vanrot knowledge alongside project AI doorway files.", "docsPath": "/docs/devtools" },
     { "name": "dev", "usage": "vr dev", "status": "production-ready", "summary": "Starts the configured Vite development server through the Vanrot CLI.", "docsPath": "/docs/cli" },
     { "name": "build", "usage": "vr build", "status": "production-ready", "summary": "Runs a production build through the Vanrot CLI.", "docsPath": "/docs/deployment" },
     { "name": "test", "usage": "vr test", "status": "demo-capable", "summary": "Runs the configured test command for a Vanrot project.", "docsPath": "/docs/testing" }
@@ -144,7 +152,7 @@
     { "id": "compiler-templates", "title": "Compiler Templates", "path": "examples/compiler-templates", "packages": ["@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["compiler-templates"], "docsPath": "/docs/compiler" },
     { "id": "routing-workflows", "title": "Routing Workflows", "path": "examples/routing-workflows", "packages": ["@vanrot/router", "@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["routing-workflows"], "docsPath": "/docs/routing" },
     { "id": "testing-helpers", "title": "Testing Helpers", "path": "examples/testing-helpers", "packages": ["@vanrot/testing", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["testing-helpers"], "docsPath": "/docs/testing" },
-    { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/cli", "@vanrot/config"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands"], "docsPath": "/docs/devtools" },
+    { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/cli", "@vanrot/config", "@vanrot/ai"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands", "ai-consumption"], "docsPath": "/docs/devtools" },
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
     { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" }
   ],
@@ -153,8 +161,8 @@
     { "id": "deployment-boundary", "title": "Deployment is prepared, not launched", "status": "limited", "summary": "The site is prepared for production hosting, but DNS, credentials, analytics setup, and live deployment are outside this phase.", "docsPath": "/docs/deployment" }
   ],
   "maturity": [
-    { "phase": "Phase 24", "title": "Documentation and web presence", "status": "limited", "summary": "Phase 24 is active while framework docs, examples, site polish, and drift checks are being implemented.", "docsPath": "/docs/status" },
-    { "phase": "Phase 25", "title": "AI consumption", "status": "deferred", "summary": "AI-readable docs bundles, MCP transport, and Skill.sh packaging are deferred to Phase 25.", "docsPath": "/docs/limitations" }
+    { "phase": "Phase 24", "title": "Documentation and web presence", "status": "production-ready", "summary": "Phase 24 completed framework docs, examples, site polish, and drift checks.", "docsPath": "/docs/status" },
+    { "phase": "Phase 25", "title": "AI consumption", "status": "production-ready", "summary": "Phase 25 generated the official AI bundle, MCP transport, Skill.sh package, and CLI verification commands.", "docsPath": "/docs/status" }
   ],
   "routeMetadata": [
     { "path": "/", "title": "Vanrot - Framework Documentation And Design Components", "description": "Vanrot's public landing page for framework documentation, design components, examples, and production-readiness notes." },

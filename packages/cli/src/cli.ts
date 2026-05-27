@@ -95,7 +95,7 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
     return ok();
   }
 
-  if (command !== commandName.ui && (rest.includes('--help') || rest.includes('-h'))) {
+  if (shouldPrintCommandHelp(command, rest)) {
     return printCommandHelp(command, context);
   }
 
@@ -143,6 +143,22 @@ function reportStructuredResult(
       renderJsonLineEvent({ type: 'result', command, exitCode: result.exitCode }),
     );
   }
+}
+
+function shouldPrintCommandHelp(command: string, rest: string[]): boolean {
+  if (!rest.includes('--help') && !rest.includes('-h')) {
+    return false;
+  }
+
+  if (command === commandName.ui) {
+    return false;
+  }
+
+  if (command === commandName.ai && rest[0] === 'mcp') {
+    return false;
+  }
+
+  return true;
 }
 
 function printCommandHelp(command: string, context: CommandContext): CommandResult {

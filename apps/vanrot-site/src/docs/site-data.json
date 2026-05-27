@@ -913,7 +913,7 @@
     { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
     { "name": "map", "usage": "vr map", "status": "production-ready-through-phase-23" },
     { "name": "init-ai", "usage": "vr init-ai", "status": "demo-capable" },
-    { "name": "ai", "usage": "vr ai <action>", "status": "demo-capable" },
+    { "name": "ai", "usage": "vr ai <action>", "status": "production-ready-through-phase-25" },
     { "name": "dev", "usage": "vr dev", "status": "demo-capable" },
     { "name": "build", "usage": "vr build", "status": "demo-capable" },
     { "name": "test", "usage": "vr test", "status": "demo-capable" }
@@ -927,7 +927,8 @@
     { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },
     { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16g" },
     { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" },
-    { "name": "@vanrot/devtools", "area": "Devtools", "status": "production-ready-through-phase-23" }
+    { "name": "@vanrot/devtools", "area": "Devtools", "status": "production-ready-through-phase-23" },
+    { "name": "@vanrot/ai", "area": "AI consumption", "status": "production-ready-through-phase-25" }
   ],
   "diagnostics": {
     "compiler": [

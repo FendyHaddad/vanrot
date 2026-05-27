@@ -10,6 +10,7 @@ export const requiredExampleWorkflows = [
   'ui-framework-usage',
   'testing-helpers',
   'devtools-intelligence',
+  'ai-consumption',
   'build-deploy',
 ] as const;
 
