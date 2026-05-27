@@ -86,6 +86,42 @@ describe('parseTemplate', () => {
     });
   });
 
+  it('treats self-closing custom component tags as empty sibling elements', () => {
+    expect(
+      parseTemplate(
+        '<section><profile-card title="Owner" /><vr-button variant.danger /></section><p>After</p>',
+        'home.page.html',
+      ),
+    ).toMatchObject({
+      nodes: [
+        {
+          kind: 'element',
+          tagName: 'section',
+          children: [
+            {
+              kind: 'element',
+              tagName: 'profile-card',
+              attributes: [{ name: 'title', value: 'Owner' }],
+              children: [],
+            },
+            {
+              kind: 'element',
+              tagName: 'vr-button',
+              attributes: [{ name: 'variant.danger', value: '' }],
+              children: [],
+            },
+          ],
+        },
+        {
+          kind: 'element',
+          tagName: 'p',
+          children: [{ kind: 'text', value: 'After' }],
+        },
+      ],
+      diagnostics: [],
+    });
+  });
+
   it('preserves source spans for elements, attributes, and text nodes', () => {
     const result = parseTemplate('<button (click)="save()">Save</button>', 'counter.component.html');
     const button = result.nodes[0];

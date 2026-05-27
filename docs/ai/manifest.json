@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-27T21:01:20.112Z",
-  "sourceFingerprint": "sha256-ceff3a8bc7477f37d3071e1b70b05f3fd038d6f3261d3c065d43609159aefa6e",
+  "generatedAt": "2026-05-27T21:52:02.641Z",
+  "sourceFingerprint": "sha256-5aa2a17a55817d0b9e45cef4c2a0c5edce1a045181dd642e6d091ca9cbf4f90c",
   "sources": [
     {
       "id": "package-json",
@@ -32,7 +32,7 @@
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-9bb9dcb27eb5892e1b6b4384286429ff3e4b35d483a7bd0957f29e6a28de5168"
+      "fingerprint": "sha256-f26a8778e5da04772a5d92075bae4053bffa3f80c91b212d5e4dc69c31bcd4d6"
     }
   ],
   "counts": {

@@ -76,11 +76,12 @@ function normalizeVanrotSelfClosingTags(templateSource: string): NormalizedTempl
   let normalizedSource = '';
   let originalCursor = 0;
 
-  for (const match of templateSource.matchAll(/<vr(\s+route\.[A-Za-z_$][\w$]*)\s*\/>/g)) {
+  for (const match of templateSource.matchAll(/<([A-Za-z][A-Za-z0-9_.:-]*-[A-Za-z0-9_.:-]*|vr)(\s(?:[^"'<>]|"[^"]*"|'[^']*')*)?\s*\/>/g)) {
     const originalStart = match.index ?? 0;
     const originalText = match[0] ?? '';
-    const routeAttribute = match[1] ?? '';
-    const replacementText = `<vr${routeAttribute}></vr>`;
+    const tagName = match[1] ?? '';
+    const attributes = match[2] ?? '';
+    const replacementText = `<${tagName}${attributes}></${tagName}>`;
     const normalizedStart = normalizedSource.length + originalStart - originalCursor;
 
     normalizedSource += templateSource.slice(originalCursor, originalStart);
@@ -90,7 +91,7 @@ function normalizeVanrotSelfClosingTags(templateSource: string): NormalizedTempl
       originalEnd: originalStart + originalText.length,
       normalizedStart,
       normalizedEnd: normalizedStart + replacementText.length,
-      insertedStart: normalizedStart + replacementText.indexOf('></vr>') + 1,
+      insertedStart: normalizedStart + replacementText.indexOf(`></${tagName}>`) + 1,
     });
     originalCursor = originalStart + originalText.length;
   }
