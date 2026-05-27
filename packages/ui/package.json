@@ -8,6 +8,7 @@
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "web-types": "./web-types.json",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -19,7 +20,8 @@
     "src/docs",
     "src/primitives",
     "src/styles",
-    "src/tokens"
+    "src/tokens",
+    "web-types.json"
   ],
   "dependencies": {
     "@vanrot/runtime": "file:../runtime"

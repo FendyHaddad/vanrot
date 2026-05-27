@@ -1,0 +1,370 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+  "name": "@vanrot/ui",
+  "version": "0.0.0",
+  "framework": "vanrot",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "vr-alert",
+          "description": "Vanrot alert primitive.",
+          "attributes": [
+            { "name": "variant.info", "description": "Info alert variant." },
+            { "name": "variant.success", "description": "Success alert variant." },
+            { "name": "variant.warning", "description": "Warning alert variant." },
+            { "name": "variant.danger", "description": "Danger alert variant." }
+          ]
+        },
+        {
+          "name": "vr-avatar",
+          "description": "Vanrot avatar primitive.",
+          "attributes": [
+            { "name": "variant.default", "description": "Default avatar variant." },
+            { "name": "variant.soft", "description": "Soft avatar variant." },
+            { "name": "variant.outline", "description": "Outline avatar variant." }
+          ]
+        },
+        {
+          "name": "vr-badge",
+          "description": "Vanrot badge primitive.",
+          "attributes": [
+            { "name": "variant.default", "description": "Default badge variant." },
+            { "name": "variant.secondary", "description": "Secondary badge variant." },
+            { "name": "variant.success", "description": "Success badge variant." },
+            { "name": "variant.warning", "description": "Warning badge variant." },
+            { "name": "variant.danger", "description": "Danger badge variant." },
+            { "name": "variant.outline", "description": "Outline badge variant." }
+          ]
+        },
+        { "name": "vr-breadcrumb", "description": "Vanrot breadcrumb primitive." },
+        {
+          "name": "vr-button",
+          "description": "Vanrot button primitive.",
+          "attributes": [
+            { "name": "variant.default", "description": "Default button variant." },
+            { "name": "variant.secondary", "description": "Secondary button variant." },
+            { "name": "variant.outline", "description": "Outline button variant." },
+            { "name": "variant.ghost", "description": "Ghost button variant." },
+            { "name": "variant.danger", "description": "Danger button variant." },
+            { "name": "variant.link", "description": "Link button variant." }
+          ]
+        },
+        {
+          "name": "vr-card",
+          "description": "Vanrot card primitive.",
+          "attributes": [
+            { "name": "variant.default", "description": "Default card variant." },
+            { "name": "variant.muted", "description": "Muted card variant." },
+            { "name": "variant.interactive", "description": "Interactive card variant." }
+          ]
+        },
+        {
+          "name": "vr-checkbox",
+          "description": "Vanrot checkbox primitive.",
+          "attributes": [
+            { "name": "checked", "description": "Sets the native checked state." },
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "name", "description": "Form field name." },
+            { "name": "value", "description": "Submitted value." },
+            { "name": "aria-label", "description": "Accessible label." }
+          ]
+        },
+        {
+          "name": "vr-command-menu",
+          "description": "Vanrot command menu primitive.",
+          "attributes": [
+            { "name": "aria-label", "description": "Accessible label for the command menu." },
+            { "name": "placeholder", "description": "Search input placeholder text." }
+          ]
+        },
+        { "name": "vr-command-menu-empty", "description": "Vanrot command menu empty state element." },
+        { "name": "vr-command-menu-group", "description": "Vanrot command menu group element." },
+        { "name": "vr-command-menu-input", "description": "Vanrot command menu input element." },
+        { "name": "vr-command-menu-item", "description": "Vanrot command menu item element." },
+        { "name": "vr-command-menu-list", "description": "Vanrot command menu list element." },
+        { "name": "vr-command-menu-shortcut", "description": "Vanrot command menu shortcut element." },
+        { "name": "vr-container", "description": "Vanrot container primitive." },
+        {
+          "name": "vr-dialog",
+          "description": "Vanrot dialog primitive.",
+          "attributes": [
+            { "name": "open", "description": "Controls whether the dialog is open." },
+            { "name": "size.sm", "description": "Small dialog size." },
+            { "name": "size.md", "description": "Medium dialog size." },
+            { "name": "size.lg", "description": "Large dialog size." },
+            { "name": "aria-label", "description": "Accessible label for the dialog." },
+            { "name": "aria-describedby", "description": "Id of the dialog description." }
+          ]
+        },
+        { "name": "vr-dialog-close", "description": "Vanrot dialog close element." },
+        { "name": "vr-dialog-content", "description": "Vanrot dialog content element." },
+        { "name": "vr-dialog-description", "description": "Vanrot dialog description element." },
+        { "name": "vr-dialog-footer", "description": "Vanrot dialog footer element." },
+        { "name": "vr-dialog-header", "description": "Vanrot dialog header element." },
+        { "name": "vr-dialog-title", "description": "Vanrot dialog title element." },
+        { "name": "vr-dialog-trigger", "description": "Vanrot dialog trigger element." },
+        {
+          "name": "vr-drawer",
+          "description": "Vanrot drawer primitive.",
+          "attributes": [
+            { "name": "open", "description": "Controls whether the drawer is open." },
+            { "name": "side.left", "description": "Left drawer side." },
+            { "name": "side.right", "description": "Right drawer side." },
+            { "name": "side.top", "description": "Top drawer side." },
+            { "name": "side.bottom", "description": "Bottom drawer side." },
+            { "name": "aria-label", "description": "Accessible label for the drawer." }
+          ]
+        },
+        { "name": "vr-drawer-close", "description": "Vanrot drawer close element." },
+        { "name": "vr-drawer-content", "description": "Vanrot drawer content element." },
+        { "name": "vr-drawer-description", "description": "Vanrot drawer description element." },
+        { "name": "vr-drawer-footer", "description": "Vanrot drawer footer element." },
+        { "name": "vr-drawer-header", "description": "Vanrot drawer header element." },
+        { "name": "vr-drawer-title", "description": "Vanrot drawer title element." },
+        { "name": "vr-drawer-trigger", "description": "Vanrot drawer trigger element." },
+        {
+          "name": "vr-dropdown",
+          "description": "Vanrot dropdown primitive.",
+          "attributes": [
+            { "name": "open", "description": "Controls whether the dropdown is open." },
+            { "name": "placement.bottom", "description": "Bottom dropdown placement." },
+            { "name": "placement.top", "description": "Top dropdown placement." },
+            { "name": "placement.left", "description": "Left dropdown placement." },
+            { "name": "placement.right", "description": "Right dropdown placement." }
+          ]
+        },
+        { "name": "vr-dropdown-content", "description": "Vanrot dropdown content element." },
+        { "name": "vr-dropdown-item", "description": "Vanrot dropdown item element." },
+        { "name": "vr-dropdown-label", "description": "Vanrot dropdown label element." },
+        { "name": "vr-dropdown-separator", "description": "Vanrot dropdown separator element." },
+        { "name": "vr-dropdown-trigger", "description": "Vanrot dropdown trigger element." },
+        { "name": "vr-empty-state", "description": "Vanrot empty state primitive." },
+        {
+          "name": "vr-footer",
+          "description": "Vanrot footer primitive."
+        },
+        {
+          "name": "vr-form",
+          "description": "Vanrot form primitive.",
+          "attributes": [
+            { "name": "disabled", "description": "Disables all registered fields." },
+            { "name": "pending", "description": "Marks submit as in progress." },
+            { "name": "name", "description": "Application-owned form name." }
+          ]
+        },
+        {
+          "name": "vr-form-field",
+          "description": "Vanrot form field primitive.",
+          "attributes": [
+            { "name": "required", "description": "Marks the registered field required." },
+            { "name": "name", "description": "Field name." },
+            { "name": "label", "description": "Field label content." },
+            { "name": "description", "description": "Field help content." }
+          ]
+        },
+        { "name": "vr-grid", "description": "Vanrot grid primitive." },
+        { "name": "vr-header", "description": "Vanrot header primitive." },
+        { "name": "vr-img", "description": "Vanrot image primitive." },
+        {
+          "name": "vr-input",
+          "description": "Vanrot input primitive.",
+          "attributes": [
+            { "name": "type.text", "description": "Text input type." },
+            { "name": "type.email", "description": "Email input type." },
+            { "name": "type.password", "description": "Password input type." },
+            { "name": "type.number", "description": "Number input type." },
+            { "name": "size.sm", "description": "Small input size." },
+            { "name": "size.md", "description": "Medium input size." },
+            { "name": "size.lg", "description": "Large input size." },
+            { "name": "size.xl", "description": "Extra-large input size." },
+            { "name": "tone.default", "description": "Default input tone." },
+            { "name": "tone.success", "description": "Success input tone." },
+            { "name": "tone.warning", "description": "Warning input tone." },
+            { "name": "tone.danger", "description": "Danger input tone." },
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "readonly", "description": "Marks the control read-only." },
+            { "name": "invalid", "description": "Marks the control invalid." },
+            { "name": "name", "description": "Form field name." },
+            { "name": "value", "description": "Input value." },
+            { "name": "placeholder", "description": "Placeholder text." },
+            { "name": "aria-label", "description": "Accessible label." }
+          ]
+        },
+        { "name": "vr-label", "description": "Vanrot label primitive." },
+        { "name": "vr-layout", "description": "Vanrot layout primitive." },
+        { "name": "vr-list", "description": "Vanrot list primitive." },
+        { "name": "vr-list-item", "description": "Vanrot list item primitive." },
+        {
+          "name": "vr-loader",
+          "description": "Vanrot loader primitive.",
+          "attributes": [
+            { "name": "variant.spinner", "description": "Spinner loader variant." },
+            { "name": "variant.dots", "description": "Dots loader variant." },
+            { "name": "variant.bar", "description": "Bar loader variant." }
+          ]
+        },
+        { "name": "vr-nav", "description": "Vanrot nav primitive." },
+        { "name": "vr-pagination", "description": "Vanrot pagination primitive." },
+        {
+          "name": "vr-popover",
+          "description": "Vanrot popover primitive.",
+          "attributes": [
+            { "name": "open", "description": "Controls whether the popover is open." },
+            { "name": "side.top", "description": "Top popover side." },
+            { "name": "side.right", "description": "Right popover side." },
+            { "name": "side.bottom", "description": "Bottom popover side." },
+            { "name": "side.left", "description": "Left popover side." }
+          ]
+        },
+        { "name": "vr-popover-close", "description": "Vanrot popover close element." },
+        { "name": "vr-popover-content", "description": "Vanrot popover content element." },
+        { "name": "vr-popover-description", "description": "Vanrot popover description element." },
+        { "name": "vr-popover-title", "description": "Vanrot popover title element." },
+        { "name": "vr-popover-trigger", "description": "Vanrot popover trigger element." },
+        {
+          "name": "vr-radio",
+          "description": "Vanrot radio primitive.",
+          "attributes": [
+            { "name": "checked", "description": "Sets the native checked state." },
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "name", "description": "Form field name." },
+            { "name": "value", "description": "Submitted value." }
+          ]
+        },
+        {
+          "name": "vr-radio-group",
+          "description": "Vanrot radio group primitive.",
+          "attributes": [
+            { "name": "disabled", "description": "Disables the group." },
+            { "name": "name", "description": "Group name." },
+            { "name": "value", "description": "Selected value." },
+            { "name": "aria-label", "description": "Accessible label." }
+          ]
+        },
+        { "name": "vr-section", "description": "Vanrot section primitive." },
+        {
+          "name": "vr-select",
+          "description": "Vanrot select primitive.",
+          "attributes": [
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "name", "description": "Form field name." },
+            { "name": "value", "description": "Selected value." },
+            { "name": "placeholder", "description": "Placeholder text." },
+            { "name": "aria-label", "description": "Accessible label." }
+          ]
+        },
+        {
+          "name": "vr-separator",
+          "description": "Vanrot separator primitive.",
+          "attributes": [
+            { "name": "variant.horizontal", "description": "Horizontal separator variant." },
+            { "name": "variant.vertical", "description": "Vertical separator variant." }
+          ]
+        },
+        { "name": "vr-sidebar", "description": "Vanrot sidebar primitive." },
+        {
+          "name": "vr-skeleton",
+          "description": "Vanrot skeleton primitive.",
+          "attributes": [
+            { "name": "variant.text", "description": "Text skeleton variant." },
+            { "name": "variant.avatar", "description": "Avatar skeleton variant." },
+            { "name": "variant.card", "description": "Card skeleton variant." },
+            { "name": "variant.block", "description": "Block skeleton variant." }
+          ]
+        },
+        {
+          "name": "vr-slider",
+          "description": "Vanrot slider primitive.",
+          "attributes": [
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "min", "description": "Minimum value." },
+            { "name": "max", "description": "Maximum value." },
+            { "name": "step", "description": "Step value." },
+            { "name": "value", "description": "Current value." }
+          ]
+        },
+        { "name": "vr-src", "description": "Vanrot source primitive." },
+        { "name": "vr-stat", "description": "Vanrot stat primitive." },
+        {
+          "name": "vr-switch",
+          "description": "Vanrot switch primitive.",
+          "attributes": [
+            { "name": "checked", "description": "Sets the native checked state." },
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "name", "description": "Form field name." },
+            { "name": "value", "description": "Submitted value." },
+            { "name": "aria-label", "description": "Accessible label." }
+          ]
+        },
+        { "name": "vr-table", "description": "Vanrot table primitive." },
+        { "name": "vr-table-body", "description": "Vanrot table body element." },
+        { "name": "vr-table-caption", "description": "Vanrot table caption element." },
+        { "name": "vr-table-cell", "description": "Vanrot table cell element." },
+        { "name": "vr-table-footer", "description": "Vanrot table footer element." },
+        { "name": "vr-table-head", "description": "Vanrot table head element." },
+        { "name": "vr-table-header", "description": "Vanrot table header element." },
+        { "name": "vr-table-row", "description": "Vanrot table row element." },
+        {
+          "name": "vr-tabs",
+          "description": "Vanrot tabs primitive.",
+          "attributes": [
+            { "name": "value", "description": "Selected tab value." },
+            { "name": "orientation.horizontal", "description": "Horizontal tab orientation." },
+            { "name": "orientation.vertical", "description": "Vertical tab orientation." }
+          ]
+        },
+        { "name": "vr-tabs-list", "description": "Vanrot tabs list element." },
+        { "name": "vr-tabs-panel", "description": "Vanrot tabs panel element." },
+        { "name": "vr-tabs-trigger", "description": "Vanrot tabs trigger element." },
+        {
+          "name": "vr-textarea",
+          "description": "Vanrot textarea primitive.",
+          "attributes": [
+            { "name": "size.sm", "description": "Small textarea size." },
+            { "name": "size.md", "description": "Medium textarea size." },
+            { "name": "size.lg", "description": "Large textarea size." },
+            { "name": "size.xl", "description": "Extra-large textarea size." },
+            { "name": "disabled", "description": "Disables the control." },
+            { "name": "readonly", "description": "Marks the control read-only." },
+            { "name": "invalid", "description": "Marks the control invalid." },
+            { "name": "name", "description": "Form field name." },
+            { "name": "value", "description": "Textarea value." },
+            { "name": "placeholder", "description": "Placeholder text." },
+            { "name": "aria-label", "description": "Accessible label." }
+          ]
+        },
+        {
+          "name": "vr-toast",
+          "description": "Vanrot toast primitive.",
+          "attributes": [
+            { "name": "open", "description": "Controls whether the toast is open." },
+            { "name": "tone.default", "description": "Default toast tone." },
+            { "name": "tone.success", "description": "Success toast tone." },
+            { "name": "tone.warning", "description": "Warning toast tone." },
+            { "name": "tone.danger", "description": "Danger toast tone." },
+            { "name": "duration", "description": "Toast duration in milliseconds." }
+          ]
+        },
+        { "name": "vr-toast-close", "description": "Vanrot toast close element." },
+        { "name": "vr-toast-description", "description": "Vanrot toast description element." },
+        { "name": "vr-toast-item", "description": "Vanrot toast item element." },
+        { "name": "vr-toast-title", "description": "Vanrot toast title element." },
+        { "name": "vr-toast-viewport", "description": "Vanrot toast viewport element." },
+        {
+          "name": "vr-tooltip",
+          "description": "Vanrot tooltip primitive.",
+          "attributes": [
+            { "name": "open", "description": "Controls whether the tooltip is open." },
+            { "name": "side.top", "description": "Top tooltip side." },
+            { "name": "side.right", "description": "Right tooltip side." },
+            { "name": "side.bottom", "description": "Bottom tooltip side." },
+            { "name": "side.left", "description": "Left tooltip side." }
+          ]
+        },
+        { "name": "vr-tooltip-content", "description": "Vanrot tooltip content element." },
+        { "name": "vr-tooltip-trigger", "description": "Vanrot tooltip trigger element." }
+      ]
+    }
+  }
+}

@@ -28,7 +28,8 @@ Agreed sequence:
 
 - Ignore current IntelliJ `vr-*` squiggles as a tooling gap, not a Vanrot design problem.
 - Near Phase 23, add lightweight Web Types and metadata so JetBrains can recognize Vanrot tags, attributes, variants,
-  router elements, and documented UI primitives.
+  router elements, and documented UI primitives. The first package-level Web Types seed now lives in `@vanrot/ui` and
+  `@vanrot/router`; future editor work should extend it instead of replacing it.
 - During Phase 23, build the project and compiler intelligence foundation that editor tooling needs: route graph,
   component graph, template usage, source locations, diagnostics, and project metadata.
 - After post-production implementation and distribution hardening, build a real IntelliJ plugin or language service for

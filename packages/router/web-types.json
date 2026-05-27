@@ -1,0 +1,33 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+  "name": "@vanrot/router",
+  "version": "0.0.0",
+  "framework": "vanrot",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "vr",
+          "description": "Vanrot route-link shorthand. Use route refs such as <vr route.home />.",
+          "attributes": [
+            {
+              "name": "route.*",
+              "description": "Route reference generated from src/routes.ts.",
+              "pattern": {
+                "regex": "^route\\.[A-Za-z][A-Za-z0-9_]*$"
+              }
+            }
+          ]
+        },
+        {
+          "name": "vr-outlet",
+          "description": "Vanrot route layout outlet. Use inside route layout templates."
+        },
+        {
+          "name": "vr-router",
+          "description": "Vanrot app router host. Use once inside app.layout.html."
+        }
+      ]
+    }
+  }
+}
