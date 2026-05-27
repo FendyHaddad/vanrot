@@ -95,6 +95,8 @@ Ideas to carry forward:
 - Add accessibility assertions around names, roles, disabled states, focus movement, and common semantic mistakes.
 - Add async helpers, fake timers, and controlled flush behavior without making tests cryptic.
 - Add forms and async-resource testing hooks once Phase 21 APIs exist or are stable enough to test against.
+- Decide whether `vr inspect` belongs here as a test/debug helper for source-map-aligned generated output.
+- Decide whether `vr cache clear` belongs here as a safe cleanup helper for repeatable local test runs.
 - Keep generated tests on `.test.ts` and preserve readable `function (screen)` examples.
 
 Possible slices:
@@ -104,6 +106,7 @@ Possible slices:
 - 18C accessibility assertions
 - 18D async and fake timer helpers
 - 18E generator-wide `--test` support
+- 18F optional CLI test/debug helpers, such as `vr inspect` and `vr cache clear`
 
 ## Phase 19: Store Foundation
 

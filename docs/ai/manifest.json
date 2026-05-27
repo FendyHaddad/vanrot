@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-27T16:49:32.853Z",
-  "sourceFingerprint": "sha256-f0f837cfebfc9fa036f9135a03a460f3ea542be67f3d47573dcd2b0889a38345",
+  "generatedAt": "2026-05-27T18:54:50.211Z",
+  "sourceFingerprint": "sha256-50c4d5d411cf1bc9427d5a87d6a9aaf3e457e3436d203b7c752dec5280ef2bb2",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-e07461df1604d29abca3cc5a41307a73d421c3a9fecab323cf5f3c17b7d7b44d"
+      "fingerprint": "sha256-6ae955d6f7263377a49c72c4d7522ff1e10187fae55d4df2ddcc810f2717e5cb"
     },
     {
       "id": "framework-reference",
@@ -27,12 +27,12 @@
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-5ae86626579fd1a74eb005581f3d61b65a098fac880bfd593e5656e47e5e2064"
+      "fingerprint": "sha256-7b4890429ddad574bb0206e1e51bc6c9fa16ebd884f0e004d978af6cda2ae224"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-7613660ffe7b75a49630777e30b6b63d8a2de4b5c25393f0adb57cf26d70cea7"
+      "fingerprint": "sha256-7fa3eede411fac9f0f53cc1ad4af13969d1a4ab830f3c8220463df9971f240e0"
     }
   ],
   "counts": {
