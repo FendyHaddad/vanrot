@@ -163,13 +163,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-27 3:59am GMT+8
+# [vanrot] recent context, 2026-05-27 10:23pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (12,901t read) | 1,519,061t work | 99% savings
+Stats: 50 obs (13,428t read) | 1,516,689t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -184,9 +184,6 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 24, 2026
-1898 3:56a ✅ Execution Plans Skill Documentation
-1900 1:50p ✅ CSS File Management Strategy
-1901 1:51p 🔵 Context Search Yielded No Results
 1903 3:00p 🔵 Successful Typechecking Across Monorepo Packages
 1902 " 🟣 Execution of Codex Skill for Plan Execution
 1904 " 🔵 Successful Test Execution Across Multiple Packages
@@ -236,6 +233,10 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2055 6:53p 🔵 Relevant lines identified in AGENTS.md for memory protocol
 2065 11:22p ✅ Staged files for Vanrot commit
 2066 " 🔵 Phase 16G completion status and next steps identified
+### May 27, 2026
+2071 10:14p 🔵 Phase 25 AI Consumption Scope and Requirements
+2073 " 🔵 Memory Registry Search for Phase 25 and Related Terms
+2080 10:17p 🔵 Verification Scripts and Hooks for Phase Documentation
 
-Access 1519k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1517k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
