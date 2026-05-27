@@ -1,6 +1,11 @@
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { uiComponentCatalog, uiComponentRegistry, uiPackageInventory } from '../src/index.js';
+import {
+  uiComponentCatalog,
+  uiComponentRegistry,
+  uiPackageInventory,
+  uiPrimitiveTokenGroup,
+} from '../src/index.js';
 
 const uiPackageRoot = new URL('../', import.meta.url);
 const uiWebTypesFile = 'web-types.json';
@@ -8,7 +13,15 @@ const uiWebTypesFile = 'web-types.json';
 interface WebTypesElement {
   name: string;
   description?: string;
-  attributes?: readonly { name: string; description?: string }[];
+  attributes?: readonly WebTypesAttribute[];
+}
+
+interface WebTypesAttribute {
+  name: string;
+  description?: string;
+  value?: {
+    kind?: string;
+  };
 }
 
 interface WebTypesDocument {
@@ -18,8 +31,14 @@ interface WebTypesDocument {
   contributions: {
     html: {
       elements: WebTypesElement[];
+      attributes?: WebTypesAttribute[];
     };
   };
+}
+
+interface ExpectedAttribute {
+  name: string;
+  kind: 'token' | 'boolean' | 'open';
 }
 
 function readPackageJson(): Record<string, unknown> {
@@ -42,6 +61,36 @@ function uniqueSorted(values: readonly string[]): string[] {
   return [...new Set(values)].sort();
 }
 
+function webTypesAttributesByName(attributes: readonly WebTypesAttribute[] | undefined): Map<string, WebTypesAttribute> {
+  return new Map((attributes ?? []).map((attribute) => [attribute.name, attribute]));
+}
+
+function expectedComponentAttributes(type: string): ExpectedAttribute[] {
+  const component = uiComponentCatalog[type as keyof typeof uiComponentCatalog];
+  const registryItem = Object.values(uiComponentRegistry).find((item) => item.selector === component.selector);
+  const tokenAttributes = Object.entries(uiPrimitiveTokenGroup[type as keyof typeof uiPrimitiveTokenGroup] ?? {}).flatMap(
+    ([groupName, group]) =>
+      group.tokens.map((token) => ({
+        name: `${groupName}.${token}`,
+        kind: 'token' as const,
+      })),
+  );
+  const booleanAttributes =
+    registryItem?.booleans.map((attribute) => ({
+      name: attribute.name,
+      kind: 'boolean' as const,
+    })) ?? [];
+  const openAttributes =
+    registryItem?.openAttributes.map((attribute) => ({
+      name: attribute.name,
+      kind: 'open' as const,
+    })) ?? [];
+
+  return [...tokenAttributes, ...booleanAttributes, ...openAttributes].sort((left, right) =>
+    left.name.localeCompare(right.name),
+  );
+}
+
 describe('@vanrot/ui Web Types metadata', () => {
   it('is discoverable from the package manifest', () => {
     const packageJson = readPackageJson();
@@ -57,6 +106,12 @@ describe('@vanrot/ui Web Types metadata', () => {
     expect(webTypes.$schema).toBe('https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json');
     expect(webTypes.name).toBe(uiPackageInventory.name);
     expect(webTypes.version).toBe(packageJson.version);
+  });
+
+  it('keeps UI symbols available without requiring a Vanrot IDE framework context', () => {
+    const webTypes = readUiWebTypes() as WebTypesDocument & { framework?: string };
+
+    expect(webTypes.framework).toBeUndefined();
   });
 
   it('lists every registered component and anatomy selector once', () => {
@@ -82,5 +137,37 @@ describe('@vanrot/ui Web Types metadata', () => {
     expect(elements.get('vr-dialog')?.attributes?.map((attribute) => attribute.name)).toEqual(
       expect.arrayContaining(['open', 'size.md', 'aria-label', 'aria-describedby']),
     );
+  });
+
+  it('recognizes every catalog and registry-backed component attribute', () => {
+    const webTypes = readUiWebTypes();
+    const elements = new Map(webTypes.contributions.html.elements.map((element) => [element.name, element]));
+    const globalAttributes = webTypesAttributesByName(webTypes.contributions.html.attributes);
+    const missingAttributes: string[] = [];
+    const valueRequiredAttributes: string[] = [];
+
+    for (const [type, component] of Object.entries(uiComponentCatalog)) {
+      const elementAttributes = webTypesAttributesByName(elements.get(component.selector)?.attributes);
+
+      for (const expectedAttribute of expectedComponentAttributes(type)) {
+        const attribute = elementAttributes.get(expectedAttribute.name) ?? globalAttributes.get(expectedAttribute.name);
+
+        if (attribute === undefined) {
+          missingAttributes.push(`${component.selector}|${expectedAttribute.name}`);
+          continue;
+        }
+
+        if (expectedAttribute.kind === 'open') {
+          continue;
+        }
+
+        if (attribute.value?.kind !== 'no-value') {
+          valueRequiredAttributes.push(`${component.selector}|${expectedAttribute.name}`);
+        }
+      }
+    }
+
+    expect(missingAttributes).toEqual([]);
+    expect(valueRequiredAttributes).toEqual([]);
   });
 });

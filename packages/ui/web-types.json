@@ -2,7 +2,6 @@
   "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
   "name": "@vanrot/ui",
   "version": "0.0.0",
-  "framework": "vanrot",
   "contributions": {
     "html": {
       "elements": [
@@ -10,31 +9,31 @@
           "name": "vr-alert",
           "description": "Vanrot alert primitive.",
           "attributes": [
-            { "name": "variant.info", "description": "Info alert variant." },
-            { "name": "variant.success", "description": "Success alert variant." },
-            { "name": "variant.warning", "description": "Warning alert variant." },
-            { "name": "variant.danger", "description": "Danger alert variant." }
+            { "name": "variant.info", "description": "Info alert variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.success", "description": "Success alert variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.warning", "description": "Warning alert variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.danger", "description": "Danger alert variant.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-avatar",
           "description": "Vanrot avatar primitive.",
           "attributes": [
-            { "name": "variant.default", "description": "Default avatar variant." },
-            { "name": "variant.soft", "description": "Soft avatar variant." },
-            { "name": "variant.outline", "description": "Outline avatar variant." }
+            { "name": "variant.default", "description": "Default avatar variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.soft", "description": "Soft avatar variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.outline", "description": "Outline avatar variant.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-badge",
           "description": "Vanrot badge primitive.",
           "attributes": [
-            { "name": "variant.default", "description": "Default badge variant." },
-            { "name": "variant.secondary", "description": "Secondary badge variant." },
-            { "name": "variant.success", "description": "Success badge variant." },
-            { "name": "variant.warning", "description": "Warning badge variant." },
-            { "name": "variant.danger", "description": "Danger badge variant." },
-            { "name": "variant.outline", "description": "Outline badge variant." }
+            { "name": "variant.default", "description": "Default badge variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.secondary", "description": "Secondary badge variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.success", "description": "Success badge variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.warning", "description": "Warning badge variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.danger", "description": "Danger badge variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.outline", "description": "Outline badge variant.", "value": { "kind": "no-value" } }
           ]
         },
         { "name": "vr-breadcrumb", "description": "Vanrot breadcrumb primitive." },
@@ -42,29 +41,30 @@
           "name": "vr-button",
           "description": "Vanrot button primitive.",
           "attributes": [
-            { "name": "variant.default", "description": "Default button variant." },
-            { "name": "variant.secondary", "description": "Secondary button variant." },
-            { "name": "variant.outline", "description": "Outline button variant." },
-            { "name": "variant.ghost", "description": "Ghost button variant." },
-            { "name": "variant.danger", "description": "Danger button variant." },
-            { "name": "variant.link", "description": "Link button variant." }
+            { "name": "variant.default", "description": "Default button variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.secondary", "description": "Secondary button variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.outline", "description": "Outline button variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.ghost", "description": "Ghost button variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.danger", "description": "Danger button variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.link", "description": "Link button variant.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-card",
           "description": "Vanrot card primitive.",
           "attributes": [
-            { "name": "variant.default", "description": "Default card variant." },
-            { "name": "variant.muted", "description": "Muted card variant." },
-            { "name": "variant.interactive", "description": "Interactive card variant." }
+            { "name": "variant.default", "description": "Default card variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.muted", "description": "Muted card variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.interactive", "description": "Interactive card variant.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-checkbox",
           "description": "Vanrot checkbox primitive.",
           "attributes": [
-            { "name": "checked", "description": "Sets the native checked state." },
-            { "name": "disabled", "description": "Disables the control." },
+            { "name": "checked", "description": "Sets the native checked state.", "value": { "kind": "no-value" } },
+            { "name": "size.md", "description": "Medium checkbox size.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Form field name." },
             { "name": "value", "description": "Submitted value." },
             { "name": "aria-label", "description": "Accessible label." }
@@ -90,9 +90,9 @@
           "description": "Vanrot dialog primitive.",
           "attributes": [
             { "name": "open", "description": "Controls whether the dialog is open." },
-            { "name": "size.sm", "description": "Small dialog size." },
-            { "name": "size.md", "description": "Medium dialog size." },
-            { "name": "size.lg", "description": "Large dialog size." },
+            { "name": "size.sm", "description": "Small dialog size.", "value": { "kind": "no-value" } },
+            { "name": "size.md", "description": "Medium dialog size.", "value": { "kind": "no-value" } },
+            { "name": "size.lg", "description": "Large dialog size.", "value": { "kind": "no-value" } },
             { "name": "aria-label", "description": "Accessible label for the dialog." },
             { "name": "aria-describedby", "description": "Id of the dialog description." }
           ]
@@ -109,10 +109,10 @@
           "description": "Vanrot drawer primitive.",
           "attributes": [
             { "name": "open", "description": "Controls whether the drawer is open." },
-            { "name": "side.left", "description": "Left drawer side." },
-            { "name": "side.right", "description": "Right drawer side." },
-            { "name": "side.top", "description": "Top drawer side." },
-            { "name": "side.bottom", "description": "Bottom drawer side." },
+            { "name": "side.left", "description": "Left drawer side.", "value": { "kind": "no-value" } },
+            { "name": "side.right", "description": "Right drawer side.", "value": { "kind": "no-value" } },
+            { "name": "side.top", "description": "Top drawer side.", "value": { "kind": "no-value" } },
+            { "name": "side.bottom", "description": "Bottom drawer side.", "value": { "kind": "no-value" } },
             { "name": "aria-label", "description": "Accessible label for the drawer." }
           ]
         },
@@ -128,10 +128,11 @@
           "description": "Vanrot dropdown primitive.",
           "attributes": [
             { "name": "open", "description": "Controls whether the dropdown is open." },
-            { "name": "placement.bottom", "description": "Bottom dropdown placement." },
-            { "name": "placement.top", "description": "Top dropdown placement." },
-            { "name": "placement.left", "description": "Left dropdown placement." },
-            { "name": "placement.right", "description": "Right dropdown placement." }
+            { "name": "placement.bottom", "description": "Bottom dropdown placement.", "value": { "kind": "no-value" } },
+            { "name": "placement.top", "description": "Top dropdown placement.", "value": { "kind": "no-value" } },
+            { "name": "placement.left", "description": "Left dropdown placement.", "value": { "kind": "no-value" } },
+            { "name": "placement.right", "description": "Right dropdown placement.", "value": { "kind": "no-value" } },
+            { "name": "align.end", "description": "End-aligned dropdown content.", "value": { "kind": "no-value" } }
           ]
         },
         { "name": "vr-dropdown-content", "description": "Vanrot dropdown content element." },
@@ -139,7 +140,13 @@
         { "name": "vr-dropdown-label", "description": "Vanrot dropdown label element." },
         { "name": "vr-dropdown-separator", "description": "Vanrot dropdown separator element." },
         { "name": "vr-dropdown-trigger", "description": "Vanrot dropdown trigger element." },
-        { "name": "vr-empty-state", "description": "Vanrot empty state primitive." },
+        {
+          "name": "vr-empty-state",
+          "description": "Vanrot empty state primitive.",
+          "attributes": [
+            { "name": "tone.muted", "description": "Muted empty state tone.", "value": { "kind": "no-value" } }
+          ]
+        },
         {
           "name": "vr-footer",
           "description": "Vanrot footer primitive."
@@ -148,8 +155,8 @@
           "name": "vr-form",
           "description": "Vanrot form primitive.",
           "attributes": [
-            { "name": "disabled", "description": "Disables all registered fields." },
-            { "name": "pending", "description": "Marks submit as in progress." },
+            { "name": "disabled", "description": "Disables all registered fields.", "value": { "kind": "no-value" } },
+            { "name": "pending", "description": "Marks submit as in progress.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Application-owned form name." }
           ]
         },
@@ -157,34 +164,40 @@
           "name": "vr-form-field",
           "description": "Vanrot form field primitive.",
           "attributes": [
-            { "name": "required", "description": "Marks the registered field required." },
+            { "name": "required", "description": "Marks the registered field required.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Field name." },
             { "name": "label", "description": "Field label content." },
             { "name": "description", "description": "Field help content." }
           ]
         },
-        { "name": "vr-grid", "description": "Vanrot grid primitive." },
+        {
+          "name": "vr-grid",
+          "description": "Vanrot grid primitive.",
+          "attributes": [
+            { "name": "cols.3", "description": "Three-column grid layout.", "value": { "kind": "no-value" } }
+          ]
+        },
         { "name": "vr-header", "description": "Vanrot header primitive." },
         { "name": "vr-img", "description": "Vanrot image primitive." },
         {
           "name": "vr-input",
           "description": "Vanrot input primitive.",
           "attributes": [
-            { "name": "type.text", "description": "Text input type." },
-            { "name": "type.email", "description": "Email input type." },
-            { "name": "type.password", "description": "Password input type." },
-            { "name": "type.number", "description": "Number input type." },
-            { "name": "size.sm", "description": "Small input size." },
-            { "name": "size.md", "description": "Medium input size." },
-            { "name": "size.lg", "description": "Large input size." },
-            { "name": "size.xl", "description": "Extra-large input size." },
-            { "name": "tone.default", "description": "Default input tone." },
-            { "name": "tone.success", "description": "Success input tone." },
-            { "name": "tone.warning", "description": "Warning input tone." },
-            { "name": "tone.danger", "description": "Danger input tone." },
-            { "name": "disabled", "description": "Disables the control." },
-            { "name": "readonly", "description": "Marks the control read-only." },
-            { "name": "invalid", "description": "Marks the control invalid." },
+            { "name": "type.text", "description": "Text input type.", "value": { "kind": "no-value" } },
+            { "name": "type.email", "description": "Email input type.", "value": { "kind": "no-value" } },
+            { "name": "type.password", "description": "Password input type.", "value": { "kind": "no-value" } },
+            { "name": "type.number", "description": "Number input type.", "value": { "kind": "no-value" } },
+            { "name": "size.sm", "description": "Small input size.", "value": { "kind": "no-value" } },
+            { "name": "size.md", "description": "Medium input size.", "value": { "kind": "no-value" } },
+            { "name": "size.lg", "description": "Large input size.", "value": { "kind": "no-value" } },
+            { "name": "size.xl", "description": "Extra-large input size.", "value": { "kind": "no-value" } },
+            { "name": "tone.default", "description": "Default input tone.", "value": { "kind": "no-value" } },
+            { "name": "tone.success", "description": "Success input tone.", "value": { "kind": "no-value" } },
+            { "name": "tone.warning", "description": "Warning input tone.", "value": { "kind": "no-value" } },
+            { "name": "tone.danger", "description": "Danger input tone.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
+            { "name": "readonly", "description": "Marks the control read-only.", "value": { "kind": "no-value" } },
+            { "name": "invalid", "description": "Marks the control invalid.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Form field name." },
             { "name": "value", "description": "Input value." },
             { "name": "placeholder", "description": "Placeholder text." },
@@ -193,28 +206,41 @@
         },
         { "name": "vr-label", "description": "Vanrot label primitive." },
         { "name": "vr-layout", "description": "Vanrot layout primitive." },
-        { "name": "vr-list", "description": "Vanrot list primitive." },
+        {
+          "name": "vr-list",
+          "description": "Vanrot list primitive.",
+          "attributes": [
+            { "name": "marker.check", "description": "Checkmark list marker.", "value": { "kind": "no-value" } }
+          ]
+        },
         { "name": "vr-list-item", "description": "Vanrot list item primitive." },
         {
           "name": "vr-loader",
           "description": "Vanrot loader primitive.",
           "attributes": [
-            { "name": "variant.spinner", "description": "Spinner loader variant." },
-            { "name": "variant.dots", "description": "Dots loader variant." },
-            { "name": "variant.bar", "description": "Bar loader variant." }
+            { "name": "variant.spinner", "description": "Spinner loader variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.dots", "description": "Dots loader variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.bar", "description": "Bar loader variant.", "value": { "kind": "no-value" } }
           ]
         },
         { "name": "vr-nav", "description": "Vanrot nav primitive." },
-        { "name": "vr-pagination", "description": "Vanrot pagination primitive." },
+        {
+          "name": "vr-pagination",
+          "description": "Vanrot pagination primitive.",
+          "attributes": [
+            { "name": "size.md", "description": "Medium pagination size.", "value": { "kind": "no-value" } }
+          ]
+        },
         {
           "name": "vr-popover",
           "description": "Vanrot popover primitive.",
           "attributes": [
             { "name": "open", "description": "Controls whether the popover is open." },
-            { "name": "side.top", "description": "Top popover side." },
-            { "name": "side.right", "description": "Right popover side." },
-            { "name": "side.bottom", "description": "Bottom popover side." },
-            { "name": "side.left", "description": "Left popover side." }
+            { "name": "side.top", "description": "Top popover side.", "value": { "kind": "no-value" } },
+            { "name": "side.right", "description": "Right popover side.", "value": { "kind": "no-value" } },
+            { "name": "side.bottom", "description": "Bottom popover side.", "value": { "kind": "no-value" } },
+            { "name": "side.left", "description": "Left popover side.", "value": { "kind": "no-value" } },
+            { "name": "align.end", "description": "End-aligned popover content.", "value": { "kind": "no-value" } }
           ]
         },
         { "name": "vr-popover-close", "description": "Vanrot popover close element." },
@@ -226,8 +252,9 @@
           "name": "vr-radio",
           "description": "Vanrot radio primitive.",
           "attributes": [
-            { "name": "checked", "description": "Sets the native checked state." },
-            { "name": "disabled", "description": "Disables the control." },
+            { "name": "checked", "description": "Sets the native checked state.", "value": { "kind": "no-value" } },
+            { "name": "size.md", "description": "Medium radio size.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Form field name." },
             { "name": "value", "description": "Submitted value." }
           ]
@@ -236,7 +263,7 @@
           "name": "vr-radio-group",
           "description": "Vanrot radio group primitive.",
           "attributes": [
-            { "name": "disabled", "description": "Disables the group." },
+            { "name": "disabled", "description": "Disables the group.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Group name." },
             { "name": "value", "description": "Selected value." },
             { "name": "aria-label", "description": "Accessible label." }
@@ -247,7 +274,8 @@
           "name": "vr-select",
           "description": "Vanrot select primitive.",
           "attributes": [
-            { "name": "disabled", "description": "Disables the control." },
+            { "name": "size.md", "description": "Medium select size.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Form field name." },
             { "name": "value", "description": "Selected value." },
             { "name": "placeholder", "description": "Placeholder text." },
@@ -258,26 +286,33 @@
           "name": "vr-separator",
           "description": "Vanrot separator primitive.",
           "attributes": [
-            { "name": "variant.horizontal", "description": "Horizontal separator variant." },
-            { "name": "variant.vertical", "description": "Vertical separator variant." }
+            { "name": "variant.horizontal", "description": "Horizontal separator variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.vertical", "description": "Vertical separator variant.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-sidebar", "description": "Vanrot sidebar primitive." },
+        {
+          "name": "vr-sidebar",
+          "description": "Vanrot sidebar primitive.",
+          "attributes": [
+            { "name": "placement.left", "description": "Left sidebar placement.", "value": { "kind": "no-value" } }
+          ]
+        },
         {
           "name": "vr-skeleton",
           "description": "Vanrot skeleton primitive.",
           "attributes": [
-            { "name": "variant.text", "description": "Text skeleton variant." },
-            { "name": "variant.avatar", "description": "Avatar skeleton variant." },
-            { "name": "variant.card", "description": "Card skeleton variant." },
-            { "name": "variant.block", "description": "Block skeleton variant." }
+            { "name": "variant.text", "description": "Text skeleton variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.avatar", "description": "Avatar skeleton variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.card", "description": "Card skeleton variant.", "value": { "kind": "no-value" } },
+            { "name": "variant.block", "description": "Block skeleton variant.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-slider",
           "description": "Vanrot slider primitive.",
           "attributes": [
-            { "name": "disabled", "description": "Disables the control." },
+            { "name": "size.md", "description": "Medium slider size.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
             { "name": "min", "description": "Minimum value." },
             { "name": "max", "description": "Maximum value." },
             { "name": "step", "description": "Step value." },
@@ -285,19 +320,32 @@
           ]
         },
         { "name": "vr-src", "description": "Vanrot source primitive." },
-        { "name": "vr-stat", "description": "Vanrot stat primitive." },
+        {
+          "name": "vr-stat",
+          "description": "Vanrot stat primitive.",
+          "attributes": [
+            { "name": "tone.success", "description": "Success stat tone.", "value": { "kind": "no-value" } }
+          ]
+        },
         {
           "name": "vr-switch",
           "description": "Vanrot switch primitive.",
           "attributes": [
-            { "name": "checked", "description": "Sets the native checked state." },
-            { "name": "disabled", "description": "Disables the control." },
+            { "name": "checked", "description": "Sets the native checked state.", "value": { "kind": "no-value" } },
+            { "name": "size.md", "description": "Medium switch size.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Form field name." },
             { "name": "value", "description": "Submitted value." },
             { "name": "aria-label", "description": "Accessible label." }
           ]
         },
-        { "name": "vr-table", "description": "Vanrot table primitive." },
+        {
+          "name": "vr-table",
+          "description": "Vanrot table primitive.",
+          "attributes": [
+            { "name": "density.compact", "description": "Compact table density.", "value": { "kind": "no-value" } }
+          ]
+        },
         { "name": "vr-table-body", "description": "Vanrot table body element." },
         { "name": "vr-table-caption", "description": "Vanrot table caption element." },
         { "name": "vr-table-cell", "description": "Vanrot table cell element." },
@@ -310,8 +358,9 @@
           "description": "Vanrot tabs primitive.",
           "attributes": [
             { "name": "value", "description": "Selected tab value." },
-            { "name": "orientation.horizontal", "description": "Horizontal tab orientation." },
-            { "name": "orientation.vertical", "description": "Vertical tab orientation." }
+            { "name": "value.overview", "description": "Overview tab value.", "value": { "kind": "no-value" } },
+            { "name": "orientation.horizontal", "description": "Horizontal tab orientation.", "value": { "kind": "no-value" } },
+            { "name": "orientation.vertical", "description": "Vertical tab orientation.", "value": { "kind": "no-value" } }
           ]
         },
         { "name": "vr-tabs-list", "description": "Vanrot tabs list element." },
@@ -321,13 +370,13 @@
           "name": "vr-textarea",
           "description": "Vanrot textarea primitive.",
           "attributes": [
-            { "name": "size.sm", "description": "Small textarea size." },
-            { "name": "size.md", "description": "Medium textarea size." },
-            { "name": "size.lg", "description": "Large textarea size." },
-            { "name": "size.xl", "description": "Extra-large textarea size." },
-            { "name": "disabled", "description": "Disables the control." },
-            { "name": "readonly", "description": "Marks the control read-only." },
-            { "name": "invalid", "description": "Marks the control invalid." },
+            { "name": "size.sm", "description": "Small textarea size.", "value": { "kind": "no-value" } },
+            { "name": "size.md", "description": "Medium textarea size.", "value": { "kind": "no-value" } },
+            { "name": "size.lg", "description": "Large textarea size.", "value": { "kind": "no-value" } },
+            { "name": "size.xl", "description": "Extra-large textarea size.", "value": { "kind": "no-value" } },
+            { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
+            { "name": "readonly", "description": "Marks the control read-only.", "value": { "kind": "no-value" } },
+            { "name": "invalid", "description": "Marks the control invalid.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Form field name." },
             { "name": "value", "description": "Textarea value." },
             { "name": "placeholder", "description": "Placeholder text." },
@@ -339,10 +388,11 @@
           "description": "Vanrot toast primitive.",
           "attributes": [
             { "name": "open", "description": "Controls whether the toast is open." },
-            { "name": "tone.default", "description": "Default toast tone." },
-            { "name": "tone.success", "description": "Success toast tone." },
-            { "name": "tone.warning", "description": "Warning toast tone." },
-            { "name": "tone.danger", "description": "Danger toast tone." },
+            { "name": "tone.default", "description": "Default toast tone.", "value": { "kind": "no-value" } },
+            { "name": "tone.success", "description": "Success toast tone.", "value": { "kind": "no-value" } },
+            { "name": "tone.warning", "description": "Warning toast tone.", "value": { "kind": "no-value" } },
+            { "name": "tone.danger", "description": "Danger toast tone.", "value": { "kind": "no-value" } },
+            { "name": "placement.bottomright", "description": "Bottom-right toast placement.", "value": { "kind": "no-value" } },
             { "name": "duration", "description": "Toast duration in milliseconds." }
           ]
         },
@@ -356,14 +406,132 @@
           "description": "Vanrot tooltip primitive.",
           "attributes": [
             { "name": "open", "description": "Controls whether the tooltip is open." },
-            { "name": "side.top", "description": "Top tooltip side." },
-            { "name": "side.right", "description": "Right tooltip side." },
-            { "name": "side.bottom", "description": "Bottom tooltip side." },
-            { "name": "side.left", "description": "Left tooltip side." }
+            { "name": "side.top", "description": "Top tooltip side.", "value": { "kind": "no-value" } },
+            { "name": "side.right", "description": "Right tooltip side.", "value": { "kind": "no-value" } },
+            { "name": "side.bottom", "description": "Bottom tooltip side.", "value": { "kind": "no-value" } },
+            { "name": "side.left", "description": "Left tooltip side.", "value": { "kind": "no-value" } },
+            { "name": "align.center", "description": "Center-aligned tooltip content.", "value": { "kind": "no-value" } }
           ]
         },
         { "name": "vr-tooltip-content", "description": "Vanrot tooltip content element." },
         { "name": "vr-tooltip-trigger", "description": "Vanrot tooltip trigger element." }
+      ],
+      "attributes": [
+        { "name": "align.center", "value": { "kind": "no-value" } },
+        { "name": "align.end", "value": { "kind": "no-value" } },
+        { "name": "align.left", "value": { "kind": "no-value" } },
+        { "name": "align.right", "value": { "kind": "no-value" } },
+        { "name": "align.start", "value": { "kind": "no-value" } },
+        { "name": "aria-describedby" },
+        { "name": "aria-label" },
+        { "name": "aria-labelledby" },
+        { "name": "checked", "value": { "kind": "no-value" } },
+        { "name": "cols.1", "value": { "kind": "no-value" } },
+        { "name": "cols.12", "value": { "kind": "no-value" } },
+        { "name": "cols.2", "value": { "kind": "no-value" } },
+        { "name": "cols.3", "value": { "kind": "no-value" } },
+        { "name": "cols.4", "value": { "kind": "no-value" } },
+        { "name": "cols.6", "value": { "kind": "no-value" } },
+        { "name": "delay.instant", "value": { "kind": "no-value" } },
+        { "name": "delay.normal", "value": { "kind": "no-value" } },
+        { "name": "delay.short", "value": { "kind": "no-value" } },
+        { "name": "density.comfortable", "value": { "kind": "no-value" } },
+        { "name": "density.compact", "value": { "kind": "no-value" } },
+        { "name": "density.dense", "value": { "kind": "no-value" } },
+        { "name": "description" },
+        { "name": "disabled", "value": { "kind": "no-value" } },
+        { "name": "filterable", "value": { "kind": "no-value" } },
+        { "name": "for" },
+        { "name": "gap.0", "value": { "kind": "no-value" } },
+        { "name": "gap.1", "value": { "kind": "no-value" } },
+        { "name": "gap.2", "value": { "kind": "no-value" } },
+        { "name": "gap.3", "value": { "kind": "no-value" } },
+        { "name": "gap.4", "value": { "kind": "no-value" } },
+        { "name": "gap.5", "value": { "kind": "no-value" } },
+        { "name": "gap.6", "value": { "kind": "no-value" } },
+        { "name": "gap.8", "value": { "kind": "no-value" } },
+        { "name": "invalid", "value": { "kind": "no-value" } },
+        { "name": "label" },
+        { "name": "loading", "value": { "kind": "no-value" } },
+        { "name": "marker.check", "value": { "kind": "no-value" } },
+        { "name": "marker.decimal", "value": { "kind": "no-value" } },
+        { "name": "marker.disc", "value": { "kind": "no-value" } },
+        { "name": "marker.none", "value": { "kind": "no-value" } },
+        { "name": "max" },
+        { "name": "min" },
+        { "name": "motion.instant", "value": { "kind": "no-value" } },
+        { "name": "motion.subtle", "value": { "kind": "no-value" } },
+        { "name": "name" },
+        { "name": "open" },
+        { "name": "orientation.horizontal", "value": { "kind": "no-value" } },
+        { "name": "orientation.vertical", "value": { "kind": "no-value" } },
+        { "name": "page" },
+        { "name": "pageSize" },
+        { "name": "paginated", "value": { "kind": "no-value" } },
+        { "name": "pending", "value": { "kind": "no-value" } },
+        { "name": "placeholder" },
+        { "name": "placement.bottomleft", "value": { "kind": "no-value" } },
+        { "name": "placement.bottomright", "value": { "kind": "no-value" } },
+        { "name": "placement.left", "value": { "kind": "no-value" } },
+        { "name": "placement.right", "value": { "kind": "no-value" } },
+        { "name": "placement.topleft", "value": { "kind": "no-value" } },
+        { "name": "placement.topright", "value": { "kind": "no-value" } },
+        { "name": "readonly", "value": { "kind": "no-value" } },
+        { "name": "required", "value": { "kind": "no-value" } },
+        { "name": "selectable", "value": { "kind": "no-value" } },
+        { "name": "selected", "value": { "kind": "no-value" } },
+        { "name": "side.bottom", "value": { "kind": "no-value" } },
+        { "name": "side.left", "value": { "kind": "no-value" } },
+        { "name": "side.right", "value": { "kind": "no-value" } },
+        { "name": "side.top", "value": { "kind": "no-value" } },
+        { "name": "size.lg", "value": { "kind": "no-value" } },
+        { "name": "size.md", "value": { "kind": "no-value" } },
+        { "name": "size.sm", "value": { "kind": "no-value" } },
+        { "name": "size.xl", "value": { "kind": "no-value" } },
+        { "name": "size.xs", "value": { "kind": "no-value" } },
+        { "name": "sort" },
+        { "name": "sortable", "value": { "kind": "no-value" } },
+        { "name": "spacing.lg", "value": { "kind": "no-value" } },
+        { "name": "spacing.md", "value": { "kind": "no-value" } },
+        { "name": "spacing.sm", "value": { "kind": "no-value" } },
+        { "name": "step" },
+        { "name": "tone.danger", "value": { "kind": "no-value" } },
+        { "name": "tone.default", "value": { "kind": "no-value" } },
+        { "name": "tone.info", "value": { "kind": "no-value" } },
+        { "name": "tone.muted", "value": { "kind": "no-value" } },
+        { "name": "tone.outline", "value": { "kind": "no-value" } },
+        { "name": "tone.secondary", "value": { "kind": "no-value" } },
+        { "name": "tone.success", "value": { "kind": "no-value" } },
+        { "name": "tone.warning", "value": { "kind": "no-value" } },
+        { "name": "total" },
+        { "name": "type.email", "value": { "kind": "no-value" } },
+        { "name": "type.number", "value": { "kind": "no-value" } },
+        { "name": "type.password", "value": { "kind": "no-value" } },
+        { "name": "type.search", "value": { "kind": "no-value" } },
+        { "name": "type.tel", "value": { "kind": "no-value" } },
+        { "name": "type.text", "value": { "kind": "no-value" } },
+        { "name": "type.url", "value": { "kind": "no-value" } },
+        { "name": "value" },
+        { "name": "variant.avatar", "value": { "kind": "no-value" } },
+        { "name": "variant.bar", "value": { "kind": "no-value" } },
+        { "name": "variant.block", "value": { "kind": "no-value" } },
+        { "name": "variant.card", "value": { "kind": "no-value" } },
+        { "name": "variant.compact", "value": { "kind": "no-value" } },
+        { "name": "variant.danger", "value": { "kind": "no-value" } },
+        { "name": "variant.default", "value": { "kind": "no-value" } },
+        { "name": "variant.dots", "value": { "kind": "no-value" } },
+        { "name": "variant.ghost", "value": { "kind": "no-value" } },
+        { "name": "variant.interactive", "value": { "kind": "no-value" } },
+        { "name": "variant.line", "value": { "kind": "no-value" } },
+        { "name": "variant.link", "value": { "kind": "no-value" } },
+        { "name": "variant.muted", "value": { "kind": "no-value" } },
+        { "name": "variant.numbers", "value": { "kind": "no-value" } },
+        { "name": "variant.outline", "value": { "kind": "no-value" } },
+        { "name": "variant.pill", "value": { "kind": "no-value" } },
+        { "name": "variant.secondary", "value": { "kind": "no-value" } },
+        { "name": "variant.soft", "value": { "kind": "no-value" } },
+        { "name": "variant.spinner", "value": { "kind": "no-value" } },
+        { "name": "variant.text", "value": { "kind": "no-value" } }
       ]
     }
   }

@@ -8,6 +8,9 @@ interface WebTypesAttribute {
   name: string;
   description?: string;
   pattern?: string | { regex: string };
+  value?: {
+    kind?: string;
+  };
 }
 
 interface WebTypesElement {
@@ -22,6 +25,7 @@ interface WebTypesDocument {
   version: string;
   contributions: {
     html: {
+      attributes?: WebTypesAttribute[];
       elements: WebTypesElement[];
     };
   };
@@ -56,6 +60,12 @@ describe('@vanrot/router Web Types metadata', () => {
     expect(webTypes.version).toBe(packageJson.version);
   });
 
+  it('keeps router symbols available without requiring a Vanrot IDE framework context', () => {
+    const webTypes = readRouterWebTypes() as WebTypesDocument & { framework?: string };
+
+    expect(webTypes.framework).toBeUndefined();
+  });
+
   it('lists the router template elements and route-link shorthand', () => {
     const webTypes = readRouterWebTypes();
     const elements = new Map(webTypes.contributions.html.elements.map((element) => [element.name, element]));
@@ -66,8 +76,22 @@ describe('@vanrot/router Web Types metadata', () => {
         expect.objectContaining({
           name: 'route.*',
           pattern: { regex: '^route\\.[A-Za-z][A-Za-z0-9_]*$' },
+          value: { kind: 'no-value' },
         }),
       ]),
+    );
+  });
+
+  it('also exposes route-link shorthand as a global no-value HTML attribute', () => {
+    const webTypes = readRouterWebTypes();
+    const attributes = new Map((webTypes.contributions.html.attributes ?? []).map((attribute) => [attribute.name, attribute]));
+
+    expect(attributes.get('route.*')).toEqual(
+      expect.objectContaining({
+        name: 'route.*',
+        pattern: { regex: '^route\\.[A-Za-z][A-Za-z0-9_]*$' },
+        value: { kind: 'no-value' },
+      }),
     );
   });
 });

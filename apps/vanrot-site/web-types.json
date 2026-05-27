@@ -1,0 +1,99 @@
+{
+  "$schema": "https://raw.githubusercontent.com/JetBrains/web-types/master/schema/web-types.json",
+  "name": "@vanrot/vanrot-site",
+  "version": "0.0.0",
+  "contributions": {
+    "html": {
+      "attributes": [
+        {
+          "name": "route.*",
+          "description": "Route reference generated from src/routes.ts.",
+          "value": {
+            "kind": "no-value"
+          },
+          "pattern": {
+            "regex": "^route\\.[A-Za-z][A-Za-z0-9_]*$"
+          }
+        },
+        {
+          "name": "route.about",
+          "description": "Basic app fixture About route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.components",
+          "description": "Vanrot component documentation route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.docs",
+          "description": "Vanrot framework documentation route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.home",
+          "description": "Vanrot home route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.reference",
+          "description": "Vanrot reference route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        }
+      ],
+      "elements": [
+        {
+          "name": "vr",
+          "description": "Vanrot site route-link shorthand.",
+          "attributes": [
+        {
+          "name": "route.about",
+          "description": "Basic app fixture About route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.components",
+          "description": "Vanrot component documentation route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.docs",
+          "description": "Vanrot framework documentation route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.home",
+          "description": "Vanrot home route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        },
+        {
+          "name": "route.reference",
+          "description": "Vanrot reference route reference.",
+          "value": {
+            "kind": "no-value"
+          }
+        }
+          ]
+        }
+      ]
+    }
+  }
+}
