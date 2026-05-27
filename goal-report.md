@@ -1,6 +1,6 @@
 # Phase 1-25 Hardening Goal Report
 
-Date: 2026-05-27
+Date: 2026-05-28
 
 ## Scope
 
@@ -23,11 +23,25 @@ Audit phases 1 through 25 before Phase 26. Phase 17 through Phase 22 remain post
 | Fixed | Phase 25 | Skill.sh metadata verification | The Skill.sh package metadata did not explicitly record the AI bundle schema version, and `verify:ai-docs` only checked Skill.sh files were non-empty. | Added schema version metadata to generated Skill.sh files and changed `verify:ai-docs` to compare generated Skill.sh files exactly. |
 | Fixed | Phase 25 / Phase 26 readiness | Hidden-file security scan coverage | The security leak verifier scanned normal repo files but did not include hidden files such as `.env.local` if they were present in the workspace. | Added hidden-file scanning while still excluding `.git`, build output, coverage, and package dependency folders. |
 | Fixed | Phase 25 / Phase 26 readiness | Provider-key scanner precision | Hidden-file coverage tests showed the OpenAI key detector also matched Anthropic-shaped `sk-ant-*` keys, and redaction masked long environment variable names. | Tightened provider-key detection so OpenAI and Anthropic keys are classified separately, and changed redaction to preserve variable names while masking assigned secret values. |
+| Fixed | Phase 25 | Hardcoded timestamp in AI history | `packages/cli/src/ai/history.ts:18` used `new Date('2026-05-23T00:00:00.000Z').toISOString()` instead of `new Date()`. Every call to `vr ai record` (and `vr init-ai`) would stamp all history entries with the same static date, making the history log useless for ordering events. | Changed to `new Date().toISOString()` so records carry the actual wall-clock time. |
+| Fixed | Phase 25 | Hardcoded timestamp in AI context | `packages/cli/src/ai/context.ts` passed `now: () => new Date('2026-05-23T00:00:00.000Z')` to `buildProjectMap` and hardcoded `generatedAt: '2026-05-23T00:00:00.000Z'` in the context payload. Every generated `.vanrot/ai-context.md` would show a stale creation date. | Captured `const now = new Date()` once at call time and derived both the `now` factory and `generatedAt` from it. |
 
 ## Non-Issues Checked
 
 - `docs/superpowers/plans/Phase-12B.md` contains an unchecked `- [ ] **Step N: Step title**` string inside a fenced example block. This is intentional instruction text, not an open task.
 - Aggregate plan/spec naming for older Phase 12, 13, 15, and 16 slices predates the stricter phase-file convention and is already covered by checked slice plans plus `verify:phase-docs`.
+- `vr ai mcp` only prints MCP server setup instructions rather than running the server inline. This is correct per the Phase 25 spec ("print exact setup instructions, depending on what the implementation plan proves safest"). The actual server binary is `vanrot-mcp`.
+- `@vanrot/ai` bundle generation has no rate limiting or retry logic. This is correct — the bundle generator reads only local filesystem sources and makes no network or provider API calls.
+- Test fixtures in `packages/cli/tests/intelligence/project-map.test.ts` and `packages/ai/tests/*.test.ts` use hardcoded `new Date(...)` values. These are deliberate deterministic test clocks injected via the `now` option; they are not production bugs.
+- Router keep-alive tests use fixed wall dates. Same pattern — intentional test determinism.
+
+## Documented Gaps (Not Blocking Phase 26)
+
+| Priority | Area | Gap | Risk | Next Action |
+| --- | --- | --- | --- | --- |
+| Medium | Tooling | No `.editorconfig` or `.prettierrc` in the monorepo. TypeScript and CSS formatting is left to IDE settings. `verify:site-format` enforces HTML template indentation, but there is no machine-enforced style for `.ts` and `.css` files. | Low — existing code is consistently styled; violations would only appear in new files and would be caught in code review. | Add `.editorconfig` with `indent_style = space`, `indent_size = 2`, `end_of_line = lf`, `insert_final_newline = true` before or alongside Phase 26. Does not block testing. |
+| Low | AI DX | `vr ai prompt` (and `vr init-ai`) writes a minimal 4-line prompt to `.vanrot/ai-prompt.md`. The file lists generic rules but does not mention component authoring flow, router usage, CLI commands, or the AI bundle itself. Users who rely on this file as their primary AI context get a shallow starting point. | Low — `ai-rules.md` and `ai-context.md` produced by the same command provide richer information; the thin prompt is a supplement, not the sole source. | Expand `packages/cli/src/ai/prompt.ts` to generate a richer prompt template that references the key workflow steps, role-based file suffixes, and `vr ai` commands. Can be done in Phase 26 or as a post-25 polish pass. |
+| Low | Test coverage | `writeAiContext` and `recordAiHistory` have no dedicated unit tests. They are exercised only through integration-level `init-ai` command tests that check file creation but not content correctness. The hardcoded-date bugs discovered in this audit would have been caught earlier by unit tests. | Low — integration tests do exercise the code path; the risk is that future regressions in output shape would not be detected until integration. | Add unit tests for `writeAiContext` (assert `generatedAt` is a valid ISO date string near `Date.now()`) and `recordAiHistory` (assert `createdAt` matches expected format). |
 
 ## Security Notes
 
@@ -49,4 +63,32 @@ Audit phases 1 through 25 before Phase 26. Phase 17 through Phase 22 remain post
 - [x] Run `pnpm audit --audit-level moderate`.
 - [x] Run `pnpm audit:core`.
 - [x] Run full `pnpm verify`.
+- [x] Run `pnpm --filter @vanrot/cli test` after timestamp fixes (19 test files, 140 tests — all pass).
 - [x] Restart `apps/vanrot-site` on port `1964` and verify `http://localhost:1964`.
+
+## Readiness Summary
+
+### What Changed in This Audit Session
+
+Two correctness bugs were fixed in Phase 25 AI CLI code:
+
+1. `packages/cli/src/ai/history.ts` — `vr ai record` and `vr init-ai` now stamp history records with the actual current time instead of a static 2026-05-23 date.
+2. `packages/cli/src/ai/context.ts` — `vr init-ai` and `vr ai context` now write the real generation timestamp to `.vanrot/ai-context.md` instead of a static 2026-05-23 date.
+
+All 140 CLI tests pass after the fix.
+
+### Risks Remaining
+
+| Risk | Severity | Blocks Testing? |
+| --- | --- | --- |
+| No `.editorconfig` or `.prettierrc` | Low | No |
+| `vr ai prompt` writes thin content | Low | No |
+| No unit tests for `writeAiContext` / `recordAiHistory` | Low | No |
+
+### Go / No-Go
+
+**GO.**
+
+All `pnpm verify` gates pass. No security issues. No unchecked phase plan tasks. No maturity ledger violations. Both timestamp bugs that would have produced incorrect AI context files are fixed. The three remaining gaps are low-severity improvements that do not affect the correctness of the framework, the site, or the AI consumption layer for testing purposes.
+
+Recommended before Phase 26 begins: add `.editorconfig` (30-minute task) and add unit tests for `writeAiContext` / `recordAiHistory` (1-hour task).

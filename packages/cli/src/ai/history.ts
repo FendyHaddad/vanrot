@@ -15,7 +15,7 @@ export async function recordAiHistory(
   record: Omit<AiHistoryRecord, 'id' | 'createdAt'>,
 ): Promise<string> {
   const paths = await ensureAiDirectory(cwd);
-  const createdAt = new Date('2026-05-23T00:00:00.000Z').toISOString();
+  const createdAt = new Date().toISOString();
   const id = `${record.diagnostic}-${createdAt}`;
   await appendFile(paths.history, `${JSON.stringify({ id, createdAt, ...record })}\n`);
   return paths.history;
