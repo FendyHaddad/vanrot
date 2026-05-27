@@ -20,6 +20,10 @@ export interface AiBundleIndex {
   generatedFiles: AiBundleIndexEntry[];
   conventions: AiBundleIndexEntry[];
   examples: AiBundleIndexEntry[];
+  components: AiBundleIndexEntry[];
+  routes: AiBundleIndexEntry[];
+  limitations: AiBundleIndexEntry[];
+  deployment: AiBundleIndexEntry[];
   docs: AiBundleIndexEntry[];
 }
 
@@ -42,7 +46,12 @@ const knowledgeSections = [
   { key: 'generatedFiles', fileName: 'generated-files', title: 'Generated Files' },
   { key: 'conventions', fileName: 'conventions', title: 'Conventions' },
   { key: 'examples', fileName: 'examples', title: 'Examples' },
+  { key: 'components', fileName: 'components', title: 'Components' },
+  { key: 'routes', fileName: 'routes', title: 'Routes' },
+  { key: 'limitations', fileName: 'limitations', title: 'Limitations' },
+  { key: 'deployment', fileName: 'deployment', title: 'Deployment' },
   { key: 'publicExports', fileName: 'public-api', title: 'Public API' },
+  { key: 'docs', fileName: 'docs', title: 'Documentation Pages' },
 ] as const;
 
 export async function buildAiKnowledgeBundle(
@@ -71,6 +80,10 @@ export function createAiKnowledgeBundle(
       generatedFiles: index.generatedFiles.length,
       conventions: index.conventions.length,
       examples: index.examples.length,
+      components: index.components.length,
+      routes: index.routes.length,
+      limitations: index.limitations.length,
+      deployment: index.deployment.length,
       docs: index.docs.length,
     },
   });
@@ -136,6 +149,42 @@ function createBundleIndex(source: AiKnowledgeSource): AiBundleIndex {
         readString(item, 'docsPath'),
       ),
     ),
+    components: source.siteData.primitiveDocs.map((item) =>
+      entry(
+        `component:${readString(item, 'primitive')}`,
+        readString(item, 'title'),
+        summaryParts(
+          readString(item, 'summary'),
+          `Usage: ${readString(item, 'usage')}`,
+          `Accessibility: ${readString(item, 'accessibility')}`,
+        ),
+        `/docs/components/${readString(item, 'primitive')}`,
+      ),
+    ),
+    routes: source.frameworkReference.routeMetadata.map((item) =>
+      entry(
+        `route:${readString(item, 'path')}`,
+        readString(item, 'path'),
+        summaryParts(readString(item, 'title'), readString(item, 'description')),
+        readString(item, 'path'),
+      ),
+    ),
+    limitations: source.frameworkReference.limitations.map((item) =>
+      entry(
+        `limitation:${readString(item, 'id')}`,
+        readString(item, 'title'),
+        readString(item, 'summary'),
+        readString(item, 'docsPath'),
+      ),
+    ),
+    deployment: [
+      entry(
+        `deployment:${readString(source.frameworkReference.deployment, 'targetHost')}`,
+        readString(source.frameworkReference.deployment, 'targetHost'),
+        readString(source.frameworkReference.deployment, 'summary'),
+        readString(source.frameworkReference.deployment, 'docsPath'),
+      ),
+    ].filter((item) => item.title.length > 0),
     docs: source.siteData.articles.map((item) =>
       entry(
         `doc:${readString(item, 'key')}`,
@@ -180,9 +229,20 @@ function entryMarkdown(item: AiBundleIndexEntry): string {
 
 function createProviderNeutralRules(index: AiBundleIndex): string {
   const commandList = index.commands.map((command) => `- ${command.title}`).join('\n');
+  const resourceList = [
+    '- `vanrot://docs` for the full index.',
+    '- `vanrot://commands` for CLI command knowledge.',
+    '- `vanrot://diagnostics` for compiler, config, router, CLI, and Vite diagnostics.',
+    '- `vanrot://patterns` for provider-neutral framework rules.',
+    '- `vanrot://components` for documented UI primitive behavior.',
+    '- `vanrot://routes` for public documentation routes.',
+    '- `vanrot://limitations` for deferred or intentionally unsupported behavior.',
+  ].join('\n');
 
   return [
     '# Vanrot AI Rules',
+    '',
+    'Use this generated bundle as the source of truth before answering Vanrot questions or editing Vanrot apps.',
     '',
     '- Use guard clauses instead of nested control flow.',
     '- Use signals for state.',
@@ -196,7 +256,25 @@ function createProviderNeutralRules(index: AiBundleIndex): string {
     '',
     commandList,
     '',
+    '## MCP And Skill.sh',
+    '',
+    'The local MCP server and generated Skill.sh package must consume the same manifest, index, knowledge documents, and rules.',
+    '',
+    resourceList,
+    '',
+    'Use `search_vanrot_knowledge` for bundle-backed search instead of guessing from older framework habits.',
+    '',
+    '## Security And Privacy',
+    '',
+    '- Do not put API keys, model keys, credentials, tokens, private paths, or local machine secrets in generated examples, bundle files, MCP output, or Skill.sh metadata.',
+    '- Keep provider-specific OpenAI, Claude, Ollama, or self-hosted model behavior outside the canonical knowledge source unless a future phase adds a verified provider adapter.',
+    '- Treat missing, stale, unsupported, or incomplete AI bundle states as failures. Do not silently fall back to stale built-in knowledge.',
+    '',
   ].join('\n');
+}
+
+function summaryParts(...parts: string[]): string {
+  return parts.filter((part) => part.length > 0 && !part.endsWith(': ')).join(' ');
 }
 
 function entry(

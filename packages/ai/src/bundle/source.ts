@@ -18,7 +18,7 @@ export interface FrameworkReferenceSource {
   limitations: ReferenceRecord[];
   maturity: ReferenceRecord[];
   routeMetadata: ReferenceRecord[];
-  deployment: ReferenceRecord[];
+  deployment: ReferenceRecord;
 }
 
 export interface SiteDataSource {

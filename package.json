@@ -8,15 +8,17 @@
     "build": "pnpm -r --if-present run build",
     "typecheck": "pnpm -r --if-present run typecheck",
     "test": "pnpm -r --if-present run test && pnpm test:phase-docs",
-    "test:phase-docs": "vitest run scripts/verify-phase-docs.test.mjs scripts/verify-site-docs.test.mjs scripts/verify-ai-docs.test.mjs",
+    "test:phase-docs": "vitest run scripts/verify-phase-docs.test.mjs scripts/verify-site-docs.test.mjs scripts/verify-site-format.test.mjs scripts/verify-ai-docs.test.mjs scripts/verify-security-leaks.test.mjs",
     "audit:core": "vitest run --config vitest.audit.config.ts",
     "lint": "pnpm -r --if-present run lint",
     "clean": "pnpm -r --if-present run clean",
     "verify:phase-docs": "node scripts/verify-phase-docs.mjs",
     "verify:site-docs": "node scripts/verify-site-docs.mjs",
+    "verify:site-format": "node scripts/verify-site-format.mjs",
     "verify:ai-docs": "node scripts/verify-ai-docs.mjs",
+    "verify:security-leaks": "node scripts/verify-security-leaks.mjs",
     "verify:size": "pnpm --filter @vanrot/runtime size",
-    "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm verify:size && pnpm verify:site-docs && pnpm verify:ai-docs && pnpm verify:phase-docs"
+    "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm verify:size && pnpm verify:site-docs && pnpm verify:site-format && pnpm verify:ai-docs && pnpm verify:security-leaks && pnpm verify:phase-docs"
   },
   "devDependencies": {
     "@size-limit/preset-small-lib": "^12.1.0",

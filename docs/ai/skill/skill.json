@@ -1,6 +1,7 @@
 {
   "name": "vanrot",
   "version": "0.0.0",
+  "schemaVersion": 1,
   "manifest": "docs/ai/manifest.json",
   "rules": "docs/ai/rules.md"
 }

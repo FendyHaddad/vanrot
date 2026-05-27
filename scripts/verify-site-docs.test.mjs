@@ -50,10 +50,22 @@ describe('site docs verification', () => {
   it('fails when a command is missing from reference docs', () => {
     const failures = checkCommandCoverage(
       ['create', 'dev'],
-      [{ name: 'create', usage: 'vr create <name>' }],
+      [{ name: 'create', usage: 'vr create <name>', examples: ['vr create app'], notes: ['Creates an app.'] }],
     );
 
     expect(failures).toEqual(['Missing CLI command docs entry: dev']);
+  });
+
+  it('fails when a command has no examples or notes', () => {
+    const failures = checkCommandCoverage(
+      ['create'],
+      [{ name: 'create', usage: 'vr create <name>' }],
+    );
+
+    expect(failures).toEqual([
+      'Missing CLI command examples: create',
+      'Missing CLI command notes: create',
+    ]);
   });
 
   it('fails when a package is missing from reference docs', () => {

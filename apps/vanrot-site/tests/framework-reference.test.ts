@@ -71,6 +71,16 @@ describe('framework reference registry', () => {
       'build',
       'test',
     ]);
+    expect(
+      frameworkReference.commands.every(
+        (command) => command.examples.length > 0 && command.notes.length > 0,
+      ),
+    ).toBe(true);
+    expect(
+      frameworkReference.commands.find((command) => command.name === 'ai')?.subcommands?.map(
+        (subcommand) => subcommand.name,
+      ),
+    ).toEqual(['build', 'verify', 'doctor', 'mcp', 'context', 'prompt', 'record', 'summarize']);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'compiler')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'config')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'router')).toBe(true);

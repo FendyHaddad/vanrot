@@ -16,6 +16,10 @@ export interface AiBundleCounts {
   generatedFiles: number;
   conventions: number;
   examples: number;
+  components: number;
+  routes: number;
+  limitations: number;
+  deployment: number;
   docs: number;
 }
 

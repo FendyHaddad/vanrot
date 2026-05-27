@@ -1,4 +1,5 @@
 import { createAiKnowledgeBundle, createVanrotMcpServer } from '../src/index.js';
+import { vanrotMcpResourceDefinitions } from '../src/mcp/server.js';
 import { describe, expect, it } from 'vitest';
 
 describe('Vanrot MCP server', () => {
@@ -20,7 +21,7 @@ describe('Vanrot MCP server', () => {
           limitations: [],
           maturity: [],
           routeMetadata: [],
-          deployment: [],
+          deployment: {},
         },
         siteData: {
           articles: [],
@@ -37,5 +38,13 @@ describe('Vanrot MCP server', () => {
 
     expect(server.name).toBe('vanrot');
     expect(server.version).toBe('0.0.0');
+
+    const resourceKeys = vanrotMcpResourceDefinitions.map((resource) => resource.key);
+
+    for (const indexKey of Object.keys(bundle.index)) {
+      expect(resourceKeys).toContain(indexKey);
+    }
+
+    expect(resourceKeys).toEqual(expect.arrayContaining(['deployment', 'docs']));
   });
 });

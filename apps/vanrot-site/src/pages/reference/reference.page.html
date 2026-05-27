@@ -6,9 +6,34 @@
     <h2>Commands</h2>
     @for (command of commands; track command.name) {
       <vr-card variant.default>
-        <h3>{{ command.name }}</h3>
-        <code>{{ command.usage }}</code>
-        <vr-badge tone.outline>{{ command.status }}</vr-badge>
+        <div class="command-card-head">
+          <div>
+            <h3>{{ command.name }}</h3>
+            <code>{{ command.usage }}</code>
+          </div>
+          <vr-badge tone.outline>{{ command.status }}</vr-badge>
+        </div>
+        <p>{{ command.summary }}</p>
+        <div class="command-meta">
+          @for (example of command.examples; track example) {
+            <code>{{ example }}</code>
+          }
+        </div>
+        @if (command.subcommands?.length) {
+          <ul class="command-list">
+            @for (subcommand of command.subcommands; track subcommand.name) {
+              <li>
+                <strong>{{ subcommand.name }}</strong>
+                <span>{{ subcommand.summary }}</span>
+              </li>
+            }
+          </ul>
+        }
+        <ul class="command-list">
+          @for (note of command.notes; track note) {
+            <li>{{ note }}</li>
+          }
+        </ul>
       </vr-card>
     }
   </section>
@@ -19,6 +44,7 @@
       <vr-card variant.default>
         <h3>{{ item.name }}</h3>
         <p>{{ item.area }}</p>
+        <p>{{ item.summary }}</p>
         <vr-badge tone.outline>{{ item.status }}</vr-badge>
       </vr-card>
     }

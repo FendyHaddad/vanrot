@@ -3,6 +3,7 @@ import { join } from 'node:path';
 import { buildAiKnowledgeBundle, type AiBundleIndex } from './generator.js';
 import { defaultAiBundlePaths } from './paths.js';
 import { isAiBundleManifest, type AiBundleManifest } from './schema.js';
+import { createSkillPackageFiles } from '../skill/generator.js';
 
 export interface AiBundleVerificationResult {
   ok: boolean;
@@ -19,7 +20,12 @@ const requiredBundlePaths = [
   `${defaultAiBundlePaths.knowledge}/generated-files.md`,
   `${defaultAiBundlePaths.knowledge}/conventions.md`,
   `${defaultAiBundlePaths.knowledge}/examples.md`,
+  `${defaultAiBundlePaths.knowledge}/components.md`,
+  `${defaultAiBundlePaths.knowledge}/routes.md`,
+  `${defaultAiBundlePaths.knowledge}/limitations.md`,
+  `${defaultAiBundlePaths.knowledge}/deployment.md`,
   `${defaultAiBundlePaths.knowledge}/public-api.md`,
+  `${defaultAiBundlePaths.knowledge}/docs.md`,
   `${defaultAiBundlePaths.skill}/SKILL.md`,
   `${defaultAiBundlePaths.skill}/skill.json`,
 ] as const;
@@ -39,9 +45,6 @@ export async function verifyAiKnowledgeBundle(root: string): Promise<AiBundleVer
   if (index !== undefined) {
     checkIndexCounts(manifest, index, failures);
   }
-
-  await checkNonEmptyFile(root, `${defaultAiBundlePaths.skill}/SKILL.md`, failures);
-  await checkNonEmptyFile(root, `${defaultAiBundlePaths.skill}/skill.json`, failures);
 
   const expected = await buildAiKnowledgeBundle(root, {
     now: () => new Date(manifest.generatedAt),
@@ -65,6 +68,15 @@ export async function verifyAiKnowledgeBundle(root: string): Promise<AiBundleVer
       document.content,
       failures,
     );
+  }
+
+  for (const file of createSkillPackageFiles({
+    vanrotVersion: expected.manifest.vanrotVersion,
+    schemaVersion: expected.manifest.schemaVersion,
+    manifestPath: defaultAiBundlePaths.manifest,
+    rulesPath: defaultAiBundlePaths.rules,
+  })) {
+    await verifyTextFile(root, `${defaultAiBundlePaths.root}/${file.path}`, file.content, failures);
   }
 
   return { ok: failures.length === 0, failures };
@@ -143,6 +155,10 @@ function checkIndexCounts(
   checkIndexCount('publicExports', manifest.counts.publicExports, index.publicExports, failures);
   checkIndexCount('generatedFiles', manifest.counts.generatedFiles, index.generatedFiles, failures);
   checkIndexCount('conventions', manifest.counts.conventions, index.conventions, failures);
+  checkIndexCount('components', manifest.counts.components, index.components, failures);
+  checkIndexCount('routes', manifest.counts.routes, index.routes, failures);
+  checkIndexCount('limitations', manifest.counts.limitations, index.limitations, failures);
+  checkIndexCount('deployment', manifest.counts.deployment, index.deployment, failures);
   checkIndexCount('docs', manifest.counts.docs, index.docs, failures);
 }
 
@@ -154,16 +170,6 @@ function checkIndexCount(
 ): void {
   if (!Array.isArray(actual) || actual.length !== expected) {
     failures.push(`AI bundle index is incomplete: ${name} count does not match manifest.`);
-  }
-}
-
-async function checkNonEmptyFile(root: string, path: string, failures: string[]): Promise<void> {
-  try {
-    if ((await readFile(join(root, path), 'utf8')).trim() === '') {
-      failures.push(`AI Skill.sh package is incomplete: ${path} is empty.`);
-    }
-  } catch {
-    failures.push(`Missing AI bundle file: ${path}`);
   }
 }
 

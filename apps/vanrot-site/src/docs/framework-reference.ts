@@ -34,6 +34,12 @@ export interface FrameworkCommandReference {
   status: FrameworkReferenceStatus;
   summary: string;
   docsPath: string;
+  examples: readonly string[];
+  notes: readonly string[];
+  subcommands?: readonly {
+    name: string;
+    summary: string;
+  }[];
 }
 
 export interface FrameworkDiagnosticReference {

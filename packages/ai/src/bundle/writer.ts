@@ -32,6 +32,7 @@ export async function writeAiKnowledgeBundle(
   await mkdir(join(outputRoot, 'skill'), { recursive: true });
   for (const file of createSkillPackageFiles({
     vanrotVersion: bundle.manifest.vanrotVersion,
+    schemaVersion: bundle.manifest.schemaVersion,
     manifestPath: defaultAiBundlePaths.manifest,
     rulesPath: defaultAiBundlePaths.rules,
   })) {

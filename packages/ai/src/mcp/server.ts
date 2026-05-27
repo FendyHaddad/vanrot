@@ -8,12 +8,21 @@ export interface VanrotMcpServer {
   server: McpServer;
 }
 
-const resourceDefinitions = [
+export const vanrotMcpResourceDefinitions = [
   { name: 'vanrot-docs', uri: 'vanrot://docs', key: 'index' },
   { name: 'vanrot-rules', uri: 'vanrot://patterns', key: 'rules' },
+  { name: 'vanrot-packages', uri: 'vanrot://packages', key: 'packages' },
+  { name: 'vanrot-public-api', uri: 'vanrot://public-api', key: 'publicExports' },
   { name: 'vanrot-commands', uri: 'vanrot://commands', key: 'commands' },
   { name: 'vanrot-diagnostics', uri: 'vanrot://diagnostics', key: 'diagnostics' },
+  { name: 'vanrot-generated-files', uri: 'vanrot://generated-files', key: 'generatedFiles' },
+  { name: 'vanrot-conventions', uri: 'vanrot://conventions', key: 'conventions' },
+  { name: 'vanrot-components', uri: 'vanrot://components', key: 'components' },
+  { name: 'vanrot-routes', uri: 'vanrot://routes', key: 'routes' },
   { name: 'vanrot-examples', uri: 'vanrot://examples', key: 'examples' },
+  { name: 'vanrot-limitations', uri: 'vanrot://limitations', key: 'limitations' },
+  { name: 'vanrot-deployment', uri: 'vanrot://deployment', key: 'deployment' },
+  { name: 'vanrot-guide-docs', uri: 'vanrot://guide-docs', key: 'docs' },
 ] as const;
 
 export function createVanrotMcpServer(bundle: AiKnowledgeBundle): VanrotMcpServer {
@@ -22,7 +31,7 @@ export function createVanrotMcpServer(bundle: AiKnowledgeBundle): VanrotMcpServe
     version: bundle.manifest.vanrotVersion,
   });
 
-  for (const resource of resourceDefinitions) {
+  for (const resource of vanrotMcpResourceDefinitions) {
     registerTextResource(
       server,
       resource.name,
@@ -62,46 +71,36 @@ function registerTextResource(server: McpServer, name: string, uri: string, text
 
 function resourceText(
   bundle: AiKnowledgeBundle,
-  key: (typeof resourceDefinitions)[number]['key'],
+  key: (typeof vanrotMcpResourceDefinitions)[number]['key'],
 ): string {
   if (key === 'rules') {
     return bundle.rules;
   }
 
-  if (key === 'commands') {
-    return JSON.stringify(bundle.index.commands, null, 2);
+  if (key === 'index') {
+    return JSON.stringify(bundle.index, null, 2);
   }
 
-  if (key === 'diagnostics') {
-    return JSON.stringify(bundle.index.diagnostics, null, 2);
-  }
-
-  if (key === 'examples') {
-    return JSON.stringify(bundle.index.examples, null, 2);
-  }
-
-  return JSON.stringify(bundle.index, null, 2);
+  return JSON.stringify(bundle.index[key], null, 2);
 }
 
 function searchBundle(bundle: AiKnowledgeBundle, query: string): string {
-  const lowerQuery = query.toLowerCase();
-  const matches = searchableEntries(bundle).filter((entry) =>
-    `${entry.title} ${entry.summary}`.toLowerCase().includes(lowerQuery),
-  );
+  const queryTerms = query.toLowerCase().split(/\s+/).filter((term) => term.length > 0);
+  const matches = searchableEntries(bundle).filter((entry) => {
+    const searchableText = `${entry.title} ${entry.summary} ${entry.docsPath ?? ''}`.toLowerCase();
+
+    return queryTerms.every((term) => searchableText.includes(term));
+  });
 
   if (matches.length === 0) {
     return 'No Vanrot knowledge entries matched the query.';
   }
 
-  return matches.map((entry) => `${entry.title}: ${entry.summary}`).join('\n');
+  return matches
+    .map((entry) => `${entry.title}: ${entry.summary}${entry.docsPath ? ` (${entry.docsPath})` : ''}`)
+    .join('\n');
 }
 
 function searchableEntries(bundle: AiKnowledgeBundle): AiBundleIndexEntry[] {
-  return [
-    ...bundle.index.commands,
-    ...bundle.index.diagnostics,
-    ...bundle.index.packages,
-    ...bundle.index.conventions,
-    ...bundle.index.examples,
-  ];
+  return Object.values(bundle.index).flat();
 }

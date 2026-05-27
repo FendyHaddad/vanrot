@@ -46,11 +46,27 @@ export function checkPrimitiveCoverage(requiredPrimitives, componentDocs) {
 }
 
 export function checkCommandCoverage(requiredCommands, commandDocs) {
-  const available = new Set(commandDocs.map((command) => command.name));
+  const failures = [];
+  const docsByName = new Map(commandDocs.map((command) => [command.name, command]));
 
-  return requiredCommands
-    .filter((command) => !available.has(command))
-    .map((command) => `Missing CLI command docs entry: ${command}`);
+  for (const command of requiredCommands) {
+    const commandDoc = docsByName.get(command);
+
+    if (commandDoc === undefined) {
+      failures.push(`Missing CLI command docs entry: ${command}`);
+      continue;
+    }
+
+    if (!Array.isArray(commandDoc.examples) || commandDoc.examples.length === 0) {
+      failures.push(`Missing CLI command examples: ${command}`);
+    }
+
+    if (!Array.isArray(commandDoc.notes) || commandDoc.notes.length === 0) {
+      failures.push(`Missing CLI command notes: ${command}`);
+    }
+  }
+
+  return failures;
 }
 
 export function checkPackageCoverage(requiredPackages, packageDocs) {

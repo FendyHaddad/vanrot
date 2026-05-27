@@ -20,3 +20,45 @@
   display: grid;
   gap: 12px;
 }
+
+.command-card-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.command-card-head h3 {
+  margin: 0 0 8px;
+}
+
+.command-card-head code,
+.command-meta code {
+  display: inline-block;
+  border: 1px solid var(--vr-color-line);
+  border-radius: 6px;
+  padding: 4px 8px;
+  background: var(--vr-surface-muted);
+}
+
+.command-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.command-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--vr-color-muted);
+}
+
+.command-list li strong {
+  color: var(--vr-color-text);
+}
+
+.command-list li span {
+  margin-left: 8px;
+}

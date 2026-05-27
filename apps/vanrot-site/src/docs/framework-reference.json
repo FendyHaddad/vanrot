@@ -107,18 +107,132 @@
     { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" }
   ],
   "commands": [
-    { "name": "create", "usage": "vr create <project-name>", "status": "demo-capable", "summary": "Creates a routed Vanrot app with the configured package manager and starter files.", "docsPath": "/docs/cli" },
-    { "name": "generate", "usage": "vr generate <kind> <name>", "status": "demo-capable", "summary": "Generates convention-based component and page files.", "docsPath": "/docs/cli" },
-    { "name": "add", "usage": "vr add <package-or-primitive>", "status": "demo-capable", "summary": "Adds Vanrot packages or UI primitives and updates config when needed.", "docsPath": "/docs/cli" },
-    { "name": "ui", "usage": "vr ui <subcommand>", "status": "demo-capable", "summary": "Inspects and manages Vanrot UI primitive metadata.", "docsPath": "/docs/cli" },
-    { "name": "config", "usage": "vr config <subcommand>", "status": "production-ready", "summary": "Reads, validates, and reports normalized Vanrot config.", "docsPath": "/docs/cli" },
-    { "name": "doctor", "usage": "vr doctor", "status": "demo-capable", "summary": "Runs local project diagnostics with readable guidance.", "docsPath": "/docs/cli" },
-    { "name": "map", "usage": "vr map", "status": "production-ready", "summary": "Writes the project intelligence manifest at `.vanrot/project-map.json`.", "docsPath": "/docs/devtools" },
-    { "name": "init-ai", "usage": "vr init-ai", "status": "production-ready", "summary": "Writes provider-neutral project rules for AI assistants from normalized config.", "docsPath": "/docs/devtools" },
-    { "name": "ai", "usage": "vr ai <subcommand>", "status": "production-ready", "summary": "Builds, verifies, and inspects AI-readable Vanrot knowledge alongside project AI doorway files.", "docsPath": "/docs/devtools" },
-    { "name": "dev", "usage": "vr dev", "status": "production-ready", "summary": "Starts the configured Vite development server through the Vanrot CLI.", "docsPath": "/docs/cli" },
-    { "name": "build", "usage": "vr build", "status": "production-ready", "summary": "Runs a production build through the Vanrot CLI.", "docsPath": "/docs/deployment" },
-    { "name": "test", "usage": "vr test", "status": "demo-capable", "summary": "Runs the configured test command for a Vanrot project.", "docsPath": "/docs/testing" }
+    {
+      "name": "create",
+      "usage": "vr create <project-name>",
+      "status": "demo-capable",
+      "summary": "Creates a routed Vanrot app with the configured package manager and starter files.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr create hello-vanrot", "vr create dashboard --workspace apps/dashboard"],
+      "notes": ["Creates a Vanrot app shell, starter route files, config, package scripts, and source-owned CSS."]
+    },
+    {
+      "name": "generate",
+      "usage": "vr generate <kind> <name>",
+      "status": "demo-capable",
+      "summary": "Generates convention-based component and page files.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr generate component checkout-summary", "vr generate page account-settings"],
+      "notes": ["Keeps role suffixes, template files, and scoped CSS aligned with Vanrot conventions."]
+    },
+    {
+      "name": "add",
+      "usage": "vr add <package-or-primitive>",
+      "status": "demo-capable",
+      "summary": "Adds Vanrot packages or UI primitives and updates config when needed.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr add @vanrot/ui", "vr add button"],
+      "notes": ["Used by the design component workflow to install primitives without hand-copying framework-owned files."]
+    },
+    {
+      "name": "ui",
+      "usage": "vr ui <subcommand>",
+      "status": "demo-capable",
+      "summary": "Inspects and manages Vanrot UI primitive metadata.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr ui list", "vr ui button --help"],
+      "notes": ["Reports primitive metadata from the same registry used by the documentation site."],
+      "subcommands": [
+        { "name": "list", "summary": "List known UI primitives." },
+        { "name": "<component> --help", "summary": "Show metadata, anatomy, tokens, slots, events, and examples for one primitive." }
+      ]
+    },
+    {
+      "name": "config",
+      "usage": "vr config <subcommand>",
+      "status": "production-ready",
+      "summary": "Reads, validates, and reports normalized Vanrot config.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr config migrate", "vr config recover --force"],
+      "notes": ["Normalizes config before CLI, Vite, docs, and AI doorway commands consume it."],
+      "subcommands": [
+        { "name": "migrate", "summary": "Migrate config into the current schema." },
+        { "name": "recover", "summary": "Recover config from a local backup." }
+      ]
+    },
+    {
+      "name": "doctor",
+      "usage": "vr doctor",
+      "status": "demo-capable",
+      "summary": "Runs local project diagnostics with readable guidance.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr doctor"],
+      "notes": ["Checks known Vanrot project issues and keeps output readable for humans and scripts."]
+    },
+    {
+      "name": "map",
+      "usage": "vr map",
+      "status": "production-ready",
+      "summary": "Writes the project intelligence manifest at `.vanrot/project-map.json`.",
+      "docsPath": "/docs/devtools",
+      "examples": ["vr map"],
+      "notes": ["Feeds devtools, graph inspection, and AI context from project-owned metadata."]
+    },
+    {
+      "name": "init-ai",
+      "usage": "vr init-ai",
+      "status": "production-ready",
+      "summary": "Writes provider-neutral project rules for AI assistants from normalized config.",
+      "docsPath": "/docs/devtools",
+      "examples": ["vr init-ai"],
+      "notes": ["Creates project-local AI doorway files without storing provider credentials."]
+    },
+    {
+      "name": "ai",
+      "usage": "vr ai <subcommand>",
+      "status": "production-ready",
+      "summary": "Builds, verifies, and inspects AI-readable Vanrot knowledge alongside project AI doorway files.",
+      "docsPath": "/docs/devtools",
+      "examples": ["vr ai build", "vr ai verify", "vr ai mcp --help"],
+      "notes": ["Consumes the official `docs/ai` bundle for MCP, Skill.sh, rules, and command guidance."],
+      "subcommands": [
+        { "name": "build", "summary": "Regenerate `docs/ai` from framework docs, command metadata, phase maturity, and inventory sources." },
+        { "name": "verify", "summary": "Fail when `docs/ai` is stale, missing, unsupported, or incomplete." },
+        { "name": "doctor", "summary": "Explain AI bundle freshness and doorway state." },
+        { "name": "mcp", "summary": "Print local MCP stdio setup instructions for `vanrot-mcp`." },
+        { "name": "context", "summary": "Write project-local AI context files." },
+        { "name": "prompt", "summary": "Write the project AI prompt seed." },
+        { "name": "record", "summary": "Record an AI history entry with code, file, or message metadata." },
+        { "name": "summarize", "summary": "Summarize project-local AI history." }
+      ]
+    },
+    {
+      "name": "dev",
+      "usage": "vr dev",
+      "status": "production-ready",
+      "summary": "Starts the configured Vite development server through the Vanrot CLI.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr dev", "vr dev --host 127.0.0.1 --port 1964"],
+      "notes": ["Uses normalized Vanrot config and keeps local server output aligned with CLI reporter conventions."]
+    },
+    {
+      "name": "build",
+      "usage": "vr build",
+      "status": "production-ready",
+      "summary": "Runs a production build through the Vanrot CLI.",
+      "docsPath": "/docs/deployment",
+      "examples": ["vr build"],
+      "notes": ["Delegates to the configured build runner while preserving Vanrot diagnostics and reporter output."]
+    },
+    {
+      "name": "test",
+      "usage": "vr test",
+      "status": "demo-capable",
+      "summary": "Runs the configured test command for a Vanrot project.",
+      "docsPath": "/docs/testing",
+      "examples": ["vr test"],
+      "notes": ["Wraps project-owned test scripts instead of inventing a second test runner."]
+    }
   ],
   "diagnostics": [
     { "family": "compiler", "code": "VR001", "status": "production-ready", "summary": "Compiler diagnostic for unsupported or invalid component source.", "docsPath": "/docs/diagnostics" },

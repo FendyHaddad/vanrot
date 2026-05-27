@@ -5,6 +5,7 @@ describe('Skill.sh package generator', () => {
   it('creates skill files that point to the official bundle', () => {
     const files = createSkillPackageFiles({
       vanrotVersion: '0.0.0',
+      schemaVersion: 1,
       manifestPath: 'docs/ai/manifest.json',
       rulesPath: 'docs/ai/rules.md',
     });
@@ -12,8 +13,17 @@ describe('Skill.sh package generator', () => {
     expect(files.find((file) => file.path === 'skill/SKILL.md')?.content).toContain(
       'Use the official Vanrot AI knowledge bundle',
     );
+    expect(files.find((file) => file.path === 'skill/SKILL.md')?.content).toContain(
+      'search_vanrot_knowledge',
+    );
+    expect(files.find((file) => file.path === 'skill/SKILL.md')?.content).toContain(
+      'Never add API keys',
+    );
     expect(files.find((file) => file.path === 'skill/skill.json')?.content).toContain(
       '"name": "vanrot"',
+    );
+    expect(files.find((file) => file.path === 'skill/skill.json')?.content).toContain(
+      '"schemaVersion": 1',
     );
   });
 });
