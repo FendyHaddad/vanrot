@@ -2,6 +2,9 @@
   "name": "@vanrot/ai",
   "version": "0.0.0",
   "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
   "bin": {
     "vanrot-mcp": "./dist/mcp/bin.js"
   },

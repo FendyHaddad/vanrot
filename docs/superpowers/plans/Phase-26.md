@@ -90,7 +90,7 @@ Public packages are every non-private package in `packages/*/package.json`. Curr
 - Create: `scripts/release-dry-run/model.mjs`
 - Create: `scripts/verify-release-dry-run.test.mjs`
 
-- [ ] **Step 1: Write failing tests for step summaries and failure classification**
+- [x] **Step 1: Write failing tests for step summaries and failure classification**
 
 Add this test block to `scripts/verify-release-dry-run.test.mjs`:
 
@@ -176,7 +176,7 @@ describe('verify-release-dry-run models', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run:
 
@@ -186,7 +186,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because `scripts/release-dry-run/model.mjs` does not exist.
 
-- [ ] **Step 3: Implement the model helpers**
+- [x] **Step 3: Implement the model helpers**
 
 Create `scripts/release-dry-run/model.mjs`:
 
@@ -272,7 +272,7 @@ export function tail(value, maxLines = 30) {
 }
 ```
 
-- [ ] **Step 4: Verify tests pass**
+- [x] **Step 4: Verify tests pass**
 
 Run:
 
@@ -301,7 +301,7 @@ Expected: pass.
 - Modify: `packages/ui/package.json`
 - Modify: `packages/vite-plugin/package.json`
 
-- [ ] **Step 1: Add metadata validation tests**
+- [x] **Step 1: Add metadata validation tests**
 
 Append this import:
 
@@ -369,7 +369,7 @@ describe('release package metadata', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run:
 
@@ -379,7 +379,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because `metadata.mjs` is missing.
 
-- [ ] **Step 3: Implement metadata helpers**
+- [x] **Step 3: Implement metadata helpers**
 
 Create `scripts/release-dry-run/metadata.mjs`:
 
@@ -445,7 +445,7 @@ export function validatePackageManifest(manifest) {
 }
 ```
 
-- [ ] **Step 4: Add engines metadata to root and packages**
+- [x] **Step 4: Add engines metadata to root and packages**
 
 Add this object to root `package.json` and every public `packages/*/package.json` that lacks it:
 
@@ -457,7 +457,7 @@ Add this object to root `package.json` and every public `packages/*/package.json
 
 Keep existing fields and ordering close to each file's current style.
 
-- [ ] **Step 5: Verify metadata tests pass**
+- [x] **Step 5: Verify metadata tests pass**
 
 Run:
 
@@ -477,7 +477,7 @@ Expected: pass.
 - Modify: `scripts/verify-release-dry-run.test.mjs`
 - Modify: `.gitignore`
 
-- [ ] **Step 1: Add artifact and runner tests**
+- [x] **Step 1: Add artifact and runner tests**
 
 Append these imports:
 
@@ -523,7 +523,7 @@ describe('release dry-run artifacts and commands', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run:
 
@@ -533,7 +533,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because artifact and runner modules are missing.
 
-- [ ] **Step 3: Implement artifact helpers**
+- [x] **Step 3: Implement artifact helpers**
 
 Create `scripts/release-dry-run/artifacts.mjs`:
 
@@ -580,7 +580,7 @@ export async function finalizeWorkDirectory({ workDirectory, keep, failed }) {
 }
 ```
 
-- [ ] **Step 4: Implement command runner**
+- [x] **Step 4: Implement command runner**
 
 Create `scripts/release-dry-run/runner.mjs`:
 
@@ -630,7 +630,7 @@ function execFilePromise(command, args, cwd) {
 }
 ```
 
-- [ ] **Step 5: Ignore kept release dry-run artifacts**
+- [x] **Step 5: Ignore kept release dry-run artifacts**
 
 Add this line to `.gitignore`:
 
@@ -638,7 +638,7 @@ Add this line to `.gitignore`:
 .vanrot/release-dry-run/
 ```
 
-- [ ] **Step 6: Verify tests pass**
+- [x] **Step 6: Verify tests pass**
 
 Run:
 
@@ -656,7 +656,7 @@ Expected: pass.
 - Create: `scripts/release-dry-run/package-workflows.mjs`
 - Modify: `scripts/verify-release-dry-run.test.mjs`
 
-- [ ] **Step 1: Add tarball and consumer manifest tests**
+- [x] **Step 1: Add tarball and consumer manifest tests**
 
 Append these imports:
 
@@ -730,7 +730,7 @@ describe('release package workflows', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run:
 
@@ -740,7 +740,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because `package-workflows.mjs` is missing.
 
-- [ ] **Step 3: Implement pure package workflow helpers**
+- [x] **Step 3: Implement pure package workflow helpers**
 
 Create the first version of `scripts/release-dry-run/package-workflows.mjs`:
 
@@ -861,7 +861,7 @@ function rewriteDependencyBlock(block, dependencyMap) {
 }
 ```
 
-- [ ] **Step 4: Verify helper tests pass**
+- [x] **Step 4: Verify helper tests pass**
 
 Run:
 
@@ -879,7 +879,7 @@ Expected: pass.
 - Create: `scripts/release-dry-run/homebrew.mjs`
 - Modify: `scripts/verify-release-dry-run.test.mjs`
 
-- [ ] **Step 1: Add Homebrew tests**
+- [x] **Step 1: Add Homebrew tests**
 
 Append this import:
 
@@ -914,7 +914,7 @@ describe('release Homebrew check', () => {
 });
 ```
 
-- [ ] **Step 2: Run the failing tests**
+- [x] **Step 2: Run the failing tests**
 
 Run:
 
@@ -924,7 +924,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because `homebrew.mjs` is missing.
 
-- [ ] **Step 3: Implement Homebrew helper**
+- [x] **Step 3: Implement Homebrew helper**
 
 Create `scripts/release-dry-run/homebrew.mjs`:
 
@@ -1009,7 +1009,7 @@ async function findBrew() {
 }
 ```
 
-- [ ] **Step 4: Verify tests pass**
+- [x] **Step 4: Verify tests pass**
 
 Run:
 
@@ -1027,7 +1027,7 @@ Expected: pass.
 - Create: `scripts/release-dry-run/reports.mjs`
 - Modify: `scripts/verify-release-dry-run.test.mjs`
 
-- [ ] **Step 1: Add report tests**
+- [x] **Step 1: Add report tests**
 
 Append this import:
 
@@ -1067,7 +1067,7 @@ describe('release dry-run reports', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing tests**
+- [x] **Step 2: Run failing tests**
 
 Run:
 
@@ -1077,7 +1077,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because `reports.mjs` is missing.
 
-- [ ] **Step 3: Implement report helpers**
+- [x] **Step 3: Implement report helpers**
 
 Create `scripts/release-dry-run/reports.mjs`:
 
@@ -1146,7 +1146,7 @@ export async function writeReports(directory, report) {
 }
 ```
 
-- [ ] **Step 4: Verify tests pass**
+- [x] **Step 4: Verify tests pass**
 
 Run:
 
@@ -1165,7 +1165,7 @@ Expected: pass.
 - Modify: `scripts/verify-release-dry-run.test.mjs`
 - Modify: `package.json`
 
-- [ ] **Step 1: Add CLI option parsing test**
+- [x] **Step 1: Add CLI option parsing test**
 
 Append this import:
 
@@ -1184,7 +1184,7 @@ describe('verify-release-dry-run entrypoint', () => {
 });
 ```
 
-- [ ] **Step 2: Run failing tests**
+- [x] **Step 2: Run failing tests**
 
 Run:
 
@@ -1194,7 +1194,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: fail because `scripts/verify-release-dry-run.mjs` is missing.
 
-- [ ] **Step 3: Implement verifier orchestration**
+- [x] **Step 3: Implement verifier orchestration**
 
 Create `scripts/verify-release-dry-run.mjs`:
 
@@ -1293,7 +1293,7 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
 }
 ```
 
-- [ ] **Step 4: Add package scripts**
+- [x] **Step 4: Add package scripts**
 
 Modify root `package.json` scripts:
 
@@ -1303,7 +1303,7 @@ Modify root `package.json` scripts:
 "verify": "pnpm typecheck && pnpm test && pnpm build && pnpm verify:size && pnpm verify:site-docs && pnpm verify:site-format && pnpm verify:ai-docs && pnpm verify:security-leaks && pnpm verify:phase-docs && pnpm verify:release-dry-run"
 ```
 
-- [ ] **Step 5: Verify unit tests pass**
+- [x] **Step 5: Verify unit tests pass**
 
 Run:
 
@@ -1320,7 +1320,7 @@ Expected: pass.
 **Files:**
 - Modify only files needed by failures found by the real verifier.
 
-- [ ] **Step 1: Run the real verifier**
+- [x] **Step 1: Run the real verifier**
 
 Run:
 
@@ -1330,7 +1330,7 @@ pnpm verify:release-dry-run -- --keep
 
 Expected first run may fail on real packaging, generated app, npm import, or Homebrew formula details. Artifacts should be kept in `.vanrot/release-dry-run/`.
 
-- [ ] **Step 2: Inspect the report**
+- [x] **Step 2: Inspect the report**
 
 Run:
 
@@ -1340,7 +1340,7 @@ sed -n '1,220p' .vanrot/release-dry-run/report.md
 
 Expected: readable step list with failure details.
 
-- [ ] **Step 3: Fix only the failing release-path issue**
+- [x] **Step 3: Fix only the failing release-path issue**
 
 Use the report to choose the smallest fix. Examples:
 
@@ -1351,7 +1351,7 @@ If npm import fails, fix package exports or smoke exclusions only when a package
 If Homebrew formula fails on a present Homebrew install, fix formulaSource or command arguments.
 ```
 
-- [ ] **Step 4: Re-run the real verifier**
+- [x] **Step 4: Re-run the real verifier**
 
 Run:
 
@@ -1361,7 +1361,7 @@ pnpm verify:release-dry-run -- --keep
 
 Expected: pass or expose the next concrete release-path defect.
 
-- [ ] **Step 5: Repeat until the release dry-run passes**
+- [x] **Step 5: Repeat until the release dry-run passes**
 
 Run:
 
@@ -1381,11 +1381,11 @@ Expected: pass and clean temporary artifacts on default success.
 - Modify: `docs/vanrot-presentation.html`
 - Modify: `docs/superpowers/plans/Phase-26.md`
 
-- [ ] **Step 1: Mark completed plan tasks as checked**
+- [x] **Step 1: Mark completed plan tasks as checked**
 
 Update each completed task and step in this file from `- [ ]` to `- [x]` as implementation finishes.
 
-- [ ] **Step 2: Update feature maturity**
+- [x] **Step 2: Update feature maturity**
 
 In `docs/superpowers/feature-maturity.md`, update the Phase 26 row only after the verifier passes:
 
@@ -1395,7 +1395,7 @@ In `docs/superpowers/feature-maturity.md`, update the Phase 26 row only after th
 
 Keep Phase 17-22 post-production rows unchecked.
 
-- [ ] **Step 3: Update final TDD inventory**
+- [x] **Step 3: Update final TDD inventory**
 
 Add rows to `docs/superpowers/final-tdd-inventory.md` for:
 
@@ -1405,7 +1405,7 @@ Add rows to `docs/superpowers/final-tdd-inventory.md` for:
 | release | release dry-run reports | Production-Ready | Failure and kept runs write `.vanrot/release-dry-run/report.json` and `report.md` with command steps, warnings, and output tails. | Phase 26 | Successful default runs clean temporary artifacts. |
 ```
 
-- [ ] **Step 4: Update presentation roadmap**
+- [x] **Step 4: Update presentation roadmap**
 
 In `docs/vanrot-presentation.html`, mark Phase 26 as completed only after `pnpm verify` passes with the release dry-run included. Keep the slide language short:
 
@@ -1414,7 +1414,7 @@ Phase 26: Distribution and release hardening
 Release dry-run gate verifies packed packages, consumer installs, npm smoke, and Homebrew local checks.
 ```
 
-- [ ] **Step 5: Run phase docs guard**
+- [x] **Step 5: Run phase docs guard**
 
 Run:
 
@@ -1431,7 +1431,7 @@ Expected: `Phase documentation verification passed.`
 **Files:**
 - No new files unless verification exposes a real defect.
 
-- [ ] **Step 1: Run release dry-run unit tests**
+- [x] **Step 1: Run release dry-run unit tests**
 
 Run:
 
@@ -1441,7 +1441,7 @@ vitest run scripts/verify-release-dry-run.test.mjs
 
 Expected: pass.
 
-- [ ] **Step 2: Run the release dry-run gate**
+- [x] **Step 2: Run the release dry-run gate**
 
 Run:
 
@@ -1451,7 +1451,7 @@ pnpm verify:release-dry-run
 
 Expected: pass. If Homebrew is missing, output must include an explicit skip. If Homebrew exists, the Homebrew step must pass.
 
-- [ ] **Step 3: Run full verification**
+- [x] **Step 3: Run full verification**
 
 Run:
 
@@ -1461,7 +1461,7 @@ pnpm verify
 
 Expected: pass with `verify:release-dry-run` included.
 
-- [ ] **Step 4: Run security and audit checks**
+- [x] **Step 4: Run security and audit checks**
 
 Run:
 
@@ -1479,7 +1479,7 @@ Test Files  4 passed
 EXIT_CODE:0 for git diff --check
 ```
 
-- [ ] **Step 5: Report final git state without staging**
+- [x] **Step 5: Report final git state without staging**
 
 Run:
 

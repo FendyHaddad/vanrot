@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved design. Implementation plan pending.
+Implemented. `pnpm verify:release-dry-run -- --keep` passed with packed package installs, pnpm and npm consumer smoke/build coverage, and local Homebrew tap install verification.
 
 ## Purpose
 

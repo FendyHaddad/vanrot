@@ -314,7 +314,7 @@ into isolated audit tests.
 | SSR and hydration | ssr, runtime, router | Deferred | Red/green tests for SSR-safe APIs, rendering, hydration, mismatch diagnostics, and routing integration. | Phase 22 |
 | Devtools and AI intelligence | devtools, cli, docs | Project map demo works | Red/green tests for route/component graphs, runtime graph metadata, MCP/Skill.sh manifests, and AI rules. | Phase 23, Phase 25 |
 | Docs and web presence | docs, web | Deferred | Completeness tests prove every package, command, convention, feature, and limitation is documented. | Phase 24 |
-| Distribution | distribution | Deferred | Clean-machine install matrix, package provenance, npm publish dry runs, Homebrew formula, and release checks pass. | Phase 26 |
+| Distribution | distribution | Dry-Run Ready through Phase 26 | Clean-machine install matrix, package provenance, npm publish dry runs, Homebrew formula, and release checks pass. | Phase 26 |
 
 ### Phase 23 Devtools And Project Intelligence
 
@@ -339,3 +339,13 @@ into isolated audit tests.
 - `scripts/verify-site-docs.mjs`: docs drift checks for packages, public exports, commands, diagnostics, generated files, conventions, examples, CTA labels, public route metadata, and docs-shell visual contract.
 - `examples/runtime-lifecycle`, `examples/compiler-templates`, `examples/routing-workflows`, `examples/testing-helpers`, `examples/devtools-intelligence`, `examples/ui-framework-usage`, and `examples/build-deploy`: runnable example workspaces registered by the framework reference.
 - Tests: site data, site pages, site polish, framework reference, example workspace tests, `verify:site-docs`, `verify:phase-docs`, site typecheck, site build, and full `pnpm verify`.
+
+### Phase 26 Distribution And Release Hardening
+
+- `scripts/verify-release-dry-run.mjs`: root release dry-run gate that builds public packages, validates release metadata, packs tarballs, runs pnpm/npm consumer installs, and verifies local Homebrew tap installation when `brew` exists.
+- `scripts/release-dry-run/*`: focused model, metadata, artifact, runner, package workflow, Homebrew, and report helpers for release verification.
+- `scripts/verify-release-dry-run.test.mjs`: unit coverage for step summaries, failure classification, metadata validation, local dependency rewrite, artifact retention, Homebrew classification, report output, tarball names, consumer manifests, pnpm workspace overrides, and CLI options.
+- `package.json`: `verify:release-dry-run` is part of root `pnpm verify`, and release dry-run unit tests run with the phase-doc test group.
+- `packages/*/package.json`: public package metadata now declares `engines.node` for release compatibility checks.
+- `.vanrot/release-dry-run/report.json` and `report.md`: kept only for `--keep` or failure, with successful default runs cleaning temp artifacts.
+- Tests: `pnpm exec vitest run scripts/verify-release-dry-run.test.mjs`, `pnpm verify:release-dry-run -- --keep`, `pnpm verify:release-dry-run`, full `pnpm verify`, `pnpm audit --audit-level moderate`, `pnpm audit:core`, and `git diff --check`.

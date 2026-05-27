@@ -20,6 +20,7 @@ out/
 .vitest/
 .worktrees/
 .eslintcache
+.vanrot/release-dry-run/
 
 # Test output
 coverage/
