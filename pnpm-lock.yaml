@@ -277,12 +277,18 @@ importers:
       '@vanrot/config':
         specifier: file:../config
         version: link:../config
+      typescript:
+        specifier: ^5.9.3
+        version: 5.9.3
       vscode-languageserver:
         specifier: ^9.0.1
         version: 9.0.1
       vscode-languageserver-textdocument:
         specifier: ^1.0.12
         version: 1.0.12
+      vscode-uri:
+        specifier: ^3.0.8
+        version: 3.1.0
     devDependencies:
       vscode-languageserver-protocol:
         specifier: ^3.17.5
@@ -1501,6 +1507,9 @@ packages:
     resolution: {integrity: sha512-woByF3PDpkHFUreUa7Hos7+pUWdeWMXRd26+ZX2A8cFx6v/JPTtd4/uN0/jB6XQHYaOlHbio03NTHCqrgG5n7g==}
     hasBin: true
 
+  vscode-uri@3.1.0:
+    resolution: {integrity: sha512-/BpdSx+yCQGnCvecbyXdxHDkuk55/G3xwnC0GqY4gmQ3j+A+g8kzzgB4Nk/SINjqn6+waqw3EgbVF2QKExkRxQ==}
+
   w3c-xmlserializer@5.0.0:
     resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
     engines: {node: '>=18'}
@@ -2552,6 +2561,8 @@ snapshots:
   vscode-languageserver@9.0.1:
     dependencies:
       vscode-languageserver-protocol: 3.17.5
+
+  vscode-uri@3.1.0: {}
 
   w3c-xmlserializer@5.0.0:
     dependencies:

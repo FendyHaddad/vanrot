@@ -25,7 +25,7 @@
       "name": "@vanrot/language-server",
       "area": "Editor language server",
       "status": "demo-capable",
-      "summary": "Vanrot template detection, LSP initialize handshake, stdio server entry, and IntelliJ-consumed template glob artifact.",
+      "summary": "Vanrot template detection, LSP initialize/completion handling, stdio server entry, and IntelliJ-consumed template glob artifact.",
       "docsPath": "/docs/public-api"
     },
     {
@@ -92,7 +92,7 @@
     { "packageName": "@vanrot/config", "name": "normalizeVanrotConfig", "kind": "function", "status": "production-ready", "summary": "Normalizes config defaults and domains.", "docsPath": "/docs/configuration" },
     { "packageName": "@vanrot/config", "name": "configDiagnosticCode", "kind": "constant", "status": "production-ready", "summary": "Lists config diagnostic codes.", "docsPath": "/docs/diagnostics" },
     { "packageName": "@vanrot/language-server", "name": "*", "kind": "default", "status": "demo-capable", "summary": "All public exports from @vanrot/language-server are covered by editor language-server and public API documentation.", "docsPath": "/docs/public-api" },
-    { "packageName": "@vanrot/language-server", "name": "buildInitializeResult", "kind": "function", "status": "demo-capable", "summary": "Builds the Vanrot LSP initialize result with server metadata and document sync capabilities.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/language-server", "name": "buildInitializeResult", "kind": "function", "status": "demo-capable", "summary": "Builds the Vanrot LSP initialize result with server metadata, document sync, and completion capabilities.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/language-server", "name": "isVanrotTemplateFile", "kind": "function", "status": "demo-capable", "summary": "Checks whether a path is an authored Vanrot HTML template.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/language-server", "name": "startLanguageServer", "kind": "function", "status": "demo-capable", "summary": "Starts the Vanrot language server on an LSP connection.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/language-server", "name": "vanrotTemplateRules", "kind": "constant", "status": "demo-capable", "summary": "Canonical template-file rule emitted for editor integrations.", "docsPath": "/docs/public-api" },

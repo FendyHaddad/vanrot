@@ -18,7 +18,7 @@
     {
       "id": "package:@vanrot/language-server",
       "title": "@vanrot/language-server",
-      "summary": "Vanrot template detection, LSP initialize handshake, stdio server entry, and IntelliJ-consumed template glob artifact."
+      "summary": "Vanrot template detection, LSP initialize/completion handling, stdio server entry, and IntelliJ-consumed template glob artifact."
     },
     {
       "id": "package:@vanrot/router",
@@ -138,7 +138,7 @@
     {
       "id": "export:@vanrot/language-server:buildInitializeResult",
       "title": "@vanrot/language-server buildInitializeResult",
-      "summary": "Builds the Vanrot LSP initialize result with server metadata and document sync capabilities.",
+      "summary": "Builds the Vanrot LSP initialize result with server metadata, document sync, and completion capabilities.",
       "docsPath": "/docs/public-api"
     },
     {

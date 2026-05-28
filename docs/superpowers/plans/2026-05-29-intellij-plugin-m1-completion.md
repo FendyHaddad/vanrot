@@ -35,7 +35,7 @@
 
 Compiler `SourceSpan` is 1-based line/column; LSP `Position` is 0-based. One shared converter avoids off-by-one bugs across all later features.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/position.test.ts`:
 ```ts
@@ -57,11 +57,11 @@ describe('spanToRange', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL** (`Cannot find module '../src/lsp/position.js'`)
+- [x] **Step 2: Run — expect FAIL** (`Cannot find module '../src/lsp/position.js'`)
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/position.test.ts`
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/lsp/position.ts`:
 ```ts
@@ -85,7 +85,7 @@ export function offsetAt(source: string, line: number, character: number): numbe
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -97,7 +97,7 @@ export function offsetAt(source: string, line: number, character: number): numbe
 
 Route names are the property names of the object literal passed to `defineRoutes({...})`. Parse with the TS API and capture each name's span for completion (M1) and go-to-definition (M2).
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/route-index.test.ts`:
 ```ts
@@ -128,11 +128,11 @@ describe('parseRouteIndex', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/route-index.test.ts`
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/project/route-index.ts`:
 ```ts
@@ -182,7 +182,7 @@ function findDefineRoutesCall(node: ts.Node): ts.CallExpression | null {
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -194,7 +194,7 @@ function findDefineRoutesCall(node: ts.Node): ts.CallExpression | null {
 
 The server gets a `rootUri` at `initialize`. Resolve the routes file at `<root>/src/routes.ts` (the convention used by `apps/vanrot-site`), keeping the path computation testable and isolated. (Config-driven source roots are a later refinement; `src` is the default per `@vanrot/config` `defaultSourceRoot`.)
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/project-root.test.ts`:
 ```ts
@@ -212,9 +212,9 @@ describe('resolveRoutesPath', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/project/project-root.ts`:
 ```ts
@@ -227,7 +227,7 @@ export function resolveRoutesPath(projectRoot: string): string {
 ```
 > Verify the export name: `defaultSourceRoot` is exported by `@vanrot/config` (`packages/config/src/index.ts`). If its value is not `'src'`, the test expectation above must match the real default — read `packages/config/src/constants.ts` and adjust the test, not the implementation.
 
-- [ ] **Step 4: Run — expect PASS (adjust per the real default if needed).** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS (adjust per the real default if needed).** **Step 5: Checkpoint.**
 
 ---
 
@@ -239,7 +239,7 @@ export function resolveRoutesPath(projectRoot: string): string {
 
 Component tags in templates are the kebab-case form of the component class. Build the index from `.component.ts` files via `readComponentMetadata` + `createComponentFileSet` from the compiler, so tag derivation stays owned by the compiler conventions.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/component-index.test.ts`:
 ```ts
@@ -255,9 +255,9 @@ describe('componentTagFromClassName', () => {
 ```
 > The exact tag-derivation rule must match the compiler's `child-component` codegen. Before implementing, read `packages/compiler/src/codegen/components.ts` (or the module that maps class names to tags) and mirror its rule precisely. The test above encodes the *expected* contract — correct it to whatever the compiler actually does (e.g. whether the `Component`/`Page` suffix is stripped) and keep implementation in lockstep.
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement `componentTagFromClassName` to match the compiler rule, plus `buildComponentIndex(files)` that maps each `{ path, source }` through `readComponentMetadata` and records `{ tagName, className, path }`.**
+- [x] **Step 3: Implement `componentTagFromClassName` to match the compiler rule, plus `buildComponentIndex(files)` that maps each `{ path, source }` through `readComponentMetadata` and records `{ tagName, className, path }`.**
 
 `packages/language-server/src/project/component-index.ts` (skeleton — fill the tag rule to match the compiler):
 ```ts
@@ -296,7 +296,7 @@ export function buildComponentIndex(
 ```
 > Confirm `createComponentFileSet(path)` accepts a single `.component.ts` path and returns the expected `expectedClassName`. Read `packages/compiler/src/conventions/component-files.ts` and adjust the call shape if it differs.
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -308,7 +308,7 @@ export function buildComponentIndex(
 
 Given the raw template text and a cursor offset, decide what to complete. Keep this a pure function — it is the most test-worthy logic in M1.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/completion-context.test.ts`:
 ```ts
@@ -343,9 +343,9 @@ describe('classifyCompletionContext', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement (guard clauses, scanning backward from the cursor)**
+- [x] **Step 3: Implement (guard clauses, scanning backward from the cursor)**
 
 `packages/language-server/src/features/completion-context.ts`:
 ```ts
@@ -370,7 +370,7 @@ export function classifyCompletionContext(source: string, offset: number): Compl
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -382,7 +382,7 @@ export function classifyCompletionContext(source: string, offset: number): Compl
 
 Assemble `CompletionItem[]` from the classified context + indexes. Static elements (`vr`, `vr-outlet`, `vr-router`) come from the same names the router `web-types.json` declares — define them once here as the server-side source.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/completion.test.ts`:
 ```ts
@@ -419,9 +419,9 @@ describe('buildCompletions', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/features/completion.ts`:
 ```ts
@@ -469,7 +469,7 @@ export function buildCompletions(
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -480,7 +480,7 @@ export function buildCompletions(
 - Create: `packages/language-server/src/project/workspace.ts` (loads routes + component indexes from disk on initialize)
 - Test: `packages/language-server/tests/completion-handler.test.ts`
 
-- [ ] **Step 1: Failing integration test (in-process LSP, drives `textDocument/completion`)**
+- [x] **Step 1: Failing integration test (in-process LSP, drives `textDocument/completion`)**
 
 `packages/language-server/tests/completion-handler.test.ts`:
 ```ts
@@ -522,9 +522,9 @@ describe('completion handler', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL** (no completion capability / handler yet).
+- [x] **Step 2: Run — expect FAIL** (no completion capability / handler yet).
 
-- [ ] **Step 3: Add the workspace loader**
+- [x] **Step 3: Add the workspace loader**
 
 `packages/language-server/src/project/workspace.ts`:
 ```ts
@@ -551,7 +551,7 @@ export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
 ```
 > Component-file discovery (walking the source tree for `*.component.ts`) is intentionally deferred to a follow-up step within M1 to keep this task shippable; `routes` completion lands first. Add a directory walk feeding `buildComponentIndex` once the route path is green.
 
-- [ ] **Step 4: Wire the handler in `server.ts`**
+- [x] **Step 4: Wire the handler in `server.ts`**
 
 Add the completion capability and handler. Replace the body of `startLanguageServer` with:
 ```ts
@@ -606,11 +606,11 @@ export function startLanguageServer(connection: Connection): void {
 ```
 Add `vscode-uri` to dependencies: edit `packages/language-server/package.json` dependencies → `"vscode-uri": "^3.0.8"`, then `pnpm install`.
 
-- [ ] **Step 5: Run — expect PASS.**
+- [x] **Step 5: Run — expect PASS.**
 
 Run: `pnpm install && pnpm --filter @vanrot/language-server exec vitest run tests/completion-handler.test.ts`
 
-- [ ] **Step 6: Full package gate**
+- [x] **Step 6: Full package gate**
 
 Run: `pnpm --filter @vanrot/language-server typecheck && pnpm --filter @vanrot/language-server test`
 Expected: all suites green.
@@ -618,6 +618,8 @@ Expected: all suites green.
 - [ ] **Step 7: `runIde` smoke**
 
 Build server (`pnpm --filter @vanrot/language-server build`), `gradle runIde` from `editors/intellij/`, open a template, type `<` and `<vr route.` — verify element and route completions appear.
+
+2026-05-29 note: `runIde` initially failed on JBR 25.0.3 because Kotlin 1.9.24 cannot parse that Java version. Rerunning with Corretto 21 launched the IDEA 2023.2 sandbox and loaded `Vanrot Templates (0.0.0)` with no current plugin-load errors, then the sandbox was killed. Native template typing/completion UI verification remains pending.
 
 - [ ] **Step 8: Checkpoint — review M1 for commit.**
 

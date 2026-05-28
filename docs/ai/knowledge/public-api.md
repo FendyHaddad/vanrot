@@ -80,7 +80,7 @@ Docs: /docs/public-api
 
 ## @vanrot/language-server buildInitializeResult
 
-Builds the Vanrot LSP initialize result with server metadata and document sync capabilities.
+Builds the Vanrot LSP initialize result with server metadata, document sync, and completion capabilities.
 
 Docs: /docs/public-api
 
