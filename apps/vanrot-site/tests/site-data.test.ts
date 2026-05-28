@@ -87,6 +87,7 @@ describe('vanrot site docs data', () => {
       '@vanrot/runtime',
       '@vanrot/compiler',
       '@vanrot/config',
+      '@vanrot/language-server',
       '@vanrot/router',
       '@vanrot/vite-plugin',
       '@vanrot/cli',

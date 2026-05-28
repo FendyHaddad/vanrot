@@ -163,13 +163,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-28 5:46am GMT+8
+# [vanrot] recent context, 2026-05-29 2:56am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,120t read) | 1,518,892t work | 99% savings
+Stats: 50 obs (12,905t read) | 1,495,862t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -184,8 +184,7 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 24, 2026
-1906 3:00p 🔵 Successful Execution of Tests and Builds Across Packages
-1910 " 🔵 Successful Builds and Size Check for Project Packages
+1910 3:00p 🔵 Successful Builds and Size Check for Project Packages
 1918 " 🔵 Browser Skill Configuration and Usage Guidelines
 1916 3:01p 🔵 Successful Size Limit Check and Documentation Verification
 1925 " 🔵 In-App Browser Tab State Inspection
@@ -238,6 +237,8 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2121 5:29a 🔵 User is experiencing repeated failures with systematic-debugging skill
 2122 " ✅ Updated web-types.json with route attributes
 2123 5:30a ✅ Corrected regex in web-types.test.ts
+### May 29, 2026
+2231 1:08a ✅ Cleared Session State
 
-Access 1519k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1496k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

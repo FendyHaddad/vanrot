@@ -16,6 +16,11 @@
       "summary": "Typed Vanrot config helpers, defaults, normalization, validation, migrations, diagnostics, and install-aware config edits."
     },
     {
+      "id": "package:@vanrot/language-server",
+      "title": "@vanrot/language-server",
+      "summary": "Vanrot template detection, LSP initialize handshake, stdio server entry, and IntelliJ-consumed template glob artifact."
+    },
+    {
       "id": "package:@vanrot/router",
       "title": "@vanrot/router",
       "summary": "Route refs, layouts, nested outlets, navigation helpers, route metadata, preloading, keep-alive policies, and router diagnostics."
@@ -123,6 +128,36 @@
       "title": "@vanrot/config configDiagnosticCode",
       "summary": "Lists config diagnostic codes.",
       "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "export:@vanrot/language-server:*",
+      "title": "@vanrot/language-server *",
+      "summary": "All public exports from @vanrot/language-server are covered by editor language-server and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/language-server:buildInitializeResult",
+      "title": "@vanrot/language-server buildInitializeResult",
+      "summary": "Builds the Vanrot LSP initialize result with server metadata and document sync capabilities.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/language-server:isVanrotTemplateFile",
+      "title": "@vanrot/language-server isVanrotTemplateFile",
+      "summary": "Checks whether a path is an authored Vanrot HTML template.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/language-server:startLanguageServer",
+      "title": "@vanrot/language-server startLanguageServer",
+      "summary": "Starts the Vanrot language server on an LSP connection.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/language-server:vanrotTemplateRules",
+      "title": "@vanrot/language-server vanrotTemplateRules",
+      "summary": "Canonical template-file rule emitted for editor integrations.",
+      "docsPath": "/docs/public-api"
     },
     {
       "id": "export:@vanrot/router:*",

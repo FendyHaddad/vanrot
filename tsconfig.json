@@ -6,6 +6,7 @@
     { "path": "./packages/router" },
     { "path": "./packages/compiler" },
     { "path": "./packages/config" },
+    { "path": "./packages/language-server" },
     { "path": "./packages/vite-plugin" },
     { "path": "./packages/ai" },
     { "path": "./packages/cli" }

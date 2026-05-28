@@ -1,0 +1,41 @@
+{
+  "name": "@vanrot/language-server",
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "vanrot-language-server": "./dist/bin/server.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@vanrot/compiler": "file:../compiler",
+    "@vanrot/config": "file:../config",
+    "vscode-languageserver": "^9.0.1",
+    "vscode-languageserver-textdocument": "^1.0.12"
+  },
+  "devDependencies": {
+    "vscode-languageserver-protocol": "^3.17.5"
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/config build",
+    "build": "tsc -p tsconfig.json && node scripts/emit-globs.mjs",
+    "pretypecheck": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/config build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/config build",
+    "test": "vitest run",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  }
+}

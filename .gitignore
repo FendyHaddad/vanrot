@@ -19,6 +19,8 @@ out/
 .vite/
 .vitest/
 .worktrees/
+.gradle/
+.intellijPlatform/
 .eslintcache
 .vanrot/release-dry-run/
 
@@ -49,7 +51,14 @@ lerna-debug.log*
 # OS and editor files
 .DS_Store
 Thumbs.db
-.idea/
+.idea/*
+!.idea/scopes/
+.idea/scopes/*
+!.idea/scopes/Vanrot_Templates.xml
+!.idea/inspectionProfiles/
+.idea/inspectionProfiles/*
+!.idea/inspectionProfiles/Project_Default.xml
+!.idea/inspectionProfiles/profiles_settings.xml
 .vscode/*
 !.vscode/extensions.json
 !.vscode/settings.json

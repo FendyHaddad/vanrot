@@ -1,0 +1,3 @@
+<component name="DependencyValidationManager">
+  <scope name="Vanrot Templates" pattern="file:*.html&amp;&amp;!file:*index.html&amp;&amp;!file:*panel.html&amp;&amp;!file:*devtools.html&amp;&amp;!file:*-presentation.html&amp;&amp;!file:*landing-page-design.html" />
+</component>

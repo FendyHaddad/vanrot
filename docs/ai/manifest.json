@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-27T21:52:02.641Z",
-  "sourceFingerprint": "sha256-5aa2a17a55817d0b9e45cef4c2a0c5edce1a045181dd642e6d091ca9cbf4f90c",
+  "generatedAt": "2026-05-28T19:06:49.501Z",
+  "sourceFingerprint": "sha256-373f1c63836c59702ee1282a452fd2fcf6d9d4384eccd880fed0abcf529e2fee",
   "sources": [
     {
       "id": "package-json",
@@ -12,12 +12,12 @@
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-4e74f5ce277ebf8983603b53e33c3f74c266d863cf4c83603bc46dafc51f1756"
+      "fingerprint": "sha256-3591c0afcab8a62be3098164833d3f8660080da09952464dfca577c449dad698"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-7723c06f238bd6e35806ae6ddf18eb872d07d82d5790acb6a788609284063563"
+      "fingerprint": "sha256-ef01746f17096f3f1442a053f296b55a4db5b27062bfd2cadbc4d038103b081d"
     },
     {
       "id": "cli-command-metadata",
@@ -32,12 +32,12 @@
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-f26a8778e5da04772a5d92075bae4053bffa3f80c91b212d5e4dc69c31bcd4d6"
+      "fingerprint": "sha256-e4ca0a3a75b8a4fffbea0818a4f6b5a64bd59ff47b0349f38c5f4818d6f1d4cf"
     }
   ],
   "counts": {
-    "packages": 10,
-    "publicExports": 33,
+    "packages": 11,
+    "publicExports": 38,
     "commands": 12,
     "diagnostics": 9,
     "generatedFiles": 6,

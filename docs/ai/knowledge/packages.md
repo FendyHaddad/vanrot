@@ -12,6 +12,10 @@ Template compilation, scoped CSS rewriting, diagnostics, source maps, child comp
 
 Typed Vanrot config helpers, defaults, normalization, validation, migrations, diagnostics, and install-aware config edits.
 
+## @vanrot/language-server
+
+Vanrot template detection, LSP initialize handshake, stdio server entry, and IntelliJ-consumed template glob artifact.
+
 ## @vanrot/router
 
 Route refs, layouts, nested outlets, navigation helpers, route metadata, preloading, keep-alive policies, and router diagnostics.

@@ -17,6 +17,7 @@ describe('framework reference registry', () => {
       '@vanrot/runtime',
       '@vanrot/compiler',
       '@vanrot/config',
+      '@vanrot/language-server',
       '@vanrot/router',
       '@vanrot/vite-plugin',
       '@vanrot/cli',

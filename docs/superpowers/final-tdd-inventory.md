@@ -36,7 +36,7 @@ When a phase adds or changes framework surface area:
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |---|---|---|---|---|---|---|
 | [x] | repo | pnpm monorepo workspace | Complete | Fresh clone can install, typecheck, test, build, and verify all packages through root scripts. | Phase 1, Phase 26 | Package manager is `pnpm@11.1.3`. |
-| [x] | repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, compiler, config, vite-plugin, cli, router, ui, testing, and ai. |
+| [x] | repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, compiler, config, language-server, vite-plugin, cli, router, ui, testing, ai, and devtools. |
 | [x] | repo | TypeScript shared build posture | Complete | Package references and module settings compile cleanly from root and inside package tests. | Phase 1, Phase 26 | Final pass should include clean-machine verification. |
 | [x] | repo | `.gitignore` | Complete | Generated outputs, dependencies, caches, and local-only files stay out of source control. | Phase 1, Phase 26 | Keep release artifacts intentional. |
 | [x] | docs | feature maturity ledger | Production-Ready | Completed phases, maturity rows, presentation state, and plan checklists stay synchronized. | Phase 11 | Source of truth is `docs/superpowers/feature-maturity.md`. |
@@ -127,6 +127,14 @@ When a phase adds or changes framework surface area:
 | [x] | migrations | `migrateVanrotConfig(...)` | Production-Ready | Migration writes canonical config and supports guarded/destructive overwrite modes. | Phase 13 | Used by `vr config migrate`. |
 | [x] | recovery | `recoverVanrotConfig(...)` | Production-Ready | Recovery rebuilds config without Git and reports ambiguity diagnostics for manual review. | Phase 13 | Infers optional domains from detected dependencies. |
 | [x] | editor | install-aware config editor | Production-Ready | Upsert/remove helpers preserve user ownership and remain idempotent for repeated installer operations. | Phase 13 | `vr add button` uses shared editor helpers. |
+
+## `@vanrot/language-server`
+
+| Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
+|---|---|---|---|---|---|---|
+| [x] | API | template-file rule | Demo-Capable | Canonical `isVanrotTemplateFile(...)` keeps Vanrot authored templates distinct from entry, devtools, landing, and presentation HTML across package tests, emitted artifacts, and plugin mirrors. | IntelliJ Plugin M0, Phase 26 | Source of truth is `packages/language-server/src/template-files.ts`; `dist/template-globs.json` feeds the IntelliJ plugin. |
+| [x] | LSP | initialize and document sync | Demo-Capable | Server initializes over LSP stdio with stable server info and incremental text document sync, then remains ready for future diagnostics/completions. | IntelliJ Plugin M0, Phase 26 | Covered by `server.test.ts` and `lsp-handshake.test.ts`; no language features ship in M0. |
+| [x] | packaging | stdio bin and globs artifact | Demo-Capable | Build emits `dist/bin/server.js` plus `dist/template-globs.json`; final release tests should prove the packaged bin works from a clean install. | IntelliJ Plugin M0, Phase 26 | The plugin bundles this dist output under `server/`. |
 
 ## `@vanrot/vite-plugin`
 
@@ -274,6 +282,15 @@ When a phase adds or changes framework surface area:
 | [ ] | API | `testPage(...)` | Deferred | Tests route pages with router setup, params, navigation, lazy pages, and cleanup. | Phase 18 | Deferred from Phase 10. |
 | [ ] | API | accessibility assertions | Deferred | Provides readable checks for common accessibility expectations. | Phase 18 | Final UI/router tests will need this. |
 | [ ] | API | async and fake timer helpers | Deferred | Tests timers, promises, resources, and cancellation without unreadable syntax. | Phase 18 | Important for forms/resources/store. |
+
+## Editors And IDE Integrations
+
+| Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
+|---|---|---|---|---|---|---|
+| [x] | IntelliJ plugin | `editors/intellij` project shell | Demo-Capable | Gradle wrapper, plugin descriptor, Kotlin compilation, plugin tests, packaging, and plugin verifier all run in CI without global Gradle assumptions. | IntelliJ Plugin M0, Phase 26 | Targets IDEA Ultimate 2023.2 and bundles the built Vanrot language server. |
+| [x] | IntelliJ plugin | LSP client wiring | Demo-Capable | Opening a Vanrot template starts the bundled language server over stdio with project/PATH Node resolution and no descriptor dependency drift. | IntelliJ Plugin M0, Phase 26 | `runIde` launches cleanly after using concrete bundled plugin ids. Manual UI smoke still needs template-open confirmation. |
+| [x] | IntelliJ plugin | empty-tag inspection suppressor | Demo-Capable | Self-closing Vanrot custom tags in authored templates suppress the IDE `CheckEmptyScriptTag` warning without changing non-template HTML behavior. | IntelliJ Plugin M0, Phase 26 | The suppressor uses the same template-file rule mirror as LSP activation. |
+| [x] | editor convention | vanrot-template-file rule | Demo-Capable | TS canonical rule, emitted JSON, Kotlin constants, Web Types metadata, and IDE smoke tests stay aligned before release. | IntelliJ Plugin M0, Phase 26 | `packages/language-server/tests/globs-artifact.test.ts` is the current drift tripwire. |
 
 ## Examples And Fixtures
 

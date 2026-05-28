@@ -22,6 +22,13 @@
       "docsPath": "/docs/configuration"
     },
     {
+      "name": "@vanrot/language-server",
+      "area": "Editor language server",
+      "status": "demo-capable",
+      "summary": "Vanrot template detection, LSP initialize handshake, stdio server entry, and IntelliJ-consumed template glob artifact.",
+      "docsPath": "/docs/public-api"
+    },
+    {
       "name": "@vanrot/router",
       "area": "Application routing",
       "status": "production-ready",
@@ -84,6 +91,11 @@
     { "packageName": "@vanrot/config", "name": "defineVanrotConfig", "kind": "function", "status": "production-ready", "summary": "Defines a typed Vanrot config object.", "docsPath": "/docs/configuration" },
     { "packageName": "@vanrot/config", "name": "normalizeVanrotConfig", "kind": "function", "status": "production-ready", "summary": "Normalizes config defaults and domains.", "docsPath": "/docs/configuration" },
     { "packageName": "@vanrot/config", "name": "configDiagnosticCode", "kind": "constant", "status": "production-ready", "summary": "Lists config diagnostic codes.", "docsPath": "/docs/diagnostics" },
+    { "packageName": "@vanrot/language-server", "name": "*", "kind": "default", "status": "demo-capable", "summary": "All public exports from @vanrot/language-server are covered by editor language-server and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/language-server", "name": "buildInitializeResult", "kind": "function", "status": "demo-capable", "summary": "Builds the Vanrot LSP initialize result with server metadata and document sync capabilities.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/language-server", "name": "isVanrotTemplateFile", "kind": "function", "status": "demo-capable", "summary": "Checks whether a path is an authored Vanrot HTML template.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/language-server", "name": "startLanguageServer", "kind": "function", "status": "demo-capable", "summary": "Starts the Vanrot language server on an LSP connection.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/language-server", "name": "vanrotTemplateRules", "kind": "constant", "status": "demo-capable", "summary": "Canonical template-file rule emitted for editor integrations.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/router", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/router are covered by routing and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/router", "name": "createRoutes", "kind": "function", "status": "production-ready", "summary": "Creates the typed route builder used by apps.", "docsPath": "/docs/routing" },
     { "packageName": "@vanrot/router", "name": "defineRoutes", "kind": "function", "status": "production-ready", "summary": "Defines route refs from a route table.", "docsPath": "/docs/routing" },
@@ -266,7 +278,7 @@
     { "id": "compiler-templates", "title": "Compiler Templates", "path": "examples/compiler-templates", "packages": ["@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["compiler-templates"], "docsPath": "/docs/compiler" },
     { "id": "routing-workflows", "title": "Routing Workflows", "path": "examples/routing-workflows", "packages": ["@vanrot/router", "@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["routing-workflows"], "docsPath": "/docs/routing" },
     { "id": "testing-helpers", "title": "Testing Helpers", "path": "examples/testing-helpers", "packages": ["@vanrot/testing", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["testing-helpers"], "docsPath": "/docs/testing" },
-    { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/cli", "@vanrot/config", "@vanrot/ai"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands", "ai-consumption"], "docsPath": "/docs/devtools" },
+    { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/language-server", "@vanrot/cli", "@vanrot/config", "@vanrot/ai"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands", "ai-consumption"], "docsPath": "/docs/devtools" },
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
     { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" }
   ],

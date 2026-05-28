@@ -1,0 +1,20 @@
+<idea-plugin>
+  <id>com.vankode.vanrot.templates</id>
+  <name>Vanrot Templates</name>
+  <vendor email="fendyhaddad@vankode.com" url="https://vankode.com">Vankode</vendor>
+  <description><![CDATA[
+    Vanrot template language support for WebStorm and IntelliJ IDEA Ultimate.
+    M0: starts the Vanrot language server and silences the empty-tag warning on self-closing custom tags.
+  ]]></description>
+
+  <depends>com.intellij.modules.platform</depends>
+  <depends>HtmlTools</depends>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <platform.lsp.serverSupportProvider
+        implementation="com.vankode.vanrot.intellij.VanrotLspServerSupportProvider"/>
+    <lang.inspectionSuppressor
+        language="HTML"
+        implementationClass="com.vankode.vanrot.intellij.VanrotEmptyTagSuppressor"/>
+  </extensions>
+</idea-plugin>

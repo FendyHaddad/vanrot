@@ -72,6 +72,36 @@ Lists config diagnostic codes.
 
 Docs: /docs/diagnostics
 
+## @vanrot/language-server *
+
+All public exports from @vanrot/language-server are covered by editor language-server and public API documentation.
+
+Docs: /docs/public-api
+
+## @vanrot/language-server buildInitializeResult
+
+Builds the Vanrot LSP initialize result with server metadata and document sync capabilities.
+
+Docs: /docs/public-api
+
+## @vanrot/language-server isVanrotTemplateFile
+
+Checks whether a path is an authored Vanrot HTML template.
+
+Docs: /docs/public-api
+
+## @vanrot/language-server startLanguageServer
+
+Starts the Vanrot language server on an LSP connection.
+
+Docs: /docs/public-api
+
+## @vanrot/language-server vanrotTemplateRules
+
+Canonical template-file rule emitted for editor integrations.
+
+Docs: /docs/public-api
+
 ## @vanrot/router *
 
 All public exports from @vanrot/router are covered by routing and public API documentation.
