@@ -33,7 +33,7 @@
 
 Classify what the cursor sits on. Use the parsed AST so spans are accurate; fall back to a token scan only for attribute names (which the AST exposes via `TemplateAttribute`).
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/symbol-at.test.ts`:
 ```ts
@@ -71,11 +71,11 @@ describe('resolveSymbolAt', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/symbol-at.test.ts`
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/features/symbol-at.ts`:
 ```ts
@@ -134,7 +134,7 @@ function isComponentTag(tagName: string): boolean {
 ```
 > Confirm `parseTemplate`'s return shape: M1/M0 used `parseTemplate(source, filePath)`. Read `packages/compiler/src/template/parse-template.ts` for the exact result property holding the node array (`nodes` vs `ast` vs `root.children`) and the argument order, then adjust. The `slot.body` AST: verify whether `<slot.body>` parses to a `slot-outlet` node with `name: 'body'` or an `element` with `tagName: 'slot.body'`; adjust `inspect` to match. (Recall from the design session that the self-close normalizer does not cover `slot`, so slots may surface as elements — handle both.)
 
-- [ ] **Step 4: Run — expect PASS (after matching the real AST shape).** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS (after matching the real AST shape).** **Step 5: Checkpoint.**
 
 ---
 
@@ -145,7 +145,7 @@ function isComponentTag(tagName: string): boolean {
 - Create: `packages/language-server/src/features/definition.ts`
 - Test: `packages/language-server/tests/definition.test.ts`
 
-- [ ] **Step 1: Add `routesPath` to the workspace index**
+- [x] **Step 1: Add `routesPath` to the workspace index**
 
 In `workspace.ts`, extend `WorkspaceIndex` with `routesPath: string | null` and set it in `loadWorkspaceIndex` (the resolved path when the file exists, else `null`).
 
@@ -158,7 +158,7 @@ export interface WorkspaceIndex {
 ```
 Set `routesPath: existsSync(routesPath) ? routesPath : null` in the return.
 
-- [ ] **Step 2: Failing test**
+- [x] **Step 2: Failing test**
 
 `packages/language-server/tests/definition.test.ts`:
 ```ts
@@ -192,9 +192,9 @@ describe('findDefinition', () => {
 });
 ```
 
-- [ ] **Step 3: Run — expect FAIL.**
+- [x] **Step 3: Run — expect FAIL.**
 
-- [ ] **Step 4: Implement**
+- [x] **Step 4: Implement**
 
 `packages/language-server/src/features/definition.ts`:
 ```ts
@@ -224,7 +224,7 @@ export function findDefinition(symbol: TemplateSymbol, index: WorkspaceIndex): L
 }
 ```
 
-- [ ] **Step 5: Run — expect PASS.** **Step 6: Checkpoint.**
+- [x] **Step 5: Run — expect PASS.** **Step 6: Checkpoint.**
 
 ---
 
@@ -236,7 +236,7 @@ export function findDefinition(symbol: TemplateSymbol, index: WorkspaceIndex): L
 
 A slot reference resolves to its outlet declaration. For M2, resolve a slot name to the first `slot-outlet`/slot element with that name in the same template (the common case for layouts/components defining their own slots).
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/definition-slot.test.ts`:
 ```ts
@@ -258,9 +258,9 @@ describe('findSlotDefinition', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement `findSlotDefinition` (add to `definition.ts`), reusing the AST walk**
+- [x] **Step 3: Implement `findSlotDefinition` (add to `definition.ts`), reusing the AST walk**
 
 ```ts
 import { parseTemplate, type SourceSpan, type TemplateNode } from '@vanrot/compiler';
@@ -291,7 +291,7 @@ function childrenOf(node: TemplateNode): readonly TemplateNode[] {
 ```
 > Match `parsed.nodes` to the real `parseTemplate` result property (same caveat as Task 1). If slots surface as `element` nodes with `tagName: 'slot.body'`, branch on that too.
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -303,7 +303,7 @@ function childrenOf(node: TemplateNode): readonly TemplateNode[] {
 
 Find all template occurrences of a symbol across the supplied documents. For M2, references operate on the set of open/known template documents.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/references.test.ts`:
 ```ts
@@ -326,9 +326,9 @@ function anySpan() {
 }
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement (reuse `resolveSymbolAt`-style AST walk to collect matching spans)**
+- [x] **Step 3: Implement (reuse `resolveSymbolAt`-style AST walk to collect matching spans)**
 
 `packages/language-server/src/features/references.ts`:
 ```ts
@@ -375,7 +375,7 @@ function collect(nodes: readonly TemplateNode[], symbol: TemplateSymbol): Source
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -385,7 +385,7 @@ function collect(nodes: readonly TemplateNode[], symbol: TemplateSymbol): Source
 - Modify: `packages/language-server/src/server.ts`
 - Test: `packages/language-server/tests/definition-handler.test.ts`
 
-- [ ] **Step 1: Failing integration test (drives `textDocument/definition`)**
+- [x] **Step 1: Failing integration test (drives `textDocument/definition`)**
 
 `packages/language-server/tests/definition-handler.test.ts`:
 ```ts
@@ -424,9 +424,9 @@ describe('definition handler', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL** (no definition capability).
+- [x] **Step 2: Run — expect FAIL** (no definition capability).
 
-- [ ] **Step 3: Wire handlers in `server.ts`**
+- [x] **Step 3: Wire handlers in `server.ts`**
 
 Add to `buildInitializeResult` capabilities: `definitionProvider: true, referencesProvider: true`.
 In `startLanguageServer`, after `onCompletion`, add:
@@ -455,7 +455,7 @@ In `startLanguageServer`, after `onCompletion`, add:
 ```
 Add imports for `resolveSymbolAt`, `findDefinition`, `findSlotDefinition`, `findReferences`.
 
-- [ ] **Step 4: Run — expect PASS.**
+- [x] **Step 4: Run — expect PASS.**
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/definition-handler.test.ts`
 
@@ -463,6 +463,8 @@ Run: `pnpm --filter @vanrot/language-server exec vitest run tests/definition-han
 
 Run: `pnpm --filter @vanrot/language-server typecheck && pnpm --filter @vanrot/language-server test`
 Then build + `gradle runIde`: Ctrl-click `route.home` jumps to `routes.ts`; Ctrl-click a component tag opens its `.component.ts`; Find Usages on a route ref lists template uses.
+
+Note: `pnpm --filter @vanrot/language-server typecheck`, `pnpm --filter @vanrot/language-server test`, `pnpm --filter @vanrot/language-server build`, root `pnpm typecheck`, `pnpm test`, `pnpm build`, post-build verify scripts, and IntelliJ `test buildPlugin verifyPlugin` pass. `runIde` was launched with Corretto 21; IDEA 2023.2 loaded `Vanrot Templates (0.0.0)` with no current-run plugin error lines. Native Ctrl-click / Find Usages UI interaction remains a manual smoke gap.
 
 - [ ] **Step 6: Checkpoint — review M2 for commit.**
 

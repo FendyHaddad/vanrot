@@ -10,11 +10,12 @@ const componentFilePattern = /\.(component|page|layout|button)\.ts$/;
 export interface WorkspaceIndex {
   routes: RouteEntry[];
   components: ComponentEntry[];
+  routesPath: string | null;
 }
 
 export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
   if (projectRoot === null) {
-    return { routes: [], components: [] };
+    return { routes: [], components: [], routesPath: null };
   }
 
   const routesPath = resolveRoutesPath(projectRoot);
@@ -23,7 +24,7 @@ export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
     : [];
   const components = buildComponentIndex(readComponentSources(join(projectRoot, defaultSourceRoot)));
 
-  return { routes, components };
+  return { routes, components, routesPath: existsSync(routesPath) ? routesPath : null };
 }
 
 function readComponentSources(sourceRoot: string): Array<{ path: string; source: string }> {
