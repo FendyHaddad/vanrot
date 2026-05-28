@@ -31,7 +31,7 @@
 
 `CompileDiagnostic` is 1-based (`line`/`column`/`endLine`/`endColumn`); LSP `Diagnostic.range` is 0-based. Map severity, attach the `VR####` code, and carry the source label.
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/diagnostics-map.test.ts`:
 ```ts
@@ -78,11 +78,11 @@ describe('toLspDiagnostics', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/diagnostics-map.test.ts`
 
-- [ ] **Step 3: Implement the mapping**
+- [x] **Step 3: Implement the mapping**
 
 `packages/language-server/src/features/diagnostics.ts`:
 ```ts
@@ -111,7 +111,7 @@ export function toLspDiagnostics(
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -123,7 +123,7 @@ export function toLspDiagnostics(
 
 Given the open template path + its live text, locate the sibling `.component.ts` and `.css` (via `createComponentFileSet` after deriving the component path), read those from disk, compile with `compileComponent`, and return mapped diagnostics for the template.
 
-- [ ] **Step 1: Failing test (uses a temp fixture component on disk)**
+- [x] **Step 1: Failing test (uses a temp fixture component on disk)**
 
 `packages/language-server/tests/diagnostics-compile.test.ts`:
 ```ts
@@ -157,9 +157,9 @@ describe('compileTemplateDiagnostics', () => {
 ```
 > The second case assumes `{{ a = 1 }}` triggers `VR006` (assignment is unsupported — confirmed by `rewrite-expression.ts`). If the compiler reports it on a different node/file, adjust the assertion to the actual emitted diagnostic; the point is non-empty diagnostics with a `VR` code.
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 Add to `diagnostics.ts`:
 ```ts
@@ -200,7 +200,7 @@ function readOptional(path: string): string | null {
 ```
 > Confirm `compileComponent` is synchronous and accepts a `ComponentSource` object as its first argument (per `packages/compiler/src/api/compile-component.ts`). If it is async, `await` it. Confirm `fileSet.templatePath` equals the on-disk template path so the `toLspDiagnostics` filter matches; if `createComponentFileSet` derives a different template name, pass `templatePath` directly to the filter instead.
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -210,7 +210,7 @@ function readOptional(path: string): string | null {
 - Create: `packages/language-server/src/lsp/debounce.ts`
 - Test: `packages/language-server/tests/debounce.test.ts`
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/debounce.test.ts`:
 ```ts
@@ -232,9 +232,9 @@ describe('debounce', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/lsp/debounce.ts`:
 ```ts
@@ -253,7 +253,7 @@ export function debounce<Args extends unknown[]>(
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -263,7 +263,7 @@ export function debounce<Args extends unknown[]>(
 - Modify: `packages/language-server/src/server.ts`
 - Test: `packages/language-server/tests/diagnostics-handler.test.ts`
 
-- [ ] **Step 1: Failing integration test (expects a `publishDiagnostics` notification after open)**
+- [x] **Step 1: Failing integration test (expects a `publishDiagnostics` notification after open)**
 
 `packages/language-server/tests/diagnostics-handler.test.ts`:
 ```ts
@@ -316,9 +316,9 @@ describe('diagnostics handler', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Wire diagnostics in `server.ts`**
+- [x] **Step 3: Wire diagnostics in `server.ts`**
 
 In `startLanguageServer`, after wiring documents, add a debounced runner that compiles + publishes on open/change:
 ```ts
@@ -341,7 +341,7 @@ import { URI } from 'vscode-uri';
 ```
 (Open runs immediately; edits are debounced. `connection.sendDiagnostics` is the push channel.)
 
-- [ ] **Step 4: Run — expect PASS.**
+- [x] **Step 4: Run — expect PASS.**
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/diagnostics-handler.test.ts`
 
@@ -349,6 +349,8 @@ Run: `pnpm --filter @vanrot/language-server exec vitest run tests/diagnostics-ha
 
 Run: `pnpm --filter @vanrot/language-server typecheck && pnpm --filter @vanrot/language-server test`
 Then build + `gradle runIde`: open a template with a known compiler error (e.g. missing sibling file, unsupported expression) and confirm the squiggle + `VR####` code matches `vr build`. Fix the error and confirm the squiggle clears on edit (debounced).
+
+  - 2026-05-29: Automated M3 gates passed: targeted red/green diagnostics tests, `pnpm --filter @vanrot/language-server typecheck`, `pnpm --filter @vanrot/language-server test`, `pnpm --filter @vanrot/language-server build`, root `pnpm typecheck`, root `pnpm test`, root `pnpm build`, size/site/AI/security/final-inventory/phase-doc verifiers, and escalated `pnpm verify:release-dry-run`. IntelliJ Gradle gate passed on Corretto 21 (`test buildPlugin verifyPlugin`) and `runIde` loaded Vanrot Templates (0.0.0) without current-run plugin errors. Native IDE squiggle/edit-clear UI smoke remains manual, so this checkbox stays open.
 
 - [ ] **Step 6: Checkpoint — review M3 for commit.**
 

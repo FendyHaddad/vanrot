@@ -15,6 +15,7 @@ export async function runCommand({
       cwd,
       env: { ...process.env, ...env },
       shell: false,
+      stdio: ['ignore', 'pipe', 'pipe'],
     });
     let stdout = '';
     let stderr = '';

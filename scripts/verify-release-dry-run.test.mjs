@@ -28,6 +28,7 @@ import {
   validatePackageMetadata,
 } from './release-dry-run/metadata.mjs';
 import { createReport, formatConsoleReport, writeReports } from './release-dry-run/reports.mjs';
+import { runCommand } from './release-dry-run/runner.mjs';
 import { parseOptions } from './verify-release-dry-run.mjs';
 
 describe('verify-release-dry-run models', () => {
@@ -385,6 +386,24 @@ describe('verify-release-dry-run package workflows and reports', () => {
       'npm smoke import',
     );
     expect(formatConsoleReport(report)).toContain('fail npm smoke import - node smoke.mjs');
+  });
+
+  it('closes command stdin so package-manager installs cannot wait for input', async () => {
+    const stdinWaiter =
+      'process.stdin.resume(); process.stdin.on("end", () => process.exit(0)); setTimeout(() => process.exit(2), 1000);';
+    const result = await Promise.race([
+      runCommand({
+        name: 'stdin eof',
+        command: process.execPath,
+        args: ['-e', stdinWaiter],
+        cwd: process.cwd(),
+      }),
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('command waited for stdin')), 500);
+      }),
+    ]);
+
+    expect(result.status).toBe('pass');
   });
 });
 

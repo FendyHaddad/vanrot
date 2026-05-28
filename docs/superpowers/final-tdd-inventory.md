@@ -141,6 +141,7 @@ When a phase adds or changes framework surface area:
 | [x] | LSP | template symbol resolver | Demo-Capable | Server can resolve the cursor symbol for route refs, component tags, and slot outlets using the compiler template AST. | IntelliJ Plugin M2, Phase 26 | Covered by `symbol-at.test.ts`; reused by definition and references handlers. |
 | [x] | LSP | template definitions | Demo-Capable | Route refs navigate to `src/routes.ts` name spans, component tags navigate to their component file, and slot symbols resolve to matching outlets in the same template. | IntelliJ Plugin M2, Phase 26 | Covered by `definition.test.ts`, `definition-slot.test.ts`, and `definition-handler.test.ts`. |
 | [x] | LSP | template references | Demo-Capable | References scan open template documents for matching route refs, component tags, and slot outlet symbols. | IntelliJ Plugin M2, Phase 26 | Covered by `references.test.ts`; broader indexed-template references remain a Phase 26 hardening concern. |
+| [x] | LSP | compiler diagnostics publisher | Demo-Capable | Server maps compiler `VR####` diagnostics to LSP diagnostics, compiles live template text with sibling component/style sources, publishes diagnostics on open, and debounces refreshed diagnostics on edit. | IntelliJ Plugin M3, Phase 26 | Covered by `diagnostics-map.test.ts`, `diagnostics-compile.test.ts`, `debounce.test.ts`, and `diagnostics-handler.test.ts`; native IDE squiggle smoke remains a manual release check. |
 
 ## `@vanrot/vite-plugin`
 

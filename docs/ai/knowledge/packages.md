@@ -14,7 +14,7 @@ Typed Vanrot config helpers, defaults, normalization, validation, migrations, di
 
 ## @vanrot/language-server
 
-Vanrot template detection, LSP initialize/completion/navigation handling, stdio server entry, and IntelliJ-consumed template glob artifact.
+Vanrot template detection, LSP initialize/completion/navigation/diagnostics handling, stdio server entry, and IntelliJ-consumed template glob artifact.
 
 ## @vanrot/router
 

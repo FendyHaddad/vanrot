@@ -92,7 +92,7 @@ Docs: /docs/public-api
 
 ## @vanrot/language-server startLanguageServer
 
-Starts the Vanrot language server on an LSP connection with completion, definition, and references handlers.
+Starts the Vanrot language server on an LSP connection with completion, definition, references, and diagnostics handlers.
 
 Docs: /docs/public-api
 

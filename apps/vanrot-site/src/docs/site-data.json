@@ -922,7 +922,7 @@
     { "name": "@vanrot/runtime", "area": "Runtime", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/compiler", "area": "Compiler", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/config", "area": "Configuration", "status": "production-ready-through-phase-13" },
-    { "name": "@vanrot/language-server", "area": "Language server", "status": "demo-capable-through-intellij-m2" },
+    { "name": "@vanrot/language-server", "area": "Language server", "status": "demo-capable-through-intellij-m3" },
     { "name": "@vanrot/router", "area": "Router", "status": "production-ready-through-phase-15" },
     { "name": "@vanrot/vite-plugin", "area": "Vite", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },

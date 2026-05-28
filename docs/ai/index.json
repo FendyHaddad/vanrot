@@ -18,7 +18,7 @@
     {
       "id": "package:@vanrot/language-server",
       "title": "@vanrot/language-server",
-      "summary": "Vanrot template detection, LSP initialize/completion/navigation handling, stdio server entry, and IntelliJ-consumed template glob artifact."
+      "summary": "Vanrot template detection, LSP initialize/completion/navigation/diagnostics handling, stdio server entry, and IntelliJ-consumed template glob artifact."
     },
     {
       "id": "package:@vanrot/router",
@@ -150,7 +150,7 @@
     {
       "id": "export:@vanrot/language-server:startLanguageServer",
       "title": "@vanrot/language-server startLanguageServer",
-      "summary": "Starts the Vanrot language server on an LSP connection with completion, definition, and references handlers.",
+      "summary": "Starts the Vanrot language server on an LSP connection with completion, definition, references, and diagnostics handlers.",
       "docsPath": "/docs/public-api"
     },
     {

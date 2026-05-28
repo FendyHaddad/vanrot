@@ -10,8 +10,10 @@ import { URI } from 'vscode-uri';
 import { buildCompletions } from './features/completion.js';
 import { classifyCompletionContext } from './features/completion-context.js';
 import { findDefinition, findSlotDefinition } from './features/definition.js';
+import { compileTemplateDiagnostics } from './features/diagnostics.js';
 import { findReferences } from './features/references.js';
 import { resolveSymbolAt } from './features/symbol-at.js';
+import { debounce } from './lsp/debounce.js';
 import { offsetAt } from './lsp/position.js';
 import { loadWorkspaceIndex, type WorkspaceIndex } from './project/workspace.js';
 
@@ -96,6 +98,23 @@ export function startLanguageServer(connection: Connection): void {
       documents.all().map((openDocument) => ({ uri: openDocument.uri, text: openDocument.getText() })),
     );
   });
+
+  const runDiagnostics = (uri: string): void => {
+    const document = documents.get(uri);
+
+    if (document === undefined) {
+      return;
+    }
+
+    const fsPath = URI.parse(uri).fsPath;
+    void compileTemplateDiagnostics(fsPath, document.getText()).then((diagnostics) => {
+      connection.sendDiagnostics({ uri, diagnostics });
+    });
+  };
+  const scheduleDiagnostics = debounce(runDiagnostics, 200);
+
+  documents.onDidOpen((event) => runDiagnostics(event.document.uri));
+  documents.onDidChangeContent((event) => scheduleDiagnostics(event.document.uri));
 
   documents.listen(connection);
   connection.listen();
