@@ -120,6 +120,12 @@ Understand generated files Vanrot users should expect in starter apps, config fl
 
 Docs: /docs/generated-files
 
+## Changelog
+
+Track published Vanrot versions, release notes, and upgrade guidance from the first npm release onward.
+
+Docs: /docs/changelog
+
 ## October Showcase
 
 A broad Phase 16G composition surface for admin, dashboard, and mobile patterns.

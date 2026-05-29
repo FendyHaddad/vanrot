@@ -519,6 +519,7 @@ const docsOctoberShowcase = docs.page({
 });
 const docsConventions = articlePage(siteArticleKey.conventions);
 const docsDeployment = articlePage(siteArticleKey.deployment);
+const docsChangelog = articlePage(siteArticleKey.changelog);
 const docsLimitations = articlePage(siteArticleKey.limitations);
 const docsReferenceStatus = articlePage(siteArticleKey.referenceStatus);
 
@@ -652,6 +653,7 @@ export const route = defineRoutes({
   docsPublicApi,
   docsDiagnostics,
   docsGeneratedFiles,
+  docsChangelog,
   docsLimitations,
   docsReferenceStatus,
   reference,

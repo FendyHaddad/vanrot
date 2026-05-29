@@ -72,6 +72,7 @@ export const siteArticleKey = {
   publicApi: 'publicApi',
   diagnostics: 'diagnostics',
   generatedFiles: 'generatedFiles',
+  changelog: 'changelog',
   octoberShowcase: 'octoberShowcase',
   conventions: 'conventions',
   limitations: 'limitations',

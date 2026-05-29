@@ -31,6 +31,21 @@ import { createReport, formatConsoleReport, writeReports } from './release-dry-r
 import { runCommand } from './release-dry-run/runner.mjs';
 import { parseOptions } from './verify-release-dry-run.mjs';
 
+describe('npm publish script', () => {
+  it('publishes release package copies in dependency order with web auth', async () => {
+    const script = await readFile(new URL('../publish.sh', import.meta.url), 'utf8');
+    const publishOrder = script.match(/PUBLISH_PACKAGES=\(([\s\S]*?)\)/)?.[1] ?? '';
+
+    expect(script).toContain('set -euo pipefail');
+    expect(script).toContain('node scripts/verify-release-dry-run.mjs --keep');
+    expect(script).toContain('--auth-type=web');
+    expect(script).toContain('--access public');
+    expect(script).toContain('PUBLISH_DRY_RUN');
+    expect(publishOrder.match(/devtools[\s\S]*config[\s\S]*ai[\s\S]*runtime/)).not.toBeNull();
+    expect(publishOrder.match(/testing[\s\S]*cli[\s\S]*language-server[\s\S]*vite-plugin/)).not.toBeNull();
+  });
+});
+
 describe('verify-release-dry-run models', () => {
   it('summarizes passed, failed, and skipped steps', () => {
     expect(

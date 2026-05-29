@@ -22,6 +22,7 @@ const routeKeyToArticleKey = {
   docsTesting: siteArticleKey.testing,
   docsExamples: siteArticleKey.examples,
   docsConventions: siteArticleKey.conventions,
+  docsChangelog: siteArticleKey.changelog,
 } as const;
 
 type ArticleRouteKey = keyof typeof routeKeyToArticleKey;

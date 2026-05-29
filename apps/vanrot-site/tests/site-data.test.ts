@@ -33,6 +33,7 @@ describe('vanrot site docs data', () => {
       'publicApi',
       'diagnostics',
       'generatedFiles',
+      'changelog',
       'octoberShowcase',
       'conventions',
       'limitations',
@@ -114,5 +115,7 @@ describe('vanrot site docs data', () => {
     expect(componentGroup?.items.map((item) => item.href)).toEqual(
       componentDocs.map((doc) => doc.href),
     );
+    const referenceGroup = siteNavigationGroups.find((group) => group.label === 'Reference');
+    expect(referenceGroup?.items.map((item) => item.href)).toContain('/docs/changelog');
   });
 });

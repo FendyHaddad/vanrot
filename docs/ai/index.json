@@ -1008,6 +1008,12 @@
       "docsPath": "/docs/generated-files"
     },
     {
+      "id": "doc:changelog",
+      "title": "Changelog",
+      "summary": "Track published Vanrot versions, release notes, and upgrade guidance from the first npm release onward.",
+      "docsPath": "/docs/changelog"
+    },
+    {
       "id": "doc:octoberShowcase",
       "title": "October Showcase",
       "summary": "A broad Phase 16G composition surface for admin, dashboard, and mobile patterns.",

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-29T14:53:38.165Z",
-  "sourceFingerprint": "sha256-e9b9ec11467d00b8a4346dd4c26ab16a3c98e3e6301167503c46c0ffa90c1732",
+  "generatedAt": "2026-05-29T15:32:47.022Z",
+  "sourceFingerprint": "sha256-193aa6b34b5821242df6b64f898e755e7d61cbbe12075bad63ee652f7cb22839",
   "sources": [
     {
       "id": "package-json",
@@ -17,7 +17,7 @@
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-5634f1713ea364c29569b0d371e59815001429f094fa603eee126734acecc803"
+      "fingerprint": "sha256-00459aa2ea219f4e65b314cd1ba0b8f3e259137a5ac227b9cc7ea61c125a7244"
     },
     {
       "id": "cli-command-metadata",
@@ -47,7 +47,7 @@
     "routes": 3,
     "limitations": 2,
     "deployment": 1,
-    "docs": 24
+    "docs": 25
   },
   "coverageStatus": "complete"
 }

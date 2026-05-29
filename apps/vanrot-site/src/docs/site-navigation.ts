@@ -101,6 +101,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.publicApi),
       navItem(siteArticleKey.diagnostics),
       navItem(siteArticleKey.generatedFiles),
+      navItem(siteArticleKey.changelog),
       navItem(siteArticleKey.deployment),
       navItem(siteArticleKey.limitations),
       navItem(siteArticleKey.referenceStatus),
