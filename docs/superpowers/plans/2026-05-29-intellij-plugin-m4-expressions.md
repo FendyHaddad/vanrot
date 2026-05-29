@@ -33,7 +33,7 @@
 - Create: `packages/language-server/src/expressions/enumerate.ts`
 - Test: `packages/language-server/tests/enumerate.test.ts`
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/enumerate.test.ts`:
 ```ts
@@ -56,11 +56,11 @@ describe('enumerateExpressions', () => {
 ```
 > Verify the compiler's binding attribute syntax: confirm property bindings are `[prop]="expr"` and events `(event)="handler"` by reading `packages/compiler/src/template/bindings.ts` / codegen. If vanrot uses a different syntax, correct the test markup to the real one — the contract (every expression + its `expressionSpan`) is fixed.
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
 Run: `pnpm --filter @vanrot/language-server exec vitest run tests/enumerate.test.ts`
 
-- [ ] **Step 3: Implement (wrap `extractTemplateBindings`)**
+- [x] **Step 3: Implement (wrap `extractTemplateBindings`)**
 
 `packages/language-server/src/expressions/enumerate.ts`:
 ```ts
@@ -91,7 +91,7 @@ export function enumerateExpressions(source: string): TemplateExpression[] {
 ```
 > Also fold in `if-block`/`for-block` expressions: walk `parsed.nodes` and push `node.expression`/`node.iterableExpression` with `node.expressionSpan`. Add a test for `{#if ready}` once the real control-flow template syntax is confirmed from the compiler tests.
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -103,7 +103,7 @@ export function enumerateExpressions(source: string): TemplateExpression[] {
 
 A list of segments, each mapping a template offset range to a virtual offset range of equal length (expressions are embedded verbatim, so within a segment offsets shift by a constant delta).
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/position-map.test.ts`:
 ```ts
@@ -131,9 +131,9 @@ describe('PositionMap', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/expressions/position-map.ts`:
 ```ts
@@ -168,7 +168,7 @@ export class PositionMap {
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -189,7 +189,7 @@ Emit the component source unchanged, then a generated function that binds `ctx` 
 > ```
 > where the destructured names are the component's public members (from `readComponentInputs` + class members). Destructuring brings members into local scope at their verbatim names, so `user.name` resolves and the embedded expression offsets are preserved. Members are enumerated from the class; unknown identifiers correctly surface as type errors (the desired diagnostic).
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/virtual-document.test.ts`:
 ```ts
@@ -213,9 +213,9 @@ function span(startOffset: number, endOffset: number) {
 }
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/expressions/virtual-document.ts`:
 ```ts
@@ -257,7 +257,7 @@ export function buildVirtualDocument(
 }
 ```
 
-- [ ] **Step 4: Add `collectInstanceMemberNames`**
+- [x] **Step 4: Add `collectInstanceMemberNames`**
 
 `packages/language-server/src/expressions/members.ts`:
 ```ts
@@ -289,7 +289,7 @@ function isPrivate(member: ts.ClassElement): boolean {
 }
 ```
 
-- [ ] **Step 5: Run — expect PASS.** **Step 6: Checkpoint.**
+- [x] **Step 5: Run — expect PASS.** **Step 6: Checkpoint.**
 
 > **Limitation (documented, not a bug):** signal members written as `count` in templates but typed as `Signal<number>` need a call (`count()`) to read. M3's diagnostics already catch misuse; M4 expression *types* will reflect the signal type, not the unwrapped value, until a signal-aware unwrap is added. Track as a follow-up; ship the non-signal path first.
 
@@ -301,7 +301,7 @@ function isPrivate(member: ts.ClassElement): boolean {
 - Create: `packages/language-server/src/expressions/language-service.ts`
 - Test: `packages/language-server/tests/language-service.test.ts`
 
-- [ ] **Step 1: Failing test (completion at a member position resolves instance members)**
+- [x] **Step 1: Failing test (completion at a member position resolves instance members)**
 
 `packages/language-server/tests/language-service.test.ts`:
 ```ts
@@ -326,9 +326,9 @@ describe('createVirtualLanguageService', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement an in-memory `LanguageServiceHost`**
+- [x] **Step 3: Implement an in-memory `LanguageServiceHost`**
 
 `packages/language-server/src/expressions/language-service.ts`:
 ```ts
@@ -371,7 +371,7 @@ export function createVirtualLanguageService(fileName: string, text: string): ts
 }
 ```
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -384,7 +384,7 @@ export function createVirtualLanguageService(fileName: string, text: string): ts
 
 A single helper assembles the virtual doc from a template + component source; hover and diagnostics consume it.
 
-- [ ] **Step 1: Failing hover test**
+- [x] **Step 1: Failing hover test**
 
 `packages/language-server/tests/expression-hover.test.ts`:
 ```ts
@@ -403,9 +403,9 @@ describe('expressionHover', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement hover**
+- [x] **Step 3: Implement hover**
 
 `packages/language-server/src/features/expression-hover.ts`:
 ```ts
@@ -437,9 +437,9 @@ export function expressionHover(
 }
 ```
 
-- [ ] **Step 4: Run hover test — expect PASS.**
+- [x] **Step 4: Run hover test — expect PASS.**
 
-- [ ] **Step 5: Failing diagnostics test**
+- [x] **Step 5: Failing diagnostics test**
 
 `packages/language-server/tests/expression-diagnostics.test.ts`:
 ```ts
@@ -463,9 +463,9 @@ describe('expressionDiagnostics', () => {
 });
 ```
 
-- [ ] **Step 6: Run — expect FAIL.**
+- [x] **Step 6: Run — expect FAIL.**
 
-- [ ] **Step 7: Implement diagnostics (map semantic diagnostics back to template ranges)**
+- [x] **Step 7: Implement diagnostics (map semantic diagnostics back to template ranges)**
 
 `packages/language-server/src/features/expression-diagnostics.ts`:
 ```ts
@@ -513,7 +513,7 @@ export function expressionDiagnostics(
 ```
 > `offsetAt`/`spanToRange` imports may be unused here — remove if so. Confirm `createLineIndex`/`positionAtOffset` are exported from `@vanrot/compiler` (they are, per `packages/compiler/src/index.ts`).
 
-- [ ] **Step 8: Run diagnostics test — expect PASS.** **Step 9: Checkpoint.**
+- [x] **Step 8: Run diagnostics test — expect PASS.** **Step 9: Checkpoint.**
 
 ---
 
@@ -523,7 +523,7 @@ export function expressionDiagnostics(
 - Create: `packages/language-server/src/features/expression-completion.ts`
 - Test: `packages/language-server/tests/expression-completion.test.ts`
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/expression-completion.test.ts`:
 ```ts
@@ -542,9 +542,9 @@ describe('expressionCompletion', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement (map offset → virtual → `getCompletionsAtPosition` → `CompletionItem[]`)**
+- [x] **Step 3: Implement (map offset → virtual → `getCompletionsAtPosition` → `CompletionItem[]`)**
 
 `packages/language-server/src/features/expression-completion.ts`:
 ```ts
@@ -576,7 +576,7 @@ export function expressionCompletion(
 ```
 > `{{ user. }}` must parse so the expression span covers `user.`. If the compiler's interpolation parser rejects a trailing-dot expression, the completion offset will fall outside any segment. Mitigation: when `map.toVirtual` returns null, retry by trimming the cursor back to the nearest enclosing expression span boundary (handle in this function with a fallback that finds the expression whose span contains the offset and re-maps). Add that fallback if the test fails on the parse.
 
-- [ ] **Step 4: Run — expect PASS (apply the fallback note if needed).** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS (apply the fallback note if needed).** **Step 5: Checkpoint.**
 
 ---
 
@@ -588,7 +588,7 @@ export function expressionCompletion(
 
 Rename a member used in a template: find rename locations in the virtual doc, map template-side ones back to template ranges, and pass component-side ones through (their virtual offsets equal real component offsets since the component source is emitted first, unchanged).
 
-- [ ] **Step 1: Failing test**
+- [x] **Step 1: Failing test**
 
 `packages/language-server/tests/expression-rename.test.ts`:
 ```ts
@@ -608,9 +608,9 @@ describe('expressionRename', () => {
 });
 ```
 
-- [ ] **Step 2: Run — expect FAIL.**
+- [x] **Step 2: Run — expect FAIL.**
 
-- [ ] **Step 3: Implement**
+- [x] **Step 3: Implement**
 
 `packages/language-server/src/features/expression-rename.ts`:
 ```ts
@@ -661,7 +661,7 @@ export function expressionRename(
 ```
 > Cross-file rename (template edit triggering a component edit and vice versa) requires a `WorkspaceEdit` spanning both files. M4 delivers in-template rename first; wiring component-side edits into the same `WorkspaceEdit` is the final integration step in Task 8.
 
-- [ ] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
+- [x] **Step 4: Run — expect PASS.** **Step 5: Checkpoint.**
 
 ---
 
@@ -671,28 +671,30 @@ export function expressionRename(
 - Modify: `packages/language-server/src/server.ts`
 - Test: `packages/language-server/tests/expression-handler.test.ts`
 
-- [ ] **Step 1: Add a helper that loads the component source for an open template**
+- [x] **Step 1: Add a helper that loads the component source for an open template**
 
 Reuse M3's path derivation: `templatePath → .ts`, `createComponentFileSet`, read component source, read class name from `fileSet.expectedClassName`.
 
-- [ ] **Step 2: Route requests inside expression spans**
+- [x] **Step 2: Route requests inside expression spans**
 
 In the existing `onCompletion`/`onHover`/`onRenameRequest` handlers, first check whether the cursor offset falls inside an expression span (`enumerateExpressions`); if so, delegate to the expression handler; otherwise fall back to M1 completion / no-op. Merge `expressionDiagnostics` into the M3 publish (concatenate compiler diagnostics + expression diagnostics before `sendDiagnostics`).
 
 Capabilities to add to `buildInitializeResult`: `hoverProvider: true`, `renameProvider: true`. (Completion provider already present from M1.)
 
-- [ ] **Step 3: Failing integration test (hover inside an expression)**
+- [x] **Step 3: Failing integration test (hover inside an expression)**
 
 `packages/language-server/tests/expression-handler.test.ts` — open a fixture component (component `.ts` + template on disk, as in M3), send `textDocument/hover` at a member offset, assert the hover contents include the member type.
 
 (Model the harness on `tests/diagnostics-handler.test.ts` from M3: temp dir, write `.component.ts`/`.css`/`.html`, `initialize`, `didOpen`, then `HoverRequest`.)
 
-- [ ] **Step 4: Run — expect FAIL, then implement the wiring, then PASS.**
+- [x] **Step 4: Run — expect FAIL, then implement the wiring, then PASS.**
 
 - [ ] **Step 5: Full gate + `runIde` smoke**
 
 Run: `pnpm --filter @vanrot/language-server typecheck && pnpm --filter @vanrot/language-server test`
 Then build + `gradle runIde`: in a template, hover a member → see its type; type `user.` → member completions; reference an unknown member → type-error squiggle (`vanrot-ts` source); rename a member used in the template → template occurrence updates.
+
+M4 automated gates passed: language-server typecheck/test/build, root typecheck/test/build, size/site/docs/AI/security/release/final-inventory/phase verifiers, and IntelliJ `test buildPlugin verifyPlugin`. `runIde` launched on Corretto 21 and loaded `Vanrot Templates (0.0.0)` with no current-run ERROR/SEVERE log entries. Native IDE interaction smoke for hover/completion/squiggle/rename remains manual.
 
 - [ ] **Step 6: Checkpoint — review M4 for commit. Update `docs/superpowers/final-tdd-inventory.md` for the new expression modules.**
 

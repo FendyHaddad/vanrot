@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs';
+import { createComponentFileSet } from '@vanrot/compiler';
 import {
   type Connection,
   type InitializeParams,
@@ -7,10 +9,15 @@ import {
 } from 'vscode-languageserver';
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { URI } from 'vscode-uri';
+import { enumerateExpressions } from './expressions/enumerate.js';
 import { buildCompletions } from './features/completion.js';
 import { classifyCompletionContext } from './features/completion-context.js';
 import { findDefinition, findSlotDefinition } from './features/definition.js';
 import { compileTemplateDiagnostics } from './features/diagnostics.js';
+import { expressionCompletion } from './features/expression-completion.js';
+import { expressionDiagnostics } from './features/expression-diagnostics.js';
+import { expressionHover } from './features/expression-hover.js';
+import { expressionRename } from './features/expression-rename.js';
 import { findReferences } from './features/references.js';
 import { resolveSymbolAt } from './features/symbol-at.js';
 import { debounce } from './lsp/debounce.js';
@@ -26,6 +33,8 @@ export function buildInitializeResult(_params: InitializeParams): InitializeResu
       completionProvider: { triggerCharacters: ['<', '.', ' '] },
       definitionProvider: true,
       referencesProvider: true,
+      hoverProvider: true,
+      renameProvider: true,
     },
     serverInfo: { name: serverInfo.name, version: serverInfo.version },
   };
@@ -33,6 +42,7 @@ export function buildInitializeResult(_params: InitializeParams): InitializeResu
 
 export function startLanguageServer(connection: Connection): void {
   const documents = new TextDocuments(TextDocument);
+  const openedVersions = new Map<string, number>();
   let index: WorkspaceIndex = { routes: [], components: [], routesPath: null };
 
   connection.onInitialize((params) => {
@@ -51,9 +61,47 @@ export function startLanguageServer(connection: Connection): void {
 
     const source = document.getText();
     const offset = offsetAt(source, params.position.line, params.position.character);
+
+    if (isExpressionOffset(source, offset)) {
+      const expressionContext = loadExpressionContext(URI.parse(params.textDocument.uri).fsPath);
+
+      if (expressionContext !== null) {
+        return expressionCompletion(source, expressionContext.componentSource, expressionContext.className, offset);
+      }
+    }
+
     const context = classifyCompletionContext(source, offset);
 
     return buildCompletions(context, index);
+  });
+
+  connection.onHover((params) => {
+    const document = documents.get(params.textDocument.uri);
+
+    if (document === undefined) {
+      return null;
+    }
+
+    const source = document.getText();
+    const offset = offsetAt(source, params.position.line, params.position.character);
+
+    if (!isExpressionOffset(source, offset)) {
+      return null;
+    }
+
+    const expressionContext = loadExpressionContext(URI.parse(params.textDocument.uri).fsPath);
+
+    if (expressionContext === null) {
+      return null;
+    }
+
+    const hover = expressionHover(source, expressionContext.componentSource, expressionContext.className, offset);
+
+    if (hover === null) {
+      return null;
+    }
+
+    return { contents: hover.contents };
   });
 
   connection.onDefinition((params) => {
@@ -99,6 +147,41 @@ export function startLanguageServer(connection: Connection): void {
     );
   });
 
+  connection.onRenameRequest((params) => {
+    const document = documents.get(params.textDocument.uri);
+
+    if (document === undefined) {
+      return null;
+    }
+
+    const source = document.getText();
+    const offset = offsetAt(source, params.position.line, params.position.character);
+
+    if (!isExpressionOffset(source, offset)) {
+      return null;
+    }
+
+    const expressionContext = loadExpressionContext(URI.parse(params.textDocument.uri).fsPath);
+
+    if (expressionContext === null) {
+      return null;
+    }
+
+    const edits = expressionRename(
+      source,
+      expressionContext.componentSource,
+      expressionContext.className,
+      offset,
+      params.newName,
+    );
+
+    if (edits.template.length === 0) {
+      return null;
+    }
+
+    return { changes: { [params.textDocument.uri]: edits.template } };
+  });
+
   const runDiagnostics = (uri: string): void => {
     const document = documents.get(uri);
 
@@ -108,14 +191,64 @@ export function startLanguageServer(connection: Connection): void {
 
     const fsPath = URI.parse(uri).fsPath;
     void compileTemplateDiagnostics(fsPath, document.getText()).then((diagnostics) => {
-      connection.sendDiagnostics({ uri, diagnostics });
+      const expressionContext = loadExpressionContext(fsPath);
+      const expressionResult =
+        expressionContext === null
+          ? []
+          : expressionDiagnostics(document.getText(), expressionContext.componentSource, expressionContext.className);
+      connection.sendDiagnostics({ uri, diagnostics: [...diagnostics, ...expressionResult] });
     });
   };
   const scheduleDiagnostics = debounce(runDiagnostics, 200);
 
-  documents.onDidOpen((event) => runDiagnostics(event.document.uri));
-  documents.onDidChangeContent((event) => scheduleDiagnostics(event.document.uri));
+  documents.onDidOpen((event) => {
+    openedVersions.set(event.document.uri, event.document.version);
+    runDiagnostics(event.document.uri);
+  });
+  documents.onDidChangeContent((event) => {
+    if (openedVersions.get(event.document.uri) === event.document.version) {
+      return;
+    }
+
+    scheduleDiagnostics(event.document.uri);
+  });
 
   documents.listen(connection);
   connection.listen();
+}
+
+interface ExpressionContext {
+  componentSource: string;
+  className: string;
+}
+
+function isExpressionOffset(source: string, offset: number): boolean {
+  return enumerateExpressions(source).some(
+    (expression) => offset >= expression.span.startOffset && offset <= expression.span.endOffset,
+  );
+}
+
+function loadExpressionContext(templatePath: string): ExpressionContext | null {
+  const componentPath = templatePath.replace(/\.html$/, '.ts');
+  const fileSet = createComponentFileSet(componentPath);
+
+  if (fileSet === null) {
+    return null;
+  }
+
+  const componentSource = readOptional(fileSet.componentPath);
+
+  if (componentSource === null) {
+    return null;
+  }
+
+  return { componentSource, className: fileSet.expectedClassName };
+}
+
+function readOptional(path: string): string | null {
+  try {
+    return readFileSync(path, 'utf8');
+  } catch {
+    return null;
+  }
 }

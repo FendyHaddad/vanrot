@@ -80,7 +80,7 @@ Docs: /docs/public-api
 
 ## @vanrot/language-server buildInitializeResult
 
-Builds the Vanrot LSP initialize result with server metadata, document sync, completion, definition, and references capabilities.
+Builds the Vanrot LSP initialize result with server metadata, document sync, completion, hover, definition, references, and rename capabilities.
 
 Docs: /docs/public-api
 
@@ -92,7 +92,7 @@ Docs: /docs/public-api
 
 ## @vanrot/language-server startLanguageServer
 
-Starts the Vanrot language server on an LSP connection with completion, definition, references, and diagnostics handlers.
+Starts the Vanrot language server on an LSP connection with completion, hover, definition, references, rename, compiler diagnostics, and TypeScript expression diagnostics handlers.
 
 Docs: /docs/public-api
 
