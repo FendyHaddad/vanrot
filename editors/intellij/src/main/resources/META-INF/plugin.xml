@@ -1,6 +1,6 @@
 <idea-plugin>
-  <id>com.vankode.vanrot.templates</id>
-  <name>Vanrot Templates</name>
+  <id>com.vankode.vanrot</id>
+  <name>Vanrot</name>
   <vendor email="fendyhaddad@vankode.com" url="https://vankode.com">Vankode</vendor>
   <description><![CDATA[
     Vanrot template language support for WebStorm and IntelliJ IDEA Ultimate.

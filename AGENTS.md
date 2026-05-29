@@ -163,13 +163,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-29 4:52am GMT+8
+# [vanrot] recent context, 2026-05-29 3:49pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (12,905t read) | 1,495,862t work | 99% savings
+Stats: 50 obs (13,646t read) | 1,408,457t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -183,30 +183,10 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-### May 24, 2026
-1910 3:00p 🔵 Successful Builds and Size Check for Project Packages
-1918 " 🔵 Browser Skill Configuration and Usage Guidelines
-1916 3:01p 🔵 Successful Size Limit Check and Documentation Verification
-1925 " 🔵 In-App Browser Tab State Inspection
-1927 " 🔵 Browser Visibility and Screenshot Captured
-1919 " 🔵 Comprehensive Browser Skill Documentation Retrieved
-1931 " 🔵 Git Diffs Checked for Trailing Whitespace
-1921 3:02p 🔴 Browser Navigation Blocked by Client
 ### May 25, 2026
-1947 8:21p 🟣 Execute Plans Superpower Integration
-1948 8:22p 🔵 Phase 16E Plan and Spec Details
-1949 " 🔵 Vanrot AGENTS Git Ownership and Workflow Protocols
-1950 " 🔵 Repository Status and Key Files Identified
-1951 " 🔵 Memory Registry Search for Phase 16 Context
-1952 " 🔵 Phase 16E Plan Checklist Extraction
-1953 " 🔵 Phase 16E Plan Task Breakdown
-1955 " 🔵 Phase 16E Plan Task Details and Steps
-1965 8:23p 🔵 Vanrot UI Metadata Structure and Constants
-1960 8:24p 🔵 Phase 16E Plan Task Breakdown and Steps
-1967 " 🔵 Vanrot Site Routing and Component Documentation Structure
+1967 8:24p 🔵 Vanrot Site Routing and Component Documentation Structure
 1968 " 🔵 Vanrot Component Page Structure and Examples
 1969 " 🔵 Vanrot Site Testing and Routing Verification
-1970 " 🔵 Vanrot Component Documentation Structure
 1971 8:25p 🔵 Vanrot Component Documentation Skill Workflow
 1966 " 🔵 Vanrot UI Metadata Structure and Constants
 1972 " 🔵 Vanrot Component Code Generation for Accessibility
@@ -239,6 +219,25 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2123 5:30a ✅ Corrected regex in web-types.test.ts
 ### May 29, 2026
 2231 1:08a ✅ Cleared Session State
+2232 3:31p 🔵 Plugin Upload Mechanism
+2233 3:32p 🔵 IntelliJ Plugin Project Structure and Files
+2234 " 🔵 IntelliJ Plugin Development Plan
+2235 " 🔵 IntelliJ Plugin Build Configuration and Artifacts
+2236 " 🔵 IntelliJ Plugin Build Configuration Details
+2238 3:33p 🔵 IntelliJ Plugin Build Artifacts and Configuration
+2242 3:34p 🔵 IntelliJ Plugin Template File Recognition
+2249 3:36p 🔵 IntelliJ Plugin Integration and Template File Handling
+2254 " 🔵 IntelliJ Plugin ID and Name References
+2259 " 🔵 Claude-Mem Session Initialization
+2260 " ✅ IntelliJ Plugin Metadata Renamed
+2270 3:37p 🔴 IntelliJ Plugin Build Failure
+2272 " 🔵 Gradle Build Failure - Kotlin/Java Module Issue
+2276 " 🔴 Java Version Mismatch in IntelliJ Plugin Build
+2286 " 🔵 Installed Java Versions Identified
+2297 " ✅ IntelliJ Plugin Build Successful with Java 21
+2309 " 🔵 IntelliJ Plugin ZIP Metadata Verification Failed
+2319 3:38p 🔵 IntelliJ Plugin ZIP Contents Listed
+2330 " 🔵 IntelliJ Plugin Metadata Extracted Successfully
 
-Access 1496k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1408k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
