@@ -163,13 +163,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-29 9:51pm GMT+8
+# [vanrot] recent context, 2026-05-29 10:36pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,646t read) | 1,408,457t work | 99% savings
+Stats: 50 obs (13,493t read) | 1,388,067t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -186,7 +186,6 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 25, 2026
 1967 8:24p 🔵 Vanrot Site Routing and Component Documentation Structure
 1968 " 🔵 Vanrot Component Page Structure and Examples
-1969 " 🔵 Vanrot Site Testing and Routing Verification
 1971 8:25p 🔵 Vanrot Component Documentation Skill Workflow
 1966 " 🔵 Vanrot UI Metadata Structure and Constants
 1972 " 🔵 Vanrot Component Code Generation for Accessibility
@@ -238,6 +237,7 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2309 " 🔵 IntelliJ Plugin ZIP Metadata Verification Failed
 2319 3:38p 🔵 IntelliJ Plugin ZIP Contents Listed
 2330 " 🔵 IntelliJ Plugin Metadata Extracted Successfully
+2342 9:51p 🟣 Welcome Screen Documentation
 
-Access 1408k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1388k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

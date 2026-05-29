@@ -1,9 +1,10 @@
-import { cp, mkdir, mkdtemp, rm } from 'node:fs/promises';
+import { cp, mkdir, mkdtemp, readdir, readFile, rm, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { failedRequiredSteps } from './model.mjs';
 
 const keptArtifactRelativePath = ['.vanrot', 'release-dry-run'];
+const rewritableArtifactSuffixes = ['.json', '.md', '.yaml', '.yml'];
 
 export async function createArtifactWorkspace({ repositoryRoot, keep }) {
   const temporaryRoot = await mkdtemp(join(tmpdir(), 'vanrot-release-dry-run-'));
@@ -42,6 +43,11 @@ export async function finalizeArtifactWorkspace({ workspace, keep }) {
     await rm(workspace.keptRoot, { force: true, recursive: true });
     await mkdir(workspace.keptRoot, { recursive: true });
     await cp(workspace.temporaryRoot, workspace.keptRoot, { recursive: true });
+    await rewriteKeptArtifactPaths({
+      directory: workspace.keptRoot,
+      from: workspace.temporaryRoot,
+      to: workspace.keptRoot,
+    });
     return;
   }
 
@@ -50,4 +56,33 @@ export async function finalizeArtifactWorkspace({ workspace, keep }) {
 
 export function shouldKeepForSteps({ keep, steps }) {
   return shouldKeepArtifacts({ keep, failedSteps: failedRequiredSteps(steps) });
+}
+
+async function rewriteKeptArtifactPaths({ directory, from, to }) {
+  const entries = await readdir(directory, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const entryPath = join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      await rewriteKeptArtifactPaths({ directory: entryPath, from, to });
+      continue;
+    }
+
+    if (!isRewritableArtifact(entry.name)) {
+      continue;
+    }
+
+    const content = await readFile(entryPath, 'utf8');
+
+    if (!content.includes(from)) {
+      continue;
+    }
+
+    await writeFile(entryPath, content.split(from).join(to), 'utf8');
+  }
+}
+
+function isRewritableArtifact(fileName) {
+  return rewritableArtifactSuffixes.some((suffix) => fileName.endsWith(suffix));
 }

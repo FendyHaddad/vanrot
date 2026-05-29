@@ -232,12 +232,30 @@ describe('verify-release-dry-run artifacts and Homebrew', () => {
   it('creates temp workspaces and keeps reports under the repo when requested', async () => {
     const root = await mkdtemp(join(tmpdir(), 'vanrot-artifacts-'));
     const workspace = await createArtifactWorkspace({ repositoryRoot: root, keep: true });
+    const temporaryTarballSpecifier = `file:${join(
+      workspace.temporaryRoot,
+      'artifacts',
+      'vanrot-ai-0.0.0.tgz',
+    )}`;
 
     try {
       expect(workspace.temporaryRoot).toContain('vanrot-release-dry-run-');
       expect(workspace.keptRoot).toBe(join(root, '.vanrot', 'release-dry-run'));
+      await mkdir(join(workspace.temporaryRoot, 'npm-consumer'), { recursive: true });
+      await writeFile(
+        join(workspace.temporaryRoot, 'npm-consumer', 'package.json'),
+        `${JSON.stringify({ dependencies: { '@vanrot/ai': temporaryTarballSpecifier } }, null, 2)}\n`,
+      );
       await finalizeArtifactWorkspace({ workspace, keep: true });
       await expect(stat(workspace.keptRoot)).resolves.toEqual(expect.any(Object));
+      await expect(
+        readFile(join(workspace.keptRoot, 'npm-consumer', 'package.json'), 'utf8'),
+      ).resolves.toContain(
+        `file:${join(workspace.keptRoot, 'artifacts', 'vanrot-ai-0.0.0.tgz')}`,
+      );
+      await expect(
+        readFile(join(workspace.keptRoot, 'npm-consumer', 'package.json'), 'utf8'),
+      ).resolves.not.toContain(workspace.temporaryRoot);
     } finally {
       await rm(root, { force: true, recursive: true });
     }
