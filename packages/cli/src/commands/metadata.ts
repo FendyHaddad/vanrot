@@ -17,6 +17,13 @@ export const commandAlias = {
   generate: 'g',
 } as const;
 
+export const vanrotSiteUrl = 'https://vanrot.vankode.com';
+
+export const vanrotSitePath = {
+  docs: '/docs',
+  components: '/components',
+} as const;
+
 export type CommandName = (typeof commandName)[keyof typeof commandName];
 
 export interface CliCommandMetadata {
