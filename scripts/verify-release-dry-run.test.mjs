@@ -178,7 +178,7 @@ describe('verify-release-dry-run metadata', () => {
       name: '@vanrot/cli',
       manifest: {
         name: '@vanrot/cli',
-        version: '0.0.0',
+        version: '0.1.0',
         type: 'module',
         exports: './dist/index.js',
         files: ['dist'],
@@ -189,7 +189,10 @@ describe('verify-release-dry-run metadata', () => {
         },
       },
     };
-    const packageNames = new Set(['@vanrot/cli', '@vanrot/config']);
+    const packageVersions = new Map([
+      ['@vanrot/cli', '0.1.0'],
+      ['@vanrot/config', '0.1.0'],
+    ]);
 
     expect(
       validatePackageMetadata(
@@ -199,7 +202,7 @@ describe('verify-release-dry-run metadata', () => {
             name: '@vanrot/config',
             manifest: {
               name: '@vanrot/config',
-              version: '0.0.0',
+              version: '0.1.0',
               type: 'module',
               exports: './dist/index.js',
               files: ['dist'],
@@ -210,8 +213,8 @@ describe('verify-release-dry-run metadata', () => {
         { allowLocalInternalSpecifiers: true },
       ),
     ).toEqual([]);
-    expect(createReleaseManifest(releasePackage, packageNames).dependencies).toEqual({
-      '@vanrot/config': '0.0.0',
+    expect(createReleaseManifest(releasePackage, packageVersions).dependencies).toEqual({
+      '@vanrot/config': '0.1.0',
       typescript: '^5.9.3',
     });
   });

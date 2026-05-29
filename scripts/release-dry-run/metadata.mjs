@@ -35,21 +35,21 @@ export async function discoverPublicPackages(repositoryRoot) {
 }
 
 export function validatePackageMetadata(packages, options = {}) {
-  const packageNames = new Set(packages.map((releasePackage) => releasePackage.name));
+  const packageVersions = createPackageVersionMap(packages);
   const failures = [];
 
   for (const releasePackage of packages) {
-    failures.push(...validateSinglePackage(releasePackage, packageNames, options));
+    failures.push(...validateSinglePackage(releasePackage, packageVersions, options));
   }
 
   return failures;
 }
 
-export function createReleaseManifest(releasePackage, packageNames) {
+export function createReleaseManifest(releasePackage, packageVersions) {
   const manifest = structuredClone(releasePackage.manifest);
 
-  manifest.dependencies = rewriteDependencyGroup(manifest.dependencies, packageNames);
-  manifest.peerDependencies = rewriteDependencyGroup(manifest.peerDependencies, packageNames);
+  manifest.dependencies = rewriteDependencyGroup(manifest.dependencies, packageVersions);
+  manifest.peerDependencies = rewriteDependencyGroup(manifest.peerDependencies, packageVersions);
 
   if (manifest.dependencies === undefined) {
     delete manifest.dependencies;
@@ -62,7 +62,7 @@ export function createReleaseManifest(releasePackage, packageNames) {
   return manifest;
 }
 
-function validateSinglePackage(releasePackage, packageNames, options) {
+function validateSinglePackage(releasePackage, packageVersions, options) {
   const failures = [];
   const manifest = releasePackage.manifest;
   const label = releasePackage.name ?? releasePackage.directory;
@@ -100,14 +100,14 @@ function validateSinglePackage(releasePackage, packageNames, options) {
   }
 
   failures.push(
-    ...validateDependencyGroup(label, 'dependency', manifest.dependencies, packageNames, options),
+    ...validateDependencyGroup(label, 'dependency', manifest.dependencies, packageVersions, options),
   );
   failures.push(
     ...validateDependencyGroup(
       label,
       'peer dependency',
       manifest.peerDependencies,
-      packageNames,
+      packageVersions,
       options,
     ),
   );
@@ -133,15 +133,25 @@ function validateBins(label, bin) {
   });
 }
 
-function validateDependencyGroup(label, groupLabel, dependencies = {}, packageNames, options) {
+function createPackageVersionMap(packages) {
+  return new Map(
+    packages
+      .filter((releasePackage) => isNonEmptyString(releasePackage.name))
+      .map((releasePackage) => [releasePackage.name, releasePackage.manifest.version]),
+  );
+}
+
+function validateDependencyGroup(label, groupLabel, dependencies = {}, packageVersions, options) {
   return Object.entries(dependencies).flatMap(([name, specifier]) => {
+    const packageVersion = packageVersions.get(name);
+
     if (!isNonEmptyString(specifier)) {
       return [`${label} ${groupLabel} ${name} must use a non-empty version specifier.`];
     }
 
     if (
       options.allowLocalInternalSpecifiers === true &&
-      packageNames.has(name) &&
+      packageVersion !== undefined &&
       isLocalSpecifier(specifier)
     ) {
       return [];
@@ -153,24 +163,30 @@ function validateDependencyGroup(label, groupLabel, dependencies = {}, packageNa
       ];
     }
 
-    if (packageNames.has(name) && specifier !== '0.0.0') {
-      return [`${label} ${groupLabel} ${name} must match the local release version 0.0.0.`];
+    if (packageVersion !== undefined && specifier !== packageVersion) {
+      return [
+        `${label} ${groupLabel} ${name} must match the local release version ${packageVersion}.`,
+      ];
     }
 
     return [];
   });
 }
 
-function rewriteDependencyGroup(dependencies = undefined, packageNames) {
+function rewriteDependencyGroup(dependencies = undefined, packageVersions) {
   if (dependencies === undefined) {
     return undefined;
   }
 
   return Object.fromEntries(
-    Object.entries(dependencies).map(([name, specifier]) => [
-      name,
-      packageNames.has(name) && isLocalSpecifier(specifier) ? '0.0.0' : specifier,
-    ]),
+    Object.entries(dependencies).map(([name, specifier]) => {
+      const packageVersion = packageVersions.get(name);
+
+      return [
+        name,
+        packageVersion !== undefined && isLocalSpecifier(specifier) ? packageVersion : specifier,
+      ];
+    }),
   );
 }
 

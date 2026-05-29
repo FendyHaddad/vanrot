@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import { renderCanonicalVanrotConfig } from '@vanrot/config';
 import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts, vanrotSitePath, vanrotSiteUrl } from '../commands/metadata.js';
@@ -12,8 +13,11 @@ export interface TemplateFile {
   content: string;
 }
 
+const requirePackage = createRequire(import.meta.url);
+const cliPackage = requirePackage('../../package.json') as { version?: unknown };
+
 export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
-  const dependencyVersion = options.workspace ? 'workspace:*' : '^0.1.0';
+  const dependencyVersion = options.workspace ? 'workspace:*' : createRegistryDependencyVersion();
 
   return [
     {
@@ -418,4 +422,12 @@ export class HomePage {
 `,
     },
   ];
+}
+
+function createRegistryDependencyVersion(): string {
+  if (typeof cliPackage.version !== 'string' || cliPackage.version.trim() === '') {
+    throw new Error('Missing @vanrot/cli package version.');
+  }
+
+  return `^${cliPackage.version}`;
 }

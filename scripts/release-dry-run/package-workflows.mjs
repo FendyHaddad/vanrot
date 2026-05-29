@@ -67,7 +67,9 @@ export async function packPackages({
 }) {
   const steps = [];
   const tarballs = [];
-  const packageNames = new Set(packages.map((releasePackage) => releasePackage.name));
+  const packageVersions = new Map(
+    packages.map((releasePackage) => [releasePackage.name, releasePackage.manifest.version]),
+  );
 
   for (const releasePackage of packages) {
     const packDirectory =
@@ -75,7 +77,7 @@ export async function packPackages({
         ? releasePackage.directory
         : await writeReleasePackageCopy({
             releasePackage,
-            packageNames,
+            packageVersions,
             packageCopiesDirectory,
           });
     const step = await runner({
@@ -92,12 +94,12 @@ export async function packPackages({
   return { steps, tarballs };
 }
 
-async function writeReleasePackageCopy({ releasePackage, packageNames, packageCopiesDirectory }) {
+async function writeReleasePackageCopy({ releasePackage, packageVersions, packageCopiesDirectory }) {
   const packDirectory = join(packageCopiesDirectory, releasePackage.directoryName);
   await mkdir(packDirectory, { recursive: true });
   await writeJson(
     join(packDirectory, 'package.json'),
-    createReleaseManifest(releasePackage, packageNames),
+    createReleaseManifest(releasePackage, packageVersions),
   );
 
   for (const fileEntry of releasePackage.manifest.files ?? []) {

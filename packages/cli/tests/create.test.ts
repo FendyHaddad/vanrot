@@ -9,6 +9,14 @@ async function tempRoot() {
   return mkdtemp(join(tmpdir(), 'vanrot-cli-create-'));
 }
 
+async function cliPublishedDependencyVersion() {
+  const packageJson = JSON.parse(
+    await readFile(new URL('../package.json', import.meta.url), 'utf8'),
+  ) as { version: string };
+
+  return `^${packageJson.version}`;
+}
+
 describe('vr create', () => {
   it('creates a router-enabled Vanrot app', async () => {
     const cwd = await tempRoot();
@@ -16,10 +24,11 @@ describe('vr create', () => {
 
     const result = await runCli(['create', 'demo-app'], { cwd, reporter });
     const appRoot = join(cwd, 'demo-app');
+    const dependencyVersion = await cliPublishedDependencyVersion();
 
     expect(result.exitCode).toBe(0);
     await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain(
-      '"@vanrot/router": "^0.1.0"',
+      `"@vanrot/router": "${dependencyVersion}"`,
     );
     await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain('"dev": "vr dev"');
     await expect(readFile(join(appRoot, 'vite.config.ts'), 'utf8')).resolves.toContain(
@@ -81,6 +90,32 @@ describe('vr create', () => {
     );
     expect(reporter.output()).toContain('Created demo-app');
     expect(reporter.output()).toContain('vr dev');
+  });
+
+  it('uses the CLI package version for registry dependencies', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'registry-app'], { cwd, reporter });
+    const packageJson = JSON.parse(
+      await readFile(join(cwd, 'registry-app', 'package.json'), 'utf8'),
+    ) as {
+      dependencies: Record<string, string>;
+      devDependencies: Record<string, string>;
+    };
+    const dependencyVersion = await cliPublishedDependencyVersion();
+
+    expect(result.exitCode).toBe(0);
+    expect(packageJson.dependencies).toMatchObject({
+      '@vanrot/config': dependencyVersion,
+      '@vanrot/runtime': dependencyVersion,
+      '@vanrot/router': dependencyVersion,
+      '@vanrot/ui': dependencyVersion,
+    });
+    expect(packageJson.devDependencies).toMatchObject({
+      '@vanrot/cli': dependencyVersion,
+      '@vanrot/vite-plugin': dependencyVersion,
+    });
   });
 
   it('keeps route paths and labels in src/routes.ts', async () => {
