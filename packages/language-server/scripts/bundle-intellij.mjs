@@ -1,0 +1,38 @@
+#!/usr/bin/env node
+import { mkdirSync, rmSync, writeFileSync } from "node:fs";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { build } from "esbuild";
+
+const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const outputRoot = resolve(packageRoot, "dist-intellij");
+const outputFile = resolve(outputRoot, "bin", "server.js");
+
+rmSync(outputRoot, { recursive: true, force: true });
+mkdirSync(dirname(outputFile), { recursive: true });
+
+await build({
+  banner: {
+    js: [
+      'import { createRequire as __vanrotCreateRequire } from "node:module";',
+      'import { fileURLToPath as __vanrotFileURLToPath } from "node:url";',
+      "const require = __vanrotCreateRequire(import.meta.url);",
+      "const __filename = __vanrotFileURLToPath(import.meta.url);",
+      'const __dirname = __vanrotFileURLToPath(new URL(".", import.meta.url));'
+    ].join("\n")
+  },
+  bundle: true,
+  entryPoints: [resolve(packageRoot, "src", "bin", "server.ts")],
+  format: "esm",
+  legalComments: "none",
+  logLevel: "info",
+  outfile: outputFile,
+  platform: "node",
+  sourcemap: true,
+  target: "node22.14"
+});
+
+writeFileSync(
+  resolve(outputRoot, "package.json"),
+  `${JSON.stringify({ private: true, type: "module" }, null, 2)}\n`
+);

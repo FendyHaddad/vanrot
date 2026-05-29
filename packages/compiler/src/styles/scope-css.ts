@@ -1,4 +1,5 @@
-import { createRequire } from 'node:module';
+import postcssModule from 'postcss';
+import selectorParserModule from 'postcss-selector-parser';
 import type { CompileDiagnostic, SourceMapping } from '../api/types.js';
 import { createGeneratedMapping } from '../codegen/mappings.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
@@ -57,9 +58,8 @@ interface SelectorNode {
   replaceWith(...nodes: SelectorNode[]): SelectorNode;
 }
 
-const require = createRequire(import.meta.url);
-const postcss = require('postcss') as PostcssModule;
-const selectorParser = require('postcss-selector-parser') as SelectorParserModule;
+const postcss = postcssModule as unknown as PostcssModule;
+const selectorParser = selectorParserModule as unknown as SelectorParserModule;
 
 class UnsupportedCssSelectorError extends Error {}
 

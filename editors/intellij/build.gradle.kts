@@ -43,10 +43,46 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
   kotlinOptions.jvmTarget = "17"
 }
 
-val languageServerDist = layout.projectDirectory.dir("../../packages/language-server/dist")
+val repositoryRoot = layout.projectDirectory.dir("../..")
+val languageServerPackage = layout.projectDirectory.dir("../../packages/language-server")
+val intellijLanguageServerDist = languageServerPackage.dir("dist-intellij")
+
+val buildIntellijLanguageServer by tasks.registering(org.gradle.api.tasks.Exec::class) {
+  workingDir = repositoryRoot.asFile
+
+  val pnpmExecutable = if (System.getProperty("os.name").lowercase().contains("windows")) {
+    "pnpm.cmd"
+  } else {
+    "pnpm"
+  }
+
+  commandLine(pnpmExecutable, "--filter", "@vanrot/language-server", "build:intellij")
+
+  inputs.file(repositoryRoot.file("pnpm-lock.yaml"))
+  inputs.file(repositoryRoot.file("tsconfig.base.json"))
+  inputs.file(languageServerPackage.file("package.json"))
+  inputs.file(languageServerPackage.file("tsconfig.json"))
+  inputs.dir(languageServerPackage.dir("scripts"))
+  inputs.dir(languageServerPackage.dir("src"))
+  inputs.file(repositoryRoot.file("packages/compiler/package.json"))
+  inputs.file(repositoryRoot.file("packages/compiler/tsconfig.json"))
+  inputs.dir(repositoryRoot.dir("packages/compiler/src"))
+  inputs.file(repositoryRoot.file("packages/config/package.json"))
+  inputs.file(repositoryRoot.file("packages/config/tsconfig.json"))
+  inputs.dir(repositoryRoot.dir("packages/config/src"))
+  inputs.file(repositoryRoot.file("packages/runtime/package.json"))
+  inputs.file(repositoryRoot.file("packages/runtime/tsconfig.json"))
+  inputs.dir(repositoryRoot.dir("packages/runtime/src"))
+  inputs.file(repositoryRoot.file("packages/ui/package.json"))
+  inputs.file(repositoryRoot.file("packages/ui/tsconfig.json"))
+  inputs.dir(repositoryRoot.dir("packages/ui/src"))
+  outputs.dir(intellijLanguageServerDist)
+}
 
 tasks.named<org.gradle.api.tasks.Sync>("prepareSandbox") {
-  from(languageServerDist) {
+  dependsOn(buildIntellijLanguageServer)
+
+  from(intellijLanguageServerDist) {
     into("${rootProject.name}/server")
   }
 }

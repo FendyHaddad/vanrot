@@ -290,6 +290,9 @@ importers:
         specifier: ^3.0.8
         version: 3.1.0
     devDependencies:
+      esbuild:
+        specifier: ^0.28.0
+        version: 0.28.0
       vscode-languageserver-protocol:
         specifier: ^3.17.5
         version: 3.17.5
