@@ -4,6 +4,7 @@ import { URI } from 'vscode-uri';
 import { spanToRange } from '../lsp/position.js';
 import type { WorkspaceIndex } from '../project/workspace.js';
 import type { TemplateSymbol } from './symbol-at.js';
+import { findUiPrimitiveDefinition } from './ui-primitives.js';
 
 export function findDefinition(symbol: TemplateSymbol, index: WorkspaceIndex): Location | null {
   if (symbol.kind === 'route-ref') {
@@ -19,17 +20,21 @@ export function findDefinition(symbol: TemplateSymbol, index: WorkspaceIndex): L
   if (symbol.kind === 'component-tag') {
     const component = index.components.find((entry) => entry.tagName === symbol.name);
 
-    if (component === undefined) {
-      return null;
+    if (component !== undefined) {
+      return fileStartLocation(component.path);
     }
 
-    return {
-      uri: URI.file(component.path).toString(),
-      range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
-    };
+    return findUiPrimitiveDefinition(symbol.name, index.projectRoot);
   }
 
   return null;
+}
+
+function fileStartLocation(path: string): Location {
+  return {
+    uri: URI.file(path).toString(),
+    range: { start: { line: 0, character: 0 }, end: { line: 0, character: 0 } },
+  };
 }
 
 export function findSlotDefinition(name: string, source: string, uri: string): Location | null {

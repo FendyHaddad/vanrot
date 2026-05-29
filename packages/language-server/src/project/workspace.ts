@@ -11,11 +11,12 @@ export interface WorkspaceIndex {
   routes: RouteEntry[];
   components: ComponentEntry[];
   routesPath: string | null;
+  projectRoot: string | null;
 }
 
 export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
   if (projectRoot === null) {
-    return { routes: [], components: [], routesPath: null };
+    return { routes: [], components: [], routesPath: null, projectRoot: null };
   }
 
   const routesPath = resolveRoutesPath(projectRoot);
@@ -24,7 +25,7 @@ export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
     : [];
   const components = buildComponentIndex(readComponentSources(join(projectRoot, defaultSourceRoot)));
 
-  return { routes, components, routesPath: existsSync(routesPath) ? routesPath : null };
+  return { routes, components, routesPath: existsSync(routesPath) ? routesPath : null, projectRoot };
 }
 
 function readComponentSources(sourceRoot: string): Array<{ path: string; source: string }> {

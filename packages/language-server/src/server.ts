@@ -20,6 +20,7 @@ import { expressionHover } from './features/expression-hover.js';
 import { expressionRename } from './features/expression-rename.js';
 import { findReferences } from './features/references.js';
 import { resolveSymbolAt } from './features/symbol-at.js';
+import { describeUiPrimitive } from './features/ui-primitives.js';
 import { debounce } from './lsp/debounce.js';
 import { offsetAt } from './lsp/position.js';
 import { loadWorkspaceIndex, type WorkspaceIndex } from './project/workspace.js';
@@ -43,7 +44,7 @@ export function buildInitializeResult(_params: InitializeParams): InitializeResu
 export function startLanguageServer(connection: Connection): void {
   const documents = new TextDocuments(TextDocument);
   const openedVersions = new Map<string, number>();
-  let index: WorkspaceIndex = { routes: [], components: [], routesPath: null };
+  let index: WorkspaceIndex = { routes: [], components: [], routesPath: null, projectRoot: null };
 
   connection.onInitialize((params) => {
     const root = params.rootUri ? URI.parse(params.rootUri).fsPath : null;
@@ -86,7 +87,19 @@ export function startLanguageServer(connection: Connection): void {
     const offset = offsetAt(source, params.position.line, params.position.character);
 
     if (!isExpressionOffset(source, offset)) {
-      return null;
+      const symbol = resolveSymbolAt(source, offset);
+
+      if (symbol?.kind !== 'component-tag') {
+        return null;
+      }
+
+      const documentation = describeUiPrimitive(symbol.name, index.projectRoot);
+
+      if (documentation === null) {
+        return null;
+      }
+
+      return { contents: { kind: 'markdown', value: documentation } };
     }
 
     const expressionContext = loadExpressionContext(URI.parse(params.textDocument.uri).fsPath);

@@ -21,6 +21,13 @@ describe('resolveSymbolAt', () => {
     expect(symbol).toEqual(expect.objectContaining({ kind: 'component-tag', name: 'user-card' }));
   });
 
+  it('resolves a Vanrot UI tag', () => {
+    const { source, offset } = at('<vr-hea|der></vr-header>');
+    const symbol = resolveSymbolAt(source, offset);
+
+    expect(symbol).toEqual(expect.objectContaining({ kind: 'component-tag', name: 'vr-header' }));
+  });
+
   it('prefers nested symbols over containing component elements', () => {
     const { source, offset } = at('<user-card><vr route.ho|me /></user-card>');
     const symbol = resolveSymbolAt(source, offset);

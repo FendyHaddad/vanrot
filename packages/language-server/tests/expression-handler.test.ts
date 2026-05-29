@@ -1,4 +1,4 @@
-import { mkdtempSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { PassThrough } from 'node:stream';
@@ -19,6 +19,50 @@ import { URI } from 'vscode-uri';
 import { startLanguageServer } from '../src/server.js';
 
 describe('expression handlers', () => {
+  it('returns UI primitive hover documentation for a Vanrot tag', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'vr-ui-h-'));
+    mkdirSync(join(dir, 'packages/ui'), { recursive: true });
+    writeFileSync(
+      join(dir, 'packages/ui/web-types.json'),
+      JSON.stringify({
+        contributions: {
+          html: {
+            elements: [
+              {
+                name: 'vr-header',
+                description:
+                  'Use <vr-header> for the top area of a page or section. Put the logo, title, navigation, or actions inside it.',
+              },
+            ],
+          },
+        },
+      }),
+    );
+    const template = '<vr-header></vr-header>\n';
+    const templatePath = join(dir, 'x.component.html');
+    writeFileSync(templatePath, template);
+    const uri = URI.file(templatePath).toString();
+    const client = createTestClient();
+
+    await client.sendRequest(InitializeRequest.type, {
+      processId: null,
+      rootUri: URI.file(dir).toString(),
+      capabilities: {},
+    });
+    client.sendNotification(DidOpenTextDocumentNotification.type, {
+      textDocument: { uri, languageId: 'html', version: 1, text: template },
+    });
+
+    const result = await client.sendRequest(HoverRequest.type, {
+      textDocument: { uri },
+      position: { line: 0, character: template.indexOf('header') },
+    });
+
+    expect(JSON.stringify(result?.contents)).toContain('Use <vr-header>');
+    expect(JSON.stringify(result?.contents)).toContain('Vanrot-specific attributes: none');
+    client.dispose();
+  });
+
   it('returns hover details inside a template expression', async () => {
     const dir = mkdtempSync(join(tmpdir(), 'vr-expr-h-'));
     writeFileSync(join(dir, 'x.component.ts'), 'export class XComponent { count = 1; }\n');

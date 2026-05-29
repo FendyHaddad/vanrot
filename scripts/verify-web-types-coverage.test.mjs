@@ -14,6 +14,7 @@ const routeShorthandAttributes = [
   'route.home',
   'route.reference',
 ];
+const vagueVanrotDescriptionPattern = /^Vanrot (UI element|.+ primitive|.+ element)\.$/;
 const routeShorthandPattern = { regex: '^route\\.[A-Za-z][A-Za-z0-9_]*$' };
 
 function readJson(path) {
@@ -127,6 +128,10 @@ function collectGlobalAttributeMap(document) {
   return new Map((document.contributions?.html?.attributes ?? []).map((attribute) => [attribute.name, attribute]));
 }
 
+function collectHtmlElements(document) {
+  return document.contributions?.html?.elements ?? [];
+}
+
 function rememberUsage(usages, key, file) {
   const files = usages.get(key) ?? new Set();
 
@@ -187,6 +192,46 @@ describe('project Web Types coverage', () => {
       .map((tagName) => formatMissing(tagUsages, tagName));
 
     expect(missingTags).toEqual([]);
+  });
+
+  it('keeps Web Types element descriptions instructional instead of placeholder text', () => {
+    const documents = [
+      { path: 'web-types.json', document: readJson('web-types.json') },
+      { path: 'packages/ui/web-types.json', document: readJson('packages/ui/web-types.json') },
+      { path: 'packages/router/web-types.json', document: readJson('packages/router/web-types.json') },
+    ];
+    const vagueDescriptions = documents.flatMap(({ path, document }) => {
+      return collectHtmlElements(document)
+        .filter((element) => vagueVanrotDescriptionPattern.test(element.description ?? ''))
+        .map((element) => `${path}:${element.name}`);
+    });
+
+    expect(vagueDescriptions).toEqual([]);
+  });
+
+  it('explains UI component usage and attributes in package Web Types hovers', () => {
+    const document = readJson('packages/ui/web-types.json');
+    const missingAttributeNotes = collectHtmlElements(document)
+      .filter((element) => element.name.startsWith('vr-'))
+      .filter((element) => !(element.description ?? '').includes('Vanrot-specific attributes:'))
+      .map((element) => element.name);
+    const header = collectHtmlElements(document).find((element) => element.name === 'vr-header');
+
+    expect(missingAttributeNotes).toEqual([]);
+    expect(header?.description).toContain('Use <vr-header>');
+    expect(header?.description).toContain('logo, title, navigation, or actions');
+  });
+
+  it('points the header Web Types entry at the source users should inspect', () => {
+    const packageHeader = collectHtmlElements(readJson('packages/ui/web-types.json')).find(
+      (element) => element.name === 'vr-header',
+    );
+    const rootHeader = collectHtmlElements(readJson('web-types.json')).find((element) => {
+      return element.name === 'vr-header';
+    });
+
+    expect(packageHeader?.source).toEqual({ file: 'src/primitives/header/ui.header.ts', offset: 0 });
+    expect(rootHeader?.source).toEqual({ file: 'packages/ui/src/primitives/header/ui.header.ts', offset: 0 });
   });
 
   it('covers every Vanrot dotted attribute used in authored HTML templates', () => {

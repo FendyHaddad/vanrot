@@ -1,7 +1,6 @@
 import { parseTemplate, type SourceSpan, type TemplateNode } from '@vanrot/compiler';
 
 const routeAttributePrefix = 'route.';
-const frameworkTagPrefix = 'vr';
 
 export type TemplateSymbolKind = 'route-ref' | 'component-tag' | 'slot';
 
@@ -85,7 +84,7 @@ function within(span: SourceSpan, offset: number): boolean {
 }
 
 function isComponentTag(tagName: string): boolean {
-  return tagName.includes('-') && !tagName.startsWith(frameworkTagPrefix);
+  return tagName.includes('-');
 }
 
 function slotTagName(name: string): string {

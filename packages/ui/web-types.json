@@ -7,7 +7,7 @@
       "elements": [
         {
           "name": "vr-alert",
-          "description": "Vanrot alert primitive.",
+          "description": "Use <vr-alert> to show important feedback such as info, success, warning, or danger messages. Put the message text inside the element. Vanrot-specific attributes: variant.info, variant.success, variant.warning, variant.danger. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "variant.info", "description": "Info alert variant.", "value": { "kind": "no-value" } },
             { "name": "variant.success", "description": "Success alert variant.", "value": { "kind": "no-value" } },
@@ -17,7 +17,7 @@
         },
         {
           "name": "vr-avatar",
-          "description": "Vanrot avatar primitive.",
+          "description": "Use <vr-avatar> to show a person, team, or account image/fallback. Put initials, an image, or fallback content inside it. Vanrot-specific attributes: variant.default, variant.soft, variant.outline. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "variant.default", "description": "Default avatar variant.", "value": { "kind": "no-value" } },
             { "name": "variant.soft", "description": "Soft avatar variant.", "value": { "kind": "no-value" } },
@@ -26,7 +26,7 @@
         },
         {
           "name": "vr-badge",
-          "description": "Vanrot badge primitive.",
+          "description": "Use <vr-badge> for small status labels, counts, and short metadata. Put the label text inside it. Vanrot-specific attributes: variant.default, variant.secondary, variant.success, variant.warning, variant.danger, variant.outline. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "variant.default", "description": "Default badge variant.", "value": { "kind": "no-value" } },
             { "name": "variant.secondary", "description": "Secondary badge variant.", "value": { "kind": "no-value" } },
@@ -36,10 +36,10 @@
             { "name": "variant.outline", "description": "Outline badge variant.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-breadcrumb", "description": "Vanrot breadcrumb primitive." },
+        { "name": "vr-breadcrumb", "description": "Use <vr-breadcrumb> to show where the current page sits in the app. Put breadcrumb links or items inside it. Vanrot-specific attributes: none. Use normal HTML attributes such as class, id, aria-*, and data-* when needed." },
         {
           "name": "vr-button",
-          "description": "Vanrot button primitive.",
+          "description": "Use <vr-button> for clickable actions. Put the button label or icon inside it. Vanrot-specific attributes: variant.default, variant.secondary, variant.outline, variant.ghost, variant.danger, variant.link. Use normal button attributes such as type, disabled, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "variant.default", "description": "Default button variant.", "value": { "kind": "no-value" } },
             { "name": "variant.secondary", "description": "Secondary button variant.", "value": { "kind": "no-value" } },
@@ -51,7 +51,7 @@
         },
         {
           "name": "vr-card",
-          "description": "Vanrot card primitive.",
+          "description": "Use <vr-card> to group related content and actions in a bordered surface. Put headings, text, media, and controls inside it. Vanrot-specific attributes: variant.default, variant.muted, variant.interactive. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "variant.default", "description": "Default card variant.", "value": { "kind": "no-value" } },
             { "name": "variant.muted", "description": "Muted card variant.", "value": { "kind": "no-value" } },
@@ -60,7 +60,7 @@
         },
         {
           "name": "vr-checkbox",
-          "description": "Vanrot checkbox primitive.",
+          "description": "Use <vr-checkbox> for an on/off form choice. It behaves like a native checkbox and can be controlled by your app state. Vanrot-specific attributes: checked, size.md, disabled, name, value, aria-label. Use normal form and accessibility attributes when needed.",
           "attributes": [
             { "name": "checked", "description": "Sets the native checked state.", "value": { "kind": "no-value" } },
             { "name": "size.md", "description": "Medium checkbox size.", "value": { "kind": "no-value" } },
@@ -72,22 +72,22 @@
         },
         {
           "name": "vr-command-menu",
-          "description": "Vanrot command menu primitive.",
+          "description": "Use <vr-command-menu> for a searchable command palette or action picker. Compose it with input, list, group, item, shortcut, and empty-state child elements. Vanrot-specific attributes: aria-label, placeholder. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "aria-label", "description": "Accessible label for the command menu." },
             { "name": "placeholder", "description": "Search input placeholder text." }
           ]
         },
-        { "name": "vr-command-menu-empty", "description": "Vanrot command menu empty state element." },
-        { "name": "vr-command-menu-group", "description": "Vanrot command menu group element." },
-        { "name": "vr-command-menu-input", "description": "Vanrot command menu input element." },
-        { "name": "vr-command-menu-item", "description": "Vanrot command menu item element." },
-        { "name": "vr-command-menu-list", "description": "Vanrot command menu list element." },
-        { "name": "vr-command-menu-shortcut", "description": "Vanrot command menu shortcut element." },
-        { "name": "vr-container", "description": "Vanrot container primitive." },
+        { "name": "vr-command-menu-empty", "description": "Use <vr-command-menu-empty> for the message shown when no command matches the search. Put short empty-state text inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-command-menu-group", "description": "Use <vr-command-menu-group> to group related command menu items under one section. Put command items inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-command-menu-input", "description": "Use <vr-command-menu-input> as the search field for a command menu. Bind its value in your app when you need controlled filtering. Vanrot-specific attributes: none. Use normal input attributes when needed." },
+        { "name": "vr-command-menu-item", "description": "Use <vr-command-menu-item> for one selectable command or action. Put the visible label and optional shortcut inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-command-menu-list", "description": "Use <vr-command-menu-list> as the scrollable list that contains command groups and items. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-command-menu-shortcut", "description": "Use <vr-command-menu-shortcut> to show the keyboard shortcut for a command menu item. Put the shortcut text inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-container", "description": "Use <vr-container> to constrain page content to a readable width. Put page or section content inside it. Vanrot-specific attributes: none. Use normal HTML attributes such as class, id, aria-*, and data-* when needed." },
         {
           "name": "vr-dialog",
-          "description": "Vanrot dialog primitive.",
+          "description": "Use <vr-dialog> for modal content that needs focused attention. Compose it with trigger, content, header, title, description, footer, and close child elements. Vanrot-specific attributes: open, size.sm, size.md, size.lg, aria-label, aria-describedby. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "open", "description": "Controls whether the dialog is open." },
             { "name": "size.sm", "description": "Small dialog size.", "value": { "kind": "no-value" } },
@@ -97,16 +97,16 @@
             { "name": "aria-describedby", "description": "Id of the dialog description." }
           ]
         },
-        { "name": "vr-dialog-close", "description": "Vanrot dialog close element." },
-        { "name": "vr-dialog-content", "description": "Vanrot dialog content element." },
-        { "name": "vr-dialog-description", "description": "Vanrot dialog description element." },
-        { "name": "vr-dialog-footer", "description": "Vanrot dialog footer element." },
-        { "name": "vr-dialog-header", "description": "Vanrot dialog header element." },
-        { "name": "vr-dialog-title", "description": "Vanrot dialog title element." },
-        { "name": "vr-dialog-trigger", "description": "Vanrot dialog trigger element." },
+        { "name": "vr-dialog-close", "description": "Use <vr-dialog-close> for the button or control that closes a dialog. Put an icon or label inside it. Vanrot-specific attributes: none. Use normal button attributes when needed." },
+        { "name": "vr-dialog-content", "description": "Use <vr-dialog-content> for the main body of a dialog. Put the form, message, or task content inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-dialog-description", "description": "Use <vr-dialog-description> for supporting text that explains the dialog. Keep it short and connect it with aria-describedby when needed. Vanrot-specific attributes: none." },
+        { "name": "vr-dialog-footer", "description": "Use <vr-dialog-footer> for dialog actions such as Cancel, Save, or Delete. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-dialog-header", "description": "Use <vr-dialog-header> to group the dialog title and description. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
+        { "name": "vr-dialog-title", "description": "Use <vr-dialog-title> for the main heading of a dialog. Put the title text inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-dialog-trigger", "description": "Use <vr-dialog-trigger> for the control that opens a dialog. Put a button label or icon inside it. Vanrot-specific attributes: none. Use normal button attributes when needed." },
         {
           "name": "vr-drawer",
-          "description": "Vanrot drawer primitive.",
+          "description": "Use <vr-drawer> for a side, top, or bottom panel that slides over the page. Compose it with trigger, content, header, title, description, footer, and close child elements. Vanrot-specific attributes: open, side.left, side.right, side.top, side.bottom, aria-label. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "open", "description": "Controls whether the drawer is open." },
             { "name": "side.left", "description": "Left drawer side.", "value": { "kind": "no-value" } },
@@ -116,16 +116,16 @@
             { "name": "aria-label", "description": "Accessible label for the drawer." }
           ]
         },
-        { "name": "vr-drawer-close", "description": "Vanrot drawer close element." },
-        { "name": "vr-drawer-content", "description": "Vanrot drawer content element." },
-        { "name": "vr-drawer-description", "description": "Vanrot drawer description element." },
-        { "name": "vr-drawer-footer", "description": "Vanrot drawer footer element." },
-        { "name": "vr-drawer-header", "description": "Vanrot drawer header element." },
-        { "name": "vr-drawer-title", "description": "Vanrot drawer title element." },
-        { "name": "vr-drawer-trigger", "description": "Vanrot drawer trigger element." },
+        { "name": "vr-drawer-close", "description": "Use <vr-drawer-close> for the button or control that closes a drawer. Put an icon or label inside it. Vanrot-specific attributes: none. Use normal button attributes when needed." },
+        { "name": "vr-drawer-content", "description": "Use <vr-drawer-content> for the main body of a drawer. Put navigation, filters, forms, or detail content inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-drawer-description", "description": "Use <vr-drawer-description> for supporting text that explains the drawer. Keep it short. Vanrot-specific attributes: none." },
+        { "name": "vr-drawer-footer", "description": "Use <vr-drawer-footer> for drawer actions or secondary controls. Vanrot-specific attributes: none." },
+        { "name": "vr-drawer-header", "description": "Use <vr-drawer-header> to group the drawer title and description. Vanrot-specific attributes: none." },
+        { "name": "vr-drawer-title", "description": "Use <vr-drawer-title> for the main heading of a drawer. Put the title text inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-drawer-trigger", "description": "Use <vr-drawer-trigger> for the control that opens a drawer. Put a button label or icon inside it. Vanrot-specific attributes: none." },
         {
           "name": "vr-dropdown",
-          "description": "Vanrot dropdown primitive.",
+          "description": "Use <vr-dropdown> for a compact menu of actions or choices. Compose it with trigger, content, item, label, and separator child elements. Vanrot-specific attributes: open, placement.bottom, placement.top, placement.left, placement.right, align.end. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "open", "description": "Controls whether the dropdown is open." },
             { "name": "placement.bottom", "description": "Bottom dropdown placement.", "value": { "kind": "no-value" } },
@@ -135,25 +135,25 @@
             { "name": "align.end", "description": "End-aligned dropdown content.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-dropdown-content", "description": "Vanrot dropdown content element." },
-        { "name": "vr-dropdown-item", "description": "Vanrot dropdown item element." },
-        { "name": "vr-dropdown-label", "description": "Vanrot dropdown label element." },
-        { "name": "vr-dropdown-separator", "description": "Vanrot dropdown separator element." },
-        { "name": "vr-dropdown-trigger", "description": "Vanrot dropdown trigger element." },
+        { "name": "vr-dropdown-content", "description": "Use <vr-dropdown-content> for the menu panel shown by a dropdown. Put labels, items, and separators inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-dropdown-item", "description": "Use <vr-dropdown-item> for one selectable dropdown action. Put the action label inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-dropdown-label", "description": "Use <vr-dropdown-label> for a non-clickable section label inside dropdown content. Vanrot-specific attributes: none." },
+        { "name": "vr-dropdown-separator", "description": "Use <vr-dropdown-separator> to divide groups inside dropdown content. Vanrot-specific attributes: none." },
+        { "name": "vr-dropdown-trigger", "description": "Use <vr-dropdown-trigger> for the control that opens a dropdown. Put a button label or icon inside it. Vanrot-specific attributes: none." },
         {
           "name": "vr-empty-state",
-          "description": "Vanrot empty state primitive.",
+          "description": "Use <vr-empty-state> when a page, list, or search has no content to show. Put the empty message and optional action inside it. Vanrot-specific attributes: tone.muted. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "tone.muted", "description": "Muted empty state tone.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-footer",
-          "description": "Vanrot footer primitive."
+          "description": "Use <vr-footer> for the bottom area of a page or section. Put copyright text, secondary links, or actions inside it. Vanrot-specific attributes: none. Use normal HTML attributes such as class, id, aria-*, and data-* when needed."
         },
         {
           "name": "vr-form",
-          "description": "Vanrot form primitive.",
+          "description": "Use <vr-form> to group related form fields and submit actions. Keep validation and submit logic in your component state. Vanrot-specific attributes: disabled, pending, name. Use normal form attributes when needed.",
           "attributes": [
             { "name": "disabled", "description": "Disables all registered fields.", "value": { "kind": "no-value" } },
             { "name": "pending", "description": "Marks submit as in progress.", "value": { "kind": "no-value" } },
@@ -162,7 +162,7 @@
         },
         {
           "name": "vr-form-field",
-          "description": "Vanrot form field primitive.",
+          "description": "Use <vr-form-field> to pair a label, help text, validation state, and a control. Put the control inside or connect it by name. Vanrot-specific attributes: required, name, label, description. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "required", "description": "Marks the registered field required.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Field name." },
@@ -172,16 +172,20 @@
         },
         {
           "name": "vr-grid",
-          "description": "Vanrot grid primitive.",
+          "description": "Use <vr-grid> to lay out related cards, fields, or panels in columns. Put grid items inside it. Vanrot-specific attributes: cols.3. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
           "attributes": [
             { "name": "cols.3", "description": "Three-column grid layout.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-header", "description": "Vanrot header primitive." },
-        { "name": "vr-img", "description": "Vanrot image primitive." },
+        {
+          "name": "vr-header",
+          "description": "Use <vr-header> for the top area of a page or section. Put the logo, title, navigation, or actions inside it. It lowers to a native header element with Vanrot styling. Vanrot-specific attributes: none. Use normal HTML attributes such as class, id, aria-*, and data-* when needed.",
+          "source": { "file": "src/primitives/header/ui.header.ts", "offset": 0 }
+        },
+        { "name": "vr-img", "description": "Use <vr-img> for a styled image wrapper. Provide normal image attributes such as src, alt, width, height, loading, and decoding as needed. Vanrot-specific attributes: none." },
         {
           "name": "vr-input",
-          "description": "Vanrot input primitive.",
+          "description": "Use <vr-input> for text, email, password, or number fields. Bind value in your app when you need controlled input. Vanrot-specific attributes: type.text, type.email, type.password, type.number, size.sm, size.md, size.lg, size.xl, tone.default, tone.success, tone.warning, tone.danger, disabled, readonly, invalid, name, value, placeholder, aria-label. Use normal input attributes when needed.",
           "attributes": [
             { "name": "type.text", "description": "Text input type.", "value": { "kind": "no-value" } },
             { "name": "type.email", "description": "Email input type.", "value": { "kind": "no-value" } },
@@ -204,36 +208,36 @@
             { "name": "aria-label", "description": "Accessible label." }
           ]
         },
-        { "name": "vr-label", "description": "Vanrot label primitive." },
-        { "name": "vr-layout", "description": "Vanrot layout primitive." },
+        { "name": "vr-label", "description": "Use <vr-label> for the visible label of a form control. Put label text inside it and connect it with normal label attributes when needed. Vanrot-specific attributes: none." },
+        { "name": "vr-layout", "description": "Use <vr-layout> as a page-level layout wrapper. Put header, sidebar, main content, and footer regions inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
         {
           "name": "vr-list",
-          "description": "Vanrot list primitive.",
+          "description": "Use <vr-list> for a styled list of related items. Put <vr-list-item> children inside it. Vanrot-specific attributes: marker.check. Use normal list attributes when needed.",
           "attributes": [
             { "name": "marker.check", "description": "Checkmark list marker.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-list-item", "description": "Vanrot list item primitive." },
+        { "name": "vr-list-item", "description": "Use <vr-list-item> for one item inside a Vanrot list. Put the item content inside it. Vanrot-specific attributes: none. Use normal HTML attributes when needed." },
         {
           "name": "vr-loader",
-          "description": "Vanrot loader primitive.",
+          "description": "Use <vr-loader> to show work in progress while content is loading. Use an accessible label when the loading state is not obvious. Vanrot-specific attributes: variant.spinner, variant.dots, variant.bar. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "variant.spinner", "description": "Spinner loader variant.", "value": { "kind": "no-value" } },
             { "name": "variant.dots", "description": "Dots loader variant.", "value": { "kind": "no-value" } },
             { "name": "variant.bar", "description": "Bar loader variant.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-nav", "description": "Vanrot nav primitive." },
+        { "name": "vr-nav", "description": "Use <vr-nav> for primary or secondary navigation links. Put route links or buttons inside it. Vanrot-specific attributes: none. Use normal nav and accessibility attributes when needed." },
         {
           "name": "vr-pagination",
-          "description": "Vanrot pagination primitive.",
+          "description": "Use <vr-pagination> to move through pages of data. Put page buttons, previous/next controls, or status text inside it. Vanrot-specific attributes: size.md. Use normal accessibility attributes when needed.",
           "attributes": [
             { "name": "size.md", "description": "Medium pagination size.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-popover",
-          "description": "Vanrot popover primitive.",
+          "description": "Use <vr-popover> for contextual content attached to a trigger, such as small details or quick controls. Compose it with trigger, content, title, description, and close child elements. Vanrot-specific attributes: open, side.top, side.right, side.bottom, side.left, align.end.",
           "attributes": [
             { "name": "open", "description": "Controls whether the popover is open." },
             { "name": "side.top", "description": "Top popover side.", "value": { "kind": "no-value" } },
@@ -243,14 +247,14 @@
             { "name": "align.end", "description": "End-aligned popover content.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-popover-close", "description": "Vanrot popover close element." },
-        { "name": "vr-popover-content", "description": "Vanrot popover content element." },
-        { "name": "vr-popover-description", "description": "Vanrot popover description element." },
-        { "name": "vr-popover-title", "description": "Vanrot popover title element." },
-        { "name": "vr-popover-trigger", "description": "Vanrot popover trigger element." },
+        { "name": "vr-popover-close", "description": "Use <vr-popover-close> for the control that closes a popover. Put an icon or label inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-popover-content", "description": "Use <vr-popover-content> for the floating panel shown by a popover. Put contextual content inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-popover-description", "description": "Use <vr-popover-description> for supporting text inside a popover. Vanrot-specific attributes: none." },
+        { "name": "vr-popover-title", "description": "Use <vr-popover-title> for the short heading inside a popover. Vanrot-specific attributes: none." },
+        { "name": "vr-popover-trigger", "description": "Use <vr-popover-trigger> for the control that opens a popover. Put a button label or icon inside it. Vanrot-specific attributes: none." },
         {
           "name": "vr-radio",
-          "description": "Vanrot radio primitive.",
+          "description": "Use <vr-radio> for one choice in a radio group. Pair radios by name and control selection in your app state when needed. Vanrot-specific attributes: checked, size.md, disabled, name, value.",
           "attributes": [
             { "name": "checked", "description": "Sets the native checked state.", "value": { "kind": "no-value" } },
             { "name": "size.md", "description": "Medium radio size.", "value": { "kind": "no-value" } },
@@ -261,7 +265,7 @@
         },
         {
           "name": "vr-radio-group",
-          "description": "Vanrot radio group primitive.",
+          "description": "Use <vr-radio-group> to group related radio choices. Put <vr-radio> items inside it and provide an accessible label. Vanrot-specific attributes: disabled, name, value, aria-label.",
           "attributes": [
             { "name": "disabled", "description": "Disables the group.", "value": { "kind": "no-value" } },
             { "name": "name", "description": "Group name." },
@@ -269,10 +273,10 @@
             { "name": "aria-label", "description": "Accessible label." }
           ]
         },
-        { "name": "vr-section", "description": "Vanrot section primitive." },
+        { "name": "vr-section", "description": "Use <vr-section> to group a meaningful part of a page. Put a heading and related content inside it. Vanrot-specific attributes: none. Use normal section attributes when needed." },
         {
           "name": "vr-select",
-          "description": "Vanrot select primitive.",
+          "description": "Use <vr-select> for a dropdown form choice. Bind value in your app when you need controlled selection. Vanrot-specific attributes: size.md, disabled, name, value, placeholder, aria-label. Use normal select attributes when needed.",
           "attributes": [
             { "name": "size.md", "description": "Medium select size.", "value": { "kind": "no-value" } },
             { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
@@ -284,7 +288,7 @@
         },
         {
           "name": "vr-separator",
-          "description": "Vanrot separator primitive.",
+          "description": "Use <vr-separator> to visually divide sections or menu groups. Vanrot-specific attributes: variant.horizontal, variant.vertical. Use normal accessibility attributes when the separator has meaning.",
           "attributes": [
             { "name": "variant.horizontal", "description": "Horizontal separator variant.", "value": { "kind": "no-value" } },
             { "name": "variant.vertical", "description": "Vertical separator variant.", "value": { "kind": "no-value" } }
@@ -292,14 +296,14 @@
         },
         {
           "name": "vr-sidebar",
-          "description": "Vanrot sidebar primitive.",
+          "description": "Use <vr-sidebar> for persistent side navigation or supporting page content. Put navigation, filters, or secondary actions inside it. Vanrot-specific attributes: placement.left. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "placement.left", "description": "Left sidebar placement.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-skeleton",
-          "description": "Vanrot skeleton primitive.",
+          "description": "Use <vr-skeleton> as a placeholder while real content loads. Pick the shape that matches the final content. Vanrot-specific attributes: variant.text, variant.avatar, variant.card, variant.block. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "variant.text", "description": "Text skeleton variant.", "value": { "kind": "no-value" } },
             { "name": "variant.avatar", "description": "Avatar skeleton variant.", "value": { "kind": "no-value" } },
@@ -309,7 +313,7 @@
         },
         {
           "name": "vr-slider",
-          "description": "Vanrot slider primitive.",
+          "description": "Use <vr-slider> for numeric values selected along a range. Bind value in your app when you need controlled state. Vanrot-specific attributes: size.md, disabled, min, max, step, value. Use normal form and accessibility attributes when needed.",
           "attributes": [
             { "name": "size.md", "description": "Medium slider size.", "value": { "kind": "no-value" } },
             { "name": "disabled", "description": "Disables the control.", "value": { "kind": "no-value" } },
@@ -319,17 +323,17 @@
             { "name": "value", "description": "Current value." }
           ]
         },
-        { "name": "vr-src", "description": "Vanrot source primitive." },
+        { "name": "vr-src", "description": "Use <vr-src> inside a Vanrot image/picture pattern when you need source-specific media. Provide normal source attributes such as srcset, media, and type. Vanrot-specific attributes: none." },
         {
           "name": "vr-stat",
-          "description": "Vanrot stat primitive.",
+          "description": "Use <vr-stat> to show one metric, KPI, or compact value summary. Put the value and label inside it. Vanrot-specific attributes: tone.success. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "tone.success", "description": "Success stat tone.", "value": { "kind": "no-value" } }
           ]
         },
         {
           "name": "vr-switch",
-          "description": "Vanrot switch primitive.",
+          "description": "Use <vr-switch> for an on/off setting. It behaves like a form control and can be controlled by your app state. Vanrot-specific attributes: checked, size.md, disabled, name, value, aria-label.",
           "attributes": [
             { "name": "checked", "description": "Sets the native checked state.", "value": { "kind": "no-value" } },
             { "name": "size.md", "description": "Medium switch size.", "value": { "kind": "no-value" } },
@@ -341,21 +345,21 @@
         },
         {
           "name": "vr-table",
-          "description": "Vanrot table primitive.",
+          "description": "Use <vr-table> for structured rows and columns. Compose it with table header, body, row, head, cell, caption, and footer child elements. Vanrot-specific attributes: density.compact. Use normal table attributes when needed.",
           "attributes": [
             { "name": "density.compact", "description": "Compact table density.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-table-body", "description": "Vanrot table body element." },
-        { "name": "vr-table-caption", "description": "Vanrot table caption element." },
-        { "name": "vr-table-cell", "description": "Vanrot table cell element." },
-        { "name": "vr-table-footer", "description": "Vanrot table footer element." },
-        { "name": "vr-table-head", "description": "Vanrot table head element." },
-        { "name": "vr-table-header", "description": "Vanrot table header element." },
-        { "name": "vr-table-row", "description": "Vanrot table row element." },
+        { "name": "vr-table-body", "description": "Use <vr-table-body> for the main rows of a Vanrot table. Put <vr-table-row> children inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-table-caption", "description": "Use <vr-table-caption> to describe what a table contains. Put short caption text inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-table-cell", "description": "Use <vr-table-cell> for one body cell in a Vanrot table row. Put cell content inside it. Vanrot-specific attributes: none. Use normal table cell attributes when needed." },
+        { "name": "vr-table-footer", "description": "Use <vr-table-footer> for summary rows or table footer content. Vanrot-specific attributes: none." },
+        { "name": "vr-table-head", "description": "Use <vr-table-head> for one header cell in a Vanrot table row. Put the column label inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-table-header", "description": "Use <vr-table-header> for the header area of a Vanrot table. Put header rows inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-table-row", "description": "Use <vr-table-row> for one row in a Vanrot table. Put header or body cells inside it. Vanrot-specific attributes: none." },
         {
           "name": "vr-tabs",
-          "description": "Vanrot tabs primitive.",
+          "description": "Use <vr-tabs> to switch between related panels of content. Compose it with tabs list, trigger, and panel child elements. Vanrot-specific attributes: value, value.overview, orientation.horizontal, orientation.vertical.",
           "attributes": [
             { "name": "value", "description": "Selected tab value." },
             { "name": "value.overview", "description": "Overview tab value.", "value": { "kind": "no-value" } },
@@ -363,12 +367,12 @@
             { "name": "orientation.vertical", "description": "Vertical tab orientation.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-tabs-list", "description": "Vanrot tabs list element." },
-        { "name": "vr-tabs-panel", "description": "Vanrot tabs panel element." },
-        { "name": "vr-tabs-trigger", "description": "Vanrot tabs trigger element." },
+        { "name": "vr-tabs-list", "description": "Use <vr-tabs-list> to group the clickable tab triggers. Put <vr-tabs-trigger> children inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-tabs-panel", "description": "Use <vr-tabs-panel> for the content shown by one selected tab. Vanrot-specific attributes: none. Use normal HTML attributes to connect panel state when needed." },
+        { "name": "vr-tabs-trigger", "description": "Use <vr-tabs-trigger> for one clickable tab choice. Put the tab label inside it. Vanrot-specific attributes: none." },
         {
           "name": "vr-textarea",
-          "description": "Vanrot textarea primitive.",
+          "description": "Use <vr-textarea> for multi-line text input. Bind value in your app when you need controlled input. Vanrot-specific attributes: size.sm, size.md, size.lg, size.xl, disabled, readonly, invalid, name, value, placeholder, aria-label.",
           "attributes": [
             { "name": "size.sm", "description": "Small textarea size.", "value": { "kind": "no-value" } },
             { "name": "size.md", "description": "Medium textarea size.", "value": { "kind": "no-value" } },
@@ -385,7 +389,7 @@
         },
         {
           "name": "vr-toast",
-          "description": "Vanrot toast primitive.",
+          "description": "Use <vr-toast> to describe a transient notification. Compose it with item, title, description, close, and viewport child elements. Vanrot-specific attributes: tone.default, tone.success, tone.warning, tone.danger, dismissible.",
           "attributes": [
             { "name": "open", "description": "Controls whether the toast is open." },
             { "name": "tone.default", "description": "Default toast tone.", "value": { "kind": "no-value" } },
@@ -396,14 +400,14 @@
             { "name": "duration", "description": "Toast duration in milliseconds." }
           ]
         },
-        { "name": "vr-toast-close", "description": "Vanrot toast close element." },
-        { "name": "vr-toast-description", "description": "Vanrot toast description element." },
-        { "name": "vr-toast-item", "description": "Vanrot toast item element." },
-        { "name": "vr-toast-title", "description": "Vanrot toast title element." },
-        { "name": "vr-toast-viewport", "description": "Vanrot toast viewport element." },
+        { "name": "vr-toast-close", "description": "Use <vr-toast-close> for the control that dismisses a toast. Put an icon or label inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-toast-description", "description": "Use <vr-toast-description> for supporting text inside a toast. Vanrot-specific attributes: none." },
+        { "name": "vr-toast-item", "description": "Use <vr-toast-item> for one toast notification inside a viewport. Put title, description, and close controls inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-toast-title", "description": "Use <vr-toast-title> for the short heading of a toast. Vanrot-specific attributes: none." },
+        { "name": "vr-toast-viewport", "description": "Use <vr-toast-viewport> as the region where toast items are rendered. Vanrot-specific attributes: none. Use aria-live when the toast updates need to be announced." },
         {
           "name": "vr-tooltip",
-          "description": "Vanrot tooltip primitive.",
+          "description": "Use <vr-tooltip> for short helper text attached to a trigger. Compose it with trigger and content child elements. Vanrot-specific attributes: open, side.top, side.right, side.bottom, side.left.",
           "attributes": [
             { "name": "open", "description": "Controls whether the tooltip is open." },
             { "name": "side.top", "description": "Top tooltip side.", "value": { "kind": "no-value" } },
@@ -413,8 +417,8 @@
             { "name": "align.center", "description": "Center-aligned tooltip content.", "value": { "kind": "no-value" } }
           ]
         },
-        { "name": "vr-tooltip-content", "description": "Vanrot tooltip content element." },
-        { "name": "vr-tooltip-trigger", "description": "Vanrot tooltip trigger element." }
+        { "name": "vr-tooltip-content", "description": "Use <vr-tooltip-content> for the short helper text shown by a tooltip. Keep it concise. Vanrot-specific attributes: none." },
+        { "name": "vr-tooltip-trigger", "description": "Use <vr-tooltip-trigger> for the element that shows a tooltip on hover or focus. Vanrot-specific attributes: none. Use normal focusable attributes when needed." }
       ],
       "attributes": [
         { "name": "align.center", "value": { "kind": "no-value" } },
