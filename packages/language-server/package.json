@@ -34,7 +34,7 @@
     "build:intellij": "pnpm run build && node scripts/bundle-intellij.mjs",
     "pretypecheck": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/config build",
     "typecheck": "tsc -p tsconfig.json --noEmit",
-    "pretest": "pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/config build",
+    "pretest": "pnpm run build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => { rmSync('dist', { recursive: true, force: true }); rmSync('dist-intellij', { recursive: true, force: true }); })\""
   },
