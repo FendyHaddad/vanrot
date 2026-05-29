@@ -48,6 +48,8 @@ describe('runCli', () => {
     expect(out).toContain('MAINTENANCE');
     expect(out).toContain('doctor                     Check project health and config');
     expect(out).toContain('config <action>            Validate, migrate, or recover config');
+    expect(out).toContain('update <target>            Sync generated Vanrot project files');
+    expect(out).toContain('upgrade [version]          Upgrade Vanrot package versions');
     expect(out).toContain('map                        Print the project structure map');
     expect(out).toContain('init-ai                    Set up AI context rules for this project');
     expect(out).toContain('ai <action>                Build and inspect AI-readable Vanrot knowledge');
@@ -71,6 +73,8 @@ describe('runCli', () => {
       'test',
       'doctor',
       'config',
+      'update',
+      'upgrade',
       'map',
       'init-ai',
       'ai',

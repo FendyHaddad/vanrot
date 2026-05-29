@@ -8,6 +8,9 @@
   "scripts": {
     "prepare:deps": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/runtime build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/vite-plugin build && pnpm --filter @vanrot/cli build",
     "dev": "vr dev",
+    "open:site": "node ../../scripts/open-docs.mjs",
+    "open:docs": "node ../../scripts/open-docs.mjs docs",
+    "docs:open": "node ../../scripts/open-docs.mjs docs",
     "prebuild": "pnpm run prepare:deps",
     "build": "vr build",
     "pretest": "pnpm run prepare:deps",

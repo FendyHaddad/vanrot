@@ -138,7 +138,7 @@
         {
           "id": "commands",
           "title": "Commands",
-          "body": "Current commands are create, generate, add, config, doctor, map, init-ai, ai, dev, build, and test."
+          "body": "Current commands are create, generate, add, config, update, upgrade, doctor, map, init-ai, ai, dev, build, and test."
         },
         {
           "id": "output",
@@ -164,7 +164,7 @@
         {
           "id": "maintenance",
           "title": "Maintenance",
-          "body": "Use vr config migrate and vr config recover to create or repair canonical config."
+          "body": "Use vr config migrate and vr config recover to create or repair canonical config. Use vr update config when you only want to sync the generated config surface."
         }
       ]
     },
@@ -460,19 +460,39 @@
       "status": "available-now",
       "sections": [
         {
+          "id": "version-0-1-1",
+          "title": "0.1.1",
+          "date": "May 30, 2026",
+          "body": "CLI release for project update and upgrade workflows. Adds framework-aware project sync, package upgrade automation, and stable upgrade diagnostics.",
+          "changes": [
+            "Added vr update to sync generated config, project-map, and AI doorway files without changing package versions.",
+            "Added vr upgrade to bump installed @vanrot packages, install dependencies, and run the project sync step.",
+            "Added upgrade diagnostics for missing package.json, invalid package.json, missing Vanrot packages, and package-manager install failures.",
+            "Added release bump protection so already bumped package manifests are not bumped again before publish."
+          ]
+        },
+        {
           "id": "version-0-1-0",
           "title": "0.1.0",
-          "body": "The first usable npm release for @vanrot packages. It fixes the broken 0.0.0 first publish, aligns generated app dependencies with the CLI package version, includes current UI and router Web Types metadata, and keeps the release dry-run consumers green before publishing."
+          "date": "May 29, 2026",
+          "body": "The first usable npm release for @vanrot packages. It fixes the broken 0.0.0 first publish, aligns generated app dependencies with the CLI package version, includes current UI and router Web Types metadata, and keeps the release dry-run consumers green before publishing.",
+          "changes": [
+            "Published the first usable npm release for @vanrot packages.",
+            "Aligned generated app dependencies with the CLI package version.",
+            "Included current UI and router Web Types metadata.",
+            "Kept release dry-run consumers green before publishing."
+          ]
         },
         {
           "id": "version-0-0-0",
           "title": "0.0.0",
-          "body": "The initial npm publish was deprecated because generated projects requested 0.1.0 packages that were not on the registry yet. Use 0.1.0 or latest instead of installing 0.0.0."
-        },
-        {
-          "id": "upgrade-status",
-          "title": "Upgrade Status",
-          "body": "Vanrot does not yet ship a dedicated vr update command for project upgrades. Use package-manager version bumps plus vr doctor and the diagnostics reference until a framework update command and upgrade-specific error catalog are implemented."
+          "date": "May 29, 2026",
+          "body": "The initial npm publish was deprecated because generated projects requested 0.1.0 packages that were not on the registry yet. Use 0.1.0 or latest instead of installing 0.0.0.",
+          "changes": [
+            "Initial npm publish was deprecated.",
+            "Generated projects requested 0.1.0 packages that were not on the registry yet.",
+            "Use 0.1.0 or latest instead of installing 0.0.0."
+          ]
         }
       ]
     },
@@ -936,6 +956,8 @@
     { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16f" },
     { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16F" },
     { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
+    { "name": "update", "usage": "vr update <target>", "status": "available-now" },
+    { "name": "upgrade", "usage": "vr upgrade [version]", "status": "available-now" },
     { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
     { "name": "map", "usage": "vr map", "status": "production-ready-through-phase-23" },
     { "name": "init-ai", "usage": "vr init-ai", "status": "demo-capable" },

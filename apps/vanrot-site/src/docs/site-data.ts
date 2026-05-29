@@ -38,6 +38,8 @@ export interface SiteArticleSection {
   id: string;
   title: string;
   body: string;
+  date?: string;
+  changes?: readonly string[];
 }
 
 export interface SiteArticle {

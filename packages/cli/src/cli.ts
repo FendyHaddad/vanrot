@@ -17,6 +17,8 @@ import {
 } from './commands/metadata.js';
 import { testCommand } from './commands/test.js';
 import { uiCommand } from './commands/ui.js';
+import { updateCommand } from './commands/update.js';
+import { upgradeCommand } from './commands/upgrade.js';
 import { parseOutputMode, renderJsonEvent, renderJsonLineEvent } from './reporter/modes.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
@@ -30,6 +32,8 @@ const commandHandlers = new Map<string, CommandHandler>([
   [commandName.add, addCommand],
   [commandName.ui, uiCommand],
   [commandName.config, configCommand],
+  [commandName.update, updateCommand],
+  [commandName.upgrade, upgradeCommand],
   [commandName.doctor, doctorCommand],
   [commandName.map, mapCommand],
   [commandName.initAi, initAiCommand],

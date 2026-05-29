@@ -2,7 +2,7 @@
 
 import { execFile } from 'node:child_process';
 import { access, readFile, writeFile } from 'node:fs/promises';
-import { join, resolve } from 'node:path';
+import { join, relative, resolve } from 'node:path';
 import { promisify } from 'node:util';
 import { fileURLToPath } from 'node:url';
 import { discoverPublicPackages } from './release-dry-run/metadata.mjs';
@@ -163,6 +163,28 @@ export function createBumpPlan({ packages, changedPackageNames, bumpType }) {
   };
 }
 
+export function filterAlreadyBumpedPackages({ plan, alreadyBumpedPackageNames }) {
+  if (alreadyBumpedPackageNames.size === 0) {
+    return plan;
+  }
+
+  const bumpedPackages = plan.bumpedPackages.filter(
+    (releasePackage) => !alreadyBumpedPackageNames.has(releasePackage.name),
+  );
+  const nextVersions = new Map(
+    bumpedPackages.map((releasePackage) => [
+      releasePackage.name,
+      plan.nextVersions.get(releasePackage.name),
+    ]),
+  );
+
+  return {
+    ...plan,
+    bumpedPackages,
+    nextVersions,
+  };
+}
+
 export async function applyBumpPlan({ plan, dryRun }) {
   if (dryRun) {
     return [];
@@ -232,18 +254,29 @@ export async function runBumpChangedPackages({
   }
 
   const packages = await discoverPublicPackages(repositoryRoot);
+  const packageSelectorsProvided = options.packageSelectors.length > 0;
   const changedPackageNames =
-    options.packageSelectors.length > 0
+    packageSelectorsProvided
       ? resolvePackageSelectors({ packages, selectors: options.packageSelectors })
       : selectChangedPackageNames({
           packages,
           changedFiles: await discoverChangedFiles({ repositoryRoot, base: options.base }),
         });
-  const plan = createBumpPlan({
+  const initialPlan = createBumpPlan({
     packages,
     changedPackageNames,
     bumpType: options.bumpType,
   });
+  const plan = packageSelectorsProvided
+    ? initialPlan
+    : filterAlreadyBumpedPackages({
+        plan: initialPlan,
+        alreadyBumpedPackageNames: await discoverAlreadyBumpedPackageNames({
+          repositoryRoot,
+          base: options.base,
+          packages: initialPlan.bumpedPackages,
+        }),
+      });
 
   if (plan.bumpedPackages.length === 0) {
     stdout('No changed public packages found.');
@@ -369,17 +402,54 @@ async function findPackageWebTypesPath({ directory, manifest }) {
   }
 }
 
+async function discoverAlreadyBumpedPackageNames({ repositoryRoot, base, packages }) {
+  const bumpedPackageNames = new Set();
+
+  for (const releasePackage of packages) {
+    const currentVersion = releasePackage.manifest.version;
+    const baseVersion = await readBasePackageVersion({ repositoryRoot, base, releasePackage });
+
+    if (baseVersion !== undefined && baseVersion !== currentVersion) {
+      bumpedPackageNames.add(releasePackage.name);
+    }
+  }
+
+  return bumpedPackageNames;
+}
+
+async function readBasePackageVersion({ repositoryRoot, base, releasePackage }) {
+  const manifestPath = releasePackage.manifestPath ?? join(releasePackage.directory, 'package.json');
+  const repositoryPath = relative(repositoryRoot, manifestPath).split('\\').join('/');
+
+  try {
+    const source = await runGitText({
+      repositoryRoot,
+      args: ['show', `${base}:${repositoryPath}`],
+    });
+    const manifest = JSON.parse(source);
+    return typeof manifest.version === 'string' ? manifest.version : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 async function runGitLines({ repositoryRoot, args }) {
+  const stdout = await runGitText({ repositoryRoot, args });
+
+  return stdout
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean);
+}
+
+async function runGitText({ repositoryRoot, args }) {
   const { stdout } = await execFileAsync('git', args, {
     cwd: repositoryRoot,
     encoding: 'utf8',
     maxBuffer: 1024 * 1024 * 10,
   });
 
-  return stdout
-    .split('\n')
-    .map((line) => line.trim())
-    .filter(Boolean);
+  return stdout;
 }
 
 async function readJson(path) {

@@ -36,6 +36,36 @@ export const cliDiagnosticCatalog: readonly CliDiagnosticMetadata[] = [
     nextStep: 'Run vr test --verbose for diagnostic details.',
   },
   {
+    code: 'VR_UPDATE_TARGET_INVALID',
+    message: 'Update target is not supported',
+    nextStep: 'Run vr update --help.',
+  },
+  {
+    code: 'VR_UPDATE_FAILED',
+    message: 'Project file update failed',
+    nextStep: 'Fix the reported update error, then rerun vr update.',
+  },
+  {
+    code: 'VR_UPGRADE_PACKAGE_JSON_MISSING',
+    message: 'package.json could not be read',
+    nextStep: 'Run vr upgrade from a Vanrot project root.',
+  },
+  {
+    code: 'VR_UPGRADE_PACKAGE_JSON_INVALID',
+    message: 'package.json contains invalid JSON',
+    nextStep: 'Fix package.json, then rerun vr upgrade.',
+  },
+  {
+    code: 'VR_UPGRADE_NO_PACKAGES',
+    message: 'No Vanrot packages were found',
+    nextStep: 'Add Vanrot packages before running vr upgrade.',
+  },
+  {
+    code: 'VR_UPGRADE_PACKAGE_MANAGER_FAILED',
+    message: 'Package manager install failed',
+    nextStep: 'Fix the install error, then rerun vr upgrade.',
+  },
+  {
     code: 'VR_AI_DISABLED',
     message: 'Vanrot AI doorway is disabled',
     nextStep: 'Enable ai.enabled in vanrot.config.ts.',

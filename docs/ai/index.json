@@ -318,6 +318,18 @@
       "docsPath": "/docs/cli"
     },
     {
+      "id": "command:update",
+      "title": "vr update <target>",
+      "summary": "Syncs generated Vanrot project files without changing package versions.",
+      "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:upgrade",
+      "title": "vr upgrade [version]",
+      "summary": "Updates installed Vanrot package ranges, installs dependencies, then syncs generated project files.",
+      "docsPath": "/docs/cli"
+    },
+    {
       "id": "command:doctor",
       "title": "vr doctor",
       "summary": "Runs local project diagnostics with readable guidance.",

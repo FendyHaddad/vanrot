@@ -1,0 +1,26 @@
+<article class="docs-changelog">
+  <header class="docs-changelog-header">
+    <h1>{{ article().title }}</h1>
+    <p class="docs-changelog-summary">{{ article().summary }}</p>
+    <p class="docs-changelog-note">
+      This page is generated from the Vanrot docs registry. Use vr upgrade to move project packages to the latest release.
+    </p>
+  </header>
+
+  <div class="docs-changelog-list">
+    @for (entry of entries(); track entry.version) {
+      <section class="docs-changelog-entry" [id]="entry.anchorId">
+        <div class="docs-changelog-entry-heading">
+          <h2>{{ entry.version }}</h2>
+          <p>{{ entry.date }}</p>
+        </div>
+
+        <ul>
+          @for (change of entry.changes; track change) {
+            <li>{{ change }}</li>
+          }
+        </ul>
+      </section>
+    }
+  </div>
+</article>

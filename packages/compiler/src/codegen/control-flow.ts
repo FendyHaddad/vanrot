@@ -72,13 +72,16 @@ export function generateForBlock(
   const rewrittenIterable = rewriteExpression(node.iterableExpression, {
     filePath: state.templatePath,
     source: state.templateSource,
+    localIdentifiers: state.localIdentifiers,
+    localSignalIdentifiers: state.localSignalIdentifiers,
     span: node.expressionSpan,
   });
   const rewrittenTrack = rewriteExpression(node.trackExpression, {
     filePath: state.templatePath,
     source: state.templateSource,
     span: node.expressionSpan,
-    localIdentifiers: [node.itemName],
+    localIdentifiers: [...state.localIdentifiers, node.itemName],
+    localSignalIdentifiers: state.localSignalIdentifiers,
   });
 
   state.diagnostics.push(...rewrittenIterable.diagnostics, ...rewrittenTrack.diagnostics);

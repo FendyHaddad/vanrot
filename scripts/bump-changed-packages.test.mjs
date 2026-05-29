@@ -6,6 +6,7 @@ import {
   applyBumpPlan,
   bumpVersion,
   createBumpPlan,
+  filterAlreadyBumpedPackages,
   parseOptions,
   selectChangedPackageNames,
 } from './bump-changed-packages.mjs';
@@ -82,6 +83,31 @@ describe('bump-changed-packages', () => {
         ['@vanrot/compiler', '0.1.1'],
       ]),
     );
+  });
+
+  it('does not bump packages whose manifest version already changed', () => {
+    const packages = [
+      releasePackage({ directoryName: 'runtime', name: '@vanrot/runtime', version: '0.1.1' }),
+      releasePackage({
+        directoryName: 'ui',
+        name: '@vanrot/ui',
+        dependencies: { '@vanrot/runtime': 'file:../runtime' },
+      }),
+    ];
+    const plan = createBumpPlan({
+      packages,
+      changedPackageNames: new Set(['@vanrot/runtime']),
+      bumpType: 'patch',
+    });
+    const filtered = filterAlreadyBumpedPackages({
+      plan,
+      alreadyBumpedPackageNames: new Set(['@vanrot/runtime']),
+    });
+
+    expect(filtered.bumpedPackages.map((releasePackage) => releasePackage.name)).toEqual([
+      '@vanrot/ui',
+    ]);
+    expect(filtered.nextVersions).toEqual(new Map([['@vanrot/ui', '0.1.1']]));
   });
 
   it('updates package manifests and package-owned web-types files', async () => {
@@ -182,6 +208,7 @@ function releasePackage({
   directoryName,
   name,
   dependencies = {},
+  version = '0.1.0',
 }) {
   return {
     directory: directory ?? `/repo/packages/${directoryName}`,
@@ -189,7 +216,7 @@ function releasePackage({
     name,
     manifest: {
       name,
-      version: '0.1.0',
+      version,
       dependencies,
     },
   };

@@ -85,6 +85,20 @@ export async function createHomebrewStep({
     return installStep;
   }
 
+  const linkStep = await runner({
+    name: 'homebrew local link',
+    command: 'brew',
+    args: ['link', '--overwrite', formulaName],
+    cwd: repositoryRoot,
+    env: homebrewEnv,
+    required: true,
+  });
+
+  if (linkStep.status === 'fail') {
+    await cleanupLocalTap({ runner, repositoryRoot });
+    return linkStep;
+  }
+
   const testStep = await runner({
     name: 'homebrew local test',
     command: 'brew',

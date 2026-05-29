@@ -340,6 +340,48 @@ describe('verify-release-dry-run artifacts and Homebrew', () => {
       await rm(root, { force: true, recursive: true });
     }
   });
+
+  it('links the local Homebrew formula before running brew test', async () => {
+    const root = await mkdtemp(join(tmpdir(), 'vanrot-homebrew-link-test-'));
+    const tapRoot = join(root, 'tap');
+    const formulaPath = join(root, 'vanrot.rb');
+    await writeFile(formulaPath, 'class Vanrot < Formula\nend\n', 'utf8');
+
+    try {
+      const commands = [];
+      const step = await createHomebrewStep({
+        runner: async (request) => {
+          const renderedCommand = [request.command, ...(request.args ?? [])].join(' ');
+          commands.push(renderedCommand);
+
+          return createCommandStep({
+            name: request.name,
+            command: renderedCommand,
+            cwd: request.cwd,
+            exitCode: 0,
+            stdout: renderedCommand.includes('brew --repository') ? tapRoot : '/opt/homebrew/bin/brew',
+            stderr: '',
+            required: request.required,
+          });
+        },
+        repositoryRoot: root,
+        formulaPath,
+      });
+
+      expect(step).toEqual(
+        expect.objectContaining({
+          command: expect.stringContaining('brew install'),
+          status: 'pass',
+        }),
+      );
+      expect(commands).toContain('brew link --overwrite vanrot');
+      expect(commands.indexOf('brew link --overwrite vanrot')).toBeLessThan(
+        commands.indexOf('brew test vanrot/local/vanrot'),
+      );
+    } finally {
+      await rm(root, { force: true, recursive: true });
+    }
+  });
 });
 
 describe('verify-release-dry-run package workflows and reports', () => {

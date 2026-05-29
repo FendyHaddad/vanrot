@@ -1,28 +1,28 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-29T16:04:27.987Z",
-  "sourceFingerprint": "sha256-90a77d66cb9f0fb3a8460c48606b77d6da52049872eaa57c8e19af5050624241",
+  "generatedAt": "2026-05-29T17:24:56.334Z",
+  "sourceFingerprint": "sha256-0d679609fb14bcca7e477af9f856200c63f4b32dc8cae789ddeb4a8b80978292",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-9fb83113e465ef88ead5c915372ba80f08240ff6a76799c7e9f49bcfbc892d3d"
+      "fingerprint": "sha256-21603413a93ac0483a8bf732a9316742c908c84361acb4c93499f9998ca11c64"
     },
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-b8c96334f65e1dc10a7e4577db6ead76bd7e9af5d8dcbbb367722dae3ff52eb7"
+      "fingerprint": "sha256-c20c2ea86141d71c5c34f425c07e9e20715c32a6ef6eaafaa2e24c16876d8655"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-00459aa2ea219f4e65b314cd1ba0b8f3e259137a5ac227b9cc7ea61c125a7244"
+      "fingerprint": "sha256-d1c6b20c072b03480cf7cb8d86c4c16bf7de522a6d1fd8b9532d897dce0d4fdc"
     },
     {
       "id": "cli-command-metadata",
       "path": "packages/cli/src/commands/metadata.ts",
-      "fingerprint": "sha256-484a43640de029367892863fa8cdb4aba0df4291b1a9aa4adedbcdb87125670a"
+      "fingerprint": "sha256-9c59ae777a43af4d66af1506d99724fe51f97e06babc902de0c327ae495bf0ab"
     },
     {
       "id": "feature-maturity",
@@ -32,13 +32,13 @@
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-bbd61b24ec144c899449612c81d9ba1dbf0db8d145f97db12047faaaac979b0f"
+      "fingerprint": "sha256-dd8935df037bbcd2af0e5e8c49e5e9e47a556f9f17c8ab4317d2df6c3bad9a27"
     }
   ],
   "counts": {
     "packages": 11,
     "publicExports": 38,
-    "commands": 12,
+    "commands": 14,
     "diagnostics": 9,
     "generatedFiles": 6,
     "conventions": 5,

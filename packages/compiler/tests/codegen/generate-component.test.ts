@@ -533,6 +533,39 @@ describe('generateComponent', () => {
     expect(result.features).toContain('control-flow-for');
   });
 
+  it('rewrites nested for iterables against outer loop signals', () => {
+    const templateSource =
+      '@for (entry of entries(); track entry.id) { <section><h2>{{ entry.title }}</h2><ul>@for (change of entry.changes; track change) { <li>{{ change }}</li> }</ul></section> }';
+    class ChangelogComponent {
+      entries = signal([
+        {
+          id: 'version-0-1-1',
+          title: '0.1.1',
+          changes: ['Added vr update.', 'Added vr upgrade.'],
+        },
+      ]);
+    }
+
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource, 'changelog.page.html'),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'changelog.page.html',
+      templateSource,
+    });
+    const createComponent = createGeneratedComponentFactory(result.js, {
+      component: ChangelogComponent,
+    });
+    const instance = createComponent();
+
+    document.body.replaceChildren(instance.node);
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain('entry().changes');
+    expect(result.js).not.toMatch(/ctx\.entry\./);
+    expect(document.body.textContent).toBe('0.1.1Added vr update.Added vr upgrade.');
+  });
+
   it('keeps keyed for block DOM current across updates and empty transitions', () => {
     const templateSource =
       '@for (user of users(); track user.id) { <p>{{ user.name }}</p> } @empty { <p>No users yet</p> }';

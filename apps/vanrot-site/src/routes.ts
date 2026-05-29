@@ -54,6 +54,7 @@ import { ComponentTextareaPage } from './pages/components/component-textarea.pag
 import { ComponentTooltipPage } from './pages/components/component-tooltip.page.ts';
 import { ComponentToastPage } from './pages/components/component-toast.page.ts';
 import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
+import { DocsChangelogPage } from './pages/docs/docs-changelog.page.ts';
 import { DocsExampleMatrixPage } from './pages/docs/docs-example-matrix.page.ts';
 import { DocsReferencePage } from './pages/docs/docs-reference.page.ts';
 import { OctoberShowcasePage } from './pages/examples/october-showcase.page.ts';
@@ -519,7 +520,13 @@ const docsOctoberShowcase = docs.page({
 });
 const docsConventions = articlePage(siteArticleKey.conventions);
 const docsDeployment = articlePage(siteArticleKey.deployment);
-const docsChangelog = articlePage(siteArticleKey.changelog);
+const docsChangelog = docs.page({
+  path: articleChildPath(siteArticleKey.changelog),
+  label: getSiteArticle(siteArticleKey.changelog).label,
+  ...articleDocument(siteArticleKey.changelog),
+  page: DocsChangelogPage,
+  breadcrumb: routes.breadcrumb.parent(docs),
+});
 const docsLimitations = articlePage(siteArticleKey.limitations);
 const docsReferenceStatus = articlePage(siteArticleKey.referenceStatus);
 

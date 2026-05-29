@@ -64,6 +64,8 @@ describe('framework reference registry', () => {
       'add',
       'ui',
       'config',
+      'update',
+      'upgrade',
       'doctor',
       'map',
       'init-ai',

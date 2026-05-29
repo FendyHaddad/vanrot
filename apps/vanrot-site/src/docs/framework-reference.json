@@ -173,6 +173,34 @@
       ]
     },
     {
+      "name": "update",
+      "usage": "vr update <target>",
+      "status": "production-ready",
+      "summary": "Syncs generated Vanrot project files without changing package versions.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr update", "vr update config", "vr update ai"],
+      "notes": ["Refreshes canonical config, project intelligence, and AI doorway files through existing command owners."],
+      "subcommands": [
+        { "name": "config", "summary": "Create missing canonical `vanrot.config.ts` without overwriting user config by default." },
+        { "name": "map", "summary": "Refresh `.vanrot/project-map.json`." },
+        { "name": "ai", "summary": "Refresh `.vanrot` AI rules, context, prompt, and doctor files." }
+      ]
+    },
+    {
+      "name": "upgrade",
+      "usage": "vr upgrade [version]",
+      "status": "production-ready",
+      "summary": "Updates installed Vanrot package ranges, installs dependencies, then syncs generated project files.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr upgrade", "vr upgrade 0.2.0", "vr upgrade --latest --no-install"],
+      "notes": ["Targets every `@vanrot/*` package in package.json and reports upgrade failures with stable CLI diagnostic codes."],
+      "subcommands": [
+        { "name": "--latest", "summary": "Use the latest npm dist-tag." },
+        { "name": "--no-install", "summary": "Update package.json without running the detected package manager." },
+        { "name": "--no-update", "summary": "Skip the generated file sync after package installation." }
+      ]
+    },
+    {
       "name": "doctor",
       "usage": "vr doctor",
       "status": "demo-capable",

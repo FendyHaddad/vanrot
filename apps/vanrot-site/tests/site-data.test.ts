@@ -76,6 +76,8 @@ describe('vanrot site docs data', () => {
       'add',
       'ui',
       'config',
+      'update',
+      'upgrade',
       'doctor',
       'map',
       'init-ai',

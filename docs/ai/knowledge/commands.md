@@ -30,6 +30,18 @@ Reads, validates, and reports normalized Vanrot config.
 
 Docs: /docs/cli
 
+## vr update <target>
+
+Syncs generated Vanrot project files without changing package versions.
+
+Docs: /docs/cli
+
+## vr upgrade [version]
+
+Updates installed Vanrot package ranges, installs dependencies, then syncs generated project files.
+
+Docs: /docs/cli
+
 ## vr doctor
 
 Runs local project diagnostics with readable guidance.

@@ -4,6 +4,8 @@ export const commandName = {
   add: 'add',
   ui: 'ui',
   config: 'config',
+  update: 'update',
+  upgrade: 'upgrade',
   doctor: 'doctor',
   map: 'map',
   initAi: 'init-ai',
@@ -107,6 +109,46 @@ Options
   --destructive   Overwrite an existing config during migrate`,
   },
   {
+    name: commandName.update,
+    usage: 'vr update <target>',
+    rootUsage: 'update <target>',
+    description: 'Sync generated Vanrot project files',
+    secondaryUsages: ['vr update', 'vr update config', 'vr update ai', 'vr update map'],
+    help: `vr update
+vr update <target>
+
+Targets
+  all      Sync config, project map, and AI files
+  config   Create missing canonical vanrot.config.ts
+  map      Refresh .vanrot/project-map.json
+  ai       Refresh .vanrot AI rules, context, prompt, and doctor files
+
+Error codes
+  VR_UPDATE_TARGET_INVALID
+  VR_UPDATE_FAILED`,
+  },
+  {
+    name: commandName.upgrade,
+    usage: 'vr upgrade [version]',
+    rootUsage: 'upgrade [version]',
+    description: 'Upgrade Vanrot package versions',
+    secondaryUsages: ['vr upgrade --latest', 'vr upgrade 0.2.0 --no-install'],
+    help: `vr upgrade
+vr upgrade [version]
+vr upgrade --latest
+
+Options
+  --latest       Use the latest npm dist-tag
+  --no-install  Update package.json without running install
+  --no-update   Skip the project file sync after install
+
+Error codes
+  VR_UPGRADE_PACKAGE_JSON_MISSING
+  VR_UPGRADE_PACKAGE_JSON_INVALID
+  VR_UPGRADE_NO_PACKAGES
+  VR_UPGRADE_PACKAGE_MANAGER_FAILED`,
+  },
+  {
     name: commandName.doctor,
     usage: commandInvocation(commandName.doctor),
     rootUsage: 'doctor',
@@ -175,6 +217,8 @@ export const commandGroups = [
     commands: [
       commandName.doctor,
       commandName.config,
+      commandName.update,
+      commandName.upgrade,
       commandName.map,
       commandName.initAi,
       commandName.ai,
