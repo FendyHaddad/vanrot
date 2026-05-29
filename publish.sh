@@ -7,7 +7,7 @@ NPM_TAG="${NPM_TAG:-latest}"
 NPM_AUTH_TYPE="${NPM_AUTH_TYPE:-web}"
 PUBLISH_DRY_RUN="${PUBLISH_DRY_RUN:-0}"
 SKIP_VERIFY="${SKIP_VERIFY:-0}"
-SKIP_EXISTING="${SKIP_EXISTING:-0}"
+SKIP_EXISTING="${SKIP_EXISTING:-1}"
 
 PUBLISH_PACKAGES=(
   devtools
@@ -70,6 +70,8 @@ if [[ "$PUBLISH_DRY_RUN" != "1" ]]; then
   npm whoami >/dev/null 2>&1 || fail "npm is not logged in. Run npm login --auth-type=web first."
 fi
 
+published_count=0
+
 for package_dirname in "${PUBLISH_PACKAGES[@]}"; do
   package_dir="$COPIES_ROOT/$package_dirname"
   [[ -f "$package_dir/package.json" ]] || fail "Missing package copy: $package_dir/package.json"
@@ -94,6 +96,11 @@ for package_dirname in "${PUBLISH_PACKAGES[@]}"; do
 
   say "publishing $package_name@$package_version"
   (cd "$package_dir" && npm "${publish_args[@]}")
+  published_count=$((published_count + 1))
 done
 
-say "publish script complete"
+if [[ "$PUBLISH_DRY_RUN" != "1" && "$published_count" -eq 0 ]]; then
+  fail "No new package versions were published. Run pnpm release:bump first or set SKIP_EXISTING=0 to fail on existing versions."
+fi
+
+say "publish script complete ($published_count package(s) published)"

@@ -41,6 +41,8 @@ describe('npm publish script', () => {
     expect(script).toContain('--auth-type=web');
     expect(script).toContain('--access public');
     expect(script).toContain('PUBLISH_DRY_RUN');
+    expect(script).toContain('SKIP_EXISTING="${SKIP_EXISTING:-1}"');
+    expect(script).toContain('published_count=');
     expect(publishOrder.match(/devtools[\s\S]*config[\s\S]*ai[\s\S]*runtime/)).not.toBeNull();
     expect(publishOrder.match(/testing[\s\S]*cli[\s\S]*language-server[\s\S]*vite-plugin/)).not.toBeNull();
   });
