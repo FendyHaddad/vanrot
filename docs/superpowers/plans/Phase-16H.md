@@ -79,8 +79,10 @@ Modify:
 - `packages/cli/tests/cli.test.ts`: cover help text for remove and behavior flags.
 - `packages/cli/tests/doctor.test.ts`: keep existing doctor tests passing after new behavior checks are wired.
 - `apps/vanrot-site/src/docs/framework-reference.json`: add `@vanrot/behavior`, behavior commands, and behavior config docs.
-- `apps/vanrot-site/src/docs/site-data.json`: add behavior package guide/article content.
-- `apps/vanrot-site/src/docs/site-navigation.ts`: expose the behavior guide in docs navigation if site data needs a nav entry.
+- `apps/vanrot-site/src/docs/site-data.ts`: add `behavior` to the `siteArticleKey` source of truth so nav and routes can reference it.
+- `apps/vanrot-site/src/docs/site-data.json`: add the behavior article body to the `articles` array.
+- `apps/vanrot-site/src/docs/site-navigation.ts`: add the behavior guide nav entry via `navItem(siteArticleKey.behavior)`.
+- `apps/vanrot-site/src/routes.ts`: register the `/docs/behavior` article route via `articlePage(siteArticleKey.behavior)` and add it to the docs route table.
 - `apps/vanrot-site/src/docs/example-matrix.ts`: include a behavior workflow/package example.
 - `apps/vanrot-site/tests/framework-reference.test.ts`: update package, command, and example coverage.
 - `apps/vanrot-site/tests/site-pages.test.ts`: add route coverage if a behavior article route is added.
@@ -868,32 +870,48 @@ packages/runtime/src/ui/positioned-layer.ts
 
 Leave empty directories only if needed by the current tree. Prefer deleting empty `packages/runtime/src/forms` and `packages/runtime/src/ui` directories after their files are gone.
 
-- [ ] **Step 5: Lower runtime size limit**
+- [ ] **Step 5: Measure the stripped runtime core, then set the cap**
 
-In `packages/runtime/.size-limit.json`, change the limit to the post-migration runtime core cap:
+Do not hardcode the cap before measuring. The `3.99 KB` figure below is an expected ceiling, not a guarantee — the controllers are ~67% of runtime source today, so the core should land well under it, but the only authority is the measured number.
+
+First build and measure the stripped core:
+
+```sh
+pnpm --filter @vanrot/runtime build
+pnpm --filter @vanrot/runtime size
+```
+
+Read the measured gzip size for `dist/index.js` + `dist/internal.js`. Choose the cap as `ceil(measured * 1.10)` rounded to two decimals (≈10% headroom), and use that value everywhere below. Call this value `<RUNTIME_CAP>`.
+
+- If `<RUNTIME_CAP>` ≤ `3.99 KB`, use the measured-derived value (it should be smaller — good).
+- If the measured core already exceeds `3.99 KB`, STOP and report the exact size to the user before writing any cap: this contradicts the spec's "smaller core" expectation and means something behavior-shaped is still in the core or runtime grew. Resolve that before continuing.
+
+In `packages/runtime/.size-limit.json`, set the limit to `<RUNTIME_CAP>`:
 
 ```json
 [
   {
     "name": "@vanrot/runtime (public + internal)",
     "path": ["dist/index.js", "dist/internal.js"],
-    "limit": "3.99 KB",
+    "limit": "<RUNTIME_CAP>",
     "gzip": true
   }
 ]
 ```
 
-In `scripts/verify-runtime-size-budget.test.mjs`, update expectations so the verifier requires `3.99 KB` and no longer treats behavior controllers as justified runtime content.
+In `scripts/verify-runtime-size-budget.test.mjs`, update expectations so the verifier asserts `<RUNTIME_CAP>` (and the matching docs wording) and no longer treats behavior controllers as justified runtime content.
 
-In `AGENTS.md` and `CLAUDE.md`, replace the 9.99 KB behavior-era wording with:
+In `AGENTS.md` and `CLAUDE.md`, replace the 9.99 KB behavior-era wording with the same `<RUNTIME_CAP>` value:
 
 ```md
 ## Runtime Size Budget Protocol
 
-`@vanrot/runtime` is the core browser runtime and must stay under `3.99 KB` gzipped for `dist/index.js` plus `dist/internal.js`.
+`@vanrot/runtime` is the core browser runtime and must stay under `<RUNTIME_CAP>` gzipped for `dist/index.js` plus `dist/internal.js`.
 
 Headless UI/application behavior belongs in `@vanrot/behavior`, not `@vanrot/runtime`. If `pnpm verify:size` reaches or breaches the runtime cap, report the exact size and explain which core runtime feature caused it before raising the cap.
 ```
+
+Keep `<RUNTIME_CAP>` identical across `.size-limit.json`, `verify-runtime-size-budget.test.mjs`, `AGENTS.md`, and `CLAUDE.md` — one value, four files.
 
 - [ ] **Step 6: Run runtime tests and size verification**
 
@@ -907,7 +925,7 @@ Expected: PASS.
 
 Run: `pnpm --filter @vanrot/runtime size`
 
-Expected: PASS and runtime size below `3.99 kB`.
+Expected: PASS and runtime size at or below `<RUNTIME_CAP>` (the measured-derived value from Step 5).
 
 Run: `pnpm exec vitest run scripts/verify-runtime-size-budget.test.mjs`
 
@@ -1878,8 +1896,10 @@ Expected: doctor checks are behavior-aware and existing doctor behavior remains 
 
 **Files:**
 - Modify: `apps/vanrot-site/src/docs/framework-reference.json`
+- Modify: `apps/vanrot-site/src/docs/site-data.ts`
 - Modify: `apps/vanrot-site/src/docs/site-data.json`
 - Modify: `apps/vanrot-site/src/docs/site-navigation.ts`
+- Modify: `apps/vanrot-site/src/routes.ts`
 - Modify: `apps/vanrot-site/src/docs/example-matrix.ts`
 - Modify: `apps/vanrot-site/tests/framework-reference.test.ts`
 - Modify: `apps/vanrot-site/tests/site-pages.test.ts`
@@ -1933,6 +1953,12 @@ expect(frameworkReference.commands.map((command) => command.name)).toEqual([
 ```
 
 Add `behavior-helpers` to `requiredExampleWorkflows` expectation and ensure at least one example contains `@vanrot/behavior`.
+
+In `apps/vanrot-site/tests/site-pages.test.ts`, add a concrete assertion that the behavior article route exists (mirror the `route.docsVitePlugin.path` style):
+
+```ts
+expect(route.docsBehavior.path).toBe('behavior');
+```
 
 - [ ] **Step 2: Run docs tests to verify they fail**
 
@@ -1988,7 +2014,11 @@ Add config reference text for `behavior.enabled`.
 
 - [ ] **Step 4: Add behavior docs article**
 
-In `apps/vanrot-site/src/docs/site-data.json`, add a docs article keyed `behavior` at `/docs/behavior` with this content model:
+Docs articles are not a single dynamic route. Each article is registered explicitly and its key is the single source of truth in `siteArticleKey`. Wire all four touch points in this order.
+
+**4a. Add the article key (source of truth).** In `apps/vanrot-site/src/docs/site-data.ts`, add `behavior: 'behavior',` to the `siteArticleKey` object (place it after the runtime keys, before `compiler`). `siteArticleKeys` and `SiteArticleKey` derive from this object automatically.
+
+**4b. Add the article body.** In `apps/vanrot-site/src/docs/site-data.json`, append an entry to the `articles` array. Mirror the full field shape of an existing runtime article entry (do not invent fields — copy the keys an existing article uses, e.g. `key`, `label`, `path`/slug, `title`, `summary`, `sections`). Use `key: "behavior"`, path `/docs/behavior`, and this content model:
 
 ```json
 {
@@ -2021,7 +2051,19 @@ In `apps/vanrot-site/src/docs/site-data.json`, add a docs article keyed `behavio
 }
 ```
 
-If `site-navigation.ts` requires explicit navigation entries, add `/docs/behavior` near runtime/config docs.
+**4c. Add the nav entry.** In `apps/vanrot-site/src/docs/site-navigation.ts`, add `navItem(siteArticleKey.behavior)` to the docs navigation, near the runtime section (it documents the optional runtime companion).
+
+**4d. Register the route.** In `apps/vanrot-site/src/routes.ts`:
+
+- Add the article-page const next to the other docs consts:
+
+```ts
+const docsBehavior = articlePage(siteArticleKey.behavior);
+```
+
+- Add `docsBehavior,` to the docs route table array (the same array that lists `docsRuntime`, `docsRuntimeControllers`, etc.), placed after the runtime article entries.
+
+`articlePage` derives the child path from the key, so `siteArticleKey.behavior` produces `/docs/behavior` and exposes it as `route.docsBehavior`.
 
 - [ ] **Step 5: Update example matrix**
 
@@ -2055,7 +2097,7 @@ Add a package section:
 | [x] | subpath imports | `@vanrot/behavior/<name>` | Production-Ready | Subpath export tests cover form, table, overlay, tabs, tooltip, toast, command-menu, positioned-layer, and all. | Phase 16H | `@vanrot/behavior/all` has no hard cap because it is explicit opt-in. |
 ```
 
-Update the `@vanrot/runtime` section to say behavior controllers moved to `@vanrot/behavior` and runtime cap is `3.99 KB`.
+Update the `@vanrot/runtime` section to say behavior controllers moved to `@vanrot/behavior` and runtime cap is `<RUNTIME_CAP>` (the measured-derived value set in Task 4 Step 5).
 
 In `docs/superpowers/post-production-implementation-ideas.md`, add a behavior backlog entry:
 
@@ -2169,7 +2211,7 @@ Expected: PASS.
 
 Run: `pnpm verify:size`
 
-Expected: PASS with `@vanrot/runtime` below `3.99 kB`. `@vanrot/behavior/all` has no hard cap.
+Expected: PASS with `@vanrot/runtime` at or below `<RUNTIME_CAP>` (from Task 4 Step 5). `@vanrot/behavior/all` has no hard cap.
 
 Run: `pnpm test:phase-docs`
 
@@ -2220,8 +2262,9 @@ Expected: modified and created files match this plan. Do not stage or commit unl
 ## Self-Review
 
 - Spec coverage: Runtime Boundary is covered by Task 4; new behavior package and current behavior migration are covered by Tasks 2 and 3; create prompts are covered by Task 5; remove behavior is covered by Task 6; doctor cleanup rules are covered by Task 7; docs, AI docs, inventory, and post-production backlog are covered by Task 8; verification is covered by Task 9.
-- Placeholder scan: the plan contains no placeholder markers, no unchecked design gaps, no vague edge-case instructions, and no references to undefined functions without a creation step.
+- Placeholder scan: no unchecked design gaps, no vague edge-case instructions, no references to undefined functions without a creation step. The one intentional token is `<RUNTIME_CAP>` in Task 4 Step 5 — a measured-derived value the executor must compute (build + `size`) and write identically across `.size-limit.json`, `verify-runtime-size-budget.test.mjs`, `AGENTS.md`, `CLAUDE.md`, and the TDD inventory. It is deliberately not hardcoded.
 - Type consistency: behavior names use `VanrotBehaviorName` from `@vanrot/config`; CLI catalog uses the same names; `vanrot.config.ts` stores `behavior.enabled`; doctor checks use the same catalog.
+- Docs route wiring: the `/docs/behavior` article is registered through the explicit-route model, not a dynamic route. Task 8 Step 4 adds `siteArticleKey.behavior` (single source of truth in `site-data.ts`), the article body in `site-data.json`, the `navItem` in `site-navigation.ts`, and the `articlePage(siteArticleKey.behavior)` route in `routes.ts`, with `route.docsBehavior.path` covered in `site-pages.test.ts`.
 
 ## Execution Handoff
 
