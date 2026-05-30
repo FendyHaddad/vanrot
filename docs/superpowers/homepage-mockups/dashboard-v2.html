@@ -1,0 +1,110 @@
+<h2>Dashboard — package widget fixed</h2>
+<p class="subtitle">Status column right-aligned at the row end, generous row padding, an extra "area" column so it breathes. Built from vr-table / vr-badge / vr-card.</p>
+
+<style>
+  .frame{ border:1px solid rgba(255,255,255,.14); border-radius:12px; overflow:hidden; background:#000; box-shadow:0 30px 80px rgba(0,0,0,.6); }
+  .chrome{ display:flex; align-items:center; gap:8px; padding:9px 14px; border-bottom:1px solid rgba(255,255,255,.08); background:#0b0b0b; }
+  .chrome i{ width:9px;height:9px;border-radius:50%;background:rgba(255,255,255,.16); display:inline-block; }
+  .chrome .u{ flex:1; text-align:center; font-family:'JetBrains Mono',monospace; font-size:11px; color:rgba(255,255,255,.3); }
+  .db{ display:grid; grid-template-columns:208px 1fr; min-height:430px; background:#050505; font-family:Geist,system-ui,sans-serif; }
+  .side{ border-right:1px solid rgba(255,255,255,.08); padding:14px 10px; display:grid; gap:3px; align-content:start; }
+  .brand{ display:flex; align-items:center; gap:9px; padding:4px 8px 12px; }
+  .brand .mk{ width:18px;height:18px;border-radius:5px;background:#fff; }
+  .brand b{ font-size:13.5px; color:#fafafa; }
+  .search{ display:flex; align-items:center; gap:8px; height:32px; padding:0 9px; border:1px solid rgba(255,255,255,.1); border-radius:7px; color:#666; font-size:12.5px; margin-bottom:8px; }
+  .search .k{ margin-left:auto; font-family:'JetBrains Mono',monospace; font-size:10px; padding:1px 5px; border:1px solid rgba(255,255,255,.12); border-radius:4px; }
+  .ttl{ font-size:10px; text-transform:uppercase; letter-spacing:.1em; color:#555; padding:8px 8px 3px; }
+  .it{ display:flex; align-items:center; gap:9px; height:30px; padding:0 9px; border-radius:7px; font-size:12.5px; color:#9a9a9a; }
+  .it .ic{ width:14px; text-align:center; opacity:.55; }
+  .it.act{ background:#161616; color:#fff; }
+  .main{ display:grid; grid-template-rows:52px 1fr; }
+  .top{ display:flex; align-items:center; gap:12px; padding:0 18px; border-bottom:1px solid rgba(255,255,255,.08); }
+  .top h4{ margin:0; font-size:14px; color:#fafafa; }
+  .crumb{ display:flex; align-items:center; gap:7px; font-family:'JetBrains Mono',monospace; font-size:11px; }
+  .crumb a{ color:#777; text-decoration:none; }
+  .crumb a:hover{ color:#ccc; }
+  .crumb .sep{ color:#333; }
+  .crumb .cur{ color:#fafafa; }
+  .top .right{ margin-left:auto; display:flex; align-items:center; gap:12px; }
+  .top .bell{ color:#666; font-size:14px; }
+  .top .av{ width:28px;height:28px;border-radius:50%;border:1px solid rgba(255,255,255,.15); object-fit:cover; display:block; }
+  .content{ padding:18px; display:grid; gap:14px; align-content:start; }
+  .stats{ display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .card{ border:1px solid rgba(255,255,255,.08); border-radius:10px; padding:13px 14px; background:#0c0c0c; }
+  .card .l{ font-size:11.5px; color:#777; }
+  .card .v{ font-family:'JetBrains Mono',monospace; font-size:23px; color:#fafafa; margin-top:8px; font-weight:600; }
+  .card .d{ font-size:11px; margin-top:3px; color:#8a8a8a; }
+
+  /* ── packages panel, fixed ── */
+  .panel{ border:1px solid rgba(255,255,255,.08); border-radius:10px; background:#0c0c0c; overflow:hidden; }
+  .phead{ padding:14px 18px; border-bottom:1px solid rgba(255,255,255,.07); }
+  .phead h5{ margin:0 0 2px; font-size:13px; color:#eee; }
+  .phead p{ margin:0; font-size:11px; color:#666; }
+  table{ width:100%; border-collapse:collapse; }
+  th,td{ padding:11px 18px; }
+  th{ text-align:left; font-size:10px; text-transform:uppercase; letter-spacing:.07em; color:#666; border-bottom:1px solid rgba(255,255,255,.07); font-weight:500; }
+  td{ font-size:12.5px; color:#9a9a9a; border-bottom:1px solid rgba(255,255,255,.04); }
+  tr:last-child td{ border-bottom:none; }
+  td.m{ font-family:'JetBrains Mono',monospace; font-size:11.5px; color:#ededed; }
+  th.num, td.num{ text-align:right; white-space:nowrap; }
+  td.num{ color:#bdbdbd; }
+  /* status pinned to the row end */
+  th.end, td.end{ text-align:right; width:1%; white-space:nowrap; }
+  .badge{ font-family:'JetBrains Mono',monospace; font-size:10px; padding:3px 9px; border-radius:6px; border:1px solid rgba(255,255,255,.2); color:#e6e6e6; }
+  .badge.demo{ opacity:.55; border-style:dashed; }
+  .dot{ display:inline-block; width:5px;height:5px;border-radius:50%; background:#e6e6e6; margin-right:6px; vertical-align:1px; }
+  .badge.demo .dot{ background:#888; }
+</style>
+
+<div class="frame">
+  <div class="chrome"><i></i><i></i><i></i><span class="u">vanrot.dev/docs/components</span></div>
+  <div class="db">
+    <aside class="side">
+      <div class="brand"><span class="mk"></span><b>Vanrot</b></div>
+      <div class="search"><span>⌕</span><span>Search…</span><span class="k">⌘K</span></div>
+      <div class="ttl">Framework</div>
+      <div class="it act"><span class="ic">◧</span> Dashboard</div>
+      <div class="it"><span class="ic">▤</span> Packages</div>
+      <div class="it"><span class="ic">◈</span> Components</div>
+      <div class="it"><span class="ic">⎘</span> Changelog</div>
+      <div class="ttl">Tools</div>
+      <div class="it"><span class="ic">⚙</span> Settings</div>
+      <div class="it"><span class="ic">✚</span> Doctor</div>
+    </aside>
+    <div class="main">
+      <div class="top">
+        <span class="crumb"><a href="#">Vanrot</a><span class="sep">/</span><a href="#">Framework</a><span class="sep">/</span><span class="cur">Overview</span></span>
+        <span class="right">
+          <img class="av" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80" alt="user">
+        </span>
+      </div>
+      <div class="content">
+        <div class="stats">
+          <div class="card"><div class="l">Runtime size</div><div class="v">3.9kb</div><div class="d">gzipped</div></div>
+          <div class="card"><div class="l">Dependencies</div><div class="v">0</div><div class="d">runtime</div></div>
+          <div class="card"><div class="l">Packages</div><div class="v">9</div><div class="d">2 new</div></div>
+          <div class="card"><div class="l">Type coverage</div><div class="v">100%</div><div class="d">strict</div></div>
+        </div>
+        <div class="panel">
+          <div class="phead"><h5>Packages</h5><p>9 packages · 7 stable, 2 demo</p></div>
+          <table>
+            <thead><tr><th>Package</th><th>Area</th><th class="num">Version</th><th class="num">Size</th><th class="end">Status</th></tr></thead>
+            <tbody>
+              <tr><td class="m">@vanrot/runtime</td><td>Reactive runtime</td><td class="m num">1.4.0</td><td class="m num">3.9kb</td><td class="end"><span class="badge"><span class="dot"></span>stable</span></td></tr>
+              <tr><td class="m">@vanrot/compiler</td><td>Template codegen</td><td class="m num">1.4.0</td><td class="m num">12.1kb</td><td class="end"><span class="badge"><span class="dot"></span>stable</span></td></tr>
+              <tr><td class="m">@vanrot/router</td><td>Client routing</td><td class="m num">1.2.3</td><td class="m num">5.2kb</td><td class="end"><span class="badge"><span class="dot"></span>stable</span></td></tr>
+              <tr><td class="m">@vanrot/ui</td><td>October design</td><td class="m num">0.9.0</td><td class="m num">8.7kb</td><td class="end"><span class="badge demo"><span class="dot"></span>demo</span></td></tr>
+              <tr><td class="m">@vanrot/cli</td><td>vr binary</td><td class="m num">1.1.0</td><td class="m num">—</td><td class="end"><span class="badge"><span class="dot"></span>stable</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p class="subtitle" style="margin-top:18px">Package widget fixed — badge pinned to row end, roomy padding, added an Area column. Good?</p>
+<div class="options">
+  <div class="option" data-choice="lock" onclick="toggleSelect(this)"><div class="letter">✓</div><div class="content"><h3>Locked</h3><p>Dashboard + package widget done. Finish brainstorm → write spec.</p></div></div>
+  <div class="option" data-choice="tweak" onclick="toggleSelect(this)"><div class="letter">✎</div><div class="content"><h3>Minor tweak</h3><p>I'll say what in terminal.</p></div></div>
+</div>
