@@ -15,6 +15,7 @@ describe('framework reference registry', () => {
   it('documents every current workspace package', () => {
     expect(frameworkReference.packages.map((item) => item.name)).toEqual([
       '@vanrot/runtime',
+      '@vanrot/behavior',
       '@vanrot/compiler',
       '@vanrot/config',
       '@vanrot/language-server',
@@ -63,6 +64,7 @@ describe('framework reference registry', () => {
       'create',
       'generate',
       'add',
+      'remove',
       'ui',
       'config',
       'update',
@@ -112,6 +114,7 @@ describe('example matrix', () => {
     expect(requiredExampleWorkflows).toEqual([
       'starter-flow',
       'runtime-lifecycle',
+      'behavior-helpers',
       'compiler-templates',
       'routing-workflows',
       'config-diagnostics',
@@ -126,6 +129,8 @@ describe('example matrix', () => {
     for (const workflow of requiredExampleWorkflows) {
       expect(exampleMatrix.some((example) => example.workflows.includes(workflow))).toBe(true);
     }
+
+    expect(exampleMatrix.some((example) => example.packages.includes('@vanrot/behavior'))).toBe(true);
 
     for (const packageReference of frameworkReference.packages) {
       expect(exampleMatrix.some((example) => example.packages.includes(packageReference.name))).toBe(

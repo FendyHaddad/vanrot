@@ -20,7 +20,7 @@ Docs: /docs/vite-plugin
 
 ## vanrot.config.ts
 
-Typed Vanrot config source for source roots, dev server defaults, UI configuration, and AI rule settings.
+Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.
 
 Docs: /docs/configuration
 

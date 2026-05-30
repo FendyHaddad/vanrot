@@ -12,5 +12,3 @@ export {
 } from './lifecycle/cleanup-scope.js';
 
 export { listen } from './events/listen.js';
-export { connectFormControl } from './forms/form-controller.js';
-export { connectTableFilter, createTableController } from './ui/table-controller.js';

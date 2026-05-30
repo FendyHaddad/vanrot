@@ -2,6 +2,7 @@ export const commandName = {
   create: 'create',
   generate: 'generate',
   add: 'add',
+  remove: 'remove',
   ui: 'ui',
   config: 'config',
   update: 'update',
@@ -79,6 +80,20 @@ Primitives
 Examples
   vr add button
   vr add primary button`,
+  },
+  {
+    name: commandName.remove,
+    usage: 'vr remove behavior <name>',
+    rootUsage: 'remove behavior <name>',
+    description: 'Remove an optional behavior helper from project config',
+    help: `vr remove behavior <name>
+
+Examples
+  vr remove behavior tooltip
+  vr remove behavior tooltip --package
+
+Options
+  --package   Remove @vanrot/behavior when no behavior helpers remain`,
   },
   {
     name: commandName.ui,
@@ -209,7 +224,7 @@ vr ai summarize`,
 export const commandGroups = [
   {
     label: 'Scaffold',
-    commands: [commandName.create, commandName.generate, commandName.add, commandName.ui],
+    commands: [commandName.create, commandName.generate, commandName.add, commandName.remove, commandName.ui],
   },
   { label: 'Development', commands: [commandName.dev, commandName.build, commandName.test] },
   {

@@ -92,6 +92,59 @@ describe('vr create', () => {
     expect(reporter.output()).toContain('vr dev');
   });
 
+  it('scaffolds behavior config and dependency when behavior helpers are selected', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'behavior-app', '--behavior', 'tooltip,toast'], {
+      cwd,
+      reporter,
+    });
+
+    const appRoot = join(cwd, 'behavior-app');
+    const packageJson = JSON.parse(await readFile(join(appRoot, 'package.json'), 'utf8')) as {
+      dependencies?: Record<string, string>;
+    };
+    const configSource = await readFile(join(appRoot, 'vanrot.config.ts'), 'utf8');
+
+    expect(result.exitCode).toBe(0);
+    expect(packageJson.dependencies).toMatchObject({
+      '@vanrot/behavior': expect.stringMatching(/^\^\d+\.\d+\.\d+/),
+    });
+    expect(configSource).toContain('behavior: {');
+    expect(configSource).toContain("enabled: ['tooltip', 'toast']");
+  });
+
+  it('does not install behavior when behavior helpers are declined', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'lean-app', '--no-behavior'], { cwd, reporter });
+
+    const appRoot = join(cwd, 'lean-app');
+    const packageJson = JSON.parse(await readFile(join(appRoot, 'package.json'), 'utf8')) as {
+      dependencies?: Record<string, string>;
+    };
+    const configSource = await readFile(join(appRoot, 'vanrot.config.ts'), 'utf8');
+
+    expect(result.exitCode).toBe(0);
+    expect(packageJson.dependencies?.['@vanrot/behavior']).toBeUndefined();
+    expect(configSource).not.toContain('behavior:');
+  });
+
+  it('rejects unknown behavior helper names during create', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['create', 'bad-behavior-app', '--behavior', 'accordion'], {
+      cwd,
+      reporter,
+    });
+
+    expect(result.exitCode).toBe(1);
+    expect(reporter.output()).toContain('Unknown behavior helper');
+  });
+
   it('uses the CLI package version for registry dependencies', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();

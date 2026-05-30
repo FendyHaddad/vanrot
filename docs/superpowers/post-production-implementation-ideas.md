@@ -18,6 +18,15 @@ matching phase spec and writing plan using the normal `Phase-XX.md` naming conve
   async resources, router integration, and SSR boundaries.
 - Prefer readable, English-like APIs and named sources of truth over clever shorthand or repeated string literals.
 
+## Optional Behavior Package Expansion
+
+- Accordion / Collapsible / Disclosure.
+- Select / Listbox / Combobox.
+- Context Menu / Menubar / Navigation Menu.
+- Toggle Group / Toolbar.
+- Scroll Area, Portal, focus utilities, and visually hidden accessibility helpers.
+- Date picker/calendar, drag and drop, table column resizing, and richer multi-selection.
+
 ## Later Candidate: Editor Tooling Hardening
 
 The IntelliJ plugin foundation already exists. This section is now only for the deeper editor experience that should

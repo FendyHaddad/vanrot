@@ -71,6 +71,7 @@ export const siteArticleKey = {
   runtimeDevtoolsGraph: 'runtimeDevtoolsGraph',
   runtimeLifecycle: 'runtimeLifecycle',
   runtimeMounting: 'runtimeMounting',
+  behavior: 'behavior',
   compiler: 'compiler',
   compilerFileConventions: 'compilerFileConventions',
   compilerComponentClass: 'compilerComponentClass',

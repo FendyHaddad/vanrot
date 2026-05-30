@@ -36,6 +36,9 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
       styles: config.ui?.styles ?? vanrotUiStyleMode.vanrotstyles,
       prefix: config.ui?.prefix ?? 'ui',
     },
+    behavior: {
+      enabled: config.behavior?.enabled ?? [],
+    },
     ai: {
       enabled: config.ai?.enabled ?? true,
       rules: {

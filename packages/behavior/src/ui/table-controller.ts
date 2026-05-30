@@ -1,4 +1,4 @@
-import { signal, type WritableSignal } from '../reactive/signal.js';
+import { signal, type WritableSignal } from '@vanrot/runtime';
 
 export type SortDirection = 'asc' | 'desc';
 export type RowId = string | number;

@@ -1,15 +1,10 @@
-import {
-  createCommandMenuController,
-  createOverlayController,
-  createTabsController,
-  createTooltipController,
-  createToastController,
-  effect,
-  onMount,
-  positionLayer,
-  type Dispose,
-  type ToastMessage,
-} from '@vanrot/runtime';
+import { createCommandMenuController } from '@vanrot/behavior/command-menu';
+import { createOverlayController } from '@vanrot/behavior/overlay';
+import { positionLayer } from '@vanrot/behavior/positioned-layer';
+import { createTabsController } from '@vanrot/behavior/tabs';
+import { createToastController, type ToastMessage } from '@vanrot/behavior/toast';
+import { createTooltipController } from '@vanrot/behavior/tooltip';
+import { effect, onMount, type Dispose } from '@vanrot/runtime';
 
 const interactionPreviewSelector = {
   overlay: '[data-vr-overlay-preview]',

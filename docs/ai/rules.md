@@ -15,6 +15,7 @@ Use this generated bundle as the source of truth before answering Vanrot questio
 - vr create <project-name>
 - vr generate <kind> <name>
 - vr add <package-or-primitive>
+- vr remove behavior <name>
 - vr ui <subcommand>
 - vr config <subcommand>
 - vr update <target>

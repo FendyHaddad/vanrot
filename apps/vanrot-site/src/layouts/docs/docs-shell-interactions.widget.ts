@@ -1,9 +1,6 @@
-import {
-  createCommandMenuController,
-  createOverlayController,
-  onMount,
-  type Dispose,
-} from '@vanrot/runtime';
+import { createCommandMenuController } from '@vanrot/behavior/command-menu';
+import { createOverlayController } from '@vanrot/behavior/overlay';
+import { onMount, type Dispose } from '@vanrot/runtime';
 
 const docsShellSelector = {
   commandMenu: '[data-vr-docs-command-menu]',

@@ -118,7 +118,7 @@ Delete after moving:
 - Test: `packages/config/tests/defaults.test.ts`
 - Test: `packages/config/tests/validate.test.ts`
 
-- [ ] **Step 1: Write failing default config tests**
+- [x] **Step 1: Write failing default config tests**
 
 Add these tests to `packages/config/tests/defaults.test.ts`:
 
@@ -140,7 +140,7 @@ it('respects explicit behavior helper selections', () => {
 });
 ```
 
-- [ ] **Step 2: Write failing validation tests**
+- [x] **Step 2: Write failing validation tests**
 
 Add these tests to `packages/config/tests/validate.test.ts`:
 
@@ -190,13 +190,13 @@ it('reports non-array behavior helper config', () => {
 });
 ```
 
-- [ ] **Step 3: Run the config tests to verify they fail**
+- [x] **Step 3: Run the config tests to verify they fail**
 
 Run: `pnpm --filter @vanrot/config test -- defaults validate`
 
 Expected: FAIL because `NormalizedVanrotConfig` has no `behavior` field, `configDiagnosticCode.invalidBehavior` does not exist, and `validateVanrotConfig` treats `behavior` as an unknown top-level key.
 
-- [ ] **Step 4: Add behavior config types**
+- [x] **Step 4: Add behavior config types**
 
 In `packages/config/src/types.ts`, add this near the UI/router constants:
 
@@ -258,7 +258,7 @@ export interface NormalizedVanrotConfig
 }
 ```
 
-- [ ] **Step 5: Normalize behavior config**
+- [x] **Step 5: Normalize behavior config**
 
 In `packages/config/src/defaults.ts`, add `behavior` to the returned object:
 
@@ -268,7 +268,7 @@ behavior: {
 },
 ```
 
-- [ ] **Step 6: Add validation diagnostics**
+- [x] **Step 6: Add validation diagnostics**
 
 In `packages/config/src/diagnostics.ts`, add the next code:
 
@@ -307,7 +307,7 @@ if (Array.isArray(behavior?.enabled)) {
 }
 ```
 
-- [ ] **Step 7: Export behavior config types and constants**
+- [x] **Step 7: Export behavior config types and constants**
 
 In `packages/config/src/index.ts`, add value exports:
 
@@ -323,13 +323,13 @@ VanrotBehaviorConfig,
 VanrotBehaviorName,
 ```
 
-- [ ] **Step 8: Run config tests to verify they pass**
+- [x] **Step 8: Run config tests to verify they pass**
 
 Run: `pnpm --filter @vanrot/config test -- defaults validate`
 
 Expected: PASS for defaults and validate tests.
 
-- [ ] **Step 9: Checkpoint**
+- [x] **Step 9: Checkpoint**
 
 Run: `git status --short`
 
@@ -354,7 +354,7 @@ Expected: config source and config test files are modified only. Do not stage or
 - Create: `packages/behavior/src/positioned-layer.ts`
 - Create: `packages/behavior/tests/exports/exports.test.ts`
 
-- [ ] **Step 1: Write the failing package export test**
+- [x] **Step 1: Write the failing package export test**
 
 Create `packages/behavior/tests/exports/exports.test.ts`:
 
@@ -394,13 +394,13 @@ describe('@vanrot/behavior exports', () => {
 });
 ```
 
-- [ ] **Step 2: Run the behavior test to verify it fails**
+- [x] **Step 2: Run the behavior test to verify it fails**
 
 Run: `pnpm --filter @vanrot/behavior test -- exports`
 
 Expected: FAIL because `@vanrot/behavior` does not exist.
 
-- [ ] **Step 3: Create the behavior package manifest**
+- [x] **Step 3: Create the behavior package manifest**
 
 Create `packages/behavior/package.json`:
 
@@ -475,7 +475,7 @@ Create `packages/behavior/package.json`:
 }
 ```
 
-- [ ] **Step 4: Create the TypeScript config**
+- [x] **Step 4: Create the TypeScript config**
 
 Create `packages/behavior/tsconfig.json`:
 
@@ -493,7 +493,7 @@ Create `packages/behavior/tsconfig.json`:
 }
 ```
 
-- [ ] **Step 5: Create public barrel files**
+- [x] **Step 5: Create public barrel files**
 
 Create `packages/behavior/src/index.ts`:
 
@@ -636,13 +636,13 @@ export type { LayerAlign, LayerSide, PositionLayerOptions } from './ui/positione
 export { positionLayer } from './ui/positioned-layer.js';
 ```
 
-- [ ] **Step 6: Run the behavior test to verify the shell still fails for missing implementations**
+- [x] **Step 6: Run the behavior test to verify the shell still fails for missing implementations**
 
 Run: `pnpm --filter @vanrot/behavior test -- exports`
 
 Expected: FAIL because barrel files reference implementation files that are not created yet.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Run: `git status --short`
 
@@ -671,7 +671,7 @@ Expected: new `packages/behavior` package shell and export test files are visibl
 - Create: `packages/behavior/tests/ui/positioned-layer.test.ts`
 - Delete: matching `packages/runtime/tests/forms` and `packages/runtime/tests/ui` behavior tests after the new tests pass.
 
-- [ ] **Step 1: Copy behavior source files into the new package**
+- [x] **Step 1: Copy behavior source files into the new package**
 
 Create these files with the exact current source from the matching runtime file:
 
@@ -700,7 +700,7 @@ import { signal, type WritableSignal } from '@vanrot/runtime';
 
 `packages/behavior/src/ui/positioned-layer.ts` has no runtime import and should keep its existing implementation unchanged.
 
-- [ ] **Step 2: Copy behavior tests into the new package**
+- [x] **Step 2: Copy behavior tests into the new package**
 
 Create these tests with the exact current source from the matching runtime test:
 
@@ -733,19 +733,19 @@ The text remains the same for copied `tests/ui/*` files because their relative d
 import { createFormController } from '../../src/forms/form-controller.js';
 ```
 
-- [ ] **Step 3: Run behavior tests**
+- [x] **Step 3: Run behavior tests**
 
 Run: `pnpm --filter @vanrot/behavior test`
 
 Expected: PASS for all moved behavior tests and the export test.
 
-- [ ] **Step 4: Run behavior typecheck**
+- [x] **Step 4: Run behavior typecheck**
 
 Run: `pnpm --filter @vanrot/behavior typecheck`
 
 Expected: PASS. If TypeScript cannot resolve `@vanrot/runtime`, confirm `packages/behavior/tsconfig.json` references `../runtime` and `packages/behavior/package.json` depends on `@vanrot/runtime`.
 
-- [ ] **Step 5: Delete moved runtime behavior tests**
+- [x] **Step 5: Delete moved runtime behavior tests**
 
 Delete these files only after the behavior package tests pass:
 
@@ -760,7 +760,7 @@ packages/runtime/tests/ui/command-menu-controller.test.ts
 packages/runtime/tests/ui/positioned-layer.test.ts
 ```
 
-- [ ] **Step 6: Checkpoint**
+- [x] **Step 6: Checkpoint**
 
 Run: `git status --short`
 
@@ -787,7 +787,7 @@ Expected: behavior implementation and test files exist, runtime behavior tests a
 - Delete: `packages/runtime/src/ui/command-menu-controller.ts`
 - Delete: `packages/runtime/src/ui/positioned-layer.ts`
 
-- [ ] **Step 1: Write failing runtime export assertions**
+- [x] **Step 1: Write failing runtime export assertions**
 
 In `packages/runtime/tests/exports/exports.test.ts`, replace the public behavior assertions:
 
@@ -825,13 +825,13 @@ expect('createTableController' in internal).toBe(false);
 expect('connectTableFilter' in internal).toBe(false);
 ```
 
-- [ ] **Step 2: Run runtime export test to verify it fails**
+- [x] **Step 2: Run runtime export test to verify it fails**
 
 Run: `pnpm --filter @vanrot/runtime test -- exports`
 
 Expected: FAIL because runtime still exports behavior helpers.
 
-- [ ] **Step 3: Remove behavior exports from runtime barrels**
+- [x] **Step 3: Remove behavior exports from runtime barrels**
 
 In `packages/runtime/src/index.ts`, remove every export line for:
 
@@ -853,7 +853,7 @@ export { connectFormControl } from './forms/form-controller.js';
 export { connectTableFilter, createTableController } from './ui/table-controller.js';
 ```
 
-- [ ] **Step 4: Delete runtime behavior implementation files**
+- [x] **Step 4: Delete runtime behavior implementation files**
 
 Delete:
 
@@ -870,7 +870,7 @@ packages/runtime/src/ui/positioned-layer.ts
 
 Leave empty directories only if needed by the current tree. Prefer deleting empty `packages/runtime/src/forms` and `packages/runtime/src/ui` directories after their files are gone.
 
-- [ ] **Step 5: Measure the stripped runtime core, then set the cap**
+- [x] **Step 5: Measure the stripped runtime core, then set the cap**
 
 Do not hardcode the cap before measuring. The `3.99 KB` figure below is an expected ceiling, not a guarantee — the controllers are ~67% of runtime source today, so the core should land well under it, but the only authority is the measured number.
 
@@ -913,7 +913,7 @@ Headless UI/application behavior belongs in `@vanrot/behavior`, not `@vanrot/run
 
 Keep `<RUNTIME_CAP>` identical across `.size-limit.json`, `verify-runtime-size-budget.test.mjs`, `AGENTS.md`, and `CLAUDE.md` — one value, four files.
 
-- [ ] **Step 6: Run runtime tests and size verification**
+- [x] **Step 6: Run runtime tests and size verification**
 
 Run: `pnpm --filter @vanrot/runtime test`
 
@@ -931,7 +931,7 @@ Run: `pnpm exec vitest run scripts/verify-runtime-size-budget.test.mjs`
 
 Expected: PASS.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Run: `git status --short`
 
@@ -950,7 +950,7 @@ Expected: runtime no longer contains behavior implementations or behavior tests,
 - Modify: `packages/cli/package.json`
 - Test: `packages/cli/tests/create.test.ts`
 
-- [ ] **Step 1: Write failing create tests for behavior selection**
+- [x] **Step 1: Write failing create tests for behavior selection**
 
 Add these tests to `packages/cli/tests/create.test.ts`:
 
@@ -1009,13 +1009,13 @@ it('rejects unknown behavior helper names during create', async () => {
 });
 ```
 
-- [ ] **Step 2: Run create tests to verify they fail**
+- [x] **Step 2: Run create tests to verify they fail**
 
 Run: `pnpm --filter @vanrot/cli test -- create`
 
 Expected: FAIL because `--behavior`, `--no-behavior`, behavior dependency output, and config output are not implemented.
 
-- [ ] **Step 3: Create behavior catalog**
+- [x] **Step 3: Create behavior catalog**
 
 Create `packages/cli/src/behavior/catalog.ts`:
 
@@ -1108,7 +1108,7 @@ export function parseBehaviorList(value: string): VanrotBehaviorName[] {
 }
 ```
 
-- [ ] **Step 4: Add create behavior prompt helper**
+- [x] **Step 4: Add create behavior prompt helper**
 
 Create `packages/cli/src/create/behavior-prompt.ts`:
 
@@ -1170,7 +1170,7 @@ export async function resolveCreateBehaviorSelection(
 }
 ```
 
-- [ ] **Step 5: Thread behavior selection through app writing**
+- [x] **Step 5: Thread behavior selection through app writing**
 
 In `packages/cli/src/create/write-app.ts`, import the type and add `behavior`:
 
@@ -1247,7 +1247,7 @@ function renderBehaviorConfig(behavior: readonly VanrotBehaviorName[]): string {
 }
 ```
 
-- [ ] **Step 6: Parse create behavior flags**
+- [x] **Step 6: Parse create behavior flags**
 
 In `packages/cli/src/commands/create.ts`, import the prompt helper:
 
@@ -1296,7 +1296,7 @@ function valueAfter(args: readonly string[], flag: string): string | undefined {
 }
 ```
 
-- [ ] **Step 7: Update CLI package build dependencies**
+- [x] **Step 7: Update CLI package build dependencies**
 
 In `packages/cli/package.json`, add `@vanrot/behavior` to dependencies:
 
@@ -1306,13 +1306,13 @@ In `packages/cli/package.json`, add `@vanrot/behavior` to dependencies:
 
 Add `pnpm --filter @vanrot/behavior build` to `prebuild`, `pretypecheck`, and `pretest` after runtime/config build dependencies are available.
 
-- [ ] **Step 8: Run create tests**
+- [x] **Step 8: Run create tests**
 
 Run: `pnpm --filter @vanrot/cli test -- create`
 
 Expected: PASS.
 
-- [ ] **Step 9: Checkpoint**
+- [x] **Step 9: Checkpoint**
 
 Run: `git status --short`
 
@@ -1330,7 +1330,7 @@ Expected: CLI create path and config behavior support are modified, with no docs
 - Test: `packages/cli/tests/behavior-command.test.ts`
 - Test: `packages/cli/tests/cli.test.ts`
 
-- [ ] **Step 1: Write failing remove behavior tests**
+- [x] **Step 1: Write failing remove behavior tests**
 
 Create `packages/cli/tests/behavior-command.test.ts`:
 
@@ -1451,13 +1451,13 @@ async function createFixtureProject(options: {
 }
 ```
 
-- [ ] **Step 2: Run remove behavior test to verify it fails**
+- [x] **Step 2: Run remove behavior test to verify it fails**
 
 Run: `pnpm --filter @vanrot/cli test -- behavior-command`
 
 Expected: FAIL because `vr remove` is not registered.
 
-- [ ] **Step 3: Implement config and package editing**
+- [x] **Step 3: Implement config and package editing**
 
 Create `packages/cli/src/remove/remove-behavior.ts`:
 
@@ -1528,7 +1528,7 @@ function escapeRegExp(value: string): string {
 }
 ```
 
-- [ ] **Step 4: Implement remove command dispatch**
+- [x] **Step 4: Implement remove command dispatch**
 
 Create `packages/cli/src/commands/remove.ts`:
 
@@ -1606,17 +1606,17 @@ import { removeCommand } from './commands/remove.js';
 [commandName.remove, removeCommand],
 ```
 
-- [ ] **Step 5: Update CLI help tests**
+- [x] **Step 5: Update CLI help tests**
 
 In `packages/cli/tests/cli.test.ts`, add assertions that root help includes `remove behavior <name>` and `vr remove --help` includes `--package`.
 
-- [ ] **Step 6: Run CLI remove/help tests**
+- [x] **Step 6: Run CLI remove/help tests**
 
 Run: `pnpm --filter @vanrot/cli test -- behavior-command cli`
 
 Expected: PASS.
 
-- [ ] **Step 7: Checkpoint**
+- [x] **Step 7: Checkpoint**
 
 Run: `git status --short`
 
@@ -1631,7 +1631,7 @@ Expected: remove command files are created, metadata/dispatch/tests are updated,
 - Modify: `packages/cli/src/doctor/checks.ts`
 - Test: `packages/cli/tests/behavior-doctor.test.ts`
 
-- [ ] **Step 1: Write failing doctor tests**
+- [x] **Step 1: Write failing doctor tests**
 
 Create `packages/cli/tests/behavior-doctor.test.ts`:
 
@@ -1756,13 +1756,13 @@ async function createDoctorProject(options: {
 }
 ```
 
-- [ ] **Step 2: Run doctor tests to verify they fail**
+- [x] **Step 2: Run doctor tests to verify they fail**
 
 Run: `pnpm --filter @vanrot/cli test -- behavior-doctor`
 
 Expected: FAIL because behavior doctor checks do not exist.
 
-- [ ] **Step 3: Implement behavior doctor checks**
+- [x] **Step 3: Implement behavior doctor checks**
 
 Create `packages/cli/src/doctor/behavior.ts`:
 
@@ -1878,13 +1878,13 @@ return [
 ];
 ```
 
-- [ ] **Step 4: Run behavior doctor tests**
+- [x] **Step 4: Run behavior doctor tests**
 
 Run: `pnpm --filter @vanrot/cli test -- behavior-doctor doctor`
 
 Expected: PASS.
 
-- [ ] **Step 5: Checkpoint**
+- [x] **Step 5: Checkpoint**
 
 Run: `git status --short`
 
@@ -1909,7 +1909,7 @@ Expected: doctor checks are behavior-aware and existing doctor behavior remains 
 - Modify: `docs/superpowers/final-tdd-inventory.md`
 - Modify: `docs/superpowers/post-production-implementation-ideas.md`
 
-- [ ] **Step 1: Write failing docs registry tests**
+- [x] **Step 1: Write failing docs registry tests**
 
 In `apps/vanrot-site/tests/framework-reference.test.ts`, update package list expectation by inserting `@vanrot/behavior` after `@vanrot/runtime`:
 
@@ -1960,13 +1960,13 @@ In `apps/vanrot-site/tests/site-pages.test.ts`, add a concrete assertion that th
 expect(route.docsBehavior.path).toBe('behavior');
 ```
 
-- [ ] **Step 2: Run docs tests to verify they fail**
+- [x] **Step 2: Run docs tests to verify they fail**
 
 Run: `pnpm --filter @vanrot/vanrot-site test -- framework-reference site-pages`
 
 Expected: FAIL because docs data has no behavior package, remove command, or behavior example.
 
-- [ ] **Step 3: Update framework reference data**
+- [x] **Step 3: Update framework reference data**
 
 In `apps/vanrot-site/src/docs/framework-reference.json`:
 
@@ -2012,7 +2012,7 @@ Update the create command notes to mention `--behavior tooltip,toast` and `--no-
 
 Add config reference text for `behavior.enabled`.
 
-- [ ] **Step 4: Add behavior docs article**
+- [x] **Step 4: Add behavior docs article**
 
 Docs articles are not a single dynamic route. Each article is registered explicitly and its key is the single source of truth in `siteArticleKey`. Wire all four touch points in this order.
 
@@ -2065,7 +2065,7 @@ const docsBehavior = articlePage(siteArticleKey.behavior);
 
 `articlePage` derives the child path from the key, so `siteArticleKey.behavior` produces `/docs/behavior` and exposes it as `route.docsBehavior`.
 
-- [ ] **Step 5: Update example matrix**
+- [x] **Step 5: Update example matrix**
 
 In `apps/vanrot-site/src/docs/example-matrix.ts`, add `behavior-helpers` to `requiredExampleWorkflows` and add `@vanrot/behavior` to a relevant example package list. If no existing example fits, add an example entry:
 
@@ -2080,7 +2080,7 @@ In `apps/vanrot-site/src/docs/example-matrix.ts`, add `behavior-helpers` to `req
 }
 ```
 
-- [ ] **Step 6: Update final TDD inventory and post-production backlog**
+- [x] **Step 6: Update final TDD inventory and post-production backlog**
 
 In `docs/superpowers/final-tdd-inventory.md`:
 
@@ -2112,7 +2112,7 @@ In `docs/superpowers/post-production-implementation-ideas.md`, add a behavior ba
 - Date picker/calendar, drag and drop, table column resizing, and richer multi-selection.
 ```
 
-- [ ] **Step 7: Regenerate AI docs**
+- [x] **Step 7: Regenerate AI docs**
 
 Run: `pnpm --filter @vanrot/cli build`
 
@@ -2122,13 +2122,13 @@ Run: `pnpm exec vr ai build`
 
 Expected: PASS and updates AI knowledge files such as `docs/ai/index.json`, `docs/ai/manifest.json`, and `docs/ai/knowledge/routes.md`.
 
-- [ ] **Step 8: Run docs tests**
+- [x] **Step 8: Run docs tests**
 
 Run: `pnpm --filter @vanrot/vanrot-site test -- framework-reference site-pages`
 
 Expected: PASS.
 
-- [ ] **Step 9: Checkpoint**
+- [x] **Step 9: Checkpoint**
 
 Run: `git status --short`
 
@@ -2145,7 +2145,7 @@ Expected: docs, AI knowledge, and inventory files reflect behavior package migra
 - Modify: `packages/behavior/package.json`
 - Modify: `pnpm-lock.yaml` if pnpm updates workspace lock metadata.
 
-- [ ] **Step 1: Run package-level tests**
+- [x] **Step 1: Run package-level tests**
 
 Run: `pnpm --filter @vanrot/config test`
 
@@ -2167,7 +2167,7 @@ Run: `pnpm --filter @vanrot/vanrot-site test`
 
 Expected: PASS.
 
-- [ ] **Step 2: Run package-level typechecks**
+- [x] **Step 2: Run package-level typechecks**
 
 Run: `pnpm --filter @vanrot/config typecheck`
 
@@ -2189,7 +2189,7 @@ Run: `pnpm --filter @vanrot/vanrot-site typecheck`
 
 Expected: PASS.
 
-- [ ] **Step 3: Run package builds**
+- [x] **Step 3: Run package builds**
 
 Run: `pnpm --filter @vanrot/runtime build`
 
@@ -2207,7 +2207,7 @@ Run: `pnpm --filter @vanrot/vanrot-site build`
 
 Expected: PASS.
 
-- [ ] **Step 4: Run size and phase-doc gates**
+- [x] **Step 4: Run size and phase-doc gates**
 
 Run: `pnpm verify:size`
 
@@ -2217,13 +2217,13 @@ Run: `pnpm test:phase-docs`
 
 Expected: PASS, including runtime size budget docs, site docs, AI docs, release dry-run, final TDD inventory, and web-types coverage.
 
-- [ ] **Step 5: Run full verification**
+- [x] **Step 5: Run full verification**
 
 Run: `pnpm verify`
 
 Expected: PASS.
 
-- [ ] **Step 6: Restart and verify the Vanrot site**
+- [x] **Step 6: Restart and verify the Vanrot site**
 
 Run:
 
@@ -2242,7 +2242,7 @@ curl -I http://127.0.0.1:1964/docs/behavior
 
 Expected: `HTTP/1.1 200 OK`.
 
-- [ ] **Step 7: Browser verification**
+- [x] **Step 7: Browser verification**
 
 Open `http://127.0.0.1:1964/docs/behavior` in the in-app browser.
 
@@ -2251,7 +2251,7 @@ Expected:
 - The docs explain optional behavior package, create flags, subpath imports, remove command, and doctor checks.
 - No layout overlap on desktop width.
 
-- [ ] **Step 8: Final checkpoint**
+- [x] **Step 8: Final checkpoint**
 
 Run: `git status --short --branch`
 

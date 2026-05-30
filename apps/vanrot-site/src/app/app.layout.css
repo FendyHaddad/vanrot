@@ -29,8 +29,7 @@
   display: inline-block;
   width: 20px;
   height: 20px;
-  border-radius: 5px;
-  background: var(--vr-color-text);
+  background: url("https://assets.vankode.com/app-logo.svg") center / contain no-repeat;
   content: "";
 }
 

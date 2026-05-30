@@ -69,7 +69,7 @@
       "path": "/docs/runtime",
       "label": "Runtime",
       "title": "Runtime",
-      "summary": "@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and the small interaction controllers used by generated Vanrot UI.",
+      "summary": "@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and runtime graph contracts.",
       "status": "production-ready-through-phase-12",
       "sections": [
         {
@@ -144,16 +144,16 @@
         },
         {
           "id": "controllers",
-          "title": "Interaction controllers",
-          "body": "The runtime also exports small controllers for repeated UI behavior that should not be reimplemented inside every component example. Forms, overlays, command menus, tabs, tooltips, toasts, positioned layers, and the runtime graph all share the same lightweight runtime contract.",
+          "title": "Behavior package boundary",
+          "body": "Runtime no longer exports headless behavior controllers. Forms, overlays, command menus, tabs, tooltips, toasts, tables, and positioned layers live in @vanrot/behavior so apps install only the behavior helpers they choose.",
           "points": [
-            "Use controllers when behavior needs state, cleanup, keyboard handling, or positioning outside a single template binding.",
-            "Keep component pages focused on public markup while controller docs explain the imperative edge.",
+            "Use @vanrot/behavior subpaths when behavior needs state, cleanup, keyboard handling, or positioning outside a single template binding.",
+            "Keep component pages focused on public markup while behavior docs explain the imperative edge.",
             "Use createRuntimeGraphSession() when devtools needs to record runtime nodes and edges without changing app code."
           ],
           "code": {
-            "title": "Controller-shaped behavior",
-            "code": "import { createFormController, createOverlayController, requiredValidator } from '@vanrot/runtime';\n\nconst form = createFormController({\n  email: {\n    initialValue: '',\n    validators: [requiredValidator('Email is required')],\n  },\n});\n\nconst overlay = createOverlayController({ open: false });\noverlay.open();"
+            "title": "Runtime graph stays in runtime",
+            "code": "import { createRuntimeGraphSession } from '@vanrot/runtime';\n\nconst graph = createRuntimeGraphSession({ label: 'checkout' });\ngraph.recordNode({ id: 'cart-total', kind: 'computed' });\ngraph.dispose();"
           }
         },
         {
@@ -398,6 +398,42 @@
             "title": "Application entry",
             "code": "import { mount } from '@vanrot/runtime';\nimport { App } from './app/app.layout.ts';\n\nconst target = document.getElementById('app');\n\nif (target === null) {\n  throw new Error('Missing app target.');\n}\n\nconst app = mount(App, target);\napp.destroy();"
           }
+        }
+      ]
+    },
+    {
+      "key": "behavior",
+      "section": "framework",
+      "path": "/docs/behavior",
+      "label": "Behavior",
+      "title": "Behavior",
+      "summary": "@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "package-boundary",
+          "title": "Package boundary",
+          "body": "@vanrot/runtime stays small. @vanrot/behavior owns optional headless interaction helpers and is installed only when a project selects behavior helpers."
+        },
+        {
+          "id": "create-flow",
+          "title": "Create flow",
+          "body": "vr create asks whether to add behavior helpers. Non-interactive runs can use --behavior tooltip,toast or --no-behavior."
+        },
+        {
+          "id": "subpath-imports",
+          "title": "Subpath imports",
+          "body": "Import only the behavior you use, such as @vanrot/behavior/tooltip or @vanrot/behavior/toast. @vanrot/behavior/all is available when an app intentionally wants every helper."
+        },
+        {
+          "id": "cleanup",
+          "title": "Cleanup",
+          "body": "vr remove behavior <name> removes a selected helper from behavior.enabled. Add --package when no helper remains and the package should be removed too."
+        },
+        {
+          "id": "doctor",
+          "title": "Doctor",
+          "body": "vr doctor reports installed-but-unused behavior, configured-but-unused behavior, imports missing from config, root imports that should use subpaths, and stale @vanrot/runtime behavior imports."
         }
       ]
     },
@@ -1682,6 +1718,20 @@
           "code": {
             "title": "Add UI primitives",
             "code": "vr add button --test\\nvr add card dialog"
+          }
+        },
+        {
+          "id": "remove",
+          "title": "vr remove",
+          "body": "Use vr remove when a generated or optional Vanrot surface should be cleaned out through the same package-aware command surface that installed it. Phase 16H starts with behavior helpers so projects can prune opt-in controller dependencies without hand-editing config and package metadata.",
+          "points": [
+            "Run vr remove behavior --behavior tooltip to remove a specific helper from behavior.enabled.",
+            "Run vr remove behavior --all when the app should drop every optional behavior helper and the @vanrot/behavior dependency.",
+            "Use --package when the cleanup should update a package.json outside the default root."
+          ],
+          "code": {
+            "title": "Remove behavior helpers",
+            "code": "vr remove behavior --behavior tooltip\\nvr remove behavior --all"
           }
         },
         {
@@ -4498,6 +4548,7 @@
     { "name": "create", "usage": "vr create <name>", "status": "demo-capable" },
     { "name": "generate", "usage": "vr generate <role> <name>", "status": "demo-capable" },
     { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16f" },
+    { "name": "remove", "usage": "vr remove behavior", "status": "production-ready-through-phase-16h" },
     { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16F" },
     { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
     { "name": "update", "usage": "vr update <target>", "status": "available-now" },
@@ -4512,6 +4563,7 @@
   ],
   "packages": [
     { "name": "@vanrot/runtime", "area": "Runtime", "status": "production-ready-through-phase-12" },
+    { "name": "@vanrot/behavior", "area": "Optional behavior helpers", "status": "production-ready-through-phase-16h" },
     { "name": "@vanrot/compiler", "area": "Compiler", "status": "production-ready-through-phase-12" },
     { "name": "@vanrot/config", "area": "Configuration", "status": "production-ready-through-phase-13" },
     { "name": "@vanrot/language-server", "area": "Language server", "status": "demo-capable-through-intellij-m4" },

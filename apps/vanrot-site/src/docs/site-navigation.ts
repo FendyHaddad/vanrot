@@ -159,6 +159,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
     label: siteNavigationSectionLabel.framework,
     items: [
       navItem(siteArticleKey.runtime, runtimeNavigationChildren),
+      navItem(siteArticleKey.behavior),
       navItem(siteArticleKey.compiler, compilerNavigationChildren),
       navItem(siteArticleKey.vitePlugin, vitePluginNavigationChildren),
       navItem(siteArticleKey.cli, cliNavigationChildren),

@@ -1,3 +1,4 @@
+import { resolveCreateBehaviorSelection } from '../create/behavior-prompt.js';
 import { writeApp } from '../create/write-app.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
@@ -10,18 +11,31 @@ export async function createCommand(
   const appName = args.find((arg) => !arg.startsWith('-'));
   const workspace = args.includes('--workspace');
   const force = args.includes('--force');
+  const behaviorFlag = valueAfter(args, '--behavior');
+  const noBehavior = args.includes('--no-behavior');
 
   if (appName === undefined) {
     context.reporter.error('Missing app name.', `Run ${commandUsage(commandName.create)}.`);
     return fail();
   }
 
+  if (behaviorFlag !== undefined && noBehavior) {
+    context.reporter.error('Choose either --behavior or --no-behavior.');
+    return fail();
+  }
+
   try {
+    const behavior = await resolveCreateBehaviorSelection({
+      behaviorFlag,
+      noBehavior,
+      interactive: process.stdin.isTTY === true && process.stdout.isTTY === true,
+    });
     const result = await writeApp({
       cwd: context.cwd,
       appName,
       workspace,
       force,
+      behavior,
     });
 
     context.reporter.heading(`Created ${appName}`, `${result.files.length} files`);
@@ -32,10 +46,16 @@ export async function createCommand(
     ]);
     return ok();
   } catch (error) {
-    context.reporter.error(
-      'Target directory is not empty.',
-      error instanceof Error ? error.message : undefined,
-    );
+    context.reporter.error(error instanceof Error ? error.message : 'Create failed.');
     return fail();
   }
+}
+
+function valueAfter(args: readonly string[], flag: string): string | undefined {
+  const index = args.indexOf(flag);
+  if (index === -1) {
+    return undefined;
+  }
+
+  return args[index + 1];
 }

@@ -1,11 +1,12 @@
 import { createRequire } from 'node:module';
-import { renderCanonicalVanrotConfig } from '@vanrot/config';
+import { renderCanonicalVanrotConfig, type VanrotBehaviorName } from '@vanrot/config';
 import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts, vanrotSitePath, vanrotSiteUrl } from '../commands/metadata.js';
 
 export interface AppTemplateOptions {
   appName: string;
   workspace: boolean;
+  behavior: VanrotBehaviorName[];
 }
 
 export interface TemplateFile {
@@ -18,6 +19,16 @@ const cliPackage = requirePackage('../../package.json') as { version?: unknown }
 
 export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
   const dependencyVersion = options.workspace ? 'workspace:*' : createRegistryDependencyVersion();
+  const dependencies: Record<string, string> = {
+    '@vanrot/config': dependencyVersion,
+    '@vanrot/runtime': dependencyVersion,
+    '@vanrot/router': dependencyVersion,
+    '@vanrot/ui': dependencyVersion,
+  };
+
+  if (options.behavior.length > 0) {
+    dependencies['@vanrot/behavior'] = dependencyVersion;
+  }
 
   return [
     {
@@ -28,12 +39,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           private: true,
           type: 'module',
           scripts: createStarterScripts(),
-          dependencies: {
-            '@vanrot/config': dependencyVersion,
-            '@vanrot/runtime': dependencyVersion,
-            '@vanrot/router': dependencyVersion,
-            '@vanrot/ui': dependencyVersion,
-          },
+          dependencies,
           devDependencies: {
             '@vanrot/cli': dependencyVersion,
             '@vanrot/vite-plugin': dependencyVersion,
@@ -48,7 +54,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     },
     {
       path: 'index.html',
-      content: `<div id="app"></div>\n<script type="module" src="/src/main.ts"></script>\n`,
+      content: `${uiAppFile.faviconLink}\n<div id="app"></div>\n<script type="module" src="/src/main.ts"></script>\n`,
     },
     {
       path: 'tsconfig.json',
@@ -81,7 +87,7 @@ export default defineConfig({
     },
     {
       path: 'vanrot.config.ts',
-      content: renderCanonicalVanrotConfig(),
+      content: renderAppConfig(options.behavior),
     },
     {
       path: 'src/main.ts',
@@ -430,4 +436,20 @@ function createRegistryDependencyVersion(): string {
   }
 
   return `^${cliPackage.version}`;
+}
+
+function renderAppConfig(behavior: readonly VanrotBehaviorName[]): string {
+  if (behavior.length === 0) {
+    return renderCanonicalVanrotConfig();
+  }
+
+  return renderCanonicalVanrotConfig().replace('});\n', `${renderBehaviorConfig(behavior)});\n`);
+}
+
+function renderBehaviorConfig(behavior: readonly VanrotBehaviorName[]): string {
+  const enabled = behavior.map((name) => `'${name}'`).join(', ');
+  return `  behavior: {
+    enabled: [${enabled}],
+  },
+`;
 }

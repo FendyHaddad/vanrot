@@ -9,6 +9,7 @@ export const configDomain = {
   devServer: 'devServer',
   router: 'router',
   ui: 'ui',
+  behavior: 'behavior',
   store: 'store',
   testing: 'testing',
   build: 'build',

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-30T18:36:57.238Z",
-  "sourceFingerprint": "sha256-5c5a03fa24c7b74ecfa95dbe20594d3483e02f36a8cf6c698b0489f3f177dc07",
+  "generatedAt": "2026-05-30T21:06:52.626Z",
+  "sourceFingerprint": "sha256-28a9ad9578026213cdd6ee3cf99b03c6ef0aa46261af62367cb5d58b4515e5eb",
   "sources": [
     {
       "id": "package-json",
@@ -12,42 +12,42 @@
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-adc454d8e938156c0800a4bb6461ec4d0e1d866f18733a7eaea60ef9b980f94a"
+      "fingerprint": "sha256-3ddb61c9f5244ce6342835d716004d89109d52ef04cdef682f1a51bb6d9bad22"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-c8eac362694d4af95d795b3c158632c575456231173791063e8e4c48fb7640fe"
+      "fingerprint": "sha256-d8495a41b2a9349dbb31c88bf3ad65164e33c37f2d05c33eb67debbe45b3fcfa"
     },
     {
       "id": "cli-command-metadata",
       "path": "packages/cli/src/commands/metadata.ts",
-      "fingerprint": "sha256-9c59ae777a43af4d66af1506d99724fe51f97e06babc902de0c327ae495bf0ab"
+      "fingerprint": "sha256-ed558984b12294e56e9b8e354b6ebc3cb3a69f389ed492ca8ad4e98d914dbb61"
     },
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-7b4890429ddad574bb0206e1e51bc6c9fa16ebd884f0e004d978af6cda2ae224"
+      "fingerprint": "sha256-df7f07f35f4013299cdbfbe99a0bf3520d7a637ce739f40aa62c133adf57e395"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-9a35e5aee5ecd77d88a30f67a4b5b35245192539d6ac71bd42a3a12e22bc6b93"
+      "fingerprint": "sha256-5eb312457e6891b23756c1a2e0a504a1ff6bac5bac2cc76ea3128fc18a5d1c08"
     }
   ],
   "counts": {
-    "packages": 11,
-    "publicExports": 38,
-    "commands": 14,
+    "packages": 12,
+    "publicExports": 39,
+    "commands": 15,
     "diagnostics": 9,
     "generatedFiles": 6,
     "conventions": 5,
-    "examples": 8,
+    "examples": 9,
     "components": 51,
     "routes": 4,
     "limitations": 2,
     "deployment": 1,
-    "docs": 90
+    "docs": 91
   },
   "coverageStatus": "complete"
 }

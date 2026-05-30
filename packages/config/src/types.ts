@@ -21,6 +21,19 @@ export const vanrotRouterDiagnosticLevel = {
 export type VanrotRouterDiagnosticLevel =
   (typeof vanrotRouterDiagnosticLevel)[keyof typeof vanrotRouterDiagnosticLevel];
 
+export const vanrotBehavior = {
+  form: 'form',
+  table: 'table',
+  overlay: 'overlay',
+  tabs: 'tabs',
+  tooltip: 'tooltip',
+  toast: 'toast',
+  commandMenu: 'command-menu',
+  positionedLayer: 'positioned-layer',
+} as const;
+
+export type VanrotBehaviorName = (typeof vanrotBehavior)[keyof typeof vanrotBehavior];
+
 export const vanrotAiRuleSection = {
   projectRules: 'project-rules',
   commands: 'commands',
@@ -102,6 +115,14 @@ export interface NormalizedVanrotRouterConfig {
   diagnostics: NormalizedVanrotRouterDiagnosticsConfig;
 }
 
+export interface VanrotBehaviorConfig {
+  enabled?: VanrotBehaviorName[];
+}
+
+export interface NormalizedVanrotBehaviorConfig {
+  enabled: VanrotBehaviorName[];
+}
+
 export interface VanrotConfig {
   schemaVersion?: number;
   project?: { name?: string };
@@ -109,6 +130,7 @@ export interface VanrotConfig {
   devServer?: { port?: number };
   router?: VanrotRouterConfig;
   ui?: VanrotUiConfig;
+  behavior?: VanrotBehaviorConfig;
   store?: Record<string, unknown>;
   testing?: Record<string, unknown>;
   build?: Record<string, unknown>;
@@ -119,11 +141,15 @@ export interface VanrotConfig {
 }
 
 export interface NormalizedVanrotConfig
-  extends Omit<VanrotConfig, 'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'ai'> {
+  extends Omit<
+    VanrotConfig,
+    'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'behavior' | 'ai'
+  > {
   schemaVersion: number;
   source: { root: string };
   devServer: { port: number };
   router: NormalizedVanrotRouterConfig;
   ui: NormalizedVanrotUiConfig;
+  behavior: NormalizedVanrotBehaviorConfig;
   ai: NormalizedVanrotAiConfig;
 }

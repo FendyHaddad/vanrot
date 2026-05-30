@@ -2,7 +2,7 @@
   {
     "name": "@vanrot/runtime (public + internal)",
     "path": ["dist/index.js", "dist/internal.js"],
-    "limit": "9.99 KB",
+    "limit": "1.98 KB",
     "gzip": true
   }
 ]

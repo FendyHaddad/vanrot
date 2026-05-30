@@ -3,6 +3,7 @@ import { frameworkReference } from './framework-reference.ts';
 export const requiredExampleWorkflows = [
   'starter-flow',
   'runtime-lifecycle',
+  'behavior-helpers',
   'compiler-templates',
   'routing-workflows',
   'config-diagnostics',

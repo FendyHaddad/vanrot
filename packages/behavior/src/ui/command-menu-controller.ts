@@ -1,4 +1,4 @@
-import { signal, type WritableSignal } from '../reactive/signal.js';
+import { signal, type WritableSignal } from '@vanrot/runtime';
 
 export interface CommandMenuController {
   activeValue: WritableSignal<string | null>;

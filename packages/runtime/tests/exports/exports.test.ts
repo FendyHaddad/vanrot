@@ -12,11 +12,11 @@ describe('runtime exports', () => {
     expect(runtime.mount).toBeTypeOf('function');
     expect(runtime.onMount).toBeTypeOf('function');
     expect(runtime.onDestroy).toBeTypeOf('function');
-    expect(runtime.createFormController).toBeTypeOf('function');
-    expect(runtime.emailValidator).toBeTypeOf('function');
-    expect(runtime.positionLayer).toBeTypeOf('function');
-    expect(runtime.createTooltipController).toBeTypeOf('function');
-    expect(runtime.createCommandMenuController).toBeTypeOf('function');
+    expect('createFormController' in runtime).toBe(false);
+    expect('emailValidator' in runtime).toBe(false);
+    expect('positionLayer' in runtime).toBe(false);
+    expect('createTooltipController' in runtime).toBe(false);
+    expect('createCommandMenuController' in runtime).toBe(false);
   });
 
   it('exposes the compiler-facing internal API', () => {
@@ -25,9 +25,9 @@ describe('runtime exports', () => {
     expect(internal.runWithoutCleanupScope).toBeTypeOf('function');
     expect(internal.disposeCleanupScope).toBeTypeOf('function');
     expect(internal.listen).toBeTypeOf('function');
-    expect(internal.connectFormControl).toBeTypeOf('function');
-    expect(internal.createTableController).toBeTypeOf('function');
-    expect(internal.connectTableFilter).toBeTypeOf('function');
+    expect('connectFormControl' in internal).toBe(false);
+    expect('createTableController' in internal).toBe(false);
+    expect('connectTableFilter' in internal).toBe(false);
   });
 
   it('exports input helpers', async () => {

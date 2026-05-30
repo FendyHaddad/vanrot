@@ -18,6 +18,12 @@ Adds Vanrot packages or UI primitives and updates config when needed.
 
 Docs: /docs/cli
 
+## vr remove behavior <name>
+
+Removes optional behavior helpers from project config.
+
+Docs: /docs/cli
+
 ## vr ui <subcommand>
 
 Inspects and manages Vanrot UI primitive metadata.

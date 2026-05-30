@@ -27,9 +27,9 @@ pnpm verify:size         # size-limit budget on @vanrot/runtime
 
 ## Runtime Size Budget
 
-`@vanrot/runtime` intentionally includes the core signal/lifecycle/mounting surface plus headless controllers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers. These controllers are justified runtime behavior even when the app does not use `@vanrot/ui`.
+`@vanrot/runtime` is the core browser runtime and must stay under `1.98 KB` gzipped for `dist/index.js` plus `dist/internal.js`.
 
-Keep the enforced runtime size cap at `9.99 KB` gzipped. If `pnpm verify:size` hits or breaches that cap, report the exact size to the user and ask whether the feature justifies raising the cap before increasing it.
+Headless UI/application behavior belongs in `@vanrot/behavior`, not `@vanrot/runtime`. If `pnpm verify:size` reaches or breaches the runtime cap, report the exact size and explain which core runtime feature caused it before raising the cap.
 
 ## Architecture
 

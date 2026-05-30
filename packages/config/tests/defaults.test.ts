@@ -35,6 +35,22 @@ describe('normalizeVanrotConfig', () => {
     });
   });
 
+  it('defaults behavior helpers to an empty opt-in list', () => {
+    const normalized = normalizeVanrotConfig({});
+
+    expect(normalized.behavior.enabled).toEqual([]);
+  });
+
+  it('respects explicit behavior helper selections', () => {
+    const normalized = normalizeVanrotConfig({
+      behavior: {
+        enabled: ['tooltip', 'toast'],
+      },
+    });
+
+    expect(normalized.behavior.enabled).toEqual(['tooltip', 'toast']);
+  });
+
   it('respects explicit user values', () => {
     const normalized = normalizeVanrotConfig({
       schemaVersion: 1,

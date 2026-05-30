@@ -3,7 +3,12 @@
     {
       "id": "package:@vanrot/runtime",
       "title": "@vanrot/runtime",
-      "summary": "Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, forms helpers, overlay helpers, and runtime graph contracts."
+      "summary": "Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, input helpers, and runtime graph contracts. Headless behavior helpers live in @vanrot/behavior."
+    },
+    {
+      "id": "package:@vanrot/behavior",
+      "title": "@vanrot/behavior",
+      "summary": "Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers."
     },
     {
       "id": "package:@vanrot/compiler",
@@ -80,6 +85,12 @@
       "title": "@vanrot/runtime effect",
       "summary": "Runs reactive side effects with cleanup and disposal.",
       "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "export:@vanrot/behavior:*",
+      "title": "@vanrot/behavior *",
+      "summary": "All public exports from @vanrot/behavior are covered by behavior and public API documentation.",
+      "docsPath": "/docs/behavior"
     },
     {
       "id": "export:@vanrot/compiler:*",
@@ -306,6 +317,12 @@
       "docsPath": "/docs/cli"
     },
     {
+      "id": "command:remove",
+      "title": "vr remove behavior <name>",
+      "summary": "Removes optional behavior helpers from project config.",
+      "docsPath": "/docs/cli"
+    },
+    {
       "id": "command:ui",
       "title": "vr ui <subcommand>",
       "summary": "Inspects and manages Vanrot UI primitive metadata.",
@@ -450,7 +467,7 @@
     {
       "id": "generated-file:vanrot.config.ts",
       "title": "vanrot.config.ts",
-      "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, and AI rule settings.",
+      "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.",
       "docsPath": "/docs/configuration"
     },
     {
@@ -510,6 +527,12 @@
       "title": "Runtime Lifecycle",
       "summary": "",
       "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "example:Behavior Helpers",
+      "title": "Behavior Helpers",
+      "summary": "",
+      "docsPath": "/docs/behavior"
     },
     {
       "id": "example:Compiler Templates",
@@ -926,7 +949,7 @@
     {
       "id": "doc:runtime",
       "title": "Runtime",
-      "summary": "@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and the small interaction controllers used by generated Vanrot UI.",
+      "summary": "@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and runtime graph contracts.",
       "docsPath": "/docs/runtime"
     },
     {
@@ -970,6 +993,12 @@
       "title": "Runtime Mounting",
       "summary": "mount() is the browser entry point that creates the root cleanup scope and attaches compiled component output to a target element.",
       "docsPath": "/docs/runtime/mounting"
+    },
+    {
+      "id": "doc:behavior",
+      "title": "Behavior",
+      "summary": "@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use.",
+      "docsPath": "/docs/behavior"
     },
     {
       "id": "doc:compiler",

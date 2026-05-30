@@ -1,3 +1,4 @@
+import { checkBehaviorUsage } from './behavior.js';
 import { checkProjectHealth } from './project-health.js';
 import { checkVanrotRules } from './vanrot-rules.js';
 
@@ -12,7 +13,11 @@ export interface DoctorFinding {
 }
 
 export async function runDoctorChecks(cwd: string): Promise<DoctorFinding[]> {
-  return [...(await checkProjectHealth(cwd)), ...(await checkVanrotRules(cwd))];
+  return [
+    ...(await checkProjectHealth(cwd)),
+    ...(await checkVanrotRules(cwd)),
+    ...(await checkBehaviorUsage(cwd)),
+  ];
 }
 
 export function hasErrors(findings: DoctorFinding[]): boolean {

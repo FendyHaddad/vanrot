@@ -188,9 +188,11 @@ export const uiAppFile = {
   tokens: 'src/styles/vanrot-tokens.css',
   vanrotstyles: 'src/styles/vanrotstyles.css',
   styleEntry: 'src/styles/vanrot-ui.css',
+  favicon: 'public/favicon.svg',
   tokenImport: "import './styles/vanrot-tokens.css';",
   vanrotstylesImport: "import './styles/vanrotstyles.css';",
   styleEntryImport: "import './styles/vanrot-ui.css';",
+  faviconLink: '<link rel="icon" href="/favicon.svg" type="image/svg+xml">',
 } as const;
 
 export const uiPrimitive = {
@@ -790,6 +792,7 @@ interface UiPrimitiveAssetUrl {
 export const uiAssetUrl = {
   tokens: new URL('../src/tokens/vanrot-tokens.css', import.meta.url),
   vanrotstyles: new URL('../src/styles/vanrotstyles.css', import.meta.url),
+  brandLogo: new URL('../src/brand/app-logo.svg', import.meta.url),
   docs: {
     packageInventory: new URL('../src/docs/package-inventory.md', import.meta.url),
     guidelines: new URL('../src/docs/guidelines.md', import.meta.url),

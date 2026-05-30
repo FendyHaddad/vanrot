@@ -104,6 +104,50 @@ describe('validateVanrotConfig', () => {
     ]);
   });
 
+  it('accepts known behavior helper names', () => {
+    const diagnostics = validateVanrotConfig({
+      behavior: {
+        enabled: ['form', 'table', 'overlay', 'tabs', 'tooltip', 'toast', 'command-menu', 'positioned-layer'],
+      },
+    });
+
+    expect(diagnostics).toEqual([]);
+  });
+
+  it('reports invalid behavior helper names', () => {
+    const diagnostics = validateVanrotConfig({
+      behavior: {
+        enabled: ['accordion'],
+      },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual([
+      {
+        code: configDiagnosticCode.invalidBehavior,
+        severity: 'error',
+        message: 'Invalid behavior.enabled entry: accordion',
+        suggestion: 'Use form, table, overlay, tabs, tooltip, toast, command-menu, or positioned-layer.',
+      },
+    ]);
+  });
+
+  it('reports non-array behavior helper config', () => {
+    const diagnostics = validateVanrotConfig({
+      behavior: {
+        enabled: 'tooltip',
+      },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual([
+      {
+        code: configDiagnosticCode.invalidBehavior,
+        severity: 'error',
+        message: 'Invalid behavior.enabled: tooltip',
+        suggestion: 'Use an array of behavior helper names.',
+      },
+    ]);
+  });
+
   it('reports unknown top-level keys as schema errors', () => {
     const diagnostics = validateVanrotConfig({
       schemaVersion: 1,

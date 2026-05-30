@@ -19,6 +19,7 @@ const routeKeyToArticleKey = {
   docsRuntimeDevtoolsGraph: siteArticleKey.runtimeDevtoolsGraph,
   docsRuntimeLifecycle: siteArticleKey.runtimeLifecycle,
   docsRuntimeMounting: siteArticleKey.runtimeMounting,
+  docsBehavior: siteArticleKey.behavior,
   docsCompiler: siteArticleKey.compiler,
   docsCompilerFileConventions: siteArticleKey.compilerFileConventions,
   docsCompilerComponentClass: siteArticleKey.compilerComponentClass,

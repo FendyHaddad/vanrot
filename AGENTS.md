@@ -45,9 +45,9 @@ If existing files violate these rules, do not spread the pattern. Fix only the p
 
 ## Runtime Size Budget Protocol
 
-`@vanrot/runtime` includes the core signal/lifecycle/mounting surface plus headless controllers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers. These controllers are considered justified runtime behavior, not optional UI bloat.
+`@vanrot/runtime` is the core browser runtime and must stay under `1.98 KB` gzipped for `dist/index.js` plus `dist/internal.js`.
 
-Keep the enforced `@vanrot/runtime` size-limit cap at `9.99 KB` gzipped. If `pnpm verify:size` hits or breaches that cap, report the exact size to the user and ask whether the feature justifies raising the cap before increasing it.
+Headless UI/application behavior belongs in `@vanrot/behavior`, not `@vanrot/runtime`. If `pnpm verify:size` reaches or breaches the runtime cap, report the exact size and explain which core runtime feature caused it before raising the cap.
 
 ## Vanrot Site Dev Server Protocol
 
@@ -170,7 +170,7 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-31 3:32am GMT+8
+# [vanrot] recent context, 2026-05-31 4:23am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE

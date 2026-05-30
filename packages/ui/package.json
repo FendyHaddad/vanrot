@@ -17,6 +17,7 @@
   },
   "files": [
     "dist",
+    "src/brand",
     "src/docs",
     "src/primitives",
     "src/styles",

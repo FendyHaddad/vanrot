@@ -4,9 +4,10 @@ import { uiAppFile, uiAssetUrl } from '@vanrot/ui';
 import type { TemplateFile } from './app-template.js';
 
 export async function createStarterUiAssets(): Promise<TemplateFile[]> {
-  const [tokens, vanrotstyles] = await Promise.all([
+  const [tokens, vanrotstyles, favicon] = await Promise.all([
     readFile(fileURLToPath(uiAssetUrl.tokens), 'utf8'),
     readFile(fileURLToPath(uiAssetUrl.vanrotstyles), 'utf8'),
+    readFile(fileURLToPath(uiAssetUrl.brandLogo), 'utf8'),
   ]);
 
   return [
@@ -17,6 +18,10 @@ export async function createStarterUiAssets(): Promise<TemplateFile[]> {
     {
       path: uiAppFile.vanrotstyles,
       content: vanrotstyles,
+    },
+    {
+      path: uiAppFile.favicon,
+      content: favicon,
     },
   ];
 }

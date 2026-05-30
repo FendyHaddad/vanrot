@@ -12,6 +12,12 @@ No summary provided.
 
 Docs: /docs/runtime
 
+## Behavior Helpers
+
+No summary provided.
+
+Docs: /docs/behavior
+
 ## Compiler Templates
 
 No summary provided.

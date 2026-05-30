@@ -24,6 +24,12 @@ Runs reactive side effects with cleanup and disposal.
 
 Docs: /docs/runtime
 
+## @vanrot/behavior *
+
+All public exports from @vanrot/behavior are covered by behavior and public API documentation.
+
+Docs: /docs/behavior
+
 ## @vanrot/compiler *
 
 All public exports from @vanrot/compiler are covered by compiler and public API documentation.

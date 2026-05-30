@@ -8,6 +8,7 @@ import { doctorCommand } from './commands/doctor.js';
 import { generateCommand } from './commands/generate.js';
 import { initAiCommand } from './commands/init-ai.js';
 import { mapCommand } from './commands/map.js';
+import { removeCommand } from './commands/remove.js';
 import {
   cliCommands,
   commandAlias,
@@ -30,6 +31,7 @@ const commandHandlers = new Map<string, CommandHandler>([
   [commandName.generate, generateCommand],
   [commandAlias.generate, generateCommand],
   [commandName.add, addCommand],
+  [commandName.remove, removeCommand],
   [commandName.ui, uiCommand],
   [commandName.config, configCommand],
   [commandName.update, updateCommand],

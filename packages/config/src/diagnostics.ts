@@ -21,6 +21,7 @@ export const configDiagnosticCode = {
   invalidRouterDiagnosticLevel: 'VRCFG010',
   invalidAiRuleSection: 'VRCFG011',
   invalidAiRuleCustomSection: 'VRCFG012',
+  invalidBehavior: 'VRCFG013',
 } as const;
 
 export function formatConfigDiagnostic(diagnostic: ConfigDiagnostic): string {

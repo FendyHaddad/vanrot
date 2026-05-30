@@ -1,4 +1,4 @@
-import { signal, type WritableSignal } from '../reactive/signal.js';
+import { signal, type WritableSignal } from '@vanrot/runtime';
 
 export type FormFieldValue = string | number | boolean | null | undefined;
 export type FormValues = Readonly<Record<string, FormFieldValue>>;

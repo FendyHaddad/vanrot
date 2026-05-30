@@ -20,7 +20,7 @@ Docs: /docs/project-structure
 
 ## Runtime
 
-@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and the small interaction controllers used by generated Vanrot UI.
+@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and runtime graph contracts.
 
 Docs: /docs/runtime
 
@@ -65,6 +65,12 @@ Docs: /docs/runtime/lifecycle
 mount() is the browser entry point that creates the root cleanup scope and attaches compiled component output to a target element.
 
 Docs: /docs/runtime/mounting
+
+## Behavior
+
+@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use.
+
+Docs: /docs/behavior
 
 ## Compiler
 

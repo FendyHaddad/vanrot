@@ -290,6 +290,7 @@ describe('vanrot site pages', () => {
     expect(route.docsCliDevServer.path).toBe('cli/dev');
     expect(route.docsCliBuild.path).toBe('cli/build');
     expect(route.docsCliTest.path).toBe('cli/test');
+    expect(route.docsBehavior.path).toBe('behavior');
     expect(route.docsConfiguration.path).toBe('configuration');
     expect(route.docsConfigurationFile.path).toBe('configuration/file');
     expect(route.docsConfigurationDefaults.path).toBe('configuration/defaults');
@@ -368,6 +369,7 @@ describe('vanrot site pages', () => {
     expect(css).toContain('code');
     expect(source).toContain('toCodeLines');
     expect(source).toContain('toCodeTokens');
+    expect(source).toContain('docsBehavior: siteArticleKey.behavior');
     expect(interactions).toContain('setupArticleBookmarks');
     expect(interactions).toContain('docs-article-bookmark-active');
   });

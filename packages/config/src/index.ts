@@ -24,6 +24,7 @@ export {
 } from './diagnostics.js';
 export { validateVanrotConfig } from './validate.js';
 export {
+  vanrotBehavior,
   vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
   vanrotUiFlavor,
@@ -32,6 +33,7 @@ export {
 export type {
   NormalizedVanrotAiConfig,
   NormalizedVanrotAiRulesConfig,
+  NormalizedVanrotBehaviorConfig,
   NormalizedVanrotConfig,
   NormalizedVanrotRouterConfig,
   NormalizedVanrotRouterDiagnosticsConfig,
@@ -41,6 +43,8 @@ export type {
   VanrotAiCustomRuleSection,
   VanrotAiRuleSection,
   VanrotAiRulesConfig,
+  VanrotBehaviorConfig,
+  VanrotBehaviorName,
   VanrotConfig,
   VanrotRouterConfig,
   VanrotRouterDiagnosticLevel,

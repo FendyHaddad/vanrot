@@ -1,6 +1,7 @@
 import { configDomain } from './constants.js';
 import { configDiagnosticCode, type ConfigDiagnostic } from './diagnostics.js';
 import {
+  vanrotBehavior,
   vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
   vanrotUiFlavor,
@@ -13,6 +14,7 @@ const knownRouterDiagnosticLevels = new Set<string>(Object.values(vanrotRouterDi
 const knownUiFlavors = new Set<string>(Object.values(vanrotUiFlavor));
 const knownUiStyleModes = new Set<string>(Object.values(vanrotUiStyleMode));
 const knownAiRuleSections = new Set<string>(Object.values(vanrotAiRuleSection));
+const knownBehaviorNames = new Set<string>(Object.values(vanrotBehavior));
 const routerPolishKeys = ['title', 'meta', 'scroll', 'focus'] as const;
 const routerDiagnosticKeys = ['missingTitle', 'missingMetaDescription'] as const;
 const uiPrefixPattern = /^[a-z][a-z0-9-]*$/;
@@ -102,6 +104,31 @@ export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
         severity: 'error',
         message: `Invalid ui.prefix: ${String(ui.prefix)}`,
         suggestion: 'Use lowercase kebab-case, for example ui or marketing-primary.',
+      });
+    }
+  }
+
+  const behavior = config.behavior as { enabled?: unknown } | undefined;
+  if (behavior?.enabled !== undefined && !Array.isArray(behavior.enabled)) {
+    diagnostics.push({
+      code: configDiagnosticCode.invalidBehavior,
+      severity: 'error',
+      message: `Invalid behavior.enabled: ${String(behavior.enabled)}`,
+      suggestion: 'Use an array of behavior helper names.',
+    });
+  }
+
+  if (Array.isArray(behavior?.enabled)) {
+    for (const behaviorName of behavior.enabled) {
+      if (knownBehaviorNames.has(String(behaviorName))) {
+        continue;
+      }
+
+      diagnostics.push({
+        code: configDiagnosticCode.invalidBehavior,
+        severity: 'error',
+        message: `Invalid behavior.enabled entry: ${String(behaviorName)}`,
+        suggestion: 'Use form, table, overlay, tabs, tooltip, toast, command-menu, or positioned-layer.',
       });
     }
   }

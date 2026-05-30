@@ -21,6 +21,7 @@ describe('runCli', () => {
     expect(reporter.output()).toContain('map');
     expect(reporter.output()).toContain('init-ai');
     expect(reporter.output()).toContain('add <primitive>');
+    expect(reporter.output()).toContain('remove behavior <name>');
     expect(reporter.output()).toContain('ui <component>');
   });
 
@@ -40,6 +41,9 @@ describe('runCli', () => {
     expect(out).toContain('create <name>              Create a new Vanrot project');
     expect(out).toContain('generate <role> <name>     Generate a component or page');
     expect(out).toContain('add <primitive>            Add a UI primitive to the project');
+    expect(out).toContain(
+      'remove behavior <name>     Remove an optional behavior helper from project config',
+    );
     expect(out).toContain('ui <component>             Inspect UI component APIs and tokens');
     expect(out).toContain('DEVELOPMENT');
     expect(out).toContain('dev                        Start dev server with HMR');
@@ -67,6 +71,7 @@ describe('runCli', () => {
       'create',
       'generate',
       'add',
+      'remove',
       'ui',
       'dev',
       'build',
@@ -123,6 +128,18 @@ describe('runCli', () => {
     expect(result.exitCode).toBe(0);
     expect(reporter.output()).toContain('vr add button');
     expect(reporter.output()).toContain('vr add <local-prefix> button');
+  });
+
+  it('prints remove command help without executing the command', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['remove', '--help'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+
+    expect(result.exitCode).toBe(0);
+    expect(reporter.output()).toContain('vr remove behavior <name>');
+    expect(reporter.output()).toContain('--package');
   });
 
   it('prints ui command help without dispatching component help', async () => {

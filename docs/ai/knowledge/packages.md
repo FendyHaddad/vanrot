@@ -2,7 +2,11 @@
 
 ## @vanrot/runtime
 
-Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, forms helpers, overlay helpers, and runtime graph contracts.
+Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, input helpers, and runtime graph contracts. Headless behavior helpers live in @vanrot/behavior.
+
+## @vanrot/behavior
+
+Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers.
 
 ## @vanrot/compiler
 

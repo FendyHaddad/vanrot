@@ -501,6 +501,7 @@ const docsRuntimeControllers = articlePage(siteArticleKey.runtimeControllers);
 const docsRuntimeDevtoolsGraph = articlePage(siteArticleKey.runtimeDevtoolsGraph);
 const docsRuntimeLifecycle = articlePage(siteArticleKey.runtimeLifecycle);
 const docsRuntimeMounting = articlePage(siteArticleKey.runtimeMounting);
+const docsBehavior = articlePage(siteArticleKey.behavior);
 const docsCompiler = articlePage(siteArticleKey.compiler);
 const docsCompilerFileConventions = articlePage(siteArticleKey.compilerFileConventions);
 const docsCompilerComponentClass = articlePage(siteArticleKey.compilerComponentClass);
@@ -725,6 +726,7 @@ export const route = defineRoutes({
   docsRuntimeDevtoolsGraph,
   docsRuntimeLifecycle,
   docsRuntimeMounting,
+  docsBehavior,
   docsCompiler,
   docsCompilerFileConventions,
   docsCompilerComponentClass,

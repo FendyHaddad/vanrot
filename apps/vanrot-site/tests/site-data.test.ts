@@ -24,6 +24,7 @@ describe('vanrot site docs data', () => {
       'runtimeDevtoolsGraph',
       'runtimeLifecycle',
       'runtimeMounting',
+      'behavior',
       'compiler',
       'compilerFileConventions',
       'compilerComponentClass',
@@ -502,6 +503,7 @@ describe('vanrot site docs data', () => {
       'create',
       'generate',
       'add',
+      'remove',
       'ui',
       'config',
       'update',
@@ -574,6 +576,7 @@ describe('vanrot site docs data', () => {
       'create',
       'generate',
       'add',
+      'remove',
       'ui',
       'config',
       'update',
@@ -588,6 +591,7 @@ describe('vanrot site docs data', () => {
     ]);
     expect(packageReferenceDocs.map((item) => item.name)).toEqual([
       '@vanrot/runtime',
+      '@vanrot/behavior',
       '@vanrot/compiler',
       '@vanrot/config',
       '@vanrot/language-server',

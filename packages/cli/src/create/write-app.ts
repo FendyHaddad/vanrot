@@ -1,5 +1,6 @@
 import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
+import type { VanrotBehaviorName } from '@vanrot/config';
 import { createAppTemplate } from './app-template.js';
 import { createStarterUiAssets } from './starter-ui-assets.js';
 
@@ -8,6 +9,7 @@ export interface WriteAppOptions {
   appName: string;
   workspace: boolean;
   force: boolean;
+  behavior: VanrotBehaviorName[];
 }
 
 export interface WriteAppResult {
@@ -27,6 +29,7 @@ export async function writeApp(options: WriteAppOptions): Promise<WriteAppResult
     ...createAppTemplate({
       appName: options.appName,
       workspace: options.workspace,
+      behavior: options.behavior,
     }),
     ...(await createStarterUiAssets()),
   ];

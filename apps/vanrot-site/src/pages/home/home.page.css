@@ -232,13 +232,6 @@
   color: var(--home-fg);
 }
 
-.db-brand-mark {
-  width: 18px;
-  height: 18px;
-  border-radius: 5px;
-  background: #fff;
-}
-
 .db-search {
   display: flex;
   align-items: center;

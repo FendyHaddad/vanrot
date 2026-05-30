@@ -4,8 +4,26 @@
       "name": "@vanrot/runtime",
       "area": "Reactive runtime",
       "status": "production-ready",
-      "summary": "Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, forms helpers, overlay helpers, and runtime graph contracts.",
+      "summary": "Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, input helpers, and runtime graph contracts. Headless behavior helpers live in @vanrot/behavior.",
       "docsPath": "/docs/runtime"
+    },
+    {
+      "name": "@vanrot/behavior",
+      "area": "Optional behavior helpers",
+      "status": "production-ready",
+      "summary": "Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers.",
+      "exports": [
+        "@vanrot/behavior/form",
+        "@vanrot/behavior/table",
+        "@vanrot/behavior/overlay",
+        "@vanrot/behavior/tabs",
+        "@vanrot/behavior/tooltip",
+        "@vanrot/behavior/toast",
+        "@vanrot/behavior/command-menu",
+        "@vanrot/behavior/positioned-layer",
+        "@vanrot/behavior/all"
+      ],
+      "docsPath": "/docs/behavior"
     },
     {
       "name": "@vanrot/compiler",
@@ -83,6 +101,7 @@
     { "packageName": "@vanrot/runtime", "name": "signal", "kind": "function", "status": "production-ready", "summary": "Creates a writable Vanrot signal for local state.", "docsPath": "/docs/runtime" },
     { "packageName": "@vanrot/runtime", "name": "computed", "kind": "function", "status": "production-ready", "summary": "Creates a derived value that tracks signal reads.", "docsPath": "/docs/runtime" },
     { "packageName": "@vanrot/runtime", "name": "effect", "kind": "function", "status": "production-ready", "summary": "Runs reactive side effects with cleanup and disposal.", "docsPath": "/docs/runtime" },
+    { "packageName": "@vanrot/behavior", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/behavior are covered by behavior and public API documentation.", "docsPath": "/docs/behavior" },
     { "packageName": "@vanrot/compiler", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/compiler are covered by compiler and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/compiler", "name": "compileComponent", "kind": "function", "status": "production-ready", "summary": "Compiles a Vanrot component source into executable output.", "docsPath": "/docs/compiler" },
     { "packageName": "@vanrot/compiler", "name": "parseTemplate", "kind": "function", "status": "production-ready", "summary": "Parses Vanrot template source into the compiler AST.", "docsPath": "/docs/compiler" },
@@ -126,7 +145,10 @@
       "summary": "Creates a routed Vanrot app with the configured package manager and starter files.",
       "docsPath": "/docs/cli",
       "examples": ["vr create hello-vanrot", "vr create dashboard --workspace apps/dashboard"],
-      "notes": ["Creates a Vanrot app shell, starter route files, config, package scripts, and source-owned CSS."]
+      "notes": [
+        "Creates a Vanrot app shell, starter route files, config, package scripts, and source-owned CSS.",
+        "Use --behavior tooltip,toast to opt into @vanrot/behavior helpers or --no-behavior to keep the starter lean."
+      ]
     },
     {
       "name": "generate",
@@ -145,6 +167,18 @@
       "docsPath": "/docs/cli",
       "examples": ["vr add @vanrot/ui", "vr add button"],
       "notes": ["Used by the design component workflow to install primitives without hand-copying framework-owned files."]
+    },
+    {
+      "name": "remove",
+      "usage": "vr remove behavior <name>",
+      "status": "production-ready",
+      "summary": "Removes optional behavior helpers from project config.",
+      "docsPath": "/docs/cli",
+      "examples": ["vr remove behavior tooltip", "vr remove behavior tooltip --package"],
+      "notes": [
+        "Removes a behavior helper from behavior.enabled without removing @vanrot/behavior by default.",
+        "--package removes @vanrot/behavior only when no behavior helpers remain."
+      ]
     },
     {
       "name": "ui",
@@ -289,7 +323,7 @@
     { "path": "package.json", "owner": "@vanrot/cli", "status": "demo-capable", "summary": "Project manifest containing scripts, dependencies, package manager metadata, and private workspace state.", "docsPath": "/docs/project-structure" },
     { "path": "tsconfig.json", "owner": "@vanrot/cli", "status": "demo-capable", "summary": "TypeScript project configuration generated for Vanrot app source files and package resolution.", "docsPath": "/docs/project-structure" },
     { "path": "vite.config.ts", "owner": "@vanrot/vite-plugin", "status": "production-ready", "summary": "Vite configuration that installs the Vanrot plugin.", "docsPath": "/docs/vite-plugin" },
-    { "path": "vanrot.config.ts", "owner": "@vanrot/config", "status": "production-ready", "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, and AI rule settings.", "docsPath": "/docs/configuration" },
+    { "path": "vanrot.config.ts", "owner": "@vanrot/config", "status": "production-ready", "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.", "docsPath": "/docs/configuration" },
     { "path": "src/routes.ts", "owner": "@vanrot/router", "status": "production-ready", "summary": "Named route refs and route metadata for app navigation without repeated route strings.", "docsPath": "/docs/routing" },
     { "path": ".vanrot/project-map.json", "owner": "@vanrot/devtools", "status": "production-ready", "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.", "docsPath": "/docs/devtools" }
   ],
@@ -303,6 +337,7 @@
   "examples": [
     { "id": "counter", "title": "Counter Starter", "path": "examples/counter", "packages": ["@vanrot/runtime", "@vanrot/compiler", "@vanrot/config", "@vanrot/vite-plugin", "@vanrot/cli"], "workflows": ["starter-flow", "build-deploy"], "docsPath": "/docs/examples" },
     { "id": "runtime-lifecycle", "title": "Runtime Lifecycle", "path": "examples/runtime-lifecycle", "packages": ["@vanrot/runtime"], "workflows": ["runtime-lifecycle"], "docsPath": "/docs/runtime" },
+    { "id": "behavior-helpers", "title": "Behavior Helpers", "path": "examples/behavior-helpers", "packages": ["@vanrot/behavior", "@vanrot/runtime", "@vanrot/config"], "workflows": ["behavior-helpers"], "docsPath": "/docs/behavior" },
     { "id": "compiler-templates", "title": "Compiler Templates", "path": "examples/compiler-templates", "packages": ["@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["compiler-templates"], "docsPath": "/docs/compiler" },
     { "id": "routing-workflows", "title": "Routing Workflows", "path": "examples/routing-workflows", "packages": ["@vanrot/router", "@vanrot/runtime", "@vanrot/compiler", "@vanrot/vite-plugin"], "workflows": ["routing-workflows"], "docsPath": "/docs/routing" },
     { "id": "testing-helpers", "title": "Testing Helpers", "path": "examples/testing-helpers", "packages": ["@vanrot/testing", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["testing-helpers"], "docsPath": "/docs/testing" },
