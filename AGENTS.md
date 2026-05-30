@@ -93,9 +93,10 @@ When a Vanrot phase is completed:
 3. Update `docs/vanrot-presentation.html` so the roadmap slide matches the tracker.
 4. Update `docs/superpowers/feature-maturity.md` whenever a phase changes feature maturity, scope, or production ordering.
 5. Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
-6. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
-7. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
-8. When committing, stage the maturity ledger, final TDD inventory, presentation, plan, and requirement docs together.
+6. Update `docs/superpowers/post-production-implementation-ideas.md` whenever a Phase 17-22 item or later post-production candidate changes status, ships, is deferred, or is superseded by real implementation.
+7. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
+8. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
+9. When committing, stage the maturity ledger, final TDD inventory, post-production ideas when status changed, presentation, plan, and requirement docs together.
 
 Do not mark a phase done until its verification criteria pass.
 
@@ -163,7 +164,7 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-30 11:38pm GMT+8
+# [vanrot] recent context, 2026-05-30 11:48pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE

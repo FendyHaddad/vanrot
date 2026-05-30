@@ -18,45 +18,47 @@ matching phase spec and writing plan using the normal `Phase-XX.md` naming conve
   async resources, router integration, and SSR boundaries.
 - Prefer readable, English-like APIs and named sources of truth over clever shorthand or repeated string literals.
 
-## Later Candidate: IntelliJ And Editor Tooling
+## Later Candidate: Editor Tooling Hardening
 
-Vanrot should eventually have Angular-like IDE support, but it should not be implemented before the framework language,
-route metadata, component metadata, compiler diagnostics, and distribution story are stable. The goal is to make editor
-tooling feel first-party without letting it distort the core framework design.
+The IntelliJ plugin foundation already exists. This section is now only for the deeper editor experience that should
+arrive after the framework metadata, compiler diagnostics, and distribution story are stable. Future work should extend
+the shipped foundation instead of planning it again.
 
-Agreed sequence:
+Already shipped:
 
-- Ignore current IntelliJ `vr-*` squiggles as a tooling gap, not a Vanrot design problem.
-- Near Phase 23, add lightweight Web Types and metadata so JetBrains can recognize Vanrot tags, attributes, variants,
-  router elements, and documented UI primitives. The first package-level Web Types seed now lives in `@vanrot/ui` and
-  `@vanrot/router`; future editor work should extend it instead of replacing it.
-- During Phase 23, build the project and compiler intelligence foundation that editor tooling needs: route graph,
-  component graph, template usage, source locations, diagnostics, and project metadata.
-- After post-production implementation and distribution hardening, build a real IntelliJ plugin or language service for
-  Angular-like behavior.
-- Treat the likely future phase name as `Phase 27 - IntelliJ and editor tooling`, unless Phase 23 needs a smaller
-  `Phase 23B - IDE intelligence` slice first.
+- `editors/intellij` contains the Gradle-built JetBrains plugin project.
+- The plugin metadata is now `com.vankode.vanrot` with the displayed name `Vanrot`.
+- The Kotlin plugin acts as a thin IntelliJ bridge around the Vanrot language-server path.
+- The plugin suppresses the noisy HTML empty-tag inspection for Vanrot template files.
+- The template-file rule is shared from `packages/language-server` and mirrored by the plugin so `.component.html`,
+  `.page.html`, `.layout.html`, `.dialog.html`, `.widget.html`, and `.form.html` stay recognized consistently.
+- The plugin was built and tested with Java 21, and its packaged ZIP metadata was inspected through the nested JAR.
+- JetBrains Web Types support for route shorthand also shipped separately through global `html.attributes` metadata in
+  the root, site, and router Web Types files.
 
-Long-term capabilities to carry forward:
+Still future:
 
-- Import suggestions or generated setup guidance for Vanrot components, pages, layouts, route helpers, and UI primitives.
-- Jump-to-route, jump-to-page, jump-to-layout, and jump-to-component from template usage.
+- Richer Web Types and editor metadata for Vanrot tags, attributes, variants, router elements, UI primitives, and route
+  references.
+- Project intelligence exports that expose the route graph, component graph, template usage, source locations,
+  diagnostics, and generated metadata to editors.
+- Jump-to-route, jump-to-page, jump-to-layout, jump-to-component, and route-reference navigation from templates.
 - Rename-safe route references for syntax such as `<vr route.docs />`.
 - Template diagnostics for unknown Vanrot elements, invalid variants, repeated route literals, router/outlet misuse, and
   framework convention violations.
 - Auto-fixes for simple mistakes, such as adding missing generated metadata, correcting route references, or replacing
   repeated literals with named route objects.
-- Completion and documentation for `vr-router`, `vr-outlet`, `vr-*` UI primitives, route references, variants, and
-  framework-owned attributes.
-- Compatibility with IntelliJ IDEA Ultimate, WebStorm, and future editor adapters where practical.
+- Completion and inline documentation for `vr-router`, `vr-outlet`, `vr-*` UI primitives, route references, variants,
+  and framework-owned attributes.
+- Compatibility checks across IntelliJ IDEA Ultimate, WebStorm, and future editor adapters where practical.
 
 Possible slices:
 
-- 27A Web Types and editor metadata package
+- 27A Web Types and editor metadata hardening
 - 27B project intelligence export for editors
-- 27C IntelliJ plugin or language-service prototype
-- 27D route and template navigation
-- 27E diagnostics, quick fixes, and rename-safe refactors
+- 27C route and template navigation
+- 27D diagnostics, quick fixes, and rename-safe refactors
+- 27E plugin packaging, install docs, and compatibility checks
 
 ## Phase 17: UI Production V02
 
