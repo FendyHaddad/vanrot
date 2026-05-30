@@ -107,6 +107,38 @@
   color: var(--vr-color-text);
 }
 
+.docs-nav-parent {
+  display: grid;
+}
+
+.docs-nav-children {
+  display: grid;
+  gap: 2px;
+  margin: 2px 0 8px;
+  padding-left: 14px;
+}
+
+.docs-nav-children[hidden] {
+  display: none;
+}
+
+.docs-nav-child-link {
+  display: flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 8px;
+  border-left: 1px solid var(--docs-sidebar-border);
+  color: var(--docs-sidebar-faint);
+  font-size: 13px;
+  text-decoration: none;
+  transition: color 0.12s, border-color 0.12s;
+}
+
+.docs-nav-child-link:hover {
+  border-color: var(--vr-color-text);
+  color: var(--vr-color-text);
+}
+
 .docs-main {
   min-width: 0;
 }

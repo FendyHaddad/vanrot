@@ -920,38 +920,338 @@
     {
       "id": "doc:runtime",
       "title": "Runtime",
-      "summary": "The runtime owns signals, computed values, effects, lifecycle hooks, inputs, and mounting.",
+      "summary": "@vanrot/runtime is the browser runtime boundary for reactivity, inputs, lifecycle cleanup, compiled-component mounting, and the small interaction controllers used by generated Vanrot UI.",
       "docsPath": "/docs/runtime"
+    },
+    {
+      "id": "doc:runtimeSignals",
+      "title": "Runtime Signals",
+      "summary": "A signal is the @vanrot/runtime state primitive: readable state, writable updates, cached computed values, and effects all share one explicit dependency graph.",
+      "docsPath": "/docs/runtime/signals"
+    },
+    {
+      "id": "doc:runtimeInputs",
+      "title": "Runtime Inputs",
+      "summary": "Runtime inputs are signal-shaped component boundary values for required and defaulted data passed into generated components.",
+      "docsPath": "/docs/runtime/inputs"
+    },
+    {
+      "id": "doc:runtimeForms",
+      "title": "Runtime Forms",
+      "summary": "Runtime forms provide a small controller and validator surface for repeated field state, validation, and error handling.",
+      "docsPath": "/docs/runtime/forms"
+    },
+    {
+      "id": "doc:runtimeControllers",
+      "title": "Runtime UI Controllers",
+      "summary": "UI controllers are small runtime helpers for repeated interaction patterns such as overlays, command menus, layers, tabs, tooltips, and toasts.",
+      "docsPath": "/docs/runtime/controllers"
+    },
+    {
+      "id": "doc:runtimeDevtoolsGraph",
+      "title": "Runtime Devtools Graph",
+      "summary": "The runtime graph session records nodes, edges, and events so devtools can inspect reactive behavior without changing application code.",
+      "docsPath": "/docs/runtime/devtools-graph"
+    },
+    {
+      "id": "doc:runtimeLifecycle",
+      "title": "Runtime Lifecycle",
+      "summary": "Runtime lifecycle hooks attach setup and cleanup to the active mount scope so effects, DOM listeners, and component teardown stay deterministic.",
+      "docsPath": "/docs/runtime/lifecycle"
+    },
+    {
+      "id": "doc:runtimeMounting",
+      "title": "Runtime Mounting",
+      "summary": "mount() is the browser entry point that creates the root cleanup scope and attaches compiled component output to a target element.",
+      "docsPath": "/docs/runtime/mounting"
     },
     {
       "id": "doc:compiler",
       "title": "Compiler",
-      "summary": "The compiler turns role files into mounted DOM with scoped CSS, diagnostics, source maps, control flow, child components, slots, and UI primitive lowering.",
+      "summary": "@vanrot/compiler turns role files, HTML templates, and scoped CSS into generated JavaScript, generated CSS, diagnostics, source maps, child component metadata, and readable feature metadata.",
       "docsPath": "/docs/compiler"
+    },
+    {
+      "id": "doc:compilerFileConventions",
+      "title": "Compiler File Conventions",
+      "summary": "Vanrot compiler file conventions pair each role TypeScript file with sibling HTML and CSS sources before any template or style transform runs.",
+      "docsPath": "/docs/compiler/file-conventions"
+    },
+    {
+      "id": "doc:compilerComponentClass",
+      "title": "Compiler Component Class",
+      "summary": "The compiler reads a named exported class from each role file and uses that class as the generated component identity.",
+      "docsPath": "/docs/compiler/component-class"
+    },
+    {
+      "id": "doc:compilerTemplateSyntax",
+      "title": "Compiler Template Syntax",
+      "summary": "Vanrot template syntax keeps HTML declarative while supporting interpolation, property binding, event binding, control flow, child components, slots, router tags, and UI primitives.",
+      "docsPath": "/docs/compiler/template-syntax"
+    },
+    {
+      "id": "doc:compilerExpressions",
+      "title": "Compiler Expressions",
+      "summary": "Vanrot compiler expressions are rewritten into component-safe reads and method calls while rejecting statement-like logic in templates.",
+      "docsPath": "/docs/compiler/expressions"
+    },
+    {
+      "id": "doc:compilerEventBinding",
+      "title": "Compiler Event Binding",
+      "summary": "Event binding compiles declarative template events into generated listeners that call component methods and stay cleanup-safe.",
+      "docsPath": "/docs/compiler/event-binding"
+    },
+    {
+      "id": "doc:compilerScopedCss",
+      "title": "Compiler Scoped CSS",
+      "summary": "Scoped CSS transforms component styles with a generated scope attribute while keeping source mappings back to the original CSS file.",
+      "docsPath": "/docs/compiler/scoped-css"
+    },
+    {
+      "id": "doc:compilerChildComponents",
+      "title": "Compiler Child Components",
+      "summary": "Child component compilation detects component tags, imports the child class, validates inputs, and records dependency metadata.",
+      "docsPath": "/docs/compiler/child-components"
+    },
+    {
+      "id": "doc:compilerSlots",
+      "title": "Compiler Slots",
+      "summary": "Slots let a parent provide named content to a child component while the compiler validates slot targets and lowers slot outlets.",
+      "docsPath": "/docs/compiler/slots"
+    },
+    {
+      "id": "doc:compilerFor",
+      "title": "Compiler @for",
+      "summary": "@for compiles list rendering with an explicit item source and required tracking expression so generated DOM updates stay predictable.",
+      "docsPath": "/docs/compiler/for"
+    },
+    {
+      "id": "doc:compilerIfElse",
+      "title": "Compiler @if and @else",
+      "summary": "@if and @else compile conditional template branches into cleanup-safe DOM updates driven by a component expression.",
+      "docsPath": "/docs/compiler/if-else"
+    },
+    {
+      "id": "doc:compilerInputs",
+      "title": "Compiler Inputs",
+      "summary": "Compiler input metadata lets Vanrot validate child component input bindings before generated code reaches the browser.",
+      "docsPath": "/docs/compiler/inputs"
+    },
+    {
+      "id": "doc:compilerSourceMaps",
+      "title": "Compiler Source Maps",
+      "summary": "Compiler source mappings connect generated JavaScript and CSS back to original template and style files for diagnostics, inspection, and tests.",
+      "docsPath": "/docs/compiler/source-maps"
+    },
+    {
+      "id": "doc:compilerCompilationApi",
+      "title": "Compiler Compilation API",
+      "summary": "The @vanrot/compiler API exposes full component compilation plus lower-level parsing, metadata, style, codegen, diagnostics, and source-location helpers for tooling.",
+      "docsPath": "/docs/compiler/compilation-api"
     },
     {
       "id": "doc:vitePlugin",
       "title": "Vite Plugin",
-      "summary": "The Vite plugin compiles Vanrot role files in dev and build, bridges diagnostics, watches sibling files, and emits source maps.",
+      "summary": "@vanrot/vite-plugin is the Vite integration layer for Vanrot applications. It compiles role files, watches sibling templates and styles, exposes virtual CSS and source modules, forwards diagnostics, and preserves source-map context during dev and build.",
       "docsPath": "/docs/vite-plugin"
+    },
+    {
+      "id": "doc:vitePluginSetup",
+      "title": "Vite Plugin Setup",
+      "summary": "Setup connects @vanrot/vite-plugin to Vite so Vanrot role files compile during development and production builds.",
+      "docsPath": "/docs/vite-plugin/setup"
+    },
+    {
+      "id": "doc:vitePluginOptions",
+      "title": "Vite Plugin Options",
+      "summary": "VanrotPluginOptions control source matching, project root resolution, and source-root defaults for @vanrot/vite-plugin.",
+      "docsPath": "/docs/vite-plugin/options"
+    },
+    {
+      "id": "doc:vitePluginTransform",
+      "title": "Vite Plugin Role File Transform",
+      "summary": "The role-file transform compiles Vanrot component, page, layout, and button files into Vite modules with generated JavaScript, CSS, diagnostics, and source maps.",
+      "docsPath": "/docs/vite-plugin/role-file-transform"
+    },
+    {
+      "id": "doc:vitePluginHotReload",
+      "title": "Vite Plugin Hot Reload",
+      "summary": "Hot reload keeps HTML and CSS sibling edits attached to the owning Vanrot role module instead of treating siblings as disconnected files.",
+      "docsPath": "/docs/vite-plugin/hot-reload"
+    },
+    {
+      "id": "doc:vitePluginVirtualModules",
+      "title": "Vite Plugin Virtual Modules",
+      "summary": "Virtual modules let generated Vanrot JavaScript import scoped CSS and original source through Vite without writing temporary generated files.",
+      "docsPath": "/docs/vite-plugin/virtual-modules"
+    },
+    {
+      "id": "doc:vitePluginDiagnostics",
+      "title": "Vite Plugin Diagnostics",
+      "summary": "Diagnostics from project configuration and Vanrot compilation are surfaced through Vite errors and warnings so integration failures are visible during dev and build.",
+      "docsPath": "/docs/vite-plugin/diagnostics"
+    },
+    {
+      "id": "doc:vitePluginSourceMaps",
+      "title": "Vite Plugin Source Maps",
+      "summary": "Source maps connect generated Vanrot JavaScript and CSS back to template, style, and role-file source positions.",
+      "docsPath": "/docs/vite-plugin/source-maps"
+    },
+    {
+      "id": "doc:vitePluginDevtoolsMetadata",
+      "title": "Vite Plugin Devtools Metadata",
+      "summary": "The devtools metadata endpoint lets local tooling read Vanrot graph metadata from the Vite dev server.",
+      "docsPath": "/docs/vite-plugin/devtools-metadata"
     },
     {
       "id": "doc:cli",
       "title": "CLI",
-      "summary": "The CLI provides project creation, generation, UI primitive add flows, dev/build/test wrappers, doctor, map, config maintenance, and AI-readable local context.",
+      "summary": "@vanrot/cli is the project operator for Vanrot applications. It creates projects, writes role files, installs UI primitives, repairs configuration, runs Vite tasks, checks local health, and builds the project intelligence files used by devtools and AI readers.",
       "docsPath": "/docs/cli"
+    },
+    {
+      "id": "doc:cliCommandSurface",
+      "title": "CLI Command Surface",
+      "summary": "The command surface explains how @vanrot/cli names, groups, reports, and validates every current vr command.",
+      "docsPath": "/docs/cli/commands"
+    },
+    {
+      "id": "doc:cliProjectCreation",
+      "title": "CLI Project Creation",
+      "summary": "Project creation uses @vanrot/cli to start an application with Vanrot source layout, config, Vite wiring, and starter role files already aligned.",
+      "docsPath": "/docs/cli/project-creation"
+    },
+    {
+      "id": "doc:cliRoleGeneration",
+      "title": "CLI Role Generation",
+      "summary": "Role generation writes Vanrot role files with predictable names, suffixes, templates, styles, and starter logic.",
+      "docsPath": "/docs/cli/role-generation"
+    },
+    {
+      "id": "doc:cliUiPrimitiveAdd",
+      "title": "CLI UI Primitive Add",
+      "summary": "UI primitive commands add Vanrot UI files and imports without breaking the project conventions around style mode and generated component ownership.",
+      "docsPath": "/docs/cli/ui-primitives"
+    },
+    {
+      "id": "doc:cliConfigMaintenance",
+      "title": "CLI Config Maintenance",
+      "summary": "Configuration commands keep vanrot.config.ts present, canonical, repairable, and aligned with package expectations.",
+      "docsPath": "/docs/cli/config-maintenance"
+    },
+    {
+      "id": "doc:cliProjectIntelligence",
+      "title": "CLI Project Intelligence",
+      "summary": "Project intelligence commands write map and AI context artifacts that describe the actual Vanrot project instead of relying on stale human memory.",
+      "docsPath": "/docs/cli/project-intelligence"
+    },
+    {
+      "id": "doc:cliTaskRunners",
+      "title": "CLI Task Runners",
+      "summary": "Task runner commands let a Vanrot project use familiar vr dev, vr build, and vr test commands while keeping the Vite integration and project config visible.",
+      "docsPath": "/docs/cli/task-runners"
+    },
+    {
+      "id": "doc:cliDevServer",
+      "title": "CLI Dev Server",
+      "summary": "vr dev starts the local Vanrot preview loop by validating project config and then running Vite with the configured host and port.",
+      "docsPath": "/docs/cli/dev"
+    },
+    {
+      "id": "doc:cliBuild",
+      "title": "CLI Build",
+      "summary": "vr build validates Vanrot config and then runs the production Vite build so release output uses the same framework plugin path as development.",
+      "docsPath": "/docs/cli/build"
+    },
+    {
+      "id": "doc:cliTest",
+      "title": "CLI Test",
+      "summary": "vr test validates config and runs the project test suite through vitest run so local and CI checks share the same non-watch behavior.",
+      "docsPath": "/docs/cli/test"
     },
     {
       "id": "doc:configuration",
       "title": "Configuration",
-      "summary": "vanrot.config.ts is the typed source of truth for source roots, dev server port, UI flavor, UI style mode, and future package domains.",
+      "summary": "@vanrot/config owns vanrot.config.ts, default normalization, validation, migration, recovery, generated domain editing, router diagnostics settings, UI settings, and AI rules settings.",
       "docsPath": "/docs/configuration"
+    },
+    {
+      "id": "doc:configurationFile",
+      "title": "Configuration File",
+      "summary": "The config file guide explains how vanrot.config.ts is authored, loaded, typed, and shared across packages.",
+      "docsPath": "/docs/configuration/file"
+    },
+    {
+      "id": "doc:configurationDefaults",
+      "title": "Configuration Defaults",
+      "summary": "Configuration defaults explain what @vanrot/config supplies when a project leaves optional settings out.",
+      "docsPath": "/docs/configuration/defaults"
+    },
+    {
+      "id": "doc:configurationUi",
+      "title": "UI Configuration",
+      "summary": "UI configuration controls the flavor and style mode used by generated UI primitive files.",
+      "docsPath": "/docs/configuration/ui"
+    },
+    {
+      "id": "doc:configurationRouter",
+      "title": "Router Configuration",
+      "summary": "Router configuration controls diagnostics and navigation polish settings consumed by @vanrot/router and related tooling.",
+      "docsPath": "/docs/configuration/router"
+    },
+    {
+      "id": "doc:configurationAi",
+      "title": "AI Configuration",
+      "summary": "AI configuration controls generated AI rule sections and project intelligence behavior without making AI bundles the source of truth.",
+      "docsPath": "/docs/configuration/ai"
+    },
+    {
+      "id": "doc:configurationMaintenance",
+      "title": "Configuration Maintenance",
+      "summary": "Configuration maintenance covers migration, recovery, validation, diagnostics, and generated-domain editing in @vanrot/config.",
+      "docsPath": "/docs/configuration/maintenance"
     },
     {
       "id": "doc:routing",
       "title": "Routing",
-      "summary": "The router owns route refs, nested layouts, params, query strings, redirects, guards, active links, breadcrumbs, preloading, and keepAlive.",
+      "summary": "@vanrot/router owns route refs, nested layouts, params, query strings, redirects, guards, active links, breadcrumbs, preloading, keepAlive, route diagnostics, and current route state.",
       "docsPath": "/docs/routing"
+    },
+    {
+      "id": "doc:routingRouteTable",
+      "title": "Routing Route Table",
+      "summary": "Route tables use createRoutes and defineRoutes to keep paths, labels, pages, layouts, redirects, and route refs in one named structure.",
+      "docsPath": "/docs/routing/route-table"
+    },
+    {
+      "id": "doc:routingParamsQuery",
+      "title": "Routing Params and Query",
+      "summary": "Params and query helpers parse, fill, match, and build URL data without hand-joining route strings.",
+      "docsPath": "/docs/routing/params-query"
+    },
+    {
+      "id": "doc:routingLayoutsRedirects",
+      "title": "Routing Layouts and Redirects",
+      "summary": "Layouts and redirects describe nested route structure and canonical navigation targets without putting routing policy in templates.",
+      "docsPath": "/docs/routing/layouts-redirects"
+    },
+    {
+      "id": "doc:routingGuards",
+      "title": "Routing Guards",
+      "summary": "Route guards decide whether navigation may continue, redirect, or stop before a protected page renders.",
+      "docsPath": "/docs/routing/guards"
+    },
+    {
+      "id": "doc:routingNavigation",
+      "title": "Routing Navigation",
+      "summary": "Navigation polish covers current route state, active links, breadcrumbs, route params signals, and route diagnostics.",
+      "docsPath": "/docs/routing/navigation"
+    },
+    {
+      "id": "doc:routingPreloadingKeepAlive",
+      "title": "Routing Preloading and KeepAlive",
+      "summary": "Preloading and keepAlive improve navigation responsiveness and state restoration when a route really benefits from retained work.",
+      "docsPath": "/docs/routing/preloading-keep-alive"
     },
     {
       "id": "doc:uiOctober",
@@ -974,14 +1274,68 @@
     {
       "id": "doc:testing",
       "title": "Testing",
-      "summary": "Vanrot testing currently provides component test helpers and will expand after the production UI and site base are in place.",
+      "summary": "@vanrot/testing currently exposes component test helpers built around testComponent and Screen, with route-aware and production workflow guidance documented as the framework grows.",
       "docsPath": "/docs/testing"
+    },
+    {
+      "id": "doc:testingComponent",
+      "title": "Testing Component Tests",
+      "summary": "Component tests mount a Vanrot component through testComponent and assert against rendered behavior.",
+      "docsPath": "/docs/testing/component-tests"
+    },
+    {
+      "id": "doc:testingScreen",
+      "title": "Testing Screen",
+      "summary": "Screen is the small DOM query surface returned by @vanrot/testing component tests.",
+      "docsPath": "/docs/testing/screen"
+    },
+    {
+      "id": "doc:testingRouting",
+      "title": "Testing Routing",
+      "summary": "Routing tests verify route refs, paths, params, guards, active state, preloading, and keepAlive behavior at the router boundary.",
+      "docsPath": "/docs/testing/routing"
+    },
+    {
+      "id": "doc:testingStrategy",
+      "title": "Testing Strategy",
+      "summary": "Testing strategy explains where to put coverage across Vanrot runtime, compiler, router, CLI, docs, UI, and generated artifacts.",
+      "docsPath": "/docs/testing/strategy"
     },
     {
       "id": "doc:devtools",
       "title": "Devtools And Project Intelligence",
-      "summary": "Use Vanrot project intelligence, graph metadata, and devtools contracts without relying on AI-specific bundles from Phase 25.",
+      "summary": "@vanrot/devtools reads project map manifests, runtime graph metadata, Vite plugin metadata, panel state, stale-state diagnostics, and AI-adjacent project intelligence without becoming the source of truth.",
       "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "doc:devtoolsProjectMap",
+      "title": "Devtools Project Map",
+      "summary": "The project map manifest describes Vanrot role files, graph nodes, graph edges, routes, compiler metadata, AI metadata, and stale state.",
+      "docsPath": "/docs/devtools/project-map"
+    },
+    {
+      "id": "doc:devtoolsRuntimeGraph",
+      "title": "Devtools Runtime Graph",
+      "summary": "The runtime graph describes components, signals, computed values, effects, and dependency edges for development inspection.",
+      "docsPath": "/docs/devtools/runtime-graph"
+    },
+    {
+      "id": "doc:devtoolsViteMetadata",
+      "title": "Devtools Vite Metadata",
+      "summary": "Vite metadata connects the dev server, plugin diagnostics, role-file transforms, and devtools inspection.",
+      "docsPath": "/docs/devtools/vite-metadata"
+    },
+    {
+      "id": "doc:devtoolsPanelState",
+      "title": "Devtools Panel State",
+      "summary": "Panel state normalizes graph manifests into renderable devtools state without changing the underlying manifest contract.",
+      "docsPath": "/docs/devtools/panel-state"
+    },
+    {
+      "id": "doc:devtoolsStaleState",
+      "title": "Devtools Stale State",
+      "summary": "Stale-state diagnostics explain when project intelligence needs to be regenerated before devtools or AI consumers can trust it.",
+      "docsPath": "/docs/devtools/stale-state"
     },
     {
       "id": "doc:examples",
@@ -1034,8 +1388,44 @@
     {
       "id": "doc:conventions",
       "title": "Conventions",
-      "summary": "Vanrot conventions keep projects readable for humans and AI tools.",
+      "summary": "Vanrot conventions keep role files, templates, styles, state, routing, generated strings, and AI-readable project structure consistent across the framework.",
       "docsPath": "/docs/conventions"
+    },
+    {
+      "id": "doc:conventionsRoleFiles",
+      "title": "Conventions Role Files",
+      "summary": "Role file conventions make Vanrot source files discoverable by humans, compiler transforms, CLI generators, Vite plugin matching, devtools, and AI tools.",
+      "docsPath": "/docs/conventions/role-files"
+    },
+    {
+      "id": "doc:conventionsTemplatesStyles",
+      "title": "Conventions Templates and Styles",
+      "summary": "Template and style conventions keep markup, behavior, and presentation split across HTML, TypeScript, and scoped CSS.",
+      "docsPath": "/docs/conventions/templates-and-styles"
+    },
+    {
+      "id": "doc:conventionsStateLogic",
+      "title": "Conventions State and Logic",
+      "summary": "State and logic conventions keep Vanrot components signal-driven, readable, testable, and free of template-side business rules.",
+      "docsPath": "/docs/conventions/state-and-logic"
+    },
+    {
+      "id": "doc:conventionsRoutingStrings",
+      "title": "Conventions Routing and Strings",
+      "summary": "Routing and string conventions prevent docs, routes, diagnostics, command names, labels, generated copy, and file suffixes from drifting.",
+      "docsPath": "/docs/conventions/routing-and-strings"
+    },
+    {
+      "id": "doc:conventionsScopedCss",
+      "title": "Conventions Scoped CSS",
+      "summary": "Scoped CSS conventions keep role-file styling local, predictable, and portable across generated components and docs examples.",
+      "docsPath": "/docs/conventions/scoped-css"
+    },
+    {
+      "id": "doc:conventionsAiReadable",
+      "title": "Conventions AI-readable Projects",
+      "summary": "AI-readable project conventions help maps, docs bundles, devtools, and external AI consumers recover accurate framework context.",
+      "docsPath": "/docs/conventions/ai-readable-projects"
     },
     {
       "id": "doc:limitations",

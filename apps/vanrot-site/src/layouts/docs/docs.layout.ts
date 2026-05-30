@@ -1,4 +1,5 @@
 import {
+  flattenNavigationItems,
   siteNavigationBySection,
   siteNavigationSectionLabel,
 } from '../../docs/site-navigation.ts';
@@ -11,10 +12,10 @@ export class DocsLayout {
   exampleItems = siteNavigationBySection.examples;
   referenceItems = siteNavigationBySection.reference;
   commandItems = [
-    ...siteNavigationBySection.getStarted,
-    ...siteNavigationBySection.framework,
-    ...siteNavigationBySection.examples,
-    ...siteNavigationBySection.reference,
+    ...flattenNavigationItems(siteNavigationBySection.getStarted),
+    ...flattenNavigationItems(siteNavigationBySection.framework),
+    ...flattenNavigationItems(siteNavigationBySection.examples),
+    ...flattenNavigationItems(siteNavigationBySection.reference),
   ];
 
   constructor() {

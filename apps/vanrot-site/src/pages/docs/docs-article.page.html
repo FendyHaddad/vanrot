@@ -1,18 +1,40 @@
-<article class="docs-article">
-  <vr-badge tone.secondary>{{ article().status }}</vr-badge>
-  <h1>{{ article().title }}</h1>
-  <p class="docs-summary">{{ article().summary }}</p>
+<div class="docs-article-layout">
+  <article class="docs-article">
+    <h1>{{ article().title }}</h1>
+    <p class="docs-summary">{{ article().summary }}</p>
 
-  <vr-separator orientation.horizontal></vr-separator>
+    <vr-separator orientation.horizontal></vr-separator>
 
-  <div class="docs-section-grid">
-    @for (section of article().sections; track section.id) {
-      <vr-card variant.default>
+    <div class="docs-section-grid">
+      @for (section of articleSections(); track section.id) {
         <section class="docs-section" [id]="section.id">
           <h2>{{ section.title }}</h2>
           <p>{{ section.body }}</p>
+          <ul [hidden]="section.points.length === 0">
+            @for (point of section.points; track point) {
+              <li>{{ point }}</li>
+            }
+          </ul>
+          <div class="code-snippet" [hidden]="section.code.isEmpty">
+            <span class="docs-code-title">{{ section.code.title }}</span>
+            <pre class="code-block"><code>@for (line of section.code.lines; track line.number) {
+<span class="code-line"><span class="code-line-number">{{ line.number }}</span><span class="code-line-content">@for (token of line.tokens; track token.id) {
+<span class="token keyword" [hidden]="token.kind !== 'keyword'">{{ token.text }}</span><span class="token function" [hidden]="token.kind !== 'function'">{{ token.text }}</span><span class="token string" [hidden]="token.kind !== 'string'">{{ token.text }}</span><span class="token comment" [hidden]="token.kind !== 'comment'">{{ token.text }}</span><span class="token number" [hidden]="token.kind !== 'number'">{{ token.text }}</span><span class="token operator" [hidden]="token.kind !== 'operator'">{{ token.text }}</span><span class="token property" [hidden]="token.kind !== 'property'">{{ token.text }}</span><span class="token punctuation" [hidden]="token.kind !== 'punctuation'">{{ token.text }}</span><span class="token text" [hidden]="token.kind !== 'text'">{{ token.text }}</span>
+}</span></span>
+}</code></pre>
+          </div>
+          <p class="docs-note" [hidden]="section.note === ''">{{ section.note }}</p>
         </section>
-      </vr-card>
-    }
-  </div>
-</article>
+      }
+    </div>
+  </article>
+
+  <aside class="docs-article-bookmarks" aria-label="Page sections">
+    <span class="docs-article-bookmarks-title">On this page</span>
+    <nav>
+      @for (section of articleSections(); track section.id) {
+        <a data-vr-docs-article-bookmark [href]="'#' + section.id">{{ section.title }}</a>
+      }
+    </nav>
+  </aside>
+</div>

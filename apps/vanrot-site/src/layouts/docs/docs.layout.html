@@ -39,7 +39,14 @@
 
       <span class="docs-nav-title">{{ labels.framework }}</span>
       @for (item of frameworkItems; track item.key) {
-        <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+        <div class="docs-nav-parent">
+          <a class="docs-nav-link" [href]="item.href">{{ item.label }}</a>
+          <div class="docs-nav-children" [hidden]="item.children.length === 0">
+            @for (child of item.children; track child.key) {
+              <a class="docs-nav-child-link" [href]="child.href">{{ child.label }}</a>
+            }
+          </div>
+        </div>
       }
 
       <span class="docs-nav-title">{{ labels.examples }}</span>

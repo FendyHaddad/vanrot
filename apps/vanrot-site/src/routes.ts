@@ -493,16 +493,75 @@ const componentCommandMenu = componentDocsPage(
 const docsInstallation = articlePage(siteArticleKey.installation);
 const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
 const docsRuntime = articlePage(siteArticleKey.runtime);
+const docsRuntimeSignals = articlePage(siteArticleKey.runtimeSignals);
+const docsRuntimeInputs = articlePage(siteArticleKey.runtimeInputs);
+const docsRuntimeForms = articlePage(siteArticleKey.runtimeForms);
+const docsRuntimeControllers = articlePage(siteArticleKey.runtimeControllers);
+const docsRuntimeDevtoolsGraph = articlePage(siteArticleKey.runtimeDevtoolsGraph);
+const docsRuntimeLifecycle = articlePage(siteArticleKey.runtimeLifecycle);
+const docsRuntimeMounting = articlePage(siteArticleKey.runtimeMounting);
 const docsCompiler = articlePage(siteArticleKey.compiler);
+const docsCompilerFileConventions = articlePage(siteArticleKey.compilerFileConventions);
+const docsCompilerComponentClass = articlePage(siteArticleKey.compilerComponentClass);
+const docsCompilerTemplateSyntax = articlePage(siteArticleKey.compilerTemplateSyntax);
+const docsCompilerExpressions = articlePage(siteArticleKey.compilerExpressions);
+const docsCompilerEventBinding = articlePage(siteArticleKey.compilerEventBinding);
+const docsCompilerScopedCss = articlePage(siteArticleKey.compilerScopedCss);
+const docsCompilerChildComponents = articlePage(siteArticleKey.compilerChildComponents);
+const docsCompilerSlots = articlePage(siteArticleKey.compilerSlots);
+const docsCompilerIfElse = articlePage(siteArticleKey.compilerIfElse);
+const docsCompilerFor = articlePage(siteArticleKey.compilerFor);
+const docsCompilerInputs = articlePage(siteArticleKey.compilerInputs);
+const docsCompilerSourceMaps = articlePage(siteArticleKey.compilerSourceMaps);
+const docsCompilerCompilationApi = articlePage(siteArticleKey.compilerCompilationApi);
 const docsVitePlugin = articlePage(siteArticleKey.vitePlugin);
+const docsVitePluginSetup = articlePage(siteArticleKey.vitePluginSetup);
+const docsVitePluginOptions = articlePage(siteArticleKey.vitePluginOptions);
+const docsVitePluginTransform = articlePage(siteArticleKey.vitePluginTransform);
+const docsVitePluginHotReload = articlePage(siteArticleKey.vitePluginHotReload);
+const docsVitePluginVirtualModules = articlePage(siteArticleKey.vitePluginVirtualModules);
+const docsVitePluginDiagnostics = articlePage(siteArticleKey.vitePluginDiagnostics);
+const docsVitePluginSourceMaps = articlePage(siteArticleKey.vitePluginSourceMaps);
+const docsVitePluginDevtoolsMetadata = articlePage(siteArticleKey.vitePluginDevtoolsMetadata);
 const docsCli = articlePage(siteArticleKey.cli);
+const docsCliCommandSurface = articlePage(siteArticleKey.cliCommandSurface);
+const docsCliProjectCreation = articlePage(siteArticleKey.cliProjectCreation);
+const docsCliRoleGeneration = articlePage(siteArticleKey.cliRoleGeneration);
+const docsCliUiPrimitiveAdd = articlePage(siteArticleKey.cliUiPrimitiveAdd);
+const docsCliConfigMaintenance = articlePage(siteArticleKey.cliConfigMaintenance);
+const docsCliProjectIntelligence = articlePage(siteArticleKey.cliProjectIntelligence);
+const docsCliTaskRunners = articlePage(siteArticleKey.cliTaskRunners);
+const docsCliDevServer = articlePage(siteArticleKey.cliDevServer);
+const docsCliBuild = articlePage(siteArticleKey.cliBuild);
+const docsCliTest = articlePage(siteArticleKey.cliTest);
 const docsConfiguration = articlePage(siteArticleKey.configuration);
+const docsConfigurationFile = articlePage(siteArticleKey.configurationFile);
+const docsConfigurationDefaults = articlePage(siteArticleKey.configurationDefaults);
+const docsConfigurationUi = articlePage(siteArticleKey.configurationUi);
+const docsConfigurationRouter = articlePage(siteArticleKey.configurationRouter);
+const docsConfigurationAi = articlePage(siteArticleKey.configurationAi);
+const docsConfigurationMaintenance = articlePage(siteArticleKey.configurationMaintenance);
 const docsRouting = articlePage(siteArticleKey.routing);
+const docsRoutingRouteTable = articlePage(siteArticleKey.routingRouteTable);
+const docsRoutingParamsQuery = articlePage(siteArticleKey.routingParamsQuery);
+const docsRoutingLayoutsRedirects = articlePage(siteArticleKey.routingLayoutsRedirects);
+const docsRoutingGuards = articlePage(siteArticleKey.routingGuards);
+const docsRoutingNavigation = articlePage(siteArticleKey.routingNavigation);
+const docsRoutingPreloadingKeepAlive = articlePage(siteArticleKey.routingPreloadingKeepAlive);
 const docsUi = articlePage(siteArticleKey.uiOctober);
 const docsTheming = articlePage(siteArticleKey.theming);
 const docsVanrotstyles = articlePage(siteArticleKey.vanrotstyles);
 const docsTesting = articlePage(siteArticleKey.testing);
+const docsTestingComponent = articlePage(siteArticleKey.testingComponent);
+const docsTestingScreen = articlePage(siteArticleKey.testingScreen);
+const docsTestingRouting = articlePage(siteArticleKey.testingRouting);
+const docsTestingStrategy = articlePage(siteArticleKey.testingStrategy);
 const docsDevtools = articlePage(siteArticleKey.devtools);
+const docsDevtoolsProjectMap = articlePage(siteArticleKey.devtoolsProjectMap);
+const docsDevtoolsRuntimeGraph = articlePage(siteArticleKey.devtoolsRuntimeGraph);
+const docsDevtoolsViteMetadata = articlePage(siteArticleKey.devtoolsViteMetadata);
+const docsDevtoolsPanelState = articlePage(siteArticleKey.devtoolsPanelState);
+const docsDevtoolsStaleState = articlePage(siteArticleKey.devtoolsStaleState);
 const docsExamples = articlePage(siteArticleKey.examples);
 const docsExampleMatrix = docs.page({
   path: docsChildPath(routePath.docsExampleMatrix),
@@ -519,6 +578,12 @@ const docsOctoberShowcase = docs.page({
   breadcrumb: routes.breadcrumb.parent(docs),
 });
 const docsConventions = articlePage(siteArticleKey.conventions);
+const docsConventionsRoleFiles = articlePage(siteArticleKey.conventionsRoleFiles);
+const docsConventionsTemplatesStyles = articlePage(siteArticleKey.conventionsTemplatesStyles);
+const docsConventionsStateLogic = articlePage(siteArticleKey.conventionsStateLogic);
+const docsConventionsRoutingStrings = articlePage(siteArticleKey.conventionsRoutingStrings);
+const docsConventionsScopedCss = articlePage(siteArticleKey.conventionsScopedCss);
+const docsConventionsAiReadable = articlePage(siteArticleKey.conventionsAiReadable);
 const docsDeployment = articlePage(siteArticleKey.deployment);
 const docsChangelog = docs.page({
   path: articleChildPath(siteArticleKey.changelog),
@@ -642,20 +707,85 @@ export const route = defineRoutes({
   docsInstallation,
   docsProjectStructure,
   docsRuntime,
+  docsRuntimeSignals,
+  docsRuntimeInputs,
+  docsRuntimeForms,
+  docsRuntimeControllers,
+  docsRuntimeDevtoolsGraph,
+  docsRuntimeLifecycle,
+  docsRuntimeMounting,
   docsCompiler,
+  docsCompilerFileConventions,
+  docsCompilerComponentClass,
+  docsCompilerTemplateSyntax,
+  docsCompilerExpressions,
+  docsCompilerEventBinding,
+  docsCompilerScopedCss,
+  docsCompilerChildComponents,
+  docsCompilerSlots,
+  docsCompilerIfElse,
+  docsCompilerFor,
+  docsCompilerInputs,
+  docsCompilerSourceMaps,
+  docsCompilerCompilationApi,
   docsVitePlugin,
+  docsVitePluginSetup,
+  docsVitePluginOptions,
+  docsVitePluginTransform,
+  docsVitePluginHotReload,
+  docsVitePluginVirtualModules,
+  docsVitePluginDiagnostics,
+  docsVitePluginSourceMaps,
+  docsVitePluginDevtoolsMetadata,
   docsCli,
+  docsCliCommandSurface,
+  docsCliProjectCreation,
+  docsCliRoleGeneration,
+  docsCliUiPrimitiveAdd,
+  docsCliConfigMaintenance,
+  docsCliProjectIntelligence,
+  docsCliTaskRunners,
+  docsCliDevServer,
+  docsCliBuild,
+  docsCliTest,
   docsConfiguration,
+  docsConfigurationFile,
+  docsConfigurationDefaults,
+  docsConfigurationUi,
+  docsConfigurationRouter,
+  docsConfigurationAi,
+  docsConfigurationMaintenance,
   docsRouting,
+  docsRoutingRouteTable,
+  docsRoutingParamsQuery,
+  docsRoutingLayoutsRedirects,
+  docsRoutingGuards,
+  docsRoutingNavigation,
+  docsRoutingPreloadingKeepAlive,
   docsUi,
   docsTheming,
   docsVanrotstyles,
   docsTesting,
+  docsTestingComponent,
+  docsTestingScreen,
+  docsTestingRouting,
+  docsTestingStrategy,
   docsDevtools,
+  docsDevtoolsProjectMap,
+  docsDevtoolsRuntimeGraph,
+  docsDevtoolsViteMetadata,
+  docsDevtoolsPanelState,
+  docsDevtoolsStaleState,
   docsExamples,
   docsExampleMatrix,
   docsOctoberShowcase,
   docsConventions,
+  docsConventionsRoleFiles,
+  docsConventionsTemplatesStyles,
+  docsConventionsStateLogic,
+  docsConventionsRoutingStrings,
+  docsConventionsScopedCss,
+  docsConventionsAiReadable,
   docsDeployment,
   docsPublicApi,
   docsDiagnostics,

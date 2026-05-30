@@ -201,6 +201,41 @@ Possible slices:
 - 22D router integration
 - 22E streaming strategy
 
+## Later Candidate: First-Party WebGL / three.js Integration
+
+Surfaced during the 2026-05-30 homepage redesign brainstorm. three.js already *works* inside a Vanrot app today —
+mount a `<canvas>` in a component `onMount`, drive WebGL there, and feed signals into uniforms. Nothing in the
+framework blocks it, so it is not a missing capability.
+
+Open question for a future discussion (not this homepage work):
+
+- Should Vanrot ship a blessed, documented WebGL/three.js integration pattern (a `.widget.ts` recipe, lifecycle-safe
+  canvas teardown on `onDestroy`, signal-to-uniform binding helper) so 3D scenes are first-class instead of ad hoc?
+- Tension to resolve: three.js is ~150kb gzip, which contradicts the "zero-dependency, lean runtime" positioning. Any
+  integration should keep three.js as an opt-in app dependency, never pulled into `@vanrot/runtime`.
+- Homepage decision for now: keep hero on canvas2D (tiny). Reserve a single optional three.js showcase section only if
+  the lean-message trade-off is accepted.
+
+## Homepage Redesign Mockups (2026-05-30 brainstorm)
+
+Approved monochrome homepage redesign. Static HTML mockups kept in the repo for future refinement and as the
+visual reference for implementation:
+
+- `docs/superpowers/homepage-mockups/homepage-full.html` — full assembled page (canonical). Section order:
+  Hero (ASCII decode) → Component system + "Browse UI components" CTA → AI-first & secure (4 cards) → Signals
+  (code + dependency flow) → Proof strip (3.9kb / 0 deps / 9 packages / 100% typed) → Package widgets (9 cards) →
+  Get started. Centered layout throughout, scroll-reveal + animated section dividers (IntersectionObserver).
+- `docs/superpowers/homepage-mockups/hero-v5.html` — locked hero in isolation (canvas2D VANROT decode, scanlines,
+  typed subtitle, deterministic glyph churn).
+- `docs/superpowers/homepage-mockups/dashboard-v2.html` — locked dashboard block (sidebar + stat cards + 5-col
+  package table, breadcrumb, Unsplash avatar).
+
+Notes for refinement:
+- Mockups embed visual-companion chrome (`.options`, `toggleSelect`) — strip on real implementation.
+- Real build must dogfood actual `@vanrot/ui` components (`vr-card`, `vr-table`, `vr-sidebar`, `vr-badge`,
+  `vr-stat`, `vr-avatar`, `vr-command-menu`), not the hand-rolled divs in the mockup.
+- Design spec: `docs/superpowers/specs/2026-05-30-homepage-redesign-design.md`.
+
 ## Follow-Up When These Become Active
 
 Before executing any of these phases:

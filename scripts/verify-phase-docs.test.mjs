@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   checkCompletedPhasePlans,
   checkMaturityRows,
+  checkPostProductionIdeas,
   checkPresentationRoadmap,
   parseMaturityRoadmapPhases,
 } from './verify-phase-docs.mjs';
@@ -85,6 +86,20 @@ describe('phase documentation verification', () => {
     expect(failures).toEqual([
       'Phase 4 is done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html does not mark it as done.',
       'Phase 5 is the next pending phase but docs/vanrot-presentation.html does not mark it as active.',
+    ]);
+  });
+
+  it('fails when post-production editor tooling still treats the shipped IntelliJ plugin foundation as future work', () => {
+    const failures = checkPostProductionIdeas(`
+## Later Candidate: IntelliJ And Editor Tooling
+
+- After post-production implementation and distribution hardening, build a real IntelliJ plugin or language service for Angular-like behavior.
+- 27C IntelliJ plugin or language-service prototype
+`);
+
+    expect(failures).toEqual([
+      'docs/superpowers/post-production-implementation-ideas.md still describes the shipped IntelliJ plugin foundation as future work.',
+      'docs/superpowers/post-production-implementation-ideas.md editor tooling section must record the shipped `editors/intellij` foundation and `com.vankode.vanrot` plugin metadata.',
     ]);
   });
 });

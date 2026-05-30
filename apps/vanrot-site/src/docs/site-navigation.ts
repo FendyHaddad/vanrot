@@ -11,6 +11,7 @@ export interface SiteNavigationItem {
   key: string;
   href: string;
   label: string;
+  children: readonly SiteNavigationItem[];
 }
 
 export interface SiteNavigationGroup {
@@ -28,13 +29,17 @@ export const siteNavigationSectionLabel = {
   reference: 'Reference',
 } as const satisfies Record<SiteSectionKey, string>;
 
-function navItem(key: SiteArticleKey): SiteNavigationItem {
+function navItem(
+  key: SiteArticleKey,
+  children: readonly SiteNavigationItem[] = [],
+): SiteNavigationItem {
   const article = getSiteArticle(key);
 
   return {
     key,
     href: article.path,
     label: article.label,
+    children,
   };
 }
 
@@ -43,8 +48,101 @@ function componentNavItem(doc: ComponentDoc): SiteNavigationItem {
     key: doc.primitive,
     href: doc.href,
     label: doc.title,
+    children: [],
   };
 }
+
+const runtimeNavigationChildren = [
+  navItem(siteArticleKey.runtimeSignals),
+  navItem(siteArticleKey.runtimeInputs),
+  navItem(siteArticleKey.runtimeForms),
+  navItem(siteArticleKey.runtimeControllers),
+  navItem(siteArticleKey.runtimeDevtoolsGraph),
+  navItem(siteArticleKey.runtimeLifecycle),
+  navItem(siteArticleKey.runtimeMounting),
+] as const;
+
+const compilerNavigationChildren = [
+  navItem(siteArticleKey.compilerFileConventions),
+  navItem(siteArticleKey.compilerComponentClass),
+  navItem(siteArticleKey.compilerTemplateSyntax),
+  navItem(siteArticleKey.compilerExpressions),
+  navItem(siteArticleKey.compilerEventBinding),
+  navItem(siteArticleKey.compilerScopedCss),
+  navItem(siteArticleKey.compilerChildComponents),
+  navItem(siteArticleKey.compilerSlots),
+  navItem(siteArticleKey.compilerIfElse),
+  navItem(siteArticleKey.compilerFor),
+  navItem(siteArticleKey.compilerInputs),
+  navItem(siteArticleKey.compilerSourceMaps),
+  navItem(siteArticleKey.compilerCompilationApi),
+] as const;
+
+const vitePluginNavigationChildren = [
+  navItem(siteArticleKey.vitePluginSetup),
+  navItem(siteArticleKey.vitePluginOptions),
+  navItem(siteArticleKey.vitePluginTransform),
+  navItem(siteArticleKey.vitePluginHotReload),
+  navItem(siteArticleKey.vitePluginVirtualModules),
+  navItem(siteArticleKey.vitePluginDiagnostics),
+  navItem(siteArticleKey.vitePluginSourceMaps),
+  navItem(siteArticleKey.vitePluginDevtoolsMetadata),
+] as const;
+
+const cliNavigationChildren = [
+  navItem(siteArticleKey.cliCommandSurface),
+  navItem(siteArticleKey.cliProjectCreation),
+  navItem(siteArticleKey.cliRoleGeneration),
+  navItem(siteArticleKey.cliUiPrimitiveAdd),
+  navItem(siteArticleKey.cliConfigMaintenance),
+  navItem(siteArticleKey.cliProjectIntelligence),
+  navItem(siteArticleKey.cliTaskRunners),
+  navItem(siteArticleKey.cliDevServer),
+  navItem(siteArticleKey.cliBuild),
+  navItem(siteArticleKey.cliTest),
+] as const;
+
+const configurationNavigationChildren = [
+  navItem(siteArticleKey.configurationFile),
+  navItem(siteArticleKey.configurationDefaults),
+  navItem(siteArticleKey.configurationUi),
+  navItem(siteArticleKey.configurationRouter),
+  navItem(siteArticleKey.configurationAi),
+  navItem(siteArticleKey.configurationMaintenance),
+] as const;
+
+const routingNavigationChildren = [
+  navItem(siteArticleKey.routingRouteTable),
+  navItem(siteArticleKey.routingParamsQuery),
+  navItem(siteArticleKey.routingLayoutsRedirects),
+  navItem(siteArticleKey.routingGuards),
+  navItem(siteArticleKey.routingNavigation),
+  navItem(siteArticleKey.routingPreloadingKeepAlive),
+] as const;
+
+const testingNavigationChildren = [
+  navItem(siteArticleKey.testingComponent),
+  navItem(siteArticleKey.testingScreen),
+  navItem(siteArticleKey.testingRouting),
+  navItem(siteArticleKey.testingStrategy),
+] as const;
+
+const devtoolsNavigationChildren = [
+  navItem(siteArticleKey.devtoolsProjectMap),
+  navItem(siteArticleKey.devtoolsRuntimeGraph),
+  navItem(siteArticleKey.devtoolsViteMetadata),
+  navItem(siteArticleKey.devtoolsPanelState),
+  navItem(siteArticleKey.devtoolsStaleState),
+] as const;
+
+const conventionsNavigationChildren = [
+  navItem(siteArticleKey.conventionsRoleFiles),
+  navItem(siteArticleKey.conventionsTemplatesStyles),
+  navItem(siteArticleKey.conventionsStateLogic),
+  navItem(siteArticleKey.conventionsRoutingStrings),
+  navItem(siteArticleKey.conventionsScopedCss),
+  navItem(siteArticleKey.conventionsAiReadable),
+] as const;
 
 export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
   {
@@ -60,15 +158,15 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
     section: siteSectionKey.framework,
     label: siteNavigationSectionLabel.framework,
     items: [
-      navItem(siteArticleKey.runtime),
-      navItem(siteArticleKey.compiler),
-      navItem(siteArticleKey.vitePlugin),
-      navItem(siteArticleKey.cli),
-      navItem(siteArticleKey.configuration),
-      navItem(siteArticleKey.routing),
-      navItem(siteArticleKey.testing),
-      navItem(siteArticleKey.devtools),
-      navItem(siteArticleKey.conventions),
+      navItem(siteArticleKey.runtime, runtimeNavigationChildren),
+      navItem(siteArticleKey.compiler, compilerNavigationChildren),
+      navItem(siteArticleKey.vitePlugin, vitePluginNavigationChildren),
+      navItem(siteArticleKey.cli, cliNavigationChildren),
+      navItem(siteArticleKey.configuration, configurationNavigationChildren),
+      navItem(siteArticleKey.routing, routingNavigationChildren),
+      navItem(siteArticleKey.testing, testingNavigationChildren),
+      navItem(siteArticleKey.devtools, devtoolsNavigationChildren),
+      navItem(siteArticleKey.conventions, conventionsNavigationChildren),
     ],
   },
   {
@@ -126,4 +224,10 @@ function itemsForSection(section: SiteSectionKey): readonly SiteNavigationItem[]
   }
 
   return group.items;
+}
+
+export function flattenNavigationItems(
+  items: readonly SiteNavigationItem[],
+): readonly SiteNavigationItem[] {
+  return items.flatMap((item) => [item, ...flattenNavigationItems(item.children)]);
 }

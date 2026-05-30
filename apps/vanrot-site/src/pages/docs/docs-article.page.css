@@ -1,12 +1,22 @@
+.docs-article-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 960px) 220px;
+  gap: 48px;
+  align-items: start;
+  max-width: 1228px;
+}
+
 .docs-article {
   display: grid;
-  gap: 18px;
-  max-width: 900px;
+  gap: 20px;
+  min-width: 0;
 }
 
 .docs-article h1,
 .docs-article h2,
-.docs-article p {
+.docs-article p,
+.docs-article ul,
+.docs-article pre {
   margin: 0;
 }
 
@@ -17,30 +27,237 @@
   letter-spacing: 0;
 }
 
+.docs-summary {
+  max-width: 780px;
+  font-size: 16px;
+}
+
 .docs-summary,
-.docs-section p {
+.docs-section p,
+.docs-section li {
   color: var(--vr-color-muted);
   line-height: 1.75;
 }
 
+.docs-code-title,
+.docs-article-bookmarks-title {
+  color: var(--vr-color-text);
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
 .docs-section-grid {
   display: grid;
-  gap: 12px;
+  gap: 28px;
 }
 
 .docs-section {
   display: grid;
-  gap: 10px;
+  gap: 14px;
+  padding-top: 28px;
+  border-top: 1px solid var(--vr-color-line);
+}
+
+.docs-section:first-child {
+  padding-top: 0;
+  border-top: 0;
 }
 
 .docs-section h2 {
   font-size: 24px;
 }
 
-.docs-section code {
+.docs-section ul {
+  display: grid;
+  gap: 8px;
+  padding-left: 18px;
+}
+
+.docs-section > p code,
+.docs-section li code {
   padding: 2px 5px;
   border: 1px solid var(--vr-color-line);
   border-radius: var(--vr-radius-sm);
   background: var(--vr-surface-muted);
   color: var(--vr-color-text);
+}
+
+.code-snippet {
+  position: relative;
+  display: grid;
+  gap: 0;
+  overflow: hidden;
+  border: 1px solid var(--vr-color-line);
+  border-radius: var(--vr-radius-md);
+  background: #171717;
+}
+
+.code-snippet[hidden] {
+  display: none !important;
+}
+
+.code-snippet .docs-code-title {
+  padding: 18px 22px 14px;
+  border-bottom: 1px solid var(--vr-color-line);
+  background: color-mix(in srgb, var(--vr-surface-muted) 62%, transparent);
+}
+
+.code-block {
+  margin: 0;
+  overflow: auto;
+  padding: 24px 24px 26px 0;
+  background: transparent;
+}
+
+.code-block code {
+  display: block;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #e4e4e7;
+  font-family: var(--vr-font-number);
+  font-size: 15px;
+  font-variant-ligatures: none;
+  line-height: 1.85;
+  tab-size: 2;
+  white-space: pre;
+}
+
+.code-line {
+  display: grid;
+  grid-template-columns: 64px max-content;
+  min-height: 28px;
+}
+
+.code-line-number {
+  padding-right: 28px;
+  color: #a1a1aa;
+  text-align: right;
+  user-select: none;
+}
+
+.code-line-content {
+  display: inline-block;
+  padding-left: 22px;
+  color: #e4e4e7;
+  white-space: pre;
+}
+
+.token.keyword {
+  color: #c084fc;
+}
+
+.token.function {
+  color: #60a5fa;
+}
+
+.token.string {
+  color: #93c5fd;
+}
+
+.token.comment {
+  color: #71717a;
+}
+
+.token.number {
+  color: #fbbf24;
+}
+
+.token.operator {
+  color: #f472b6;
+}
+
+.token.property {
+  color: #e879f9;
+}
+
+.token.punctuation {
+  color: #a1a1aa;
+}
+
+.token.text {
+  color: #e4e4e7;
+}
+
+.docs-note {
+  padding: 12px 14px;
+  border-left: 2px solid var(--vr-color-accent);
+  background: var(--vr-surface-muted);
+}
+
+.docs-article-bookmarks {
+  position: sticky;
+  top: 132px;
+  align-self: start;
+  display: grid;
+  gap: 12px;
+  max-height: calc(100vh - 132px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-left: 18px;
+  border-left: 1px solid var(--vr-color-line);
+  scrollbar-width: thin;
+}
+
+.docs-article-bookmarks nav {
+  display: grid;
+  gap: 4px;
+}
+
+.docs-article-bookmarks a {
+  padding: 5px 0;
+  color: var(--vr-color-muted);
+  font-size: 13px;
+  line-height: 1.4;
+  text-decoration: none;
+}
+
+.docs-article-bookmarks a:hover {
+  color: var(--vr-color-text);
+}
+
+.docs-article-bookmarks a.docs-article-bookmark-active {
+  color: var(--vr-color-text);
+  font-weight: 700;
+}
+
+@media (max-width: 700px) {
+  .docs-article-layout {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .docs-article {
+    gap: 16px;
+  }
+
+  .docs-article h1 {
+    font-size: 36px;
+  }
+
+  .docs-article-bookmarks {
+    order: -1;
+    position: static;
+    max-height: none;
+    overflow: visible;
+    padding: 0 0 16px;
+    border-right: 0;
+    border-bottom: 1px solid var(--vr-color-line);
+    border-left: 0;
+  }
+
+  .docs-article-bookmarks nav {
+    display: flex;
+    overflow-x: auto;
+  }
+
+  .docs-article-bookmarks a {
+    flex: 0 0 auto;
+    padding-right: 14px;
+  }
+
+  .code-block {
+    padding-right: 24px;
+  }
 }

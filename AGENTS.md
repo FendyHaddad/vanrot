@@ -163,13 +163,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-30 1:19am GMT+8
+# [vanrot] recent context, 2026-05-30 11:38pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,493t read) | 1,388,067t work | 99% savings
+Stats: 50 obs (14,942t read) | 1,714,828t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -183,27 +183,7 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-### May 25, 2026
-1967 8:24p 🔵 Vanrot Site Routing and Component Documentation Structure
-1968 " 🔵 Vanrot Component Page Structure and Examples
-1971 8:25p 🔵 Vanrot Component Documentation Skill Workflow
-1966 " 🔵 Vanrot UI Metadata Structure and Constants
-1972 " 🔵 Vanrot Component Code Generation for Accessibility
-1974 " 🔵 Vanrot Component Code Generation Logic
 ### May 26, 2026
-1977 6:29p 🔵 Dev server port configuration in AGENTS.md
-1976 " 🔴 Localhost port mismatch
-1981 6:48p 🔴 Fix Claude-Mem codex integration issue
-1982 " 🔵 Memory registry file is empty
-1983 " 🟣 Initialized new Claude-Mem session
-1984 6:49p 🔵 Codex configuration files lack specific MCP server details
-1985 " 🔵 Codex HTTP service is healthy and ready
-1988 " 🔵 Codex configuration includes MCP server and plugin definitions
-1989 " 🔵 Claude-Mem MCP server configured for stdio communication
-1991 " 🔵 Claude-Mem mem-search skill defines a 3-layer workflow
-1993 6:50p 🔵 Codex configuration specifies project trust levels and MCP server details
-2005 " 🔵 Codex configuration and Claude-Mem MCP server smoke test validation
-2018 6:51p 🔵 Claude-Mem MCP server configuration details extracted
 2046 6:52p 🔵 Codex TOML configuration for Claude-Mem server validated
 2055 6:53p 🔵 Relevant lines identified in AGENTS.md for memory protocol
 2065 11:22p ✅ Staged files for Vanrot commit
@@ -238,6 +218,26 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2319 3:38p 🔵 IntelliJ Plugin ZIP Contents Listed
 2330 " 🔵 IntelliJ Plugin Metadata Extracted Successfully
 2342 9:51p 🟣 Welcome Screen Documentation
+### May 30, 2026
+2343 7:04p ✅ Improve Component Documentation Structure
+2344 " 🔵 Context Search for Runtime Docs and Signals
+2345 7:05p 🔵 Vanrot Documentation and Development Protocols
+2346 " ✅ Initialize Claude-Mem Session for Runtime Docs Task
+2347 " 🔵 Search for Vanrot Runtime Docs, Signals, and Site-Data
+2349 " 🔵 Browser Skill Instructions and Tool Names
+2351 " 🔵 Browser Skill Usage and Setup
+2355 " 🔵 Browser Skill Outline and Searchable Terms
+2359 " ✅ Browser Connection Established for Runtime Docs Polish
+2368 " 🔵 Browser Tab and Page Interaction Examples
+2374 " 🔵 Tab API Properties
+2389 " 🔵 Playwright API Properties
+2423 7:06p 🔵 Tab API Deep Inspection
+2431 " ✅ Runtime Documentation Loaded
+2441 " 🔵 Timeline Around Anchor Point
+2443 " 🔵 Timeline Around Anchor Point
+2453 " 🔵 Memory Registry Search Results
+2459 " 🔵 Site Data and Article Rendering Analysis
+2465 " 🔵 Runtime Article JSON Content
 
-Access 1388k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1715k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

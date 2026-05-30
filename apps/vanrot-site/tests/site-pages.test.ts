@@ -252,15 +252,140 @@ describe('vanrot site pages', () => {
     expect(exampleMatrixHtml).toContain('exampleReference');
   });
 
+  it('routes Vite plugin parent and child docs pages', () => {
+    expect(route.docsVitePlugin.path).toBe('vite-plugin');
+    expect(route.docsVitePluginSetup.path).toBe('vite-plugin/setup');
+    expect(route.docsVitePluginOptions.path).toBe('vite-plugin/options');
+    expect(route.docsVitePluginTransform.path).toBe('vite-plugin/role-file-transform');
+    expect(route.docsVitePluginHotReload.path).toBe('vite-plugin/hot-reload');
+    expect(route.docsVitePluginVirtualModules.path).toBe('vite-plugin/virtual-modules');
+    expect(route.docsVitePluginDiagnostics.path).toBe('vite-plugin/diagnostics');
+    expect(route.docsVitePluginSourceMaps.path).toBe('vite-plugin/source-maps');
+    expect(route.docsVitePluginDevtoolsMetadata.path).toBe('vite-plugin/devtools-metadata');
+  });
+
+  it('routes framework parent and child docs pages', () => {
+    expect(route.docsCli.path).toBe('cli');
+    expect(route.docsCliCommandSurface.path).toBe('cli/commands');
+    expect(route.docsCliProjectCreation.path).toBe('cli/project-creation');
+    expect(route.docsCliRoleGeneration.path).toBe('cli/role-generation');
+    expect(route.docsCliUiPrimitiveAdd.path).toBe('cli/ui-primitives');
+    expect(route.docsCliConfigMaintenance.path).toBe('cli/config-maintenance');
+    expect(route.docsCliProjectIntelligence.path).toBe('cli/project-intelligence');
+    expect(route.docsCliTaskRunners.path).toBe('cli/task-runners');
+    expect(route.docsCliDevServer.path).toBe('cli/dev');
+    expect(route.docsCliBuild.path).toBe('cli/build');
+    expect(route.docsCliTest.path).toBe('cli/test');
+    expect(route.docsConfiguration.path).toBe('configuration');
+    expect(route.docsConfigurationFile.path).toBe('configuration/file');
+    expect(route.docsConfigurationDefaults.path).toBe('configuration/defaults');
+    expect(route.docsConfigurationUi.path).toBe('configuration/ui');
+    expect(route.docsConfigurationRouter.path).toBe('configuration/router');
+    expect(route.docsConfigurationAi.path).toBe('configuration/ai');
+    expect(route.docsConfigurationMaintenance.path).toBe('configuration/maintenance');
+    expect(route.docsRouting.path).toBe('routing');
+    expect(route.docsRoutingRouteTable.path).toBe('routing/route-table');
+    expect(route.docsRoutingParamsQuery.path).toBe('routing/params-query');
+    expect(route.docsRoutingLayoutsRedirects.path).toBe('routing/layouts-redirects');
+    expect(route.docsRoutingGuards.path).toBe('routing/guards');
+    expect(route.docsRoutingNavigation.path).toBe('routing/navigation');
+    expect(route.docsRoutingPreloadingKeepAlive.path).toBe('routing/preloading-keep-alive');
+    expect(route.docsTesting.path).toBe('testing');
+    expect(route.docsTestingComponent.path).toBe('testing/component-tests');
+    expect(route.docsTestingScreen.path).toBe('testing/screen');
+    expect(route.docsTestingRouting.path).toBe('testing/routing');
+    expect(route.docsTestingStrategy.path).toBe('testing/strategy');
+    expect(route.docsDevtools.path).toBe('devtools');
+    expect(route.docsDevtoolsProjectMap.path).toBe('devtools/project-map');
+    expect(route.docsDevtoolsRuntimeGraph.path).toBe('devtools/runtime-graph');
+    expect(route.docsDevtoolsViteMetadata.path).toBe('devtools/vite-metadata');
+    expect(route.docsDevtoolsPanelState.path).toBe('devtools/panel-state');
+    expect(route.docsDevtoolsStaleState.path).toBe('devtools/stale-state');
+    expect(route.docsConventions.path).toBe('conventions');
+    expect(route.docsConventionsRoleFiles.path).toBe('conventions/role-files');
+    expect(route.docsConventionsTemplatesStyles.path).toBe('conventions/templates-and-styles');
+    expect(route.docsConventionsStateLogic.path).toBe('conventions/state-and-logic');
+    expect(route.docsConventionsRoutingStrings.path).toBe('conventions/routing-and-strings');
+    expect(route.docsConventionsScopedCss.path).toBe('conventions/scoped-css');
+    expect(route.docsConventionsAiReadable.path).toBe('conventions/ai-readable-projects');
+  });
+
   it('renders framework guide sections with Vanrot-native surfaces', async () => {
     const html = await readSiteFile('src/pages/docs/docs-article.page.html');
     const css = await readSiteFile('src/pages/docs/docs-article.page.css');
+    const source = await readSiteFile('src/pages/docs/docs-article.page.ts');
+    const interactions = await readSiteFile('src/layouts/docs/docs-shell-interactions.widget.ts');
 
-    expect(html).toContain('<vr-card');
+    expect(html).toContain('docs-article-layout');
+    expect(html).toContain('docs-article-bookmarks');
+    expect(html).toContain('section.code.lines');
+    expect(html).toContain('line.tokens');
+    expect(html).toContain('token.kind');
+    expect(html).toContain('code-line-number');
+    expect(html).toContain('class="token keyword"');
+    expect(html).toContain('class="token function"');
+    expect(html).toContain('class="token string"');
+    expect(html).toContain('data-vr-docs-article-bookmark');
+    expect(html).not.toContain('copy-icon-button');
+    expect(html).not.toContain('<vr-badge');
+    expect(html).not.toContain('<vr-card');
     expect(html).toContain('<vr-separator');
-    expect(html).toContain('article().sections');
+    expect(html).not.toContain('article().sections');
+    expect(html).not.toContain('docs-on-this-page');
+    expect(html).not.toContain('[hidden]="section.code.code === \'\'"');
+    expect(html).toContain('[hidden]="section.code.isEmpty"');
+    expect(html).toContain('section.points');
+    expect(html).toContain('section.code');
+    expect(html).toContain('docs-note');
     expect(css).toContain('.docs-section-grid');
+    expect(css).toContain('.docs-section:first-child');
+    expect(css).toContain('.code-snippet');
+    expect(css).toContain('.code-line-number');
+    expect(css).toContain('.token.keyword');
+    expect(css).toContain('.token.function');
+    expect(css).toContain('.token.string');
+    expect(css).toContain('.token.comment');
+    expect(css).toContain('.docs-article-bookmarks');
+    expect(css).toContain('.docs-article-bookmark-active');
+    expect(css).toContain('position: sticky');
+    expect(css).toContain('max-height: calc(100vh - 132px)');
+    expect(css).toContain('overflow-y: auto');
+    expect(css).not.toContain('.docs-on-this-page');
     expect(css).toContain('code');
+    expect(source).toContain('toCodeLines');
+    expect(source).toContain('toCodeTokens');
+    expect(interactions).toContain('setupArticleBookmarks');
+    expect(interactions).toContain('docs-article-bookmark-active');
+  });
+
+  it('routes runtime export guides as Runtime sidebar children', async () => {
+    type RuntimeRouteKey =
+      | 'docsRuntimeSignals'
+      | 'docsRuntimeInputs'
+      | 'docsRuntimeForms'
+      | 'docsRuntimeControllers'
+      | 'docsRuntimeDevtoolsGraph'
+      | 'docsRuntimeLifecycle'
+      | 'docsRuntimeMounting';
+
+    const siteRoute = route as Record<RuntimeRouteKey, { path: string; fullPath: string }>;
+    const html = await readSiteFile('src/layouts/docs/docs.layout.html');
+    const css = await readSiteFile('src/layouts/docs/docs.layout.css');
+
+    expect(siteRoute.docsRuntimeSignals.path).toBe('runtime/signals');
+    expect(siteRoute.docsRuntimeInputs.path).toBe('runtime/inputs');
+    expect(siteRoute.docsRuntimeForms.path).toBe('runtime/forms');
+    expect(siteRoute.docsRuntimeControllers.path).toBe('runtime/controllers');
+    expect(siteRoute.docsRuntimeDevtoolsGraph.path).toBe('runtime/devtools-graph');
+    expect(siteRoute.docsRuntimeLifecycle.path).toBe('runtime/lifecycle');
+    expect(siteRoute.docsRuntimeMounting.path).toBe('runtime/mounting');
+    expect(siteRoute.docsRuntimeSignals.fullPath).toBe('/docs/runtime/signals');
+
+    expect(html).toContain('item.children');
+    expect(html).toContain('docs-nav-parent');
+    expect(html).toContain('docs-nav-children');
+    expect(css).toContain('.docs-nav-parent');
+    expect(css).toContain('.docs-nav-child-link');
   });
 
   it('keeps docs sidebar rendering away from loop-local nested controls', async () => {
