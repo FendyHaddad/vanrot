@@ -42,6 +42,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+body:has(.component-gallery-app),
+.site-shell:has(.component-gallery-app) {
+  background: #000 !important;
+}
+
 a {
   color: var(--vr-color-brand);
 }
@@ -57,7 +62,7 @@ pre {
   height: calc(100vh - var(--vr-site-header-height)) !important;
   padding: 18px 12px !important;
   border-right: 1px solid var(--vr-color-line) !important;
-  background: var(--vr-color-canvas) !important;
+  background: #000 !important;
 }
 
 .component-gallery-app .brand,
@@ -71,7 +76,7 @@ pre {
   height: 56px !important;
   padding: 0 32px !important;
   border-bottom: 1px solid var(--vr-color-line) !important;
-  background: color-mix(in srgb, var(--vr-color-canvas) 88%, transparent) !important;
+  background: color-mix(in srgb, #000 88%, transparent) !important;
   backdrop-filter: blur(14px);
 }
 

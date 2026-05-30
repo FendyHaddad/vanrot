@@ -1719,7 +1719,7 @@ git commit -m "feat(@vanrot/runtime): wire public and internal export entrypoint
 **Files:**
 - Create: `packages/runtime/.size-limit.json`
 
-The hard fail limit is 5 KB gzip (public spec promise). Both public and internal entrypoints ship to the browser via compiler-generated imports — both count toward the budget.
+The original hard fail limit was 5 KB gzip for the kernel-only public spec promise. The current full runtime surface includes justified headless controllers and is capped at 9.99 KB gzip. Both public and internal entrypoints ship to the browser via compiler-generated imports — both count toward the budget.
 
 - [x] **Step 1: Create .size-limit.json**
 
@@ -1729,7 +1729,7 @@ Create `packages/runtime/.size-limit.json`:
   {
     "name": "@vanrot/runtime (public + internal)",
     "path": ["dist/index.js", "dist/internal.js"],
-    "limit": "5 KB",
+    "limit": "9.99 KB",
     "gzip": true
   }
 ]
@@ -1750,11 +1750,11 @@ Edit `packages/runtime/package.json` — add to `"scripts"`:
 cd packages/runtime && pnpm build && pnpm size
 ```
 
-Expected: size reported, well under 5 KB. Current implementation should be approximately 1–2 KB gzip.
+Expected: size reported, under 9.99 KB. The original kernel-only implementation should be approximately 1–2 KB gzip.
 
 - [x] **Step 4: Verify warning threshold manually**
 
-The 3 KB warning threshold is not enforced by size-limit automatically. Note the actual size from the output. If it exceeds 3 KB, open a tracking issue before merging.
+The 3 KB kernel warning threshold is not enforced by size-limit automatically. Note the actual size from the output. If the full runtime surface hits or breaches 9.99 KB, report the exact size and ask whether the feature justifies raising the cap before merging.
 
 - [x] **Step 5: Commit**
 
@@ -1775,7 +1775,7 @@ git commit -m "chore(@vanrot/runtime): add size-limit budget enforcement (5 KB h
 | Reactive Kernel Rule | Governs reactive API scope |
 | Lifecycle Rule | Governs lifecycle API scope |
 | DOM Helper Rule | No runtime DOM helpers in MVP; compiler inlines |
-| Size budget (≤5 KB gzip) | Task 15 |
+| Size budget (≤9.99 KB gzip) | Task 15 |
 | `signal()` | Task 4 |
 | `computed()` | Task 7 |
 | `effect()` | Task 5 |

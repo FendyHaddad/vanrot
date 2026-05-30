@@ -48,6 +48,7 @@ describe('framework reference registry', () => {
       '/',
       '/docs',
       '/docs/components',
+      '/changelog',
     ]);
 
     for (const route of publicRouteMetadata) {

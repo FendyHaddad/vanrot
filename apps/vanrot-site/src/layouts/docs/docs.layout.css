@@ -16,7 +16,7 @@
   overflow-y: auto;
   padding: 18px 12px;
   border-right: 1px solid var(--vr-color-line);
-  background: var(--vr-color-canvas);
+  background: #000;
   font-family: var(--font-sans, var(--vr-font-sans));
   scrollbar-width: none;
 }
@@ -152,7 +152,7 @@
   height: 56px;
   padding: 0 32px;
   border-bottom: 1px solid var(--vr-color-line);
-  background: color-mix(in srgb, var(--vr-color-canvas) 88%, transparent);
+  background: color-mix(in srgb, #000 88%, transparent);
   backdrop-filter: blur(14px);
 }
 

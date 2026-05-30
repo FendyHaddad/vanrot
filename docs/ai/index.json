@@ -874,6 +874,12 @@
       "title": "/docs/components",
       "summary": "Vanrot Design Component Catalog Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes.",
       "docsPath": "/docs/components"
+    },
+    {
+      "id": "route:/changelog",
+      "title": "/changelog",
+      "summary": "Vanrot Changelog Published Vanrot release notes with direct links into the framework documentation for every shipped change.",
+      "docsPath": "/changelog"
     }
   ],
   "limitations": [

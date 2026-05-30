@@ -25,6 +25,12 @@ pnpm verify:phase-docs
 pnpm verify:size         # size-limit budget on @vanrot/runtime
 ```
 
+## Runtime Size Budget
+
+`@vanrot/runtime` intentionally includes the core signal/lifecycle/mounting surface plus headless controllers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers. These controllers are justified runtime behavior even when the app does not use `@vanrot/ui`.
+
+Keep the enforced runtime size cap at `9.99 KB` gzipped. If `pnpm verify:size` hits or breaches that cap, report the exact size to the user and ask whether the feature justifies raising the cap before increasing it.
+
 ## Architecture
 
 Vanrot is a signal-based TypeScript UI framework. Components are authored as three separate files: a `.component.ts` logic file, a `.component.html` template, and a `.component.css` scoped stylesheet.

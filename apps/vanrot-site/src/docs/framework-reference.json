@@ -321,7 +321,8 @@
   "routeMetadata": [
     { "path": "/", "title": "Vanrot - Framework Documentation And Design Components", "description": "Vanrot's public landing page for framework documentation, design components, examples, and production-readiness notes." },
     { "path": "/docs", "title": "Vanrot Framework Documentation", "description": "Framework documentation for Vanrot packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation." },
-    { "path": "/docs/components", "title": "Vanrot Design Component Catalog", "description": "Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes." }
+    { "path": "/docs/components", "title": "Vanrot Design Component Catalog", "description": "Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes." },
+    { "path": "/changelog", "title": "Vanrot Changelog", "description": "Published Vanrot release notes with direct links into the framework documentation for every shipped change." }
   ],
   "deployment": {
     "targetHost": "vanrot.vankode.com",

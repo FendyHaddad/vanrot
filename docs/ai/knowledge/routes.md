@@ -17,3 +17,9 @@ Docs: /docs
 Vanrot Design Component Catalog Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes.
 
 Docs: /docs/components
+
+## /changelog
+
+Vanrot Changelog Published Vanrot release notes with direct links into the framework documentation for every shipped change.
+
+Docs: /changelog

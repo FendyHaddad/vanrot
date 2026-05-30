@@ -12,7 +12,7 @@
     "build": "pnpm -r --if-present run build",
     "typecheck": "pnpm -r --if-present run typecheck",
     "test": "pnpm -r --if-present run test && pnpm test:phase-docs",
-    "test:phase-docs": "vitest run scripts/verify-phase-docs.test.mjs scripts/verify-site-docs.test.mjs scripts/verify-site-format.test.mjs scripts/verify-ai-docs.test.mjs scripts/verify-security-leaks.test.mjs scripts/verify-release-dry-run.test.mjs scripts/bump-changed-packages.test.mjs scripts/open-docs.test.mjs scripts/verify-final-tdd-inventory.test.mjs scripts/verify-web-types-coverage.test.mjs scripts/verify-component-cascade.test.mjs",
+    "test:phase-docs": "vitest run scripts/verify-phase-docs.test.mjs scripts/verify-site-docs.test.mjs scripts/verify-site-format.test.mjs scripts/verify-ai-docs.test.mjs scripts/verify-security-leaks.test.mjs scripts/verify-release-dry-run.test.mjs scripts/bump-changed-packages.test.mjs scripts/open-docs.test.mjs scripts/verify-final-tdd-inventory.test.mjs scripts/verify-web-types-coverage.test.mjs scripts/verify-component-cascade.test.mjs scripts/verify-runtime-size-budget.test.mjs",
     "audit:core": "vitest run --config vitest.audit.config.ts",
     "lint": "pnpm -r --if-present run lint",
     "clean": "pnpm -r --if-present run clean",

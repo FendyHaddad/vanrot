@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-30T17:29:43.947Z",
-  "sourceFingerprint": "sha256-96ef0581694235adac952d444be6e233e1fc07ea38ed22e7e772cdc3fe8f6c7e",
+  "generatedAt": "2026-05-30T18:36:57.238Z",
+  "sourceFingerprint": "sha256-5c5a03fa24c7b74ecfa95dbe20594d3483e02f36a8cf6c698b0489f3f177dc07",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-21603413a93ac0483a8bf732a9316742c908c84361acb4c93499f9998ca11c64"
+      "fingerprint": "sha256-921853ed10a2508f5322ed0205ded363a250507464cf27b35f1b5da7634ff70a"
     },
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-c20c2ea86141d71c5c34f425c07e9e20715c32a6ef6eaafaa2e24c16876d8655"
+      "fingerprint": "sha256-adc454d8e938156c0800a4bb6461ec4d0e1d866f18733a7eaea60ef9b980f94a"
     },
     {
       "id": "site-data",
@@ -32,7 +32,7 @@
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-dd8935df037bbcd2af0e5e8c49e5e9e47a556f9f17c8ab4317d2df6c3bad9a27"
+      "fingerprint": "sha256-9a35e5aee5ecd77d88a30f67a4b5b35245192539d6ac71bd42a3a12e22bc6b93"
     }
   ],
   "counts": {
@@ -44,7 +44,7 @@
     "conventions": 5,
     "examples": 8,
     "components": 51,
-    "routes": 3,
+    "routes": 4,
     "limitations": 2,
     "deployment": 1,
     "docs": 90

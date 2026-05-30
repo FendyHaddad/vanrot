@@ -86,6 +86,7 @@ Status:
 |---------------------------------|-----------------|--------------:|----------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------|--------------|------------------------------------------------------------------------------------------------------------|
 | Core production audit lane      | repo and tests  |      Phase 12 | `pnpm audit:core` runs isolated red tests for known production gaps  | Each audit test is either converted into normal passing coverage by its owning slice or remains tracked in the final TDD inventory | Production-Ready | Phase 12A created the red lane. Phase 12B burned down runtime audit failures, Phase 12C burned down compiler audit failures, Phase 12D burned down Vite plugin audit failures, and Phase 12E burned down TypeScript contract audit failures. |
 | Final TDD inventory growth rule | repo and docs   |      Phase 12 | `docs/superpowers/final-tdd-inventory.md` is pre-populated and required by durable rules | Phase 26 uses the inventory for complete release TDD across the whole framework | Demo-Capable | Every future production phase must update the inventory when framework surface area changes.               |
+| Runtime size budget protocol    | runtime and repo | Phase 2, Phase 16G | `packages/runtime/.size-limit.json` caps the browser runtime bundle | `pnpm verify:size` and the phase-docs test enforce the 9.99 KB cap and escalation rule before future increases | Production-Ready | Headless interaction controllers are accepted runtime surface; if the cap is hit or breached, report the exact size and ask whether the feature justifies raising it. |
 
 ## Project Configuration *
 
@@ -439,7 +440,7 @@ installation paths.*
 |-----------------|-----------------|--------------:|-----------------------------------------------|------------------------------------------------------------------------|----------|-------------------|
 | Async resources | async           |      Phase 21 | Basic async state primitive works             | Cancellation, cache policy, suspense policy, and SSR behavior verified | Deferred | Optional package. |
 | Forms           | forms           |      Phase 21 | Basic form state works                        | Validation, accessibility, and two-way binding policy verified         | Deferred | Optional package. |
-| Devtools        | devtools        |      Phase 23 | Runtime graph can be inspected in development | Browser extension or panel integration verified                        | Production-Ready through Phase 23 | `@vanrot/devtools` ships the graph contract, panel state, extension asset flow, and runtime graph event contract. |
+| Devtools        | devtools        |      Phase 23 | Runtime graph can be inspected in development | Browser extension or panel integration verified                        | Production-Ready through Phase 23 | `@vanrot/devtools` ships the graph contract, panel state, extension asset flow, runtime graph event contract, and the current Web Types route shorthand metadata used by the docs site. |
 
 ## Examples
 
@@ -519,4 +520,4 @@ A feature must not move to `Production-Ready` unless it has:
 - focused tests for normal and edge cases
 - integration tests for the expected user workflow
 - diagnostics for common misuse
-- no known deferred behavior hidden behind the same status
+- no known deferred behavior hidden behind the same status 

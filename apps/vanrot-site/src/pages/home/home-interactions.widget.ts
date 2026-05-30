@@ -39,6 +39,8 @@ function setupHeroAnimation(): Dispose {
   const cell = 7;
   const dense = '@#%&8$ABXYZ';
   const faint = '01:.+=*';
+  const asciiChurnRate = 5;
+  const rainRate = 1.2;
   const hash = (x: number, y: number): number => {
     const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
 
@@ -80,10 +82,11 @@ function setupHeroAnimation(): Dispose {
 
     octx.fillStyle = '#fff';
     const fontSize = Math.min(128, width / 5);
+    const logoYOffset = width < 640 ? -96 : -30;
     octx.font = `900 ${fontSize}px Geist, ui-sans-serif, system-ui, Arial, sans-serif`;
     octx.textAlign = 'center';
     octx.textBaseline = 'middle';
-    octx.fillText('VANROT', width / 2, height / 2 - 30);
+    octx.fillText('VANROT', width / 2, height / 2 + logoYOffset);
     mask = octx.getImageData(0, 0, width, height).data;
   };
 
@@ -116,6 +119,8 @@ function setupHeroAnimation(): Dispose {
 
     const time = (now - start) / 1000;
     const intro = smooth(Math.min(1, time / 2));
+    const step = Math.floor(time * asciiChurnRate);
+    const rainStep = Math.floor(time * rainRate);
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, width, height);
 
@@ -126,11 +131,11 @@ function setupHeroAnimation(): Dispose {
         const seed = hash(x, y);
 
         if (on) {
-          drawLogoGlyph(x, y, seed, intro, time);
+          drawLogoGlyph(x, y, seed, intro, time, step);
           continue;
         }
 
-        drawAmbientGlyph(x, y, seed, time);
+        drawAmbientGlyph(x, y, seed, rainStep);
       }
     }
 
@@ -143,34 +148,28 @@ function setupHeroAnimation(): Dispose {
     seed: number,
     intro: number,
     time: number,
+    step: number,
   ): void => {
     if (seed >= intro) {
-      const gi = Math.floor(seed * faint.length);
-      const fade = 0.22 + 0.22 * Math.sin(time * 2.1 + seed * Math.PI * 2);
-      ctx.fillStyle = `rgba(255,255,255,${Math.max(0.12, fade).toFixed(2)})`;
+      const gi = Math.floor(seed * faint.length + step) % faint.length;
+      const alpha = 0.3 + 0.2 * seed;
+      ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(2)})`;
       ctx.fillText(faint.charAt(gi), x * cell, y * cell);
       return;
     }
 
     const brightness = 0.78 + 0.2 * Math.sin(time * 1.3 + x * 0.12 + y * 0.08);
-    const gi = Math.floor(seed * dense.length);
+    const gi = Math.floor(seed * dense.length + step * 0.5) % dense.length;
     ctx.fillStyle = `rgba(255,255,255,${brightness.toFixed(2)})`;
     ctx.fillText(dense.charAt(gi), x * cell, y * cell);
   };
 
-  const drawAmbientGlyph = (x: number, y: number, seed: number, time: number): void => {
-    if (hash(x * 0.7, y * 1.3) >= 0.018) {
+  const drawAmbientGlyph = (x: number, y: number, seed: number, rainStep: number): void => {
+    if (hash(x * 0.7, y + rainStep) >= 0.014) {
       return;
     }
 
-    const pulse = (Math.sin(time * 2.8 + seed * Math.PI * 2 + y * 0.18) + 1) / 2;
-
-    if (pulse < 0.36) {
-      return;
-    }
-
-    const alpha = 0.04 + pulse * 0.12;
-    ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(2)})`;
+    ctx.fillStyle = 'rgba(255,255,255,0.16)';
     ctx.fillText(faint.charAt(Math.floor(seed * faint.length)), x * cell, y * cell);
   };
 

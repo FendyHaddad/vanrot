@@ -3,7 +3,11 @@ import { resolve } from 'node:path';
 import { createServer } from 'vite';
 import { afterEach, describe, expect, it } from 'vitest';
 import { findOwnerComponentPath, handleVanrotHotUpdate } from '@/hot-update.js';
-import { toPublicCssModuleId, toPublicSourceModuleId } from '@/virtual-modules.js';
+import {
+  toPublicCssModuleId,
+  toPublicSourceModuleId,
+  toResolvedVirtualModuleId,
+} from '@/virtual-modules.js';
 
 const fixtureRoot = resolve(import.meta.dirname, 'fixtures/basic-app');
 const componentPath = resolve(fixtureRoot, 'src/app/app.layout.ts');
@@ -38,13 +42,20 @@ describe('Vanrot dev reload', () => {
     expect(findOwnerComponentPath('/repo/src/main.ts')).toBeUndefined();
   });
 
-  it('returns and invalidates the owner module when a component template changes', async () => {
+  it('returns and invalidates the owner and virtual CSS modules when component CSS changes', async () => {
     const sent: unknown[] = [];
     const invalidated: string[] = [];
     const ownerModule = { id: '/repo/src/app.component.ts' };
+    const cssModuleId = toResolvedVirtualModuleId(toPublicCssModuleId(ownerModule.id));
+
+    if (cssModuleId === undefined) {
+      throw new Error('Expected CSS module id to resolve.');
+    }
+
+    const cssModule = { id: cssModuleId };
 
     const result = await handleVanrotHotUpdate({
-      file: '/repo/src/app.component.html',
+      file: '/repo/src/app.component.css',
       timestamp: Date.now(),
       modules: [],
       server: {
@@ -53,7 +64,15 @@ describe('Vanrot dev reload', () => {
         },
         moduleGraph: {
           getModuleById(id: string) {
-            return id === ownerModule.id ? ownerModule : undefined;
+            if (id === ownerModule.id) {
+              return ownerModule;
+            }
+
+            if (id === cssModule.id) {
+              return cssModule;
+            }
+
+            return undefined;
           },
           async getModuleByUrl(url: string) {
             return url === '/src/app.component.ts' ? ownerModule : undefined;
@@ -70,8 +89,8 @@ describe('Vanrot dev reload', () => {
       },
     } as never);
 
-    expect(result).toEqual([ownerModule]);
-    expect(invalidated).toEqual(['/repo/src/app.component.ts']);
+    expect(result).toEqual([ownerModule, cssModule]);
+    expect(invalidated).toEqual(['/repo/src/app.component.ts', cssModule.id]);
     expect(sent).not.toContainEqual({ type: 'full-reload' });
   });
 

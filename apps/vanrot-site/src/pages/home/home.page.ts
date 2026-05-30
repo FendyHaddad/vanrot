@@ -1,8 +1,9 @@
 import { packageReferenceDocs } from '../../docs/site-data.ts';
 import { setupHomeInteractions } from './home-interactions.widget.ts';
 
+const runtimeSize = '5.68kb';
 const packageDashboardMeta = {
-  '@vanrot/runtime': { version: '0.1.0', size: '5.68kb' },
+  '@vanrot/runtime': { version: '0.1.0', size: runtimeSize },
   '@vanrot/compiler': { version: '0.1.1', size: '12.1kb' },
   '@vanrot/config': { version: '0.1.0', size: '2.4kb' },
   '@vanrot/language-server': { version: '0.1.1', size: '—' },
@@ -16,11 +17,10 @@ const packageDashboardMeta = {
 } as const;
 
 const fallbackPackageMeta = { version: '—', size: '—' } as const;
-const runtimeSize = packageDashboardMeta['@vanrot/runtime'].size;
 
 const homeCopy = {
   eyebrow: 'AI-first · Signal-based · Secure by design',
-  typedLine: 'The only framework you need. Reactivity without the magic.',
+  typedLine: 'The only framework you need. Reactivity without the fluff.',
   primaryCta: 'Read the docs',
   installCta: '$ npm i @vanrot/runtime',
   componentsHeading: 'A component system, not a starter kit',

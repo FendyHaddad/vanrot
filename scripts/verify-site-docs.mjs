@@ -514,7 +514,7 @@ async function verifySiteDocs() {
     ...checkExampleRegistration(exampleNames, frameworkReference.examples),
     ...checkExampleFreshness(frameworkReference.examples, existingExamplePaths),
     ...checkCtaLabels(homePageSource),
-    ...checkRouteMetadataCoverage(['/', '/docs', '/docs/components'], frameworkReference.routeMetadata),
+    ...checkRouteMetadataCoverage(['/', '/docs', '/docs/components', '/changelog'], frameworkReference.routeMetadata),
     ...checkDocsShellVisualContract(docsLayoutHtml, docsLayoutCss),
     ...checkComponentDocsShellVisualContract(appLayoutCss, siteCss, componentHtmlFiles),
   ];

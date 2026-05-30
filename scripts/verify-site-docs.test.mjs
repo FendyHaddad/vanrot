@@ -154,13 +154,14 @@ describe('expanded site docs verification', () => {
 
   it('fails when public route metadata is missing', () => {
     const failures = checkRouteMetadataCoverage(
-      ['/', '/docs', '/docs/components'],
+      ['/', '/docs', '/docs/components', '/changelog'],
       [{ path: '/', title: 'Vanrot', description: 'Vanrot framework documentation for teams.' }],
     );
 
     expect(failures).toEqual([
       'Missing public route metadata: /docs',
       'Missing public route metadata: /docs/components',
+      'Missing public route metadata: /changelog',
     ]);
   });
 

@@ -81,7 +81,7 @@ When a phase adds or changes framework surface area:
 | [x] | interaction | `positionLayer(...)` | Production-Ready | Covers side/align placement, offsets, transform origin, and data attributes for popover-like surfaces. | Phase 16G | Narrow helper only; not a full floating-ui engine. |
 | [x] | interaction | `createTooltipController(...)` | Production-Ready | Covers delayed hover open, focus open, Escape close, content visibility, trigger ARIA state, timers, and cleanup. | Phase 16G | Tooltip does not steal focus or replace accessible trigger labels. |
 | [x] | interaction | `createCommandMenuController(...)` | Production-Ready | Covers input registration, active descendant state, Arrow/Home/End movement, disabled item skipping, Enter select, Escape clear, and cleanup. | Phase 16G | Filtering stays app-owned. |
-| [x] | runtime | Runtime size budget | Production-Ready | Size-limit covers `dist/index.js` and `dist/internal.js` with gzip budget set to 6 KB after adding Phase 16G interaction helpers. | Phase 16G | Budget remains intentionally small and is enforced by `pnpm verify:size`. |
+| [x] | runtime | Runtime size budget | Production-Ready | Size-limit covers `dist/index.js` and `dist/internal.js` with gzip budget capped at 9.99 KB after accepting headless interaction controllers as justified runtime behavior. | Phase 16G | If `pnpm verify:size` hits or breaches the cap, report the exact size and ask whether the feature justifies raising the cap. |
 | [x] | size | runtime size budget | Production-Ready | Runtime stays under target and hard size budgets after production hardening. | Phase 2, Phase 12B, Phase 26 | `pnpm verify:size` owns current check. |
 
 ## `@vanrot/compiler`

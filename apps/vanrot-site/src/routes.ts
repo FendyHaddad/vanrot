@@ -73,6 +73,7 @@ const routePath = {
   home: '/',
   docs: docsBasePath,
   components: '/docs/components',
+  changelog: '/changelog',
   docsPublicApi: '/docs/public-api',
   docsDiagnostics: '/docs/diagnostics',
   docsGeneratedFiles: '/docs/generated-files',
@@ -177,8 +178,8 @@ const home = routes.page({
 
 const components = routes.page({
   path: routePath.components,
-  label: 'Components',
-  ...siteDocument('Components', 'Vanrot UI component gallery and documentation.'),
+  label: 'UI',
+  ...siteDocument('UI', 'Vanrot UI component gallery and documentation.'),
   page: ComponentGalleryPage,
   ...componentRoutePerformance(),
   nav: routes.nav.primary(),
@@ -187,8 +188,8 @@ const components = routes.page({
 
 const docs = routes.layout({
   path: routePath.docs,
-  label: 'Docs',
-  ...siteDocument('Docs', 'Vanrot framework guides, package references, and conventions.'),
+  label: 'Framework',
+  ...siteDocument('Framework', 'Vanrot framework guides, package references, and conventions.'),
   layout: DocsLayout,
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
@@ -619,12 +620,21 @@ const docsGeneratedFiles = docs.page({
   breadcrumb: routes.breadcrumb.parent(docs),
 });
 
+const changelog = routes.page({
+  path: routePath.changelog,
+  label: getSiteArticle(siteArticleKey.changelog).label,
+  ...articleDocument(siteArticleKey.changelog),
+  page: DocsChangelogPage,
+  nav: routes.nav.primary(),
+  breadcrumb: routes.breadcrumb.root(),
+});
+
 const reference = routes.page({
   path: routePath.reference,
   label: getSiteArticle(siteArticleKey.referenceStatus).label,
   ...articleDocument(siteArticleKey.referenceStatus),
   page: ReferencePage,
-  nav: routes.nav.primary(),
+  nav: routes.nav.hidden(),
   breadcrumb: routes.breadcrumb.root(),
 });
 
@@ -652,6 +662,7 @@ export const route = defineRoutes({
   home,
   components,
   docs,
+  changelog,
   componentButtons,
   componentCards,
   componentBadges,

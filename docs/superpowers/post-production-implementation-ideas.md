@@ -34,7 +34,8 @@ Already shipped:
   `.page.html`, `.layout.html`, `.dialog.html`, `.widget.html`, and `.form.html` stay recognized consistently.
 - The plugin was built and tested with Java 21, and its packaged ZIP metadata was inspected through the nested JAR.
 - JetBrains Web Types support for route shorthand also shipped separately through global `html.attributes` metadata in
-  the root, site, and router Web Types files.
+  the root, site, and router Web Types files, including the current `route.docs`, `route.components`, and
+  `route.changelog` no-value route references.
 
 Still future:
 

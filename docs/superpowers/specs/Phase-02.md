@@ -79,11 +79,11 @@ Primary metric: **minified + gzip** (reflects actual network download).
 
 | Metric | Target | Warning | Hard Fail |
 |---|---|---|---|
-| minified + gzip | ≤ 3 KB | > 3.5 KB | > 5 KB |
+| minified + gzip | ≤ 3 KB for the original kernel | > 3.5 KB for the original kernel | > 9.99 KB for the current full runtime surface |
 | minified + brotli | ≤ 2.5 KB | > 3 KB | > 4 KB |
 | raw minified | ≤ 8 KB | > 10 KB | > 14 KB |
 
-**Public promise:** Vanrot runtime kernel targets 3 KB gzip and must never exceed 5 KB gzip.
+**Public promise:** Vanrot runtime kernel targets 3 KB gzip. The current full runtime surface includes justified headless controllers and is capped at 9.99 KB gzip.
 
 Budget applies to the full shipped footprint: `@vanrot/runtime` public exports **plus** `@vanrot/runtime/internal` exports used by compiler-generated code. Both ship to the browser. Both count.
 

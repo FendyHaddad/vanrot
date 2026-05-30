@@ -9,6 +9,7 @@ const webTypesSchema = 'https://raw.githubusercontent.com/JetBrains/web-types/ma
 const routeShorthandAttributes = [
   'route.*',
   'route.about',
+  'route.changelog',
   'route.components',
   'route.docs',
   'route.home',

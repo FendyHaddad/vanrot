@@ -1,6 +1,8 @@
 .docs-changelog {
   display: grid;
   max-width: 820px;
+  margin: 0 auto;
+  padding: 72px 24px 96px;
 }
 
 .docs-changelog,
@@ -75,6 +77,22 @@
 
 .docs-changelog-entry li::marker {
   color: var(--vr-color-brand);
+}
+
+.docs-changelog-entry li {
+  padding-left: 2px;
+}
+
+.docs-changelog-link {
+  display: inline-flex;
+  margin-left: 8px;
+  color: var(--vr-color-brand);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.docs-changelog-link:hover {
+  color: var(--vr-color-text);
 }
 
 @media (max-width: 720px) {

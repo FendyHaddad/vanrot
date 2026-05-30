@@ -16,7 +16,11 @@ describe('site polish', () => {
     expect(source).toContain("primaryCta: 'Read the docs'");
     expect(source).toContain("installCta: '$ npm i @vanrot/runtime'");
     expect(source).toContain("eyebrow: 'AI-first · Signal-based · Secure by design'");
+    expect(source).toContain(
+      "typedLine: 'The only framework you need. Reactivity without the fluff.'",
+    );
     expect(source).not.toContain("primaryCta: 'Framework Documentation'");
+    expect(source).not.toContain('Reactivity without the magic.');
   });
 
   it('keeps the landing page focused on framework docs and design components', async () => {
@@ -45,6 +49,9 @@ describe('site polish', () => {
     expect(html).toContain('<span class="cc">// no magic, no diffing</span><br>');
     expect(html).toContain('<span class="db-stat-detail">{{ stat.detail }}</span>');
     expect(source).toContain("detail: 'gzipped'");
+    expect(source).toContain("const runtimeSize = '5.68kb';");
+    expect(source).toContain("'@vanrot/runtime': { version: '0.1.0', size: runtimeSize }");
+    expect(source).not.toContain("const runtimeSize = '3.9kb';");
     expect(source).toContain('packageSummary');
     expect(html).toContain('<vr-table-head class="num">Version</vr-table-head>');
     expect(html).toContain('<vr-table-head class="num">Size</vr-table-head>');
@@ -54,6 +61,13 @@ describe('site polish', () => {
     expect(css).not.toContain('.db-table .vr-table-row {');
     expect(css).toContain('.db-table .num {');
     expect(css).toContain('padding: 11px 18px;');
+    expect(widget).toContain('const asciiChurnRate = 5;');
+    expect(widget).toContain('const rainRate = 1.2;');
+    expect(widget).toContain('const logoYOffset = width < 640 ? -96 : -30;');
+    expect(widget).toContain('seed * dense.length + step * 0.5');
+    expect(widget).toContain('hash(x * 0.7, y + rainStep)');
+    expect(css).toContain('bottom: 28px;');
+    expect(css).toContain('height: 560px;');
     expect(widget).not.toContain('const step = Math.floor(time * churn)');
   });
 
@@ -96,9 +110,17 @@ describe('site polish', () => {
     const checkboxHtml = await readSiteFile('src/pages/components/component-checkbox.page.html');
 
     expect(appCss).not.toContain('.site-shell:has(.component-gallery-app) .site-header');
+    expect(appCss).toContain('background: #000;');
+    expect(appCss).not.toContain(
+      'background: color-mix(in srgb, var(--vr-color-canvas) 88%, transparent);',
+    );
     expect(siteCss).toContain('.component-gallery-app .topbar');
     expect(siteCss).toContain('top: var(--vr-site-header-height) !important');
     expect(siteCss).toContain('height: calc(100vh - var(--vr-site-header-height)) !important');
+    expect(siteCss).toContain('body:has(.component-gallery-app),');
+    expect(siteCss).toContain('.site-shell:has(.component-gallery-app) {');
+    expect(siteCss).toContain('background: #000 !important;');
+    expect(siteCss).toContain('background: color-mix(in srgb, #000 88%, transparent) !important');
     expect(galleryHtml).toContain('<span>Design Components</span>');
     expect(buttonHtml).toContain('<span>Design Components</span>');
     expect(checkboxHtml).toContain('<span>Design Components</span>');
@@ -113,6 +135,7 @@ describe('site polish', () => {
       '/',
       '/docs',
       '/docs/components',
+      '/changelog',
     ]);
   });
 

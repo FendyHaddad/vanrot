@@ -1,5 +1,6 @@
 import { relative } from 'node:path';
 import type { HmrContext, ModuleNode } from 'vite';
+import { toPublicCssModuleId, toResolvedVirtualModuleId } from './virtual-modules.js';
 
 const roleSuffixes = ['component', 'page', 'layout', 'button'] as const;
 
@@ -27,15 +28,17 @@ export async function handleVanrotHotUpdate(ctx: HmrContext): Promise<ModuleNode
   ctx.server.moduleGraph.onFileChange?.(ownerComponentPath);
 
   const ownerModules = await findOwnerModules(ctx, ownerComponentPath);
+  const cssModules = await findCssModules(ctx, ownerComponentPath);
+  const changedModules = [...ownerModules, ...cssModules];
 
-  if (ownerModules.length === 0) {
+  if (changedModules.length === 0) {
     ctx.server.ws.send({ type: 'full-reload' });
     return [];
   }
 
   const invalidatedModules = new Set<ModuleNode>();
 
-  for (const ownerModule of ownerModules) {
+  for (const ownerModule of changedModules) {
     ctx.server.moduleGraph.invalidateModule(
       ownerModule,
       invalidatedModules,
@@ -44,7 +47,7 @@ export async function handleVanrotHotUpdate(ctx: HmrContext): Promise<ModuleNode
     );
   }
 
-  return ownerModules;
+  return changedModules;
 }
 
 async function findOwnerModules(
@@ -68,6 +71,31 @@ async function findOwnerModules(
 
   if (ownerModuleByUrl !== undefined) {
     modules.add(ownerModuleByUrl);
+  }
+
+  return [...modules];
+}
+
+async function findCssModules(
+  ctx: HmrContext,
+  ownerComponentPath: string,
+): Promise<ModuleNode[]> {
+  const modules = new Set<ModuleNode>();
+  const publicCssModuleId = toPublicCssModuleId(ownerComponentPath);
+  const resolvedCssModuleId = toResolvedVirtualModuleId(publicCssModuleId);
+
+  if (resolvedCssModuleId !== undefined) {
+    const cssModuleById = ctx.server.moduleGraph.getModuleById(resolvedCssModuleId);
+
+    if (cssModuleById !== undefined) {
+      modules.add(cssModuleById);
+    }
+  }
+
+  const cssModuleByUrl = await ctx.server.moduleGraph.getModuleByUrl(publicCssModuleId);
+
+  if (cssModuleByUrl !== undefined) {
+    modules.add(cssModuleByUrl);
   }
 
   return [...modules];
