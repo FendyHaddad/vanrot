@@ -61,11 +61,11 @@ describe('site polish', () => {
     expect(css).not.toContain('.db-table .vr-table-row {');
     expect(css).toContain('.db-table .num {');
     expect(css).toContain('padding: 11px 18px;');
-    expect(widget).toContain('const asciiChurnRate = 5;');
-    expect(widget).toContain('const rainRate = 1.2;');
-    expect(widget).toContain('const logoYOffset = width < 640 ? -96 : -30;');
+    expect(widget).toContain('const asciiChurnRate = 2;');
+    expect(widget).toContain('const twinkleRate = 0.9;');
+    expect(widget).toContain('const logoYOffset = width < 640 ? -96 : -160;');
     expect(widget).toContain('seed * dense.length + step * 0.5');
-    expect(widget).toContain('hash(x * 0.7, y + rainStep)');
+    expect(widget).toContain('hash(x * 0.7, y * 1.3)');
     expect(css).toContain('bottom: 28px;');
     expect(css).toContain('height: 560px;');
     expect(widget).not.toContain('const step = Math.floor(time * churn)');

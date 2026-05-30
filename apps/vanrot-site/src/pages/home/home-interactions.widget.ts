@@ -39,8 +39,8 @@ function setupHeroAnimation(): Dispose {
   const cell = 7;
   const dense = '@#%&8$ABXYZ';
   const faint = '01:.+=*';
-  const asciiChurnRate = 5;
-  const rainRate = 1.2;
+  const asciiChurnRate = 2;
+  const twinkleRate = 0.9;
   const hash = (x: number, y: number): number => {
     const n = Math.sin(x * 127.1 + y * 311.7) * 43758.5453;
 
@@ -82,7 +82,7 @@ function setupHeroAnimation(): Dispose {
 
     octx.fillStyle = '#fff';
     const fontSize = Math.min(128, width / 5);
-    const logoYOffset = width < 640 ? -96 : -30;
+    const logoYOffset = width < 640 ? -96 : -160;
     octx.font = `900 ${fontSize}px Geist, ui-sans-serif, system-ui, Arial, sans-serif`;
     octx.textAlign = 'center';
     octx.textBaseline = 'middle';
@@ -119,8 +119,7 @@ function setupHeroAnimation(): Dispose {
 
     const time = (now - start) / 1000;
     const intro = smooth(Math.min(1, time / 2));
-    const step = Math.floor(time * asciiChurnRate);
-    const rainStep = Math.floor(time * rainRate);
+    const step = time * asciiChurnRate;
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, width, height);
 
@@ -135,7 +134,7 @@ function setupHeroAnimation(): Dispose {
           continue;
         }
 
-        drawAmbientGlyph(x, y, seed, rainStep);
+        drawAmbientGlyph(x, y, seed, time);
       }
     }
 
@@ -164,12 +163,17 @@ function setupHeroAnimation(): Dispose {
     ctx.fillText(dense.charAt(gi), x * cell, y * cell);
   };
 
-  const drawAmbientGlyph = (x: number, y: number, seed: number, rainStep: number): void => {
-    if (hash(x * 0.7, y + rainStep) >= 0.014) {
+  const drawAmbientGlyph = (x: number, y: number, seed: number, time: number): void => {
+    const star = hash(x * 0.7, y * 1.3);
+
+    if (star >= 0.05) {
       return;
     }
 
-    ctx.fillStyle = 'rgba(255,255,255,0.16)';
+    const phase = seed * 6.283;
+    const twinkle = 0.5 + 0.5 * Math.sin(time * twinkleRate + phase);
+    const alpha = 0.04 + 0.16 * twinkle;
+    ctx.fillStyle = `rgba(255,255,255,${alpha.toFixed(3)})`;
     ctx.fillText(faint.charAt(Math.floor(seed * faint.length)), x * cell, y * cell);
   };
 
@@ -286,7 +290,7 @@ function setupScrollReveal(): Dispose {
         observer.unobserve(entry.target);
       });
     },
-    { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+    { threshold: 0, rootMargin: '0px 0px -5% 0px' },
   );
 
   sections.forEach(section => observer.observe(section));

@@ -1,168 +1,180 @@
 <main class="home-page">
 
-  <section class="home-hero" data-vr-reveal-section>
-    <canvas class="hero-canvas" data-vr-home-hero></canvas>
-    <div class="hero-scan" aria-hidden="true"></div>
-    <div class="hero-vignette" aria-hidden="true"></div>
-    <div class="hero-copy">
-      <vr-badge class="hero-badge">{{ copy.eyebrow }}</vr-badge>
-      <p class="hero-typed"><span data-vr-home-typed>{{ copy.typedLine }}</span><span class="hero-caret"></span></p>
-      <div class="hero-actions">
-        <a class="btn-primary" href="/docs">{{ copy.primaryCta }}</a>
-        <a class="btn-ghost" href="/docs">{{ copy.installCta }}</a>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-components" data-vr-reveal-section>
-    <div class="section-head">
-      <h2 class="reveal">{{ copy.componentsHeading }}</h2>
-      <p class="section-lead reveal">{{ copy.componentsBody }}</p>
-    </div>
-    <div class="browser-frame reveal">
-      <div class="browser-chrome">
-        <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
-        <span class="browser-url">vanrot.dev/docs/components</span>
-      </div>
-      <div class="dashboard">
-        <vr-sidebar class="db-sidebar" placement.left aria-label="Framework">
-          <div class="db-brand"><span class="db-brand-mark"></span><span>Vanrot</span></div>
-          <button class="db-search" type="button"><span>⌕</span><span>Search…</span><kbd>⌘K</kbd></button>
-          <vr-nav class="db-nav" aria-label="Framework">
-            <div class="db-nav-title">Framework</div>
-            <a class="db-nav-link db-nav-link--active" href="/docs/components">Dashboard</a>
-            <a class="db-nav-link" href="/docs/components">Packages</a>
-            <a class="db-nav-link" href="/docs/components">Components</a>
-            <a class="db-nav-link" href="/docs">Changelog</a>
-          </vr-nav>
-        </vr-sidebar>
-        <div class="db-main">
-          <div class="db-topbar">
-            <vr-breadcrumb class="db-crumb">
-              <a href="/">Vanrot</a><span class="db-crumb-sep">/</span><a href="/docs">Framework</a><span class="db-crumb-sep">/</span><span>Overview</span>
-            </vr-breadcrumb>
-            <vr-avatar class="db-avatar" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80" alt="User"></vr-avatar>
-          </div>
-          <div class="db-content">
-            <div class="db-stats">
-              @for (stat of stats; track stat.label) {
-              <vr-stat class="db-stat">
-                <span class="db-stat-label">{{ stat.label }}</span>
-                <span class="db-stat-num">{{ stat.num }}</span>
-                <span class="db-stat-detail">{{ stat.detail }}</span>
-              </vr-stat>
-              }
+    <section class="home-hero" data-vr-reveal-section>
+        <canvas class="hero-canvas" data-vr-home-hero></canvas>
+        <div class="hero-scan" aria-hidden="true"></div>
+        <div class="hero-vignette" aria-hidden="true"></div>
+        <div class="hero-copy">
+            <vr-badge class="hero-badge">{{ copy.eyebrow }}</vr-badge>
+            <p class="hero-typed"><span data-vr-home-typed>{{ copy.typedLine }}</span><span class="hero-caret"></span>
+            </p>
+            <div class="hero-actions">
+                <a class="btn-primary" href="/docs">{{ copy.primaryCta }}</a>
+                <a class="btn-ghost" href="/docs">{{ copy.installCta }}</a>
             </div>
-            <vr-card class="db-panel">
-              <div class="db-panel-head"><h3>Packages</h3><p>{{ packageSummary }}</p></div>
-              <vr-table class="db-table">
-                <vr-table-header>
-                  <vr-table-row>
-                    <vr-table-head>Package</vr-table-head>
-                    <vr-table-head>Area</vr-table-head>
-                    <vr-table-head class="num">Version</vr-table-head>
-                    <vr-table-head class="num">Size</vr-table-head>
-                    <vr-table-head class="end">Status</vr-table-head>
-                  </vr-table-row>
-                </vr-table-header>
-                <vr-table-body>
-                  @for (item of packages; track item.name) {
-                  <vr-table-row>
-                    <vr-table-cell class="db-pkg-name">{{ item.name }}</vr-table-cell>
-                    <vr-table-cell>{{ item.area }}</vr-table-cell>
-                    <vr-table-cell class="m num">{{ item.version }}</vr-table-cell>
-                    <vr-table-cell class="m num">{{ item.size }}</vr-table-cell>
-                    <vr-table-cell class="end"><vr-badge class="pkg-badge" data-vr-package-badge><span class="pkg-dot"></span>{{ item.statusLabel }}</vr-badge></vr-table-cell>
-                  </vr-table-row>
-                  }
-                </vr-table-body>
-              </vr-table>
-            </vr-card>
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="section-cta reveal"><a class="btn-primary" href="/docs/components">{{ copy.componentsCta }} →</a></div>
-  </section>
+    </section>
 
-  <section class="home-ai" data-vr-reveal-section>
-    <div class="section-head">
-      <h2 class="reveal">{{ copy.aiHeading }}</h2>
-      <p class="section-lead reveal">{{ copy.aiBody }}</p>
-    </div>
-    <div class="ai-grid">
-      @for (feature of aiFeatures; track feature.title) {
-      <vr-card class="ai-card">
-        <span class="ai-icon">{{ feature.icon }}</span>
-        <h3 class="ai-title">{{ feature.title }}</h3>
-        <p class="ai-body">{{ feature.body }}</p>
-      </vr-card>
-      }
-    </div>
-  </section>
+    <section class="home-components" data-vr-reveal-section>
+        <div class="browser-frame reveal">
+            <div class="browser-chrome">
+                <span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span>
+                <span class="browser-url">vanrot.dev/docs/components</span>
+            </div>
+            <div class="dashboard">
+                <vr-sidebar class="db-sidebar" placement.left aria-label="Framework">
+                    <div class="db-brand"><span class="db-brand-mark"></span><span>Vanrot</span></div>
+                    <button class="db-search" type="button"><span>⌕</span><span>Search…</span><kbd>⌘K</kbd></button>
+                    <vr-nav class="db-nav" aria-label="Framework">
+                        <div class="db-nav-title">Framework</div>
+                        <a class="db-nav-link db-nav-link--active" href="/docs/components">Dashboard</a>
+                        <a class="db-nav-link" href="/docs/components">Packages</a>
+                        <a class="db-nav-link" href="/docs/components">Components</a>
+                        <a class="db-nav-link" href="/docs">Changelog</a>
+                    </vr-nav>
+                </vr-sidebar>
+                <div class="db-main">
+                    <div class="db-topbar">
+                        <vr-breadcrumb class="db-crumb">
+                            <a href="/">Vanrot</a><span class="db-crumb-sep">/</span><a href="/docs">Framework</a><span
+                                class="db-crumb-sep">/</span><span>Overview</span>
+                        </vr-breadcrumb>
+                        <vr-avatar class="db-avatar"
+                                   src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=80&h=80&q=80"
+                                   alt="User"></vr-avatar>
+                    </div>
+                    <div class="db-content">
+                        <div class="db-stats">
+                            @for (stat of stats; track stat.label) {
+                            <vr-stat class="db-stat">
+                                <span class="db-stat-label">{{ stat.label }}</span>
+                                <span class="db-stat-num">{{ stat.num }}</span>
+                                <span class="db-stat-detail">{{ stat.detail }}</span>
+                            </vr-stat>
+                            }
+                        </div>
+                        <vr-card class="db-panel">
+                            <div class="db-panel-head"><h3>Packages</h3>
+                                <p>{{ packageSummary }}</p></div>
+                            <vr-table class="db-table">
+                                <vr-table-header>
+                                    <vr-table-row>
+                                        <vr-table-head>Package</vr-table-head>
+                                        <vr-table-head>Area</vr-table-head>
+                                        <vr-table-head class="num">Version</vr-table-head>
+                                        <vr-table-head class="num">Size</vr-table-head>
+                                        <vr-table-head class="end">Status</vr-table-head>
+                                    </vr-table-row>
+                                </vr-table-header>
+                                <vr-table-body>
+                                    @for (item of packages; track item.name) {
+                                    <vr-table-row>
+                                        <vr-table-cell class="db-pkg-name">{{ item.name }}</vr-table-cell>
+                                        <vr-table-cell>{{ item.area }}</vr-table-cell>
+                                        <vr-table-cell class="m num">{{ item.version }}</vr-table-cell>
+                                        <vr-table-cell class="m num">{{ item.size }}</vr-table-cell>
+                                        <vr-table-cell class="end">
+                                            <vr-badge class="pkg-badge" data-vr-package-badge><span
+                                                    class="pkg-dot"></span>{{ item.statusLabel }}
+                                            </vr-badge>
+                                        </vr-table-cell>
+                                    </vr-table-row>
+                                    }
+                                </vr-table-body>
+                            </vr-table>
+                        </vr-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="section-head">
+            <h2 class="reveal">{{ copy.componentsHeading }}</h2>
+            <p class="section-lead reveal">{{ copy.componentsBody }}</p>
+        </div>
+        <div class="section-cta reveal"><a class="btn-primary" href="/docs/components">{{ copy.componentsCta }} →</a>
+        </div>
+    </section>
 
-  <section class="home-signals" data-vr-reveal-section>
-    <div class="section-head">
-      <h2 class="reveal">{{ copy.signalsHeading }}</h2>
-      <p class="section-lead reveal">{{ copy.signalsBody }}</p>
-    </div>
-    <div class="signals-demo reveal">
-      <vr-card class="code-panel">
-        <div class="code-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span class="browser-dot"></span><span class="code-file">counter.ts</span></div>
-        <pre class="code-block"><span class="cc">// no magic, no diffing</span><br>
+    <section class="home-ai" data-vr-reveal-section>
+        <div class="section-head">
+            <h2 class="reveal">{{ copy.aiHeading }}</h2>
+            <p class="section-lead reveal">{{ copy.aiBody }}</p>
+        </div>
+        <div class="ai-grid">
+            @for (feature of aiFeatures; track feature.title) {
+            <vr-card class="ai-card">
+                <span class="ai-icon">{{ feature.icon }}</span>
+                <h3 class="ai-title">{{ feature.title }}</h3>
+                <p class="ai-body">{{ feature.body }}</p>
+            </vr-card>
+            }
+        </div>
+    </section>
+
+    <section class="home-signals" data-vr-reveal-section>
+        <div class="section-head">
+            <h2 class="reveal">{{ copy.signalsHeading }}</h2>
+            <p class="section-lead reveal">{{ copy.signalsBody }}</p>
+        </div>
+        <div class="signals-demo reveal">
+            <vr-card class="code-panel">
+                <div class="code-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span
+                        class="browser-dot"></span><span class="code-file">counter.ts</span></div>
+                <pre class="code-block"><span class="cc">// no magic, no diffing</span><br>
 <span class="ck">const</span> count = <span class="cf">signal</span>(0);
 <span class="ck">const</span> doubled = <span class="cf">computed</span>(() =&gt; count() * 2);
 <span class="cf">effect</span>(() =&gt; console.<span class="cf">log</span>(doubled()));
 
 count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></pre>
-      </vr-card>
-      <div class="signals-flow">
-        <span class="flow-node">signal</span><span class="flow-arrow">→</span>
-        <span class="flow-node">computed</span><span class="flow-arrow">→</span>
-        <span class="flow-node">effect</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="home-proof" data-vr-reveal-section>
-    <div class="proof-strip">
-      @for (stat of stats; track stat.label) {
-      <div class="proof-cell">
-        <span class="proof-num">{{ stat.num }}</span>
-        <span class="proof-label">{{ stat.label }}</span>
-      </div>
-      }
-    </div>
-  </section>
-
-  <section class="home-packages" data-vr-reveal-section>
-    <div class="section-head">
-      <h2 class="reveal">{{ copy.packagesHeading }}</h2>
-      <p class="section-lead reveal">{{ copy.packagesBody }}</p>
-    </div>
-    <div class="packages-grid">
-      @for (item of packages; track item.name) {
-      <vr-card class="pkg-card">
-        <div class="pkg-top">
-          <span class="pkg-name">{{ item.name }}</span>
-          <vr-badge class="pkg-badge" data-vr-package-badge>{{ item.statusLabel }}</vr-badge>
+            </vr-card>
+            <div class="signals-flow">
+                <span class="flow-node">signal</span><span class="flow-arrow">→</span>
+                <span class="flow-node">computed</span><span class="flow-arrow">→</span>
+                <span class="flow-node">effect</span>
+            </div>
         </div>
-        <p class="pkg-area">{{ item.area }}</p>
-      </vr-card>
-      }
-    </div>
-  </section>
+    </section>
 
-  <section class="home-start" data-vr-reveal-section>
-    <div class="section-head">
-      <h2 class="reveal">{{ copy.startHeading }}</h2>
-      <p class="section-lead reveal">{{ copy.startBody }}</p>
-    </div>
-    <div class="install-bar reveal"><span>{{ copy.installCommand }}</span><span class="install-copy">copy</span></div>
-    <div class="start-actions reveal">
-      <a class="btn-primary" href="/docs">{{ copy.primaryCta }}</a>
-      <a class="btn-ghost" href="/docs/components">{{ copy.componentsCta }}</a>
-    </div>
-  </section>
+    <section class="home-proof" data-vr-reveal-section>
+        <div class="proof-strip">
+            @for (stat of stats; track stat.label) {
+            <div class="proof-cell">
+                <span class="proof-num">{{ stat.num }}</span>
+                <span class="proof-label">{{ stat.label }}</span>
+            </div>
+            }
+        </div>
+    </section>
+
+    <section class="home-packages" data-vr-reveal-section>
+        <div class="section-head">
+            <h2 class="reveal">{{ copy.packagesHeading }}</h2>
+            <p class="section-lead reveal">{{ copy.packagesBody }}</p>
+        </div>
+        <div class="packages-grid">
+            @for (item of packages; track item.name) {
+            <vr-card class="pkg-card">
+                <div class="pkg-top">
+                    <span class="pkg-name">{{ item.name }}</span>
+                    <vr-badge class="pkg-badge" data-vr-package-badge>{{ item.statusLabel }}</vr-badge>
+                </div>
+                <p class="pkg-area">{{ item.area }}</p>
+            </vr-card>
+            }
+        </div>
+    </section>
+
+    <section class="home-start" data-vr-reveal-section>
+        <div class="section-head">
+            <h2 class="reveal">{{ copy.startHeading }}</h2>
+            <p class="section-lead reveal">{{ copy.startBody }}</p>
+        </div>
+        <div class="install-bar reveal"><span>{{ copy.installCommand }}</span><span class="install-copy">copy</span>
+        </div>
+        <div class="start-actions reveal">
+            <a class="btn-primary" href="/docs">{{ copy.primaryCta }}</a>
+            <a class="btn-ghost" href="/docs/components">{{ copy.componentsCta }}</a>
+        </div>
+    </section>
 
 </main>
