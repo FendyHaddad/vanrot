@@ -141,12 +141,14 @@ describe('expanded site docs verification', () => {
 
   it('fails when CTA labels drift', () => {
     const failures = checkCtaLabels(
-      "primaryCta: 'Read the docs', secondaryCta: 'View components'",
+      "primaryCta: 'Framework Documentation', secondaryCta: 'Design Component'",
     );
 
     expect(failures).toEqual([
-      'Landing primary CTA must be Framework Documentation',
-      'Landing secondary CTA must be Design Component',
+      'Landing primary CTA must be Read the docs',
+      'Landing install CTA must be the runtime install command',
+      'Landing eyebrow must match the homepage redesign contract',
+      'Landing primary CTA must not use the old Framework Documentation label',
     ]);
   });
 

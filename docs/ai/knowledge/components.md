@@ -206,13 +206,13 @@ Docs: /docs/components/tableRow
 
 ## Table Head
 
-Use table head cells for column or row headings. Usage: <vr-table-head sort="name">Name</vr-table-head> Accessibility: Header cells lower to th and should describe their related table cells.
+Use table head cells for compact column or row headings with dashboard table density. Usage: <vr-table-head sort="name">Name</vr-table-head> Accessibility: Header cells lower to th and should describe their related table cells.
 
 Docs: /docs/components/tableHead
 
 ## Table Cell
 
-Use table cells for regular tabular values. Usage: <vr-table-cell>Value</vr-table-cell> Accessibility: Cells lower to td and should stay aligned with row and column headers.
+Use table cells for compact tabular values that align with dense dashboard rows. Usage: <vr-table-cell>Value</vr-table-cell> Accessibility: Cells lower to td and should stay aligned with row and column headers.
 
 Docs: /docs/components/tableCell
 
@@ -248,7 +248,7 @@ Docs: /docs/components/listItem
 
 ## Stat
 
-Use stats for compact metric readouts with tone and alignment tokens. Usage: <vr-stat tone.success align.left>98%</vr-stat> Accessibility: Stats should keep labels close to values so the metric is understandable out of context.
+Use stats for compact metric readouts with dense card spacing, tone, and alignment tokens. Usage: <vr-stat tone.success align.left>98%</vr-stat> Accessibility: Stats should keep labels close to values so the metric is understandable out of context.
 
 Docs: /docs/components/stat
 

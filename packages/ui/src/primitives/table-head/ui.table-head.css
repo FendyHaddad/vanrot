@@ -1,6 +1,10 @@
 .vr-table-head {
   color: var(--vr-color-muted);
-  font-weight: 600;
-  padding: var(--vr-space-3);
+  border-bottom: 1px solid var(--vr-border-subtle);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0;
+  padding: 11px 18px;
   text-align: left;
+  text-transform: uppercase;
 }

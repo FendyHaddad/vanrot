@@ -288,12 +288,12 @@
 
   .vr-table-density-compact .vr-table-cell,
   .vr-table-density-compact .vr-table-head {
-    padding-block: var(--vr-space-2);
+    padding-block: 8px;
   }
 
   .vr-table-density-dense .vr-table-cell,
   .vr-table-density-dense .vr-table-head {
-    padding-block: var(--vr-space-1);
+    padding-block: 6px;
   }
 
   .vr-table-tone-muted {
@@ -308,13 +308,22 @@
 
   .vr-table-head,
   .vr-table-cell {
-    padding: var(--vr-space-3);
+    padding: 11px 18px;
     text-align: left;
   }
 
   .vr-table-head {
     color: var(--vr-color-muted);
-    font-weight: 600;
+    border-bottom: 1px solid var(--vr-border-subtle);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .vr-table-cell {
+    border-bottom: 1px solid var(--vr-border-subtle);
+    font-size: 12.5px;
   }
 
   .vr-table-caption {
@@ -365,10 +374,10 @@
   .vr-empty-state {
     background: var(--vr-surface-card);
     border: 1px solid var(--vr-border-subtle);
-    border-radius: var(--vr-radius-lg);
+    border-radius: 10px;
     display: grid;
-    gap: var(--vr-space-2);
-    padding: var(--vr-space-4);
+    gap: 8px;
+    padding: 13px 14px;
   }
 
   .vr-stat-tone-success {

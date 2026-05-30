@@ -4377,14 +4377,14 @@
     {
       "primitive": "tableHead",
       "title": "Table Head",
-      "summary": "Use table head cells for column or row headings.",
+      "summary": "Use table head cells for compact column or row headings with dashboard table density.",
       "usage": "<vr-table-head sort=\"name\">Name</vr-table-head>",
       "accessibility": "Header cells lower to th and should describe their related table cells."
     },
     {
       "primitive": "tableCell",
       "title": "Table Cell",
-      "summary": "Use table cells for regular tabular values.",
+      "summary": "Use table cells for compact tabular values that align with dense dashboard rows.",
       "usage": "<vr-table-cell>Value</vr-table-cell>",
       "accessibility": "Cells lower to td and should stay aligned with row and column headers."
     },
@@ -4426,7 +4426,7 @@
     {
       "primitive": "stat",
       "title": "Stat",
-      "summary": "Use stats for compact metric readouts with tone and alignment tokens.",
+      "summary": "Use stats for compact metric readouts with dense card spacing, tone, and alignment tokens.",
       "usage": "<vr-stat tone.success align.left>98%</vr-stat>",
       "accessibility": "Stats should keep labels close to values so the metric is understandable out of context."
     },

@@ -90,6 +90,8 @@ Phase 18 should make Vanrot testing cover realistic page and component workflows
 non-devs. The package should help developers test the app from the user's point of view without exposing too much test
 runner ceremony.
 
+Plan: `docs/superpowers/plans/Phase-18.md`.
+
 Ideas to carry forward:
 
 - Add `testPage(...)` as the page-level companion to the existing component testing helper.
@@ -185,6 +187,8 @@ Possible slices:
 Phase 22 should make Vanrot capable of server rendering and hydration while preserving the clear browser-only boundary
 until SSR-specific APIs are intentionally designed.
 
+Plan: `docs/superpowers/plans/Phase-22.md`.
+
 Ideas to carry forward:
 
 - Audit runtime, compiler, router, forms, async resources, and UI for browser-only assumptions.
@@ -208,6 +212,8 @@ Possible slices:
 Surfaced during the 2026-05-30 homepage redesign brainstorm. three.js already *works* inside a Vanrot app today —
 mount a `<canvas>` in a component `onMount`, drive WebGL there, and feed signals into uniforms. Nothing in the
 framework blocks it, so it is not a missing capability.
+
+Plan: `docs/superpowers/plans/2026-05-30-webgl-threejs-integration.md`.
 
 Open question for a future discussion (not this homepage work):
 

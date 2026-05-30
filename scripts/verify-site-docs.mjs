@@ -161,12 +161,20 @@ export function checkExampleFreshness(docExamples, existingExamplePaths) {
 export function checkCtaLabels(homePageSource) {
   const failures = [];
 
-  if (!homePageSource.includes("primaryCta: 'Framework Documentation'")) {
-    failures.push('Landing primary CTA must be Framework Documentation');
+  if (!homePageSource.includes("primaryCta: 'Read the docs'")) {
+    failures.push('Landing primary CTA must be Read the docs');
   }
 
-  if (!homePageSource.includes("secondaryCta: 'Design Component'")) {
-    failures.push('Landing secondary CTA must be Design Component');
+  if (!homePageSource.includes("installCta: '$ npm i @vanrot/runtime'")) {
+    failures.push('Landing install CTA must be the runtime install command');
+  }
+
+  if (!homePageSource.includes("eyebrow: 'AI-first · Signal-based · Secure by design'")) {
+    failures.push('Landing eyebrow must match the homepage redesign contract');
+  }
+
+  if (homePageSource.includes("primaryCta: 'Framework Documentation'")) {
+    failures.push('Landing primary CTA must not use the old Framework Documentation label');
   }
 
   return failures;

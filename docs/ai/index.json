@@ -756,13 +756,13 @@
     {
       "id": "component:tableHead",
       "title": "Table Head",
-      "summary": "Use table head cells for column or row headings. Usage: <vr-table-head sort=\"name\">Name</vr-table-head> Accessibility: Header cells lower to th and should describe their related table cells.",
+      "summary": "Use table head cells for compact column or row headings with dashboard table density. Usage: <vr-table-head sort=\"name\">Name</vr-table-head> Accessibility: Header cells lower to th and should describe their related table cells.",
       "docsPath": "/docs/components/tableHead"
     },
     {
       "id": "component:tableCell",
       "title": "Table Cell",
-      "summary": "Use table cells for regular tabular values. Usage: <vr-table-cell>Value</vr-table-cell> Accessibility: Cells lower to td and should stay aligned with row and column headers.",
+      "summary": "Use table cells for compact tabular values that align with dense dashboard rows. Usage: <vr-table-cell>Value</vr-table-cell> Accessibility: Cells lower to td and should stay aligned with row and column headers.",
       "docsPath": "/docs/components/tableCell"
     },
     {
@@ -798,7 +798,7 @@
     {
       "id": "component:stat",
       "title": "Stat",
-      "summary": "Use stats for compact metric readouts with tone and alignment tokens. Usage: <vr-stat tone.success align.left>98%</vr-stat> Accessibility: Stats should keep labels close to values so the metric is understandable out of context.",
+      "summary": "Use stats for compact metric readouts with dense card spacing, tone, and alignment tokens. Usage: <vr-stat tone.success align.left>98%</vr-stat> Accessibility: Stats should keep labels close to values so the metric is understandable out of context.",
       "docsPath": "/docs/components/stat"
     },
     {

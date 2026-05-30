@@ -13,10 +13,10 @@ describe('site polish', () => {
   it('uses approved landing CTA labels', async () => {
     const source = await readSiteFile('src/pages/home/home.page.ts');
 
-    expect(source).toContain("primaryCta: 'Framework Documentation'");
-    expect(source).toContain("secondaryCta: 'Design Component'");
-    expect(source).not.toContain("primaryCta: 'Read the docs'");
-    expect(source).not.toContain("secondaryCta: 'View components'");
+    expect(source).toContain("primaryCta: 'Read the docs'");
+    expect(source).toContain("installCta: '$ npm i @vanrot/runtime'");
+    expect(source).toContain("eyebrow: 'AI-first · Signal-based · Secure by design'");
+    expect(source).not.toContain("primaryCta: 'Framework Documentation'");
   });
 
   it('keeps the landing page focused on framework docs and design components', async () => {
@@ -26,8 +26,35 @@ describe('site polish', () => {
     expect(html).toContain('href="/docs"');
     expect(html).toContain('href="/docs/components"');
     expect(html).toContain('<vr-badge');
+    expect(html).toContain('data-vr-home-hero');
+    expect(html).toContain('data-vr-reveal-section');
+    expect(html).toContain('<vr-table');
+    // Component-system section appears before the AI section.
+    expect(html.indexOf('{{ copy.componentsHeading }}')).toBeLessThan(
+      html.indexOf('{{ copy.aiHeading }}'),
+    );
     expect(css).not.toContain('min-height: calc(100vh');
-    expect(css).toContain('align-items: center');
+  });
+
+  it('keeps the landing visual samples compact and stable', async () => {
+    const html = await readSiteFile('src/pages/home/home.page.html');
+    const css = await readSiteFile('src/pages/home/home.page.css');
+    const source = await readSiteFile('src/pages/home/home.page.ts');
+    const widget = await readSiteFile('src/pages/home/home-interactions.widget.ts');
+
+    expect(html).toContain('<span class="cc">// no magic, no diffing</span><br>');
+    expect(html).toContain('<span class="db-stat-detail">{{ stat.detail }}</span>');
+    expect(source).toContain("detail: 'gzipped'");
+    expect(source).toContain('packageSummary');
+    expect(html).toContain('<vr-table-head class="num">Version</vr-table-head>');
+    expect(html).toContain('<vr-table-head class="num">Size</vr-table-head>');
+    expect(html).toContain('<vr-table-cell class="m num">{{ item.version }}</vr-table-cell>');
+    expect(html).toContain('<vr-table-cell class="m num">{{ item.size }}</vr-table-cell>');
+    expect(css).toContain('.home-page .db-stat {');
+    expect(css).not.toContain('.db-table .vr-table-row {');
+    expect(css).toContain('.db-table .num {');
+    expect(css).toContain('padding: 11px 18px;');
+    expect(widget).not.toContain('const step = Math.floor(time * churn)');
   });
 
   it('aligns the framework docs shell with the component docs sidebar language', async () => {

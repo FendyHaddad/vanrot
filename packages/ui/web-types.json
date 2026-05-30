@@ -326,7 +326,7 @@
         { "name": "vr-src", "description": "Use <vr-src> inside a Vanrot image/picture pattern when you need source-specific media. Provide normal source attributes such as srcset, media, and type. Vanrot-specific attributes: none." },
         {
           "name": "vr-stat",
-          "description": "Use <vr-stat> to show one metric, KPI, or compact value summary. Put the value and label inside it. Vanrot-specific attributes: tone.success. Use normal HTML attributes when needed.",
+          "description": "Use <vr-stat> to show one compact metric, KPI, or dense value summary. Put the value and label inside it. Vanrot-specific attributes: tone.success. Use normal HTML attributes when needed.",
           "attributes": [
             { "name": "tone.success", "description": "Success stat tone.", "value": { "kind": "no-value" } }
           ]
@@ -352,9 +352,9 @@
         },
         { "name": "vr-table-body", "description": "Use <vr-table-body> for the main rows of a Vanrot table. Put <vr-table-row> children inside it. Vanrot-specific attributes: none." },
         { "name": "vr-table-caption", "description": "Use <vr-table-caption> to describe what a table contains. Put short caption text inside it. Vanrot-specific attributes: none." },
-        { "name": "vr-table-cell", "description": "Use <vr-table-cell> for one body cell in a Vanrot table row. Put cell content inside it. Vanrot-specific attributes: none. Use normal table cell attributes when needed." },
+        { "name": "vr-table-cell", "description": "Use <vr-table-cell> for one compact body cell in a dense Vanrot table row. Put cell content inside it. Vanrot-specific attributes: none. Use normal table cell attributes when needed." },
         { "name": "vr-table-footer", "description": "Use <vr-table-footer> for summary rows or table footer content. Vanrot-specific attributes: none." },
-        { "name": "vr-table-head", "description": "Use <vr-table-head> for one header cell in a Vanrot table row. Put the column label inside it. Vanrot-specific attributes: none." },
+        { "name": "vr-table-head", "description": "Use <vr-table-head> for one compact header cell in a Vanrot table row. Put the column label inside it. Vanrot-specific attributes: none." },
         { "name": "vr-table-header", "description": "Use <vr-table-header> for the header area of a Vanrot table. Put header rows inside it. Vanrot-specific attributes: none." },
         { "name": "vr-table-row", "description": "Use <vr-table-row> for one row in a Vanrot table. Put header or body cells inside it. Vanrot-specific attributes: none." },
         {
