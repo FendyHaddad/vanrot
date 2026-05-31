@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 const workflowPath = '.github/workflows/vanrot-site-pages.yml';
 const wranglerPath = 'apps/vanrot-site/wrangler.toml';
 const linkerPath = 'scripts/link-cloudflare-vanrot-site.mjs';
+const sitePackagePath = 'apps/vanrot-site/package.json';
 
 describe('cloudflare site deploy wiring', () => {
   it('deploys the Vanrot site to the expected Cloudflare Pages project', async () => {
@@ -45,5 +46,12 @@ describe('cloudflare site deploy wiring', () => {
     expect(linker).toContain('pages/projects');
     expect(linker).toContain('dns_records');
     expect(linker).toContain('CLOUDFLARE_API_TOKEN');
+  });
+
+  it('does not rely on a package manager bin shim for CI builds', async () => {
+    const sitePackage = JSON.parse(await readFile(sitePackagePath, 'utf8'));
+
+    expect(sitePackage.scripts.build).toBe('node ../../packages/cli/dist/bin.js build');
+    expect(sitePackage.scripts.build).not.toBe('vr build');
   });
 });

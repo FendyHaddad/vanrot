@@ -21,7 +21,7 @@ describe('vanrot site workspace', () => {
 
     expect(packageJson.private).toBe(true);
     expect(packageJson.scripts?.dev).toBe('vr dev');
-    expect(packageJson.scripts?.build).toBe('vr build');
+    expect(packageJson.scripts?.build).toBe('node ../../packages/cli/dist/bin.js build');
     expect(packageJson.scripts?.test).toBe('vitest run');
     expect(packageJson.scripts?.typecheck).toBe('tsc -p tsconfig.json --noEmit');
     expect(packageJson.dependencies?.['@vanrot/runtime']).toBe('file:../../packages/runtime');

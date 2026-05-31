@@ -12,7 +12,7 @@
     "open:docs": "node ../../scripts/open-docs.mjs docs",
     "docs:open": "node ../../scripts/open-docs.mjs docs",
     "prebuild": "pnpm run prepare:deps",
-    "build": "vr build",
+    "build": "node ../../packages/cli/dist/bin.js build",
     "pretest": "pnpm run prepare:deps",
     "test": "vitest run",
     "doctor": "vr doctor",
