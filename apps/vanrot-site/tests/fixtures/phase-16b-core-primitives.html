@@ -1,0 +1,1045 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vanrot UI October - Phase 16B Core Primitives</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        --bg: #09090b;
+        --panel: #0f0f11;
+        --panel-soft: #18181b;
+        --panel-raised: #27272a;
+        --border: rgba(255, 255, 255, 0.1);
+        --border-soft: rgba(255, 255, 255, 0.06);
+        --text: #fafafa;
+        --muted: #a1a1aa;
+        --faint: #71717a;
+        --brand: #fafafa;
+        --brand-text: #09090b;
+        --success: #22c55e;
+        --warning: #f59e0b;
+        --info: #38bdf8;
+        --danger: #ef4444;
+        --radius: 0.5rem;
+        --radius-sm: calc(var(--radius) - 2px);
+        --radius-card: calc(var(--radius) + 4px);
+        --font-sans: Geist, Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, monospace;
+      }
+
+      * { box-sizing: border-box; }
+
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-sans);
+        font-size: 14px;
+        line-height: 1.5;
+        letter-spacing: 0;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .app {
+        min-height: 100vh;
+        display: grid;
+        grid-template-columns: 240px minmax(0, 1fr);
+      }
+
+      /* ── Sidebar ───────────────────────────────────────── */
+
+      .sidebar {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        border-right: 1px solid var(--border-soft);
+        padding: 20px 12px;
+        background: var(--bg);
+        scrollbar-width: none;
+      }
+
+      .sidebar::-webkit-scrollbar { display: none; }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 40px;
+        padding: 0 8px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+      }
+
+      .mark {
+        width: 20px;
+        height: 20px;
+        border-radius: 5px;
+        background: var(--text);
+        flex-shrink: 0;
+      }
+
+      .search {
+        height: 36px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--faint);
+        background: transparent;
+        font-size: 13px;
+        margin-bottom: 16px;
+        cursor: text;
+        transition: border-color 0.15s;
+      }
+
+      .search:hover { border-color: rgba(255,255,255,0.16); }
+      .search svg { flex-shrink: 0; }
+      .search span { flex: 1; }
+
+      .search kbd {
+        font-family: var(--font-sans);
+        font-size: 11px;
+        color: var(--faint);
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 4px;
+        padding: 1px 5px;
+        line-height: 1.7;
+        pointer-events: none;
+      }
+
+      .nav-title {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 600;
+        padding: 4px 8px;
+        margin: 14px 0 2px;
+        letter-spacing: 0;
+      }
+
+      .nav-link {
+        display: flex;
+        align-items: center;
+        height: 32px;
+        padding: 0 8px;
+        border-radius: var(--radius-sm);
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+        transition: color 0.12s, background 0.12s;
+      }
+
+      .nav-link:hover { color: var(--text); background: var(--panel-soft); }
+
+      .nav-link.active {
+        color: var(--text);
+        background: var(--panel-soft);
+        font-weight: 500;
+      }
+
+      /* ── Top bar ───────────────────────────────────────── */
+
+      main { min-width: 0; }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 10;
+        height: 56px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        border-bottom: 1px solid var(--border-soft);
+        background: rgba(9, 9, 11, 0.88);
+        backdrop-filter: blur(14px);
+        -webkit-backdrop-filter: blur(14px);
+      }
+
+      .topbar-left {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+
+      .topbar-left .bc-home {
+        color: var(--text);
+        font-weight: 600;
+        font-size: 15px;
+        letter-spacing: -0.01em;
+      }
+
+      .topbar-left .bc-sep { color: var(--faint); font-size: 16px; line-height: 1; }
+      .topbar-left .bc-active { color: var(--text); }
+
+      .topbar-right {
+        display: flex;
+        align-items: center;
+        gap: 22px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .topbar-right a {
+        color: inherit;
+        text-decoration: none;
+        transition: color 0.12s;
+      }
+
+      .topbar-right a:hover { color: var(--text); }
+
+      /* ── Content ───────────────────────────────────────── */
+
+      .content {
+        max-width: 1080px;
+        padding: 48px 48px 96px;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        height: 22px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 500;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        margin-bottom: 18px;
+      }
+
+      h1 {
+        font-size: 36px;
+        line-height: 1.08;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+        margin: 0 0 14px;
+      }
+
+      .lead {
+        max-width: 680px;
+        color: var(--muted);
+        font-size: 15px;
+        line-height: 1.72;
+        margin: 0 0 32px;
+      }
+
+      /* ── Tabs ──────────────────────────────────────────── */
+
+      .tabs {
+        display: inline-flex;
+        gap: 2px;
+        padding: 3px;
+        border-radius: var(--radius);
+        background: var(--panel-soft);
+        margin-bottom: 36px;
+      }
+
+      .tab {
+        height: 28px;
+        border: 0;
+        border-radius: calc(var(--radius) - 1px);
+        padding: 0 12px;
+        background: transparent;
+        color: var(--muted);
+        font: inherit;
+        font-size: 13px;
+        font-weight: 400;
+        cursor: pointer;
+        transition: color 0.12s, background 0.12s, box-shadow 0.12s;
+        white-space: nowrap;
+        outline: none;
+      }
+
+      .tab.active {
+        color: var(--text);
+        background: var(--panel-raised);
+        font-weight: 500;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.5), 0 0 0 0.5px rgba(255,255,255,0.04);
+      }
+
+      .tab:hover:not(.active) { color: var(--text); background: rgba(255,255,255,0.05); }
+
+      /* ── Section ───────────────────────────────────────── */
+
+      .primitive { margin: 40px 0 56px; }
+
+      .section-head {
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 24px;
+        margin-bottom: 16px;
+      }
+
+      h2 {
+        font-size: 22px;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+        margin: 0 0 5px;
+      }
+
+      .section-head p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.65;
+      }
+
+      .code-chip {
+        flex: 0 0 auto;
+        display: inline-flex;
+        align-items: center;
+        height: 28px;
+        padding: 0 10px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        background: var(--panel-soft);
+        color: var(--muted);
+        font-family: var(--font-mono);
+        font-size: 12px;
+      }
+
+      /* ── Preview pane ──────────────────────────────────── */
+
+      .preview {
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        background: var(--panel);
+        overflow: hidden;
+      }
+
+      .preview-head {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 16px;
+        border-bottom: 1px solid var(--border-soft);
+        color: var(--faint);
+        font-size: 12px;
+        font-weight: 500;
+        background: var(--bg);
+      }
+
+      .preview-body {
+        padding: 28px;
+        background-color: var(--panel);
+        background-image: radial-gradient(circle, rgba(255,255,255,0.035) 1px, transparent 1px);
+        background-size: 24px 24px;
+      }
+
+      .variant-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+        gap: 12px;
+      }
+
+      .variant-tile {
+        min-height: 108px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 14px;
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius);
+        background: var(--bg);
+      }
+
+      .variant-name {
+        color: var(--faint);
+        font-family: var(--font-mono);
+        font-size: 11px;
+        letter-spacing: 0.01em;
+      }
+
+      .row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      /* ── Button ────────────────────────────────────────── */
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        height: 36px;
+        padding: 0 16px;
+        border-radius: var(--radius-sm);
+        border: 1px solid transparent;
+        font: inherit;
+        font-size: 14px;
+        font-weight: 500;
+        white-space: nowrap;
+        cursor: pointer;
+        outline: none;
+        user-select: none;
+        transition: background 0.12s, color 0.12s, border-color 0.12s, opacity 0.12s, box-shadow 0.12s;
+      }
+
+      .btn.default {
+        background: var(--brand);
+        color: var(--brand-text);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+      }
+
+      .btn.default:hover { background: rgba(250,250,250,0.86); }
+
+      .btn.secondary {
+        background: var(--panel-raised);
+        color: var(--text);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+      }
+
+      .btn.secondary:hover { background: #303033; }
+
+      .btn.outline {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+        box-shadow: 0 1px 2px rgba(0,0,0,0.15);
+      }
+
+      .btn.outline:hover { background: var(--panel-soft); }
+
+      .btn.ghost {
+        background: transparent;
+        color: var(--text);
+      }
+
+      .btn.ghost:hover { background: var(--panel-soft); }
+
+      .btn.danger {
+        background: var(--danger);
+        color: #fff;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.25);
+      }
+
+      .btn.danger:hover { background: #dc2626; }
+
+      .btn.link {
+        height: auto;
+        padding: 0;
+        border-radius: 0;
+        color: var(--text);
+        background: transparent;
+        text-decoration: underline;
+        text-underline-offset: 4px;
+        box-shadow: none;
+        font-weight: 400;
+      }
+
+      .btn.link:hover { color: var(--muted); }
+
+      /* ── Card ──────────────────────────────────────────── */
+
+      .card-demo {
+        width: 100%;
+        border: 1px solid var(--border);
+        border-radius: var(--radius-card);
+        padding: 18px;
+        background: var(--bg);
+      }
+
+      .card-demo.muted { background: var(--panel-soft); }
+
+      .card-demo.interactive {
+        cursor: pointer;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.2);
+      }
+
+      .card-demo.interactive:hover { border-color: rgba(255,255,255,0.15); }
+
+      .card-title {
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 5px;
+        letter-spacing: -0.01em;
+      }
+
+      .card-copy {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.6;
+        margin: 0 0 14px;
+      }
+
+      /* ── Badge ─────────────────────────────────────────── */
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 0.375rem;
+        border: 1px solid transparent;
+        padding: 2px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.01em;
+        white-space: nowrap;
+        line-height: 1.4;
+      }
+
+      .badge.default { background: var(--brand); color: var(--brand-text); }
+
+      .badge.secondary { background: var(--panel-raised); color: var(--text); }
+
+      .badge.success {
+        background: rgba(34, 197, 94, 0.12);
+        color: #86efac;
+        border-color: rgba(34, 197, 94, 0.18);
+      }
+
+      .badge.warning {
+        background: rgba(245, 158, 11, 0.12);
+        color: #fcd34d;
+        border-color: rgba(245, 158, 11, 0.18);
+      }
+
+      .badge.danger {
+        background: rgba(239, 68, 68, 0.12);
+        color: #fca5a5;
+        border-color: rgba(239, 68, 68, 0.18);
+      }
+
+      .badge.outline {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+      }
+
+      /* ── Avatar ────────────────────────────────────────── */
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        font-size: 13px;
+        font-weight: 600;
+        border: 1px solid transparent;
+        letter-spacing: 0.02em;
+      }
+
+      .avatar.default { background: #e4e4e7; color: #18181b; }
+
+      .avatar.soft {
+        background: var(--panel-raised);
+        color: var(--text);
+        border-color: var(--border);
+      }
+
+      .avatar.outline {
+        background: transparent;
+        color: var(--text);
+        border-color: var(--border);
+      }
+
+      /* ── Alert ─────────────────────────────────────────── */
+
+      .alert {
+        width: 100%;
+        border-radius: var(--radius);
+        border: 1px solid;
+        padding: 14px 16px;
+        background: var(--bg);
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+
+      .alert-icon { flex-shrink: 0; margin-top: 1px; }
+
+      .alert-body strong {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        margin-bottom: 3px;
+      }
+
+      .alert-body p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.55;
+      }
+
+      .alert.info { border-color: rgba(56, 189, 248, 0.28); }
+      .alert.info .alert-icon { color: #38bdf8; }
+
+      .alert.success { border-color: rgba(34, 197, 94, 0.28); }
+      .alert.success .alert-icon { color: #4ade80; }
+
+      .alert.warning { border-color: rgba(245, 158, 11, 0.28); }
+      .alert.warning .alert-icon { color: #fbbf24; }
+
+      .alert.danger { border-color: rgba(239, 68, 68, 0.28); }
+      .alert.danger .alert-icon { color: #f87171; }
+
+      /* ── Loader ────────────────────────────────────────── */
+
+      .loader {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        height: 40px;
+      }
+
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      .spinner {
+        width: 20px;
+        height: 20px;
+        border-radius: 999px;
+        border: 2px solid var(--panel-raised);
+        border-top-color: var(--text);
+        animation: spin 0.65s linear infinite;
+      }
+
+      @keyframes pulse-dot {
+        0%, 80%, 100% { opacity: 0.3; transform: scale(0.8); }
+        40% { opacity: 1; transform: scale(1); }
+      }
+
+      .dots { display: inline-flex; gap: 5px; align-items: center; }
+
+      .dots span {
+        width: 6px;
+        height: 6px;
+        border-radius: 999px;
+        background: var(--muted);
+        animation: pulse-dot 1.2s ease-in-out infinite;
+      }
+
+      .dots span:nth-child(2) { animation-delay: 0.18s; }
+      .dots span:nth-child(3) { animation-delay: 0.36s; }
+
+      .bar {
+        width: 120px;
+        height: 5px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: var(--panel-raised);
+      }
+
+      @keyframes bar-shimmer {
+        0%   { background-position: 200% 0; }
+        100% { background-position: -200% 0; }
+      }
+
+      .bar span {
+        display: block;
+        width: 58%;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #a1a1aa 0%, #fafafa 40%, #fafafa 60%, #a1a1aa 100%);
+        background-size: 200% 100%;
+        animation: bar-shimmer 1.6s ease-in-out infinite;
+      }
+
+      /* ── Skeleton ──────────────────────────────────────── */
+
+      @keyframes shimmer {
+        from { background-position: 200% 0; }
+        to { background-position: -200% 0; }
+      }
+
+      .skeleton {
+        display: block;
+        border-radius: var(--radius-sm);
+        background: linear-gradient(
+          90deg,
+          var(--panel-soft) 25%,
+          var(--panel-raised) 50%,
+          var(--panel-soft) 75%
+        );
+        background-size: 200% 100%;
+        animation: shimmer 2s linear infinite;
+      }
+
+      .sk-text  { width: 140px; height: 12px; }
+      .sk-avatar { width: 40px; height: 40px; border-radius: 999px; }
+      .sk-card  { width: 100%; height: 64px; }
+      .sk-block { width: 100%; height: 40px; }
+
+      /* ── Separator ─────────────────────────────────────── */
+
+      .separator-demo {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .separator-horizontal {
+        flex: 1;
+        height: 1px;
+        background: var(--border);
+      }
+
+      .separator-vertical {
+        width: 1px;
+        height: 44px;
+        background: var(--border);
+      }
+
+      /* ── Card equal-height tiles ──────────────────────── */
+
+      #card .variant-tile { min-height: 188px; }
+
+      /* ── Alert stacked layout ──────────────────────────── */
+
+      .alert-stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .alert-stack-row { display: flex; flex-direction: column; gap: 6px; }
+
+      /* ── Docs note ─────────────────────────────────────── */
+
+      .docs-note {
+        margin-top: 28px;
+        border: 1px solid var(--border-soft);
+        border-radius: var(--radius);
+        padding: 16px 18px;
+        background: var(--panel-soft);
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.7;
+      }
+
+      /* ── Responsive ────────────────────────────────────── */
+
+      @media (max-width: 860px) {
+        .app { grid-template-columns: 1fr; }
+
+        .sidebar {
+          position: relative;
+          height: auto;
+          overflow: visible;
+          border-right: 0;
+          border-bottom: 1px solid var(--border-soft);
+        }
+
+        .content { padding: 32px 20px 72px; }
+        .topbar { padding: 0 20px; }
+        .topbar-right { display: none; }
+        h1 { font-size: 28px; }
+
+        .section-head {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand"><span class="mark"></span>Vanrot UI</div>
+        <div class="search">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <span>Search</span>
+          <kbd>⌘K</kbd>
+        </div>
+        <span class="nav-title">Get Started</span>
+        <a class="nav-link" href="#">Introduction</a>
+        <a class="nav-link" href="#">Installation</a>
+        <a class="nav-link" href="#">Theming</a>
+        <a class="nav-link" href="#">CLI</a>
+        <span class="nav-title">Components</span>
+        <a class="nav-link active" href="#button">Button</a>
+        <a class="nav-link" href="#card">Card</a>
+        <a class="nav-link" href="#badge">Badge</a>
+        <a class="nav-link" href="#avatar">Avatar</a>
+        <a class="nav-link" href="#alert">Alert</a>
+        <a class="nav-link" href="#loader">Loader</a>
+        <a class="nav-link" href="#skeleton">Skeleton</a>
+        <a class="nav-link" href="#separator">Separator</a>
+      </aside>
+
+      <main>
+        <header class="topbar">
+          <div class="topbar-left">
+            <span class="bc-home">October</span>
+            <span class="bc-sep">/</span>
+            <span>Components</span>
+            <span class="bc-sep">/</span>
+            <span class="bc-active">Button</span>
+          </div>
+          <nav class="topbar-right">
+            <a href="#">Docs</a>
+            <a href="#">Components</a>
+            <a href="#">Blocks</a>
+            <a href="#">Registry</a>
+          </nav>
+        </header>
+
+        <section class="content">
+          <span class="eyebrow">Phase 16B preview</span>
+          <h1>Core primitives</h1>
+          <p class="lead">
+            Design-only presentation for the first production-ready October primitives.
+            The layout follows the shadcn rhythm: docs sidebar, preview-first sections,
+            compact examples, and source-owned component language.
+          </p>
+
+          <div class="tabs" aria-label="Preview tabs">
+            <button class="tab active">Preview</button>
+            <button class="tab">Code</button>
+            <button class="tab">Accessibility</button>
+          </div>
+
+          <!-- Button -->
+          <section class="primitive" id="button">
+            <div class="section-head">
+              <div>
+                <h2>Button</h2>
+                <p>Actions and command triggers with native button semantics first.</p>
+              </div>
+              <span class="code-chip">&lt;vr-button&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>6</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">default</span><button class="btn default">Save changes</button></div>
+                <div class="variant-tile"><span class="variant-name">secondary</span><button class="btn secondary">Open menu</button></div>
+                <div class="variant-tile"><span class="variant-name">outline</span><button class="btn outline">View details</button></div>
+                <div class="variant-tile"><span class="variant-name">ghost</span><button class="btn ghost">Dismiss</button></div>
+                <div class="variant-tile"><span class="variant-name">danger</span><button class="btn danger">Delete item</button></div>
+                <div class="variant-tile"><span class="variant-name">link</span><button class="btn link">Read documentation</button></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Card -->
+          <section class="primitive" id="card">
+            <div class="section-head">
+              <div>
+                <h2>Card</h2>
+                <p>Grouped content surfaces for dashboards, settings, and docs examples.</p>
+              </div>
+              <span class="code-chip">&lt;vr-card&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>3</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile">
+                  <span class="variant-name">default</span>
+                  <div class="card-demo">
+                    <div class="card-title">Usage</div>
+                    <p class="card-copy">Standard content grouping with a quiet border.</p>
+                    <span class="badge outline">Docs</span>
+                  </div>
+                </div>
+                <div class="variant-tile">
+                  <span class="variant-name">muted</span>
+                  <div class="card-demo muted">
+                    <div class="card-title">Metadata</div>
+                    <p class="card-copy">Soft secondary surface for low-priority panels.</p>
+                    <span class="badge secondary">Optional</span>
+                  </div>
+                </div>
+                <div class="variant-tile">
+                  <span class="variant-name">interactive</span>
+                  <div class="card-demo interactive">
+                    <div class="card-title">Project Alpha</div>
+                    <p class="card-copy">Clickable surface with clear affordance.</p>
+                    <button class="btn outline" style="height:32px;font-size:13px;padding:0 12px">Open</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Badge -->
+          <section class="primitive" id="badge">
+            <div class="section-head">
+              <div>
+                <h2>Badge</h2>
+                <p>Small status and category labels that preserve readable contrast.</p>
+              </div>
+              <span class="code-chip">&lt;vr-badge&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>6</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">default</span><span class="badge default">Live</span></div>
+                <div class="variant-tile"><span class="variant-name">secondary</span><span class="badge secondary">Draft</span></div>
+                <div class="variant-tile"><span class="variant-name">success</span><span class="badge success">Passed</span></div>
+                <div class="variant-tile"><span class="variant-name">warning</span><span class="badge warning">Review</span></div>
+                <div class="variant-tile"><span class="variant-name">danger</span><span class="badge danger">Blocked</span></div>
+                <div class="variant-tile"><span class="variant-name">outline</span><span class="badge outline">External</span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Avatar -->
+          <section class="primitive" id="avatar">
+            <div class="section-head">
+              <div>
+                <h2>Avatar</h2>
+                <p>Identity primitive for people, teams, tenants, and account surfaces.</p>
+              </div>
+              <span class="code-chip">&lt;vr-avatar&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>3</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">default</span><span class="avatar default">FH</span></div>
+                <div class="variant-tile"><span class="variant-name">soft</span><span class="avatar soft">VR</span></div>
+                <div class="variant-tile"><span class="variant-name">outline</span><span class="avatar outline">UI</span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Alert -->
+          <section class="primitive" id="alert">
+            <div class="section-head">
+              <div>
+                <h2>Alert</h2>
+                <p>Inline feedback message for persistent page-level status.</p>
+              </div>
+              <span class="code-chip">&lt;vr-alert&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>4</span></div>
+              <div class="preview-body alert-stack">
+                <div class="alert-stack-row">
+                  <span class="variant-name">info</span>
+                  <div class="alert info">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-width="3"/>
+                    </svg>
+                    <div class="alert-body"><strong>Heads up</strong><p>The component was added to your project.</p></div>
+                  </div>
+                </div>
+                <div class="alert-stack-row">
+                  <span class="variant-name">success</span>
+                  <div class="alert success">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/>
+                    </svg>
+                    <div class="alert-body"><strong>Published</strong><p>Your changes are available in production.</p></div>
+                  </div>
+                </div>
+                <div class="alert-stack-row">
+                  <span class="variant-name">warning</span>
+                  <div class="alert warning">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                      <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-width="3"/>
+                    </svg>
+                    <div class="alert-body"><strong>Review needed</strong><p>Some settings need confirmation.</p></div>
+                  </div>
+                </div>
+                <div class="alert-stack-row">
+                  <span class="variant-name">danger</span>
+                  <div class="alert danger">
+                    <svg class="alert-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                      <circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/>
+                    </svg>
+                    <div class="alert-body"><strong>Action failed</strong><p>Check diagnostics before retrying.</p></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Loader -->
+          <section class="primitive" id="loader">
+            <div class="section-head">
+              <div>
+                <h2>Loader</h2>
+                <p>Small loading indicators for action, page, and inline pending states.</p>
+              </div>
+              <span class="code-chip">&lt;vr-loader&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>3</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">spinner</span><span class="loader"><span class="spinner"></span></span></div>
+                <div class="variant-tile"><span class="variant-name">dots</span><span class="loader dots"><span></span><span></span><span></span></span></div>
+                <div class="variant-tile"><span class="variant-name">bar</span><span class="loader"><span class="bar"><span></span></span></span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Skeleton -->
+          <section class="primitive" id="skeleton">
+            <div class="section-head">
+              <div>
+                <h2>Skeleton</h2>
+                <p>Layout-preserving placeholders for content loading states.</p>
+              </div>
+              <span class="code-chip">&lt;vr-skeleton&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>4</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile"><span class="variant-name">text</span><span class="skeleton sk-text"></span></div>
+                <div class="variant-tile"><span class="variant-name">avatar</span><span class="skeleton sk-avatar"></span></div>
+                <div class="variant-tile"><span class="variant-name">card</span><span class="skeleton sk-card"></span></div>
+                <div class="variant-tile"><span class="variant-name">block</span><span class="skeleton sk-block"></span></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Separator -->
+          <section class="primitive" id="separator">
+            <div class="section-head">
+              <div>
+                <h2>Separator</h2>
+                <p>Structural separation for menus, metadata rows, cards, and forms.</p>
+              </div>
+              <span class="code-chip">&lt;vr-separator&gt;</span>
+            </div>
+            <div class="preview">
+              <div class="preview-head"><span>Variants</span><span>2</span></div>
+              <div class="preview-body variant-grid">
+                <div class="variant-tile">
+                  <span class="variant-name">horizontal</span>
+                  <div class="separator-demo"><span>Account</span><span class="separator-horizontal"></span><span>Security</span></div>
+                </div>
+                <div class="variant-tile">
+                  <span class="variant-name">vertical</span>
+                  <div class="separator-demo"><span>Preview</span><span class="separator-vertical"></span><span>Code</span></div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <div class="docs-note">
+            Docs direction: each primitive gets a shadcn-style page with preview, install command,
+            usage snippet, examples, accessibility notes, source ownership, and previous-next navigation.
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

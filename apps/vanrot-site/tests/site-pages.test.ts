@@ -1280,7 +1280,7 @@ describe('vanrot site pages', () => {
     const gallery = await readSiteFile('src/pages/components/component-gallery.page.html');
     const galleryCss = await readSiteFile('src/pages/components/component-gallery.page.css');
     const prototype = await readFile(
-      join(appRoot, '../../.superpowers/brainstorm/75913-1779602752/content/phase-16b-core-primitives.html'),
+      join(appRoot, 'tests/fixtures/phase-16b-core-primitives.html'),
       'utf8',
     );
     const prototypeCss = prototype.match(/<style>([\s\S]*?)<\/style>/)?.[1]?.trim();
