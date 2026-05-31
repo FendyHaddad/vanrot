@@ -73,6 +73,7 @@ describe('vanrot site docs data', () => {
       'routingGuards',
       'routingNavigation',
       'routingPreloadingKeepAlive',
+      'ssrHydration',
       'uiOctober',
       'theming',
       'vanrotstyles',
@@ -89,6 +90,7 @@ describe('vanrot site docs data', () => {
       'devtoolsStaleState',
       'examples',
       'exampleMatrix',
+      'webglThreejs',
       'deployment',
       'publicApi',
       'diagnostics',
@@ -113,6 +115,10 @@ describe('vanrot site docs data', () => {
       expect(article.summary.length).toBeGreaterThan(0);
       expect(article.sections.length).toBeGreaterThan(0);
     }
+
+    expect(siteArticles.testing.summary).toContain('page');
+    expect(JSON.stringify(siteArticles.testing)).toContain('testPage');
+    expect(JSON.stringify(siteArticles.testingRouting)).toContain('setupRouterTest');
   });
 
   it('keeps the runtime guide rich enough to teach the runtime boundary', () => {
@@ -596,6 +602,7 @@ describe('vanrot site docs data', () => {
       '@vanrot/config',
       '@vanrot/language-server',
       '@vanrot/router',
+      '@vanrot/ssr',
       '@vanrot/vite-plugin',
       '@vanrot/cli',
       '@vanrot/ui',

@@ -9,9 +9,8 @@ file shows capability maturity.
 
 Demo phases 0 through 10 are complete. Phase 11 starts the production-standard track.
 
-Phase 17 through Phase 22 are parked as post-production implementation ideas in
-`docs/superpowers/post-production-implementation-ideas.md` until their individual brainstorming, spec, and writing-plan
-passes become active.
+Future implementation candidates that are not active, shipped, or explicitly dropped are parked in
+`docs/superpowers/future-pipeline.md` until their individual brainstorming, spec, and writing-plan passes become active.
 
 Use the production roadmap checklist below like the phase checklist in `docs/brainstorm.md`: choose the next unchecked
 production phase, run brainstorming, write a spec, write a plan, implement, verify, then update this ledger.
@@ -53,12 +52,12 @@ Status:
 | [x]  | Phase 14 | CLI product experience slice                | Grouped root help, aligned reporter labels, stable CLI diagnostic catalog, structured output flags, and `.vanrot/ai` doorway files                      | The implemented CLI surface is clearer, scriptable, and AI-readable while broader `inspect`, cache, and localhost work remains tracked below.          |
 | [x]  | Phase 15 | Router production                           | 15A route contract production, 15B nested layout routing, 15C navigation decisions, 15D preloading/keepAlive integration, and 15E navigation polish are complete | `@vanrot/router` supports normal application routing needs without repeated route string literals in user templates.                                    |
 | [ ]  | Phase 16 | UI October production                       | 16A foundation, 16B core primitives, 16C Vanrot learning site base, 16D layout/navigation/media, 16E forms/data, 16F interaction foundation, 16G final October polish, and 16H behavior package boundary | `@vanrot/ui` has a shadcn-inspired October component system with copyable, editable, accessible Vanrot-native primitives, final interaction polish, a dogfooded public learning site, and optional behavior helpers split out of the core runtime. |
-| [ ]  | Phase 17 | Post-production implementation: brutalist UI | Brutalist flavor, flavor selection, token separation, component parity with October, visual QA                                                             | The brutalist flavor ships as the bolder expression of the same UI contracts without fragmenting the system. Ideas are parked in `docs/superpowers/post-production-implementation-ideas.md`. |
-| [ ]  | Phase 18 | Post-production implementation: testing     | `testPage(...)`, generator-wide `--test`, accessibility assertions, async helpers, router helpers, forms testing, fake timers                              | `@vanrot/testing` can cover realistic component and page workflows with readable English-first APIs. Ideas are parked in `docs/superpowers/post-production-implementation-ideas.md`. |
-| [ ]  | Phase 19 | Post-production implementation: store core  | Signal-native store package, state containers, actions, reducers, selectors, lightweight enterprise patterns                                               | `@vanrot/store` provides a future-facing enterprise state foundation without copying NgRx or requiring RxJS by default. Ideas are parked in `docs/superpowers/post-production-implementation-ideas.md`. |
-| [ ]  | Phase 20 | Post-production implementation: store hardening | Effects, cancellation, concurrency, action tracing, devtools bridge, Redux mental-model interop, RxJS interop                                           | Enterprise teams can model side effects, inspect state, migrate mental models, and opt into RxJS without making it the default. Ideas are parked in `docs/superpowers/post-production-implementation-ideas.md`. |
-| [ ]  | Phase 21 | Post-production implementation: forms and async | Form state, validation, field metadata, async resource primitive, cancellation, cache policy, loading/error conventions                                 | Vanrot has first-party patterns for form-heavy and async-heavy apps without bloating the runtime kernel. Ideas are parked in `docs/superpowers/post-production-implementation-ideas.md`. |
-| [ ]  | Phase 22 | Post-production implementation: SSR and hydration | SSR-safe APIs, server rendering, hydration, mismatch diagnostics, routing integration, streaming strategy                                               | Vanrot can render and hydrate app markup safely while preserving the browser-only runtime boundary. Ideas are parked in `docs/superpowers/post-production-implementation-ideas.md`. |
+| [ ]  | Phase 17 | Post-production implementation: brutalist UI | Brutalist flavor, flavor selection, token separation, component parity with October, visual QA                                                             | Removed from the future pipeline as not needed unless the user explicitly reopens it. |
+| [x]  | Phase 18 | Post-production implementation: testing     | `testPage(...)`, generator-wide `--test`, accessibility assertions, async helpers, router helpers, forms testing, fake timers                              | `@vanrot/testing` now covers page tests, router setup, accessibility assertions, async/fake-timer helpers, and generator-wide `--test` support while deferring forms/resource helpers to Phase 21. |
+| [ ]  | Phase 19 | Post-production implementation: store core  | Signal-native store package, state containers, actions, reducers, selectors, lightweight enterprise patterns                                               | `@vanrot/store` provides a future-facing enterprise state foundation without copying NgRx or requiring RxJS by default. Ideas are parked in `docs/superpowers/future-pipeline.md`. |
+| [ ]  | Phase 20 | Post-production implementation: store hardening | Effects, cancellation, concurrency, action tracing, devtools bridge, Redux mental-model interop, RxJS interop                                           | Enterprise teams can model side effects, inspect state, migrate mental models, and opt into RxJS without making it the default. Ideas are parked in `docs/superpowers/future-pipeline.md`. |
+| [ ]  | Phase 21 | Post-production implementation: forms and async | Form state, validation, field metadata, async resource primitive, cancellation, cache policy, loading/error conventions                                 | Vanrot has first-party patterns for form-heavy and async-heavy apps without bloating the runtime kernel. Ideas are parked in `docs/superpowers/future-pipeline.md`. |
+| [x]  | Phase 22 | Post-production implementation: SSR and hydration | SSR-safe APIs, server rendering, hydration, mismatch diagnostics, routing integration, streaming strategy                                               | Vanrot ships opt-in `@vanrot/ssr` server rendering, hydration attach, mismatch diagnostics, router SSR, compiler server output, and docs. Streaming remains deferred. |
 | [x]  | Phase 23 | Devtools and project intelligence hardening | Runtime graph inspection, project map graphing, route graph, component graph, compiler-aware metadata, AI rules customization                              | Developers and AI tools can inspect Vanrot project structure and runtime behavior from authoritative local metadata.                                    |
 | [x]  | Phase 24 | Documentation and web presence              | Deep docs, API docs, guide docs, docs completeness checks, `vanrot.vankode.com`, install guide, UI docs                                                    | Public documentation covers every package, command, convention, generated file, limitation, and production caveat.                                      |
 | [x]  | Phase 25 | AI consumption                              | AI-readable docs bundle, framework knowledge manifest, MCP server, Skill.sh package, optional AI commands                                                  | Codex, Claude, and other AI tools can consume official Vanrot knowledge instead of guessing framework behavior.                                         |
@@ -354,9 +353,9 @@ brutalist direction is parked as a post-production idea until its own future pha
 
 ## `@vanrot/testing`
 
-*Testing should follow Vanrot's readable API principle: code should be understandable even to non-dev readers. Phase 10
-owns only the first component-testing foundation and opt-in button test generation. Page testing, generator-wide tests,
-and advanced helpers need later planning.*
+*Testing should follow Vanrot's readable API principle: code should be understandable even to non-dev readers. Phase 18
+ships the production page, router, accessibility, async, fake-timer, and generator-wide testing surface. Form and
+async-resource-specific helpers remain tied to Phase 21 public APIs.*
 
 ### Test Utilities
 
@@ -369,10 +368,10 @@ and advanced helpers need later planning.*
 | Screen button click helper            | testing                  |      Phase 10 | `screen.click.button(label)` can click a button by readable label                                          | Accessible-name matching, disabled behavior, async updates, diagnostics, and docs verified                          | Demo-Capable | Supports a useful button interaction demo without adding a full Testing Library compatibility layer.              |
 | `vr add button --test`                | cli and testing          |      Phase 10 | `vr add button --test` and `vr add <local-prefix> button --test` create a colocated `.button.test.ts` file | Collision handling, custom destinations, registry integration, docs, and update workflow verified                   | Demo-Capable | Tests remain opt-in. `vr add button` without `--test` still creates only the three source files.                  |
 | Generated tests use `function` syntax | cli and testing          |      Phase 10 | Generated tests prefer `function (screen)` for readability                                                 | Docs, examples, and generator consistency verified                                                                  | Demo-Capable | TypeScript still supports arrow functions, but Vanrot-authored examples should prefer the easier-to-explain form. |
-| `testPage(...)`                       | testing and router       |      Phase 18 | A route page can be tested through a readable page-focused helper                                          | Router setup, route params, navigation, lazy pages, cleanup, docs, and diagnostics verified                         | Deferred     | Deferred from Phase 10. Needs its own testing and router design.                                                  |
-| `vr generate component --test`        | cli and testing          |      Phase 18 | Component generation can optionally create `.component.test.ts`                                            | Naming, copy source, import typing, overwrite policy, docs, and examples verified                                   | Deferred     | Deferred so Phase 10 stays focused on `vr add button --test`.                                                     |
-| `vr generate page --test`             | cli, router, and testing |      Phase 18 | Page generation can optionally create `.page.test.ts`                                                      | `testPage(...)`, router setup, route copy, lazy page support, docs, and examples verified                           | Deferred     | Deferred with page testing.                                                                                       |
-| Advanced testing helpers              | testing                  |      Phase 18 | Tests can cover richer user workflows without losing readability                                           | Forms, async resources, router navigation, accessibility assertions, richer queries, fake timers, and docs verified | Deferred     | Needs dedicated production testing design after the demo phases.                                                  |
+| `testPage(...)`                       | testing and router       |      Phase 18 | A route page can be tested through a readable page-focused helper                                          | Router setup, route params, navigation, lazy pages, cleanup, docs, and diagnostics verified                         | Production-Ready | `runPageTest(...)` exposes direct jsdom page mounting, rerender, cleanup, screen access, and lifecycle teardown. |
+| `vr generate component --test`        | cli and testing          |      Phase 18 | Component generation can optionally create `.component.test.ts`                                            | Naming, copy source, import typing, overwrite policy, docs, and examples verified                                   | Production-Ready | Generated component tests use `testComponent(...)` and keep test files opt-in.                                    |
+| `vr generate page --test`             | cli, router, and testing |      Phase 18 | Page generation can optionally create `.page.test.ts`                                                      | `testPage(...)`, router setup, route copy, lazy page support, docs, and examples verified                           | Production-Ready | Generated page tests use `testPage(...)`; route-specific assertions live in `setupRouterTest(...)`.               |
+| Advanced testing helpers              | testing                  |      Phase 18 | Tests can cover richer user workflows without losing readability                                           | Router navigation, accessibility assertions, async coordination, fake timers, cleanup, and docs verified            | Production-Ready | Forms and async-resource-specific helpers stay deferred until Phase 21 stabilizes those APIs.                     |
 
 ## Docs *
 
@@ -443,8 +442,8 @@ installation paths.*
 
 | Feature       | Package or Area | Planned Phase | Demo-Capable Gate                            | Production-Ready Gate                                       | Status   | Notes               |
 |---------------|-----------------|--------------:|----------------------------------------------|-------------------------------------------------------------|----------|---------------------|
-| SSR-safe APIs | ssr             |      Phase 22 | Browser APIs are isolated behind `onMount()` | Server render, hydration, routing, and diagnostics verified | Deferred | Phase 22 owns this. |
-| Hydration     | ssr             |      Phase 22 | Static markup can attach client behavior     | Mismatch diagnostics and streaming strategy verified        | Deferred | Phase 22 owns this. |
+| SSR-safe APIs | ssr             |      Phase 22 | Browser APIs are isolated behind `onMount()` | Server render, hydration, routing, and diagnostics verified | Production-Ready | Shipped through opt-in `@vanrot/ssr`; runtime remains browser-first. |
+| Hydration     | ssr             |      Phase 22 | Static markup can attach client behavior     | Mismatch diagnostics and streaming strategy verified        | Production-Ready | `hydrate(...)` attaches explicit hydratable modules and reports deterministic mismatch diagnostics; streaming is deferred. |
 
 ### Async, Forms, And Devtools
 
@@ -471,9 +470,8 @@ Broad production phases must be sliced before implementation. The numbered phase
 the slice map below tells future planning which smaller specs/plans should exist inside that phase. Do not mark a broad
 phase `Production-Ready` just because one slice is complete.
 
-Phase 17 through Phase 22 remain numbered future phases, but their plan ideas are parked in
-`docs/superpowers/post-production-implementation-ideas.md` as post-production implementation notes until those phases
-become active.
+Future numbered phases and tooling candidates that are not active, shipped, or explicitly dropped are parked in
+`docs/superpowers/future-pipeline.md` until those phases or candidates become active.
 
 | Phase | Primary Package Or Area        | Modules                           | Submodules                                                                                                                                       | Main Output                                                                      |
 |------:|--------------------------------|-----------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------|
@@ -498,7 +496,7 @@ become active.
 
 Use this as the first check during every future `/brainstorm`, `/writing-plan`, and `/execution-plan` pass. If a phase
 still feels too wide after applying its listed slices, split it again and keep the unfinished requirements tracked here.
-For Phase 17 through Phase 22, also check `docs/superpowers/post-production-implementation-ideas.md` before opening a
+For future numbered phases and tooling candidates, also check `docs/superpowers/future-pipeline.md` before opening a
 new brainstorm.
 
 | Phase | Slice Needed | Recommended Slices                                                                                                                                                                                       | Notes                                                                                                      |

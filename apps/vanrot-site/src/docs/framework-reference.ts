@@ -43,7 +43,7 @@ export interface FrameworkCommandReference {
 }
 
 export interface FrameworkDiagnosticReference {
-  family: 'compiler' | 'config' | 'router' | 'cli' | 'vite-plugin';
+  family: 'compiler' | 'config' | 'router' | 'cli' | 'vite-plugin' | 'ssr';
   code: string;
   status: FrameworkReferenceStatus;
   summary: string;

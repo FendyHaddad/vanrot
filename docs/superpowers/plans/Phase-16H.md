@@ -90,7 +90,7 @@ Modify:
 - `docs/ai/manifest.json`: refresh generated AI docs fingerprint after docs changes.
 - `docs/ai/knowledge/routes.md`: refresh generated AI route knowledge after docs changes.
 - `docs/superpowers/final-tdd-inventory.md`: add `@vanrot/behavior` package and update runtime boundary rows.
-- `docs/superpowers/post-production-implementation-ideas.md`: record future behavior backlog from the design spec.
+- `docs/superpowers/future-pipeline.md`: record future behavior backlog from the design spec.
 - `AGENTS.md`: update runtime size budget note after behavior leaves runtime.
 - `CLAUDE.md`: mirror the runtime size budget note.
 - `scripts/verify-runtime-size-budget.test.mjs`: assert the new post-migration runtime cap and docs wording.
@@ -1907,7 +1907,7 @@ Expected: doctor checks are behavior-aware and existing doctor behavior remains 
 - Modify: `docs/ai/manifest.json`
 - Modify: `docs/ai/knowledge/routes.md`
 - Modify: `docs/superpowers/final-tdd-inventory.md`
-- Modify: `docs/superpowers/post-production-implementation-ideas.md`
+- Modify: `docs/superpowers/future-pipeline.md`
 
 - [x] **Step 1: Write failing docs registry tests**
 
@@ -2099,7 +2099,7 @@ Add a package section:
 
 Update the `@vanrot/runtime` section to say behavior controllers moved to `@vanrot/behavior` and runtime cap is `<RUNTIME_CAP>` (the measured-derived value set in Task 4 Step 5).
 
-In `docs/superpowers/post-production-implementation-ideas.md`, add a behavior backlog entry:
+In `docs/superpowers/future-pipeline.md`, add a behavior backlog entry:
 
 ```md
 ## Optional Behavior Package Expansion

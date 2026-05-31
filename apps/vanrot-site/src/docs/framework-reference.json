@@ -54,6 +54,21 @@
       "docsPath": "/docs/routing"
     },
     {
+      "name": "@vanrot/ssr",
+      "area": "Server rendering and hydration",
+      "status": "production-ready",
+      "summary": "Opt-in SSR package for deterministic HTML rendering, shell generation, escaped hydration state, hydration attach helpers, mismatch diagnostics, and router SSR resolution.",
+      "exports": [
+        "renderToString",
+        "renderDocument",
+        "hydrate",
+        "compareHydrationMarkup",
+        "resolveSsrRoute",
+        "renderRouteToString"
+      ],
+      "docsPath": "/docs/ssr-hydration"
+    },
+    {
       "name": "@vanrot/vite-plugin",
       "area": "Vite integration",
       "status": "production-ready",
@@ -77,8 +92,8 @@
     {
       "name": "@vanrot/testing",
       "area": "Testing helpers",
-      "status": "demo-capable",
-      "summary": "Readable component and workflow test helpers that stay lightweight until the post-production testing package phase.",
+      "status": "production-ready",
+      "summary": "Readable component, page, router, accessibility, async, and generator test helpers built on Vitest and jsdom.",
       "docsPath": "/docs/testing"
     },
     {
@@ -119,6 +134,35 @@
     { "packageName": "@vanrot/router", "name": "createRoutes", "kind": "function", "status": "production-ready", "summary": "Creates the typed route builder used by apps.", "docsPath": "/docs/routing" },
     { "packageName": "@vanrot/router", "name": "defineRoutes", "kind": "function", "status": "production-ready", "summary": "Defines route refs from a route table.", "docsPath": "/docs/routing" },
     { "packageName": "@vanrot/router", "name": "provideRouter", "kind": "function", "status": "production-ready", "summary": "Installs router state into a Vanrot app.", "docsPath": "/docs/routing" },
+    { "packageName": "@vanrot/ssr", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ssr are covered by SSR hydration and public API documentation.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "hydrationStateScriptId", "kind": "constant", "status": "production-ready", "summary": "Stable script element id used for serialized hydration state.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "hydrationEventReplayPolicy", "kind": "constant", "status": "production-ready", "summary": "Documents that event replay stays explicit and deferred outside the first SSR package.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "SsrDiagnosticCode", "kind": "type", "status": "production-ready", "summary": "Diagnostic code union for SSR browser API, route, and hydration mismatches.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "SsrDiagnostic", "kind": "interface", "status": "production-ready", "summary": "Structured SSR and hydration diagnostic record.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "ServerRenderResult", "kind": "interface", "status": "production-ready", "summary": "Server render output with deterministic HTML, state, and diagnostics.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "ServerComponentModule", "kind": "interface", "status": "production-ready", "summary": "Server-side component module contract for pure string rendering.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "HydratableComponentModule", "kind": "interface", "status": "production-ready", "summary": "Client component contract accepted by hydration attach helpers.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "RenderToStringOptions", "kind": "interface", "status": "production-ready", "summary": "Options for deterministic component string rendering.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "HtmlAssetOptions", "kind": "interface", "status": "production-ready", "summary": "Shell asset options for scripts, stylesheets, and modules.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "HtmlDocumentOptions", "kind": "interface", "status": "production-ready", "summary": "Document shell options for head content, app HTML, assets, and hydration state.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "HydrateOptions", "kind": "interface", "status": "production-ready", "summary": "Hydration attach options for app container, props, state, and context.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "HydrationResult", "kind": "interface", "status": "production-ready", "summary": "Hydration result that exposes the mounted app handle and reused element.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "ReadHydrationStateOptions", "kind": "interface", "status": "production-ready", "summary": "Options for reading serialized state from a document.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "SsrRouteResult", "kind": "type", "status": "production-ready", "summary": "Router SSR resolution result for renders, redirects, not-found states, and diagnostics.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "VanrotSsrError", "kind": "class", "status": "production-ready", "summary": "Typed SSR error that carries the relevant diagnostic code.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "renderToString", "kind": "function", "status": "production-ready", "summary": "Renders a server component module to deterministic HTML.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "renderServerComponent", "kind": "function", "status": "production-ready", "summary": "Renders a nested server component for slot composition.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "renderServerSlot", "kind": "function", "status": "production-ready", "summary": "Renders a list of server component slots into a stable HTML fragment.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "renderDocument", "kind": "function", "status": "production-ready", "summary": "Builds a full HTML document shell with escaped hydration state and assets.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "escapeHtml", "kind": "function", "status": "production-ready", "summary": "Escapes text for safe server-rendered HTML output.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "escapeAttribute", "kind": "function", "status": "production-ready", "summary": "Escapes attribute values for safe server-rendered HTML output.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "serializeHydrationState", "kind": "function", "status": "production-ready", "summary": "Serializes hydration state while escaping HTML-sensitive script content.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "readHydrationState", "kind": "function", "status": "production-ready", "summary": "Reads serialized hydration state from the browser document.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "hydrate", "kind": "function", "status": "production-ready", "summary": "Attaches a hydratable Vanrot component to existing SSR markup.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "compareHydrationMarkup", "kind": "function", "status": "production-ready", "summary": "Compares server and client markup for text and attribute mismatch diagnostics.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "diagnoseRouteHydration", "kind": "function", "status": "production-ready", "summary": "Reports route divergence between server and client route resolution.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "resolveSsrRoute", "kind": "function", "status": "production-ready", "summary": "Resolves router tables for server rendering, redirects, lazy pages, and not-found results.", "docsPath": "/docs/ssr-hydration" },
+    { "packageName": "@vanrot/ssr", "name": "renderRouteToString", "kind": "function", "status": "production-ready", "summary": "Combines router SSR resolution with component string rendering.", "docsPath": "/docs/ssr-hydration" },
     { "packageName": "@vanrot/vite-plugin", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/vite-plugin are covered by Vite plugin and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/vite-plugin", "name": "vanrot", "kind": "function", "status": "production-ready", "summary": "Creates the Vanrot Vite plugin.", "docsPath": "/docs/vite-plugin" },
     { "packageName": "@vanrot/vite-plugin", "name": "vanrotPlugin", "kind": "function", "status": "production-ready", "summary": "Named Vanrot Vite plugin factory.", "docsPath": "/docs/vite-plugin" },
@@ -131,8 +175,18 @@
     { "packageName": "@vanrot/ui", "name": "uiPrimitiveOrder", "kind": "constant", "status": "production-ready", "summary": "Canonical order for UI primitive docs.", "docsPath": "/docs/ui" },
     { "packageName": "@vanrot/ui", "name": "uiComponentRegistry", "kind": "constant", "status": "production-ready", "summary": "Structured UI component registry.", "docsPath": "/docs/ui" },
     { "packageName": "@vanrot/ui", "name": "getUiComponentRegistryItem", "kind": "function", "status": "production-ready", "summary": "Looks up a UI component registry entry.", "docsPath": "/docs/ui" },
-    { "packageName": "@vanrot/testing", "name": "*", "kind": "default", "status": "demo-capable", "summary": "All public exports from @vanrot/testing are covered by testing and public API documentation.", "docsPath": "/docs/public-api" },
-    { "packageName": "@vanrot/testing", "name": "testComponent", "kind": "function", "status": "demo-capable", "summary": "Builds a Vanrot component test harness.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/testing are covered by testing and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/testing", "name": "testComponent", "kind": "function", "status": "production-ready", "summary": "Builds a Vanrot component test builder around Vitest.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "runComponentTest", "kind": "function", "status": "production-ready", "summary": "Runs a component test directly with deterministic mount and destroy cleanup.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "testPage", "kind": "function", "status": "production-ready", "summary": "Builds a page-focused test builder for role-based `.page.ts` files.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "runPageTest", "kind": "function", "status": "production-ready", "summary": "Mounts a page in a jsdom app shell with screen, cleanup, rerender, and lifecycle helpers.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "setupRouterTest", "kind": "function", "status": "production-ready", "summary": "Creates a router test harness for route refs, params, query values, redirects, guards, lazy pages, and teardown.", "docsPath": "/docs/testing/routing" },
+    { "packageName": "@vanrot/testing", "name": "createAccessibilityAssertions", "kind": "function", "status": "production-ready", "summary": "Creates readable role, name, disabled, focus, and semantic accessibility assertions for jsdom tests.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "findByRole", "kind": "function", "status": "production-ready", "summary": "Finds an element by explicit or implicit role and accessible name.", "docsPath": "/docs/testing" },
+    { "packageName": "@vanrot/testing", "name": "flushTestingTasks", "kind": "function", "status": "production-ready", "summary": "Flushes queued promise work before DOM assertions.", "docsPath": "/docs/testing/strategy" },
+    { "packageName": "@vanrot/testing", "name": "waitForDomUpdate", "kind": "function", "status": "production-ready", "summary": "Retries an assertion until signal-driven DOM output settles or a deterministic timeout is reached.", "docsPath": "/docs/testing/strategy" },
+    { "packageName": "@vanrot/testing", "name": "createFakeTimerBridge", "kind": "function", "status": "production-ready", "summary": "Coordinates Vitest fake timers explicitly without hiding timer APIs.", "docsPath": "/docs/testing/strategy" },
+    { "packageName": "@vanrot/testing", "name": "createAsyncTestScope", "kind": "function", "status": "production-ready", "summary": "Tracks pending promises, abort controllers, and cleanup callbacks for leak-free async tests.", "docsPath": "/docs/testing/strategy" },
     { "packageName": "@vanrot/devtools", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" },
     { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" }
@@ -153,11 +207,11 @@
     {
       "name": "generate",
       "usage": "vr generate <kind> <name>",
-      "status": "demo-capable",
-      "summary": "Generates convention-based component and page files.",
+      "status": "production-ready",
+      "summary": "Generates convention-based component and page files, with optional colocated tests.",
       "docsPath": "/docs/cli",
-      "examples": ["vr generate component checkout-summary", "vr generate page account-settings"],
-      "notes": ["Keeps role suffixes, template files, and scoped CSS aligned with Vanrot conventions."]
+      "examples": ["vr generate component checkout-summary", "vr generate page account-settings", "vr generate page account-settings --test"],
+      "notes": ["Keeps role suffixes, template files, scoped CSS, and optional @vanrot/testing files aligned with Vanrot conventions."]
     },
     {
       "name": "add",
@@ -311,6 +365,10 @@
   "diagnostics": [
     { "family": "compiler", "code": "VR001", "status": "production-ready", "summary": "Compiler diagnostic for unsupported or invalid component source.", "docsPath": "/docs/diagnostics" },
     { "family": "compiler", "code": "VR019", "status": "production-ready", "summary": "Compiler diagnostic for the final current compiler catalog entry.", "docsPath": "/docs/diagnostics" },
+    { "family": "ssr", "code": "VRSSR_BROWSER_API", "status": "production-ready", "summary": "SSR diagnostic for browser-only API access during server rendering.", "docsPath": "/docs/ssr-hydration" },
+    { "family": "ssr", "code": "VRSSR_TEXT_MISMATCH", "status": "production-ready", "summary": "Hydration diagnostic for server/client text divergence.", "docsPath": "/docs/ssr-hydration" },
+    { "family": "ssr", "code": "VRSSR_ATTRIBUTE_MISMATCH", "status": "production-ready", "summary": "Hydration diagnostic for server/client attribute divergence.", "docsPath": "/docs/ssr-hydration" },
+    { "family": "ssr", "code": "VRSSR_ROUTE_DIVERGENCE", "status": "production-ready", "summary": "Hydration diagnostic for server/client route divergence.", "docsPath": "/docs/ssr-hydration" },
     { "family": "config", "code": "VRCFG001", "status": "production-ready", "summary": "Config diagnostic for invalid config shape or loading failure.", "docsPath": "/docs/diagnostics" },
     { "family": "config", "code": "VRCFG008", "status": "production-ready", "summary": "Config diagnostic for the Phase 13 validation catalog.", "docsPath": "/docs/diagnostics" },
     { "family": "config", "code": "VRCFG009", "status": "production-ready", "summary": "Config diagnostic for AI rule section validation.", "docsPath": "/docs/diagnostics" },
@@ -343,10 +401,12 @@
     { "id": "testing-helpers", "title": "Testing Helpers", "path": "examples/testing-helpers", "packages": ["@vanrot/testing", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["testing-helpers"], "docsPath": "/docs/testing" },
     { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/language-server", "@vanrot/cli", "@vanrot/config", "@vanrot/ai"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands", "ai-consumption"], "docsPath": "/docs/devtools" },
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
-    { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" }
+    { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" },
+    { "id": "webgl-threejs", "title": "WebGL And three.js Lifecycle", "path": "examples/webgl-threejs", "packages": ["@vanrot/runtime"], "workflows": ["webgl-threejs", "runtime-lifecycle"], "docsPath": "/docs/examples/webgl-threejs" },
+    { "id": "ssr-hydration", "title": "SSR And Hydration", "path": "examples/ssr-hydration", "packages": ["@vanrot/ssr", "@vanrot/router", "@vanrot/runtime"], "workflows": ["ssr-hydration", "routing-workflows"], "docsPath": "/docs/ssr-hydration" }
   ],
   "limitations": [
-    { "id": "post-production-phases", "title": "Post-production features are not current framework behavior", "status": "deferred", "summary": "Brutalist UI, the expanded testing package, store, forms and async primitives, and SSR or hydration remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
+    { "id": "post-production-phases", "title": "Remaining post-production features are tracked separately", "status": "deferred", "summary": "Brutalist UI, the expanded testing package, store, forms, async primitives, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
     { "id": "deployment-boundary", "title": "Deployment is prepared, not launched", "status": "limited", "summary": "The site is prepared for production hosting, but DNS, credentials, analytics setup, and live deployment are outside this phase.", "docsPath": "/docs/deployment" }
   ],
   "maturity": [

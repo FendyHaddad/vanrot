@@ -1,0 +1,16 @@
+.webgl-scene-preview {
+  display: grid;
+  gap: 12px;
+}
+
+.webgl-scene-canvas {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid currentColor;
+  background: #111827;
+}
+
+.webgl-scene-fallback {
+  margin: 0;
+}

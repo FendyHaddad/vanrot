@@ -1,0 +1,16 @@
+export {
+  bindSignalToScene,
+  createWebglCanvasController,
+  registerWebglCanvasWidget,
+  webglAssetPaths,
+  webglIntegrationDecision,
+  type WebglCanvasController,
+  type WebglCanvasControllerOptions,
+  type WebglCanvasLike,
+  type WebglCanvasStatus,
+  type WebglContainerLike,
+  type WebglDisposable,
+  type WebglFrame,
+  type WebglRenderer,
+  type WebglSignalBinding,
+} from './scene-preview.widget.ts';

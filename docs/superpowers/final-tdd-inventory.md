@@ -36,7 +36,7 @@ When a phase adds or changes framework surface area:
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |---|---|---|---|---|---|---|
 | [x] | repo | pnpm monorepo workspace | Complete | Fresh clone can install, typecheck, test, build, and verify all packages through root scripts. | Phase 1, Phase 26 | Package manager is `pnpm@11.1.3`. |
-| [x] | repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, behavior, compiler, config, language-server, vite-plugin, cli, router, ui, testing, ai, and devtools. |
+| [x] | repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, behavior, compiler, config, language-server, vite-plugin, cli, router, ssr, ui, testing, ai, and devtools. |
 | [x] | repo | release version bump automation | Production-Ready | Changed public packages and their transitive dependents can be bumped before npm publish, including package-owned Web Types metadata. | Phase 26 | Covered by `scripts/bump-changed-packages.test.mjs`; already bumped manifests are not bumped again, and `publish.sh` skips existing versions by default so only newly bumped package versions publish. |
 | [x] | repo | site opener script | Production-Ready | `pnpm open:site` starts the Vanrot site on the standard local port and opens the root URL from either the repo root or site package; `pnpm open:docs` and `pnpm docs:open` open `/docs`. | Phase 26 | Covered by `scripts/open-docs.test.mjs`; avoids `pnpm docs` because that is a pnpm built-in command. |
 | [x] | repo | TypeScript shared build posture | Complete | Package references and module settings compile cleanly from root and inside package tests. | Phase 1, Phase 26 | Final pass should include clean-machine verification. |
@@ -56,6 +56,7 @@ When a phase adds or changes framework surface area:
 | [x] | docs and web | `apps/vanrot-site` workspace app | Demo-Capable through Phase 16F plus Phase 15E route metadata | Site builds as a Vanrot app with router, pages, route-owned titles/meta descriptions, October tokens, `vanrotstyles.css`, a Phase 16B primitive gallery, and dedicated docs pages for every current Phase 16B, 16D, 16E, and 16F primitive. | Phase 15E, Phase 16C, Phase 16D, Phase 16E, Phase 16F, Phase 24 | Phase 16F keeps interaction primitives as examples instead of adopting them into the docs shell. |
 | [x] | docs and web | site docs data registry | Demo-Capable through Phase 16F | Registry covers implemented framework docs, commands, package references, diagnostics, conventions, examples, UI primitives, and maturity status. | Phase 16C, Phase 16D, Phase 16E, Phase 16F, Phase 24 | Component docs now consume rich Phase 16F registry metadata for token, boolean, open-attribute, event, slot, anatomy, example, and docs-path copy. |
 | [x] | docs and web | changelog docs page | Production-Ready | `/docs/changelog` renders dense versioned release notes with dates and bullet lists, using the docs data registry as the source of truth. | Phase 26 | Covered by `apps/vanrot-site/tests/changelog-page.test.ts`; follows a plain docs-article shape instead of card-heavy release blocks. |
+| [x] | docs and web | WebGL and three.js recipe | Demo-Capable | `examples/webgl-threejs` documents and tests recipe-only WebGL lifecycle integration with signal binding cleanup, renderer/resource disposal, reduced-motion static rendering, context loss and restore, mobile fallback, centralized fixture assets, and no `three` dependency in `@vanrot/runtime`. | Post-production WebGL candidate, Phase 26 | Covered by `examples/webgl-threejs/tests/webgl-threejs.test.ts`, `apps/vanrot-site/tests/framework-reference.test.ts`, site docs verification, runtime size verification, and release dry-run verification. |
 | [x] | docs and web | `verify:site-docs` | Demo-Capable through Phase 16C | Guard catches missing framework docs, primitive docs, command docs, package references, diagnostic paths, and maturity reference coverage. | Phase 16C, Phase 24 | Runs inside root `pnpm verify` after build. |
 
 ## `@vanrot/runtime`
@@ -270,6 +271,15 @@ When a phase adds or changes framework surface area:
 - Site docs: `/docs/components/dialogs`, `/docs/components/drawers`, `/docs/components/dropdowns`, `/docs/components/tabs`, and `/docs/components/toasts` are example-only docs pages, not docs-shell dogfooding
 - Verification: runtime, UI, compiler, CLI, and site focused tests/typechecks; phase docs; full `pnpm verify`
 
+## `@vanrot/ssr`
+
+| Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
+|---|---|---|---|---|---|---|
+| [x] | package | `@vanrot/ssr` public package | Production-Ready | Server rendering, shell output, hydration state, hydration attach, mismatch diagnostics, and router SSR resolve through an opt-in package without growing `@vanrot/runtime`. | Phase 22, Phase 26 | Package tests cover render, shell, escaping, hydration diagnostics, route divergence, guards, redirects, lazy boundaries, and runtime-boundary checks. |
+| [x] | compiler | `compileComponent(..., { target: 'server' })` | Production-Ready | Compiler server output produces deterministic HTML without DOM globals while preserving scoped CSS attributes, interpolation, conditionals, and lists. | Phase 22, Phase 26 | Browser compiler output remains the default target. |
+| [x] | hydration | `hydrate(...)` | Production-Ready | Hydration attaches behavior to existing markup, returns deterministic diagnostics for mismatches, and does not silently repair server/client divergence. | Phase 22, Phase 26 | Event replay, streaming, partial hydration, islands, and resumability remain deferred. |
+| [x] | router | SSR route resolution | Production-Ready | SSR route resolution reuses Vanrot route refs, params, query, redirects, guards, and lazy page boundaries before rendering. | Phase 22, Phase 26 | `examples/ssr-hydration` verifies route render and hydration shell usage. |
+
 ## `@vanrot/ui`
 
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
@@ -296,15 +306,17 @@ When a phase adds or changes framework surface area:
 
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |---|---|---|---|---|---|---|
-| [x] | API | `testComponent(...)` | Demo-Capable | Mounts components with readable syntax, cleanup safety, async handling, and diagnostics. | Phase 10, Phase 18 | Wraps Vitest while hiding `it(...)` from generated examples. |
-| [x] | API | `runComponentTest(...)` | Demo-Capable | Supports direct test execution, cleanup on failure, and richer setup options. | Phase 10, Phase 18 | Internal helper exposed today. |
-| [x] | screen | `screen.expect.text(...)` | Demo-Capable | Covers text visibility, multiple matches, useful failures, and accessibility-aware queries. | Phase 10, Phase 18 | Current assertion is narrow. |
-| [x] | screen | `screen.click.button(...)` | Demo-Capable | Clicks by accessible label, handles disabled buttons, async updates, and useful failures. | Phase 10, Phase 18 | Needed by generated button tests. |
+| [x] | API | `testComponent(...)` | Production-Ready through Phase 18 | Mounts components with readable syntax, cleanup safety, async handling, and diagnostics. | Phase 10, Phase 18 | Wraps Vitest while hiding `it(...)` from generated examples. |
+| [x] | API | `runComponentTest(...)` | Production-Ready through Phase 18 | Supports direct test execution, cleanup on failure, and richer setup options. | Phase 10, Phase 18 | Direct helper remains public for package tests. |
+| [x] | screen | `screen.expect.text(...)` | Production-Ready through Phase 18 | Covers text visibility, useful failures, and integration with page/component harnesses. | Phase 10, Phase 18 | Advanced role checks live in accessibility helpers. |
+| [x] | screen | `screen.click.button(...)` | Production-Ready through Phase 18 | Clicks by readable button label and composes with async/page helpers. | Phase 10, Phase 18 | Needed by generated and handwritten tests. |
 | [x] | generator | `.button.test.ts` opt-in | Demo-Capable | `vr add button --test` produces readable tests that compile in generated apps. | Phase 10, Phase 18 | No default test file unless requested. |
 | [x] | syntax | generated tests use `function` | Demo-Capable | All generated tests use readable English-first style and avoid confusing shorthand. | Phase 10, Phase 18 | Aligns with user's readability preference. |
-| [ ] | API | `testPage(...)` | Deferred | Tests route pages with router setup, params, navigation, lazy pages, and cleanup. | Phase 18 | Deferred from Phase 10. |
-| [ ] | API | accessibility assertions | Deferred | Provides readable checks for common accessibility expectations. | Phase 18 | Final UI/router tests will need this. |
-| [ ] | API | async and fake timer helpers | Deferred | Tests timers, promises, resources, and cancellation without unreadable syntax. | Phase 18 | Important for forms/resources/store. |
+| [x] | API | `testPage(...)` and `runPageTest(...)` | Production-Ready | Tests role-based pages with jsdom mounting, screen access, cleanup, lifecycle teardown, and rerender. | Phase 18 | Page tests use `.page.ts` naming in docs and generated examples. |
+| [x] | API | `setupRouterTest(...)` | Production-Ready | Tests route refs, params, query values, redirects, guards, lazy pages, browser-visible path, and teardown. | Phase 18 | Uses `@vanrot/router/internal` reset support without adding runtime weight. |
+| [x] | API | accessibility assertions | Production-Ready | Provides readable role, name, disabled, focus movement, and semantic misuse checks with source-aware failures. | Phase 18 | Covers button, input, dialog, and navigation docs scenarios without a new dependency. |
+| [x] | API | async and fake timer helpers | Production-Ready | Flushes promise work, waits for DOM updates, bridges Vitest fake timers, tracks promises, and aborts cleanup scopes. | Phase 18 | Form/resource-specific helpers remain Phase 21. |
+| [x] | generator | `vr generate component/page --test` | Production-Ready | Generates colocated `.component.test.ts` and `.page.test.ts` files using `@vanrot/testing` helpers. | Phase 18 | CLI metadata, tests, and package release dry-run cover this surface. |
 
 ## Editors And IDE Integrations
 
@@ -321,6 +333,7 @@ When a phase adds or changes framework surface area:
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |---|---|---|---|---|---|---|
 | [x] | example | `examples/counter` | Demo-Capable | Fresh install/build/test flow proves runtime, compiler, Vite, CLI, router, UI, and testing integration. | Phase 6, Phase 26 | Counter is the main demo app. |
+| [x] | example | `examples/ssr-hydration` | Production-Ready | Example proves route SSR, escaped hydration state, shell assets, hydration attach, and runtime package separation. | Phase 22, Phase 26 | Tests cover renderRouteToString, renderDocument, hydrate, resolveSsrRoute, and runtime metadata boundaries. |
 | [x] | fixture | Vite plugin basic app | Demo-Capable | Fixture validates plugin dev/build behavior with routes, pages, UI assets, and compiled role modules. | Phase 4, Phase 12D | Final install should not depend on unpublished registry packages. |
 | [x] | fixture | Vite plugin clean app | Production-Ready | Fixture validates package-output Vite builds with emitted JavaScript, CSS, and sourcemaps. | Phase 12D, Phase 26 | Phase 12D uses temporary workspace-style package links; Phase 26 owns clean install matrix coverage. |
 | [x] | fixture | compiler counter fixture | Demo-Capable | Compiler fixture covers source/template/style triplets and generated output snapshots. | Phase 3, Phase 12C | Extend for control flow and child components. |

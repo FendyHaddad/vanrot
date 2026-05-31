@@ -1,8 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import {
   checkCompletedPhasePlans,
+  checkFuturePipeline,
   checkMaturityRows,
-  checkPostProductionIdeas,
   checkPresentationRoadmap,
   parseMaturityRoadmapPhases,
 } from './verify-phase-docs.mjs';
@@ -90,7 +90,7 @@ describe('phase documentation verification', () => {
   });
 
   it('fails when post-production editor tooling still treats the shipped IntelliJ plugin foundation as future work', () => {
-    const failures = checkPostProductionIdeas(`
+    const failures = checkFuturePipeline(`
 ## Later Candidate: IntelliJ And Editor Tooling
 
 - After post-production implementation and distribution hardening, build a real IntelliJ plugin or language service for Angular-like behavior.
@@ -98,8 +98,8 @@ describe('phase documentation verification', () => {
 `);
 
     expect(failures).toEqual([
-      'docs/superpowers/post-production-implementation-ideas.md still describes the shipped IntelliJ plugin foundation as future work.',
-      'docs/superpowers/post-production-implementation-ideas.md editor tooling section must record the shipped `editors/intellij` foundation and `com.vankode.vanrot` plugin metadata.',
+      'docs/superpowers/future-pipeline.md still describes the shipped IntelliJ plugin foundation as future work.',
+      'docs/superpowers/future-pipeline.md editor tooling section must record the shipped `editors/intellij` foundation and `com.vankode.vanrot` plugin metadata.',
     ]);
   });
 });

@@ -99,7 +99,7 @@ When a Vanrot phase is completed:
 3. Update `docs/vanrot-presentation.html` so the roadmap slide matches the tracker.
 4. Update `docs/superpowers/feature-maturity.md` whenever a phase changes feature maturity, scope, or production ordering.
 5. Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
-6. Update `docs/superpowers/post-production-implementation-ideas.md` whenever a Phase 17-22 item or later post-production candidate changes status, ships, is deferred, or is superseded by real implementation.
+6. Update `docs/superpowers/future-pipeline.md` whenever a future pipeline item changes status, ships, is deferred, is dropped, or is superseded by real implementation.
 7. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
 8. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
 9. When committing, stage the maturity ledger, final TDD inventory, post-production ideas when status changed, presentation, plan, and requirement docs together.
@@ -108,7 +108,7 @@ Do not mark a phase done until its verification criteria pass.
 
 Production phases must be sliced from `docs/superpowers/feature-maturity.md`, not squeezed into vague all-in-one milestones. Treat the maturity ledger as the full production backlog. When a ledger section is broad, split it into the smallest coherent executable phase or sub-phase, keep unfinished production requirements tracked in `feature-maturity.md`, and only mark rows `Production-Ready` when the exact slice has implementation, edge-case coverage, integration coverage where relevant, diagnostics or docs hooks where relevant, and verification evidence.
 
-Post-production phases are a separate bucket. In `docs/superpowers/feature-maturity.md`, Phase 17 through Phase 22 are explicitly `Post-production implementation` phases, not immediate core production-readiness phases. After Phase 16, do not flatten them into "next production phases" unless the user explicitly chooses to enter post-production work. When asked what comes next, first call out Phase 16 closeout if its subplans are done, then separate Phase 17-22 post-production candidates from Phase 23-26 hardening, docs, AI-consumption, and distribution work. Before opening or planning Phase 17-22, check `docs/superpowers/post-production-implementation-ideas.md`.
+Future pipeline items are a separate bucket. In `docs/superpowers/feature-maturity.md`, unfinished future phases and tooling candidates are not immediate core production-readiness phases. After Phase 16, do not flatten them into "next production phases" unless the user explicitly chooses that work. When asked what comes next, first call out Phase 16 closeout if its subplans are done, then separate future candidates from Phase 23-26 hardening, docs, AI-consumption, and distribution work. Before opening future pipeline work, check `docs/superpowers/future-pipeline.md`.
 
 `docs/superpowers/final-tdd-inventory.md` is the final release testing memory. It must grow with each production phase so Phase 26 can run complete failing and passing TDD coverage across every package, command, component, convention, helper, example, and generated file before distribution.
 
@@ -170,7 +170,7 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-31 4:56pm GMT+8
+# [vanrot] recent context, 2026-05-31 10:51pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE

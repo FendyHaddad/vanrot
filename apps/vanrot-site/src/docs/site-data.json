@@ -3012,6 +3012,55 @@
       ]
     },
     {
+      "key": "ssrHydration",
+      "section": "framework",
+      "path": "/docs/ssr-hydration",
+      "label": "SSR and Hydration",
+      "title": "SSR And Hydration",
+      "summary": "Use @vanrot/ssr for deterministic server markup, shell output, escaped hydration state, route-aware rendering, and explicit hydration diagnostics.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "package-boundary",
+          "title": "Package Boundary",
+          "body": "SSR ships as @vanrot/ssr so server rendering, shell generation, serialized state, and mismatch diagnostics stay out of the tiny browser runtime.",
+          "points": [
+            "Keep @vanrot/runtime browser-first and below the gzip cap.",
+            "Use renderToString for component modules that expose renderToHtml.",
+            "Use renderDocument for head, assets, body markup, and hydration state."
+          ]
+        },
+        {
+          "id": "hydration-contract",
+          "title": "Hydration Contract",
+          "body": "hydrate attaches client behavior to existing server markup when a module exposes hydrateComponent. It compares expected HTML first and returns deterministic diagnostics instead of repairing silently.",
+          "points": [
+            "onMount work remains client-only.",
+            "Event replay is explicitly deferred in the first SSR release.",
+            "Mismatches cover text, attributes, node order, missing nodes, extra nodes, state, and route divergence."
+          ],
+          "code": {
+            "title": "Attach behavior after server markup exists",
+            "code": "const result = hydrate(ProfilePage, host, {\\n  expectedHtml: host.innerHTML,\\n  source: 'profile.page.html',\\n});\\n\\nif (result.diagnostics.length > 0) {\\n  console.warn(result.diagnostics);\\n}"
+          }
+        },
+        {
+          "id": "router-ssr",
+          "title": "Router SSR",
+          "body": "resolveSsrRoute reuses the route table and route refs so params, query values, redirects, guards, and lazy page boundaries behave like router-owned navigation instead of string literal routing.",
+          "code": {
+            "title": "Render a route",
+            "code": "const body = await renderRouteToString(routes, '/account/42');\\nconst html = renderDocument({\\n  title: 'Account',\\n  body,\\n  state: { route: '/account/42' },\\n  assets: { scripts: ['main.js'] },\\n});"
+          }
+        },
+        {
+          "id": "deferred-streaming",
+          "title": "Deferred Streaming",
+          "body": "Streaming, event replay, partial hydration, islands, and resumability are deliberately deferred until the non-streaming render, hydration, diagnostics, router integration, shell, and serialized-state contracts stay stable."
+        }
+      ]
+    },
+    {
       "key": "uiOctober",
       "section": "ui",
       "path": "/docs/ui",
@@ -3080,32 +3129,46 @@
       "path": "/docs/testing",
       "label": "Testing",
       "title": "Testing",
-      "summary": "@vanrot/testing currently exposes component test helpers built around testComponent and Screen, with route-aware and production workflow guidance documented as the framework grows.",
-      "status": "demo-capable",
+      "summary": "@vanrot/testing ships component, page, router, accessibility, async, and generator helpers for readable Vitest and jsdom workflows.",
+      "status": "production-ready",
       "sections": [
         {
           "id": "testing-boundary",
           "title": "Testing boundary",
-          "body": "Testing helpers should make Vanrot components easy to mount without hiding framework behavior. @vanrot/testing focuses on component-level rendering through the runtime and a screen helper that reads the resulting DOM.",
+          "body": "Testing helpers should make Vanrot components and pages easy to mount without hiding framework behavior. @vanrot/testing now owns component tests, page tests, route-ref navigation tests, accessibility assertions, async coordination, fake timer bridges, and generated test files.",
           "points": [
-            "Use testComponent for component and small page behavior.",
+            "Use testComponent for component behavior and testPage for role-based page files.",
             "Use Screen helpers to query rendered DOM instead of reaching into internals.",
-            "Use package-level tests for compiler, router, config, and CLI behavior."
+            "Use setupRouterTest when the behavior depends on route refs, params, query values, redirects, guards, or lazy pages."
           ],
           "code": {
-            "title": "Component test",
-            "code": "import { testComponent } from '@vanrot/testing';\\nimport { CounterComponent } from './counter.component';\\n\\nit('renders the current count', async () => {\\n  await testComponent(CounterComponent).run((screen) => {\\n    expect(screen.text()).toContain('Count');\\n  });\\n});"
+            "title": "Page test",
+            "code": "import { testPage } from '@vanrot/testing';\\nimport { ProfilePage } from './profile.page';\\n\\ntestPage(ProfilePage).can('render the profile page', function (page) {\\n  page.screen.expect.text('Profile');\\n});"
           }
         },
         {
           "id": "test-layers",
           "title": "Test layers",
-          "body": "A Vanrot app should test at the layer where the risk lives. Runtime state belongs in component tests, route table behavior belongs in router tests, compiler transforms belong in compiler tests, and docs IA belongs in site-data tests.",
+          "body": "A Vanrot app should test at the layer where the risk lives. Runtime state belongs in component tests, route table behavior belongs in setupRouterTest checks, compiler transforms belong in compiler tests, and docs IA belongs in site-data tests.",
           "points": [
             "Do not test compiler behavior through a browser page when a compiler unit test is clearer.",
-            "Do test user-facing component output through rendered DOM.",
+            "Do test user-facing component and page output through rendered DOM.",
             "Do add docs tests when sidebar, routes, or article richness are part of the requirement."
           ]
+        },
+        {
+          "id": "workflow-helpers",
+          "title": "Workflow helpers",
+          "body": "Phase 18 adds helpers for the cases that used to force teams into private DOM plumbing. Accessibility assertions cover button, input, dialog, and navigation semantics. Async helpers flush promise work, wait for signal-driven DOM updates, bridge Vitest fake timers explicitly, and clean up abortable work.",
+          "points": [
+            "Use createAccessibilityAssertions for role, name, disabled, focus, and semantic checks.",
+            "Use flushTestingTasks and waitForDomUpdate around signal-driven DOM updates.",
+            "Use createFakeTimerBridge and createAsyncTestScope when timers, promises, or cancellation can leak across tests."
+          ],
+          "code": {
+            "title": "Accessibility and async",
+            "code": "const a11y = createAccessibilityAssertions(page.target, { source: 'profile.page.ts' });\\na11y.expect.role('button', { name: 'Save' });\\n\\nawait waitForDomUpdate(() => {\\n  page.screen.expect.text('Saved');\\n});"
+          }
         },
         {
           "id": "debugging-tests",
@@ -3120,11 +3183,11 @@
         {
           "id": "child-guides",
           "title": "Child guides",
-          "body": "The child pages cover component tests, the Screen query surface, route-related tests, and production testing strategy. They are intentionally practical so docs readers can copy patterns into real packages.",
+          "body": "The child pages cover component tests, the Screen query surface, route-related tests, and production testing strategy. They now point at the shipped Phase 18 helpers instead of describing route-aware and async testing as future work.",
           "points": [
             "Start with Component Tests when testing a Vanrot class and template.",
             "Use Screen when queries are unclear or brittle.",
-            "Use Strategy when deciding whether a failing case belongs in runtime, compiler, router, CLI, or site docs tests."
+            "Use Routing Tests and Strategy when a failing case depends on route refs, fake timers, async cleanup, CLI generation, or site docs tests."
           ]
         }
       ]
@@ -3136,7 +3199,7 @@
       "label": "Component Tests",
       "title": "Testing Component Tests",
       "summary": "Component tests mount a Vanrot component through testComponent and assert against rendered behavior.",
-      "status": "demo-capable",
+      "status": "production-ready",
       "sections": [
         {
           "id": "mounting",
@@ -3149,7 +3212,7 @@
           ],
           "code": {
             "title": "Mount and assert",
-            "code": "import { testComponent } from '@vanrot/testing';\\n\\nawait testComponent(ProfileCardComponent).run((screen) => {\\n  expect(screen.text()).toContain('Profile');\\n});"
+            "code": "import { testComponent } from '@vanrot/testing';\\n\\ntestComponent(ProfileCardComponent).can('render profile details', function (screen) {\\n  screen.expect.text('Profile');\\n});"
           }
         },
         {
@@ -3180,8 +3243,8 @@
       "path": "/docs/testing/screen",
       "label": "Screen",
       "title": "Testing Screen",
-      "summary": "Screen is the small DOM query surface returned by @vanrot/testing component tests.",
-      "status": "demo-capable",
+      "summary": "Screen is the small DOM query surface returned by @vanrot/testing component and page tests.",
+      "status": "production-ready",
       "sections": [
         {
           "id": "screen-purpose",
@@ -3194,7 +3257,7 @@
           ],
           "code": {
             "title": "Read rendered text",
-            "code": "await testComponent(StatusBadgeComponent).run((screen) => {\\n  expect(screen.text()).toContain('Active');\\n});"
+            "code": "testComponent(StatusBadgeComponent).can('render active state', function (screen) {\\n  screen.expect.text('Active');\\n});"
           }
         },
         {
@@ -3225,13 +3288,13 @@
       "path": "/docs/testing/routing",
       "label": "Routing Tests",
       "title": "Testing Routing",
-      "summary": "Routing tests verify route refs, paths, params, guards, active state, preloading, and keepAlive behavior at the router boundary.",
-      "status": "production-ready-through-phase-15",
+      "summary": "Routing tests verify route refs, paths, params, query values, redirects, guards, lazy pages, active state, preloading, and cleanup at the router boundary.",
+      "status": "production-ready",
       "sections": [
         {
           "id": "route-table-tests",
           "title": "Route table tests",
-          "body": "Route table tests should assert stable route refs and paths directly. This catches accidental URL drift, broken nested paths, and missing documentation routes before a browser smoke test discovers the issue later.",
+          "body": "Route table tests should assert stable route refs and paths directly. Use setupRouterTest when the route behavior also needs navigation, params, query values, redirects, guards, lazy pages, or cleanup.",
           "points": [
             "Assert route.path for public docs and app routes.",
             "Assert route keys when the sidebar or navigation depends on them.",
@@ -3239,13 +3302,13 @@
           ],
           "code": {
             "title": "Route path assertion",
-            "code": "import { route } from '../src/routes';\\n\\nit('routes docs runtime signals', () => {\\n  expect(route.docsRuntimeSignals.path).toBe('runtime/signals');\\n});"
+            "code": "const router = await setupRouterTest(route, {\\n  initialRoute: route.profile,\\n  params: { id: '42' },\\n});\\n\\nrouter.expect.currentRoute(route.profile);\\nrouter.expect.params({ id: '42' });"
           }
         },
         {
           "id": "guard-tests",
           "title": "Guard tests",
-          "body": "Guard tests should pass explicit context and assert allow, deny, or redirect results. A guard is easier to trust when its behavior is tested before it is wired into a full route table.",
+          "body": "Guard tests should assert allow, deny, or redirect behavior through route refs. A guard is easier to trust when setupRouterTest proves the redirected current route and query values without relying on repeated route strings.",
           "points": [
             "Test authenticated and unauthenticated paths.",
             "Test missing params when guards depend on route data.",
@@ -3255,9 +3318,9 @@
         {
           "id": "navigation-tests",
           "title": "Navigation tests",
-          "body": "Navigation tests cover current route state, active links, breadcrumbs, preloading, and keepAlive diagnostics. Keep these tests close to the helper that owns the behavior rather than hiding them in broad page snapshots.",
+          "body": "Navigation tests cover current route state, active links, breadcrumbs, preloading, lazy pages, and keepAlive diagnostics. Keep these tests close to the helper that owns the behavior rather than hiding them in broad page snapshots.",
           "points": [
-            "Reset keepAlive stores between tests.",
+            "Use router cleanup between tests.",
             "Use route preload diagnostics when testing preload policy.",
             "Assert breadcrumbs from route metadata, not duplicated strings."
           ]
@@ -3271,7 +3334,7 @@
       "label": "Strategy",
       "title": "Testing Strategy",
       "summary": "Testing strategy explains where to put coverage across Vanrot runtime, compiler, router, CLI, docs, UI, and generated artifacts.",
-      "status": "available-now",
+      "status": "production-ready",
       "sections": [
         {
           "id": "choose-layer",
@@ -3300,11 +3363,11 @@
         {
           "id": "verification",
           "title": "Verification",
-          "body": "Verification should match risk. Focused tests prove the changed area, typecheck catches cross-file API drift, docs verification catches generated bundle drift, and a local route smoke check proves the page is reachable.",
+          "body": "Verification should match risk. Focused tests prove the changed area, typecheck catches cross-file API drift, docs verification catches generated bundle drift, release dry-run catches package export drift, and a local route smoke check proves the page is reachable.",
           "points": [
             "Use focused package tests during iteration.",
             "Run typecheck before claiming route or data keys are wired correctly.",
-            "Run docs verification after editing site-data.json or AI docs bundles."
+            "Run docs, release, size, publish dry-run, and site-route verification after package metadata or docs bundles change."
           ]
         }
       ]
@@ -3627,12 +3690,62 @@
       {
         "id": "workflow-coverage",
         "title": "Workflow Coverage",
-        "body": "The matrix covers starter creation, runtime lifecycle, compiler templates, routing, config diagnostics, CLI commands, UI usage, testing helpers, devtools intelligence, and build deployment preparation."
+        "body": "The matrix covers starter creation, runtime lifecycle, compiler templates, routing, config diagnostics, CLI commands, UI usage, testing helpers, devtools intelligence, WebGL lifecycle recipes, and build deployment preparation."
       },
       {
         "id": "package-coverage",
         "title": "Package Coverage",
         "body": "Every workspace package appears in at least one registered example. Packages without a browser-facing workflow still appear through command, config, devtools, or build examples."
+      }
+    ]
+  },
+  {
+    "key": "webglThreejs",
+    "section": "examples",
+    "path": "/docs/examples/webgl-threejs",
+    "label": "WebGL And three.js",
+    "title": "WebGL And three.js Lifecycle",
+    "summary": "Use Vanrot lifecycle hooks and signals around an app-owned WebGL or three.js scene without adding three.js to the core runtime.",
+    "status": "demo-capable",
+    "sections": [
+      {
+        "id": "boundary",
+        "title": "Boundary",
+        "body": "The shipped shape is recipe-only. Vanrot owns lifecycle, cleanup, signal binding, docs, and verified example code. The application owns three.js as an app dependency when it chooses to render with three.",
+        "points": [
+          "Do not add three.js to @vanrot/runtime.",
+          "Do not create a renderer abstraction that hides three.js.",
+          "Keep the canvas in a template and pass the element into TypeScript during onMount()."
+        ]
+      },
+      {
+        "id": "widget-recipe",
+        "title": "Widget Recipe",
+        "body": "examples/webgl-threejs/src/scene-preview.widget.ts creates a renderer after mount, binds signals to scene state with effect cleanup, handles context loss and restore, and disposes render loops, resize hooks, renderer resources, geometries, materials, textures, and controls.",
+        "code": {
+          "title": "Lifecycle-safe canvas controller",
+          "code": "import { onDestroy, onMount, signal } from '@vanrot/runtime';\nimport { bindSignalToScene, createWebglCanvasController } from './scene-preview.widget';\n\nconst color = signal('#ff5a3d');\n\nonMount(() => {\n  const canvas = document.querySelector('canvas');\n  const container = canvas?.parentElement;\n\n  if (!(canvas instanceof HTMLCanvasElement) || container === null) {\n    return;\n  }\n\n  const controller = createWebglCanvasController({\n    canvas,\n    container,\n    createRenderer(context) {\n      return createAppOwnedThreeRenderer(context);\n    },\n    signalBindings: [\n      bindSignalToScene(color, (nextColor) => material.color.set(nextColor)),\n    ],\n  });\n\n  onDestroy(controller.destroy);\n});"
+        }
+      },
+      {
+        "id": "fallbacks",
+        "title": "Fallbacks",
+        "body": "The recipe treats WebGL as progressive enhancement. Missing WebGL, compact/mobile fallback, context loss, context restore, and prefers-reduced-motion each produce deterministic behavior that tests can verify.",
+        "points": [
+          "Reduced motion renders one static frame instead of starting an animation loop.",
+          "Context loss cancels the pending animation frame and keeps cleanup idempotent until restore.",
+          "Fallback copy remains visible when WebGL is unavailable or intentionally disabled."
+        ]
+      },
+      {
+        "id": "assets",
+        "title": "Assets",
+        "body": "Fixture assets stay local and centralized through webglAssetPaths. Examples should load textures and models from known local paths so build and browser verification are repeatable.",
+        "points": [
+          "Use local deterministic fixtures for docs examples.",
+          "Surface asset load errors instead of hiding failed network or CORS paths.",
+          "Dispose textures, geometries, materials, controls, loaders, and renderer-owned resources on teardown."
+        ]
       }
     ]
   },

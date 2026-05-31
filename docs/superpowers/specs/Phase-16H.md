@@ -208,7 +208,7 @@ The current `9.99 KB` runtime cap is a temporary rule for the current mixed arch
 
 ## Post-Production Backlog
 
-Implementation must update `docs/superpowers/post-production-implementation-ideas.md` with future behavior candidates:
+Implementation must update `docs/superpowers/future-pipeline.md` with future behavior candidates:
 
 - accordion, collapsible, disclosure
 - select, listbox, combobox

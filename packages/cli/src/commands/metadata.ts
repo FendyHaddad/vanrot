@@ -55,7 +55,7 @@ Options
     usage: 'vr generate component <name>',
     rootUsage: 'generate <role> <name>',
     description: 'Generate a component or page',
-    secondaryUsages: ['vr generate page <name>'],
+    secondaryUsages: ['vr generate page <name>', 'vr generate component <name> --test'],
     help: `vr generate <role> <name>
 
 Roles
@@ -63,7 +63,8 @@ Roles
   page
 
 Options
-  --feature <name>   Generate inside src/features/<name>`,
+  --feature <name>   Generate inside src/features/<name>
+  --test             Generate a Vitest file using @vanrot/testing helpers`,
   },
   {
     name: commandName.add,

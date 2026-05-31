@@ -72,6 +72,40 @@ describe('vr generate', () => {
     ).resolves.toContain('SettingsPage');
   });
 
+  it('generates component test files when --test is present', async () => {
+    const cwd = await projectRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(
+      ['generate', 'component', 'status-pill', '--feature', 'dashboard', '--test'],
+      { cwd, reporter },
+    );
+
+    expect(result.exitCode).toBe(0);
+    const base = join(cwd, 'src', 'features', 'dashboard', 'components', 'status-pill');
+    const testSource = await readFile(join(base, 'status-pill.component.test.ts'), 'utf8');
+
+    expect(testSource).toContain("import { testComponent } from '@vanrot/testing';");
+    expect(testSource).toContain("import { StatusPillComponent } from './status-pill.component.js';");
+    expect(testSource).toContain('testComponent(StatusPillComponent).can');
+    expect(reporter.output()).toContain('status-pill.component.test.ts');
+  });
+
+  it('generates page test files when --test is present', async () => {
+    const cwd = await projectRoot();
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['generate', 'page', 'settings', '--test'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(0);
+    const base = join(cwd, 'src', 'pages', 'settings');
+    const testSource = await readFile(join(base, 'settings.page.test.ts'), 'utf8');
+
+    expect(testSource).toContain("import { testPage } from '@vanrot/testing';");
+    expect(testSource).toContain("import { SettingsPage } from './settings.page.js';");
+    expect(testSource).toContain('testPage(SettingsPage).can');
+  });
+
   it('rejects non-kebab-case names', async () => {
     const cwd = await projectRoot();
     const reporter = createMemoryReporter();

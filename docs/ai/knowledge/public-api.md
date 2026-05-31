@@ -132,6 +132,180 @@ Installs router state into a Vanrot app.
 
 Docs: /docs/routing
 
+## @vanrot/ssr *
+
+All public exports from @vanrot/ssr are covered by SSR hydration and public API documentation.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr hydrationStateScriptId
+
+Stable script element id used for serialized hydration state.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr hydrationEventReplayPolicy
+
+Documents that event replay stays explicit and deferred outside the first SSR package.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr SsrDiagnosticCode
+
+Diagnostic code union for SSR browser API, route, and hydration mismatches.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr SsrDiagnostic
+
+Structured SSR and hydration diagnostic record.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr ServerRenderResult
+
+Server render output with deterministic HTML, state, and diagnostics.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr ServerComponentModule
+
+Server-side component module contract for pure string rendering.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr HydratableComponentModule
+
+Client component contract accepted by hydration attach helpers.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr RenderToStringOptions
+
+Options for deterministic component string rendering.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr HtmlAssetOptions
+
+Shell asset options for scripts, stylesheets, and modules.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr HtmlDocumentOptions
+
+Document shell options for head content, app HTML, assets, and hydration state.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr HydrateOptions
+
+Hydration attach options for app container, props, state, and context.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr HydrationResult
+
+Hydration result that exposes the mounted app handle and reused element.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr ReadHydrationStateOptions
+
+Options for reading serialized state from a document.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr SsrRouteResult
+
+Router SSR resolution result for renders, redirects, not-found states, and diagnostics.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr VanrotSsrError
+
+Typed SSR error that carries the relevant diagnostic code.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr renderToString
+
+Renders a server component module to deterministic HTML.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr renderServerComponent
+
+Renders a nested server component for slot composition.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr renderServerSlot
+
+Renders a list of server component slots into a stable HTML fragment.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr renderDocument
+
+Builds a full HTML document shell with escaped hydration state and assets.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr escapeHtml
+
+Escapes text for safe server-rendered HTML output.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr escapeAttribute
+
+Escapes attribute values for safe server-rendered HTML output.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr serializeHydrationState
+
+Serializes hydration state while escaping HTML-sensitive script content.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr readHydrationState
+
+Reads serialized hydration state from the browser document.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr hydrate
+
+Attaches a hydratable Vanrot component to existing SSR markup.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr compareHydrationMarkup
+
+Compares server and client markup for text and attribute mismatch diagnostics.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr diagnoseRouteHydration
+
+Reports route divergence between server and client route resolution.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr resolveSsrRoute
+
+Resolves router tables for server rendering, redirects, lazy pages, and not-found results.
+
+Docs: /docs/ssr-hydration
+
+## @vanrot/ssr renderRouteToString
+
+Combines router SSR resolution with component string rendering.
+
+Docs: /docs/ssr-hydration
+
 ## @vanrot/vite-plugin *
 
 All public exports from @vanrot/vite-plugin are covered by Vite plugin and public API documentation.
@@ -212,9 +386,69 @@ Docs: /docs/public-api
 
 ## @vanrot/testing testComponent
 
-Builds a Vanrot component test harness.
+Builds a Vanrot component test builder around Vitest.
 
 Docs: /docs/testing
+
+## @vanrot/testing runComponentTest
+
+Runs a component test directly with deterministic mount and destroy cleanup.
+
+Docs: /docs/testing
+
+## @vanrot/testing testPage
+
+Builds a page-focused test builder for role-based `.page.ts` files.
+
+Docs: /docs/testing
+
+## @vanrot/testing runPageTest
+
+Mounts a page in a jsdom app shell with screen, cleanup, rerender, and lifecycle helpers.
+
+Docs: /docs/testing
+
+## @vanrot/testing setupRouterTest
+
+Creates a router test harness for route refs, params, query values, redirects, guards, lazy pages, and teardown.
+
+Docs: /docs/testing/routing
+
+## @vanrot/testing createAccessibilityAssertions
+
+Creates readable role, name, disabled, focus, and semantic accessibility assertions for jsdom tests.
+
+Docs: /docs/testing
+
+## @vanrot/testing findByRole
+
+Finds an element by explicit or implicit role and accessible name.
+
+Docs: /docs/testing
+
+## @vanrot/testing flushTestingTasks
+
+Flushes queued promise work before DOM assertions.
+
+Docs: /docs/testing/strategy
+
+## @vanrot/testing waitForDomUpdate
+
+Retries an assertion until signal-driven DOM output settles or a deterministic timeout is reached.
+
+Docs: /docs/testing/strategy
+
+## @vanrot/testing createFakeTimerBridge
+
+Coordinates Vitest fake timers explicitly without hiding timer APIs.
+
+Docs: /docs/testing/strategy
+
+## @vanrot/testing createAsyncTestScope
+
+Tracks pending promises, abort controllers, and cleanup callbacks for leak-free async tests.
+
+Docs: /docs/testing/strategy
 
 ## @vanrot/devtools *
 

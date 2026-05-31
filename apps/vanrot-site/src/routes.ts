@@ -550,6 +550,7 @@ const docsRoutingLayoutsRedirects = articlePage(siteArticleKey.routingLayoutsRed
 const docsRoutingGuards = articlePage(siteArticleKey.routingGuards);
 const docsRoutingNavigation = articlePage(siteArticleKey.routingNavigation);
 const docsRoutingPreloadingKeepAlive = articlePage(siteArticleKey.routingPreloadingKeepAlive);
+const docsSsrHydration = articlePage(siteArticleKey.ssrHydration);
 const docsUi = articlePage(siteArticleKey.uiOctober);
 const docsTheming = articlePage(siteArticleKey.theming);
 const docsVanrotstyles = articlePage(siteArticleKey.vanrotstyles);
@@ -572,6 +573,7 @@ const docsExampleMatrix = docs.page({
   page: DocsExampleMatrixPage,
   breadcrumb: routes.breadcrumb.parent(docs),
 });
+const docsWebglThreejs = articlePage(siteArticleKey.webglThreejs);
 const docsOctoberShowcase = docs.page({
   path: articleChildPath(siteArticleKey.octoberShowcase),
   label: getSiteArticle(siteArticleKey.octoberShowcase).label,
@@ -775,6 +777,7 @@ export const route = defineRoutes({
   docsRoutingGuards,
   docsRoutingNavigation,
   docsRoutingPreloadingKeepAlive,
+  docsSsrHydration,
   docsUi,
   docsTheming,
   docsVanrotstyles,
@@ -791,6 +794,7 @@ export const route = defineRoutes({
   docsDevtoolsStaleState,
   docsExamples,
   docsExampleMatrix,
+  docsWebglThreejs,
   docsOctoberShowcase,
   docsConventions,
   docsConventionsRoleFiles,

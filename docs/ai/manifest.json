@@ -1,53 +1,53 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-30T21:06:52.626Z",
-  "sourceFingerprint": "sha256-28a9ad9578026213cdd6ee3cf99b03c6ef0aa46261af62367cb5d58b4515e5eb",
+  "generatedAt": "2026-05-31T13:04:00.349Z",
+  "sourceFingerprint": "sha256-b7963baf3c21e2829e2dae4241abb712f0ece79bead5f1f9387a1b6491c6c080",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-921853ed10a2508f5322ed0205ded363a250507464cf27b35f1b5da7634ff70a"
+      "fingerprint": "sha256-06545fc5d4ea056a48ecf1fce8b9b796e95a8589fc35acfc7f998307a48d9376"
     },
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-3ddb61c9f5244ce6342835d716004d89109d52ef04cdef682f1a51bb6d9bad22"
+      "fingerprint": "sha256-1ec8a2f5f38aaa10ad1e50b60536b6c6c7ac4df26902a8defc9191a26a22f849"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-d8495a41b2a9349dbb31c88bf3ad65164e33c37f2d05c33eb67debbe45b3fcfa"
+      "fingerprint": "sha256-9c8f9ab13ff2f16fad45d826178873f3d33144391ec66a3f7c93b2bd86237765"
     },
     {
       "id": "cli-command-metadata",
       "path": "packages/cli/src/commands/metadata.ts",
-      "fingerprint": "sha256-ed558984b12294e56e9b8e354b6ebc3cb3a69f389ed492ca8ad4e98d914dbb61"
+      "fingerprint": "sha256-a136a594dc54455eb19d7bad0ca0d90411d354fa536347068dbf18444840382f"
     },
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-df7f07f35f4013299cdbfbe99a0bf3520d7a637ce739f40aa62c133adf57e395"
+      "fingerprint": "sha256-2aa8a6fe562139fe3106aba056fcb3a118663fbe823b363a0e31d7ed5f3d816a"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-5eb312457e6891b23756c1a2e0a504a1ff6bac5bac2cc76ea3128fc18a5d1c08"
+      "fingerprint": "sha256-62f9eb4176d4bad1cf2f095ee85b5c7d01b645d4e828d3f0c2a2a9197c40772f"
     }
   ],
   "counts": {
-    "packages": 12,
-    "publicExports": 39,
+    "packages": 13,
+    "publicExports": 78,
     "commands": 15,
-    "diagnostics": 9,
+    "diagnostics": 13,
     "generatedFiles": 6,
     "conventions": 5,
-    "examples": 9,
+    "examples": 11,
     "components": 51,
     "routes": 4,
     "limitations": 2,
     "deployment": 1,
-    "docs": 91
+    "docs": 93
   },
   "coverageStatus": "complete"
 }

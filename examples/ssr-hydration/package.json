@@ -1,0 +1,22 @@
+{
+  "name": "@vanrot/example-ssr-hydration",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "pretest": "pnpm --filter @vanrot/ssr build",
+    "test": "vitest run",
+    "pretypecheck": "pnpm --filter @vanrot/ssr build",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@vanrot/router": "file:../../packages/router",
+    "@vanrot/runtime": "file:../../packages/runtime",
+    "@vanrot/ssr": "file:../../packages/ssr"
+  },
+  "devDependencies": {
+    "jsdom": "^29.1.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  }
+}

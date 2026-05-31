@@ -4,6 +4,8 @@
     { "path": "./packages/runtime" },
     { "path": "./packages/ui" },
     { "path": "./packages/router" },
+    { "path": "./packages/testing" },
+    { "path": "./packages/ssr" },
     { "path": "./packages/compiler" },
     { "path": "./packages/config" },
     { "path": "./packages/language-server" },

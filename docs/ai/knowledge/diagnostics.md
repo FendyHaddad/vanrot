@@ -12,6 +12,30 @@ Compiler diagnostic for the final current compiler catalog entry.
 
 Docs: /docs/diagnostics
 
+## VRSSR_BROWSER_API
+
+SSR diagnostic for browser-only API access during server rendering.
+
+Docs: /docs/ssr-hydration
+
+## VRSSR_TEXT_MISMATCH
+
+Hydration diagnostic for server/client text divergence.
+
+Docs: /docs/ssr-hydration
+
+## VRSSR_ATTRIBUTE_MISMATCH
+
+Hydration diagnostic for server/client attribute divergence.
+
+Docs: /docs/ssr-hydration
+
+## VRSSR_ROUTE_DIVERGENCE
+
+Hydration diagnostic for server/client route divergence.
+
+Docs: /docs/ssr-hydration
+
 ## VRCFG001
 
 Config diagnostic for invalid config shape or loading failure.

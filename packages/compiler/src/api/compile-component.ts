@@ -35,6 +35,7 @@ const featureOrder: CompileFeature[] = [
   'ui-tooltip',
   'ui-command-menu',
   'slot',
+  'server-rendering',
 ];
 
 export function compileComponent(source: ComponentSource, options: CompileOptions = {}): CompileResult {

@@ -8,22 +8,24 @@ export async function runCommand({
   cwd,
   env = {},
   required = true,
+  output = 'capture',
 }) {
   const renderedCommand = renderCommand(command, args);
   const result = await new Promise((resolve) => {
+    const shouldInheritOutput = output === 'inherit';
     const child = spawn(command, args, {
       cwd,
       env: { ...process.env, ...env },
       shell: false,
-      stdio: ['ignore', 'pipe', 'pipe'],
+      stdio: ['ignore', shouldInheritOutput ? 'inherit' : 'pipe', shouldInheritOutput ? 'inherit' : 'pipe'],
     });
     let stdout = '';
     let stderr = '';
 
-    child.stdout.on('data', (chunk) => {
+    child.stdout?.on('data', (chunk) => {
       stdout += chunk.toString();
     });
-    child.stderr.on('data', (chunk) => {
+    child.stderr?.on('data', (chunk) => {
       stderr += chunk.toString();
     });
     child.on('error', (error) => {

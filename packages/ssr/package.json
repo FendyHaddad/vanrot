@@ -1,0 +1,33 @@
+{
+  "name": "@vanrot/ssr",
+  "version": "0.2.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@vanrot/router": "file:../router",
+    "@vanrot/runtime": "file:../runtime"
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @vanrot/router build",
+    "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm --filter @vanrot/router build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/router build",
+    "test": "vitest run",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  }
+}

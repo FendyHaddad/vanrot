@@ -8,7 +8,7 @@ Docs: /docs/cli
 
 ## vr generate <kind> <name>
 
-Generates convention-based component and page files.
+Generates convention-based component and page files, with optional colocated tests.
 
 Docs: /docs/cli
 

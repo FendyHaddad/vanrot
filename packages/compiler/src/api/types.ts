@@ -40,6 +40,7 @@ export interface ComponentSource {
 
 export interface CompileOptions {
   componentImportSpecifier?: string;
+  target?: 'browser' | 'server';
 }
 
 export interface CompileDiagnostic {
@@ -123,7 +124,8 @@ export type CompileFeature =
   | 'ui-popover'
   | 'ui-tooltip'
   | 'ui-command-menu'
-  | 'slot';
+  | 'slot'
+  | 'server-rendering';
 
 export interface ComponentDependencyInput {
   name: string;

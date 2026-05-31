@@ -422,6 +422,7 @@ describe('verify-release-dry-run package workflows and reports', () => {
         '@vanrot/runtime': 'file:/tmp/artifacts/vanrot-runtime-1.2.3.tgz',
         typescript: '^5.9.3',
         vite: '^8.0.10',
+        vitest: '^4.0.14',
       },
       devDependencies: {},
     });

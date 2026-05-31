@@ -129,13 +129,13 @@ export function checkPresentationRoadmap(phases, presentationHtml) {
   return failures;
 }
 
-export function checkPostProductionIdeas(postProductionMarkdown) {
+export function checkFuturePipeline(futurePipelineMarkdown) {
   const failures = [];
-  const editorSection = extractMarkdownSection(postProductionMarkdown, /Editor Tooling/i);
+  const editorSection = extractMarkdownSection(futurePipelineMarkdown, /Editor Tooling/i);
 
   if (editorSection === '') {
     failures.push(
-      'docs/superpowers/post-production-implementation-ideas.md is missing an editor tooling section.',
+      'docs/superpowers/future-pipeline.md is missing an editor tooling section.',
     );
     return failures;
   }
@@ -145,7 +145,7 @@ export function checkPostProductionIdeas(postProductionMarkdown) {
     /27C IntelliJ plugin or language-service prototype/i.test(editorSection)
   ) {
     failures.push(
-      'docs/superpowers/post-production-implementation-ideas.md still describes the shipped IntelliJ plugin foundation as future work.',
+      'docs/superpowers/future-pipeline.md still describes the shipped IntelliJ plugin foundation as future work.',
     );
   }
 
@@ -155,7 +155,7 @@ export function checkPostProductionIdeas(postProductionMarkdown) {
     !/com\.vankode\.vanrot/.test(editorSection)
   ) {
     failures.push(
-      'docs/superpowers/post-production-implementation-ideas.md editor tooling section must record the shipped `editors/intellij` foundation and `com.vankode.vanrot` plugin metadata.',
+      'docs/superpowers/future-pipeline.md editor tooling section must record the shipped `editors/intellij` foundation and `com.vankode.vanrot` plugin metadata.',
     );
   }
 
@@ -238,8 +238,8 @@ async function verifyPhaseDocs() {
     'utf8',
   );
   const presentation = await readFile(join(projectRoot, 'docs', 'vanrot-presentation.html'), 'utf8');
-  const postProduction = await readFile(
-    join(projectRoot, 'docs', 'superpowers', 'post-production-implementation-ideas.md'),
+  const futurePipeline = await readFile(
+    join(projectRoot, 'docs', 'superpowers', 'future-pipeline.md'),
     'utf8',
   );
   const phases = parseMaturityRoadmapPhases(maturity);
@@ -249,7 +249,7 @@ async function verifyPhaseDocs() {
     ...checkCompletedPhasePlans(phases, planContentByPhase),
     ...checkMaturityRows(phases, maturity),
     ...checkPresentationRoadmap(phases, presentation),
-    ...checkPostProductionIdeas(postProduction),
+    ...checkFuturePipeline(futurePipeline),
   ];
 }
 

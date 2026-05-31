@@ -18,6 +18,7 @@ PUBLISH_PACKAGES=(
   ui
   compiler
   router
+  ssr
   testing
   cli
   language-server

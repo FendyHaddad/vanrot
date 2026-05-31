@@ -24,6 +24,10 @@ Vanrot template detection, LSP initialize/completion/navigation/diagnostics/expr
 
 Route refs, layouts, nested outlets, navigation helpers, route metadata, preloading, keep-alive policies, and router diagnostics.
 
+## @vanrot/ssr
+
+Opt-in SSR package for deterministic HTML rendering, shell generation, escaped hydration state, hydration attach helpers, mismatch diagnostics, and router SSR resolution.
+
 ## @vanrot/vite-plugin
 
 Vanrot component transforms, virtual modules, scoped CSS modules, diagnostics bridge, project metadata, and production builds.
@@ -38,7 +42,7 @@ Shadcn-inspired Vanrot-native primitives used by the site and the component docu
 
 ## @vanrot/testing
 
-Readable component and workflow test helpers that stay lightweight until the post-production testing package phase.
+Readable component, page, router, accessibility, async, and generator test helpers built on Vitest and jsdom.
 
 ## @vanrot/devtools
 

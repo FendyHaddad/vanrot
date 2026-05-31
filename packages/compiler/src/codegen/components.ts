@@ -343,7 +343,7 @@ function createAttributeSourceContext(
   };
 }
 
-function toComponentImportPath(tagName: string): string {
+export function toComponentImportPath(tagName: string): string {
   return `./${tagName}${componentFileSuffix}`;
 }
 

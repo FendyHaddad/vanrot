@@ -6,6 +6,7 @@ import { runCommand } from './runner.mjs';
 const consumerVersions = {
   typescript: '^5.9.3',
   vite: '^8.0.10',
+  vitest: '^4.0.14',
 };
 
 export function createTarballName(releasePackage) {
@@ -42,6 +43,7 @@ export function createWorkspacePackageJson({ name, tarballSpecifiers }) {
       ...tarballSpecifiers,
       typescript: consumerVersions.typescript,
       vite: consumerVersions.vite,
+      vitest: consumerVersions.vitest,
     },
     devDependencies: {},
   };
@@ -151,6 +153,7 @@ export async function runPnpmConsumerWorkflow({ directory, runner = runCommand }
       args: ['install'],
       cwd: directory,
       required: true,
+      output: 'inherit',
     }),
     await runner({
       name: 'pnpm consumer smoke',
@@ -177,6 +180,7 @@ export async function runNpmConsumerWorkflow({ directory, runner = runCommand })
       args: ['install'],
       cwd: directory,
       required: true,
+      output: 'inherit',
     }),
     await runner({
       name: 'npm consumer smoke',
@@ -254,6 +258,8 @@ async function writeJson(path, value) {
 
 function smokeSource() {
   return `import { signal } from '@vanrot/runtime';
+import { renderDocument } from '@vanrot/ssr';
+import { flushTestingTasks } from '@vanrot/testing';
 import { defineVanrotConfig } from '@vanrot/config';
 import vanrot from '@vanrot/vite-plugin';
 
@@ -270,6 +276,21 @@ if (typeof defineVanrotConfig({ schemaVersion: 1 }) !== 'object') {
 
 if (typeof vanrot !== 'function') {
   throw new Error('Packed Vite plugin import failed.');
+}
+
+if (!renderDocument({ body: '<main>SSR</main>', state: { route: '/' } }).includes('__vanrot_hydration_state__')) {
+  throw new Error('Packed SSR import failed.');
+}
+
+let testingFlushCompleted = false;
+Promise.resolve().then(() => {
+  testingFlushCompleted = true;
+});
+
+await flushTestingTasks();
+
+if (!testingFlushCompleted) {
+  throw new Error('Packed testing import failed.');
 }
 `;
 }

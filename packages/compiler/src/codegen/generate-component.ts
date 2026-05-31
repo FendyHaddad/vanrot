@@ -11,6 +11,7 @@ import {
 } from './components.js';
 import { generateForBlock, generateIfBlock } from './control-flow.js';
 import { createGeneratedMapping } from './mappings.js';
+import { generateServerComponent } from './server-component.js';
 import { generateSlotOutlet } from './slots.js';
 import { createGenerateState, type GenerateState } from './state.js';
 import {
@@ -43,6 +44,10 @@ export function generateComponent(
   input: GenerateComponentInput,
   options: CompileOptions = {},
 ): GenerateComponentResult {
+  if (options.target === 'server') {
+    return generateServerComponent(input, options);
+  }
+
   const state = createGenerateState(input);
 
   state.lines.push('export function createComponent(initialInputs = {}, projectedSlots = {}) {');

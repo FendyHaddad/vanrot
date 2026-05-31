@@ -9,6 +9,7 @@ export interface WriteRoleFilesOptions {
   role: Role;
   name: string;
   feature?: string;
+  includeTest?: boolean;
 }
 
 export interface WriteRoleFilesResult {
@@ -22,16 +23,21 @@ export async function writeRoleFiles(
   const suffix = options.role === 'component' ? 'component' : 'page';
   const className = `${toPascalCase(options.name)}${options.role === 'component' ? 'Component' : 'Page'}`;
   const baseName = `${options.name}.${suffix}`;
-  const relativeFiles = [
-    join(directory, `${baseName}.ts`),
-    join(directory, `${baseName}.html`),
-    join(directory, `${baseName}.css`),
-  ] as const;
+  const typescriptFile = join(directory, `${baseName}.ts`);
+  const htmlFile = join(directory, `${baseName}.html`);
+  const cssFile = join(directory, `${baseName}.css`);
+  const relativeFiles = [typescriptFile, htmlFile, cssFile];
 
   await mkdir(join(options.cwd, directory), { recursive: true });
-  await writeFile(join(options.cwd, relativeFiles[0]), typescriptTemplate(className));
-  await writeFile(join(options.cwd, relativeFiles[1]), htmlTemplate(options.name));
-  await writeFile(join(options.cwd, relativeFiles[2]), cssTemplate(options.name));
+  await writeFile(join(options.cwd, typescriptFile), typescriptTemplate(className));
+  await writeFile(join(options.cwd, htmlFile), htmlTemplate(options.name));
+  await writeFile(join(options.cwd, cssFile), cssTemplate(options.name));
+
+  if (options.includeTest === true) {
+    const testFile = join(directory, `${baseName}.test.ts`);
+    relativeFiles.push(testFile);
+    await writeFile(join(options.cwd, testFile), testTemplate(options.role, className, baseName, options.name));
+  }
 
   return { files: [...relativeFiles] };
 }
@@ -60,4 +66,12 @@ function htmlTemplate(name: string): string {
 
 function cssTemplate(name: string): string {
   return `.${name} {\n  display: block;\n}\n`;
+}
+
+function testTemplate(role: Role, className: string, baseName: string, name: string): string {
+  const helper = role === 'component' ? 'testComponent' : 'testPage';
+  const source = role === 'component' ? '@vanrot/testing' : '@vanrot/testing';
+  const humanRole = role === 'component' ? 'component' : 'page';
+
+  return `import { expect } from 'vitest';\nimport { ${helper} } from '${source}';\nimport { ${className} } from './${baseName}.js';\n\n${helper}(${className}).can('create the ${name} ${humanRole}', () => {\n  const ${role} = new ${className}();\n\n  expect(${role}.title()).toBe('${className}');\n});\n`;
 }

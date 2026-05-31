@@ -1,8 +1,8 @@
 # Limitations
 
-## Post-production features are not current framework behavior
+## Remaining post-production features are tracked separately
 
-Brutalist UI, the expanded testing package, store, forms and async primitives, and SSR or hydration remain outside current public framework behavior.
+Brutalist UI, the expanded testing package, store, forms, async primitives, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.
 
 Docs: /docs/limitations
 

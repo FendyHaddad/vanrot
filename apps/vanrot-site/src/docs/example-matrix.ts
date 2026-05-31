@@ -13,6 +13,8 @@ export const requiredExampleWorkflows = [
   'devtools-intelligence',
   'ai-consumption',
   'build-deploy',
+  'webgl-threejs',
+  'ssr-hydration',
 ] as const;
 
 export type RequiredExampleWorkflow = (typeof requiredExampleWorkflows)[number];

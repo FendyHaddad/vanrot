@@ -12,6 +12,7 @@ export async function generateCommand(
 ): Promise<CommandResult> {
   const [role, name] = args;
   const feature = readOption(args, '--feature');
+  const includeTest = args.includes('--test');
 
   if (role !== 'component' && role !== 'page') {
     context.reporter.error('Unsupported generator role.', `Use ${generateUsages}.`);
@@ -37,6 +38,7 @@ export async function generateCommand(
     cwd: context.cwd,
     role: role as Role,
     name,
+    includeTest,
     ...(feature !== undefined ? { feature } : {}),
   });
 

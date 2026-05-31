@@ -165,6 +165,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.cli, cliNavigationChildren),
       navItem(siteArticleKey.configuration, configurationNavigationChildren),
       navItem(siteArticleKey.routing, routingNavigationChildren),
+      navItem(siteArticleKey.ssrHydration),
       navItem(siteArticleKey.testing, testingNavigationChildren),
       navItem(siteArticleKey.devtools, devtoolsNavigationChildren),
       navItem(siteArticleKey.conventions, conventionsNavigationChildren),
@@ -190,6 +191,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
     items: [
       navItem(siteArticleKey.examples),
       navItem(siteArticleKey.exampleMatrix),
+      navItem(siteArticleKey.webglThreejs),
       navItem(siteArticleKey.octoberShowcase),
     ],
   },

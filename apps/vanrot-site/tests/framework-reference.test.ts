@@ -20,6 +20,7 @@ describe('framework reference registry', () => {
       '@vanrot/config',
       '@vanrot/language-server',
       '@vanrot/router',
+      '@vanrot/ssr',
       '@vanrot/vite-plugin',
       '@vanrot/cli',
       '@vanrot/ui',
@@ -60,6 +61,14 @@ describe('framework reference registry', () => {
 
   it('covers public exports, commands, diagnostics, generated files, and conventions', () => {
     expect(frameworkReference.publicExports.length).toBeGreaterThan(20);
+    expect(frameworkReference.publicExports).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ packageName: '@vanrot/testing', name: 'testPage' }),
+        expect.objectContaining({ packageName: '@vanrot/testing', name: 'setupRouterTest' }),
+        expect.objectContaining({ packageName: '@vanrot/testing', name: 'createAccessibilityAssertions' }),
+        expect.objectContaining({ packageName: '@vanrot/testing', name: 'createFakeTimerBridge' }),
+      ]),
+    );
     expect(frameworkReference.commands.map((command) => command.name)).toEqual([
       'create',
       'generate',
@@ -90,6 +99,7 @@ describe('framework reference registry', () => {
     expect(frameworkReference.diagnostics.some((item) => item.family === 'compiler')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'config')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'router')).toBe(true);
+    expect(frameworkReference.diagnostics.some((item) => item.family === 'ssr')).toBe(true);
     expect(frameworkReference.generatedFiles.map((item) => item.path)).toContain('src/routes.ts');
     expect(frameworkReference.conventions.map((item) => item.id)).toEqual([
       'role-suffixes',
@@ -124,6 +134,8 @@ describe('example matrix', () => {
       'devtools-intelligence',
       'ai-consumption',
       'build-deploy',
+      'webgl-threejs',
+      'ssr-hydration',
     ]);
 
     for (const workflow of requiredExampleWorkflows) {
@@ -137,5 +149,9 @@ describe('example matrix', () => {
         true,
       );
     }
+
+    expect(exampleMatrix.some((example) => example.docsPath === '/docs/examples/webgl-threejs')).toBe(
+      true,
+    );
   });
 });

@@ -360,6 +360,12 @@ Preloading and keepAlive improve navigation responsiveness and state restoration
 
 Docs: /docs/routing/preloading-keep-alive
 
+## SSR And Hydration
+
+Use @vanrot/ssr for deterministic server markup, shell output, escaped hydration state, route-aware rendering, and explicit hydration diagnostics.
+
+Docs: /docs/ssr-hydration
+
 ## UI October
 
 October is Vanrot's dark-first, light-capable UI foundation with source-owned primitives, tokens, and vanrotstyles.
@@ -380,7 +386,7 @@ Docs: /docs/vanrotstyles
 
 ## Testing
 
-@vanrot/testing currently exposes component test helpers built around testComponent and Screen, with route-aware and production workflow guidance documented as the framework grows.
+@vanrot/testing ships component, page, router, accessibility, async, and generator helpers for readable Vitest and jsdom workflows.
 
 Docs: /docs/testing
 
@@ -392,13 +398,13 @@ Docs: /docs/testing/component-tests
 
 ## Testing Screen
 
-Screen is the small DOM query surface returned by @vanrot/testing component tests.
+Screen is the small DOM query surface returned by @vanrot/testing component and page tests.
 
 Docs: /docs/testing/screen
 
 ## Testing Routing
 
-Routing tests verify route refs, paths, params, guards, active state, preloading, and keepAlive behavior at the router boundary.
+Routing tests verify route refs, paths, params, query values, redirects, guards, lazy pages, active state, preloading, and cleanup at the router boundary.
 
 Docs: /docs/testing/routing
 
@@ -455,6 +461,12 @@ Docs: /docs/examples
 Use verified example workspaces as the source of truth for framework workflows and docs snippets.
 
 Docs: /docs/example-matrix
+
+## WebGL And three.js Lifecycle
+
+Use Vanrot lifecycle hooks and signals around an app-owned WebGL or three.js scene without adding three.js to the core runtime.
+
+Docs: /docs/examples/webgl-threejs
 
 ## Build And Deployment Preparation
 
