@@ -18,12 +18,15 @@
     "dist"
   ],
   "dependencies": {
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19"
   }
 }

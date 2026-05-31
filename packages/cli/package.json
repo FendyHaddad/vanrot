@@ -26,7 +26,7 @@
     "@vanrot/config": "file:../config",
     "@vanrot/devtools": "file:../devtools",
     "@vanrot/ui": "file:../ui",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.3"
   },
   "scripts": {
     "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/behavior build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/devtools build && pnpm --filter @vanrot/ai build",
@@ -36,5 +36,8 @@
     "pretest": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/behavior build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/devtools build && pnpm --filter @vanrot/ai build",
     "test": "vitest run",
     "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19"
   }
 }
