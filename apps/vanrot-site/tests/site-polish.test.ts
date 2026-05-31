@@ -1,7 +1,11 @@
 import { readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
-import { deploymentReference, publicRouteMetadata } from '../src/docs/framework-reference.ts';
+import {
+  deploymentReference,
+  packageReferenceDocs,
+  publicRouteMetadata,
+} from '../src/docs/framework-reference.ts';
 
 const appRoot = process.cwd();
 
@@ -49,10 +53,32 @@ describe('site polish', () => {
     expect(html).toContain('<span class="cc">// no magic, no diffing</span><br>');
     expect(html).toContain('<span class="db-stat-detail">{{ stat.detail }}</span>');
     expect(source).toContain("detail: 'gzipped'");
-    expect(source).toContain("const runtimeSize = '5.68kb';");
+    expect(source).toContain("const runtimeSize = '1.8kb';");
     expect(source).toContain("'@vanrot/runtime': { version: '0.1.0', size: runtimeSize }");
-    expect(source).not.toContain("const runtimeSize = '3.9kb';");
+    expect(source).toContain("'@vanrot/behavior': { version: '0.1.0', size: '4.1kb' }");
+    expect(source).toContain("name: '@vanrot/behavior/all'");
+    expect(source).toContain("size: '4.1kb'");
+    expect(source).toContain("'@vanrot/ui': { version: '0.1.0', size: '9.4kb' }");
+    expect(source).not.toContain('4.1kb all');
+    expect(source).not.toContain("const runtimeSize = '5.68kb';");
+    expect(packageReferenceDocs.map(pkg => pkg.name)).toContain('@vanrot/behavior');
+    expect(source).toContain("title: 'Zero runtime deps'");
+    expect(source).toContain(
+      "body: 'Vite powers dev/build. The browser runtime ships dependency-free.'",
+    );
+    expect(source).not.toContain("title: 'Zero deps'");
     expect(source).toContain('packageSummary');
+    expect(source).toContain('const runtimeDashboardPackageNames = new Set([');
+    expect(source).toContain("'@vanrot/runtime'");
+    expect(source).toContain("'@vanrot/behavior'");
+    expect(source).toContain("'@vanrot/router'");
+    expect(source).toContain("'@vanrot/ui'");
+    expect(source).toContain('runtimePackages');
+    expect(source).toContain('runtime entries');
+    expect(source).not.toContain("runtimeDashboardPackageNames = new Set(['@vanrot/compiler'");
+    expect(html).toContain('<div class="db-panel-head"><h3>Runtime packages</h3>');
+    expect(html).toContain('@for (item of dashboardPackages; track item.name)');
+    expect(html).toContain('@for (item of packages; track item.name)');
     expect(html).toContain('<vr-table-head class="num">Version</vr-table-head>');
     expect(html).toContain('<vr-table-head class="num">Size</vr-table-head>');
     expect(html).toContain('<vr-table-cell class="m num">{{ item.version }}</vr-table-cell>');

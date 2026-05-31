@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "pretest": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/behavior build",
     "test": "vitest run",
+    "pretypecheck": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/behavior build",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {

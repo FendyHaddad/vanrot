@@ -14,6 +14,7 @@ PUBLISH_PACKAGES=(
   config
   ai
   runtime
+  behavior
   ui
   compiler
   router

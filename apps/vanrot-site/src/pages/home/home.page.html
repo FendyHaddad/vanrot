@@ -54,7 +54,7 @@
                             }
                         </div>
                         <vr-card class="db-panel">
-                            <div class="db-panel-head"><h3>Packages</h3>
+                            <div class="db-panel-head"><h3>Runtime packages</h3>
                                 <p>{{ packageSummary }}</p></div>
                             <vr-table class="db-table">
                                 <vr-table-header>
@@ -67,7 +67,7 @@
                                     </vr-table-row>
                                 </vr-table-header>
                                 <vr-table-body>
-                                    @for (item of packages; track item.name) {
+                                    @for (item of dashboardPackages; track item.name) {
                                     <vr-table-row>
                                         <vr-table-cell class="db-pkg-name">{{ item.name }}</vr-table-cell>
                                         <vr-table-cell>{{ item.area }}</vr-table-cell>

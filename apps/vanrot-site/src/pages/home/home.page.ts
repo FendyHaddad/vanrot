@@ -1,22 +1,36 @@
 import { packageReferenceDocs } from '../../docs/site-data.ts';
 import { setupHomeInteractions } from './home-interactions.widget.ts';
 
-const runtimeSize = '5.68kb';
+const runtimeSize = '1.8kb';
 const packageDashboardMeta = {
   '@vanrot/runtime': { version: '0.1.0', size: runtimeSize },
+  '@vanrot/behavior': { version: '0.1.0', size: '4.1kb' },
   '@vanrot/compiler': { version: '0.1.1', size: '12.1kb' },
   '@vanrot/config': { version: '0.1.0', size: '2.4kb' },
   '@vanrot/language-server': { version: '0.1.1', size: '—' },
   '@vanrot/router': { version: '0.1.0', size: '5.2kb' },
   '@vanrot/vite-plugin': { version: '0.1.1', size: '6.0kb' },
   '@vanrot/cli': { version: '0.1.1', size: '—' },
-  '@vanrot/ui': { version: '0.1.0', size: '—' },
+  '@vanrot/ui': { version: '0.1.0', size: '9.4kb' },
   '@vanrot/testing': { version: '0.1.0', size: '3.1kb' },
   '@vanrot/devtools': { version: '0.1.0', size: '—' },
   '@vanrot/ai': { version: '0.1.0', size: '—' },
 } as const;
 
 const fallbackPackageMeta = { version: '—', size: '—' } as const;
+const behaviorAllBundle = {
+  name: '@vanrot/behavior/all',
+  area: 'All behavior helpers',
+  version: '0.1.0',
+  size: '4.1kb',
+  statusLabel: 'bundle',
+} as const;
+const runtimeDashboardPackageNames = new Set([
+  '@vanrot/runtime',
+  '@vanrot/behavior',
+  '@vanrot/router',
+  '@vanrot/ui',
+]);
 
 const homeCopy = {
   eyebrow: 'AI-first · Signal-based · Secure by design',
@@ -57,8 +71,8 @@ const aiFeatures = [
   },
   {
     icon: '▣',
-    title: 'Zero deps',
-    body: '0 runtime dependencies. Tiny supply chain, fully typed surface.',
+    title: 'Zero runtime deps',
+    body: 'Vite powers dev/build. The browser runtime ships dependency-free.',
   },
 ] as const;
 
@@ -81,21 +95,27 @@ const packages = packageReferenceDocs.map(pkg => {
     statusLabel: isProductionReady(pkg.status) ? 'stable' : 'demo',
   };
 });
+const runtimePackages = packages.filter(pkg => runtimeDashboardPackageNames.has(pkg.name));
+const dashboardPackages = runtimePackages.flatMap(pkg =>
+  pkg.name === '@vanrot/behavior' ? [pkg, behaviorAllBundle] : [pkg],
+);
 const stablePackageCount = packages.filter(pkg => pkg.statusLabel === 'stable').length;
 const demoPackageCount = packages.length - stablePackageCount;
-const packageSummary = `${packages.length} packages · ${stablePackageCount} stable, ${demoPackageCount} demo`;
+const bundleProfileCount = dashboardPackages.length - runtimePackages.length;
+const packageSummary = `${dashboardPackages.length} runtime entries · ${runtimePackages.length} packages, ${bundleProfileCount} bundle`;
 
 export class HomePage {
   copy = homeCopy;
   runtimeSize = runtimeSize;
   aiFeatures = aiFeatures;
   packages = packages;
+  dashboardPackages = dashboardPackages;
   packageCount = packageReferenceDocs.length;
   packageSummary = packageSummary;
   stats = [
     { num: runtimeSize, label: 'Runtime size', detail: 'gzipped' },
-    { num: '0', label: 'Dependencies', detail: 'runtime' },
-    { num: String(packageReferenceDocs.length), label: 'Packages', detail: `${demoPackageCount} demo` },
+    { num: '0', label: 'Runtime deps', detail: 'Vite builds' },
+    { num: String(dashboardPackages.length), label: 'Runtime entries', detail: `${runtimePackages.length} packages` },
     { num: '100%', label: 'Type coverage', detail: 'strict' },
   ];
 

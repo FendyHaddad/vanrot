@@ -170,13 +170,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-05-31 4:23am GMT+8
+# [vanrot] recent context, 2026-05-31 3:42pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (14,942t read) | 1,714,828t work | 99% savings
+Stats: 50 obs (14,622t read) | 1,953,882t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -190,32 +190,8 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-### May 26, 2026
-2046 6:52p 🔵 Codex TOML configuration for Claude-Mem server validated
-2055 6:53p 🔵 Relevant lines identified in AGENTS.md for memory protocol
-2065 11:22p ✅ Staged files for Vanrot commit
-2066 " 🔵 Phase 16G completion status and next steps identified
-### May 27, 2026
-2071 10:14p 🔵 Phase 25 AI Consumption Scope and Requirements
-2073 " 🔵 Memory Registry Search for Phase 25 and Related Terms
-2080 10:17p 🔵 Verification Scripts and Hooks for Phase Documentation
-### May 28, 2026
-2121 5:29a 🔵 User is experiencing repeated failures with systematic-debugging skill
-2122 " ✅ Updated web-types.json with route attributes
-2123 5:30a ✅ Corrected regex in web-types.test.ts
 ### May 29, 2026
-2231 1:08a ✅ Cleared Session State
-2232 3:31p 🔵 Plugin Upload Mechanism
-2233 3:32p 🔵 IntelliJ Plugin Project Structure and Files
-2234 " 🔵 IntelliJ Plugin Development Plan
-2235 " 🔵 IntelliJ Plugin Build Configuration and Artifacts
-2236 " 🔵 IntelliJ Plugin Build Configuration Details
-2238 3:33p 🔵 IntelliJ Plugin Build Artifacts and Configuration
-2242 3:34p 🔵 IntelliJ Plugin Template File Recognition
-2249 3:36p 🔵 IntelliJ Plugin Integration and Template File Handling
-2254 " 🔵 IntelliJ Plugin ID and Name References
-2259 " 🔵 Claude-Mem Session Initialization
-2260 " ✅ IntelliJ Plugin Metadata Renamed
+2260 3:36p ✅ IntelliJ Plugin Metadata Renamed
 2270 3:37p 🔴 IntelliJ Plugin Build Failure
 2272 " 🔵 Gradle Build Failure - Kotlin/Java Module Issue
 2276 " 🔴 Java Version Mismatch in IntelliJ Plugin Build
@@ -245,6 +221,28 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2453 " 🔵 Memory Registry Search Results
 2459 " 🔵 Site Data and Article Rendering Analysis
 2465 " 🔵 Runtime Article JSON Content
+### May 31, 2026
+2473 3:00p ✅ Added pretest and pretypecheck scripts to package.json
+2472 " 🔵 New behavior added to publish.sh
+2475 3:02p 🔵 Publish dry-run timed out
+2477 " ✅ Initiated background publish dry-run
+2479 " 🔵 Publish dry-run is still in progress
+2481 3:03p 🔵 Publish dry-run still in progress, no significant output yet
+2485 " 🔵 Publish dry-run still stuck on initial step
+2491 " 🔵 Publish dry-run process information not found
+2495 3:04p ✅ Restarted publish dry-run, capturing full output
+2501 " 🔵 Publish dry-run timed out again
+2508 3:05p 🔵 Publish dry-run still timing out
+2517 " 🔵 Publish dry-run continues to time out
+2529 3:06p 🔵 Publish dry-run log analysis shows no completion or behavior mention
+2538 " 🔵 Publish dry-run continues to time out
+2552 " 🔵 Publish dry-run log analysis shows script did not complete, but reached verification steps
+2560 3:07p 🔵 Publish dry-run continues to time out
+2574 " 🔵 Publish dry-run log analysis shows verification scripts completed, but script did not
+2581 3:08p 🔵 Publish dry-run continues to time out with increased timeout
+2593 " 🔵 Publish dry-run script is still running, but verification scripts have passed
+2601 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
+2603 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
 
-Access 1715k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1954k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
