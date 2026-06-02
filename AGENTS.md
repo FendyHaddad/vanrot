@@ -170,13 +170,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-01 12:05am GMT+8
+# [vanrot] recent context, 2026-06-03 5:17am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (14,622t read) | 1,953,882t work | 99% savings
+Stats: 50 obs (14,512t read) | 1,901,840t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -191,7 +191,6 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 29, 2026
-2260 3:36p ✅ IntelliJ Plugin Metadata Renamed
 2270 3:37p 🔴 IntelliJ Plugin Build Failure
 2272 " 🔵 Gradle Build Failure - Kotlin/Java Module Issue
 2276 " 🔴 Java Version Mismatch in IntelliJ Plugin Build
@@ -243,6 +242,8 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2593 " 🔵 Publish dry-run script is still running, but verification scripts have passed
 2601 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
 2603 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
+### Jun 3, 2026
+2756 5:00a ✅ README added to vanrot repository
 
-Access 1954k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1902k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
