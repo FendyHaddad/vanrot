@@ -141,16 +141,19 @@ Possible slices:
 
 ## vanrot/seo
 
-`vanrot/seo` is the parked name for an opt-in SEO package that makes common SEO work easier for Vanrot
-developers without moving metadata behavior into the core runtime.
+`vanrot/seo` shipped in Phase 27 as `@vanrot/seo`. It remains opt-in, keeps metadata behavior out of
+`@vanrot/runtime`, and is covered by package, config, CLI, Vite build, doctor, and site-doc tests.
 
-Possible scope:
+Shipped scope:
 
-- Typed page metadata helpers for titles, descriptions, canonical URLs, robots directives, and social previews.
-- Route-aware metadata composition that works with the router, SSR, and future hydration without relying on repeated
-  string literals.
-- Sitemap and robots generation hooks for app builds, with clear defaults and explicit escape hatches.
-- Dev diagnostics for missing or duplicate metadata, unsupported tags, and preview-card issues.
+- Typed metadata helpers, constants, static metadata, dynamic/async metadata, metadata ladder resolution, and canonical
+  URL handling.
+- Structured data helpers, social metadata helpers, social image validation, SSR tag rendering, and client head updates.
+- Sitemap and robots generation hooks for app builds once `seo.siteUrl` is configured.
+- `vr create --seo`, `vr create --no-seo`, `vr add seo`, generated `src/app/seo.ts`, SEO config upsert, and `vr doctor`
+  package/config drift checks.
+- Site docs explain the SEO ladder, `siteUrl` warning behavior, opt-in flows, build outputs, and the no-image-generation
+  boundary.
 
 ## Vanrot Forge
 
@@ -171,6 +174,18 @@ Possible scope:
 - First-party plugin hooks for framework packages without copying Vite's whole plugin surface too early.
 - `vr create` project setup that offers Forge or Vite and keeps both starter paths maintained.
 
+## CLI Prompt Roadmap
+
+The `vr create` prompt flow is the framework's first impression. Keep the full prompt polish pass parked until the last
+project juncture, after the first-party packages and major features are implemented.
+
+Possible scope:
+
+- One optional package selection step that can offer SEO, behavior, UI primitives, Forge, and future first-party packages.
+- Package-specific follow-up prompts only after a package is selected, such as SEO's optional production `siteUrl`.
+- Clear recommended defaults that help new users without hiding opt-out paths.
+- Consistent wording, ordering, non-interactive flags, and `vr doctor` follow-up hints across every optional package.
+
 ## Activation Rules
 
 Before executing any of these entries:
@@ -179,6 +194,6 @@ Before executing any of these entries:
 - Write or update the matching spec.
 - Write the matching implementation plan.
 - Keep broad work split into lettered slices when needed.
-- Update `docs/superpowers/feature-maturity.md`, `docs/superpowers/final-tdd-inventory.md`, and
-  `docs/vanrot-presentation.html` only when the entry status or framework surface changes.
+- Update `docs/superpowers/feature-maturity.md` and `docs/superpowers/final-tdd-inventory.md` only when the
+  entry status or framework surface changes.
 - Run `pnpm verify` before marking anything complete.

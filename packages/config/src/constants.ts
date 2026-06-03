@@ -16,5 +16,6 @@ export const configDomain = {
   cache: 'cache',
   docs: 'docs',
   ai: 'ai',
+  seo: 'seo',
   conventions: 'conventions',
 } as const;

@@ -1,7 +1,11 @@
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
 import { basename, dirname, resolve } from 'node:path';
-import { formatConfigDiagnostic, loadVanrotProjectConfig } from '@vanrot/config';
+import {
+  formatConfigDiagnostic,
+  loadVanrotProjectConfig,
+  type NormalizedVanrotSeoConfig,
+} from '@vanrot/config';
 import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
@@ -22,6 +26,7 @@ import {
   type NormalizedVanrotPluginOptions,
   type VanrotPluginOptions,
 } from './options.js';
+import { buildSeoArtifacts } from './seo-build.js';
 
 interface VanrotPluginInternals {
   compile?: (componentPath: string) => Promise<ViteCompileResult>;
@@ -43,6 +48,7 @@ function createVanrotPlugin(
 ): Plugin {
   let normalizedOptions = normalizeOptions(options);
   let resolvedConfig: ResolvedConfig | undefined;
+  let seoConfig: NormalizedVanrotSeoConfig | undefined;
   const cssByComponentPath = internals.initialCss ?? new Map<string, string>();
   const cssMapByComponentPath = new Map<string, ViteCompileResult['cssMap']>();
   const readSource = internals.readSource ?? ((filePath: string) => readFile(filePath, 'utf8'));
@@ -82,6 +88,7 @@ function createVanrotPlugin(
         },
         config.root,
       );
+      seoConfig = loaded.config.seo;
     },
     configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
@@ -176,7 +183,15 @@ function createVanrotPlugin(
     handleHotUpdate(ctx) {
       return handleVanrotHotUpdate(ctx);
     },
-    generateBundle(_options, bundle) {
+    async generateBundle(_options, bundle) {
+      for (const artifact of await buildSeoArtifacts(seoConfig)) {
+        this.emitFile({
+          type: 'asset',
+          fileName: artifact.fileName,
+          source: artifact.source,
+        });
+      }
+
       if (!resolvedConfig?.build.sourcemap) {
         return;
       }

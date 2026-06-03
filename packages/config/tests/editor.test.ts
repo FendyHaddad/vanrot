@@ -1,5 +1,11 @@
 import { describe, expect, it } from 'vitest';
-import { removeVanrotConfigDomainIfGenerated, upsertVanrotConfigDomain } from '../src/index.js';
+import {
+  generatedVanrotSeoConfigSource,
+  removeGeneratedVanrotSeoConfigDomain,
+  removeVanrotConfigDomainIfGenerated,
+  upsertVanrotConfigDomain,
+  upsertVanrotSeoConfigDomain,
+} from '../src/index.js';
 
 describe('upsertVanrotConfigDomain', () => {
   it('inserts missing ui domain and stays idempotent on repeated calls', () => {
@@ -40,5 +46,28 @@ describe('upsertVanrotConfigDomain', () => {
       'ui:',
     );
     expect(removeVanrotConfigDomainIfGenerated(customized, 'ui', '{ prefix: "ui" }')).toContain('ui:');
+  });
+
+  it('upserts and removes generated SEO config without touching customized SEO config', () => {
+    const source = [
+      "import { defineVanrotConfig } from '@vanrot/config';",
+      '',
+      'export default defineVanrotConfig({',
+      '  schemaVersion: 1,',
+      "  source: { root: 'src' },",
+      '  devServer: { port: 1964 },',
+      '});',
+      '',
+    ].join('\n');
+
+    const generated = upsertVanrotSeoConfigDomain(source);
+    const customized = generated.replace(
+      generatedVanrotSeoConfigSource,
+      '{ siteUrl: "https://vanrot.vankode.com" }',
+    );
+
+    expect(generated).toContain(`seo: ${generatedVanrotSeoConfigSource},`);
+    expect(removeGeneratedVanrotSeoConfigDomain(generated)).not.toContain('seo:');
+    expect(removeGeneratedVanrotSeoConfigDomain(customized)).toContain('seo:');
   });
 });

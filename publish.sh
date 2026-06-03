@@ -22,6 +22,7 @@ PUBLISH_PACKAGES=(
   testing
   cli
   language-server
+  seo
   vite-plugin
 )
 

@@ -22,6 +22,13 @@ export const configDiagnosticCode = {
   invalidAiRuleSection: 'VRCFG011',
   invalidAiRuleCustomSection: 'VRCFG012',
   invalidBehavior: 'VRCFG013',
+  invalidSeoSiteUrl: 'VRCFG014',
+  missingSeoSiteUrl: 'VRCFG015',
+  invalidSeoDiagnosticsMode: 'VRCFG016',
+  invalidSeoDefaultTitle: 'VRCFG017',
+  invalidSeoSocialImage: 'VRCFG018',
+  invalidSeoSitemapRoute: 'VRCFG019',
+  invalidSeoRobotsDirective: 'VRCFG020',
 } as const;
 
 export function formatConfigDiagnostic(diagnostic: ConfigDiagnostic): string {

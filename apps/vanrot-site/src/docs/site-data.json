@@ -438,6 +438,587 @@
       ]
     },
     {
+      "key": "behaviorForm",
+      "section": "framework",
+      "path": "/docs/behavior/form",
+      "label": "Form",
+      "title": "Form Behavior",
+      "summary": "createFormController gives forms signal-backed values, per-field validation, dirty and touched tracking, and an async submit guard.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "controller-shape",
+          "title": "Controller shape",
+          "body": "createFormController(initialValues) is the state boundary for a form. It returns writable signals for value, dirty, touched, valid, invalid, errors, disabled, pending, and submitted, so templates can read form state without keeping duplicate booleans. Each registered field owns its own value, dirty flag, touched flag, errors array, and validity helpers, while the parent controller keeps the aggregate form snapshot in sync.",
+          "points": [
+            "registerField({ name, required, validators }) wires a field into the form.",
+            "field.setValue marks the field dirty and re-syncs aggregate form flags.",
+            "form.validate runs every field validator and returns whether the form is valid."
+          ]
+        },
+        {
+          "id": "validators",
+          "title": "Built-in validators",
+          "body": "The package ships requiredValidator, emailValidator, and minLengthValidator(length). A validator is (value, values) => string | null, so a field-level rule can still read sibling values for confirmation fields, dependent choices, or conditional requirements. Mark a field required: true when the required rule should be inserted automatically, or pass validators explicitly when the field needs a custom ordering.",
+          "points": [
+            "Validators return the user-facing error text, not a boolean, so the same result can feed inline errors and summaries.",
+            "Empty email values are accepted by emailValidator; combine it with requiredValidator when the address must be present.",
+            "Cross-field validators should read the values object and avoid mutating controller state while validation is running."
+          ]
+        },
+        {
+          "id": "submit-guard",
+          "title": "Submit guard",
+          "body": "form.submit(handler) is the safe boundary for async saves. It validates first, marks every field touched when validation fails, sets pending while the handler runs, and resolves to true only after the handler completes. That gives buttons, spinners, error summaries, and navigation guards one source of truth instead of scattered local state.",
+          "code": {
+            "title": "Validated submit",
+            "code": "import { createFormController, emailValidator, requiredValidator } from '@vanrot/behavior/form';\n\nconst form = createFormController({ email: '' });\nconst email = form.registerField({\n  name: 'email',\n  validators: [requiredValidator, emailValidator],\n});\n\nemail.setValue('hi@vanrot.dev');\nconst ok = await form.submit(async (values) => save(values));"
+          }
+        },
+        {
+          "id": "native-control-bridge",
+          "title": "Native control bridge",
+          "body": "connectFormControl(element, field) binds a native input, select, or textarea to a field controller. Input and change events push the element value into the field, blur marks it touched, and the returned disposer removes every listener when the owner component is destroyed. Use it when a page keeps markup in HTML but wants the controller to own the state contract.",
+          "points": [
+            "Call the disposer from the page or component cleanup path.",
+            "Prefer one controller per form, then register fields near the elements they control.",
+            "Keep submit handlers in TypeScript and render errors from the field and form signals."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "behaviorOverlay",
+      "section": "framework",
+      "path": "/docs/behavior/overlay",
+      "label": "Overlay",
+      "title": "Overlay Behavior",
+      "summary": "createOverlayController drives dialogs, popovers, and menus with open state, focus restore, escape-to-close, and outside-pointer dismissal.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "open-state",
+          "title": "Open state",
+          "body": "createOverlayController owns the state shared by dialogs, popovers, drawers, and menu-like surfaces. The controller exposes a writable open signal plus openOverlay, closeOverlay, and toggleOverlay. Opening captures the active element, flips open to true, and moves focus into the first focusable node registered as content; closing restores focus to the element that had focus before the overlay opened.",
+          "points": [
+            "registerTrigger(element) opens the overlay on click and returns a disposer.",
+            "registerContent(element) marks the focus-trap and outside-pointer boundary.",
+            "onOpenChange fires for every state transition so the app can sync side effects."
+          ]
+        },
+        {
+          "id": "dismiss-policy",
+          "title": "Dismiss policy",
+          "body": "closeOnEscape and closeOnOutsidePointer default to true because most overlays should dismiss through keyboard escape and outside pointer intent. Escape closes only while the document listener sees the configured key, and outside pointer dismissal ignores targets inside every registered content element. Set either option false for confirmation flows, forced decisions, or composite widgets that need an explicit close action.",
+          "points": [
+            "Register every floating panel that should count as inside the overlay.",
+            "Keep destructive confirmations explicit by disabling outside dismissal.",
+            "Use onOpenChange for analytics, body scroll locks, or syncing a URL state flag."
+          ]
+        },
+        {
+          "id": "lifecycle",
+          "title": "Lifecycle",
+          "body": "Overlays add document-level keydown and pointerdown listeners, so cleanup is part of the public contract. Trigger and content registration each return a disposer for element-level cleanup, and dispose() removes the global listeners and clears all registered elements. Call it from the component/page destroy path, especially for routed pages where overlays can be mounted and unmounted many times.",
+          "code": {
+            "title": "Wire an overlay",
+            "code": "import { createOverlayController } from '@vanrot/behavior/overlay';\n\nconst overlay = createOverlayController({ closeOnEscape: true });\nconst stopTrigger = overlay.registerTrigger(button);\nconst stopContent = overlay.registerContent(panel);\n\noverlay.toggleOverlay();\n// onDestroy\noverlay.dispose();"
+          }
+        },
+        {
+          "id": "composition",
+          "title": "Composition",
+          "body": "The overlay controller deliberately does not render markup, trap focus with hidden sentinels, or position floating content. Keep the dialog, popover, or menu DOM in the matching HTML file, read overlay.open() to show or hide it, and compose with positionLayer when a floating panel must be anchored to its trigger. That keeps @vanrot/runtime small while still giving applications predictable headless behavior.",
+          "points": [
+            "Use overlay state for dialogs, menus, popovers, and drawers that need shared dismissal rules.",
+            "Use @vanrot/behavior/positioned-layer for geometry instead of putting placement logic in overlay state.",
+            "Keep business actions in the application handler and let the behavior helper own interaction state only."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "behaviorTooltip",
+      "section": "framework",
+      "path": "/docs/behavior/tooltip",
+      "label": "Tooltip",
+      "title": "Tooltip Behavior",
+      "summary": "createTooltipController shows hover and focus tooltips with a configurable delay and correct ARIA wiring.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "trigger-events",
+          "title": "Trigger events",
+          "body": "createTooltipController gives tooltip markup a small state machine without deciding how the bubble looks. registerTrigger binds pointerenter and focusin to open and pointerleave and focusout to close, so the same tooltip is reachable by keyboard and mouse users. The optional delay is applied to pointer hover only; focus opens immediately so keyboard feedback does not feel delayed.",
+          "points": [
+            "open is a writable signal the template can read to render the bubble.",
+            "registerContent sets role=\"tooltip\" and toggles hidden as state changes.",
+            "Escape closes an open tooltip from anywhere in the document."
+          ]
+        },
+        {
+          "id": "aria-and-content",
+          "title": "ARIA and content",
+          "body": "Registered content receives role=\"tooltip\" and hidden state updates whenever open changes. Registered triggers receive aria-describedby when content is present, then lose that relationship when the tooltip closes or the controller is disposed. Keep tooltip copy short and descriptive; use an overlay or dialog for interactive content because tooltip behavior is intentionally read-only.",
+          "points": [
+            "Use tooltip content for labels, definitions, and short help text.",
+            "Do not put buttons, forms, or menus inside tooltip content.",
+            "Pair the controller with positionLayer when the bubble needs anchored placement."
+          ]
+        },
+        {
+          "id": "cleanup",
+          "title": "Cleanup",
+          "body": "Each register call returns a disposer, and dispose() clears the pending open timer, removes the document keydown listener, and clears tracked trigger/content elements. Cleanup matters because a delayed hover can otherwise fire after the owning component has left the page. Store the disposer near the element reference and run it from the page or component cleanup path.",
+          "code": {
+            "title": "Delayed tooltip",
+            "code": "import { createTooltipController } from '@vanrot/behavior/tooltip';\n\nconst tooltip = createTooltipController({ delay: 150 });\ntooltip.registerTrigger(button);\ntooltip.registerContent(bubble);"
+          }
+        }
+      ]
+    },
+    {
+      "key": "behaviorTabs",
+      "section": "framework",
+      "path": "/docs/behavior/tabs",
+      "label": "Tabs",
+      "title": "Tabs Behavior",
+      "summary": "createTabsController manages a selected tab value with roving-focus arrow navigation and tab/tabpanel ARIA roles.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "selection",
+          "title": "Selection",
+          "body": "createTabsController manages the selected value for a tablist while the application keeps the actual triggers and panels in HTML. The controller takes a defaultValue and exposes a writable value signal plus select(value) and isSelected(value). registerTrigger and registerPanel connect each tab and panel by the same value key, then synchronize selection attributes and hidden panel state.",
+          "points": [
+            "Selected trigger gets aria-selected=\"true\" and tabIndex 0; others go to -1.",
+            "Unselected panels are hidden so only the active panel renders.",
+            "Arrow keys move focus and selection across triggers, wrapping at the ends."
+          ]
+        },
+        {
+          "id": "keyboard",
+          "title": "Keyboard model",
+          "body": "ArrowRight and ArrowDown advance, ArrowLeft and ArrowUp go back, and the moved-to trigger receives focus. This is a roving-focus model: only the selected trigger sits in the natural tab order, while arrow keys move within the tab set. The controller wraps at the ends so the keyboard model stays predictable in both horizontal and compact layouts.",
+          "code": {
+            "title": "Connect tabs",
+            "code": "import { createTabsController } from '@vanrot/behavior/tabs';\n\nconst tabs = createTabsController({ defaultValue: 'overview' });\ntabs.registerTrigger('overview', overviewTab);\ntabs.registerPanel('overview', overviewPanel);\ntabs.registerTrigger('billing', billingTab);\ntabs.registerPanel('billing', billingPanel);\n\ntabs.select('billing');"
+          }
+        },
+        {
+          "id": "page-state",
+          "title": "Page state",
+          "body": "Tabs can be local UI state or app state. For purely local surfaces, let value stay inside the controller and render panel visibility from tabs.isSelected(value). For route-aware or persisted tabs, subscribe to value changes through application code and call select() when the route or stored preference changes. Dispose removes click and keydown listeners and clears registered triggers and panels.",
+          "points": [
+            "Use stable value strings such as overview, billing, or activity.",
+            "Do not derive tab identity from visible labels that may be translated.",
+            "Keep panel logic in TypeScript and panel markup in the matching HTML file."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "behaviorTable",
+      "section": "framework",
+      "path": "/docs/behavior/table",
+      "label": "Table",
+      "title": "Table Behavior",
+      "summary": "createTableController adds client-side filtering, sorting, pagination, and row selection over a typed row array.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "derived-state",
+          "title": "Derived state",
+          "body": "createTableController is for client-side tables where rows are already available in memory. Give the controller rows and an optional pageSize and getRowId. It maintains rows, filteredRows, visibleRows, query, page, pageSize, totalPages, sortKey, sortDirection, selectedIds, loading, and empty as signals, so a table template can render filters, headers, pagination, and empty states from one controller.",
+          "points": [
+            "setFilter(query) does a case-insensitive match across all row values.",
+            "sortBy(key) toggles asc and desc using numeric-aware comparison.",
+            "setPage(page) clamps to the available range; visibleRows holds the page slice."
+          ]
+        },
+        {
+          "id": "selection-and-filter",
+          "title": "Selection and external filter",
+          "body": "toggleRow(row, index) and clearSelection() drive selectedIds using getRowId. Use a stable row id for app data, because the index fallback is only safe for static demos. connectTableFilter(input, controller) binds a native search input to setFilter and returns a disposer so search wiring cleans up when the table page is destroyed.",
+          "code": {
+            "title": "Filter and sort",
+            "code": "import { createTableController } from '@vanrot/behavior/table';\n\nconst table = createTableController({ rows, pageSize: 20 });\ntable.setFilter('vancouver');\ntable.sortBy('name');\ntable.setPage(2);\n\nconst visible = table.visibleRows();"
+          }
+        },
+        {
+          "id": "pagination-and-empty-state",
+          "title": "Pagination and empty state",
+          "body": "Filtering, sorting, and row replacement all refresh pagination. setRows resets to page one, setFilter resets to page one, and setPage clamps the requested page against totalPages. The empty signal is true when the filtered result has no rows and loading is false, which lets a page distinguish between loading skeletons and a real no-results message.",
+          "points": [
+            "Use loading for app-owned fetch state; the controller does not perform network requests.",
+            "Render visibleRows() instead of slicing rows again in the template.",
+            "Use totalPages(), page(), and setPage() for pager buttons."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "behaviorToast",
+      "section": "framework",
+      "path": "/docs/behavior/toast",
+      "label": "Toast",
+      "title": "Toast Behavior",
+      "summary": "createToastController manages a queue of dismissible toast messages with tones and auto-expiry timers.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "queue",
+          "title": "Message queue",
+          "body": "createToastController manages transient messages without requiring a renderer package. The controller exposes a toasts signal holding active messages, and enqueue({ title, description, tone, timeoutMs }) appends a message, returns the created toast, and schedules auto-dismiss when timeoutMs is greater than zero. The application decides where the toast region lives and how tones map to CSS.",
+          "points": [
+            "Tones are default, success, warning, and danger.",
+            "defaultTimeoutMs (4000) applies when a message omits timeoutMs.",
+            "Pass timeoutMs: 0 for a sticky toast that only dismisses on demand."
+          ]
+        },
+        {
+          "id": "dismissal",
+          "title": "Dismissal",
+          "body": "dismiss(id) clears the timer and drops that message from the queue; clear() clears every timer and empties the queue. Provide createId in options for deterministic ids in tests, snapshots, and examples. Timers are owned by the controller, so do not schedule duplicate app timers for the same toast unless the page is deliberately coordinating another side effect.",
+          "code": {
+            "title": "Enqueue a toast",
+            "code": "import { createToastController } from '@vanrot/behavior/toast';\n\nconst toasts = createToastController({ defaultTimeoutMs: 4000 });\nconst toast = toasts.enqueue({ title: 'Saved', tone: 'success' });\n\ntoasts.dismiss(toast.id);"
+          }
+        },
+        {
+          "id": "rendering-contract",
+          "title": "Rendering contract",
+          "body": "A toast renderer should read toasts(), render a live region, and call dismiss(id) from close buttons. The behavior helper does not prescribe markup because app shells often need different placement for dashboards, marketing pages, mobile layouts, and modal-heavy workflows. Keep the queue in TypeScript and keep the visual toast list in the HTML template.",
+          "points": [
+            "Use success for completed actions, warning for recoverable attention, and danger for destructive or failed operations.",
+            "Keep titles short enough to scan inside a stack.",
+            "Call clear() when a route transition should drop stale messages."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "behaviorCommandMenu",
+      "section": "framework",
+      "path": "/docs/behavior/command-menu",
+      "label": "Command Menu",
+      "title": "Command Menu Behavior",
+      "summary": "createCommandMenuController drives a keyboard-navigable command palette with an active item and selection callback.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "navigation",
+          "title": "Active-item navigation",
+          "body": "createCommandMenuController gives a command palette or searchable action list a keyboard model. The controller tracks an activeValue signal across registered items. registerInput binds ArrowUp, ArrowDown, Home, and End to move the active item among enabled entries, skipping disabled nodes so unavailable actions never receive active state.",
+          "points": [
+            "registerItem(value, element) adds a selectable entry and returns a disposer.",
+            "selectActive() invokes onSelect for the currently active, enabled item.",
+            "Disabled items are skipped during navigation and ignored on select."
+          ]
+        },
+        {
+          "id": "selection",
+          "title": "Selection callback",
+          "body": "Provide onSelect(value, element) to react when the user activates an item with Enter or when application code calls selectActive(). The value should be a stable command id, not a visible label, so labels can change without breaking command handling. The element argument lets app code read metadata or move focus after the selected command opens a panel.",
+          "code": {
+            "title": "Wire a palette",
+            "code": "import { createCommandMenuController } from '@vanrot/behavior/command-menu';\n\nconst menu = createCommandMenuController({\n  onSelect: (value) => run(value),\n});\nmenu.registerInput(input);\nmenu.registerItem('open-settings', settingsItem);"
+          }
+        },
+        {
+          "id": "aria-and-lifecycle",
+          "title": "ARIA and lifecycle",
+          "body": "registerInput sets combobox-style attributes and keeps aria-activedescendant synchronized with the active item id. registerItem sets role=\"option\" and creates a fallback id when the element does not already have one. Escape clears activeValue without selecting anything, and dispose removes input listeners plus registered items when the palette unmounts.",
+          "points": [
+            "Filter the visible item list in application state, then register the elements that remain visible.",
+            "Give important items explicit ids when tests or analytics need stable selectors.",
+            "Use an overlay controller separately when the command menu also needs open and close behavior."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "behaviorPositionedLayer",
+      "section": "framework",
+      "path": "/docs/behavior/positioned-layer",
+      "label": "Positioned Layer",
+      "title": "Positioned Layer Behavior",
+      "summary": "positionLayer places a floating element next to a trigger on a chosen side and alignment with a configurable offset.",
+      "status": "production-ready-through-phase-16h",
+      "sections": [
+        {
+          "id": "placement",
+          "title": "Placement",
+          "body": "positionLayer(trigger, content, options) is a one-shot geometry helper for floating UI. It reads both bounding rects and sets content.style.position, left, top, and transformOrigin. side is top, right, bottom, or left; align is start, center, or end; offset defaults to 4 pixels. The helper is deliberately small and deterministic so app code can call it after render, after resize, or after content changes.",
+          "points": [
+            "It writes data-vr-side and data-vr-align for CSS to target.",
+            "transformOrigin is derived from side and align for natural open animations.",
+            "It is a one-shot placement call; re-run it on resize or scroll if needed."
+          ]
+        },
+        {
+          "id": "pairing",
+          "title": "Pairing with overlays",
+          "body": "positionLayer is the placement primitive behind tooltips, popovers, menus, and anchored help text. Compose it with createOverlayController or createTooltipController, which own open state, event listeners, and cleanup. positionLayer owns only geometry, so it stays easy to test and does not hide layout timing behind global observers.",
+          "code": {
+            "title": "Place a layer",
+            "code": "import { positionLayer } from '@vanrot/behavior/positioned-layer';\n\npositionLayer(trigger, content, {\n  side: 'bottom',\n  align: 'start',\n  offset: 8,\n});"
+          }
+        },
+        {
+          "id": "layout-limits",
+          "title": "Layout limits",
+          "body": "The helper does not flip, constrain, or observe layers. That is intentional for the current package size and predictability: call it when the layer opens, re-run it when the viewport or trigger changes, and add application-specific collision handling only where the product needs it. CSS can read data-vr-side and data-vr-align to tune shadows, arrows, and transform origins.",
+          "points": [
+            "Use side and align as the source of truth for arrow placement.",
+            "Re-run placement after content that changes size is rendered.",
+            "Keep scroll and resize listeners in the owning component so cleanup remains explicit."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "seo",
+      "section": "framework",
+      "path": "/docs/seo",
+      "label": "SEO",
+      "title": "SEO",
+      "summary": "@vanrot/seo is an optional first-party package for metadata, canonical URLs, structured data, sitemaps, robots.txt, and doctor diagnostics without adding runtime bloat.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "package-boundary",
+          "title": "Package boundary",
+          "body": "@vanrot/seo stays outside @vanrot/runtime. Apps install it during vr create or later with vr add seo, and the core runtime size budget does not change when a project chooses SEO."
+        },
+        {
+          "id": "metadata-ladder",
+          "title": "Metadata ladder",
+          "body": "Vanrot resolves SEO through one ladder: vanrot.config.ts global defaults, route SEO overrides, page SEO overrides, then dynamic/async SEO for final values. The last layer wins for title, description, canonical, social metadata, and structured data."
+        },
+        {
+          "id": "config-control-plane",
+          "title": "Config control plane",
+          "body": "vanrot.config.ts owns the rich seo block so packages do not scatter settings across many files. siteUrl can be omitted while a production URL is unknown, but syntax such as diagnostics mode, robots directives, sitemap routes, and default titles is still validated."
+        },
+        {
+          "id": "create-and-add-flows",
+          "title": "Create and add flows",
+          "body": "vr create supports --seo, --no-seo, and --seo-site-url for non-interactive setup. When a project opted out earlier, vr add seo installs @vanrot/seo, upserts the seo config block, writes src/app/seo.ts, and suggests running vr doctor."
+        },
+        {
+          "id": "doctor-and-build-output",
+          "title": "Doctor and build output",
+          "body": "vr doctor reports SEO package/config drift plus config diagnostics. Missing siteUrl is a warning so early projects keep moving; malformed site URLs, invalid sitemap route syntax, unsupported robots directives, and bad defaults are errors. Vite emits sitemap.xml and robots.txt once siteUrl is configured."
+        },
+        {
+          "id": "social-images",
+          "title": "Social images",
+          "body": "@vanrot/seo validates social preview image URLs and alt text, but it does not create preview artwork. Keep assets in the app, reference them from the SEO utility or config, and let doctor catch broken URLs or missing alt text."
+        }
+      ]
+    },
+    {
+      "key": "seoPackageBoundary",
+      "section": "framework",
+      "path": "/docs/seo/package-boundary",
+      "label": "Package Boundary",
+      "title": "SEO Package Boundary",
+      "summary": "@vanrot/seo is an optional package for metadata and crawl artifacts, not part of the core runtime.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "runtime-boundary",
+          "title": "Runtime boundary",
+          "body": "@vanrot/seo stays outside @vanrot/runtime. Apps can add SEO during vr create or later with vr add seo, and projects that do not need metadata helpers do not pay for them in the core browser runtime, so the runtime size budget never moves when a project chooses SEO."
+        },
+        {
+          "id": "owned-surfaces",
+          "title": "Owned surfaces",
+          "body": "@vanrot/seo owns metadata definition and merging, canonical URL resolution, structured data, social metadata validation, sitemap XML, robots.txt, explicit head updates, and SEO diagnostics.",
+          "points": [
+            "Metadata: defineSeo, defineDynamicSeo, mergeSeoMetadata, resolveCanonicalUrl.",
+            "Head + crawl: applySeoToHead, generateSitemapXml, generateRobotsTxt.",
+            "Social + data: defineOpenGraph, defineTwitterCard, validateSeoImages, structured data helpers."
+          ]
+        },
+        {
+          "id": "where-it-plugs-in",
+          "title": "Where it plugs in",
+          "body": "The package is consumed in three places: vanrot.config.ts holds the seo defaults block, src/app/seo.ts holds app-level metadata helpers, and the Vite plugin reads config to emit crawl artifacts at build. Each surface stays optional and is wired only when SEO is enabled.",
+          "code": {
+            "title": "Import surface",
+            "code": "import { defineSeo, mergeSeoMetadata, applySeoToHead } from '@vanrot/seo';"
+          }
+        }
+      ]
+    },
+    {
+      "key": "seoMetadataLadder",
+      "section": "framework",
+      "path": "/docs/seo/metadata-ladder",
+      "label": "Metadata Ladder",
+      "title": "SEO Metadata Ladder",
+      "summary": "The SEO ladder defines where metadata comes from and which layer wins when values overlap.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "resolution-order",
+          "title": "Resolution order",
+          "body": "Vanrot merges metadata through a fixed ladder, and the last layer that sets a field wins for title, description, canonical, social metadata, and structured data. mergeSeoMetadata applies the layers left to right.",
+          "points": [
+            "Layer 1: vanrot.config.ts seo.defaults global values.",
+            "Layer 2: route SEO override defined on the route table.",
+            "Layer 3: page SEO override exported from the page module.",
+            "Layer 4: dynamic/async SEO resolved with request-aware context."
+          ],
+          "code": {
+            "title": "Merge layers",
+            "code": "import { defineSeo, mergeSeoMetadata } from '@vanrot/seo';\n\nconst pageSeo = defineSeo({ title: 'Pricing', description: 'Plans and pricing.' });\nconst resolved = mergeSeoMetadata(configDefaults, routeSeo, pageSeo);"
+          }
+        },
+        {
+          "id": "dynamic-metadata",
+          "title": "Dynamic metadata",
+          "body": "Reach for defineDynamicSeo only when metadata depends on route params, loaded content, or request-time state. It receives a context and returns metadata that merges as the final ladder layer. Static pages should stay static so app metadata remains simple and predictable.",
+          "code": {
+            "title": "Async SEO",
+            "code": "import { defineDynamicSeo } from '@vanrot/seo';\n\nexport const seo = defineDynamicSeo(async ({ params }) => {\n  const post = await loadPost(params.slug);\n  return { title: post.title, description: post.excerpt };\n});"
+          }
+        },
+        {
+          "id": "canonical",
+          "title": "Canonical resolution",
+          "body": "resolveCanonicalUrl joins siteUrl with the current path so canonical tags stay absolute and consistent. When siteUrl is not yet set it returns undefined, so canonical links simply stay off until the production origin is known."
+        }
+      ]
+    },
+    {
+      "key": "seoConfigControlPlane",
+      "section": "framework",
+      "path": "/docs/seo/config-control-plane",
+      "label": "Config Control Plane",
+      "title": "SEO Config Control Plane",
+      "summary": "vanrot.config.ts owns SEO defaults so apps do not spread package settings across many files.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "single-config-home",
+          "title": "Single config home",
+          "body": "The seo block in vanrot.config.ts owns siteUrl, defaults (title, description, canonical, image), social, robots directives, sitemap routes, structured data, and diagnostics mode. Package setup upserts this one block instead of creating a separate SEO settings file.",
+          "points": [
+            "defaults seeds the bottom of the metadata ladder for every page.",
+            "robots.directives and sitemap.routes drive the generated crawl artifacts.",
+            "diagnostics.mode chooses how strict vr doctor is about SEO config."
+          ],
+          "code": {
+            "title": "vanrot.config.ts seo block",
+            "code": "export default defineConfig({\n  seo: {\n    siteUrl: 'https://vanrot.dev',\n    defaults: { title: 'Vanrot', description: 'Signal-based UI framework.' },\n    social: { siteName: 'Vanrot', twitterHandle: '@vanrot' },\n    sitemap: { enabled: true, routes: [{ path: '/', priority: 1 }] },\n    robots: { directives: [{ userAgent: '*', allow: ['/'] }] },\n  },\n});"
+          }
+        },
+        {
+          "id": "site-url-later",
+          "title": "Set siteUrl later",
+          "body": "siteUrl can be omitted while a production URL is unknown. Syntax is still validated before launch, so malformed diagnostics mode, sitemap route config, robots directives, social image metadata, and default titles are caught early. Crawl artifacts and canonical URLs simply wait until siteUrl is filled in."
+        }
+      ]
+    },
+    {
+      "key": "seoCreateAndAddFlows",
+      "section": "framework",
+      "path": "/docs/seo/create-and-add-flows",
+      "label": "Create and Add Flows",
+      "title": "SEO Create and Add Flows",
+      "summary": "Projects can opt into SEO during creation or add the full starter surface later.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "create-flags",
+          "title": "Create flags",
+          "body": "vr create supports --seo, --no-seo, and --seo-site-url for non-interactive setup. When SEO is selected, the generated app includes @vanrot/seo, a vanrot.config.ts seo block, and src/app/seo.ts utilities.",
+          "code": {
+            "title": "Create with SEO",
+            "code": "vr create my-app --seo --seo-site-url https://vanrot.dev"
+          }
+        },
+        {
+          "id": "add-later",
+          "title": "Add later",
+          "body": "When a project opted out during creation, vr add seo brings the full starter surface up to parity with a created-with-SEO app.",
+          "points": [
+            "Installs @vanrot/seo into the app.",
+            "Upserts the seo block in vanrot.config.ts without clobbering other config.",
+            "Writes src/app/seo.ts and suggests vr doctor to catch drift immediately."
+          ],
+          "code": {
+            "title": "Add later",
+            "code": "vr add seo\nvr doctor"
+          }
+        }
+      ]
+    },
+    {
+      "key": "seoDoctorAndBuildOutput",
+      "section": "framework",
+      "path": "/docs/seo/doctor-and-build-output",
+      "label": "Doctor and Build Output",
+      "title": "SEO Doctor and Build Output",
+      "summary": "SEO diagnostics and build artifacts are tied to config readiness, especially the presence of siteUrl.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "doctor-diagnostics",
+          "title": "Doctor diagnostics",
+          "body": "vr doctor reports SEO package/config drift plus config syntax diagnostics. Severity is chosen so early projects keep moving while real mistakes block release.",
+          "points": [
+            "Warning: missing siteUrl, so the app can develop before the origin is known.",
+            "Error: malformed site URL or canonical value.",
+            "Error: invalid sitemap route syntax or out-of-range priority.",
+            "Error: unsupported robots directive or bad default title/description."
+          ]
+        },
+        {
+          "id": "build-artifacts",
+          "title": "Build artifacts",
+          "body": "Once siteUrl is configured, the Vite plugin emits sitemap.xml and robots.txt from the seo config using generateSitemapXml and generateRobotsTxt. Without siteUrl, syntax diagnostics still run, but artifact generation waits until the app knows its production origin.",
+          "code": {
+            "title": "Emitted artifacts",
+            "code": "import { generateSitemapXml, generateRobotsTxt } from '@vanrot/seo';\n\nconst xml = generateSitemapXml({ siteUrl, routes });\nconst robots = generateRobotsTxt(policy);"
+          }
+        }
+      ]
+    },
+    {
+      "key": "seoSocialImages",
+      "section": "framework",
+      "path": "/docs/seo/social-images",
+      "label": "Social Images",
+      "title": "SEO Social Images",
+      "summary": "@vanrot/seo validates social preview metadata while leaving artwork creation to the app.",
+      "status": "production-ready-through-phase-27",
+      "sections": [
+        {
+          "id": "validation-only",
+          "title": "Validation only",
+          "body": "defineOpenGraph and defineTwitterCard shape social metadata, and validateSeoImages checks preview image URLs, dimensions, and alt text. The package does not create preview artwork, because app teams should own brand imagery and visual review.",
+          "points": [
+            "validateSeoImages returns diagnostics for missing alt text or bad URLs.",
+            "defineOpenGraph and defineTwitterCard return frozen, typed metadata.",
+            "Social defaults (siteName, defaultImage, twitterHandle) live in the seo config."
+          ],
+          "code": {
+            "title": "Define social metadata",
+            "code": "import { defineOpenGraph, validateSeoImages } from '@vanrot/seo';\n\nconst openGraph = defineOpenGraph({\n  title: 'Vanrot',\n  images: [{ url: '/og/home.png', alt: 'Vanrot home' }],\n});\nconst diagnostics = validateSeoImages(openGraph.images);"
+          }
+        },
+        {
+          "id": "where-assets-live",
+          "title": "Where assets live",
+          "body": "Keep social preview assets in the app, reference them from src/app/seo.ts or vanrot.config.ts social defaults, and let vr doctor catch broken URLs or missing alt text before release."
+        }
+      ]
+    },
+    {
       "key": "compiler",
       "section": "framework",
       "path": "/docs/compiler",

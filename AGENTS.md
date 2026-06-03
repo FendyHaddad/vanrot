@@ -96,13 +96,12 @@ When a Vanrot phase is completed:
 
 1. Tick the matching phase in `docs/superpowers/feature-maturity.md`.
 2. Mark every completed task in the matching `docs/superpowers/plans/Phase-XX.md`.
-3. Update `docs/vanrot-presentation.html` so the roadmap slide matches the tracker.
-4. Update `docs/superpowers/feature-maturity.md` whenever a phase changes feature maturity, scope, or production ordering.
-5. Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
-6. Update `docs/superpowers/future-pipeline.md` whenever a future pipeline item changes status, ships, is deferred, is dropped, or is superseded by real implementation.
-7. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
-8. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
-9. When committing, stage the maturity ledger, final TDD inventory, post-production ideas when status changed, presentation, plan, and requirement docs together.
+3. Update `docs/superpowers/feature-maturity.md` whenever a phase changes feature maturity, scope, or production ordering.
+4. Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
+5. Update `docs/superpowers/future-pipeline.md` whenever a future pipeline item changes status, ships, is deferred, is dropped, or is superseded by real implementation.
+6. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
+7. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
+8. When committing, stage the maturity ledger, final TDD inventory, post-production ideas when status changed, plan, and requirement docs together.
 
 Do not mark a phase done until its verification criteria pass.
 
@@ -115,8 +114,7 @@ Future pipeline items are a separate bucket. In `docs/superpowers/feature-maturi
 `pnpm verify:phase-docs` enforces the phase documentation guardrail:
 
 - completed phases in `docs/superpowers/feature-maturity.md` must not have unchecked tasks in their matching plan file;
-- feature maturity rows for completed phases must not remain `Planned`;
-- the presentation roadmap must mark completed phases as done and the next pending phase as active.
+- feature maturity rows for completed phases must not remain `Planned`.
 
 A temporary local hook at `.git/hooks/pre-commit` enforces this for phase-completion commits. It can be bypassed only when intentionally needed:
 
@@ -170,7 +168,7 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-03 5:17am GMT+8
+# [vanrot] recent context, 2026-06-03 8:58am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE

@@ -62,6 +62,26 @@ const runtimeNavigationChildren = [
   navItem(siteArticleKey.runtimeMounting),
 ] as const;
 
+const behaviorNavigationChildren = [
+  navItem(siteArticleKey.behaviorForm),
+  navItem(siteArticleKey.behaviorOverlay),
+  navItem(siteArticleKey.behaviorTooltip),
+  navItem(siteArticleKey.behaviorTabs),
+  navItem(siteArticleKey.behaviorTable),
+  navItem(siteArticleKey.behaviorToast),
+  navItem(siteArticleKey.behaviorCommandMenu),
+  navItem(siteArticleKey.behaviorPositionedLayer),
+] as const;
+
+const seoNavigationChildren = [
+  navItem(siteArticleKey.seoPackageBoundary),
+  navItem(siteArticleKey.seoMetadataLadder),
+  navItem(siteArticleKey.seoConfigControlPlane),
+  navItem(siteArticleKey.seoCreateAndAddFlows),
+  navItem(siteArticleKey.seoDoctorAndBuildOutput),
+  navItem(siteArticleKey.seoSocialImages),
+] as const;
+
 const compilerNavigationChildren = [
   navItem(siteArticleKey.compilerFileConventions),
   navItem(siteArticleKey.compilerComponentClass),
@@ -159,7 +179,8 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
     label: siteNavigationSectionLabel.framework,
     items: [
       navItem(siteArticleKey.runtime, runtimeNavigationChildren),
-      navItem(siteArticleKey.behavior),
+      navItem(siteArticleKey.behavior, behaviorNavigationChildren),
+      navItem(siteArticleKey.seo, seoNavigationChildren),
       navItem(siteArticleKey.compiler, compilerNavigationChildren),
       navItem(siteArticleKey.vitePlugin, vitePluginNavigationChildren),
       navItem(siteArticleKey.cli, cliNavigationChildren),

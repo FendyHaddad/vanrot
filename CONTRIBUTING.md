@@ -130,7 +130,6 @@ When changing docs, keep related source-of-truth files synchronized:
 - `docs/superpowers/feature-maturity.md` for production status.
 - `docs/superpowers/final-tdd-inventory.md` for release test inventory.
 - `docs/superpowers/future-pipeline.md` for deferred or superseded future work.
-- `docs/vanrot-presentation.html` when roadmap presentation state changes.
 
 ## Security
 

@@ -1,5 +1,6 @@
 import { checkBehaviorUsage } from './behavior.js';
 import { checkProjectHealth } from './project-health.js';
+import { checkSeoUsage } from './seo.js';
 import { checkVanrotRules } from './vanrot-rules.js';
 
 export type DoctorSeverity = 'error' | 'warning';
@@ -17,6 +18,7 @@ export async function runDoctorChecks(cwd: string): Promise<DoctorFinding[]> {
     ...(await checkProjectHealth(cwd)),
     ...(await checkVanrotRules(cwd)),
     ...(await checkBehaviorUsage(cwd)),
+    ...(await checkSeoUsage(cwd)),
   ];
 }
 

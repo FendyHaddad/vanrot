@@ -25,6 +25,21 @@ describe('vanrot site docs data', () => {
       'runtimeLifecycle',
       'runtimeMounting',
       'behavior',
+      'behaviorForm',
+      'behaviorOverlay',
+      'behaviorTooltip',
+      'behaviorTabs',
+      'behaviorTable',
+      'behaviorToast',
+      'behaviorCommandMenu',
+      'behaviorPositionedLayer',
+      'seo',
+      'seoPackageBoundary',
+      'seoMetadataLadder',
+      'seoConfigControlPlane',
+      'seoCreateAndAddFlows',
+      'seoDoctorAndBuildOutput',
+      'seoSocialImages',
       'compiler',
       'compilerFileConventions',
       'compilerComponentClass',
@@ -153,6 +168,137 @@ describe('vanrot site docs data', () => {
     expect(runtimeSections.find((section) => section.id === 'signals-guide')?.note).toContain(
       'separate Signals guide',
     );
+  });
+
+  it('documents the SEO package ladder and opt-in flows', () => {
+    const article = siteArticles.seo;
+
+    expect(article.path).toBe('/docs/seo');
+    expect(article.summary).toContain('@vanrot/seo');
+    expect(article.sections.map((section) => section.id)).toEqual([
+      'package-boundary',
+      'metadata-ladder',
+      'config-control-plane',
+      'create-and-add-flows',
+      'doctor-and-build-output',
+      'social-images',
+    ]);
+    expect(article.sections.every((section) => section.body.length > 120)).toBe(true);
+    expect(JSON.stringify(article)).toContain('vanrot.config.ts');
+    expect(JSON.stringify(article)).toContain('dynamic/async SEO');
+    expect(JSON.stringify(article)).not.toContain('generate social images');
+  });
+
+  it('documents Behavior as a package parent with focused child guides', () => {
+    expect(siteArticles.behavior.path).toBe('/docs/behavior');
+    expect(siteArticles.behavior.summary).toContain('@vanrot/behavior');
+
+    const childKeys = [
+      'behaviorForm',
+      'behaviorOverlay',
+      'behaviorTooltip',
+      'behaviorTabs',
+      'behaviorTable',
+      'behaviorToast',
+      'behaviorCommandMenu',
+      'behaviorPositionedLayer',
+    ] as const;
+
+    expect(childKeys.map((key) => siteArticles[key].path)).toEqual([
+      '/docs/behavior/form',
+      '/docs/behavior/overlay',
+      '/docs/behavior/tooltip',
+      '/docs/behavior/tabs',
+      '/docs/behavior/table',
+      '/docs/behavior/toast',
+      '/docs/behavior/command-menu',
+      '/docs/behavior/positioned-layer',
+    ]);
+    expect(childKeys.every((key) => siteArticles[key].sections.length >= 3)).toBe(true);
+    expect(
+      childKeys.every((key) =>
+        siteArticles[key].sections.every((section) => section.body.length > 180),
+      ),
+    ).toBe(true);
+    expect(childKeys.every((key) => siteArticles[key].sections.some((section) => section.code))).toBe(
+      true,
+    );
+
+    const behaviorJson = JSON.stringify(childKeys.map((key) => siteArticles[key]));
+    expect(behaviorJson).toContain('createFormController');
+    expect(behaviorJson).toContain('createOverlayController');
+    expect(behaviorJson).toContain('@vanrot/behavior/');
+    expect(behaviorJson).toContain('positionLayer');
+    expect(behaviorJson).toContain('dispose');
+  });
+
+  it('documents SEO as a package parent with focused child guides', () => {
+    expect(siteArticles.seo.path).toBe('/docs/seo');
+
+    const childKeys = [
+      'seoPackageBoundary',
+      'seoMetadataLadder',
+      'seoConfigControlPlane',
+      'seoCreateAndAddFlows',
+      'seoDoctorAndBuildOutput',
+      'seoSocialImages',
+    ] as const;
+
+    expect(childKeys.map((key) => siteArticles[key].path)).toEqual([
+      '/docs/seo/package-boundary',
+      '/docs/seo/metadata-ladder',
+      '/docs/seo/config-control-plane',
+      '/docs/seo/create-and-add-flows',
+      '/docs/seo/doctor-and-build-output',
+      '/docs/seo/social-images',
+    ]);
+    expect(childKeys.every((key) => siteArticles[key].sections.length >= 2)).toBe(true);
+    expect(JSON.stringify(childKeys.map((key) => siteArticles[key]))).toContain('dynamic/async SEO');
+    expect(JSON.stringify(childKeys.map((key) => siteArticles[key]))).not.toContain(
+      'generate social images',
+    );
+  });
+
+  it('groups Behavior and SEO child guides below their package parents in the framework sidebar', () => {
+    type NestedNavigationItem = {
+      key: string;
+      href: string;
+      label: string;
+      children?: readonly NestedNavigationItem[];
+    };
+
+    const frameworkGroup = siteNavigationGroups.find((group) => group.label === 'Framework');
+    const behaviorItem = frameworkGroup?.items.find((item) => item.key === 'behavior') as
+      | NestedNavigationItem
+      | undefined;
+    const seoItem = frameworkGroup?.items.find((item) => item.key === 'seo') as
+      | NestedNavigationItem
+      | undefined;
+
+    expect(frameworkGroup?.items.map((item) => item.key).slice(0, 4)).toEqual([
+      'runtime',
+      'behavior',
+      'seo',
+      'compiler',
+    ]);
+    expect(behaviorItem?.children?.map((item) => item.key)).toEqual([
+      'behaviorForm',
+      'behaviorOverlay',
+      'behaviorTooltip',
+      'behaviorTabs',
+      'behaviorTable',
+      'behaviorToast',
+      'behaviorCommandMenu',
+      'behaviorPositionedLayer',
+    ]);
+    expect(seoItem?.children?.map((item) => item.key)).toEqual([
+      'seoPackageBoundary',
+      'seoMetadataLadder',
+      'seoConfigControlPlane',
+      'seoCreateAndAddFlows',
+      'seoDoctorAndBuildOutput',
+      'seoSocialImages',
+    ]);
   });
 
   it('keeps the runtime signals guide rich enough to teach signal primitives', () => {

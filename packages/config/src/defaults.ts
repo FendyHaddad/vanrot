@@ -2,15 +2,18 @@ import { configSchemaVersion, defaultDevServerPort, defaultSourceRoot } from './
 import {
   vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
+  vanrotSeoDiagnosticsMode,
   vanrotUiFlavor,
   vanrotUiStyleMode,
   type NormalizedVanrotConfig,
+  type NormalizedVanrotSeoConfig,
   type VanrotConfig,
 } from './types.js';
 
 export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanrotConfig {
-  return {
-    ...config,
+  const { seo: _seo, ...configWithoutSeo } = config;
+  const normalized: NormalizedVanrotConfig = {
+    ...configWithoutSeo,
     schemaVersion: config.schemaVersion ?? configSchemaVersion,
     source: {
       root: config.source?.root ?? defaultSourceRoot,
@@ -51,4 +54,41 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
       },
     },
   };
+
+  if (config.seo !== undefined) {
+    normalized.seo = normalizeSeoConfig(config);
+  }
+
+  return normalized;
+}
+
+function normalizeSeoConfig(config: VanrotConfig): NormalizedVanrotSeoConfig {
+  const seo = config.seo ?? {};
+  const normalized: NormalizedVanrotSeoConfig = {
+    defaults: {
+      ...(seo.defaults ?? {}),
+    },
+    social: {
+      ...(seo.social ?? {}),
+    },
+    robots: {
+      directives: seo.robots?.directives ?? [],
+    },
+    sitemap: {
+      enabled: seo.sitemap?.enabled ?? true,
+      routes: seo.sitemap?.routes ?? [],
+    },
+    structuredData: {
+      ...(seo.structuredData ?? {}),
+    },
+    diagnostics: {
+      mode: seo.diagnostics?.mode ?? vanrotSeoDiagnosticsMode.warn,
+    },
+  };
+
+  if (seo.siteUrl !== undefined) {
+    normalized.siteUrl = seo.siteUrl;
+  }
+
+  return normalized;
 }

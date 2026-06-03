@@ -12,6 +12,7 @@
     { "path": "../config" },
     { "path": "../compiler" },
     { "path": "../router" },
-    { "path": "../devtools" }
+    { "path": "../devtools" },
+    { "path": "../seo" }
   ]
 }

@@ -72,6 +72,96 @@ Docs: /docs/runtime/mounting
 
 Docs: /docs/behavior
 
+## Form Behavior
+
+createFormController gives forms signal-backed values, per-field validation, dirty and touched tracking, and an async submit guard.
+
+Docs: /docs/behavior/form
+
+## Overlay Behavior
+
+createOverlayController drives dialogs, popovers, and menus with open state, focus restore, escape-to-close, and outside-pointer dismissal.
+
+Docs: /docs/behavior/overlay
+
+## Tooltip Behavior
+
+createTooltipController shows hover and focus tooltips with a configurable delay and correct ARIA wiring.
+
+Docs: /docs/behavior/tooltip
+
+## Tabs Behavior
+
+createTabsController manages a selected tab value with roving-focus arrow navigation and tab/tabpanel ARIA roles.
+
+Docs: /docs/behavior/tabs
+
+## Table Behavior
+
+createTableController adds client-side filtering, sorting, pagination, and row selection over a typed row array.
+
+Docs: /docs/behavior/table
+
+## Toast Behavior
+
+createToastController manages a queue of dismissible toast messages with tones and auto-expiry timers.
+
+Docs: /docs/behavior/toast
+
+## Command Menu Behavior
+
+createCommandMenuController drives a keyboard-navigable command palette with an active item and selection callback.
+
+Docs: /docs/behavior/command-menu
+
+## Positioned Layer Behavior
+
+positionLayer places a floating element next to a trigger on a chosen side and alignment with a configurable offset.
+
+Docs: /docs/behavior/positioned-layer
+
+## SEO
+
+@vanrot/seo is an optional first-party package for metadata, canonical URLs, structured data, sitemaps, robots.txt, and doctor diagnostics without adding runtime bloat.
+
+Docs: /docs/seo
+
+## SEO Package Boundary
+
+@vanrot/seo is an optional package for metadata and crawl artifacts, not part of the core runtime.
+
+Docs: /docs/seo/package-boundary
+
+## SEO Metadata Ladder
+
+The SEO ladder defines where metadata comes from and which layer wins when values overlap.
+
+Docs: /docs/seo/metadata-ladder
+
+## SEO Config Control Plane
+
+vanrot.config.ts owns SEO defaults so apps do not spread package settings across many files.
+
+Docs: /docs/seo/config-control-plane
+
+## SEO Create and Add Flows
+
+Projects can opt into SEO during creation or add the full starter surface later.
+
+Docs: /docs/seo/create-and-add-flows
+
+## SEO Doctor and Build Output
+
+SEO diagnostics and build artifacts are tied to config readiness, especially the presence of siteUrl.
+
+Docs: /docs/seo/doctor-and-build-output
+
+## SEO Social Images
+
+@vanrot/seo validates social preview metadata while leaving artwork creation to the app.
+
+Docs: /docs/seo/social-images
+
 ## Compiler
 
 @vanrot/compiler turns role files, HTML templates, and scoped CSS into generated JavaScript, generated CSS, diagnostics, source maps, child component metadata, and readable feature metadata.

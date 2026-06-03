@@ -1777,12 +1777,11 @@ When a phase is finished, do this before committing:
 
 ```txt
 1. Tick the matching phase in this checklist.
-2. Update docs/vanrot-presentation.html so the deck matches the tracker.
-3. If the phase changed requirements, update this brainstorm document and the matching spec or plan.
-4. Stage the tracker, presentation, and any requirement docs together.
+2. If the phase changed requirements, update this brainstorm document and the matching spec or plan.
+3. Stage the tracker and any requirement docs together.
 ```
 
-The hook blocks commits that look like phase-completion commits unless both `docs/brainstorm.md` and `docs/vanrot-presentation.html` are staged.
+The hook blocks commits that look like phase-completion commits unless the required tracker and requirement docs are staged.
 
 Temporary bypass:
 

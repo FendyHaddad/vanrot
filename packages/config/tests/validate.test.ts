@@ -165,4 +165,67 @@ describe('validateVanrotConfig', () => {
       ]),
     );
   });
+
+  it('warns when SEO is enabled before the production site URL is known', () => {
+    const diagnostics = validateVanrotConfig({
+      seo: {
+        defaults: {
+          title: 'Vanrot',
+          description: 'Modern web framework',
+        },
+      },
+    });
+
+    expect(diagnostics).toEqual([
+      expect.objectContaining({
+        code: configDiagnosticCode.missingSeoSiteUrl,
+        severity: 'warning',
+      }),
+    ]);
+  });
+
+  it('validates SEO syntax even when siteUrl is missing', () => {
+    const diagnostics = validateVanrotConfig({
+      seo: {
+        defaults: {
+          title: 42,
+          description: '',
+        },
+        diagnostics: {
+          mode: 'loud',
+        },
+        robots: {
+          directives: ['crawl-everything'],
+        },
+        sitemap: {
+          routes: [{ path: 'docs' }],
+        },
+      },
+    } as unknown as Parameters<typeof validateVanrotConfig>[0]);
+
+    expect(diagnostics).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ code: configDiagnosticCode.invalidSeoDefaultTitle }),
+        expect.objectContaining({ code: configDiagnosticCode.invalidSeoDiagnosticsMode }),
+        expect.objectContaining({ code: configDiagnosticCode.invalidSeoRobotsDirective }),
+        expect.objectContaining({ code: configDiagnosticCode.invalidSeoSitemapRoute }),
+        expect.objectContaining({ code: configDiagnosticCode.missingSeoSiteUrl }),
+      ]),
+    );
+  });
+
+  it('reports invalid SEO site URLs as errors', () => {
+    const diagnostics = validateVanrotConfig({
+      seo: {
+        siteUrl: 'vanrot.local',
+      },
+    });
+
+    expect(diagnostics).toEqual([
+      expect.objectContaining({
+        code: configDiagnosticCode.invalidSeoSiteUrl,
+        severity: 'error',
+      }),
+    ]);
+  });
 });

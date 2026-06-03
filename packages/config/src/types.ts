@@ -123,6 +123,98 @@ export interface NormalizedVanrotBehaviorConfig {
   enabled: VanrotBehaviorName[];
 }
 
+export const vanrotSeoDiagnosticsMode = {
+  warn: 'warn',
+  strict: 'strict',
+} as const;
+
+export type VanrotSeoDiagnosticsMode =
+  (typeof vanrotSeoDiagnosticsMode)[keyof typeof vanrotSeoDiagnosticsMode];
+
+export const vanrotSeoRobotsDirective = {
+  index: 'index',
+  noindex: 'noindex',
+  follow: 'follow',
+  nofollow: 'nofollow',
+  noarchive: 'noarchive',
+  nosnippet: 'nosnippet',
+  noimageindex: 'noimageindex',
+} as const;
+
+export type VanrotSeoRobotsDirective =
+  (typeof vanrotSeoRobotsDirective)[keyof typeof vanrotSeoRobotsDirective];
+
+export const vanrotSeoSitemapChangeFrequency = {
+  always: 'always',
+  hourly: 'hourly',
+  daily: 'daily',
+  weekly: 'weekly',
+  monthly: 'monthly',
+  yearly: 'yearly',
+  never: 'never',
+} as const;
+
+export type VanrotSeoSitemapChangeFrequency =
+  (typeof vanrotSeoSitemapChangeFrequency)[keyof typeof vanrotSeoSitemapChangeFrequency];
+
+export interface VanrotSeoDefaultsConfig {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  image?: string;
+}
+
+export interface VanrotSeoSocialConfig {
+  siteName?: string;
+  defaultImage?: string;
+  twitterHandle?: string;
+}
+
+export interface VanrotSeoRobotsConfig {
+  directives?: VanrotSeoRobotsDirective[];
+}
+
+export interface VanrotSeoSitemapRouteConfig {
+  path: string;
+  lastModified?: string;
+  changeFrequency?: VanrotSeoSitemapChangeFrequency;
+  priority?: number;
+}
+
+export interface VanrotSeoSitemapConfig {
+  enabled?: boolean;
+  routes?: VanrotSeoSitemapRouteConfig[];
+}
+
+export interface VanrotSeoStructuredDataConfig {
+  organizationName?: string;
+  organizationLogo?: string;
+}
+
+export interface VanrotSeoDiagnosticsConfig {
+  mode?: VanrotSeoDiagnosticsMode;
+}
+
+export interface VanrotSeoConfig {
+  siteUrl?: string;
+  defaults?: VanrotSeoDefaultsConfig;
+  social?: VanrotSeoSocialConfig;
+  robots?: VanrotSeoRobotsConfig;
+  sitemap?: VanrotSeoSitemapConfig;
+  structuredData?: VanrotSeoStructuredDataConfig;
+  diagnostics?: VanrotSeoDiagnosticsConfig;
+}
+
+export interface NormalizedVanrotSeoConfig {
+  siteUrl?: string;
+  defaults: VanrotSeoDefaultsConfig;
+  social: VanrotSeoSocialConfig;
+  robots: { directives: VanrotSeoRobotsDirective[] };
+  sitemap: { enabled: boolean; routes: VanrotSeoSitemapRouteConfig[] };
+  structuredData: VanrotSeoStructuredDataConfig;
+  diagnostics: { mode: VanrotSeoDiagnosticsMode };
+}
+
 export interface VanrotConfig {
   schemaVersion?: number;
   project?: { name?: string };
@@ -137,13 +229,14 @@ export interface VanrotConfig {
   cache?: Record<string, unknown>;
   docs?: Record<string, unknown>;
   ai?: VanrotAiConfig;
+  seo?: VanrotSeoConfig;
   conventions?: Record<string, unknown>;
 }
 
 export interface NormalizedVanrotConfig
   extends Omit<
     VanrotConfig,
-    'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'behavior' | 'ai'
+    'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'behavior' | 'ai' | 'seo'
   > {
   schemaVersion: number;
   source: { root: string };
@@ -152,4 +245,5 @@ export interface NormalizedVanrotConfig
   ui: NormalizedVanrotUiConfig;
   behavior: NormalizedVanrotBehaviorConfig;
   ai: NormalizedVanrotAiConfig;
+  seo?: NormalizedVanrotSeoConfig;
 }

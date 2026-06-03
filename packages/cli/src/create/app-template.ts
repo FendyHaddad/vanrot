@@ -2,11 +2,15 @@ import { createRequire } from 'node:module';
 import { renderCanonicalVanrotConfig, type VanrotBehaviorName } from '@vanrot/config';
 import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts, vanrotSitePath, vanrotSiteUrl } from '../commands/metadata.js';
+import { generatedSeoUtilitySource, seoCliPackageName, seoCliUtilityPath } from '../seo/constants.js';
+import { type CreateSeoSelection } from '../seo/create-seo.js';
+import { renderSeoConfigSource } from '../seo/add-seo.js';
 
 export interface AppTemplateOptions {
   appName: string;
   workspace: boolean;
   behavior: VanrotBehaviorName[];
+  seo: CreateSeoSelection;
 }
 
 export interface TemplateFile {
@@ -30,7 +34,11 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
     dependencies['@vanrot/behavior'] = dependencyVersion;
   }
 
-  return [
+  if (options.seo.enabled) {
+    dependencies[seoCliPackageName] = dependencyVersion;
+  }
+
+  const template: TemplateFile[] = [
     {
       path: 'package.json',
       content: `${JSON.stringify(
@@ -87,7 +95,7 @@ export default defineConfig({
     },
     {
       path: 'vanrot.config.ts',
-      content: renderAppConfig(options.behavior),
+      content: renderAppConfig(options.behavior, options.seo),
     },
     {
       path: 'src/main.ts',
@@ -428,6 +436,15 @@ export class HomePage {
 `,
     },
   ];
+
+  if (options.seo.enabled) {
+    template.push({
+      path: seoCliUtilityPath,
+      content: generatedSeoUtilitySource,
+    });
+  }
+
+  return template;
 }
 
 function createRegistryDependencyVersion(): string {
@@ -438,18 +455,34 @@ function createRegistryDependencyVersion(): string {
   return `^${cliPackage.version}`;
 }
 
-function renderAppConfig(behavior: readonly VanrotBehaviorName[]): string {
-  if (behavior.length === 0) {
+function renderAppConfig(behavior: readonly VanrotBehaviorName[], seo: CreateSeoSelection): string {
+  if (behavior.length === 0 && !seo.enabled) {
     return renderCanonicalVanrotConfig();
   }
 
-  return renderCanonicalVanrotConfig().replace('});\n', `${renderBehaviorConfig(behavior)});\n`);
+  return renderCanonicalVanrotConfig().replace(
+    '});\n',
+    `${renderBehaviorConfig(behavior)}${renderCreateSeoConfig(seo)});\n`,
+  );
 }
 
 function renderBehaviorConfig(behavior: readonly VanrotBehaviorName[]): string {
+  if (behavior.length === 0) {
+    return '';
+  }
+
   const enabled = behavior.map((name) => `'${name}'`).join(', ');
   return `  behavior: {
     enabled: [${enabled}],
   },
+`;
+}
+
+function renderCreateSeoConfig(seo: CreateSeoSelection): string {
+  if (!seo.enabled) {
+    return '';
+  }
+
+  return `  seo: ${renderSeoConfigSource(seo.siteUrl)},
 `;
 }

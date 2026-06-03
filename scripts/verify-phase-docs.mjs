@@ -87,48 +87,6 @@ export function checkMaturityRows(phases, maturityMarkdown) {
   return failures;
 }
 
-export function checkPresentationRoadmap(phases, presentationHtml) {
-  const cardClassByPhase = parsePresentationPhaseCards(presentationHtml);
-  const failures = [];
-  const nextPendingPhase = phases.find((phase) => !phase.done);
-
-  for (const phase of phases) {
-    const cardClass = cardClassByPhase.get(phase.number);
-
-    if (cardClass === undefined) {
-      failures.push(
-        `Phase ${phase.number} exists in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html has no roadmap card for it.`,
-      );
-      continue;
-    }
-
-    if (phase.done && !hasClass(cardClass, 'done')) {
-      failures.push(
-        `Phase ${phase.number} is done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html does not mark it as done.`,
-      );
-      continue;
-    }
-
-    if (!phase.done && hasClass(cardClass, 'done')) {
-      failures.push(
-        `Phase ${phase.number} is not done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html marks it as done.`,
-      );
-    }
-  }
-
-  if (nextPendingPhase !== undefined) {
-    const cardClass = cardClassByPhase.get(nextPendingPhase.number);
-
-    if (cardClass !== undefined && !hasClass(cardClass, 'active-phase')) {
-      failures.push(
-        `Phase ${nextPendingPhase.number} is the next pending phase but docs/vanrot-presentation.html does not mark it as active.`,
-      );
-    }
-  }
-
-  return failures;
-}
-
 export function checkFuturePipeline(futurePipelineMarkdown) {
   const failures = [];
   const editorSection = extractMarkdownSection(futurePipelineMarkdown, /Editor Tooling/i);
@@ -186,22 +144,6 @@ function extractMarkdownSection(markdown, headingPattern) {
   return sectionLines.join('\n');
 }
 
-function parsePresentationPhaseCards(html) {
-  const cardClassByPhase = new Map();
-  const cardPattern =
-    /<div class="([^"]*\bphase-card\b[^"]*)">[\s\S]*?<div class="phase-num">\s*Phase\s+(\d+)\s*<\/div>/g;
-
-  for (const match of html.matchAll(cardPattern)) {
-    cardClassByPhase.set(Number(match[2]), match[1]);
-  }
-
-  return cardClassByPhase;
-}
-
-function hasClass(classValue, className) {
-  return classValue.split(/\s+/).includes(className);
-}
-
 function formatPhaseNumber(phaseNumber) {
   return String(phaseNumber).padStart(2, '0');
 }
@@ -237,7 +179,6 @@ async function verifyPhaseDocs() {
     join(projectRoot, 'docs', 'superpowers', 'feature-maturity.md'),
     'utf8',
   );
-  const presentation = await readFile(join(projectRoot, 'docs', 'vanrot-presentation.html'), 'utf8');
   const futurePipeline = await readFile(
     join(projectRoot, 'docs', 'superpowers', 'future-pipeline.md'),
     'utf8',
@@ -248,7 +189,6 @@ async function verifyPhaseDocs() {
   return [
     ...checkCompletedPhasePlans(phases, planContentByPhase),
     ...checkMaturityRows(phases, maturity),
-    ...checkPresentationRoadmap(phases, presentation),
     ...checkFuturePipeline(futurePipeline),
   ];
 }

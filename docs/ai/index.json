@@ -1276,6 +1276,96 @@
       "docsPath": "/docs/behavior"
     },
     {
+      "id": "doc:behaviorForm",
+      "title": "Form Behavior",
+      "summary": "createFormController gives forms signal-backed values, per-field validation, dirty and touched tracking, and an async submit guard.",
+      "docsPath": "/docs/behavior/form"
+    },
+    {
+      "id": "doc:behaviorOverlay",
+      "title": "Overlay Behavior",
+      "summary": "createOverlayController drives dialogs, popovers, and menus with open state, focus restore, escape-to-close, and outside-pointer dismissal.",
+      "docsPath": "/docs/behavior/overlay"
+    },
+    {
+      "id": "doc:behaviorTooltip",
+      "title": "Tooltip Behavior",
+      "summary": "createTooltipController shows hover and focus tooltips with a configurable delay and correct ARIA wiring.",
+      "docsPath": "/docs/behavior/tooltip"
+    },
+    {
+      "id": "doc:behaviorTabs",
+      "title": "Tabs Behavior",
+      "summary": "createTabsController manages a selected tab value with roving-focus arrow navigation and tab/tabpanel ARIA roles.",
+      "docsPath": "/docs/behavior/tabs"
+    },
+    {
+      "id": "doc:behaviorTable",
+      "title": "Table Behavior",
+      "summary": "createTableController adds client-side filtering, sorting, pagination, and row selection over a typed row array.",
+      "docsPath": "/docs/behavior/table"
+    },
+    {
+      "id": "doc:behaviorToast",
+      "title": "Toast Behavior",
+      "summary": "createToastController manages a queue of dismissible toast messages with tones and auto-expiry timers.",
+      "docsPath": "/docs/behavior/toast"
+    },
+    {
+      "id": "doc:behaviorCommandMenu",
+      "title": "Command Menu Behavior",
+      "summary": "createCommandMenuController drives a keyboard-navigable command palette with an active item and selection callback.",
+      "docsPath": "/docs/behavior/command-menu"
+    },
+    {
+      "id": "doc:behaviorPositionedLayer",
+      "title": "Positioned Layer Behavior",
+      "summary": "positionLayer places a floating element next to a trigger on a chosen side and alignment with a configurable offset.",
+      "docsPath": "/docs/behavior/positioned-layer"
+    },
+    {
+      "id": "doc:seo",
+      "title": "SEO",
+      "summary": "@vanrot/seo is an optional first-party package for metadata, canonical URLs, structured data, sitemaps, robots.txt, and doctor diagnostics without adding runtime bloat.",
+      "docsPath": "/docs/seo"
+    },
+    {
+      "id": "doc:seoPackageBoundary",
+      "title": "SEO Package Boundary",
+      "summary": "@vanrot/seo is an optional package for metadata and crawl artifacts, not part of the core runtime.",
+      "docsPath": "/docs/seo/package-boundary"
+    },
+    {
+      "id": "doc:seoMetadataLadder",
+      "title": "SEO Metadata Ladder",
+      "summary": "The SEO ladder defines where metadata comes from and which layer wins when values overlap.",
+      "docsPath": "/docs/seo/metadata-ladder"
+    },
+    {
+      "id": "doc:seoConfigControlPlane",
+      "title": "SEO Config Control Plane",
+      "summary": "vanrot.config.ts owns SEO defaults so apps do not spread package settings across many files.",
+      "docsPath": "/docs/seo/config-control-plane"
+    },
+    {
+      "id": "doc:seoCreateAndAddFlows",
+      "title": "SEO Create and Add Flows",
+      "summary": "Projects can opt into SEO during creation or add the full starter surface later.",
+      "docsPath": "/docs/seo/create-and-add-flows"
+    },
+    {
+      "id": "doc:seoDoctorAndBuildOutput",
+      "title": "SEO Doctor and Build Output",
+      "summary": "SEO diagnostics and build artifacts are tied to config readiness, especially the presence of siteUrl.",
+      "docsPath": "/docs/seo/doctor-and-build-output"
+    },
+    {
+      "id": "doc:seoSocialImages",
+      "title": "SEO Social Images",
+      "summary": "@vanrot/seo validates social preview metadata while leaving artwork creation to the app.",
+      "docsPath": "/docs/seo/social-images"
+    },
+    {
       "id": "doc:compiler",
       "title": "Compiler",
       "summary": "@vanrot/compiler turns role files, HTML templates, and scoped CSS into generated JavaScript, generated CSS, diagnostics, source maps, child component metadata, and readable feature metadata.",

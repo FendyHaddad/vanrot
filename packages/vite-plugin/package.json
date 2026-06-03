@@ -21,7 +21,8 @@
     "@vanrot/compiler": "file:../compiler",
     "@vanrot/config": "file:../config",
     "@vanrot/devtools": "file:../devtools",
-    "@vanrot/router": "file:../router"
+    "@vanrot/router": "file:../router",
+    "@vanrot/seo": "file:../seo"
   },
   "peerDependencies": {
     "vite": "^8.0.0"
@@ -31,9 +32,9 @@
     "vite": "^8.0.10"
   },
   "scripts": {
-    "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/devtools build",
+    "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/devtools build && pnpm --filter @vanrot/seo build",
     "build": "tsc -p tsconfig.json",
-    "pretypecheck": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/devtools build",
+    "pretypecheck": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/devtools build && pnpm --filter @vanrot/seo build",
     "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tests/tsconfig.json --noEmit",
     "pretest": "pnpm run build",
     "test": "vitest run",

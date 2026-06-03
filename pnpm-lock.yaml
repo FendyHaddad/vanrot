@@ -398,6 +398,8 @@ importers:
         specifier: file:../devtools
         version: link:../devtools
 
+  packages/seo: {}
+
   packages/ssr:
     dependencies:
       '@vanrot/router':
@@ -440,6 +442,9 @@ importers:
       '@vanrot/router':
         specifier: file:../router
         version: link:../router
+      '@vanrot/seo':
+        specifier: file:../seo
+        version: link:../seo
     devDependencies:
       '@types/node':
         specifier: ^22.19.19

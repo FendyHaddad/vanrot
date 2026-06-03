@@ -93,17 +93,15 @@ Each production phase has a spec and a plan:
 - Plans: `docs/superpowers/plans/Phase-XX.md`
 - Maturity ledger: `docs/superpowers/feature-maturity.md`
 - TDD inventory: `docs/superpowers/final-tdd-inventory.md`
-- Presentation: `docs/vanrot-presentation.html`
 
 **Phase completion checklist** (from `AGENTS.md`):
 1. Tick phase in `feature-maturity.md`.
 2. Mark all tasks in `plans/Phase-XX.md`.
-3. Update presentation roadmap slide.
-4. Update `feature-maturity.md` for any maturity/scope changes.
-5. Grow `final-tdd-inventory.md` for any new package, command, component, convention, helper, or generated file.
-6. Update spec/plan if requirements changed.
-7. Run `pnpm verify` (must pass, including size budget).
-8. Stage maturity ledger + TDD inventory + presentation + plan + spec together in one commit.
+3. Update `feature-maturity.md` for any maturity/scope changes.
+4. Grow `final-tdd-inventory.md` for any new package, command, component, convention, helper, or generated file.
+5. Update spec/plan if requirements changed.
+6. Run `pnpm verify` (must pass, including size budget).
+7. Stage maturity ledger + TDD inventory + plan + spec together in one commit.
 
 `pnpm verify:phase-docs` enforces: completed phases must have all plan tasks checked; maturity rows for completed phases must not be `Planned`; presentation must mark the right phases done/active.
 

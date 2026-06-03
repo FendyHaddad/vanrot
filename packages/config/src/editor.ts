@@ -1,5 +1,14 @@
 import ts from 'typescript';
 
+export const generatedVanrotSeoConfigSource = `{
+    defaults: {},
+    social: {},
+    robots: { directives: [] },
+    sitemap: { enabled: true, routes: [] },
+    structuredData: {},
+    diagnostics: { mode: 'warn' },
+  }`;
+
 export function upsertVanrotConfigDomain(
   sourceText: string,
   domainName: string,
@@ -42,4 +51,12 @@ export function removeVanrotConfigDomainIfGenerated(
   }
 
   return sourceText.replace(`  ${domainLine}\n`, '');
+}
+
+export function upsertVanrotSeoConfigDomain(sourceText: string): string {
+  return upsertVanrotConfigDomain(sourceText, 'seo', generatedVanrotSeoConfigSource);
+}
+
+export function removeGeneratedVanrotSeoConfigDomain(sourceText: string): string {
+  return removeVanrotConfigDomainIfGenerated(sourceText, 'seo', generatedVanrotSeoConfigSource);
 }

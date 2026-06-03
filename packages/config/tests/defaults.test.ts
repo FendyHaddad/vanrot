@@ -101,4 +101,36 @@ describe('normalizeVanrotConfig', () => {
     expect(normalized.router.diagnostics.missingTitle).toBe('off');
     expect(normalized.router.diagnostics.missingMetaDescription).toBe('error');
   });
+
+  it('does not leave SEO residue when the app did not opt in', () => {
+    expect(normalizeVanrotConfig({}).seo).toBeUndefined();
+  });
+
+  it('normalizes SEO settings only when configured', () => {
+    const normalized = normalizeVanrotConfig({
+      seo: {
+        defaults: {
+          title: 'Vanrot',
+        },
+      },
+    });
+
+    expect(normalized.seo).toEqual({
+      defaults: {
+        title: 'Vanrot',
+      },
+      social: {},
+      robots: {
+        directives: [],
+      },
+      sitemap: {
+        enabled: true,
+        routes: [],
+      },
+      structuredData: {},
+      diagnostics: {
+        mode: 'warn',
+      },
+    });
+  });
 });

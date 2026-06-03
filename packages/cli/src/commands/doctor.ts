@@ -17,7 +17,7 @@ export async function doctorCommand(
         severity: diagnostic.severity,
         code: diagnostic.code,
         filePath: diagnostic.filePath ?? 'vanrot.config.ts',
-        message: diagnostic.message,
+        message: `${diagnostic.code} ${diagnostic.message}`,
         nextStep: diagnostic.suggestion,
       });
     }

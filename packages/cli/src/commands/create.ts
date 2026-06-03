@@ -1,5 +1,6 @@
 import { resolveCreateBehaviorSelection } from '../create/behavior-prompt.js';
 import { writeApp } from '../create/write-app.js';
+import { resolveCreateSeoSelection } from '../seo/create-seo.js';
 import type { CommandContext, CommandResult } from '../result.js';
 import { fail, ok } from '../result.js';
 import { commandInvocation, commandName, commandUsage } from './metadata.js';
@@ -13,6 +14,9 @@ export async function createCommand(
   const force = args.includes('--force');
   const behaviorFlag = valueAfter(args, '--behavior');
   const noBehavior = args.includes('--no-behavior');
+  const seoFlag = args.includes('--seo');
+  const noSeo = args.includes('--no-seo');
+  const seoSiteUrl = valueAfter(args, '--seo-site-url');
 
   if (appName === undefined) {
     context.reporter.error('Missing app name.', `Run ${commandUsage(commandName.create)}.`);
@@ -24,10 +28,21 @@ export async function createCommand(
     return fail();
   }
 
+  if (seoFlag && noSeo) {
+    context.reporter.error('Choose either --seo or --no-seo.');
+    return fail();
+  }
+
   try {
     const behavior = await resolveCreateBehaviorSelection({
       behaviorFlag,
       noBehavior,
+      interactive: process.stdin.isTTY === true && process.stdout.isTTY === true,
+    });
+    const seo = await resolveCreateSeoSelection({
+      seoFlag,
+      noSeo,
+      siteUrl: seoSiteUrl,
       interactive: process.stdin.isTTY === true && process.stdout.isTTY === true,
     });
     const result = await writeApp({
@@ -36,6 +51,7 @@ export async function createCommand(
       workspace,
       force,
       behavior,
+      seo,
     });
 
     context.reporter.heading(`Created ${appName}`, `${result.files.length} files`);

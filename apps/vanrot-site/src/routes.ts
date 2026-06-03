@@ -74,6 +74,7 @@ const routePath = {
   docs: docsBasePath,
   components: '/docs/components',
   changelog: '/changelog',
+  changelogPackage: '/changelog/:packageSlug',
   docsPublicApi: '/docs/public-api',
   docsDiagnostics: '/docs/diagnostics',
   docsGeneratedFiles: '/docs/generated-files',
@@ -502,6 +503,21 @@ const docsRuntimeDevtoolsGraph = articlePage(siteArticleKey.runtimeDevtoolsGraph
 const docsRuntimeLifecycle = articlePage(siteArticleKey.runtimeLifecycle);
 const docsRuntimeMounting = articlePage(siteArticleKey.runtimeMounting);
 const docsBehavior = articlePage(siteArticleKey.behavior);
+const docsBehaviorForm = articlePage(siteArticleKey.behaviorForm);
+const docsBehaviorOverlay = articlePage(siteArticleKey.behaviorOverlay);
+const docsBehaviorTooltip = articlePage(siteArticleKey.behaviorTooltip);
+const docsBehaviorTabs = articlePage(siteArticleKey.behaviorTabs);
+const docsBehaviorTable = articlePage(siteArticleKey.behaviorTable);
+const docsBehaviorToast = articlePage(siteArticleKey.behaviorToast);
+const docsBehaviorCommandMenu = articlePage(siteArticleKey.behaviorCommandMenu);
+const docsBehaviorPositionedLayer = articlePage(siteArticleKey.behaviorPositionedLayer);
+const docsSeo = articlePage(siteArticleKey.seo);
+const docsSeoPackageBoundary = articlePage(siteArticleKey.seoPackageBoundary);
+const docsSeoMetadataLadder = articlePage(siteArticleKey.seoMetadataLadder);
+const docsSeoConfigControlPlane = articlePage(siteArticleKey.seoConfigControlPlane);
+const docsSeoCreateAndAddFlows = articlePage(siteArticleKey.seoCreateAndAddFlows);
+const docsSeoDoctorAndBuildOutput = articlePage(siteArticleKey.seoDoctorAndBuildOutput);
+const docsSeoSocialImages = articlePage(siteArticleKey.seoSocialImages);
 const docsCompiler = articlePage(siteArticleKey.compiler);
 const docsCompilerFileConventions = articlePage(siteArticleKey.compilerFileConventions);
 const docsCompilerComponentClass = articlePage(siteArticleKey.compilerComponentClass);
@@ -632,6 +648,15 @@ const changelog = routes.page({
   breadcrumb: routes.breadcrumb.root(),
 });
 
+const changelogPackage = routes.page({
+  path: routePath.changelogPackage,
+  label: getSiteArticle(siteArticleKey.changelog).label,
+  ...articleDocument(siteArticleKey.changelog),
+  page: DocsChangelogPage,
+  nav: routes.nav.hidden(),
+  breadcrumb: routes.breadcrumb.parent(changelog),
+});
+
 const reference = routes.page({
   path: routePath.reference,
   label: getSiteArticle(siteArticleKey.referenceStatus).label,
@@ -729,6 +754,21 @@ export const route = defineRoutes({
   docsRuntimeLifecycle,
   docsRuntimeMounting,
   docsBehavior,
+  docsBehaviorForm,
+  docsBehaviorOverlay,
+  docsBehaviorTooltip,
+  docsBehaviorTabs,
+  docsBehaviorTable,
+  docsBehaviorToast,
+  docsBehaviorCommandMenu,
+  docsBehaviorPositionedLayer,
+  docsSeo,
+  docsSeoPackageBoundary,
+  docsSeoMetadataLadder,
+  docsSeoConfigControlPlane,
+  docsSeoCreateAndAddFlows,
+  docsSeoDoctorAndBuildOutput,
+  docsSeoSocialImages,
   docsCompiler,
   docsCompilerFileConventions,
   docsCompilerComponentClass,
@@ -811,6 +851,7 @@ export const route = defineRoutes({
   docsLimitations,
   docsReferenceStatus,
   reference,
+  changelogPackage,
   uiButton,
   uiCard,
   uiBadge,

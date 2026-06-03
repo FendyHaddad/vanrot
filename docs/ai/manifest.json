@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-05-31T13:04:00.349Z",
-  "sourceFingerprint": "sha256-b7963baf3c21e2829e2dae4241abb712f0ece79bead5f1f9387a1b6491c6c080",
+  "generatedAt": "2026-06-03T00:15:24.332Z",
+  "sourceFingerprint": "sha256-61f09c5cc4a12779730ab57208a67eb4745486fa72fd0dc11e6ff9a90bd0cb59",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-06545fc5d4ea056a48ecf1fce8b9b796e95a8589fc35acfc7f998307a48d9376"
+      "fingerprint": "sha256-a15d1cb292cdbb980ab7691974322c877317d66929efdbf3ac120ed287a0e44e"
     },
     {
       "id": "framework-reference",
@@ -17,7 +17,7 @@
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-9c8f9ab13ff2f16fad45d826178873f3d33144391ec66a3f7c93b2bd86237765"
+      "fingerprint": "sha256-7da56857f84b311005921ad4b759c98f48eef7b13fcee1f4964d8607b2da1a6d"
     },
     {
       "id": "cli-command-metadata",
@@ -27,12 +27,12 @@
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-2aa8a6fe562139fe3106aba056fcb3a118663fbe823b363a0e31d7ed5f3d816a"
+      "fingerprint": "sha256-adb01be7ae36c7ac98e4de18435ac9ce0a52164b50063be733e5d62c23c390aa"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-62f9eb4176d4bad1cf2f095ee85b5c7d01b645d4e828d3f0c2a2a9197c40772f"
+      "fingerprint": "sha256-0d9ecbf1a2df4e74609882507bdc69f116f7174e115ab5b662f29ead3ba84d0c"
     }
   ],
   "counts": {
@@ -47,7 +47,7 @@
     "routes": 4,
     "limitations": 2,
     "deployment": 1,
-    "docs": 93
+    "docs": 108
   },
   "coverageStatus": "complete"
 }

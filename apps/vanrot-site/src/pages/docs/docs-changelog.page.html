@@ -1,29 +1,50 @@
-<article class="docs-changelog">
-  <header class="docs-changelog-header">
-    <h1>{{ article().title }}</h1>
-    <p class="docs-changelog-summary">{{ article().summary }}</p>
-    <p class="docs-changelog-note">
-      This page is generated from the Vanrot docs registry. Use vr upgrade to move project packages to the latest release.
-    </p>
-  </header>
+<div class="docs-changelog-shell">
+  <aside class="docs-changelog-sidebar" aria-label="Changelog packages">
+    <p class="docs-changelog-sidebar-title">Packages</p>
+    <nav>
+      <a class="docs-changelog-package-link" [href]="allPath()">
+        <span>All</span>
+        <span>{{ totalChangeCount() }}</span>
+      </a>
+      @for (filter of packageFilters(); track filter.packageName) {
+        <a class="docs-changelog-package-link" [href]="filter.href">
+          <span>{{ filter.packageName }}</span>
+          <span>{{ filter.changeCount }}</span>
+        </a>
+      }
+    </nav>
+  </aside>
 
-  <div class="docs-changelog-list">
-    @for (entry of entries(); track entry.version) {
-      <section class="docs-changelog-entry" [id]="entry.anchorId">
-        <div class="docs-changelog-entry-heading">
-          <h2>{{ entry.version }}</h2>
-          <p>{{ entry.date }}</p>
-        </div>
+  <article class="docs-changelog">
+    <header class="docs-changelog-header">
+      <h1>{{ article().title }}</h1>
+      <p class="docs-changelog-summary">{{ article().summary }}</p>
+      <p class="docs-changelog-note">
+        This page is generated from the Vanrot docs registry. Use vr upgrade to move project packages to the latest release.
+      </p>
+    </header>
 
-        <ul>
-          @for (change of entry.changes; track change) {
+    <div class="docs-changelog-list">
+      @for (entry of changelogEntries(); track entry.version) {
+        <section class="docs-changelog-entry" [id]="entry.anchorId">
+          <div class="docs-changelog-entry-heading">
+            <h2>{{ entry.version }}</h2>
+            <p>{{ entry.date }}</p>
+          </div>
+
+          <ul>
+            @for (change of entry.changes; track change) {
             <li>
-              <span>{{ change.text }}</span>
+              <span class="docs-changelog-change-copy">{{ change.text }}</span>
+              @if (showPackageLabels()) {
+                <span class="docs-changelog-change-packages">{{ change.packagesLabel }}</span>
+              }
               <a class="docs-changelog-link" [href]="change.docsHref">{{ change.docsLabel }}</a>
             </li>
           }
-        </ul>
-      </section>
-    }
-  </div>
-</article>
+          </ul>
+        </section>
+      }
+    </div>
+  </article>
+</div>

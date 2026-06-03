@@ -3,7 +3,6 @@ import {
   checkCompletedPhasePlans,
   checkFuturePipeline,
   checkMaturityRows,
-  checkPresentationRoadmap,
   parseMaturityRoadmapPhases,
 } from './verify-phase-docs.mjs';
 
@@ -64,28 +63,6 @@ describe('phase documentation verification', () => {
 
     expect(failures).toEqual([
       'Phase 4 is done in docs/superpowers/feature-maturity.md but feature maturity row "Vite transform integration" is still Planned.',
-    ]);
-  });
-
-  it('fails when the presentation roadmap does not match feature maturity status', () => {
-    const failures = checkPresentationRoadmap(
-      [
-        { done: true, number: 4, title: 'Vite integration' },
-        { done: false, number: 5, title: 'CLI MVP' },
-      ],
-      `
-<div class="phase-card active-phase">
-  <div class="phase-num">Phase 4</div>
-</div>
-<div class="phase-card">
-  <div class="phase-num">Phase 5</div>
-</div>
-`,
-    );
-
-    expect(failures).toEqual([
-      'Phase 4 is done in docs/superpowers/feature-maturity.md but docs/vanrot-presentation.html does not mark it as done.',
-      'Phase 5 is the next pending phase but docs/vanrot-presentation.html does not mark it as active.',
     ]);
   });
 

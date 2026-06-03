@@ -7,7 +7,13 @@ export {
 } from './constants.js';
 export { defineVanrotConfig } from './define-config.js';
 export { normalizeVanrotConfig } from './defaults.js';
-export { removeVanrotConfigDomainIfGenerated, upsertVanrotConfigDomain } from './editor.js';
+export {
+  generatedVanrotSeoConfigSource,
+  removeGeneratedVanrotSeoConfigDomain,
+  removeVanrotConfigDomainIfGenerated,
+  upsertVanrotConfigDomain,
+  upsertVanrotSeoConfigDomain,
+} from './editor.js';
 export { loadVanrotProjectConfig, type LoadedVanrotConfig } from './load.js';
 export {
   migrateVanrotConfig,
@@ -27,6 +33,9 @@ export {
   vanrotBehavior,
   vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
+  vanrotSeoDiagnosticsMode,
+  vanrotSeoRobotsDirective,
+  vanrotSeoSitemapChangeFrequency,
   vanrotUiFlavor,
   vanrotUiStyleMode,
 } from './types.js';
@@ -38,6 +47,7 @@ export type {
   NormalizedVanrotRouterConfig,
   NormalizedVanrotRouterDiagnosticsConfig,
   NormalizedVanrotRouterNavigationPolishConfig,
+  NormalizedVanrotSeoConfig,
   NormalizedVanrotUiConfig,
   VanrotAiConfig,
   VanrotAiCustomRuleSection,
@@ -50,6 +60,17 @@ export type {
   VanrotRouterDiagnosticLevel,
   VanrotRouterDiagnosticsConfig,
   VanrotRouterNavigationPolishConfig,
+  VanrotSeoConfig,
+  VanrotSeoDefaultsConfig,
+  VanrotSeoDiagnosticsConfig,
+  VanrotSeoDiagnosticsMode,
+  VanrotSeoRobotsConfig,
+  VanrotSeoRobotsDirective,
+  VanrotSeoSitemapChangeFrequency,
+  VanrotSeoSitemapConfig,
+  VanrotSeoSitemapRouteConfig,
+  VanrotSeoSocialConfig,
+  VanrotSeoStructuredDataConfig,
   VanrotUiConfig,
   VanrotUiFlavor,
   VanrotUiStyleMode,
