@@ -398,7 +398,11 @@ importers:
         specifier: file:../devtools
         version: link:../devtools
 
-  packages/seo: {}
+  packages/seo:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.19.19
+        version: 22.19.19
 
   packages/ssr:
     dependencies:

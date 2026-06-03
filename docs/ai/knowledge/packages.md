@@ -51,3 +51,7 @@ Project map graph contracts, DevTools panel assets, runtime graph metadata, and 
 ## @vanrot/ai
 
 Generated AI knowledge bundle, verification, MCP server resources, Skill.sh package files, and provider-neutral framework rules.
+
+## @vanrot/seo
+
+Metadata normalization, head rendering, social tags, structured data, sitemap, robots, and SEO ladder helpers for generated Vanrot apps.

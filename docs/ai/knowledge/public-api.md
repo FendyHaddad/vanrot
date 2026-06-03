@@ -467,3 +467,9 @@ Docs: /docs/devtools
 All public exports from @vanrot/ai are covered by AI bundle and public API documentation.
 
 Docs: /docs/public-api
+
+## @vanrot/seo *
+
+All public exports from @vanrot/seo are covered by SEO and public API documentation.
+
+Docs: /docs/public-api

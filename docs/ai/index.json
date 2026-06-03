@@ -64,6 +64,11 @@
       "id": "package:@vanrot/ai",
       "title": "@vanrot/ai",
       "summary": "Generated AI knowledge bundle, verification, MCP server resources, Skill.sh package files, and provider-neutral framework rules."
+    },
+    {
+      "id": "package:@vanrot/seo",
+      "title": "@vanrot/seo",
+      "summary": "Metadata normalization, head rendering, social tags, structured data, sitemap, robots, and SEO ladder helpers for generated Vanrot apps."
     }
   ],
   "publicExports": [
@@ -533,6 +538,12 @@
       "id": "export:@vanrot/ai:*",
       "title": "@vanrot/ai *",
       "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/seo:*",
+      "title": "@vanrot/seo *",
+      "summary": "All public exports from @vanrot/seo are covered by SEO and public API documentation.",
       "docsPath": "/docs/public-api"
     }
   ],

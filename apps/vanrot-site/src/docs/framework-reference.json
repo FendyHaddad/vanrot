@@ -109,6 +109,13 @@
       "status": "production-ready",
       "summary": "Generated AI knowledge bundle, verification, MCP server resources, Skill.sh package files, and provider-neutral framework rules.",
       "docsPath": "/docs/public-api"
+    },
+    {
+      "name": "@vanrot/seo",
+      "area": "SEO automation",
+      "status": "production-ready",
+      "summary": "Metadata normalization, head rendering, social tags, structured data, sitemap, robots, and SEO ladder helpers for generated Vanrot apps.",
+      "docsPath": "/docs/public-api"
     }
   ],
   "publicExports": [
@@ -189,7 +196,8 @@
     { "packageName": "@vanrot/testing", "name": "createAsyncTestScope", "kind": "function", "status": "production-ready", "summary": "Tracks pending promises, abort controllers, and cleanup callbacks for leak-free async tests.", "docsPath": "/docs/testing/strategy" },
     { "packageName": "@vanrot/devtools", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" },
-    { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" }
+    { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/seo", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/seo are covered by SEO and public API documentation.", "docsPath": "/docs/public-api" }
   ],
   "commands": [
     {
@@ -401,7 +409,7 @@
     { "id": "testing-helpers", "title": "Testing Helpers", "path": "examples/testing-helpers", "packages": ["@vanrot/testing", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["testing-helpers"], "docsPath": "/docs/testing" },
     { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/language-server", "@vanrot/cli", "@vanrot/config", "@vanrot/ai"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands", "ai-consumption"], "docsPath": "/docs/devtools" },
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
-    { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" },
+    { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config", "@vanrot/seo"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" },
     { "id": "webgl-threejs", "title": "WebGL And three.js Lifecycle", "path": "examples/webgl-threejs", "packages": ["@vanrot/runtime"], "workflows": ["webgl-threejs", "runtime-lifecycle"], "docsPath": "/docs/examples/webgl-threejs" },
     { "id": "ssr-hydration", "title": "SSR And Hydration", "path": "examples/ssr-hydration", "packages": ["@vanrot/ssr", "@vanrot/router", "@vanrot/runtime"], "workflows": ["ssr-hydration", "routing-workflows"], "docsPath": "/docs/ssr-hydration" }
   ],

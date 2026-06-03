@@ -27,6 +27,7 @@ describe('framework reference registry', () => {
       '@vanrot/testing',
       '@vanrot/devtools',
       '@vanrot/ai',
+      '@vanrot/seo',
     ]);
   });
 
