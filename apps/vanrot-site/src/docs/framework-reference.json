@@ -11,7 +11,7 @@
       "name": "@vanrot/behavior",
       "area": "Optional behavior helpers",
       "status": "production-ready",
-      "summary": "Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers.",
+      "summary": "Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, positioned layers, collapsibles, selection widgets, menus, toggles, scroll areas, portals, focus utilities, calendars, drag/drop, and table resizing.",
       "exports": [
         "@vanrot/behavior/form",
         "@vanrot/behavior/table",
@@ -21,6 +21,16 @@
         "@vanrot/behavior/toast",
         "@vanrot/behavior/command-menu",
         "@vanrot/behavior/positioned-layer",
+        "@vanrot/behavior/collapsible",
+        "@vanrot/behavior/selection",
+        "@vanrot/behavior/menu",
+        "@vanrot/behavior/toggle",
+        "@vanrot/behavior/scroll-area",
+        "@vanrot/behavior/portal",
+        "@vanrot/behavior/focus",
+        "@vanrot/behavior/calendar",
+        "@vanrot/behavior/drag-drop",
+        "@vanrot/behavior/table-resize",
         "@vanrot/behavior/all"
       ],
       "docsPath": "/docs/behavior"
@@ -209,7 +219,7 @@
       "examples": ["vr create hello-vanrot", "vr create dashboard --workspace apps/dashboard"],
       "notes": [
         "Creates a Vanrot app shell, starter route files, config, package scripts, and source-owned CSS.",
-        "Use --behavior tooltip,toast to opt into @vanrot/behavior helpers or --no-behavior to keep the starter lean."
+        "Use --behavior tooltip,toast,collapsible,selection,calendar to opt into @vanrot/behavior helpers or --no-behavior to keep the starter lean."
       ]
     },
     {

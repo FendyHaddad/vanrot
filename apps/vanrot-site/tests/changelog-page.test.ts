@@ -18,31 +18,34 @@ describe('docs changelog page', () => {
   it('keeps changelog entries versioned, dated, and bullet-based', () => {
     const entries = createChangelogEntries(siteArticles[siteArticleKey.changelog]);
 
-    expect(entries.map((entry) => entry.version)).toEqual(['0.2.0', '0.1.1', '0.1.0', '0.0.0']);
+    expect(entries.map((entry) => entry.version)).toEqual(['0.2.2', '0.2.0', '0.1.1', '0.1.0', '0.0.0']);
     expect(entries[0]).toMatchObject({
-      anchorId: 'version-0-2-0',
-      date: 'June 4, 2026',
+      anchorId: 'version-0-2-2',
+      date: 'June 5, 2026',
       changes: [
         {
-          text: 'Added vr doctor --inspect to include read-only project intelligence in the health report.',
-          docsHref: '/docs/cli/project-intelligence',
-          docsLabel: 'Project intelligence docs',
-          packagesLabel: '@vanrot/cli',
+          text: 'Added collapsible, accordion, disclosure, selection, listbox, select, combobox, multi-selection, menu, context-menu, menubar, navigation-menu, toggle-group, toolbar, scroll-area, portal, focus, calendar, date-picker, drag-drop, and table-resize controllers.',
+          docsHref: '/docs/behavior',
+          docsLabel: 'Behavior docs',
+          packagesLabel: '@vanrot/behavior',
         },
         {
-          text: 'Removed standalone vr inspect from the command surface and redirects that mental model to vr doctor --inspect.',
-          docsHref: '/docs/cli/commands',
-          docsLabel: 'CLI command docs',
+          text: 'Added subpath exports so apps can import only the behavior family they need.',
+          docsHref: '/docs/behavior',
+          docsLabel: 'Behavior import docs',
+          packagesLabel: '@vanrot/behavior',
         },
         {
-          text: 'Added vr cache clean with --dry-run support for Vanrot-owned generated metadata.',
-          docsHref: '/docs/cli/project-intelligence',
-          docsLabel: 'Cache maintenance docs',
+          text: 'Updated behavior config validation and vr create behavior scaffolding for the expanded family names.',
+          docsHref: '/docs/cli/project-creation',
+          docsLabel: 'Project creation docs',
+          packagesLabel: '@vanrot/cli, @vanrot/config, @vanrot/behavior',
         },
         {
-          text: 'Updated public CLI docs, project intelligence docs, command references, and AI-readable docs for the new maintenance workflow.',
-          docsHref: '/docs/cli',
-          docsLabel: 'CLI docs',
+          text: 'Updated behavior docs, framework reference metadata, AI-readable docs, the future pipeline checklist, and the final TDD inventory for Phase 28.',
+          docsHref: '/docs/behavior',
+          docsLabel: 'Behavior docs',
+          packagesLabel: '@vanrot/behavior',
         },
       ],
     });

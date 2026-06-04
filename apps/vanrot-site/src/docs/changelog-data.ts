@@ -49,6 +49,28 @@ export const changelogPackageNames = [
 ] as const;
 
 const changelogDocsByVersion: Record<string, readonly ChangelogChangeDocs[]> = {
+  '0.2.2': [
+    {
+      docsHref: '/docs/behavior',
+      docsLabel: 'Behavior docs',
+      packages: ['@vanrot/behavior'],
+    },
+    {
+      docsHref: '/docs/behavior',
+      docsLabel: 'Behavior import docs',
+      packages: ['@vanrot/behavior'],
+    },
+    {
+      docsHref: '/docs/cli/project-creation',
+      docsLabel: 'Project creation docs',
+      packages: ['@vanrot/cli', '@vanrot/config', '@vanrot/behavior'],
+    },
+    {
+      docsHref: '/docs/behavior',
+      docsLabel: 'Behavior docs',
+      packages: ['@vanrot/behavior'],
+    },
+  ],
   '0.2.0': [
     {
       docsHref: '/docs/cli/project-intelligence',

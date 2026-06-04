@@ -58,6 +58,24 @@ describe('framework reference registry', () => {
       expect(route.title).toContain('Vanrot');
       expect(route.description.length).toBeGreaterThan(50);
     }
+
+    const behaviorPackage = frameworkReference.packages.find(
+      (item) => item.name === '@vanrot/behavior',
+    );
+    expect(behaviorPackage?.exports).toEqual(
+      expect.arrayContaining([
+        '@vanrot/behavior/collapsible',
+        '@vanrot/behavior/selection',
+        '@vanrot/behavior/menu',
+        '@vanrot/behavior/toggle',
+        '@vanrot/behavior/scroll-area',
+        '@vanrot/behavior/portal',
+        '@vanrot/behavior/focus',
+        '@vanrot/behavior/calendar',
+        '@vanrot/behavior/drag-drop',
+        '@vanrot/behavior/table-resize',
+      ]),
+    );
   });
 
   it('covers public exports, commands, diagnostics, generated files, and conventions', () => {

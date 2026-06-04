@@ -192,6 +192,11 @@ describe('vanrot site docs data', () => {
   it('documents Behavior as a package parent with focused child guides', () => {
     expect(siteArticles.behavior.path).toBe('/docs/behavior');
     expect(siteArticles.behavior.summary).toContain('@vanrot/behavior');
+    expect(siteArticles.behavior.status).toBe('production-ready-through-phase-28');
+    expect(JSON.stringify(siteArticles.behavior)).toContain('createAccordionController');
+    expect(JSON.stringify(siteArticles.behavior)).toContain('createComboboxController');
+    expect(JSON.stringify(siteArticles.behavior)).toContain('createDatePickerController');
+    expect(JSON.stringify(siteArticles.behavior)).toContain('createTableResizeController');
 
     const childKeys = [
       'behaviorForm',

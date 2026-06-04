@@ -136,7 +136,8 @@ export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
         code: configDiagnosticCode.invalidBehavior,
         severity: 'error',
         message: `Invalid behavior.enabled entry: ${String(behaviorName)}`,
-        suggestion: 'Use form, table, overlay, tabs, tooltip, toast, command-menu, or positioned-layer.',
+        suggestion:
+          'Use form, table, overlay, tabs, tooltip, toast, command-menu, positioned-layer, collapsible, selection, menu, toggle, scroll-area, portal, focus, calendar, drag-drop, or table-resize.',
       });
     }
   }

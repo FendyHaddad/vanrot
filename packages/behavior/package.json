@@ -1,6 +1,6 @@
 {
   "name": "@vanrot/behavior",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "type": "module",
   "engines": {
     "node": ">=22.14.0"
@@ -48,6 +48,46 @@
     "./positioned-layer": {
       "types": "./dist/positioned-layer.d.ts",
       "import": "./dist/positioned-layer.js"
+    },
+    "./collapsible": {
+      "types": "./dist/collapsible.d.ts",
+      "import": "./dist/collapsible.js"
+    },
+    "./selection": {
+      "types": "./dist/selection.d.ts",
+      "import": "./dist/selection.js"
+    },
+    "./menu": {
+      "types": "./dist/menu.d.ts",
+      "import": "./dist/menu.js"
+    },
+    "./toggle": {
+      "types": "./dist/toggle.d.ts",
+      "import": "./dist/toggle.js"
+    },
+    "./scroll-area": {
+      "types": "./dist/scroll-area.d.ts",
+      "import": "./dist/scroll-area.js"
+    },
+    "./portal": {
+      "types": "./dist/portal.d.ts",
+      "import": "./dist/portal.js"
+    },
+    "./focus": {
+      "types": "./dist/focus.d.ts",
+      "import": "./dist/focus.js"
+    },
+    "./calendar": {
+      "types": "./dist/calendar.d.ts",
+      "import": "./dist/calendar.js"
+    },
+    "./drag-drop": {
+      "types": "./dist/drag-drop.d.ts",
+      "import": "./dist/drag-drop.js"
+    },
+    "./table-resize": {
+      "types": "./dist/table-resize.d.ts",
+      "import": "./dist/table-resize.js"
     }
   },
   "files": [

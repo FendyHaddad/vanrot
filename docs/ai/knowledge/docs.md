@@ -68,7 +68,7 @@ Docs: /docs/runtime/mounting
 
 ## Behavior
 
-@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use.
+@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use, from overlays and tables through the Phase 28 interaction suite.
 
 Docs: /docs/behavior
 

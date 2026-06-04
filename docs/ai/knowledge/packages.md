@@ -6,7 +6,7 @@ Signals, computed values, effects, batching, lifecycle helpers, DOM mounting, in
 
 ## @vanrot/behavior
 
-Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers.
+Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, positioned layers, collapsibles, selection widgets, menus, toggles, scroll areas, portals, focus utilities, calendars, drag/drop, and table resizing.
 
 ## @vanrot/compiler
 

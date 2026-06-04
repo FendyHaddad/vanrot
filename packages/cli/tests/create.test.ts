@@ -96,10 +96,13 @@ describe('vr create', () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
 
-    const result = await runCli(['create', 'behavior-app', '--behavior', 'tooltip,toast'], {
-      cwd,
-      reporter,
-    });
+    const result = await runCli(
+      ['create', 'behavior-app', '--behavior', 'tooltip,toast,collapsible,selection,calendar'],
+      {
+        cwd,
+        reporter,
+      },
+    );
 
     const appRoot = join(cwd, 'behavior-app');
     const packageJson = JSON.parse(await readFile(join(appRoot, 'package.json'), 'utf8')) as {
@@ -112,7 +115,9 @@ describe('vr create', () => {
       '@vanrot/behavior': expect.stringMatching(/^\^\d+\.\d+\.\d+/),
     });
     expect(configSource).toContain('behavior: {');
-    expect(configSource).toContain("enabled: ['tooltip', 'toast']");
+    expect(configSource).toContain(
+      "enabled: ['tooltip', 'toast', 'collapsible', 'selection', 'calendar']",
+    );
   });
 
   it('does not install behavior when behavior helpers are declined', async () => {
@@ -136,7 +141,7 @@ describe('vr create', () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
 
-    const result = await runCli(['create', 'bad-behavior-app', '--behavior', 'accordion'], {
+    const result = await runCli(['create', 'bad-behavior-app', '--behavior', 'ghost-helper'], {
       cwd,
       reporter,
     });

@@ -56,6 +56,86 @@ export const behaviorDefinitions: readonly BehaviorDefinition[] = [
     importPath: '@vanrot/behavior/positioned-layer',
     symbols: ['positionLayer'],
   },
+  {
+    name: vanrotBehavior.collapsible,
+    label: 'Collapsible, accordion, and disclosure helpers',
+    importPath: '@vanrot/behavior/collapsible',
+    symbols: [
+      'createCollapsibleController',
+      'createAccordionController',
+      'createDisclosureController',
+    ],
+  },
+  {
+    name: vanrotBehavior.selection,
+    label: 'Selection, listbox, select, combobox, and multi-selection helpers',
+    importPath: '@vanrot/behavior/selection',
+    symbols: [
+      'createSelectionController',
+      'createListboxController',
+      'createSelectController',
+      'createComboboxController',
+      'createMultiSelectionController',
+    ],
+  },
+  {
+    name: vanrotBehavior.menu,
+    label: 'Menu, context menu, menubar, and navigation menu helpers',
+    importPath: '@vanrot/behavior/menu',
+    symbols: [
+      'createMenuController',
+      'createContextMenuController',
+      'createMenubarController',
+      'createNavigationMenuController',
+    ],
+  },
+  {
+    name: vanrotBehavior.toggle,
+    label: 'Toggle group and toolbar helpers',
+    importPath: '@vanrot/behavior/toggle',
+    symbols: ['createToggleGroupController', 'createToolbarController'],
+  },
+  {
+    name: vanrotBehavior.scrollArea,
+    label: 'Scroll area helper',
+    importPath: '@vanrot/behavior/scroll-area',
+    symbols: ['createScrollAreaController'],
+  },
+  {
+    name: vanrotBehavior.portal,
+    label: 'Portal helper',
+    importPath: '@vanrot/behavior/portal',
+    symbols: ['mountPortal'],
+  },
+  {
+    name: vanrotBehavior.focus,
+    label: 'Focus and visually hidden helpers',
+    importPath: '@vanrot/behavior/focus',
+    symbols: [
+      'createFocusTrap',
+      'createFocusReturnController',
+      'createRovingFocusController',
+      'visuallyHiddenProps',
+    ],
+  },
+  {
+    name: vanrotBehavior.calendar,
+    label: 'Calendar and date picker helpers',
+    importPath: '@vanrot/behavior/calendar',
+    symbols: ['createCalendarController', 'createDatePickerController'],
+  },
+  {
+    name: vanrotBehavior.dragDrop,
+    label: 'Drag and drop helpers',
+    importPath: '@vanrot/behavior/drag-drop',
+    symbols: ['createDragDropController', 'reorderItems'],
+  },
+  {
+    name: vanrotBehavior.tableResize,
+    label: 'Table column resize helper',
+    importPath: '@vanrot/behavior/table-resize',
+    symbols: ['createTableResizeController'],
+  },
 ];
 
 export const behaviorNames = behaviorDefinitions.map((definition) => definition.name);

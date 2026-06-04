@@ -16,6 +16,7 @@ export interface FrameworkPackageReference {
   area: string;
   status: FrameworkReferenceStatus;
   summary: string;
+  exports?: readonly string[];
   docsPath: string;
 }
 

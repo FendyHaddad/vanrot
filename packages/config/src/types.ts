@@ -30,6 +30,16 @@ export const vanrotBehavior = {
   toast: 'toast',
   commandMenu: 'command-menu',
   positionedLayer: 'positioned-layer',
+  collapsible: 'collapsible',
+  selection: 'selection',
+  menu: 'menu',
+  toggle: 'toggle',
+  scrollArea: 'scroll-area',
+  portal: 'portal',
+  focus: 'focus',
+  calendar: 'calendar',
+  dragDrop: 'drag-drop',
+  tableResize: 'table-resize',
 } as const;
 
 export type VanrotBehaviorName = (typeof vanrotBehavior)[keyof typeof vanrotBehavior];

@@ -8,7 +8,7 @@
     {
       "id": "package:@vanrot/behavior",
       "title": "@vanrot/behavior",
-      "summary": "Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, and positioned layers."
+      "summary": "Optional headless behavior helpers for forms, tables, overlays, tabs, tooltips, toasts, command menus, positioned layers, collapsibles, selection widgets, menus, toggles, scroll areas, portals, focus utilities, calendars, drag/drop, and table resizing."
     },
     {
       "id": "package:@vanrot/compiler",
@@ -1289,7 +1289,7 @@
     {
       "id": "doc:behavior",
       "title": "Behavior",
-      "summary": "@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use.",
+      "summary": "@vanrot/behavior is optional and lets apps pick only the headless behavior helpers they use, from overlays and tables through the Phase 28 interaction suite.",
       "docsPath": "/docs/behavior"
     },
     {

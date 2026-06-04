@@ -107,7 +107,26 @@ describe('validateVanrotConfig', () => {
   it('accepts known behavior helper names', () => {
     const diagnostics = validateVanrotConfig({
       behavior: {
-        enabled: ['form', 'table', 'overlay', 'tabs', 'tooltip', 'toast', 'command-menu', 'positioned-layer'],
+        enabled: [
+          'form',
+          'table',
+          'overlay',
+          'tabs',
+          'tooltip',
+          'toast',
+          'command-menu',
+          'positioned-layer',
+          'collapsible',
+          'selection',
+          'menu',
+          'toggle',
+          'scroll-area',
+          'portal',
+          'focus',
+          'calendar',
+          'drag-drop',
+          'table-resize',
+        ],
       },
     });
 
@@ -117,7 +136,7 @@ describe('validateVanrotConfig', () => {
   it('reports invalid behavior helper names', () => {
     const diagnostics = validateVanrotConfig({
       behavior: {
-        enabled: ['accordion'],
+        enabled: ['ghost-helper'],
       },
     } as unknown as Parameters<typeof validateVanrotConfig>[0]);
 
@@ -125,8 +144,9 @@ describe('validateVanrotConfig', () => {
       {
         code: configDiagnosticCode.invalidBehavior,
         severity: 'error',
-        message: 'Invalid behavior.enabled entry: accordion',
-        suggestion: 'Use form, table, overlay, tabs, tooltip, toast, command-menu, or positioned-layer.',
+        message: 'Invalid behavior.enabled entry: ghost-helper',
+        suggestion:
+          'Use form, table, overlay, tabs, tooltip, toast, command-menu, positioned-layer, collapsible, selection, menu, toggle, scroll-area, portal, focus, calendar, drag-drop, or table-resize.',
       },
     ]);
   });

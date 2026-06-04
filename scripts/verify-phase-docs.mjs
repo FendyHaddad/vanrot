@@ -108,7 +108,7 @@ export function checkFuturePipeline(futurePipelineMarkdown) {
   }
 
   if (
-    !/Already shipped/i.test(editorSection) ||
+    !/(Already shipped|Done):/i.test(editorSection) ||
     !/editors\/intellij/.test(editorSection) ||
     !/com\.vankode\.vanrot/.test(editorSection)
   ) {
