@@ -49,6 +49,28 @@ export const changelogPackageNames = [
 ] as const;
 
 const changelogDocsByVersion: Record<string, readonly ChangelogChangeDocs[]> = {
+  '0.2.0': [
+    {
+      docsHref: '/docs/cli/project-intelligence',
+      docsLabel: 'Project intelligence docs',
+      packages: ['@vanrot/cli'],
+    },
+    {
+      docsHref: '/docs/cli/commands',
+      docsLabel: 'CLI command docs',
+      packages: ['@vanrot/cli'],
+    },
+    {
+      docsHref: '/docs/cli/project-intelligence',
+      docsLabel: 'Cache maintenance docs',
+      packages: ['@vanrot/cli'],
+    },
+    {
+      docsHref: '/docs/cli',
+      docsLabel: 'CLI docs',
+      packages: ['@vanrot/cli', '@vanrot/ai'],
+    },
+  ],
   '0.1.1': [
     {
       docsHref: '/docs/cli/config-maintenance',

@@ -1,6 +1,7 @@
 import { addCommand } from './commands/add.js';
 import { aiCommand } from './commands/ai.js';
 import { buildCommand } from './commands/build.js';
+import { cacheCommand } from './commands/cache.js';
 import { configCommand } from './commands/config.js';
 import { createCommand } from './commands/create.js';
 import { devCommand } from './commands/dev.js';
@@ -37,6 +38,7 @@ const commandHandlers = new Map<string, CommandHandler>([
   [commandName.update, updateCommand],
   [commandName.upgrade, upgradeCommand],
   [commandName.doctor, doctorCommand],
+  [commandName.cache, cacheCommand],
   [commandName.map, mapCommand],
   [commandName.initAi, initAiCommand],
   [commandName.ai, aiCommand],
@@ -186,6 +188,10 @@ function suggestionFor(command: string): string | undefined {
 
   if (command === 'generte') {
     return `Did you mean ${commandInvocation(commandName.generate)}?`;
+  }
+
+  if (command === 'inspect') {
+    return `Run ${commandInvocation(commandName.doctor)} --inspect.`;
   }
 
   return undefined;

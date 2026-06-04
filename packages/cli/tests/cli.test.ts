@@ -50,7 +50,10 @@ describe('runCli', () => {
     expect(out).toContain('build                      Compile and bundle for production');
     expect(out).toContain('test                       Run the test suite');
     expect(out).toContain('MAINTENANCE');
-    expect(out).toContain('doctor                     Check project health and config');
+    expect(out).toContain(
+      'doctor                     Check project health, config, and project intelligence',
+    );
+    expect(out).toContain('cache <action>             Clean Vanrot-owned local caches');
     expect(out).toContain('config <action>            Validate, migrate, or recover config');
     expect(out).toContain('update <target>            Sync generated Vanrot project files');
     expect(out).toContain('upgrade [version]          Upgrade Vanrot package versions');
@@ -77,6 +80,7 @@ describe('runCli', () => {
       'build',
       'test',
       'doctor',
+      'cache',
       'config',
       'update',
       'upgrade',

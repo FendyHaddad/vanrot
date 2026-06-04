@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-06-03T01:09:53.528Z",
-  "sourceFingerprint": "sha256-d079cde4dbd153e2ba410c8283fc91eb4358281fbaeb4bf344cefb155ff003c3",
+  "generatedAt": "2026-06-04T15:42:49.146Z",
+  "sourceFingerprint": "sha256-9f7a0383f2c33472e07f4f7bdd7ba3adf703bd24359387e9979191077dadad27",
   "sources": [
     {
       "id": "package-json",
@@ -12,33 +12,33 @@
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-c10c1235719f2798a0a39dde6e3e0335e1940064815297630dfffba8614bf1ad"
+      "fingerprint": "sha256-4ee85c67af40bf04fde649f40ed7f7f4ed95917b9d32a58b8b198bdf83f818e4"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-7da56857f84b311005921ad4b759c98f48eef7b13fcee1f4964d8607b2da1a6d"
+      "fingerprint": "sha256-f2f15b4c460164bc8b3fd87b36f447bbd8a4fa6538c2deca98f773c34bea231a"
     },
     {
       "id": "cli-command-metadata",
       "path": "packages/cli/src/commands/metadata.ts",
-      "fingerprint": "sha256-a136a594dc54455eb19d7bad0ca0d90411d354fa536347068dbf18444840382f"
+      "fingerprint": "sha256-1759fdeca05671360d054483fd5e97dda918b010d0c355e0bcc0d3635f6377b1"
     },
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-adb01be7ae36c7ac98e4de18435ac9ce0a52164b50063be733e5d62c23c390aa"
+      "fingerprint": "sha256-6726ac5c0972bb8e3556bed2799889a54bdf60199140cce6e0e17dc8689943dd"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-0d9ecbf1a2df4e74609882507bdc69f116f7174e115ab5b662f29ead3ba84d0c"
+      "fingerprint": "sha256-0a3d3db33eac86deed1ba84269adbf3709888c20744c0b330e60f3600fde5426"
     }
   ],
   "counts": {
     "packages": 14,
     "publicExports": 79,
-    "commands": 15,
+    "commands": 16,
     "diagnostics": 13,
     "generatedFiles": 6,
     "conventions": 5,

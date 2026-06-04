@@ -18,31 +18,31 @@ describe('docs changelog page', () => {
   it('keeps changelog entries versioned, dated, and bullet-based', () => {
     const entries = createChangelogEntries(siteArticles[siteArticleKey.changelog]);
 
-    expect(entries.map((entry) => entry.version)).toEqual(['0.1.1', '0.1.0', '0.0.0']);
+    expect(entries.map((entry) => entry.version)).toEqual(['0.2.0', '0.1.1', '0.1.0', '0.0.0']);
     expect(entries[0]).toMatchObject({
-      anchorId: 'version-0-1-1',
-      date: 'May 30, 2026',
+      anchorId: 'version-0-2-0',
+      date: 'June 4, 2026',
       changes: [
         {
-          text: 'Added vr update to sync generated config, project-map, and AI doorway files without changing package versions.',
-          docsHref: '/docs/cli/config-maintenance',
-          docsLabel: 'Config maintenance docs',
-          packagesLabel: '@vanrot/cli, @vanrot/config, @vanrot/ai',
+          text: 'Added vr doctor --inspect to include read-only project intelligence in the health report.',
+          docsHref: '/docs/cli/project-intelligence',
+          docsLabel: 'Project intelligence docs',
+          packagesLabel: '@vanrot/cli',
         },
         {
-          text: 'Added vr upgrade to bump installed @vanrot packages, install dependencies, and run the project sync step.',
+          text: 'Removed standalone vr inspect from the command surface and redirects that mental model to vr doctor --inspect.',
           docsHref: '/docs/cli/commands',
           docsLabel: 'CLI command docs',
         },
         {
-          text: 'Added upgrade diagnostics for missing package.json, invalid package.json, missing Vanrot packages, and package-manager install failures.',
-          docsHref: '/docs/diagnostics',
-          docsLabel: 'Diagnostics docs',
+          text: 'Added vr cache clean with --dry-run support for Vanrot-owned generated metadata.',
+          docsHref: '/docs/cli/project-intelligence',
+          docsLabel: 'Cache maintenance docs',
         },
         {
-          text: 'Added release bump protection so already bumped package manifests are not bumped again before publish.',
-          docsHref: '/docs/deployment',
-          docsLabel: 'Deployment docs',
+          text: 'Updated public CLI docs, project intelligence docs, command references, and AI-readable docs for the new maintenance workflow.',
+          docsHref: '/docs/cli',
+          docsLabel: 'CLI docs',
         },
       ],
     });

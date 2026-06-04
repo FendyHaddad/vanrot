@@ -80,6 +80,7 @@ describe('framework reference registry', () => {
       'update',
       'upgrade',
       'doctor',
+      'cache',
       'map',
       'init-ai',
       'ai',

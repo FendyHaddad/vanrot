@@ -28,8 +28,8 @@
 - Do not add Playwright, Cypress, or another browser E2E framework in this phase.
 - Do not add a test runner abstraction over Vitest.
 - Do not design Phase 21 forms or async-resource APIs before those APIs are stable.
-- Decide whether `vr inspect` belongs in Phase 18 before implementing it.
-- Decide whether `vr cache clear` belongs in Phase 18 before implementing it.
+- Decide whether project inspection belongs in Phase 18 before implementing it.
+- Decide whether `vr cache clean` belongs in Phase 18 before implementing it.
 - Confirm the `testPage(...)` contract against current router exports before package code changes.
 
 ## Execution Rules
@@ -91,8 +91,8 @@
 
 ### Module 18F: Optional CLI Test And Debug Helpers
 
-- [x] Decide whether `vr inspect` belongs in Phase 18 or should remain a later debug tool.
-- [x] Decide whether `vr cache clear` belongs in Phase 18 or should remain a local maintenance command.
+- [x] Decide whether project inspection belongs in Phase 18 or should remain a later doctor/project-intelligence enhancement.
+- [x] Decide whether `vr cache clean` belongs in Phase 18 or should remain a local maintenance command.
 - [x] If accepted, add failing CLI tests before implementation.
 - [x] Keep any accepted command narrow, guided, colored, and human-readable.
 - [x] Update command metadata and docs only for commands that ship in this phase.

@@ -168,13 +168,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-03 9:03am GMT+8
+# [vanrot] recent context, 2026-06-04 11:40pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (14,512t read) | 1,901,840t work | 99% savings
+Stats: 50 obs (14,404t read) | 1,860,969t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -189,8 +189,7 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 29, 2026
-2270 3:37p 🔴 IntelliJ Plugin Build Failure
-2272 " 🔵 Gradle Build Failure - Kotlin/Java Module Issue
+2272 3:37p 🔵 Gradle Build Failure - Kotlin/Java Module Issue
 2276 " 🔴 Java Version Mismatch in IntelliJ Plugin Build
 2286 " 🔵 Installed Java Versions Identified
 2297 " ✅ IntelliJ Plugin Build Successful with Java 21
@@ -242,6 +241,8 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2603 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
 ### Jun 3, 2026
 2756 5:00a ✅ README added to vanrot repository
+### Jun 4, 2026
+2831 10:54p 🔵 Future pipeline tasks identified
 
-Access 1902k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1861k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

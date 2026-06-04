@@ -2207,20 +2207,20 @@
           "points": [
             "Use create for a new application shell instead of hand-copying starter files.",
             "Use generate when adding a role file because it applies Vanrot naming and suffix conventions.",
-            "Use doctor and map when the workspace feels wrong before editing generated files by hand."
+            "Use doctor when the workspace feels wrong, doctor --inspect when you need to see Vanrot's project model, and cache clean when generated local metadata needs a reset."
           ],
       "code": {
         "title": "Common project commands",
-        "code": "vr create admin-console\\nvr generate page settings\\nvr add button card dialog\\nvr doctor"
+        "code": "vr create admin-console\\nvr generate page settings\\nvr add button card dialog\\nvr doctor --inspect\\nvr cache clean --dry-run"
       }
         },
         {
           "id": "command-map",
           "title": "Command map",
-          "body": "Commands are grouped by workflow instead of by implementation file. Project creation starts the workspace, generation writes role files, UI commands add primitives, configuration commands repair config, intelligence commands describe the project, and task runners delegate to Vite.",
+          "body": "Commands are grouped by workflow instead of by implementation file. Project creation starts the workspace, generation writes role files, UI commands add primitives, configuration commands repair config, doctor checks and inspects the project, cache commands reset Vanrot-owned local metadata, and task runners delegate to Vite.",
           "points": [
             "create, generate, add, and ui change source files.",
-            "config, update, upgrade, doctor, map, init-ai, and ai maintain project metadata.",
+            "config, update, upgrade, doctor, cache, map, init-ai, and ai maintain project metadata.",
             "dev, build, and test wrap the local application workflow."
           ]
         },
@@ -2241,10 +2241,10 @@
         {
           "id": "child-guides",
           "title": "Child guides",
-      "body": "The child pages explain each practical CLI surface in detail: command discovery, project creation, role generation, UI primitive installation, configuration maintenance, project intelligence, task-runner overview, and separate deep dives for vr dev, vr build, and vr test.",
+      "body": "The child pages explain each practical CLI surface in detail: command discovery, project creation, role generation, UI primitive installation, configuration maintenance, project intelligence, cache maintenance, task-runner overview, and separate deep dives for vr dev, vr build, and vr test.",
       "points": [
         "Start with Command Surface when you need the full command inventory.",
-        "Use Project Intelligence when devtools, AI bundles, or graph metadata are stale.",
+        "Use Project Intelligence when doctor --inspect, devtools, AI bundles, or graph metadata need to agree.",
         "Use the Dev Server, Build, and Test pages when one lifecycle command needs detailed debugging."
       ]
         }
@@ -2374,25 +2374,40 @@
         {
           "id": "doctor",
           "title": "vr doctor",
-          "body": "Use vr doctor when the project behaves strangely and you need a structured health check before editing files. It validates config, package setup, role-file conventions, and project rules so fixes start from evidence instead of guesswork.",
+          "body": "Use vr doctor when the project behaves strangely and you need a structured health check before editing files. It validates config, package setup, role-file conventions, optional package drift, and project rules so fixes start from evidence instead of guesswork. Add --inspect when you also need to see the project intelligence summary without writing a new .vanrot/project-map.json file.",
           "points": [
             "Run it after failed generation, package upgrades, or manual file moves.",
-            "Use structured output when another tool needs to collect diagnostics.",
+            "Use --inspect to include role counts, graph size, route count, i18n count, and stale project-map reasons in the same terminal report.",
+            "Use structured output when another tool needs to collect diagnostics; --inspect stays read-only and does not replace vr map when a persisted manifest is needed.",
             "Treat repeated doctor findings as documentation gaps or generator bugs, not as normal project work."
           ],
           "code": {
             "title": "Check project health",
-            "code": "vr doctor\\nvr doctor --json"
+            "code": "vr doctor\\nvr doctor --inspect\\nvr doctor --json"
+          }
+        },
+        {
+          "id": "cache",
+          "title": "vr cache clean",
+          "body": "Use vr cache clean when generated Vanrot metadata should be removed and rebuilt from source. The command is intentionally named clean, not clear, because it cleans only Vanrot-owned local cache paths instead of deleting arbitrary project state.",
+          "points": [
+            "Run --dry-run first when you want to see exactly which paths would be removed.",
+            "The current cleanup target is limited to .vanrot/cache and .vanrot/project-map.json.",
+            "The command does not remove vanrot.config.ts, AI doorway files, source files, package files, lockfiles, or user-authored docs."
+          ],
+          "code": {
+            "title": "Clean generated metadata",
+            "code": "vr cache clean --dry-run\\nvr cache clean\\nvr update map"
           }
         },
         {
           "id": "map",
           "title": "vr map",
-          "body": "Use vr map to print the project intelligence view that Vanrot derives from role files, imports, routes, and generated metadata. It helps developers review the project shape without opening every folder by hand.",
+          "body": "Use vr map when a tool or teammate needs the persisted project intelligence manifest. Unlike vr doctor --inspect, this command writes .vanrot/project-map.json so devtools, AI readers, and scripts can read the same graph later.",
           "points": [
-            "Run it before large refactors to see the current feature and role-file layout.",
-            "Run it after route changes to confirm the project graph still matches the app.",
-            "Use JSON output when devtools, scripts, or AI readers need the same graph."
+            "Run it after route or role-file changes when .vanrot/project-map.json should be refreshed.",
+            "Run doctor --inspect first when you only need a terminal summary.",
+            "Use JSON output when automation needs the final command result in addition to the generated manifest."
           ],
           "code": {
             "title": "Inspect the project map",
@@ -2657,21 +2672,63 @@
       "path": "/docs/cli/project-intelligence",
       "label": "Project Intelligence",
       "title": "CLI Project Intelligence",
-      "summary": "Project intelligence commands write map and AI context artifacts that describe the actual Vanrot project instead of relying on stale human memory.",
+      "summary": "Project intelligence commands let Vanrot explain what it sees in the project, either as a doctor report, a persisted project map, or AI-readable context artifacts.",
       "status": "production-ready-through-phase-23",
       "sections": [
         {
+          "id": "mental-model",
+          "title": "Mental model",
+          "body": "Project intelligence is Vanrot's read model of the app. It is built from source files, config, route metadata, role suffixes, imports, i18n files, compiler metadata, and generated graph contracts. The CLI exposes that model in two different ways: doctor --inspect for a terminal summary, and vr map for a persisted manifest.",
+          "points": [
+            "Use doctor --inspect when a human wants to understand the project immediately.",
+            "Use vr map when devtools, scripts, or AI readers need .vanrot/project-map.json on disk.",
+            "Use vr cache clean when generated local metadata should be removed and rebuilt from source."
+          ],
+          "code": {
+            "title": "Inspect, persist, reset",
+            "code": "vr doctor --inspect\\nvr map\\nvr cache clean --dry-run"
+          }
+        },
+        {
+          "id": "doctor-inspect",
+          "title": "Doctor inspect",
+          "body": "vr doctor --inspect keeps inspection inside the health command instead of adding a separate vr inspect command. That gives developers one doorway for local understanding: normal doctor output explains what is wrong, while the inspect section explains what Vanrot currently understands about roles, routes, graph metadata, i18n, and stale project-map reasons.",
+          "points": [
+            "The inspect section is read-only; it builds the project map in memory and does not write .vanrot/project-map.json.",
+            "The report keeps health findings and intelligence summary together so missing config, stale graphs, and structural surprises are visible in one command.",
+            "Standalone vr inspect is intentionally not a command. The CLI redirects that mental model to vr doctor --inspect."
+          ],
+          "code": {
+            "title": "Read-only project model",
+            "code": "vr doctor --inspect\\n\\n# Use structured result output only when automation needs the command result.\\nvr doctor --inspect --json"
+          }
+        },
+        {
           "id": "map-command",
           "title": "Map command",
-          "body": "vr map builds the local project map used by devtools and AI readers. It discovers role files, groups pages, components, dialogs, layouts, widgets, and forms, and records route and compiler metadata in a graph manifest.",
+          "body": "vr map writes the local project map used by devtools, scripts, and AI readers. It discovers role files, groups pages, components, dialogs, layouts, widgets, and forms, then records route and compiler metadata in a schema-versioned graph manifest.",
           "points": [
-            "Run vr map after moving role files or changing route structure.",
-            "Treat .vanrot/project-map.json as generated project intelligence.",
-            "Use structured output when another tool needs to inspect the command result."
+            "Run vr map after moving role files, changing route structure, or cleaning caches.",
+            "Treat .vanrot/project-map.json as generated project intelligence that can be deleted and regenerated.",
+            "Use doctor --inspect first when you only need a summary and do not want to touch generated files."
           ],
           "code": {
             "title": "Refresh project map",
-            "code": "vr map\\nvr map --json"
+            "code": "vr map\\nvr update map"
+          }
+        },
+        {
+          "id": "cache-clean",
+          "title": "Cache clean",
+          "body": "vr cache clean removes Vanrot-owned generated local metadata so the project can rebuild it from source. The command deliberately uses clean rather than clear: it does not promise to erase every cache in the JavaScript toolchain, and it does not touch user-authored files.",
+          "points": [
+            "Run vr cache clean --dry-run before deleting anything; the output lists the exact Vanrot-owned paths.",
+            "The current allowlist is .vanrot/cache and .vanrot/project-map.json.",
+            "After cleaning the project map, run vr doctor --inspect for a read-only check or vr map when the manifest should be written again."
+          ],
+          "code": {
+            "title": "Clean and rebuild",
+            "code": "vr cache clean --dry-run\\nvr cache clean\\nvr map"
           }
         },
         {
@@ -2687,11 +2744,11 @@
         {
           "id": "freshness",
           "title": "Freshness",
-          "body": "Project intelligence is only useful when it is fresh. If devtools, CLI help, or AI output disagrees with source files, rebuild the map and docs bundles before debugging the consumer.",
+          "body": "Project intelligence is only useful when it is fresh. If devtools, CLI help, or AI output disagrees with source files, inspect first, then rebuild the generated artifact that is stale. Do not patch generated JSON by hand when source-owned commands can recreate it.",
           "points": [
-            "Check the stale state in graph metadata.",
-            "Rerun the map after route or role-file changes.",
-            "Rerun AI docs generation after large documentation edits."
+            "Check doctor --inspect for role, route, graph, i18n, and stale-state clues.",
+            "Rerun vr map after route or role-file changes when .vanrot/project-map.json is the stale artifact.",
+            "Rerun AI docs generation after large documentation edits, then verify the docs bundle before shipping."
           ]
         }
       ]
@@ -4443,8 +4500,20 @@
       "summary": "Track published Vanrot versions, release notes, and upgrade guidance from the first npm release onward.",
       "status": "available-now",
       "sections": [
-        {
-          "id": "version-0-1-1",
+    {
+      "id": "version-0-2-0",
+      "title": "0.2.0",
+      "date": "June 4, 2026",
+      "body": "CLI maintenance release for project inspection and generated metadata cleanup. Consolidates inspection into doctor, adds cache cleaning, and updates public documentation for the new command surface.",
+      "changes": [
+        "Added vr doctor --inspect to include read-only project intelligence in the health report.",
+        "Removed standalone vr inspect from the command surface and redirects that mental model to vr doctor --inspect.",
+        "Added vr cache clean with --dry-run support for Vanrot-owned generated metadata.",
+        "Updated public CLI docs, project intelligence docs, command references, and AI-readable docs for the new maintenance workflow."
+      ]
+    },
+    {
+      "id": "version-0-1-1",
           "title": "0.1.1",
           "date": "May 30, 2026",
           "body": "CLI release for project update and upgrade workflows. Adds framework-aware project sync, package upgrade automation, and stable upgrade diagnostics.",
@@ -5247,7 +5316,8 @@
     { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
     { "name": "update", "usage": "vr update <target>", "status": "available-now" },
     { "name": "upgrade", "usage": "vr upgrade [version]", "status": "available-now" },
-    { "name": "doctor", "usage": "vr doctor", "status": "demo-capable" },
+    { "name": "doctor", "usage": "vr doctor --inspect", "status": "demo-capable" },
+    { "name": "cache", "usage": "vr cache clean", "status": "demo-capable" },
     { "name": "map", "usage": "vr map", "status": "production-ready-through-phase-23" },
     { "name": "init-ai", "usage": "vr init-ai", "status": "demo-capable" },
     { "name": "ai", "usage": "vr ai <action>", "status": "production-ready-through-phase-25" },

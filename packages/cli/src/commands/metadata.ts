@@ -8,6 +8,7 @@ export const commandName = {
   update: 'update',
   upgrade: 'upgrade',
   doctor: 'doctor',
+  cache: 'cache',
   map: 'map',
   initAi: 'init-ai',
   ai: 'ai',
@@ -168,8 +169,28 @@ Error codes
     name: commandName.doctor,
     usage: commandInvocation(commandName.doctor),
     rootUsage: 'doctor',
-    description: 'Check project health and config',
-    help: commandInvocation(commandName.doctor),
+    description: 'Check project health, config, and project intelligence',
+    secondaryUsages: ['vr doctor --inspect'],
+    help: `vr doctor
+vr doctor --inspect
+
+Options
+  --inspect   Include a read-only project intelligence summary`,
+  },
+  {
+    name: commandName.cache,
+    usage: 'vr cache clean',
+    rootUsage: 'cache <action>',
+    description: 'Clean Vanrot-owned local caches',
+    secondaryUsages: ['vr cache clean --dry-run'],
+    help: `vr cache clean
+vr cache clean --dry-run
+
+Actions
+  clean   Remove Vanrot-owned local cache and generated project-map files
+
+Options
+  --dry-run   Print the cache paths that would be removed without deleting them`,
   },
   {
     name: commandName.map,
@@ -232,6 +253,7 @@ export const commandGroups = [
     label: 'Maintenance',
     commands: [
       commandName.doctor,
+      commandName.cache,
       commandName.config,
       commandName.update,
       commandName.upgrade,

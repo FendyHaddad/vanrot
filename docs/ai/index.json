@@ -599,8 +599,14 @@
     {
       "id": "command:doctor",
       "title": "vr doctor",
-      "summary": "Runs local project diagnostics with readable guidance.",
+      "summary": "Runs local project diagnostics and can include read-only project intelligence with --inspect.",
       "docsPath": "/docs/cli"
+    },
+    {
+      "id": "command:cache",
+      "title": "vr cache clean",
+      "summary": "Cleans Vanrot-owned local cache and generated project-map files.",
+      "docsPath": "/docs/cli/project-intelligence"
     },
     {
       "id": "command:map",
@@ -1553,7 +1559,7 @@
     {
       "id": "doc:cliProjectIntelligence",
       "title": "CLI Project Intelligence",
-      "summary": "Project intelligence commands write map and AI context artifacts that describe the actual Vanrot project instead of relying on stale human memory.",
+      "summary": "Project intelligence commands let Vanrot explain what it sees in the project, either as a doctor report, a persisted project map, or AI-readable context artifacts.",
       "docsPath": "/docs/cli/project-intelligence"
     },
     {

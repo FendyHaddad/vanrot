@@ -50,9 +50,15 @@ Docs: /docs/cli
 
 ## vr doctor
 
-Runs local project diagnostics with readable guidance.
+Runs local project diagnostics and can include read-only project intelligence with --inspect.
 
 Docs: /docs/cli
+
+## vr cache clean
+
+Cleans Vanrot-owned local cache and generated project-map files.
+
+Docs: /docs/cli/project-intelligence
 
 ## vr map
 

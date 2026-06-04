@@ -49,11 +49,11 @@ Phase 18 may add placeholders for Phase 21 forms and async-resource testing, but
 
 Before implementation starts:
 
-- Decide whether `vr inspect` belongs in Phase 18 or remains a later debug-tooling candidate.
-- Decide whether `vr cache clear` belongs in Phase 18 or remains a local maintenance command.
+- Decide whether project inspection belongs in Phase 18 or remains a later doctor/project-intelligence enhancement.
+- Decide whether `vr cache clean` belongs in Phase 18 or remains a local maintenance command.
 - Confirm the first `testPage(...)` contract against current router exports, especially route refs and route params.
 
-Decision: `vr inspect` and `vr cache clear` stay deferred. Phase 18 ships only testing APIs and generator-wide `--test` support.
+Decision at Phase 18 time: project inspection and cache maintenance stayed deferred. Later CLI maintenance moved project inspection into `vr doctor --inspect` and shipped `vr cache clean`.
 - Confirm the compatibility matrix for existing `@vanrot/testing` exports.
 
 If any gate is unresolved, the plan should record the decision before package code changes.

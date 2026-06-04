@@ -300,10 +300,32 @@
       "name": "doctor",
       "usage": "vr doctor",
       "status": "demo-capable",
-      "summary": "Runs local project diagnostics with readable guidance.",
+      "summary": "Runs local project diagnostics and can include read-only project intelligence with --inspect.",
       "docsPath": "/docs/cli",
-      "examples": ["vr doctor"],
-      "notes": ["Checks known Vanrot project issues and keeps output readable for humans and scripts."]
+      "examples": ["vr doctor", "vr doctor --inspect", "vr doctor --json"],
+      "notes": [
+        "Checks known Vanrot project issues and keeps output readable for humans and scripts.",
+        "Use --inspect when you need role, graph, route, i18n, and stale metadata clues without writing .vanrot/project-map.json."
+      ],
+      "subcommands": [
+        { "name": "--inspect", "summary": "Append a read-only project intelligence summary to the health report." }
+      ]
+    },
+    {
+      "name": "cache",
+      "usage": "vr cache clean",
+      "status": "demo-capable",
+      "summary": "Cleans Vanrot-owned local cache and generated project-map files.",
+      "docsPath": "/docs/cli/project-intelligence",
+      "examples": ["vr cache clean --dry-run", "vr cache clean"],
+      "notes": [
+        "The command removes only allowlisted Vanrot-owned paths such as .vanrot/cache and .vanrot/project-map.json.",
+        "Use --dry-run before deletion when reviewing what generated metadata will be removed."
+      ],
+      "subcommands": [
+        { "name": "clean", "summary": "Remove allowlisted Vanrot-owned generated metadata." },
+        { "name": "--dry-run", "summary": "Show the cleanup list without deleting files." }
+      ]
     },
     {
       "name": "map",
@@ -312,7 +334,7 @@
       "summary": "Writes the project intelligence manifest at `.vanrot/project-map.json`.",
       "docsPath": "/docs/devtools",
       "examples": ["vr map"],
-      "notes": ["Feeds devtools, graph inspection, and AI context from project-owned metadata."]
+      "notes": ["Writes the persisted graph manifest; use vr doctor --inspect when you only need a read-only terminal summary."]
     },
     {
       "name": "init-ai",

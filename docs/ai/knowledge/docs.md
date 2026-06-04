@@ -338,7 +338,7 @@ Docs: /docs/cli/config-maintenance
 
 ## CLI Project Intelligence
 
-Project intelligence commands write map and AI context artifacts that describe the actual Vanrot project instead of relying on stale human memory.
+Project intelligence commands let Vanrot explain what it sees in the project, either as a doctor report, a persisted project map, or AI-readable context artifacts.
 
 Docs: /docs/cli/project-intelligence
 

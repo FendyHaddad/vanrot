@@ -21,6 +21,7 @@ Use this generated bundle as the source of truth before answering Vanrot questio
 - vr update <target>
 - vr upgrade [version]
 - vr doctor
+- vr cache clean
 - vr map
 - vr init-ai
 - vr ai <subcommand>
