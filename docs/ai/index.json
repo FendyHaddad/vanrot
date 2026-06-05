@@ -56,6 +56,11 @@
       "summary": "Readable component, page, router, accessibility, async, and generator test helpers built on Vitest and jsdom."
     },
     {
+      "id": "package:@vanrot/forms",
+      "title": "@vanrot/forms",
+      "summary": "Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests."
+    },
+    {
       "id": "package:@vanrot/devtools",
       "title": "@vanrot/devtools",
       "summary": "Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers."
@@ -523,6 +528,96 @@
       "docsPath": "/docs/testing/strategy"
     },
     {
+      "id": "export:@vanrot/forms:*",
+      "title": "@vanrot/forms *",
+      "summary": "All public exports from @vanrot/forms are covered by forms and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/forms:createForm",
+      "title": "@vanrot/forms createForm",
+      "summary": "Creates a signal-native form with named refs, lifecycle, validation, submit orchestration, metadata, drafts, and server-error hooks.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:field",
+      "title": "@vanrot/forms field",
+      "summary": "Creates a scalar form field with value, initial value, dirty, touched, disabled, pending, validity, errors, and messages.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:fieldArray",
+      "title": "@vanrot/forms fieldArray",
+      "summary": "Creates repeated field rows with stable keys, add, remove, move, nested refs, and metadata paths.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:required",
+      "title": "@vanrot/forms required",
+      "summary": "Built-in required validator for strings, arrays, null, and undefined values.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:minLength",
+      "title": "@vanrot/forms minLength",
+      "summary": "Built-in string minimum-length validator.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:email",
+      "title": "@vanrot/forms email",
+      "summary": "Built-in email-format validator for optional string fields.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:createFormMessage",
+      "title": "@vanrot/forms createFormMessage",
+      "summary": "Creates an explicit validation, schema, server, or resource message with an optional code.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:createFormResource",
+      "title": "@vanrot/forms createFormResource",
+      "summary": "Creates a form-scoped async resource with loading, success, error, value, stale, refresh, and cancellation state.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:createDraftStorage",
+      "title": "@vanrot/forms createDraftStorage",
+      "summary": "Creates versioned local, session, or custom draft storage for opt-in form persistence.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:createWizard",
+      "title": "@vanrot/forms createWizard",
+      "summary": "Creates wizard step state, blocked steps, completed steps, and per-step validation gates.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:applyServerErrors",
+      "title": "@vanrot/forms applyServerErrors",
+      "summary": "Maps server-returned field, nested array, resource, and form-level messages onto form state.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:diagnoseForm",
+      "title": "@vanrot/forms diagnoseForm",
+      "summary": "Returns structured form diagnostics for sensitive draft persistence and future tooling checks.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:createFormTest",
+      "title": "@vanrot/forms createFormTest",
+      "summary": "Creates a readable test helper for setting values, touching fields, submitting forms, and inspecting messages.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "export:@vanrot/forms:useSchemaAdapter",
+      "title": "@vanrot/forms useSchemaAdapter",
+      "summary": "Freezes a schema adapter contract so forms can consume domain schemas without owning backend contracts.",
+      "docsPath": "/docs/forms"
+    },
+    {
       "id": "export:@vanrot/devtools:*",
       "title": "@vanrot/devtools *",
       "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.",
@@ -723,6 +818,48 @@
       "title": "VR_CHILD_BEFORE_PARENT",
       "summary": "Router diagnostic for child routes declared before a valid parent.",
       "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VR_FORM_MISSING_DEFAULT",
+      "title": "VR_FORM_MISSING_DEFAULT",
+      "summary": "Form diagnostic for a field definition missing an explicit default value.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "diagnostic:VR_FORM_UNSAFE_ASYNC_RESOURCE",
+      "title": "VR_FORM_UNSAFE_ASYNC_RESOURCE",
+      "summary": "Form diagnostic for async form work that cannot be cancelled or safely ignored.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "diagnostic:VR_FORM_SENSITIVE_DRAFT_FIELD",
+      "title": "VR_FORM_SENSITIVE_DRAFT_FIELD",
+      "summary": "Form diagnostic for sensitive fields configured for draft persistence.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "diagnostic:VR_FORM_REPEATED_STRING_PATH",
+      "title": "VR_FORM_REPEATED_STRING_PATH",
+      "summary": "Vite terminal warning for repeated string field paths instead of named form refs.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "diagnostic:VR_FORM_UNSUPPORTED_TWO_WAY_BINDING",
+      "title": "VR_FORM_UNSUPPORTED_TWO_WAY_BINDING",
+      "summary": "Form diagnostic for unsupported compiler two-way binding syntax before a forms-aware syntax ships.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "diagnostic:VR_FORM_INVALID_SERVER_ERROR_PATH",
+      "title": "VR_FORM_INVALID_SERVER_ERROR_PATH",
+      "summary": "Form diagnostic for server-returned errors targeting an unknown form path.",
+      "docsPath": "/docs/forms"
+    },
+    {
+      "id": "diagnostic:VR_FORM_INVALID_SCHEMA_ADAPTER",
+      "title": "VR_FORM_INVALID_SCHEMA_ADAPTER",
+      "summary": "Form diagnostic for invalid schema adapter shape or field metadata.",
+      "docsPath": "/docs/forms"
     }
   ],
   "generatedFiles": [
@@ -761,6 +898,12 @@
       "title": ".vanrot/project-map.json",
       "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.",
       "docsPath": "/docs/devtools"
+    },
+    {
+      "id": "generated-file:src/**/*.form.ts",
+      "title": "src/**/*.form.ts",
+      "summary": "Reusable form role files discoverable by Vite, future Forge, editor diagnostics, and AI-readable reports.",
+      "docsPath": "/docs/forms"
     }
   ],
   "conventions": [
@@ -849,6 +992,12 @@
       "title": "Build And Deploy",
       "summary": "",
       "docsPath": "/docs/deployment"
+    },
+    {
+      "id": "example:Forms Checkout",
+      "title": "Forms Checkout",
+      "summary": "",
+      "docsPath": "/docs/forms"
     },
     {
       "id": "example:WebGL And three.js Lifecycle",
@@ -1185,6 +1334,12 @@
       "docsPath": "/docs"
     },
     {
+      "id": "route:/docs/forms",
+      "title": "/docs/forms",
+      "summary": "Vanrot Forms And Async Resources Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests.",
+      "docsPath": "/docs/forms"
+    },
+    {
       "id": "route:/docs/components",
       "title": "/docs/components",
       "summary": "Vanrot Design Component Catalog Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes.",
@@ -1201,7 +1356,7 @@
     {
       "id": "limitation:post-production-phases",
       "title": "Remaining post-production features are tracked separately",
-      "summary": "Brutalist UI, the expanded testing package, store, forms, async primitives, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.",
+      "summary": "Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, resumability, and template pipes remain outside current public framework behavior.",
       "docsPath": "/docs/limitations"
     },
     {
@@ -1723,6 +1878,12 @@
       "title": "Testing Strategy",
       "summary": "Testing strategy explains where to put coverage across Vanrot runtime, compiler, router, CLI, docs, UI, and generated artifacts.",
       "docsPath": "/docs/testing/strategy"
+    },
+    {
+      "id": "doc:forms",
+      "title": "Forms And Async Resources",
+      "summary": "@vanrot/forms is the first-party package for signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.",
+      "docsPath": "/docs/forms"
     },
     {
       "id": "doc:devtools",

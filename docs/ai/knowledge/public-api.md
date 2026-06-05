@@ -450,6 +450,96 @@ Tracks pending promises, abort controllers, and cleanup callbacks for leak-free 
 
 Docs: /docs/testing/strategy
 
+## @vanrot/forms *
+
+All public exports from @vanrot/forms are covered by forms and public API documentation.
+
+Docs: /docs/public-api
+
+## @vanrot/forms createForm
+
+Creates a signal-native form with named refs, lifecycle, validation, submit orchestration, metadata, drafts, and server-error hooks.
+
+Docs: /docs/forms
+
+## @vanrot/forms field
+
+Creates a scalar form field with value, initial value, dirty, touched, disabled, pending, validity, errors, and messages.
+
+Docs: /docs/forms
+
+## @vanrot/forms fieldArray
+
+Creates repeated field rows with stable keys, add, remove, move, nested refs, and metadata paths.
+
+Docs: /docs/forms
+
+## @vanrot/forms required
+
+Built-in required validator for strings, arrays, null, and undefined values.
+
+Docs: /docs/forms
+
+## @vanrot/forms minLength
+
+Built-in string minimum-length validator.
+
+Docs: /docs/forms
+
+## @vanrot/forms email
+
+Built-in email-format validator for optional string fields.
+
+Docs: /docs/forms
+
+## @vanrot/forms createFormMessage
+
+Creates an explicit validation, schema, server, or resource message with an optional code.
+
+Docs: /docs/forms
+
+## @vanrot/forms createFormResource
+
+Creates a form-scoped async resource with loading, success, error, value, stale, refresh, and cancellation state.
+
+Docs: /docs/forms
+
+## @vanrot/forms createDraftStorage
+
+Creates versioned local, session, or custom draft storage for opt-in form persistence.
+
+Docs: /docs/forms
+
+## @vanrot/forms createWizard
+
+Creates wizard step state, blocked steps, completed steps, and per-step validation gates.
+
+Docs: /docs/forms
+
+## @vanrot/forms applyServerErrors
+
+Maps server-returned field, nested array, resource, and form-level messages onto form state.
+
+Docs: /docs/forms
+
+## @vanrot/forms diagnoseForm
+
+Returns structured form diagnostics for sensitive draft persistence and future tooling checks.
+
+Docs: /docs/forms
+
+## @vanrot/forms createFormTest
+
+Creates a readable test helper for setting values, touching fields, submitting forms, and inspecting messages.
+
+Docs: /docs/forms
+
+## @vanrot/forms useSchemaAdapter
+
+Freezes a schema adapter contract so forms can consume domain schemas without owning backend contracts.
+
+Docs: /docs/forms
+
 ## @vanrot/devtools *
 
 All public exports from @vanrot/devtools are covered by devtools and public API documentation.

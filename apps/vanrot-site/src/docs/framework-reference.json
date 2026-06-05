@@ -107,6 +107,13 @@
       "docsPath": "/docs/testing"
     },
     {
+      "name": "@vanrot/forms",
+      "area": "Forms and async resources",
+      "status": "production-ready",
+      "summary": "Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.",
+      "docsPath": "/docs/forms"
+    },
+    {
       "name": "@vanrot/devtools",
       "area": "Devtools and project intelligence",
       "status": "production-ready",
@@ -204,6 +211,21 @@
     { "packageName": "@vanrot/testing", "name": "waitForDomUpdate", "kind": "function", "status": "production-ready", "summary": "Retries an assertion until signal-driven DOM output settles or a deterministic timeout is reached.", "docsPath": "/docs/testing/strategy" },
     { "packageName": "@vanrot/testing", "name": "createFakeTimerBridge", "kind": "function", "status": "production-ready", "summary": "Coordinates Vitest fake timers explicitly without hiding timer APIs.", "docsPath": "/docs/testing/strategy" },
     { "packageName": "@vanrot/testing", "name": "createAsyncTestScope", "kind": "function", "status": "production-ready", "summary": "Tracks pending promises, abort controllers, and cleanup callbacks for leak-free async tests.", "docsPath": "/docs/testing/strategy" },
+    { "packageName": "@vanrot/forms", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/forms are covered by forms and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/forms", "name": "createForm", "kind": "function", "status": "production-ready", "summary": "Creates a signal-native form with named refs, lifecycle, validation, submit orchestration, metadata, drafts, and server-error hooks.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "field", "kind": "function", "status": "production-ready", "summary": "Creates a scalar form field with value, initial value, dirty, touched, disabled, pending, validity, errors, and messages.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "fieldArray", "kind": "function", "status": "production-ready", "summary": "Creates repeated field rows with stable keys, add, remove, move, nested refs, and metadata paths.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "required", "kind": "function", "status": "production-ready", "summary": "Built-in required validator for strings, arrays, null, and undefined values.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "minLength", "kind": "function", "status": "production-ready", "summary": "Built-in string minimum-length validator.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "email", "kind": "function", "status": "production-ready", "summary": "Built-in email-format validator for optional string fields.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "createFormMessage", "kind": "function", "status": "production-ready", "summary": "Creates an explicit validation, schema, server, or resource message with an optional code.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "createFormResource", "kind": "function", "status": "production-ready", "summary": "Creates a form-scoped async resource with loading, success, error, value, stale, refresh, and cancellation state.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "createDraftStorage", "kind": "function", "status": "production-ready", "summary": "Creates versioned local, session, or custom draft storage for opt-in form persistence.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "createWizard", "kind": "function", "status": "production-ready", "summary": "Creates wizard step state, blocked steps, completed steps, and per-step validation gates.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "applyServerErrors", "kind": "function", "status": "production-ready", "summary": "Maps server-returned field, nested array, resource, and form-level messages onto form state.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "diagnoseForm", "kind": "function", "status": "production-ready", "summary": "Returns structured form diagnostics for sensitive draft persistence and future tooling checks.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "createFormTest", "kind": "function", "status": "production-ready", "summary": "Creates a readable test helper for setting values, touching fields, submitting forms, and inspecting messages.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/forms", "name": "useSchemaAdapter", "kind": "function", "status": "production-ready", "summary": "Freezes a schema adapter contract so forms can consume domain schemas without owning backend contracts.", "docsPath": "/docs/forms" },
     { "packageName": "@vanrot/devtools", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" },
     { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" },
@@ -415,7 +437,14 @@
     { "family": "config", "code": "VRCFG010", "status": "production-ready", "summary": "Config diagnostic for AI rule ordering validation.", "docsPath": "/docs/diagnostics" },
     { "family": "config", "code": "VRCFG011", "status": "production-ready", "summary": "Config diagnostic for AI rule customization validation.", "docsPath": "/docs/diagnostics" },
     { "family": "config", "code": "VRCFG012", "status": "production-ready", "summary": "Config diagnostic for AI rule source validation.", "docsPath": "/docs/diagnostics" },
-    { "family": "router", "code": "VR_CHILD_BEFORE_PARENT", "status": "production-ready", "summary": "Router diagnostic for child routes declared before a valid parent.", "docsPath": "/docs/diagnostics" }
+    { "family": "router", "code": "VR_CHILD_BEFORE_PARENT", "status": "production-ready", "summary": "Router diagnostic for child routes declared before a valid parent.", "docsPath": "/docs/diagnostics" },
+    { "family": "forms", "code": "VR_FORM_MISSING_DEFAULT", "status": "production-ready", "summary": "Form diagnostic for a field definition missing an explicit default value.", "docsPath": "/docs/forms" },
+    { "family": "forms", "code": "VR_FORM_UNSAFE_ASYNC_RESOURCE", "status": "production-ready", "summary": "Form diagnostic for async form work that cannot be cancelled or safely ignored.", "docsPath": "/docs/forms" },
+    { "family": "forms", "code": "VR_FORM_SENSITIVE_DRAFT_FIELD", "status": "production-ready", "summary": "Form diagnostic for sensitive fields configured for draft persistence.", "docsPath": "/docs/forms" },
+    { "family": "forms", "code": "VR_FORM_REPEATED_STRING_PATH", "status": "production-ready", "summary": "Vite terminal warning for repeated string field paths instead of named form refs.", "docsPath": "/docs/forms" },
+    { "family": "forms", "code": "VR_FORM_UNSUPPORTED_TWO_WAY_BINDING", "status": "production-ready", "summary": "Form diagnostic for unsupported compiler two-way binding syntax before a forms-aware syntax ships.", "docsPath": "/docs/forms" },
+    { "family": "forms", "code": "VR_FORM_INVALID_SERVER_ERROR_PATH", "status": "production-ready", "summary": "Form diagnostic for server-returned errors targeting an unknown form path.", "docsPath": "/docs/forms" },
+    { "family": "forms", "code": "VR_FORM_INVALID_SCHEMA_ADAPTER", "status": "production-ready", "summary": "Form diagnostic for invalid schema adapter shape or field metadata.", "docsPath": "/docs/forms" }
   ],
   "generatedFiles": [
     { "path": "package.json", "owner": "@vanrot/cli", "status": "demo-capable", "summary": "Project manifest containing scripts, dependencies, package manager metadata, and private workspace state.", "docsPath": "/docs/project-structure" },
@@ -423,7 +452,8 @@
     { "path": "vite.config.ts", "owner": "@vanrot/vite-plugin", "status": "production-ready", "summary": "Vite configuration that installs the Vanrot plugin.", "docsPath": "/docs/vite-plugin" },
     { "path": "vanrot.config.ts", "owner": "@vanrot/config", "status": "production-ready", "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.", "docsPath": "/docs/configuration" },
     { "path": "src/routes.ts", "owner": "@vanrot/router", "status": "production-ready", "summary": "Named route refs and route metadata for app navigation without repeated route strings.", "docsPath": "/docs/routing" },
-    { "path": ".vanrot/project-map.json", "owner": "@vanrot/devtools", "status": "production-ready", "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.", "docsPath": "/docs/devtools" }
+    { "path": ".vanrot/project-map.json", "owner": "@vanrot/devtools", "status": "production-ready", "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.", "docsPath": "/docs/devtools" },
+    { "path": "src/**/*.form.ts", "owner": "@vanrot/forms", "status": "production-ready", "summary": "Reusable form role files discoverable by Vite, future Forge, editor diagnostics, and AI-readable reports.", "docsPath": "/docs/forms" }
   ],
   "conventions": [
     { "id": "role-suffixes", "title": "Role suffixes", "status": "production-ready", "summary": "Components, pages, dialogs, layouts, widgets, and forms use explicit role-based file suffixes.", "docsPath": "/docs/conventions" },
@@ -442,20 +472,23 @@
     { "id": "devtools-intelligence", "title": "Devtools And Project Intelligence", "path": "examples/devtools-intelligence", "packages": ["@vanrot/devtools", "@vanrot/language-server", "@vanrot/cli", "@vanrot/config", "@vanrot/ai"], "workflows": ["devtools-intelligence", "config-diagnostics", "cli-commands", "ai-consumption"], "docsPath": "/docs/devtools" },
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
     { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config", "@vanrot/seo"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" },
+    { "id": "forms-checkout", "title": "Forms Checkout", "path": "examples/forms-checkout", "packages": ["@vanrot/forms", "@vanrot/runtime", "@vanrot/ui"], "workflows": ["forms", "async-validation", "draft-persistence"], "docsPath": "/docs/forms" },
     { "id": "webgl-threejs", "title": "WebGL And three.js Lifecycle", "path": "examples/webgl-threejs", "packages": ["@vanrot/runtime"], "workflows": ["webgl-threejs", "runtime-lifecycle"], "docsPath": "/docs/examples/webgl-threejs" },
     { "id": "ssr-hydration", "title": "SSR And Hydration", "path": "examples/ssr-hydration", "packages": ["@vanrot/ssr", "@vanrot/router", "@vanrot/runtime"], "workflows": ["ssr-hydration", "routing-workflows"], "docsPath": "/docs/ssr-hydration" }
   ],
   "limitations": [
-    { "id": "post-production-phases", "title": "Remaining post-production features are tracked separately", "status": "deferred", "summary": "Brutalist UI, the expanded testing package, store, forms, async primitives, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
+    { "id": "post-production-phases", "title": "Remaining post-production features are tracked separately", "status": "deferred", "summary": "Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, resumability, and template pipes remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
     { "id": "deployment-boundary", "title": "Deployment is prepared, not launched", "status": "limited", "summary": "The site is prepared for production hosting, but DNS, credentials, analytics setup, and live deployment are outside this phase.", "docsPath": "/docs/deployment" }
   ],
   "maturity": [
+    { "phase": "Phase 21", "title": "Forms and async resources", "status": "production-ready", "summary": "Phase 21 shipped @vanrot/forms with validation, resources, arrays, wizards, server errors, drafts, metadata, diagnostics, docs, and tests.", "docsPath": "/docs/forms" },
     { "phase": "Phase 24", "title": "Documentation and web presence", "status": "production-ready", "summary": "Phase 24 completed framework docs, examples, site polish, and drift checks.", "docsPath": "/docs/status" },
     { "phase": "Phase 25", "title": "AI consumption", "status": "production-ready", "summary": "Phase 25 generated the official AI bundle, MCP transport, Skill.sh package, and CLI verification commands.", "docsPath": "/docs/status" }
   ],
   "routeMetadata": [
     { "path": "/", "title": "Vanrot - Framework Documentation And Design Components", "description": "Vanrot's public landing page for framework documentation, design components, examples, and production-readiness notes." },
     { "path": "/docs", "title": "Vanrot Framework Documentation", "description": "Framework documentation for Vanrot packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation." },
+    { "path": "/docs/forms", "title": "Vanrot Forms And Async Resources", "description": "Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests." },
     { "path": "/docs/components", "title": "Vanrot Design Component Catalog", "description": "Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes." },
     { "path": "/changelog", "title": "Vanrot Changelog", "description": "Published Vanrot release notes with direct links into the framework documentation for every shipped change." }
   ],

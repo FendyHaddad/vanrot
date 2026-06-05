@@ -160,6 +160,7 @@ describe('site polish', () => {
     expect(publicRouteMetadata.map((item) => item.path)).toEqual([
       '/',
       '/docs',
+      '/docs/forms',
       '/docs/components',
       '/changelog',
     ]);

@@ -195,9 +195,17 @@ describe('Vanrot dev reload', () => {
       });
 
       await server.transformRequest('/src/app/app.layout.ts');
-      const css = await server.transformRequest(toPublicCssModuleId(componentPath));
-      expect(css?.code).toContain('background');
-      expect(css?.code).toContain('black');
+      const cssModuleId = toResolvedVirtualModuleId(toPublicCssModuleId(componentPath));
+
+      if (cssModuleId === undefined) {
+        throw new Error('Expected CSS module id to resolve.');
+      }
+
+      const css = await server.pluginContainer.load(cssModuleId);
+      const cssCode = typeof css === 'object' && css !== null && 'code' in css ? css.code : String(css ?? '');
+
+      expect(cssCode).toContain('background');
+      expect(cssCode).toContain('black');
     } finally {
       await server.close();
     }

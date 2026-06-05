@@ -12,6 +12,12 @@ Vanrot Framework Documentation Framework documentation for Vanrot packages, APIs
 
 Docs: /docs
 
+## /docs/forms
+
+Vanrot Forms And Async Resources Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests.
+
+Docs: /docs/forms
+
 ## /docs/components
 
 Vanrot Design Component Catalog Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes.

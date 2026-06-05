@@ -144,6 +144,7 @@ export const siteArticleKey = {
   testingScreen: 'testingScreen',
   testingRouting: 'testingRouting',
   testingStrategy: 'testingStrategy',
+  forms: 'forms',
   devtools: 'devtools',
   devtoolsProjectMap: 'devtoolsProjectMap',
   devtoolsRuntimeGraph: 'devtoolsRuntimeGraph',

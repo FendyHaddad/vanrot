@@ -123,26 +123,52 @@ Possible slices:
 
 ## Forms And Resources
 
-Forms and resources should give Vanrot first-party patterns for form-heavy and async-heavy apps without bloating the
-runtime kernel. Forms and async resources should be useful together but separable.
+Phase 21 shipped `@vanrot/forms` as the owning package for forms and form-scoped async resources. A standalone
+`@vanrot/resources` package remains unnecessary unless later non-form resource use proves that boundary.
+
+Shipped:
+
+- [x] Package foundation for `@vanrot/forms`.
+- [x] Field state, field metadata, named refs, and `.form.ts` discovery.
+- [x] Validation messages, touch/change visibility, all-errors-on-submit, and schema adapters.
+- [x] UI helper state for labels, descriptions, validation messages, pending, disabled, arrays, and wizard steps.
+- [x] Wizards and field arrays with nested refs and stable row keys.
+- [x] Async resources with loading, success, error, refresh, stale, cancellation, and latest-interaction-wins behavior.
+- [x] Draft persistence with local, session, custom adapter, versioning, reset, and sensitive-field policy.
+- [x] Vite-first forms metadata and terminal diagnostics for `.form.ts` role files.
+- [x] Forms testing helpers exported from `@vanrot/forms`.
+
+Deferred:
+
+- [ ] General non-form resources package if a future use case needs it.
+- [ ] Compiler two-way binding syntax that is explicitly forms-aware.
+- [ ] Coordination with future `@await` or `@defer` compiler ideas.
+- [ ] Future Forge consumption of the same forms metadata contract.
+
+## Formatters And Template Pipes
+
+Vanrot does not currently have Angular-style pipes. Formatting can be done today with component methods or computed
+values, but reusable date, number, currency, mask, and message formatting should get a first-party design pass before
+template syntax is added.
 
 Ideas to carry forward:
 
-- [ ] Define form state and field metadata before adding validation complexity.
-- [ ] Decide how two-way binding should work with forms instead of patching it into the compiler alone.
-- [ ] Add validation, touched/dirty state, messages, accessibility state, and submit lifecycle as explicit form concepts.
-- [ ] Add an async resource primitive for loading, success, error, refresh, stale, and cancellation states.
-- [ ] Define cache policy carefully so it stays understandable and does not become a hidden data framework.
-- [ ] Coordinate async resources with SSR and future `@await` or `@defer` compiler ideas without implementing those early.
-- [ ] Add testing helpers for forms and async resources once public APIs are stable.
+- [ ] Design a typed formatter registry that keeps reusable formatting out of templates and avoids repeated string
+  literals.
+- [ ] Decide whether Vanrot should support pipe-like template sugar, formatter function calls, or both.
+- [ ] Keep formatter support compiler-aware and tooling-readable so Vite, Forge, editor diagnostics, and AI-readable
+  reports can detect unknown formatters and invalid formatter arguments.
+- [ ] Cover date, number, currency, pluralization, masks, and validation-message formatting without coupling the feature
+  to `@vanrot/forms`.
+- [ ] Keep implementation outside `@vanrot/runtime` unless a tiny runtime hook is proven necessary and fits the size
+  budget.
 
 Possible slices:
 
-- [ ] Field Metadata
-- [ ] Validation Messages
-- [ ] Async Resources
-- [ ] Cache Policy
-- [ ] Testing Helpers
+- [ ] Formatter Registry
+- [ ] Template Syntax Decision
+- [ ] Tooling Diagnostics
+- [ ] Common Formatter Set
 
 ## vanrot/seo
 

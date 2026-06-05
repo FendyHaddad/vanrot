@@ -25,6 +25,7 @@ describe('framework reference registry', () => {
       '@vanrot/cli',
       '@vanrot/ui',
       '@vanrot/testing',
+      '@vanrot/forms',
       '@vanrot/devtools',
       '@vanrot/ai',
       '@vanrot/seo',
@@ -50,6 +51,7 @@ describe('framework reference registry', () => {
     expect(publicRouteMetadata.map((item) => item.path)).toEqual([
       '/',
       '/docs',
+      '/docs/forms',
       '/docs/components',
       '/changelog',
     ]);

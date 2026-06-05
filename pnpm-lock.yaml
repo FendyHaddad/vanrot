@@ -165,6 +165,22 @@ importers:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
+  examples/forms-checkout:
+    dependencies:
+      '@vanrot/forms':
+        specifier: file:../../packages/forms
+        version: link:../../packages/forms
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/ui':
+        specifier: file:../../packages/ui
+        version: link:../../packages/ui
+    devDependencies:
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   examples/routing-workflows:
     dependencies:
       '@vanrot/router':
@@ -354,6 +370,16 @@ importers:
       '@types/node':
         specifier: ^22.19.19
         version: 22.19.19
+
+  packages/forms:
+    dependencies:
+      '@vanrot/runtime':
+        specifier: file:../runtime
+        version: link:../runtime
+    devDependencies:
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
   packages/language-server:
     dependencies:

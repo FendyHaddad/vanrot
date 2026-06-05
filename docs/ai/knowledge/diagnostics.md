@@ -77,3 +77,45 @@ Docs: /docs/diagnostics
 Router diagnostic for child routes declared before a valid parent.
 
 Docs: /docs/diagnostics
+
+## VR_FORM_MISSING_DEFAULT
+
+Form diagnostic for a field definition missing an explicit default value.
+
+Docs: /docs/forms
+
+## VR_FORM_UNSAFE_ASYNC_RESOURCE
+
+Form diagnostic for async form work that cannot be cancelled or safely ignored.
+
+Docs: /docs/forms
+
+## VR_FORM_SENSITIVE_DRAFT_FIELD
+
+Form diagnostic for sensitive fields configured for draft persistence.
+
+Docs: /docs/forms
+
+## VR_FORM_REPEATED_STRING_PATH
+
+Vite terminal warning for repeated string field paths instead of named form refs.
+
+Docs: /docs/forms
+
+## VR_FORM_UNSUPPORTED_TWO_WAY_BINDING
+
+Form diagnostic for unsupported compiler two-way binding syntax before a forms-aware syntax ships.
+
+Docs: /docs/forms
+
+## VR_FORM_INVALID_SERVER_ERROR_PATH
+
+Form diagnostic for server-returned errors targeting an unknown form path.
+
+Docs: /docs/forms
+
+## VR_FORM_INVALID_SCHEMA_ADAPTER
+
+Form diagnostic for invalid schema adapter shape or field metadata.
+
+Docs: /docs/forms

@@ -1,0 +1,17 @@
+{
+  "name": "@vanrot/example-forms-checkout",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@vanrot/forms": "file:../../packages/forms",
+    "@vanrot/runtime": "file:../../packages/runtime",
+    "@vanrot/ui": "file:../../packages/ui"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  }
+}

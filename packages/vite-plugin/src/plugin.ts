@@ -14,6 +14,10 @@ import {
   vanrotDevtoolsMetadataEndpoint,
 } from './devtools-metadata.js';
 import { formatDiagnostic } from './diagnostics.js';
+import {
+  collectFormDiagnosticsForVite,
+  formatViteFormDiagnostic,
+} from './forms/forms-diagnostics.js';
 import { handleVanrotHotUpdate } from './hot-update.js';
 import { createViteSourceMap } from './source-maps.js';
 import {
@@ -73,6 +77,15 @@ function createVanrotPlugin(
 
       for (const diagnostic of loaded.diagnostics) {
         const message = formatConfigDiagnostic(diagnostic);
+        if (diagnostic.severity === 'error') {
+          throw new Error(message);
+        }
+
+        config.logger.warn(message);
+      }
+
+      for (const diagnostic of await collectFormDiagnosticsForVite(config.root)) {
+        const message = formatViteFormDiagnostic(diagnostic);
         if (diagnostic.severity === 'error') {
           throw new Error(message);
         }

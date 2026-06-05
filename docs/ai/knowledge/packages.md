@@ -44,6 +44,10 @@ Shadcn-inspired Vanrot-native primitives used by the site and the component docu
 
 Readable component, page, router, accessibility, async, and generator test helpers built on Vitest and jsdom.
 
+## @vanrot/forms
+
+Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.
+
 ## @vanrot/devtools
 
 Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers.

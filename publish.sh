@@ -15,6 +15,7 @@ PUBLISH_PACKAGES=(
   ai
   runtime
   behavior
+  forms
   ui
   compiler
   router

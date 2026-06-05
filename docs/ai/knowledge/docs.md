@@ -504,6 +504,12 @@ Testing strategy explains where to put coverage across Vanrot runtime, compiler,
 
 Docs: /docs/testing/strategy
 
+## Forms And Async Resources
+
+@vanrot/forms is the first-party package for signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.
+
+Docs: /docs/forms
+
 ## Devtools And Project Intelligence
 
 @vanrot/devtools reads project map manifests, runtime graph metadata, Vite plugin metadata, panel state, stale-state diagnostics, and AI-adjacent project intelligence without becoming the source of truth.
