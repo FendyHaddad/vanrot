@@ -311,6 +311,12 @@ describe('vanrot site pages', () => {
     expect(route.docsTestingScreen.path).toBe('testing/screen');
     expect(route.docsTestingRouting.path).toBe('testing/routing');
     expect(route.docsTestingStrategy.path).toBe('testing/strategy');
+    expect(route.docsStore.path).toBe('store');
+    expect(route.docsStoreActions.path).toBe('store/actions');
+    expect(route.docsStoreSelectors.path).toBe('store/selectors');
+    expect(route.docsStoreReducers.path).toBe('store/reducers');
+    expect(route.docsStoreEffects.path).toBe('store/effects');
+    expect(route.docsStorePageUsage.path).toBe('store/page-usage');
     expect(route.docsDevtools.path).toBe('devtools');
     expect(route.docsDevtoolsProjectMap.path).toBe('devtools/project-map');
     expect(route.docsDevtoolsRuntimeGraph.path).toBe('devtools/runtime-graph');
@@ -370,6 +376,8 @@ describe('vanrot site pages', () => {
     expect(css).toContain('code');
     expect(source).toContain('toCodeLines');
     expect(source).toContain('toCodeTokens');
+    expect(source).toContain('normalizeCodeSource');
+    expect(source).toContain("replaceAll('\\\\n', '\\n')");
     expect(source).toContain('docsBehavior: siteArticleKey.behavior');
     expect(source).toContain('docsSsrHydration: siteArticleKey.ssrHydration');
     expect(interactions).toContain('setupArticleBookmarks');

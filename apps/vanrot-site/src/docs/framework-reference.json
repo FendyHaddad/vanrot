@@ -114,6 +114,13 @@
       "docsPath": "/docs/forms"
     },
     {
+      "name": "@vanrot/store",
+      "area": "Signal-native state",
+      "status": "production-ready",
+      "summary": "Signal-native store package for state containers, fluent actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.",
+      "docsPath": "/docs/store"
+    },
+    {
       "name": "@vanrot/formatters",
       "area": "Formatters and template pipes",
       "status": "production-ready",
@@ -237,6 +244,7 @@
     { "packageName": "@vanrot/forms", "name": "diagnoseForm", "kind": "function", "status": "production-ready", "summary": "Returns structured form diagnostics for sensitive draft persistence and future tooling checks.", "docsPath": "/docs/forms" },
     { "packageName": "@vanrot/forms", "name": "createFormTest", "kind": "function", "status": "production-ready", "summary": "Creates a readable test helper for setting values, touching fields, submitting forms, and inspecting messages.", "docsPath": "/docs/forms" },
     { "packageName": "@vanrot/forms", "name": "useSchemaAdapter", "kind": "function", "status": "production-ready", "summary": "Freezes a schema adapter contract so forms can consume domain schemas without owning backend contracts.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/store", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/store are covered by Store and public API documentation.", "docsPath": "/docs/store" },
     { "packageName": "@vanrot/formatters", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/formatters are covered by the formatters and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/formatters", "name": "applyVanrotPipeChain", "kind": "function", "status": "production-ready", "summary": "Applies a compiler-generated pipe chain with the configured pipe context and registry options.", "docsPath": "/docs/formatters" },
     { "packageName": "@vanrot/formatters", "name": "createPipeContext", "kind": "function", "status": "production-ready", "summary": "Normalizes locale, timezone, and currency defaults for built-in and custom formatters.", "docsPath": "/docs/formatters" },
@@ -507,6 +515,7 @@
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
     { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config", "@vanrot/seo"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" },
     { "id": "forms-checkout", "title": "Forms Checkout", "path": "examples/forms-checkout", "packages": ["@vanrot/forms", "@vanrot/runtime", "@vanrot/ui"], "workflows": ["forms", "async-validation", "draft-persistence"], "docsPath": "/docs/forms" },
+    { "id": "store-foundation", "title": "Store Foundation", "path": "examples/store-foundation", "packages": ["@vanrot/store", "@vanrot/runtime"], "workflows": ["store-actions", "store-selectors", "store-effects", "quote-free-html"], "docsPath": "/docs/store" },
     { "id": "formatters-pipes", "title": "Formatters And Template Pipes", "path": "examples/formatters-pipes", "packages": ["@vanrot/formatters", "@vanrot/compiler", "@vanrot/config", "@vanrot/vite-plugin"], "workflows": ["template-pipes", "custom-formatters", "pipe-diagnostics"], "docsPath": "/docs/formatters" },
     { "id": "webgl-threejs", "title": "WebGL And three.js Lifecycle", "path": "examples/webgl-threejs", "packages": ["@vanrot/runtime"], "workflows": ["webgl-threejs", "runtime-lifecycle"], "docsPath": "/docs/examples/webgl-threejs" },
     { "id": "ssr-hydration", "title": "SSR And Hydration", "path": "examples/ssr-hydration", "packages": ["@vanrot/ssr", "@vanrot/router", "@vanrot/runtime"], "workflows": ["ssr-hydration", "routing-workflows"], "docsPath": "/docs/ssr-hydration" }
@@ -525,6 +534,7 @@
     { "path": "/", "title": "Vanrot - Framework Documentation And Design Components", "description": "Vanrot's public landing page for framework documentation, design components, examples, and production-readiness notes." },
     { "path": "/docs", "title": "Vanrot Framework Documentation", "description": "Framework documentation for Vanrot packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation." },
     { "path": "/docs/forms", "title": "Vanrot Forms And Async Resources", "description": "Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests." },
+    { "path": "/docs/store", "title": "Vanrot Store", "description": "Guide to @vanrot/store, signal-native state containers, fluent actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition." },
     { "path": "/docs/formatters", "title": "Vanrot Formatters And Template Pipes", "description": "Guide to @vanrot/formatters, compiler-owned template pipe syntax, built-in formatters, custom .pipe.ts files, presets, context, diagnostics, and tests." },
     { "path": "/docs/components", "title": "Vanrot Design Component Catalog", "description": "Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes." },
     { "path": "/changelog", "title": "Vanrot Changelog", "description": "Published Vanrot release notes with direct links into the framework documentation for every shipped change." }

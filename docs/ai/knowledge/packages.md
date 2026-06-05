@@ -48,6 +48,10 @@ Readable component, page, router, accessibility, async, and generator test helpe
 
 Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.
 
+## @vanrot/store
+
+Signal-native store package for state containers, fluent actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.
+
 ## @vanrot/formatters
 
 Pure formatter helpers, compiler pipe registry execution, locale context, custom pipe definitions, enum pipes, named presets, masks, form messages, diagnostics metadata, and pipe test helpers.

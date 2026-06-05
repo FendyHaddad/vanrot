@@ -589,6 +589,12 @@ const docsFormsAsyncResources = articlePage(siteArticleKey.formsAsyncResources);
 const docsFormsArraysWizardsErrors = articlePage(siteArticleKey.formsArraysWizardsErrors);
 const docsFormsDraftPersistence = articlePage(siteArticleKey.formsDraftPersistence);
 const docsFormsToolingTests = articlePage(siteArticleKey.formsToolingTests);
+const docsStore = articlePage(siteArticleKey.store);
+const docsStoreActions = articlePage(siteArticleKey.storeActions);
+const docsStoreSelectors = articlePage(siteArticleKey.storeSelectors);
+const docsStoreReducers = articlePage(siteArticleKey.storeReducers);
+const docsStoreEffects = articlePage(siteArticleKey.storeEffects);
+const docsStorePageUsage = articlePage(siteArticleKey.storePageUsage);
 const docsFormatters = articlePage(siteArticleKey.formatters);
 const docsFormattersCompilerOwned = articlePage(siteArticleKey.formattersCompilerOwned);
 const docsFormattersTemplatePipes = articlePage(siteArticleKey.formattersTemplatePipes);
@@ -866,6 +872,12 @@ export const route = defineRoutes({
   docsFormsArraysWizardsErrors,
   docsFormsDraftPersistence,
   docsFormsToolingTests,
+  docsStore,
+  docsStoreActions,
+  docsStoreSelectors,
+  docsStoreReducers,
+  docsStoreEffects,
+  docsStorePageUsage,
   docsFormatters,
   docsFormattersCompilerOwned,
   docsFormattersTemplatePipes,

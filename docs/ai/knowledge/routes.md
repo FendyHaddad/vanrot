@@ -18,6 +18,12 @@ Vanrot Forms And Async Resources Guide to @vanrot/forms, signal-native form stat
 
 Docs: /docs/forms
 
+## /docs/store
+
+Vanrot Store Guide to @vanrot/store, signal-native state containers, fluent actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.
+
+Docs: /docs/store
+
 ## /docs/formatters
 
 Vanrot Formatters And Template Pipes Guide to @vanrot/formatters, compiler-owned template pipe syntax, built-in formatters, custom .pipe.ts files, presets, context, diagnostics, and tests.

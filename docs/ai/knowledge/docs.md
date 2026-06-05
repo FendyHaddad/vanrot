@@ -588,6 +588,42 @@ Forms ship diagnostics, Vite discovery hooks, and test helpers so generated form
 
 Docs: /docs/forms/tooling-tests
 
+## Store
+
+@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.
+
+Docs: /docs/store
+
+## Store Actions
+
+Store actions use fluent actionSet declarations so workflow lifecycle phases stay grouped under one action name without repeated string literals.
+
+Docs: /docs/store/actions
+
+## Store Selectors
+
+Store selectors use property names from defineSelectors(state).selectorName(fn), which keeps selector names typed and avoids repeated string literals.
+
+Docs: /docs/store/selectors
+
+## Store Reducers
+
+Store reducers use on(action).patch(fn) for partial immutable updates and on(action).set(fn) for full state replacement.
+
+Docs: /docs/store/reducers
+
+## Store Effects
+
+Store effects use a fluent stack with run, success, error, latestBy, skipWhen, cancelWhen, timeout, retry, and trace for readable async workflows.
+
+Docs: /docs/store/effects
+
+## Store Page Usage
+
+Pages use useStore(store), expose selector reads and action methods from TypeScript, and keep Vanrot HTML quote-free for TS-bound attributes and method calls.
+
+Docs: /docs/store/page-usage
+
 ## Formatters And Template Pipes
 
 Vanrot template pipes are compiler-owned interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, named presets, locale context, terminal diagnostics, and focused pipe tests.

@@ -1,0 +1,11 @@
+<button disabled={{ isLoading() }} @click=loadClaims>
+  {{ copy.loadClaims }}
+</button>
+
+<ul>
+  @for row of claimRows()
+    <li @click=selectClaim(row.id)>
+      {{ row.label }}
+    </li>
+  @end
+</ul>

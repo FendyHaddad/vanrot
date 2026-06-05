@@ -1,0 +1,19 @@
+{
+  "name": "@vanrot/example-store-foundation",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "pretypecheck": "pnpm --filter @vanrot/store build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm --filter @vanrot/store build",
+    "test": "vitest run tests"
+  },
+  "dependencies": {
+    "@vanrot/runtime": "file:../../packages/runtime",
+    "@vanrot/store": "file:../../packages/store"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.14"
+  }
+}

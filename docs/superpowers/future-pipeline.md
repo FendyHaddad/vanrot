@@ -77,26 +77,27 @@ Possible slices:
 
 ## Store Foundation
 
-Store foundation should introduce a signal-native store that is lightweight by default and enterprise-capable by design.
-It should learn from Redux and NgRx without copying their ceremony or making RxJS mandatory.
+Store foundation introduced a signal-native store that is lightweight by default and enterprise-capable by design.
+It learns from Redux and NgRx without copying their ceremony or making RxJS mandatory.
 
-Ideas to carry forward:
+Ideas shipped in Phase 19:
 
-- [ ] Start with a dedicated store brainstorming pass before API design.
-- [ ] Define simple state containers with signal-native reads and predictable writes.
-- [ ] Decide the smallest useful vocabulary for actions, reducers, selectors, and immutable updates.
-- [ ] Keep package boundaries clean so `@vanrot/runtime` does not grow because store exists.
-- [ ] Make state reads ergonomic in Vanrot components without requiring app logic in HTML.
-- [ ] Include starter examples that show small-app usage and a path toward larger enterprise usage.
-- [ ] Verify package exports, tree-shaking, SSR boundaries, docs hooks, and release checks.
+- [x] Start with a dedicated store brainstorming pass before API design.
+- [x] Define simple state containers with signal-native reads and predictable writes.
+- [x] Decide the smallest useful vocabulary for actions, reducers, selectors, effects, and immutable updates.
+- [x] Keep package boundaries clean so `@vanrot/runtime` does not grow because store exists.
+- [x] Make state reads ergonomic in Vanrot components without requiring app logic in HTML.
+- [x] Include starter examples that show small-app usage and a path toward larger enterprise usage.
+- [x] Verify package exports, tree-shaking, SSR boundaries, docs hooks, AI docs, and release checks.
 
 Possible slices:
 
-- [ ] API Vocabulary
-- [ ] Store Core
-- [ ] State Updates
-- [ ] Package Boundaries
-- [ ] Starter Examples
+- [x] API Vocabulary
+- [x] Store Core
+- [x] State Updates
+- [x] Full Effects
+- [x] Package Boundaries
+- [x] Starter Examples
 
 ## Store Hardening
 
@@ -105,8 +106,7 @@ default store mental model signal-first.
 
 Ideas to carry forward:
 
-- [ ] Add effects only after the core action and reducer contracts are stable.
-- [ ] Design cancellation and concurrency rules explicitly, especially for duplicate requests and stale writes.
+- [ ] Deepen cancellation and concurrency inspection beyond the Phase 19 `latestBy` and `cancelWhen` runtime behavior.
 - [ ] Add action tracing in a way that can feed future devtools without coupling store to devtools.
 - [ ] Explore time travel only after state snapshots and replay rules are deterministic.
 - [ ] Provide Redux mental-model interop for teams migrating from Redux-like systems.
@@ -171,12 +171,12 @@ Deferred follow-ups:
 - [ ] Future Forge UI consumption of `.pipe.ts` metadata when Forge exists.
 - [ ] Additional built-in pipes only when real app usage proves the gap.
 
-Possible slices:
+Completed planning slices:
 
-- [ ] Formatter Registry
-- [ ] Template Syntax Decision
-- [ ] Tooling Diagnostics
-- [ ] Common Formatter Set
+- [x] Formatter Registry shipped in Phase 29 through `@vanrot/formatters`, `createPipeRegistry(...)`, and compiler/server lowering.
+- [x] Template Syntax Decision shipped in Phase 29 with pipe-like interpolation syntax and left-to-right chaining.
+- [x] Tooling Diagnostics shipped in Phase 29 with Vite discovery, terminal diagnostics, source spans, and AI/reference coverage.
+- [x] Common Formatter Set shipped in Phase 29 with date, number, currency, plural, mask, message, named preset, and enum formatter coverage.
 
 ## vanrot/seo
 

@@ -16,6 +16,10 @@ import {
 } from '../src/docs/site-data.ts';
 import { route } from '../src/routes.ts';
 
+function normalizeDocsCode(code: string): string {
+  return code.replaceAll('\\n', '\n');
+}
+
 describe('vanrot site docs data', () => {
   it('documents the required framework learning pages', () => {
     expect(siteArticleKeys).toEqual([
@@ -117,6 +121,12 @@ describe('vanrot site docs data', () => {
       'formsArraysWizardsErrors',
       'formsDraftPersistence',
       'formsToolingTests',
+      'store',
+      'storeActions',
+      'storeSelectors',
+      'storeReducers',
+      'storeEffects',
+      'storePageUsage',
       'formatters',
       'formattersCompilerOwned',
       'formattersTemplatePipes',
@@ -294,6 +304,80 @@ describe('vanrot site docs data', () => {
     expect(JSON.stringify(childKeys.map((key) => siteArticles[key]))).not.toContain(
       'generate social images',
     );
+  });
+
+  it('documents Store as a package parent with focused child guides', () => {
+    expect(siteArticleKey.store).toBe('store');
+    expect(siteArticleKey.storeActions).toBe('storeActions');
+    expect(siteArticleKey.storeSelectors).toBe('storeSelectors');
+    expect(siteArticleKey.storeReducers).toBe('storeReducers');
+    expect(siteArticleKey.storeEffects).toBe('storeEffects');
+    expect(siteArticleKey.storePageUsage).toBe('storePageUsage');
+    expect(siteArticles.store.path).toBe('/docs/store');
+    expect(siteArticles.store.summary).toContain('@vanrot/store');
+    expect(siteArticles.store.status).toBe('production-ready-through-phase-19');
+    const storeDocs = JSON.stringify(siteArticles.store);
+    expect(storeDocs).toContain('signal-native');
+    expect(storeDocs).toContain('useStore');
+    expect(storeDocs).toContain('Full fluent store stack');
+    expect(storeDocs).toContain('actionSet()\\\\n    .start');
+    expect(storeDocs).toContain('defineSelectors(claimsState)\\\\n  .claimType');
+    expect(storeDocs).toContain('.latestBy(({ action }) => action.accountId)\\\\n    .skipWhen');
+    expect(storeDocs).toContain('.run(({ signal, action }) =>\\\\n      claimsService.list');
+    expect(storeDocs).toContain('defineReducer(claimsState)\\\\n  .on');
+
+    const childKeys = [
+      'storeActions',
+      'storeSelectors',
+      'storeReducers',
+      'storeEffects',
+      'storePageUsage',
+    ] as const;
+
+    expect(childKeys.map((key) => siteArticles[key].path)).toEqual([
+      '/docs/store/actions',
+      '/docs/store/selectors',
+      '/docs/store/reducers',
+      '/docs/store/effects',
+      '/docs/store/page-usage',
+    ]);
+    expect(childKeys.every((key) => siteArticles[key].sections.length >= 2)).toBe(true);
+    const childDocs = JSON.stringify(childKeys.map((key) => siteArticles[key]));
+    expect(childDocs).toContain('actionSet');
+    expect(childDocs).toContain('defineSelectors');
+    expect(childDocs).toContain('defineReducer');
+    expect(childDocs).toContain('latestBy');
+    expect(childDocs).toContain('@click=loadClaims');
+  });
+
+  it('keeps generated AI docs aware of Store package and article routes', () => {
+    const aiIndex = JSON.parse(readFileSync('../../docs/ai/index.json', 'utf8')) as {
+      packages: readonly { id: string }[];
+      docs: readonly { id: string }[];
+    };
+    const aiDocArticleKeys = aiIndex.docs.map((item) => item.id.replace('doc:', ''));
+    const aiDocPackageNames = aiIndex.packages.map((item) => item.id.replace('package:', ''));
+
+    expect(aiDocArticleKeys).toContain('store');
+    expect(aiDocArticleKeys).toContain('storeActions');
+    expect(aiDocArticleKeys).toContain('storeEffects');
+    expect(aiDocPackageNames).toContain('@vanrot/store');
+  });
+
+  it('keeps framework code previews from collapsing into long single-line snippets', () => {
+    const collapsedPreviewSources = Object.values(siteArticles)
+      .filter((article) => article.section === 'framework')
+      .flatMap((article) =>
+        article.sections.map((section) => ({
+          path: article.path,
+          section: section.title,
+          code: normalizeDocsCode(section.code?.code ?? ''),
+        })),
+      )
+      .filter(({ code }) => code.length > 72 && code.split('\n').length === 1)
+      .map(({ path, section }) => `${path}#${section}`);
+
+    expect(collapsedPreviewSources).toEqual([]);
   });
 
   it('groups Behavior and SEO child guides below their package parents in the framework sidebar', () => {
@@ -801,6 +885,7 @@ describe('vanrot site docs data', () => {
       '@vanrot/ui',
       '@vanrot/testing',
       '@vanrot/forms',
+      '@vanrot/store',
       '@vanrot/formatters',
       '@vanrot/devtools',
       '@vanrot/ai',
@@ -838,6 +923,18 @@ describe('vanrot site docs data', () => {
           siteArticleKey.formsArraysWizardsErrors,
           siteArticleKey.formsDraftPersistence,
           siteArticleKey.formsToolingTests,
+        ],
+      },
+      {
+        key: 'store',
+        label: 'Store',
+        route: route.docsStore,
+        childKeys: [
+          siteArticleKey.storeActions,
+          siteArticleKey.storeSelectors,
+          siteArticleKey.storeReducers,
+          siteArticleKey.storeEffects,
+          siteArticleKey.storePageUsage,
         ],
       },
       {
@@ -933,6 +1030,42 @@ describe('vanrot site docs data', () => {
         articleMapping: 'docsFormsToolingTests: siteArticleKey.formsToolingTests',
         articleKey: siteArticleKey.formsToolingTests,
         route: route.docsFormsToolingTests,
+      },
+      {
+        path: '/docs/store',
+        articleMapping: 'docsStore: siteArticleKey.store',
+        articleKey: siteArticleKey.store,
+        route: route.docsStore,
+      },
+      {
+        path: '/docs/store/actions',
+        articleMapping: 'docsStoreActions: siteArticleKey.storeActions',
+        articleKey: siteArticleKey.storeActions,
+        route: route.docsStoreActions,
+      },
+      {
+        path: '/docs/store/selectors',
+        articleMapping: 'docsStoreSelectors: siteArticleKey.storeSelectors',
+        articleKey: siteArticleKey.storeSelectors,
+        route: route.docsStoreSelectors,
+      },
+      {
+        path: '/docs/store/reducers',
+        articleMapping: 'docsStoreReducers: siteArticleKey.storeReducers',
+        articleKey: siteArticleKey.storeReducers,
+        route: route.docsStoreReducers,
+      },
+      {
+        path: '/docs/store/effects',
+        articleMapping: 'docsStoreEffects: siteArticleKey.storeEffects',
+        articleKey: siteArticleKey.storeEffects,
+        route: route.docsStoreEffects,
+      },
+      {
+        path: '/docs/store/page-usage',
+        articleMapping: 'docsStorePageUsage: siteArticleKey.storePageUsage',
+        articleKey: siteArticleKey.storePageUsage,
+        route: route.docsStorePageUsage,
       },
       {
         path: '/docs/formatters',

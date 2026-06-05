@@ -106,6 +106,12 @@ const routeKeyToArticleKey = {
   docsFormsArraysWizardsErrors: siteArticleKey.formsArraysWizardsErrors,
   docsFormsDraftPersistence: siteArticleKey.formsDraftPersistence,
   docsFormsToolingTests: siteArticleKey.formsToolingTests,
+  docsStore: siteArticleKey.store,
+  docsStoreActions: siteArticleKey.storeActions,
+  docsStoreSelectors: siteArticleKey.storeSelectors,
+  docsStoreReducers: siteArticleKey.storeReducers,
+  docsStoreEffects: siteArticleKey.storeEffects,
+  docsStorePageUsage: siteArticleKey.storePageUsage,
   docsFormatters: siteArticleKey.formatters,
   docsFormattersCompilerOwned: siteArticleKey.formattersCompilerOwned,
   docsFormattersTemplatePipes: siteArticleKey.formattersTemplatePipes,
@@ -234,12 +240,18 @@ function toViewSection(section: SiteArticleSection): DocsArticleViewSection {
 
 function toViewCode(code: SiteArticleSection['code']): DocsArticleViewSection['code'] {
   const source = code ?? emptyCode;
+  const normalizedCode = normalizeCodeSource(source.code);
 
   return {
     ...source,
-    isEmpty: source.code.length === 0,
-    lines: toCodeLines(source.code),
+    code: normalizedCode,
+    isEmpty: normalizedCode.length === 0,
+    lines: toCodeLines(normalizedCode),
   };
+}
+
+function normalizeCodeSource(code: string): string {
+  return code.replaceAll('\\n', '\n');
 }
 
 function toCodeLines(code: string): readonly DocsCodeLine[] {

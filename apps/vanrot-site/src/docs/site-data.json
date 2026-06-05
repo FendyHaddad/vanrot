@@ -895,7 +895,7 @@
           "body": "The package is consumed in three places: vanrot.config.ts holds the seo defaults block, src/app/seo.ts holds app-level metadata helpers, and the Vite plugin reads config to emit crawl artifacts at build. Each surface stays optional and is wired only when SEO is enabled.",
           "code": {
             "title": "Import surface",
-            "code": "import { defineSeo, mergeSeoMetadata, applySeoToHead } from '@vanrot/seo';"
+            "code": "import {\n  applySeoToHead,\n  defineSeo,\n  mergeSeoMetadata,\n} from '@vanrot/seo';"
           }
         }
       ]
@@ -985,7 +985,7 @@
           "body": "vr create supports --seo, --no-seo, and --seo-site-url for non-interactive setup. When SEO is selected, the generated app includes @vanrot/seo, a vanrot.config.ts seo block, and src/app/seo.ts utilities.",
           "code": {
             "title": "Create with SEO",
-            "code": "vr create my-app --seo --seo-site-url https://vanrot.dev"
+            "code": "vr create my-app \\\n  --seo \\\n  --seo-site-url https://vanrot.dev"
           }
         },
         {
@@ -2080,7 +2080,7 @@
           ],
           "code": {
             "title": "Source virtual import",
-            "code": "import 'virtual:vanrot-source:%2Frepo%2Fsrc%2Fcounter.component.ts';"
+            "code": "const sourceModule = await import(\n  'virtual:vanrot-source:%2Frepo%2Fsrc%2Fcounter.component.ts'\n);"
           }
         },
         {
@@ -4357,7 +4357,7 @@
           ],
           "code": {
             "title": "Package import",
-            "code": "import { createForm, createFormResource, field, required } from '@vanrot/forms';"
+            "code": "import {\n  createForm,\n  createFormResource,\n  field,\n  required,\n} from '@vanrot/forms';"
           }
         },
         {
@@ -4623,6 +4623,282 @@
           "code": {
             "title": "Form test helper",
             "code": "const testForm = createFormTest(profileForm);\\n\\ntestForm.set('email', 'bad-email');\\ntestForm.touch('email');\\nexpect(testForm.field('email').messages()).toEqual(['Email is invalid.']);"
+          }
+        }
+      ]
+    },
+    {
+      "key": "store",
+      "section": "framework",
+      "path": "/docs/store",
+      "label": "Store",
+      "title": "Store",
+      "summary": "@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.",
+      "status": "production-ready-through-phase-19",
+      "sections": [
+        {
+          "id": "store-boundary",
+          "title": "Store boundary",
+          "body": "@vanrot/store is separate from @vanrot/runtime. Runtime owns signal primitives; Store owns application state workflows built from those primitives. That boundary keeps the browser core small while still giving larger apps a first-party place for actions, reducer rules, selectors, effects, and normalized errors.",
+          "points": [
+            "Use @vanrot/store when state needs named workflows, derived reads, reducer rules, or async effects.",
+            "Keep local one-off component state in runtime signals when no shared workflow exists.",
+            "Do not move service calls, reducer logic, or selector decisions into HTML templates.",
+            "Treat the store package as optional application structure, not a hidden runtime requirement."
+          ],
+          "code": {
+            "title": "Store import surface",
+            "code": "import {\\n  actionSet,\\n  defineActions,\\n  defineEffects,\\n  defineReducer,\\n  defineSelectors,\\n  defineState,\\n  defineStore,\\n  effect,\\n  storeError,\\n  useStore,\\n} from '@vanrot/store';"
+          }
+        },
+        {
+          "id": "file-roles",
+          "title": "Local file shape",
+          "body": "Store code stays readable when each role has a file. State defines the model and initial value. Actions define workflow names. Selectors define derived reads. Effects define async work. Reducers define state transitions. The composition file wires the pieces together and should not hide business rules.",
+          "points": [
+            "Use .state.ts for defineState and model-shaped initial state.",
+            "Use .actions.ts for actionSet lifecycle declarations.",
+            "Use .selectors.ts for string-free selector properties.",
+            "Use .effects.ts, .reducer.ts, and .store.ts for orchestration, updates, and composition."
+          ],
+          "code": {
+            "title": "Claims store files",
+            "code": "claims.state.ts\\nclaims.actions.ts\\nclaims.selectors.ts\\nclaims.effects.ts\\nclaims.reducer.ts\\nclaims.store.ts\\nclaims.page.ts\\nclaims.page.html"
+          }
+        },
+        {
+          "id": "workflow-map",
+          "title": "Workflow map",
+          "body": "A store workflow starts with a typed action, optionally runs an effect, maps success or error back into another action, and lets the reducer update state. Selectors then expose stable reads to page code. Each step is named in TypeScript, so the template calls page fields instead of rebuilding workflow details in markup.",
+          "points": [
+            "Actions describe what happened or what should start.",
+            "Effects perform async work and map results back to actions.",
+            "Reducers make immutable state changes from action payloads.",
+            "Selectors prepare rows, flags, and selected records for pages."
+          ],
+          "code": {
+            "title": "Full fluent store stack",
+            "code": "import {\\n  actionSet,\\n  defineActions,\\n  defineEffects,\\n  defineReducer,\\n  defineSelectors,\\n  defineState,\\n  defineStore,\\n  effect,\\n  storeError,\\n} from '@vanrot/store';\\n\\nexport const claimsState = defineState<ClaimsState>({\\n  claimType: claimType.medical,\\n  claimsByAccount: {},\\n  loadingByAccount: {},\\n  errorsByAccount: {},\\n  selectedClaimId: undefined,\\n});\\n\\nexport const claimsActions = defineActions(claimsStoreName, {\\n  loadClaims: actionSet()\\n    .start<{ accountId: string; filters: ClaimFilters }>()\\n    .success<{ accountId: string; claims: Claim[] }>()\\n    .error<{ accountId: string; error: StoreError }>(),\\n\\n  selectClaim: actionSet()\\n    .start<{ claimId: string }>(),\\n\\n  clearClaims: actionSet()\\n    .start(),\\n});\\n\\nexport const claimsSelectors = defineSelectors(claimsState)\\n  .claimType((state) => state.claimType)\\n  .claimRows((state) => buildClaimRows(state))\\n  .claimsForAccount((state, accountId: string) =>\\n    state.claimsByAccount[accountId] ?? []\\n  )\\n  .isAccountLoading((state, accountId: string) =>\\n    state.loadingByAccount[accountId] ?? false\\n  );\\n\\nexport const claimsEffects = defineEffects({\\n  loadClaims: effect(claimsActions.loadClaims.start)\\n    .latestBy(({ action }) => action.accountId)\\n    .skipWhen(({ state, action }) =>\\n      Boolean(state.loadingByAccount[action.accountId])\\n    )\\n    .cancelWhen(claimsActions.clearClaims.start)\\n    .timeout(claimsTimeouts.loadClaims)\\n    .retry(claimsRetry.loadClaims)\\n    .run(({ signal, action }) =>\\n      claimsService.list({\\n        accountId: action.accountId,\\n        filters: action.filters,\\n        signal,\\n      })\\n    )\\n    .success((claims, { action }) =>\\n      claimsActions.loadClaims.success({\\n        accountId: action.accountId,\\n        claims,\\n      })\\n    )\\n    .error((error, { action }) =>\\n      claimsActions.loadClaims.error({\\n        accountId: action.accountId,\\n        error: storeError(error),\\n      })\\n    )\\n    .trace(claimsTraces.loadClaims),\\n});\\n\\nexport const claimsReducer = defineReducer(claimsState)\\n  .on(claimsActions.loadClaims.start)\\n  .patch(({ action }) => ({\\n    loadingByAccount: {\\n      [action.accountId]: true,\\n    },\\n  }))\\n  .on(claimsActions.loadClaims.success)\\n  .patch(({ action }) => ({\\n    claimsByAccount: {\\n      [action.accountId]: action.claims,\\n    },\\n    loadingByAccount: {\\n      [action.accountId]: false,\\n    },\\n  }))\\n  .on(claimsActions.clearClaims.start)\\n  .set(() => claimsInitialState);\\n\\nexport const claimsStore = defineStore({\\n  name: claimsStoreName,\\n  state: claimsState,\\n  actions: claimsActions,\\n  selectors: claimsSelectors,\\n  reducer: claimsReducer,\\n  effects: claimsEffects,\\n});"
+          }
+        },
+        {
+          "id": "error-and-size",
+          "title": "Errors and size",
+          "body": "The package includes a small StoreError shape and storeError(error) normalizer so effects can report unknown failures without each app inventing a new wrapper. Store also has an explicit size quality target: the package may be richer than runtime, but it should remain lightweight compared with large state libraries.",
+          "points": [
+            "StoreError carries message, optional code, and original cause.",
+            "Effects should call storeError(error) before dispatching an error action.",
+            "Runtime remains under its own core gzip budget.",
+            "Runtime plus Store is measured separately so state features do not silently inflate the core."
+          ],
+          "code": {
+            "title": "Error mapping",
+            "code": ".error((error, { action }) =>\\n  claimsActions.loadClaims.error({\\n    accountId: action.accountId,\\n    error: storeError(error),\\n  })\\n)"
+          }
+        }
+      ]
+    },
+    {
+      "key": "storeActions",
+      "section": "framework",
+      "path": "/docs/store/actions",
+      "label": "Actions",
+      "title": "Store Actions",
+      "summary": "Store actions use fluent actionSet declarations so workflow lifecycle phases stay grouped under one action name without repeated string literals.",
+      "status": "production-ready-through-phase-19",
+      "sections": [
+        {
+          "id": "fluent-action-sets",
+          "title": "Fluent action sets",
+          "body": "Actions are declared as lifecycle sets. A workflow such as loading claims owns start, success, and error creators under one property. The store name and action name generate stable type strings internally, so application code references action creators instead of copying type strings across files.",
+          "points": [
+            "Use start for user or app intent.",
+            "Use success for completed work with typed result data.",
+            "Use error for normalized StoreError payloads.",
+            "Keep action names as properties on the object passed to defineActions."
+          ],
+          "code": {
+            "title": "Action set",
+            "code": "export const claimsActions = defineActions(claimsStoreName, {\\n  loadClaims: actionSet()\\n    .start<{ accountId: string; filters: ClaimFilters }>()\\n    .success<{ accountId: string; claims: Claim[] }>()\\n    .error<{ accountId: string; error: StoreError }>(),\\n\\n  selectClaim: actionSet()\\n    .start<{ claimId: string }>()\\n    .success<{ claimId: string }>()\\n    .error<{ claimId: string; error: StoreError }>(),\\n});"
+          }
+        },
+        {
+          "id": "generated-types",
+          "title": "Generated action metadata",
+          "body": "Every creator carries metadata for type, storeName, actionName, and phase. Tests and effects can compare creator.type without inventing a registry. The generated string is an implementation detail; app code should keep passing creator references into reducers and effects.",
+          "points": [
+            "Pass claimsActions.loadClaims.start into effect() and reducer on().",
+            "Read action.accountId, action.claims, or action.error from typed payloads.",
+            "Avoid dispatching raw object literals unless a test is intentionally exercising dispatch.",
+            "Use a named store key constant for the store name source of truth."
+          ],
+          "code": {
+            "title": "Dispatch through useStore",
+            "code": "loadClaims() {\\n  this.store.action.loadClaims.start({\\n    accountId: this.accountId(),\\n    filters: this.filters(),\\n  });\\n}"
+          }
+        }
+      ]
+    },
+    {
+      "key": "storeSelectors",
+      "section": "framework",
+      "path": "/docs/store/selectors",
+      "label": "Selectors",
+      "title": "Store Selectors",
+      "summary": "Store selectors use property names from defineSelectors(state).selectorName(fn), which keeps selector names typed and avoids repeated string literals.",
+      "status": "production-ready-through-phase-19",
+      "sections": [
+        {
+          "id": "property-named-selectors",
+          "title": "Property-named selectors",
+          "body": "Selectors are named by the fluent property used to define them. That makes the selector key visible in code without passing a string. No-input selectors receive state. Input selectors receive state plus one explicit input such as an account id.",
+          "points": [
+            "Use no-input selectors for global derived values.",
+            "Use input selectors for account, id, tab, or filter-specific reads.",
+            "Return page-ready rows when HTML should only render labels and ids.",
+            "Keep selector formatting logic in TypeScript, not in the template."
+          ],
+          "code": {
+            "title": "Selector definitions",
+            "code": "export const claimsSelectors = defineSelectors(claimsState)\\n  .claimType((state) => state.claimType)\\n  .claimRows((state) => buildClaimRows(state))\\n  .claimsForAccount((state, accountId: string) =>\\n    state.claimsByAccount[accountId] ?? []\\n  )\\n  .isAccountLoading((state, accountId: string) =>\\n    state.loadingByAccount[accountId] ?? false\\n  );"
+          }
+        },
+        {
+          "id": "page-facing-signals",
+          "title": "Page-facing signals",
+          "body": "useStore turns selectors into signal-like reads for page classes. A no-input selector becomes store.select.claimRows(). An input selector becomes store.select.isAccountLoading(accountId). The returned function can be used from page code and then exposed to HTML as a page field.",
+          "points": [
+            "Call selectors in the page class, not inline inside complex HTML expressions.",
+            "Expose row labels or flags as page fields.",
+            "Keep repeated string labels in a copy object or model mapper.",
+            "Use selectors to make templates boring."
+          ],
+          "code": {
+            "title": "Page selector fields",
+            "code": "claimRows = this.store.select.claimRows();\\nisLoading = this.store.select.isAccountLoading(this.accountId());"
+          }
+        }
+      ]
+    },
+    {
+      "key": "storeReducers",
+      "section": "framework",
+      "path": "/docs/store/reducers",
+      "label": "Reducers",
+      "title": "Store Reducers",
+      "summary": "Store reducers use on(action).patch(fn) for partial immutable updates and on(action).set(fn) for full state replacement.",
+      "status": "production-ready-through-phase-19",
+      "sections": [
+        {
+          "id": "patch-and-set",
+          "title": "Patch and set",
+          "body": "Reducers stay readable when the update verb matches the shape of the change. Use patch for partial state changes such as setting loading flags or replacing a keyed collection. Use set when the whole state should become a new value, such as clearing a feature back to its initial state.",
+          "points": [
+            "Pass action creators to on() instead of comparing type strings manually.",
+            "Return only the fields that changed from patch().",
+            "Use set() for reset flows and full replacement.",
+            "Keep service calls and async work out of reducers."
+          ],
+          "code": {
+            "title": "Reducer chain",
+            "code": "export const claimsReducer = defineReducer(claimsState)\\n  .on(claimsActions.loadClaims.start)\\n  .patch(({ action }) => ({\\n    loadingByAccount: { [action.accountId]: true },\\n  }))\\n  .on(claimsActions.loadClaims.success)\\n  .patch(({ action }) => ({\\n    claimsByAccount: { [action.accountId]: action.claims },\\n    loadingByAccount: { [action.accountId]: false },\\n  }))\\n  .on(claimsActions.clearClaims.start)\\n  .set(() => claimsInitialState);"
+          }
+        },
+        {
+          "id": "immutability-boundary",
+          "title": "Immutable update boundary",
+          "body": "The reducer API performs shallow merging for patch output. Nested keyed records should be returned as replacement objects for the changed field. For deeper collection updates, build a new object in a helper and return it from patch so the update remains explicit and testable.",
+          "points": [
+            "Do not mutate state inside reducer callbacks.",
+            "Prefer named helpers when a nested update has more than one rule.",
+            "Test start, success, error, and reset paths separately.",
+            "Keep reducer output deterministic for the same state and action."
+          ],
+          "code": {
+            "title": "Named helper",
+            "code": ".patch(({ state, action }) => ({\\n  claimsByAccount: replaceAccountClaims(\\n    state.claimsByAccount,\\n    action.accountId,\\n    action.claims\\n  ),\\n}))"
+          }
+        }
+      ]
+    },
+    {
+      "key": "storeEffects",
+      "section": "framework",
+      "path": "/docs/store/effects",
+      "label": "Effects",
+      "title": "Store Effects",
+      "summary": "Store effects use a fluent stack with run, success, error, latestBy, skipWhen, cancelWhen, timeout, retry, and trace for readable async workflows.",
+      "status": "production-ready-through-phase-19",
+      "sections": [
+        {
+          "id": "full-effect-stack",
+          "title": "Full effect stack",
+          "body": "Effects start from an action creator and describe the async policy in order. The fluent chain stays readable when it is fully used because each line names one concern: dedupe key, skip rule, cancellation trigger, timeout, retry, async work, success mapping, error mapping, and trace label.",
+          "points": [
+            "Use latestBy when only the latest request for a key should win.",
+            "Use skipWhen when current state makes the request unnecessary.",
+            "Use cancelWhen for close, reset, or navigation cancellation actions.",
+            "Use success and error mappers to return actions rather than mutating state."
+          ],
+          "code": {
+            "title": "Effect chain",
+            "code": "export const claimsEffects = defineEffects({\\n  loadClaims: effect(claimsActions.loadClaims.start)\\n    .latestBy(({ action }) => action.accountId)\\n    .skipWhen(({ state, action }) =>\\n      Boolean((state.loadingByAccount as Record<string, boolean>)[action.accountId])\\n    )\\n    .cancelWhen(claimsActions.closeClaims.start)\\n    .timeout(claimsTimeouts.loadClaims)\\n    .retry(claimsRetry.loadClaims)\\n    .run(({ signal }) => claimsService.list({ signal }))\\n    .success((claims, { action }) =>\\n      claimsActions.loadClaims.success({ accountId: action.accountId, claims })\\n    )\\n    .error((error, { action }) =>\\n      claimsActions.loadClaims.error({ accountId: action.accountId, error: storeError(error) })\\n    )\\n    .trace(claimsTraces.loadClaims),\\n});"
+          }
+        },
+        {
+          "id": "policy-order",
+          "title": "Policy order",
+          "body": "Effect policy should describe intent before work. Put cancellation and dedupe decisions before run(), then keep result mapping after run(). That order makes it easy to scan what can stop the effect and what actions it can dispatch after the service call returns.",
+          "points": [
+            "Keep service objects outside the template and outside reducer files.",
+            "Keep retry policies in a named options file when several effects share them.",
+            "Normalize thrown values with storeError before dispatching error actions.",
+            "Use trace names as named constants so diagnostics do not repeat labels."
+          ],
+          "code": {
+            "title": "Effect options",
+            "code": "export const claimsTimeouts = {\\n  loadClaims: 5000,\\n} as const;\\n\\nexport const claimsTraces = {\\n  loadClaims: traceName('claims.loadClaims'),\\n} as const;"
+          }
+        }
+      ]
+    },
+    {
+      "key": "storePageUsage",
+      "section": "framework",
+      "path": "/docs/store/page-usage",
+      "label": "Page usage",
+      "title": "Store Page Usage",
+      "summary": "Pages use useStore(store), expose selector reads and action methods from TypeScript, and keep Vanrot HTML quote-free for TS-bound attributes and method calls.",
+      "status": "production-ready-through-phase-19",
+      "sections": [
+        {
+          "id": "use-store-page-api",
+          "title": "useStore in page code",
+          "body": "The page owns user-facing methods and fields. It creates a store instance with useStore, exposes selector reads as fields, and starts workflows from methods. This keeps HTML focused on rendering and event wiring while TypeScript owns state and application decisions.",
+          "points": [
+            "Create the store instance in the page class.",
+            "Expose selector reads such as claimRows and isLoading as page fields.",
+            "Expose user actions such as loadClaims and selectClaim as methods.",
+            "Keep copy values in a named object when the same text appears in more than one place."
+          ],
+          "code": {
+            "title": "Page class",
+            "code": "export class ClaimsPage {\\n  private store = useStore(claimsStore);\\n\\n  copy = claimsPageCopy;\\n  accountId = signal('account-1');\\n  claimRows = this.store.select.claimRows();\\n  isLoading = this.store.select.isAccountLoading(this.accountId());\\n\\n  loadClaims() {\\n    this.store.action.loadClaims.start({ accountId: this.accountId() });\\n  }\\n\\n  selectClaim(claimId: string) {\\n    this.store.action.selectClaim.start({ claimId });\\n  }\\n}"
+          }
+        },
+        {
+          "id": "quote-free-html",
+          "title": "Quote-free HTML bindings",
+          "body": "Vanrot HTML examples should call TypeScript fields and methods without quoted TS-bound attributes. Use real strings only when the HTML is declaring literal copy or static attributes. Repeated labels should come from page copy or selectors, not hard-coded template strings.",
+          "points": [
+            "Use @click=loadClaims for method wiring.",
+            "Use disabled={{ isLoading() }} for TS-bound boolean state.",
+            "Use row.label when the selector already prepared the display text.",
+            "Avoid putting selectClaim(row.id) into a quoted attribute."
+          ],
+          "code": {
+            "title": "Template",
+            "code": "<button disabled={{ isLoading() }} @click=loadClaims>\\n  {{ copy.loadClaims }}\\n</button>\\n\\n<ul>\\n  @for row of claimRows()\\n    <li @click=selectClaim(row.id)>\\n      {{ row.label }}\\n    </li>\\n  @end\\n</ul>"
           }
         }
       ]

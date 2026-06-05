@@ -1,0 +1,37 @@
+{
+  "name": "@vanrot/store",
+  "version": "0.0.0",
+  "type": "module",
+  "private": false,
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prebuild": "pnpm --filter @vanrot/runtime build",
+    "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm --filter @vanrot/runtime build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "pretest": "pnpm run build",
+    "test": "vitest run tests",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  },
+  "dependencies": {
+    "@vanrot/runtime": "file:../runtime"
+  },
+  "devDependencies": {
+    "vitest": "^4.0.14"
+  }
+}

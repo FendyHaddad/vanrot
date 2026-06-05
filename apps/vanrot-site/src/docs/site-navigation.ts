@@ -166,6 +166,14 @@ const formsNavigationChildren = [
   navItem(siteArticleKey.formsToolingTests),
 ] as const;
 
+const storeNavigationChildren = [
+  navItem(siteArticleKey.storeActions),
+  navItem(siteArticleKey.storeSelectors),
+  navItem(siteArticleKey.storeReducers),
+  navItem(siteArticleKey.storeEffects),
+  navItem(siteArticleKey.storePageUsage),
+] as const;
+
 const formattersNavigationChildren = [
   navItem(siteArticleKey.formattersCompilerOwned),
   navItem(siteArticleKey.formattersTemplatePipes),
@@ -222,6 +230,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.ssrHydration, ssrNavigationChildren),
       navItem(siteArticleKey.testing, testingNavigationChildren),
       navItem(siteArticleKey.forms, formsNavigationChildren),
+      navItem(siteArticleKey.store, storeNavigationChildren),
       navItem(siteArticleKey.formatters, formattersNavigationChildren),
       navItem(siteArticleKey.devtools, devtoolsNavigationChildren),
       navItem(siteArticleKey.conventions, conventionsNavigationChildren),

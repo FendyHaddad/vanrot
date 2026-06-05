@@ -540,6 +540,12 @@ Freezes a schema adapter contract so forms can consume domain schemas without ow
 
 Docs: /docs/forms
 
+## @vanrot/store *
+
+All public exports from @vanrot/store are covered by Store and public API documentation.
+
+Docs: /docs/store
+
 ## @vanrot/formatters *
 
 All public exports from @vanrot/formatters are covered by the formatters and public API documentation.

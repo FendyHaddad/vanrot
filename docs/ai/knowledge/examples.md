@@ -60,6 +60,12 @@ No summary provided.
 
 Docs: /docs/forms
 
+## Store Foundation
+
+No summary provided.
+
+Docs: /docs/store
+
 ## Formatters And Template Pipes
 
 No summary provided.

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-06-05T14:53:37.122Z",
-  "sourceFingerprint": "sha256-3177e15c8aa045e9f5a0676e81a74dda7b7124a6f9cdd16edc0606c902ebf471",
+  "generatedAt": "2026-06-05T20:16:21.109Z",
+  "sourceFingerprint": "sha256-d30c94c2f62f68d84de54bb3ad6f1482f7144a823dfa9e5148f40080ee14a345",
   "sources": [
     {
       "id": "package-json",
@@ -12,12 +12,12 @@
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-537b0ef29e36ce16ab9c86ad7ea351c0057f6964656000dfe487cd1ac6667744"
+      "fingerprint": "sha256-ad0bcc00f5a377d17e86ca8bbe318f4e4bafaf40fb2b42747483a37c90600991"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-061f1899bd51fa76ddebec5b4d07bb68ac8336e8ee1a51f49ef3b0084f61385e"
+      "fingerprint": "sha256-dcb03e12a229f5c83c1f4bef6d9e5fd5274e1f7d5fdce13dc9804734187ea6e3"
     },
     {
       "id": "cli-command-metadata",
@@ -27,27 +27,27 @@
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-edadebbe981f4d074bb7ac9c1e70d5c0269cb9878d0fa1aa4b74f37abef4c309"
+      "fingerprint": "sha256-a06118f36124a4390fee8b161c4518e3e480eac0fe9b0501ae9fa8e2247091c8"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-3f4d3542eefd7f07d81c1f15b6ffb252b9d57fe66ee5829754e5d61ce0aa207f"
+      "fingerprint": "sha256-e34336e1a47f2ba2d39a9d3f135829a97bf79adcdb802c48c81f4edc4df6e3fe"
     }
   ],
   "counts": {
-    "packages": 16,
-    "publicExports": 104,
+    "packages": 17,
+    "publicExports": 105,
     "commands": 16,
     "diagnostics": 32,
     "generatedFiles": 8,
     "conventions": 5,
-    "examples": 13,
+    "examples": 14,
     "components": 51,
-    "routes": 6,
+    "routes": 7,
     "limitations": 2,
     "deployment": 1,
-    "docs": 134
+    "docs": 140
   },
   "coverageStatus": "complete"
 }

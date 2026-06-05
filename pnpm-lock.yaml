@@ -251,6 +251,19 @@ importers:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
+  examples/store-foundation:
+    dependencies:
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+      '@vanrot/store':
+        specifier: file:../../packages/store
+        version: link:../../packages/store
+    devDependencies:
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
   examples/testing-helpers:
     dependencies:
       '@vanrot/compiler':
@@ -460,6 +473,16 @@ importers:
       '@vanrot/runtime':
         specifier: file:../runtime
         version: link:../runtime
+
+  packages/store:
+    dependencies:
+      '@vanrot/runtime':
+        specifier: file:../runtime
+        version: link:../runtime
+    devDependencies:
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
   packages/testing:
     dependencies:

@@ -61,6 +61,11 @@
       "summary": "Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests."
     },
     {
+      "id": "package:@vanrot/store",
+      "title": "@vanrot/store",
+      "summary": "Signal-native store package for state containers, fluent actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition."
+    },
+    {
       "id": "package:@vanrot/formatters",
       "title": "@vanrot/formatters",
       "summary": "Pure formatter helpers, compiler pipe registry execution, locale context, custom pipe definitions, enum pipes, named presets, masks, form messages, diagnostics metadata, and pipe test helpers."
@@ -623,6 +628,12 @@
       "docsPath": "/docs/forms"
     },
     {
+      "id": "export:@vanrot/store:*",
+      "title": "@vanrot/store *",
+      "summary": "All public exports from @vanrot/store are covered by Store and public API documentation.",
+      "docsPath": "/docs/store"
+    },
+    {
       "id": "export:@vanrot/formatters:*",
       "title": "@vanrot/formatters *",
       "summary": "All public exports from @vanrot/formatters are covered by the formatters and public API documentation.",
@@ -1143,6 +1154,12 @@
       "docsPath": "/docs/forms"
     },
     {
+      "id": "example:Store Foundation",
+      "title": "Store Foundation",
+      "summary": "",
+      "docsPath": "/docs/store"
+    },
+    {
       "id": "example:Formatters And Template Pipes",
       "title": "Formatters And Template Pipes",
       "summary": "",
@@ -1487,6 +1504,12 @@
       "title": "/docs/forms",
       "summary": "Vanrot Forms And Async Resources Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests.",
       "docsPath": "/docs/forms"
+    },
+    {
+      "id": "route:/docs/store",
+      "title": "/docs/store",
+      "summary": "Vanrot Store Guide to @vanrot/store, signal-native state containers, fluent actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.",
+      "docsPath": "/docs/store"
     },
     {
       "id": "route:/docs/formatters",
@@ -2117,6 +2140,42 @@
       "title": "Forms Tooling And Tests",
       "summary": "Forms ship diagnostics, Vite discovery hooks, and test helpers so generated form behavior can be proved without clicking through every field manually.",
       "docsPath": "/docs/forms/tooling-tests"
+    },
+    {
+      "id": "doc:store",
+      "title": "Store",
+      "summary": "@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.",
+      "docsPath": "/docs/store"
+    },
+    {
+      "id": "doc:storeActions",
+      "title": "Store Actions",
+      "summary": "Store actions use fluent actionSet declarations so workflow lifecycle phases stay grouped under one action name without repeated string literals.",
+      "docsPath": "/docs/store/actions"
+    },
+    {
+      "id": "doc:storeSelectors",
+      "title": "Store Selectors",
+      "summary": "Store selectors use property names from defineSelectors(state).selectorName(fn), which keeps selector names typed and avoids repeated string literals.",
+      "docsPath": "/docs/store/selectors"
+    },
+    {
+      "id": "doc:storeReducers",
+      "title": "Store Reducers",
+      "summary": "Store reducers use on(action).patch(fn) for partial immutable updates and on(action).set(fn) for full state replacement.",
+      "docsPath": "/docs/store/reducers"
+    },
+    {
+      "id": "doc:storeEffects",
+      "title": "Store Effects",
+      "summary": "Store effects use a fluent stack with run, success, error, latestBy, skipWhen, cancelWhen, timeout, retry, and trace for readable async workflows.",
+      "docsPath": "/docs/store/effects"
+    },
+    {
+      "id": "doc:storePageUsage",
+      "title": "Store Page Usage",
+      "summary": "Pages use useStore(store), expose selector reads and action methods from TypeScript, and keep Vanrot HTML quote-free for TS-bound attributes and method calls.",
+      "docsPath": "/docs/store/page-usage"
     },
     {
       "id": "doc:formatters",

@@ -366,6 +366,19 @@ When a phase adds or changes framework surface area:
 | [x] | API | async and fake timer helpers | Production-Ready | Flushes promise work, waits for DOM updates, bridges Vitest fake timers, tracks promises, and aborts cleanup scopes. | Phase 18 | Form/resource-specific helpers remain Phase 21. |
 | [x] | generator | `vr generate component/page --test` | Production-Ready | Generates colocated `.component.test.ts` and `.page.test.ts` files using `@vanrot/testing` helpers. | Phase 18 | CLI metadata, tests, and package release dry-run cover this surface. |
 
+## `@vanrot/store`
+
+| Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
+|---|---|---|---|---|---|---|
+| [x] | package | `@vanrot/store` package shell | Production-Ready | Package has exports, build, typecheck, tests, tree-shaking metadata, and runtime boundary coverage. | Phase 19 | Covered by `packages/store/tests/package.test.ts`. |
+| [x] | store | Fluent action sets | Production-Ready | `actionSet().start().success().error()` generates predictable action type strings without handwritten strings. | Phase 19 | Covered by `packages/store/tests/actions.test.ts`. |
+| [x] | store | State and selectors | Production-Ready | `defineState` and `defineSelectors(state).selectorName(fn)` provide signal-native reads without string selector keys. | Phase 19 | Covered by `packages/store/tests/state-selectors.test.ts`. |
+| [x] | store | Reducers | Production-Ready | `defineReducer(state).on(action).patch(fn)` and `.set(fn)` cover immutable updates and full replacement. | Phase 19 | Covered by `packages/store/tests/reducers.test.ts`. |
+| [x] | store | Full effects | Production-Ready | Effects support `run`, `success`, `error`, `latestBy`, `skipWhen`, `cancelWhen`, `timeout`, `retry`, `trace`, and stale-write cancellation. | Phase 19 | Covered by `packages/store/tests/effects.test.ts`. |
+| [x] | store | Page-facing API | Production-Ready | `useStore(store)` exposes `store.select.*` and `store.action.*` for page code. | Phase 19 | Covered by `packages/store/tests/store.test.ts` and `examples/store-foundation/tests/store-foundation.test.ts`. |
+| [x] | docs | Store docs IA | Production-Ready | `/docs/store` and child pages exist as real routes and AI docs entries. | Phase 19 | Covered by site data, site pages, site docs, and AI docs verifiers. |
+| [x] | budget | Runtime plus store size | Production-Ready | Runtime plus store is measured against the 10 KB gzip Phase 19 quality budget. | Phase 19 | Covered by `packages/store/tests/size.test.ts` and `scripts/verify-runtime-size-budget.test.mjs`. |
+
 ## Editors And IDE Integrations
 
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
@@ -417,7 +430,7 @@ into isolated audit tests.
 | Router production 15D | router, runtime | Preloading and keepAlive integration complete | Red/green tests for route policy helpers, redirect policy diagnostics, lazy module caching, intent link preloading, route-chain preload side effects, keepAlive identity/store, outlet detach/restore, nested layout compatibility, and full router integration workflows. | Phase 15D |
 | UI October production | ui, compiler, cli | October foundation works | Red/green tests for package inventory, tokens, utilities, config style modes, primitive catalog, variants, accessibility, and approved flavor parity. | Phase 16, Phase 17 |
 | Testing production | testing | Component helper demo works | Red/green tests for pages, router workflows, accessibility, async helpers, and generator-wide `--test`. | Phase 18 |
-| Store | store | Deferred | Red/green tests for signal-native state, actions, reducers, selectors, effects, tracing, and interop. | Phase 19, Phase 20 |
+| Store | store | Production-Ready foundation; Phase 20 hardening remains | Red/green tests cover signal-native state, fluent actions, reducers, selectors, full effects, docs, AI docs, examples, and size. Phase 20 owns devtools tracing, time travel, Redux interop, and RxJS interop. | Phase 19, Phase 20 |
 | Forms and async resources | forms, async | Production-Ready | Red/green tests cover `@vanrot/forms`, field metadata, validation, async resource cancellation, refresh, stale state, loading/error/success conventions, arrays, wizards, server errors, drafts, UI helpers, diagnostics, and testing helpers. | Phase 21 |
 | SSR and hydration | ssr, runtime, router | Deferred | Red/green tests for SSR-safe APIs, rendering, hydration, mismatch diagnostics, and routing integration. | Phase 22 |
 | Devtools and AI intelligence | devtools, cli, docs | Project map demo works | Red/green tests for route/component graphs, runtime graph metadata, MCP/Skill.sh manifests, and AI rules. | Phase 23, Phase 25 |
