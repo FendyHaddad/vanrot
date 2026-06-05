@@ -786,6 +786,15 @@ describe('vanrot site docs data', () => {
     expect(componentGroup?.items.map((item) => item.href)).toEqual(
       componentDocs.map((doc) => doc.href),
     );
+    const frameworkGroup = siteNavigationGroups.find((group) => group.label === 'Framework');
+    const formattersArticle = siteArticles.formatters;
+    const formattersItem = frameworkGroup?.items.find((item) => item.href === '/docs/formatters');
+    expect(formattersItem?.label).toBe('Formatters');
+    expect(formattersItem?.children.map((child) => child.href)).toEqual(
+      formattersArticle?.sections.map((section) => `/docs/formatters#${section.id}`),
+    );
+    expect(formattersItem?.children.map((child) => child.label)).toContain('Template pipes');
+
     const referenceGroup = siteNavigationGroups.find((group) => group.label === 'Reference');
     expect(referenceGroup?.items.map((item) => item.href)).toContain('/docs/changelog');
   });

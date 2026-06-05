@@ -43,6 +43,17 @@ function navItem(
   };
 }
 
+function articleSectionNavItems(key: SiteArticleKey): readonly SiteNavigationItem[] {
+  const article = getSiteArticle(key);
+
+  return article.sections.map((section) => ({
+    key: `${key}-${section.id}`,
+    href: `${article.path}#${section.id}`,
+    label: section.title,
+    children: [],
+  }));
+}
+
 function componentNavItem(doc: ComponentDoc): SiteNavigationItem {
   return {
     key: doc.primitive,
@@ -147,6 +158,8 @@ const testingNavigationChildren = [
   navItem(siteArticleKey.testingStrategy),
 ] as const;
 
+const formattersNavigationChildren = articleSectionNavItems(siteArticleKey.formatters);
+
 const devtoolsNavigationChildren = [
   navItem(siteArticleKey.devtoolsProjectMap),
   navItem(siteArticleKey.devtoolsRuntimeGraph),
@@ -188,6 +201,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.routing, routingNavigationChildren),
       navItem(siteArticleKey.ssrHydration),
       navItem(siteArticleKey.testing, testingNavigationChildren),
+      navItem(siteArticleKey.formatters, formattersNavigationChildren),
       navItem(siteArticleKey.devtools, devtoolsNavigationChildren),
       navItem(siteArticleKey.conventions, conventionsNavigationChildren),
     ],

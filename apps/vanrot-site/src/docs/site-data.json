@@ -4192,7 +4192,7 @@
         },
         {
           "id": "template-syntax",
-          "title": "Template syntax",
+          "title": "Template pipes",
           "body": "Pipe syntax is available only inside interpolation. The compiler parses the base expression first, then applies pipe calls from left to right so each pipe receives the previous pipe's result. Arguments use a JavaScript-call shape because it reads cleanly in templates and keeps numbers, strings, booleans, arrays, object literals, and imported constants recognizable. Namespace variants use dot syntax for built-in variants and app presets.",
           "points": [
             "Use {{ value | pipeName }} when a pipe has no arguments.",
