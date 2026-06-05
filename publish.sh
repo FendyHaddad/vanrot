@@ -16,6 +16,7 @@ PUBLISH_PACKAGES=(
   runtime
   behavior
   forms
+  store
   formatters
   ui
   compiler
