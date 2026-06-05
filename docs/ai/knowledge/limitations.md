@@ -2,7 +2,7 @@
 
 ## Remaining post-production features are tracked separately
 
-Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, resumability, and template pipes remain outside current public framework behavior.
+Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.
 
 Docs: /docs/limitations
 

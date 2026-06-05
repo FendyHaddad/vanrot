@@ -48,6 +48,10 @@ Readable component, page, router, accessibility, async, and generator test helpe
 
 Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.
 
+## @vanrot/formatters
+
+Pure formatter helpers, compiler pipe registry execution, locale context, custom pipe definitions, enum pipes, named presets, masks, form messages, diagnostics metadata, and pipe test helpers.
+
 ## @vanrot/devtools
 
 Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers.

@@ -4,8 +4,10 @@ import { basename, dirname, resolve } from 'node:path';
 import {
   formatConfigDiagnostic,
   loadVanrotProjectConfig,
+  type NormalizedVanrotFormattingConfig,
   type NormalizedVanrotSeoConfig,
 } from '@vanrot/config';
+import type { CompilePipeRegistry } from '@vanrot/compiler';
 import { transformWithOxc, type Plugin, type ResolvedConfig } from 'vite';
 import { compileForVite, type ViteCompileResult } from './compile-for-vite.js';
 import { isComponentEntry, resolveComponentFiles } from './component-files.js';
@@ -18,6 +20,11 @@ import {
   collectFormDiagnosticsForVite,
   formatViteFormDiagnostic,
 } from './forms/forms-diagnostics.js';
+import {
+  diagnosePipeMetadata,
+  formatVitePipeDiagnostic,
+} from './pipes/pipes-diagnostics.js';
+import { collectPipeMetadata } from './pipes/pipes-metadata.js';
 import { handleVanrotHotUpdate } from './hot-update.js';
 import { createViteSourceMap } from './source-maps.js';
 import {
@@ -53,10 +60,19 @@ function createVanrotPlugin(
   let normalizedOptions = normalizeOptions(options);
   let resolvedConfig: ResolvedConfig | undefined;
   let seoConfig: NormalizedVanrotSeoConfig | undefined;
+  let formattingConfig: NormalizedVanrotFormattingConfig | undefined;
+  let pipeRegistry: CompilePipeRegistry = { pipes: [], presets: [] };
   const cssByComponentPath = internals.initialCss ?? new Map<string, string>();
   const cssMapByComponentPath = new Map<string, ViteCompileResult['cssMap']>();
   const readSource = internals.readSource ?? ((filePath: string) => readFile(filePath, 'utf8'));
-  const compile = internals.compile ?? compileForVite;
+  const compile = internals.compile ?? ((componentPath: string) => {
+    const compileOptions = {
+      pipeRegistry,
+      ...(formattingConfig === undefined ? {} : { pipeContext: formattingConfig }),
+    };
+
+    return compileForVite(componentPath, undefined, compileOptions);
+  });
 
   return {
     name: 'vanrot',
@@ -93,6 +109,28 @@ function createVanrotPlugin(
         config.logger.warn(message);
       }
 
+      const pipeMetadata = await collectPipeMetadata({ root: config.root });
+      pipeRegistry = pipeMetadata.registry;
+      const pipeDiagnostics = [
+        ...pipeMetadata.diagnostics,
+        ...diagnosePipeMetadata({
+          registry: {
+            pipes: pipeRegistry.pipes,
+            presets: pipeRegistry.presets,
+          },
+          usages: [],
+        }),
+      ];
+
+      for (const diagnostic of pipeDiagnostics) {
+        const message = formatVitePipeDiagnostic(diagnostic);
+        if (diagnostic.severity === 'error') {
+          throw new Error(message);
+        }
+
+        config.logger.warn(message);
+      }
+
       normalizedOptions = normalizeOptions(
         {
           ...options,
@@ -102,6 +140,7 @@ function createVanrotPlugin(
         config.root,
       );
       seoConfig = loaded.config.seo;
+      formattingConfig = loaded.config.formatting;
     },
     configureServer(server) {
       server.middlewares.use(async (request, response, next) => {
@@ -171,6 +210,12 @@ function createVanrotPlugin(
       const files = resolveComponentFiles(id);
       this.addWatchFile(files.templatePath);
       this.addWatchFile(files.stylePath);
+      for (const pipe of pipeRegistry.pipes) {
+        this.addWatchFile(pipe.sourcePath);
+      }
+      for (const preset of pipeRegistry.presets) {
+        this.addWatchFile(preset.sourcePath);
+      }
 
       const result = await compile(files.componentPath);
 

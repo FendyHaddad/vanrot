@@ -41,6 +41,22 @@ describe('normalizeVanrotConfig', () => {
     expect(normalized.behavior.enabled).toEqual([]);
   });
 
+  it('normalizes formatting defaults', () => {
+    const normalized = normalizeVanrotConfig({
+      formatting: {
+        locale: 'ms-MY',
+        timezone: 'Asia/Kuala_Lumpur',
+        currency: 'MYR',
+      },
+    });
+
+    expect(normalized.formatting).toEqual({
+      locale: 'ms-MY',
+      timezone: 'Asia/Kuala_Lumpur',
+      currency: 'MYR',
+    });
+  });
+
   it('respects explicit behavior helper selections', () => {
     const normalized = normalizeVanrotConfig({
       behavior: {

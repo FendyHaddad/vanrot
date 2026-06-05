@@ -31,6 +31,7 @@ describe('cloudflare site deploy wiring', () => {
     expect(workflow).toContain('packages/vite-plugin/**');
     expect(workflow).toContain('packages/cli/**');
     expect(workflow).toContain('packages/config/**');
+    expect(workflow).toContain('packages/formatters/**');
     expect(workflow).toContain('scripts/link-cloudflare-vanrot-site.mjs');
     expect(workflow).not.toContain('- **');
     expect(workflow).not.toContain('- "*"');

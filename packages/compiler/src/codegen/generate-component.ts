@@ -11,6 +11,12 @@ import {
 } from './components.js';
 import { generateForBlock, generateIfBlock } from './control-flow.js';
 import { createGeneratedMapping } from './mappings.js';
+import {
+  createPipeContextExpression,
+  createPipeImportLines,
+  createPipeRegistryOptionsExpression,
+  templateContainsPipes,
+} from './pipe-chain.js';
 import { generateServerComponent } from './server-component.js';
 import { generateSlotOutlet } from './slots.js';
 import { createGenerateState, type GenerateState } from './state.js';
@@ -49,6 +55,7 @@ export function generateComponent(
   }
 
   const state = createGenerateState(input);
+  state.usesPipes = templateContainsPipes(input.nodes);
 
   state.lines.push('export function createComponent(initialInputs = {}, projectedSlots = {}) {');
   state.lines.push(`  const ctx = new ${input.metadata.componentName}();`);
@@ -59,6 +66,10 @@ export function generateComponent(
   state.lines.push('    }');
   state.lines.push('    inputSignal.set(inputValue);');
   state.lines.push('  }');
+  if (state.usesPipes) {
+    state.lines.push(`  const __vanrotPipeContext = createPipeContext(${createPipeContextExpression(options.pipeContext)});`);
+    state.lines.push(`  const __vanrotPipeRegistryOptions = ${createPipeRegistryOptionsExpression(options.pipeRegistry)};`);
+  }
   state.lines.push('  const fragment = document.createDocumentFragment();');
 
   for (const node of input.nodes) {
@@ -123,6 +134,11 @@ function generateImports(
 
   if (state.usesRegisterCleanup) {
     imports.push("import { registerCleanup } from '@vanrot/runtime/internal';");
+  }
+
+  if (state.usesPipes) {
+    imports.push("import { applyVanrotPipeChain, createPipeContext } from '@vanrot/formatters';");
+    imports.push(...createPipeImportLines(options.pipeRegistry));
   }
 
   const routerImports: string[] = [];

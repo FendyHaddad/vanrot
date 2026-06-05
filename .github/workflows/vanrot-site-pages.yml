@@ -9,6 +9,7 @@ on:
       - packages/behavior/**
       - packages/cli/**
       - packages/config/**
+      - packages/formatters/**
       - packages/runtime/**
       - packages/router/**
       - packages/ui/**

@@ -147,21 +147,29 @@ Deferred:
 
 ## Formatters And Template Pipes
 
-Vanrot does not currently have Angular-style pipes. Formatting can be done today with component methods or computed
-values, but reusable date, number, currency, mask, and message formatting should get a first-party design pass before
-template syntax is added.
+Phase 29 shipped compiler-owned template pipes backed by `@vanrot/formatters`. Vanrot now supports pipe-like
+interpolation syntax, a built-in formatter suite, custom `.pipe.ts` role files, named presets, enum pipes, formatting
+context defaults, Vite discovery, terminal diagnostics, `/docs/formatters`, `examples/formatters-pipes`, and AI/reference
+coverage.
 
-Ideas to carry forward:
+Shipped in Phase 29:
 
-- [ ] Design a typed formatter registry that keeps reusable formatting out of templates and avoids repeated string
+- [x] Design a typed formatter registry that keeps reusable formatting out of templates and avoids repeated string
   literals.
-- [ ] Decide whether Vanrot should support pipe-like template sugar, formatter function calls, or both.
-- [ ] Keep formatter support compiler-aware and tooling-readable so Vite, Forge, editor diagnostics, and AI-readable
+- [x] Support pipe-like template sugar in interpolation with `{{ value | pipeName }}`,
+  `{{ value | pipeName(arg) }}`, `{{ value | namespace.variant }}`, and left-to-right chaining.
+- [x] Keep formatter support compiler-aware and tooling-readable so Vite, Forge, editor diagnostics, and AI-readable
   reports can detect unknown formatters and invalid formatter arguments.
-- [ ] Cover date, number, currency, pluralization, masks, and validation-message formatting without coupling the feature
+- [x] Cover date, number, currency, pluralization, masks, and validation-message formatting without coupling the feature
   to `@vanrot/forms`.
-- [ ] Keep implementation outside `@vanrot/runtime` unless a tiny runtime hook is proven necessary and fits the size
+- [x] Keep implementation outside `@vanrot/runtime` unless a tiny runtime hook is proven necessary and fits the size
   budget.
+
+Deferred follow-ups:
+
+- [ ] Rich editor completions for discovered pipe names, namespace variants, and argument hints.
+- [ ] Future Forge UI consumption of `.pipe.ts` metadata when Forge exists.
+- [ ] Additional built-in pipes only when real app usage proves the gap.
 
 Possible slices:
 

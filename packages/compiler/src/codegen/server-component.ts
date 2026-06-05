@@ -14,6 +14,7 @@ import type {
   TextNode,
 } from '../template/ast.js';
 import { parseInterpolation } from '../template/bindings.js';
+import { parsePipeExpression } from '../template/pipes.js';
 import { quoteString } from './bindings.js';
 import {
   isChildComponentTag,
@@ -22,6 +23,13 @@ import {
   toComponentName,
 } from './components.js';
 import { createGeneratedMapping } from './mappings.js';
+import {
+  buildPipeChainExpression,
+  createPipeContextExpression,
+  createPipeImportLines,
+  createPipeRegistryOptionsExpression,
+  templateContainsPipes,
+} from './pipe-chain.js';
 import { createGenerateState, type GenerateState } from './state.js';
 import {
   createUnsupportedVanrotUiMessage,
@@ -77,6 +85,7 @@ export function generateServerComponent(
   const state = createGenerateState(input);
 
   state.features.add('server-rendering');
+  state.usesPipes = templateContainsPipes(input.nodes);
   state.lines.push('export function renderToHtml(initialInputs = {}, projectedSlots = {}) {');
   state.lines.push(`  const ctx = new ${input.metadata.componentName}();`);
   state.lines.push('  for (const [inputName, inputValue] of Object.entries(initialInputs)) {');
@@ -86,6 +95,10 @@ export function generateServerComponent(
   state.lines.push('    }');
   state.lines.push('    inputSignal.set(inputValue);');
   state.lines.push('  }');
+  if (state.usesPipes) {
+    state.lines.push(`  const __vanrotPipeContext = createPipeContext(${createPipeContextExpression(options.pipeContext)});`);
+    state.lines.push(`  const __vanrotPipeRegistryOptions = ${createPipeRegistryOptionsExpression(options.pipeRegistry)};`);
+  }
   state.lines.push("  let html = '';");
 
   for (const node of input.nodes) {
@@ -113,6 +126,11 @@ function generateServerImports(
   const imports = [`import { ${metadata.exportName} } from ${quoteString(componentImportSpecifier)};`];
 
   imports.push("import { escapeAttribute, escapeHtml } from '@vanrot/ssr';");
+
+  if (state.usesPipes) {
+    imports.push("import { applyVanrotPipeChain, createPipeContext } from '@vanrot/formatters';");
+    imports.push(...createPipeImportLines(options.pipeRegistry));
+  }
 
   for (const dependency of state.componentDependencies) {
     imports.push(
@@ -167,8 +185,10 @@ function generateServerText(node: TextNode, state: GenerateState): void {
     return;
   }
 
+  const pipeExpression = parsePipeExpression(interpolation.expression);
+  const expressionToRewrite = pipeExpression?.baseExpression ?? interpolation.expression;
   const rewritten = rewriteExpression(
-    interpolation.expression,
+    expressionToRewrite,
     createTextExpressionContext(node, interpolation.expressionStart, interpolation.expressionEnd, state),
   );
 
@@ -180,9 +200,24 @@ function generateServerText(node: TextNode, state: GenerateState): void {
 
   state.features.add('text-interpolation');
   state.features.add('expression-rewriting');
+  const expression = pipeExpression === null
+    ? rewritten.expression
+    : buildPipeChainExpression(rewritten.expression, pipeExpression, state, (arg) => {
+        const rewrittenArg = rewriteExpression(
+          arg,
+          createTextExpressionContext(node, interpolation.expressionStart, interpolation.expressionEnd, state),
+        );
+        state.diagnostics.push(...rewrittenArg.diagnostics);
+        return rewrittenArg.expression;
+      });
+
+  if (expression === null) {
+    return;
+  }
+
   state.lines.push(
     `  html += ${quoteString(escapeServerText(interpolation.staticParts[0] ?? ''))} + escapeHtml(${
-      rewritten.expression
+      expression
     }) + ${quoteString(escapeServerText(interpolation.staticParts[1] ?? ''))};`,
   );
 }

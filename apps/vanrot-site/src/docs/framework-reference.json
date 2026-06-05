@@ -114,6 +114,17 @@
       "docsPath": "/docs/forms"
     },
     {
+      "name": "@vanrot/formatters",
+      "area": "Formatters and template pipes",
+      "status": "production-ready",
+      "summary": "Pure formatter helpers, compiler pipe registry execution, locale context, custom pipe definitions, enum pipes, named presets, masks, form messages, diagnostics metadata, and pipe test helpers.",
+      "exports": [
+        "@vanrot/formatters",
+        "@vanrot/formatters/testing"
+      ],
+      "docsPath": "/docs/formatters"
+    },
+    {
       "name": "@vanrot/devtools",
       "area": "Devtools and project intelligence",
       "status": "production-ready",
@@ -226,6 +237,16 @@
     { "packageName": "@vanrot/forms", "name": "diagnoseForm", "kind": "function", "status": "production-ready", "summary": "Returns structured form diagnostics for sensitive draft persistence and future tooling checks.", "docsPath": "/docs/forms" },
     { "packageName": "@vanrot/forms", "name": "createFormTest", "kind": "function", "status": "production-ready", "summary": "Creates a readable test helper for setting values, touching fields, submitting forms, and inspecting messages.", "docsPath": "/docs/forms" },
     { "packageName": "@vanrot/forms", "name": "useSchemaAdapter", "kind": "function", "status": "production-ready", "summary": "Freezes a schema adapter contract so forms can consume domain schemas without owning backend contracts.", "docsPath": "/docs/forms" },
+    { "packageName": "@vanrot/formatters", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/formatters are covered by the formatters and public API documentation.", "docsPath": "/docs/public-api" },
+    { "packageName": "@vanrot/formatters", "name": "applyVanrotPipeChain", "kind": "function", "status": "production-ready", "summary": "Applies a compiler-generated pipe chain with the configured pipe context and registry options.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "createPipeContext", "kind": "function", "status": "production-ready", "summary": "Normalizes locale, timezone, and currency defaults for built-in and custom formatters.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "createPipeRegistry", "kind": "function", "status": "production-ready", "summary": "Creates the runtime registry for built-in pipes, custom pipes, enum pipes, presets, and pipe diagnostics.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "definePipe", "kind": "function", "status": "production-ready", "summary": "Defines a custom synchronous display pipe for .pipe.ts role files.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "enumPipe", "kind": "function", "status": "production-ready", "summary": "Defines a custom enum-backed display pipe for backend status values and domain enums.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "datePattern", "kind": "function", "status": "production-ready", "summary": "Defines a reusable named date or time preset for namespace pipe syntax.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "numberPattern", "kind": "function", "status": "production-ready", "summary": "Defines a reusable named number, currency, percent, compact, or filesize preset.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "maskPattern", "kind": "function", "status": "production-ready", "summary": "Defines a reusable named display mask preset for country-specific or business-specific values.", "docsPath": "/docs/formatters" },
+    { "packageName": "@vanrot/formatters", "name": "createPipeTest", "kind": "function", "status": "production-ready", "summary": "Creates a focused test helper for custom pipe handlers and presets.", "docsPath": "/docs/formatters" },
     { "packageName": "@vanrot/devtools", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.", "docsPath": "/docs/public-api" },
     { "packageName": "@vanrot/devtools", "name": "normalizeGraphManifest", "kind": "function", "status": "production-ready", "summary": "Normalizes a project graph manifest for devtools consumers.", "docsPath": "/docs/devtools" },
     { "packageName": "@vanrot/ai", "name": "*", "kind": "default", "status": "production-ready", "summary": "All public exports from @vanrot/ai are covered by AI bundle and public API documentation.", "docsPath": "/docs/public-api" },
@@ -426,7 +447,16 @@
   ],
   "diagnostics": [
     { "family": "compiler", "code": "VR001", "status": "production-ready", "summary": "Compiler diagnostic for unsupported or invalid component source.", "docsPath": "/docs/diagnostics" },
-    { "family": "compiler", "code": "VR019", "status": "production-ready", "summary": "Compiler diagnostic for the final current compiler catalog entry.", "docsPath": "/docs/diagnostics" },
+    { "family": "compiler", "code": "VR019", "status": "production-ready", "summary": "Compiler diagnostic for invalid Vanrot UI primitive variants.", "docsPath": "/docs/ui/primitives" },
+    { "family": "compiler", "code": "VR020", "status": "production-ready", "summary": "Compiler diagnostic for duplicate Vanrot UI dotted tokens.", "docsPath": "/docs/ui/dotted-token-attributes" },
+    { "family": "compiler", "code": "VR021", "status": "production-ready", "summary": "Compiler diagnostic for unknown Vanrot UI dotted tokens.", "docsPath": "/docs/ui/dotted-token-attributes" },
+    { "family": "formatters", "code": "VR_PIPE_UNKNOWN", "status": "production-ready", "summary": "Template pipe diagnostic for a pipe name that is not built in and not exported from a .pipe.ts role file.", "docsPath": "/docs/formatters" },
+    { "family": "formatters", "code": "VR_PIPE_UNKNOWN_VARIANT", "status": "production-ready", "summary": "Template pipe diagnostic for an unknown namespace preset such as date.invoice or mask.malaysiaPhone.", "docsPath": "/docs/formatters" },
+    { "family": "formatters", "code": "VR_PIPE_DUPLICATE_NAME", "status": "production-ready", "summary": "Template pipe diagnostic for duplicate custom pipe names discovered across .pipe.ts files.", "docsPath": "/docs/formatters" },
+    { "family": "formatters", "code": "VR_PIPE_DUPLICATE_PRESET", "status": "production-ready", "summary": "Template pipe diagnostic for duplicate custom presets in the same formatter namespace.", "docsPath": "/docs/formatters" },
+    { "family": "formatters", "code": "VR_PIPE_INVALID_ARGUMENT", "status": "production-ready", "summary": "Template pipe diagnostic for argument shapes the compiler cannot lower safely.", "docsPath": "/docs/formatters" },
+    { "family": "formatters", "code": "VR_PIPE_INVALID_DEFINITION", "status": "production-ready", "summary": "Template pipe diagnostic for custom pipe exports that do not use the supported formatter helpers.", "docsPath": "/docs/formatters" },
+    { "family": "formatters", "code": "VR_PIPE_ASYNC", "status": "production-ready", "summary": "Template pipe diagnostic for async pipe handlers, which are unsupported because pipes must stay pure and synchronous.", "docsPath": "/docs/formatters" },
     { "family": "ssr", "code": "VRSSR_BROWSER_API", "status": "production-ready", "summary": "SSR diagnostic for browser-only API access during server rendering.", "docsPath": "/docs/ssr-hydration" },
     { "family": "ssr", "code": "VRSSR_TEXT_MISMATCH", "status": "production-ready", "summary": "Hydration diagnostic for server/client text divergence.", "docsPath": "/docs/ssr-hydration" },
     { "family": "ssr", "code": "VRSSR_ATTRIBUTE_MISMATCH", "status": "production-ready", "summary": "Hydration diagnostic for server/client attribute divergence.", "docsPath": "/docs/ssr-hydration" },
@@ -437,6 +467,9 @@
     { "family": "config", "code": "VRCFG010", "status": "production-ready", "summary": "Config diagnostic for AI rule ordering validation.", "docsPath": "/docs/diagnostics" },
     { "family": "config", "code": "VRCFG011", "status": "production-ready", "summary": "Config diagnostic for AI rule customization validation.", "docsPath": "/docs/diagnostics" },
     { "family": "config", "code": "VRCFG012", "status": "production-ready", "summary": "Config diagnostic for AI rule source validation.", "docsPath": "/docs/diagnostics" },
+    { "family": "config", "code": "VRCFG_FORMATTING_LOCALE_EMPTY", "status": "production-ready", "summary": "Config diagnostic for an empty formatting.locale value in vanrot.config.ts.", "docsPath": "/docs/formatters" },
+    { "family": "config", "code": "VRCFG_FORMATTING_TIMEZONE_EMPTY", "status": "production-ready", "summary": "Config diagnostic for an empty formatting.timezone value in vanrot.config.ts.", "docsPath": "/docs/formatters" },
+    { "family": "config", "code": "VRCFG_FORMATTING_CURRENCY_EMPTY", "status": "production-ready", "summary": "Config diagnostic for an empty formatting.currency value in vanrot.config.ts.", "docsPath": "/docs/formatters" },
     { "family": "router", "code": "VR_CHILD_BEFORE_PARENT", "status": "production-ready", "summary": "Router diagnostic for child routes declared before a valid parent.", "docsPath": "/docs/diagnostics" },
     { "family": "forms", "code": "VR_FORM_MISSING_DEFAULT", "status": "production-ready", "summary": "Form diagnostic for a field definition missing an explicit default value.", "docsPath": "/docs/forms" },
     { "family": "forms", "code": "VR_FORM_UNSAFE_ASYNC_RESOURCE", "status": "production-ready", "summary": "Form diagnostic for async form work that cannot be cancelled or safely ignored.", "docsPath": "/docs/forms" },
@@ -453,10 +486,11 @@
     { "path": "vanrot.config.ts", "owner": "@vanrot/config", "status": "production-ready", "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.", "docsPath": "/docs/configuration" },
     { "path": "src/routes.ts", "owner": "@vanrot/router", "status": "production-ready", "summary": "Named route refs and route metadata for app navigation without repeated route strings.", "docsPath": "/docs/routing" },
     { "path": ".vanrot/project-map.json", "owner": "@vanrot/devtools", "status": "production-ready", "summary": "Project intelligence manifest generated by `vr map` for devtools and local inspection.", "docsPath": "/docs/devtools" },
-    { "path": "src/**/*.form.ts", "owner": "@vanrot/forms", "status": "production-ready", "summary": "Reusable form role files discoverable by Vite, future Forge, editor diagnostics, and AI-readable reports.", "docsPath": "/docs/forms" }
+    { "path": "src/**/*.form.ts", "owner": "@vanrot/forms", "status": "production-ready", "summary": "Reusable form role files discoverable by Vite, future Forge, editor diagnostics, and AI-readable reports.", "docsPath": "/docs/forms" },
+    { "path": "src/**/*.pipe.ts", "owner": "@vanrot/formatters", "status": "production-ready", "summary": "Reusable formatter role files discoverable by Vite for custom pipes, enum pipes, named presets, terminal diagnostics, and AI-readable reports.", "docsPath": "/docs/formatters" }
   ],
   "conventions": [
-    { "id": "role-suffixes", "title": "Role suffixes", "status": "production-ready", "summary": "Components, pages, dialogs, layouts, widgets, and forms use explicit role-based file suffixes.", "docsPath": "/docs/conventions" },
+    { "id": "role-suffixes", "title": "Role suffixes", "status": "production-ready", "summary": "Components, pages, dialogs, layouts, widgets, forms, and pipes use explicit role-based file suffixes.", "docsPath": "/docs/conventions" },
     { "id": "scoped-css", "title": "Scoped CSS", "status": "production-ready", "summary": "Component styles live in sibling scoped CSS files instead of global style buckets.", "docsPath": "/docs/conventions" },
     { "id": "signals-for-state", "title": "Signals for state", "status": "production-ready", "summary": "Vanrot application state uses signals and readable helpers instead of nested imperative flow.", "docsPath": "/docs/conventions" },
     { "id": "route-refs", "title": "Route refs", "status": "production-ready", "summary": "Routes use named refs and central sources of truth instead of repeated path strings.", "docsPath": "/docs/conventions" },
@@ -473,22 +507,25 @@
     { "id": "ui-framework-usage", "title": "UI From Framework Docs", "path": "examples/ui-framework-usage", "packages": ["@vanrot/ui", "@vanrot/runtime", "@vanrot/compiler"], "workflows": ["ui-framework-usage"], "docsPath": "/docs/ui" },
     { "id": "build-deploy", "title": "Build And Deploy", "path": "examples/build-deploy", "packages": ["@vanrot/cli", "@vanrot/vite-plugin", "@vanrot/config", "@vanrot/seo"], "workflows": ["build-deploy"], "docsPath": "/docs/deployment" },
     { "id": "forms-checkout", "title": "Forms Checkout", "path": "examples/forms-checkout", "packages": ["@vanrot/forms", "@vanrot/runtime", "@vanrot/ui"], "workflows": ["forms", "async-validation", "draft-persistence"], "docsPath": "/docs/forms" },
+    { "id": "formatters-pipes", "title": "Formatters And Template Pipes", "path": "examples/formatters-pipes", "packages": ["@vanrot/formatters", "@vanrot/compiler", "@vanrot/config", "@vanrot/vite-plugin"], "workflows": ["template-pipes", "custom-formatters", "pipe-diagnostics"], "docsPath": "/docs/formatters" },
     { "id": "webgl-threejs", "title": "WebGL And three.js Lifecycle", "path": "examples/webgl-threejs", "packages": ["@vanrot/runtime"], "workflows": ["webgl-threejs", "runtime-lifecycle"], "docsPath": "/docs/examples/webgl-threejs" },
     { "id": "ssr-hydration", "title": "SSR And Hydration", "path": "examples/ssr-hydration", "packages": ["@vanrot/ssr", "@vanrot/router", "@vanrot/runtime"], "workflows": ["ssr-hydration", "routing-workflows"], "docsPath": "/docs/ssr-hydration" }
   ],
   "limitations": [
-    { "id": "post-production-phases", "title": "Remaining post-production features are tracked separately", "status": "deferred", "summary": "Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, resumability, and template pipes remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
+    { "id": "post-production-phases", "title": "Remaining post-production features are tracked separately", "status": "deferred", "summary": "Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.", "docsPath": "/docs/limitations" },
     { "id": "deployment-boundary", "title": "Deployment is prepared, not launched", "status": "limited", "summary": "The site is prepared for production hosting, but DNS, credentials, analytics setup, and live deployment are outside this phase.", "docsPath": "/docs/deployment" }
   ],
   "maturity": [
     { "phase": "Phase 21", "title": "Forms and async resources", "status": "production-ready", "summary": "Phase 21 shipped @vanrot/forms with validation, resources, arrays, wizards, server errors, drafts, metadata, diagnostics, docs, and tests.", "docsPath": "/docs/forms" },
     { "phase": "Phase 24", "title": "Documentation and web presence", "status": "production-ready", "summary": "Phase 24 completed framework docs, examples, site polish, and drift checks.", "docsPath": "/docs/status" },
-    { "phase": "Phase 25", "title": "AI consumption", "status": "production-ready", "summary": "Phase 25 generated the official AI bundle, MCP transport, Skill.sh package, and CLI verification commands.", "docsPath": "/docs/status" }
+    { "phase": "Phase 25", "title": "AI consumption", "status": "production-ready", "summary": "Phase 25 generated the official AI bundle, MCP transport, Skill.sh package, and CLI verification commands.", "docsPath": "/docs/status" },
+    { "phase": "Phase 29", "title": "Formatters and template pipes", "status": "production-ready", "summary": "Phase 29 shipped compiler-owned template pipes, @vanrot/formatters, .pipe.ts discovery, built-in formatters, custom presets, formatting context, diagnostics, docs, and tests.", "docsPath": "/docs/formatters" }
   ],
   "routeMetadata": [
     { "path": "/", "title": "Vanrot - Framework Documentation And Design Components", "description": "Vanrot's public landing page for framework documentation, design components, examples, and production-readiness notes." },
     { "path": "/docs", "title": "Vanrot Framework Documentation", "description": "Framework documentation for Vanrot packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation." },
     { "path": "/docs/forms", "title": "Vanrot Forms And Async Resources", "description": "Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests." },
+    { "path": "/docs/formatters", "title": "Vanrot Formatters And Template Pipes", "description": "Guide to @vanrot/formatters, compiler-owned template pipe syntax, built-in formatters, custom .pipe.ts files, presets, context, diagnostics, and tests." },
     { "path": "/docs/components", "title": "Vanrot Design Component Catalog", "description": "Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes." },
     { "path": "/changelog", "title": "Vanrot Changelog", "description": "Published Vanrot release notes with direct links into the framework documentation for every shipped change." }
   ],

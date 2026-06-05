@@ -82,6 +82,27 @@ describe('compiler server rendering output', () => {
     expect(html).not.toContain('</input>');
     expect(html).not.toContain('</br>');
   });
+
+  it('lowers server interpolation pipe chains into escaped formatter output', () => {
+    const result = compileComponent(
+      {
+        componentPath: 'profile-card.component.ts',
+        componentSource: 'export class ProfileCardComponent {}',
+        templatePath: 'profile-card.component.html',
+        templateSource: '{{ name | fallback("Unknown") | uppercase }}',
+        stylePath: 'profile-card.component.css',
+        styleSource: '',
+      },
+      {
+        componentImportSpecifier: './profile-card.component.js',
+        target: 'server',
+      },
+    );
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain("from '@vanrot/formatters'");
+    expect(result.js).toContain('applyVanrotPipeChain');
+  });
 });
 
 type GeneratedServerRenderer = (

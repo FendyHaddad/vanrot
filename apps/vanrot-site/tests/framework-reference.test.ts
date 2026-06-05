@@ -26,6 +26,7 @@ describe('framework reference registry', () => {
       '@vanrot/ui',
       '@vanrot/testing',
       '@vanrot/forms',
+      '@vanrot/formatters',
       '@vanrot/devtools',
       '@vanrot/ai',
       '@vanrot/seo',
@@ -52,6 +53,7 @@ describe('framework reference registry', () => {
       '/',
       '/docs',
       '/docs/forms',
+      '/docs/formatters',
       '/docs/components',
       '/changelog',
     ]);

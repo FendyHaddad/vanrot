@@ -2,6 +2,10 @@ export type {
   CompileDiagnostic,
   CompileFeature,
   CompileOptions,
+  CompilePipeContext,
+  CompilePipeDefinition,
+  CompilePipePreset,
+  CompilePipeRegistry,
   CompileResult,
   ComponentDependency,
   ComponentDependencyInput,
@@ -36,6 +40,8 @@ export type { ParseTemplateResult } from './template/parse-template.js';
 export { parseHtmlFragment, parseTemplate } from './template/parse-template.js';
 export type { TemplateBinding, TemplateBindingResult } from './template/bindings.js';
 export { extractTemplateBindings, parseInterpolation } from './template/bindings.js';
+export type { ParsedPipeCall, ParsedPipeExpression } from './template/pipes.js';
+export { parsePipeExpression } from './template/pipes.js';
 export { expressionGlobals } from './expressions/globals.js';
 export type { RewriteExpressionResult } from './expressions/rewrite-expression.js';
 export { rewriteEventHandlerExpression, rewriteExpression } from './expressions/rewrite-expression.js';

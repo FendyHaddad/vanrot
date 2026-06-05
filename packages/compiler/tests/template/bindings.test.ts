@@ -52,4 +52,22 @@ describe('template binding extraction', () => {
       ],
     });
   });
+
+  it('attaches parsed pipe chains to interpolation bindings', () => {
+    const result = extractTemplateBindings(
+      parseTemplate('{{ createdAt | date.monthDayYear }}', 'src/date.page.html').nodes,
+      'src/date.page.html',
+    );
+
+    expect(result.bindings).toContainEqual(
+      expect.objectContaining({
+        kind: 'interpolation',
+        expression: 'createdAt | date.monthDayYear',
+        pipeExpression: expect.objectContaining({
+          baseExpression: 'createdAt',
+          pipes: [expect.objectContaining({ name: 'date.monthDayYear' })],
+        }),
+      }),
+    );
+  });
 });

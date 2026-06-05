@@ -79,6 +79,18 @@ export interface NormalizedVanrotAiConfig {
   rules: NormalizedVanrotAiRulesConfig;
 }
 
+export interface VanrotFormattingConfig {
+  locale?: string;
+  timezone?: string;
+  currency?: string;
+}
+
+export interface NormalizedVanrotFormattingConfig {
+  locale: string;
+  timezone: string;
+  currency: string;
+}
+
 export interface VanrotUiConfig {
   flavor?: VanrotUiFlavor;
   styles?: VanrotUiStyleMode;
@@ -240,13 +252,14 @@ export interface VanrotConfig {
   docs?: Record<string, unknown>;
   ai?: VanrotAiConfig;
   seo?: VanrotSeoConfig;
+  formatting?: VanrotFormattingConfig;
   conventions?: Record<string, unknown>;
 }
 
 export interface NormalizedVanrotConfig
   extends Omit<
     VanrotConfig,
-    'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'behavior' | 'ai' | 'seo'
+    'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'behavior' | 'ai' | 'seo' | 'formatting'
   > {
   schemaVersion: number;
   source: { root: string };
@@ -255,5 +268,6 @@ export interface NormalizedVanrotConfig
   ui: NormalizedVanrotUiConfig;
   behavior: NormalizedVanrotBehaviorConfig;
   ai: NormalizedVanrotAiConfig;
+  formatting: NormalizedVanrotFormattingConfig;
   seo?: NormalizedVanrotSeoConfig;
 }

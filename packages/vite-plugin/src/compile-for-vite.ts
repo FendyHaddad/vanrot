@@ -19,10 +19,12 @@ export type CompileForViteFunction = (
 export async function compileForVite(
   componentPath: string,
   compile: CompileForViteFunction = compileComponentFromFiles,
+  options: CompileOptions = {},
 ): Promise<ViteCompileResult> {
   const sourceModuleId = toPublicSourceModuleId(componentPath);
   const cssModuleId = toPublicCssModuleId(componentPath);
   const result = await compile(componentPath, {
+    ...options,
     componentImportSpecifier: sourceModuleId,
   });
   const code = [

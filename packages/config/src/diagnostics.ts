@@ -29,6 +29,9 @@ export const configDiagnosticCode = {
   invalidSeoSocialImage: 'VRCFG018',
   invalidSeoSitemapRoute: 'VRCFG019',
   invalidSeoRobotsDirective: 'VRCFG020',
+  formattingLocaleEmpty: 'VRCFG_FORMATTING_LOCALE_EMPTY',
+  formattingTimezoneEmpty: 'VRCFG_FORMATTING_TIMEZONE_EMPTY',
+  formattingCurrencyEmpty: 'VRCFG_FORMATTING_CURRENCY_EMPTY',
 } as const;
 
 export function formatConfigDiagnostic(diagnostic: ConfigDiagnostic): string {

@@ -165,6 +165,22 @@ importers:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
+  examples/formatters-pipes:
+    dependencies:
+      '@vanrot/compiler':
+        specifier: file:../../packages/compiler
+        version: link:../../packages/compiler
+      '@vanrot/config':
+        specifier: file:../../packages/config
+        version: link:../../packages/config
+      '@vanrot/formatters':
+        specifier: file:../../packages/formatters
+        version: link:../../packages/formatters
+    devDependencies:
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
+
   examples/forms-checkout:
     dependencies:
       '@vanrot/forms':
@@ -370,6 +386,12 @@ importers:
       '@types/node':
         specifier: ^22.19.19
         version: 22.19.19
+
+  packages/formatters:
+    devDependencies:
+      vitest:
+        specifier: ^4.0.14
+        version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
   packages/forms:
     dependencies:

@@ -44,6 +44,7 @@ describe('npm publish script', () => {
     expect(script).toContain('SKIP_EXISTING="${SKIP_EXISTING:-1}"');
     expect(script).toContain('published_count=');
     expect(publishOrder.match(/devtools[\s\S]*config[\s\S]*ai[\s\S]*runtime/)).not.toBeNull();
+    expect(publishOrder.match(/forms[\s\S]*formatters[\s\S]*ui/)).not.toBeNull();
     expect(publishOrder.match(/testing[\s\S]*cli[\s\S]*language-server[\s\S]*seo[\s\S]*vite-plugin/)).not.toBeNull();
   });
 });

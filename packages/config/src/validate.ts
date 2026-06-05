@@ -173,9 +173,49 @@ export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
     }
   }
 
+  const formatting = config.formatting;
+  if (formatting !== undefined) {
+    validateRequiredFormattingString(
+      formatting.locale,
+      configDiagnosticCode.formattingLocaleEmpty,
+      'formatting.locale',
+      diagnostics,
+    );
+    validateRequiredFormattingString(
+      formatting.timezone,
+      configDiagnosticCode.formattingTimezoneEmpty,
+      'formatting.timezone',
+      diagnostics,
+    );
+    validateRequiredFormattingString(
+      formatting.currency,
+      configDiagnosticCode.formattingCurrencyEmpty,
+      'formatting.currency',
+      diagnostics,
+    );
+  }
+
   validateSeoConfig(config, diagnostics);
 
   return diagnostics;
+}
+
+function validateRequiredFormattingString(
+  value: string | undefined,
+  code: string,
+  path: string,
+  diagnostics: ConfigDiagnostic[],
+): void {
+  if (value === undefined || value.trim().length > 0) {
+    return;
+  }
+
+  diagnostics.push({
+    code,
+    severity: 'error',
+    message: `Invalid ${path}: ${String(value)}`,
+    suggestion: 'Use a non-empty string, or remove the field to use the default.',
+  });
 }
 
 function validateSeoConfig(config: VanrotConfig, diagnostics: ConfigDiagnostic[]): void {

@@ -61,6 +61,11 @@
       "summary": "Signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests."
     },
     {
+      "id": "package:@vanrot/formatters",
+      "title": "@vanrot/formatters",
+      "summary": "Pure formatter helpers, compiler pipe registry execution, locale context, custom pipe definitions, enum pipes, named presets, masks, form messages, diagnostics metadata, and pipe test helpers."
+    },
+    {
       "id": "package:@vanrot/devtools",
       "title": "@vanrot/devtools",
       "summary": "Project map graph contracts, DevTools panel assets, runtime graph metadata, and project intelligence helpers."
@@ -618,6 +623,66 @@
       "docsPath": "/docs/forms"
     },
     {
+      "id": "export:@vanrot/formatters:*",
+      "title": "@vanrot/formatters *",
+      "summary": "All public exports from @vanrot/formatters are covered by the formatters and public API documentation.",
+      "docsPath": "/docs/public-api"
+    },
+    {
+      "id": "export:@vanrot/formatters:applyVanrotPipeChain",
+      "title": "@vanrot/formatters applyVanrotPipeChain",
+      "summary": "Applies a compiler-generated pipe chain with the configured pipe context and registry options.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:createPipeContext",
+      "title": "@vanrot/formatters createPipeContext",
+      "summary": "Normalizes locale, timezone, and currency defaults for built-in and custom formatters.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:createPipeRegistry",
+      "title": "@vanrot/formatters createPipeRegistry",
+      "summary": "Creates the runtime registry for built-in pipes, custom pipes, enum pipes, presets, and pipe diagnostics.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:definePipe",
+      "title": "@vanrot/formatters definePipe",
+      "summary": "Defines a custom synchronous display pipe for .pipe.ts role files.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:enumPipe",
+      "title": "@vanrot/formatters enumPipe",
+      "summary": "Defines a custom enum-backed display pipe for backend status values and domain enums.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:datePattern",
+      "title": "@vanrot/formatters datePattern",
+      "summary": "Defines a reusable named date or time preset for namespace pipe syntax.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:numberPattern",
+      "title": "@vanrot/formatters numberPattern",
+      "summary": "Defines a reusable named number, currency, percent, compact, or filesize preset.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:maskPattern",
+      "title": "@vanrot/formatters maskPattern",
+      "summary": "Defines a reusable named display mask preset for country-specific or business-specific values.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "export:@vanrot/formatters:createPipeTest",
+      "title": "@vanrot/formatters createPipeTest",
+      "summary": "Creates a focused test helper for custom pipe handlers and presets.",
+      "docsPath": "/docs/formatters"
+    },
+    {
       "id": "export:@vanrot/devtools:*",
       "title": "@vanrot/devtools *",
       "summary": "All public exports from @vanrot/devtools are covered by devtools and public API documentation.",
@@ -750,8 +815,62 @@
     {
       "id": "diagnostic:VR019",
       "title": "VR019",
-      "summary": "Compiler diagnostic for the final current compiler catalog entry.",
-      "docsPath": "/docs/diagnostics"
+      "summary": "Compiler diagnostic for invalid Vanrot UI primitive variants.",
+      "docsPath": "/docs/ui/primitives"
+    },
+    {
+      "id": "diagnostic:VR020",
+      "title": "VR020",
+      "summary": "Compiler diagnostic for duplicate Vanrot UI dotted tokens.",
+      "docsPath": "/docs/ui/dotted-token-attributes"
+    },
+    {
+      "id": "diagnostic:VR021",
+      "title": "VR021",
+      "summary": "Compiler diagnostic for unknown Vanrot UI dotted tokens.",
+      "docsPath": "/docs/ui/dotted-token-attributes"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_UNKNOWN",
+      "title": "VR_PIPE_UNKNOWN",
+      "summary": "Template pipe diagnostic for a pipe name that is not built in and not exported from a .pipe.ts role file.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_UNKNOWN_VARIANT",
+      "title": "VR_PIPE_UNKNOWN_VARIANT",
+      "summary": "Template pipe diagnostic for an unknown namespace preset such as date.invoice or mask.malaysiaPhone.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_DUPLICATE_NAME",
+      "title": "VR_PIPE_DUPLICATE_NAME",
+      "summary": "Template pipe diagnostic for duplicate custom pipe names discovered across .pipe.ts files.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_DUPLICATE_PRESET",
+      "title": "VR_PIPE_DUPLICATE_PRESET",
+      "summary": "Template pipe diagnostic for duplicate custom presets in the same formatter namespace.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_INVALID_ARGUMENT",
+      "title": "VR_PIPE_INVALID_ARGUMENT",
+      "summary": "Template pipe diagnostic for argument shapes the compiler cannot lower safely.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_INVALID_DEFINITION",
+      "title": "VR_PIPE_INVALID_DEFINITION",
+      "summary": "Template pipe diagnostic for custom pipe exports that do not use the supported formatter helpers.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VR_PIPE_ASYNC",
+      "title": "VR_PIPE_ASYNC",
+      "summary": "Template pipe diagnostic for async pipe handlers, which are unsupported because pipes must stay pure and synchronous.",
+      "docsPath": "/docs/formatters"
     },
     {
       "id": "diagnostic:VRSSR_BROWSER_API",
@@ -812,6 +931,24 @@
       "title": "VRCFG012",
       "summary": "Config diagnostic for AI rule source validation.",
       "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "diagnostic:VRCFG_FORMATTING_LOCALE_EMPTY",
+      "title": "VRCFG_FORMATTING_LOCALE_EMPTY",
+      "summary": "Config diagnostic for an empty formatting.locale value in vanrot.config.ts.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VRCFG_FORMATTING_TIMEZONE_EMPTY",
+      "title": "VRCFG_FORMATTING_TIMEZONE_EMPTY",
+      "summary": "Config diagnostic for an empty formatting.timezone value in vanrot.config.ts.",
+      "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VRCFG_FORMATTING_CURRENCY_EMPTY",
+      "title": "VRCFG_FORMATTING_CURRENCY_EMPTY",
+      "summary": "Config diagnostic for an empty formatting.currency value in vanrot.config.ts.",
+      "docsPath": "/docs/formatters"
     },
     {
       "id": "diagnostic:VR_CHILD_BEFORE_PARENT",
@@ -904,13 +1041,19 @@
       "title": "src/**/*.form.ts",
       "summary": "Reusable form role files discoverable by Vite, future Forge, editor diagnostics, and AI-readable reports.",
       "docsPath": "/docs/forms"
+    },
+    {
+      "id": "generated-file:src/**/*.pipe.ts",
+      "title": "src/**/*.pipe.ts",
+      "summary": "Reusable formatter role files discoverable by Vite for custom pipes, enum pipes, named presets, terminal diagnostics, and AI-readable reports.",
+      "docsPath": "/docs/formatters"
     }
   ],
   "conventions": [
     {
       "id": "convention:role-suffixes",
       "title": "Role suffixes",
-      "summary": "Components, pages, dialogs, layouts, widgets, and forms use explicit role-based file suffixes.",
+      "summary": "Components, pages, dialogs, layouts, widgets, forms, and pipes use explicit role-based file suffixes.",
       "docsPath": "/docs/conventions"
     },
     {
@@ -998,6 +1141,12 @@
       "title": "Forms Checkout",
       "summary": "",
       "docsPath": "/docs/forms"
+    },
+    {
+      "id": "example:Formatters And Template Pipes",
+      "title": "Formatters And Template Pipes",
+      "summary": "",
+      "docsPath": "/docs/formatters"
     },
     {
       "id": "example:WebGL And three.js Lifecycle",
@@ -1340,6 +1489,12 @@
       "docsPath": "/docs/forms"
     },
     {
+      "id": "route:/docs/formatters",
+      "title": "/docs/formatters",
+      "summary": "Vanrot Formatters And Template Pipes Guide to @vanrot/formatters, compiler-owned template pipe syntax, built-in formatters, custom .pipe.ts files, presets, context, diagnostics, and tests.",
+      "docsPath": "/docs/formatters"
+    },
+    {
       "id": "route:/docs/components",
       "title": "/docs/components",
       "summary": "Vanrot Design Component Catalog Design component documentation for Vanrot's October UI primitives, variants, usage examples, and API notes.",
@@ -1356,7 +1511,7 @@
     {
       "id": "limitation:post-production-phases",
       "title": "Remaining post-production features are tracked separately",
-      "summary": "Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, resumability, and template pipes remain outside current public framework behavior.",
+      "summary": "Brutalist UI, store, streaming SSR, event replay, partial hydration, islands, and resumability remain outside current public framework behavior.",
       "docsPath": "/docs/limitations"
     },
     {
@@ -1884,6 +2039,12 @@
       "title": "Forms And Async Resources",
       "summary": "@vanrot/forms is the first-party package for signal-native form state, validation, field arrays, wizards, form-scoped async resources, server errors, draft persistence, metadata, diagnostics, and tests.",
       "docsPath": "/docs/forms"
+    },
+    {
+      "id": "doc:formatters",
+      "title": "Formatters And Template Pipes",
+      "summary": "Vanrot template pipes are compiler-known interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, typed presets, locale context, and terminal diagnostics.",
+      "docsPath": "/docs/formatters"
     },
     {
       "id": "doc:devtools",

@@ -2,6 +2,8 @@ import type { CompileDiagnostic } from '../api/types.js';
 import { createDiagnostic } from '../diagnostics/diagnostics.js';
 import type { SourceSpan } from '../source/location.js';
 import type { ElementNode, TemplateNode, TextNode } from './ast.js';
+import type { ParsedPipeExpression } from './pipes.js';
+import { parsePipeExpression } from './pipes.js';
 
 export type TemplateBinding =
   | InterpolationBinding
@@ -14,6 +16,7 @@ export interface InterpolationBinding {
   staticParts: string[];
   span: SourceSpan;
   expressionSpan: SourceSpan;
+  pipeExpression: ParsedPipeExpression | null;
 }
 
 interface ParsedInterpolation {
@@ -129,6 +132,7 @@ function collectTextBindings(
     staticParts: parsedInterpolation.staticParts,
     span: createRelativeTextSpan(node, parsedInterpolation.interpolationStart, parsedInterpolation.interpolationEnd),
     expressionSpan: createRelativeTextSpan(node, parsedInterpolation.expressionStart, parsedInterpolation.expressionEnd),
+    pipeExpression: parsePipeExpression(parsedInterpolation.expression),
   });
 }
 

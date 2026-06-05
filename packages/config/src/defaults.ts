@@ -6,14 +6,21 @@ import {
   vanrotUiFlavor,
   vanrotUiStyleMode,
   type NormalizedVanrotConfig,
+  type NormalizedVanrotFormattingConfig,
   type NormalizedVanrotSeoConfig,
   type VanrotConfig,
 } from './types.js';
 
+const defaultFormattingConfig: NormalizedVanrotFormattingConfig = {
+  locale: 'en-US',
+  timezone: 'UTC',
+  currency: 'USD',
+};
+
 export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanrotConfig {
-  const { seo: _seo, ...configWithoutSeo } = config;
+  const { seo: _seo, formatting: _formatting, ...configWithoutSeoAndFormatting } = config;
   const normalized: NormalizedVanrotConfig = {
-    ...configWithoutSeo,
+    ...configWithoutSeoAndFormatting,
     schemaVersion: config.schemaVersion ?? configSchemaVersion,
     source: {
       root: config.source?.root ?? defaultSourceRoot,
@@ -53,6 +60,11 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
         customSections: config.ai?.rules?.customSections ?? [],
       },
     },
+    formatting: {
+      locale: normalizeString(config.formatting?.locale, defaultFormattingConfig.locale),
+      timezone: normalizeString(config.formatting?.timezone, defaultFormattingConfig.timezone),
+      currency: normalizeString(config.formatting?.currency, defaultFormattingConfig.currency),
+    },
   };
 
   if (config.seo !== undefined) {
@@ -60,6 +72,20 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
   }
 
   return normalized;
+}
+
+function normalizeString(value: string | undefined, fallback: string): string {
+  if (value === undefined) {
+    return fallback;
+  }
+
+  const trimmed = value.trim();
+
+  if (trimmed.length === 0) {
+    return fallback;
+  }
+
+  return trimmed;
 }
 
 function normalizeSeoConfig(config: VanrotConfig): NormalizedVanrotSeoConfig {

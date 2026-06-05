@@ -4167,6 +4167,149 @@
       ]
     },
     {
+      "key": "formatters",
+      "section": "framework",
+      "path": "/docs/formatters",
+      "label": "Formatters",
+      "title": "Formatters And Template Pipes",
+      "summary": "Vanrot template pipes are compiler-known interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, typed presets, locale context, and terminal diagnostics.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "formatters-boundary",
+          "title": "Compiler-owned formatting",
+          "body": "Template pipes belong to the compiler contract. Application templates can ask for display formatting with a small pipe expression, the compiler validates that expression, and generated output calls @vanrot/formatters at runtime. The package is deliberately small: it owns pure synchronous formatting helpers and registry execution, while the compiler owns syntax, source spans, and user-facing diagnostics.",
+          "points": [
+            "Use template pipes for display-only formatting inside interpolation.",
+            "Keep data fetching, async work, mutation, and business workflows outside pipes.",
+            "Use @vanrot/forms or form resources for asynchronous state, then pipe the resolved value."
+          ],
+          "code": {
+            "title": "Template interpolation",
+            "code": "<td>{{ row.amount | currency }}</td>\\n<td>{{ row.description | truncate(20) }}</td>\\n<td>{{ claim.status | claimStatus }}</td>"
+          }
+        },
+        {
+          "id": "template-syntax",
+          "title": "Template syntax",
+          "body": "Pipe syntax is available only inside interpolation. The compiler parses the base expression first, then applies pipe calls from left to right. Arguments use a JavaScript-call shape because it reads cleanly in templates and keeps values such as numbers, strings, booleans, arrays, and imported constants recognizable.",
+          "points": [
+            "Use {{ value | pipeName }} when a pipe has no arguments.",
+            "Use {{ value | pipeName(arg1, arg2) }} for explicit options.",
+            "Use {{ value | namespace.variant }} or {{ value | namespace.variant(arg) }} for built-in and custom presets.",
+            "Use chaining when each step consumes the previous step's output."
+          ],
+          "code": {
+            "title": "Syntax shapes",
+            "code": "{{ createdAt | date.monthDayYear }}\\n{{ createdAt | date('MM/dd/yyyy') }}\\n{{ total | number.decimal }}\\n{{ description | fallback('No description') | truncate(80) }}"
+          }
+        },
+        {
+          "id": "built-in-suite",
+          "title": "Built-in pipe suite",
+          "body": "@vanrot/formatters ships text, date/time, number, money, list, mask, and form-message formatters so common application screens do not need local helper code. These helpers are pure and synchronous, which keeps generated output predictable and keeps formatting work out of application markup.",
+          "points": [
+            "Text pipes include uppercase, lowercase, titlecase, sentencecase, truncate, fallback, and initials.",
+            "Date and time pipes include date, time, datetime, relativeTime, and duration.",
+            "Number pipes include number, currency, percent, compact, and filesize.",
+            "List and count pipes include join, count, and plural.",
+            "Mask and form-message pipes cover phone-like display masks and validation message display."
+          ],
+          "code": {
+            "title": "Built-ins",
+            "code": "{{ user.name | titlecase }}\\n{{ createdAt | date('dd/MM/yyyy') }}\\n{{ total | currency('USD') }}\\n{{ items | plural('item', 'items') }}\\n{{ phone | mask('###-###-####') }}\\n{{ field.messages | messages }}"
+          }
+        },
+        {
+          "id": "pipe-role-files",
+          "title": ".pipe.ts role files",
+          "body": "Custom pipes live in .pipe.ts role files. The Vite plugin discovers these files, extracts exported pipe metadata, watches them during development, and passes the registry to the compiler. This keeps domain-specific display rules close to application source while still making the compiler aware of names, presets, duplicates, and unsupported async handlers.",
+          "points": [
+            "Use definePipe for a custom synchronous formatter.",
+            "Use enumPipe when backend status values or domain enums need stable display labels.",
+            "Keep enums in separate domain files when that keeps the application model cleaner.",
+            "Do not call APIs or mutate state from a pipe."
+          ],
+          "code": {
+            "title": "Domain pipe",
+            "code": "import { definePipe } from '@vanrot/formatters';\\nimport { ClaimStatus } from './claim-status';\\n\\nexport const claimStatus = definePipe('claimStatus', (status) => {\\n  switch (status) {\\n    case ClaimStatus.Approved:\\n      return 'Approved';\\n    case ClaimStatus.Rejected:\\n      return 'Rejected';\\n    case ClaimStatus.PendingReview:\\n      return 'Pending review';\\n    default:\\n      return 'Unknown';\\n  }\\n});"
+          }
+        },
+        {
+          "id": "presets",
+          "title": "Named presets",
+          "body": "Presets let an application turn string-heavy formatter arguments into named constants. This matters in enterprise apps where country-specific masks, financial formats, claim numbers, invoice dates, or business-specific display conventions repeat across many screens. A preset reads like {{ createdAt | date.invoice }} while still allowing direct strings when a one-off format is clearer.",
+          "points": [
+            "Use datePattern for reusable date and time variants.",
+            "Use numberPattern for reusable number, currency, percent, compact, or filesize variants.",
+            "Use maskPattern for country-specific or business-specific display masks.",
+            "Prefer named presets for shared app conventions and direct string arguments for isolated local formats."
+          ],
+          "code": {
+            "title": "Preset file",
+            "code": "import { datePattern, maskPattern, numberPattern } from '@vanrot/formatters';\\n\\nexport const invoiceDate = datePattern('invoice', 'dd/MM/yyyy');\\nexport const claimMoney = numberPattern('claimMoney', { style: 'currency', currency: 'MYR' });\\nexport const malaysiaPhone = maskPattern('malaysiaPhone', '+60 ##-### ####');"
+          }
+        },
+        {
+          "id": "formatting-context",
+          "title": "Formatting context",
+          "body": "Generated output creates a pipe context from vanrot.config.ts formatting defaults. The context carries locale, timezone, and currency so built-in and custom pipes can format consistently without hard-coding those values in every template. Pipe handlers receive the context as their second argument.",
+          "points": [
+            "Set formatting.locale, formatting.timezone, and formatting.currency in vanrot.config.ts.",
+            "Use the context in custom pipes when display output depends on locale, timezone, or currency.",
+            "Leave context values unset when the project should use Vanrot defaults: en-US, UTC, and USD."
+          ],
+          "code": {
+            "title": "Config and context",
+            "code": "import { defineVanrotConfig } from '@vanrot/config';\\n\\nexport default defineVanrotConfig({\\n  formatting: {\\n    locale: 'en-MY',\\n    timezone: 'Asia/Kuala_Lumpur',\\n    currency: 'MYR',\\n  },\\n});\\n\\nexport const money = definePipe('money', (value, ctx) => {\\n  return new Intl.NumberFormat(ctx.locale, {\\n    style: 'currency',\\n    currency: ctx.currency,\\n  }).format(Number(value));\\n});"
+          }
+        },
+        {
+          "id": "compiler-diagnostics",
+          "title": "Compiler diagnostics",
+          "body": "Pipe errors are reported as compiler diagnostics with stable codes, source locations, code frames, suggestions, and docs paths. The compiler fails unknown pipes, unknown variants, duplicate names, duplicate presets, invalid arguments, invalid definitions, and async pipe handlers before a broken formatter reaches the browser.",
+          "points": [
+            "VR_PIPE_UNKNOWN reports a pipe name that is not built in and not exported by a discovered .pipe.ts file.",
+            "VR_PIPE_UNKNOWN_VARIANT reports a missing namespace preset such as date.invoice.",
+            "VR_PIPE_INVALID_ARGUMENT reports argument shapes the compiler cannot lower safely.",
+            "VR_PIPE_ASYNC reports async custom pipes because pipes are pure synchronous display helpers."
+          ],
+          "code": {
+            "title": "Terminal-facing error",
+            "code": "src/claims/summary.page.html:12:19 VR_PIPE_UNKNOWN\\nUnknown template pipe: claimStauts\\n\\n12 | <td>{{ claim.status | claimStauts }}</td>\\n   |                   ^^^^^^^^^^^\\nSuggestion: Did you mean claimStatus?"
+          }
+        },
+        {
+          "id": "vite-tooling",
+          "title": "Vite discovery and rebuilds",
+          "body": "@vanrot/vite-plugin discovers .pipe.ts files during config resolution and reports pipe diagnostics through the terminal during startup and rebuild. The plugin also watches pipe files that affect a compiled component so changing a custom pipe or preset invalidates the right modules.",
+          "points": [
+            "Use .pipe.ts files under the configured source root for app-level pipe definitions.",
+            "Fix duplicate exported names before relying on generated output.",
+            "Expect terminal diagnostics to include file path, line, column, code, and a docs path."
+          ],
+          "code": {
+            "title": "Discovered app files",
+            "code": "src/claims/business.pipe.ts\\nsrc/claims/summary.page.ts\\nsrc/claims/summary.page.html\\nvanrot.config.ts"
+          }
+        },
+        {
+          "id": "testing",
+          "title": "Testing formatter behavior",
+          "body": "Formatter tests should cover the pipe function directly and at least one compiled template path when syntax or registry behavior matters. @vanrot/formatters exposes createPipeTest for focused unit tests, while compiler and Vite tests verify that pipe expressions lower into generated output with the expected registry.",
+          "points": [
+            "Test custom pipe outputs with representative backend values and enum defaults.",
+            "Test named presets once at the pipe-file boundary instead of repeating every template.",
+            "Use compiler tests when a template depends on chaining, arguments, source spans, or diagnostics."
+          ],
+          "code": {
+            "title": "Focused pipe test",
+            "code": "import { createPipeTest } from '@vanrot/formatters/testing';\\nimport { claimStatus } from '../src/business.pipe';\\n\\nconst testPipe = createPipeTest(claimStatus);\\n\\nexpect(testPipe('APPROVED')).toBe('Approved');\\nexpect(testPipe('PENDING_REVIEW')).toBe('Pending review');"
+          }
+        }
+      ]
+    },
+    {
       "key": "devtools",
       "section": "framework",
       "path": "/docs/devtools",

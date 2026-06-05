@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-06-05T06:54:54.341Z",
-  "sourceFingerprint": "sha256-eb9bb87e463f5753cf5d4e9dab0a82591d0507212b51d758b8375d18c6cbe686",
+  "generatedAt": "2026-06-05T11:48:37.015Z",
+  "sourceFingerprint": "sha256-216f0d8bd287c3c24c4ff1fe5e19749e260073b8595e53ef0ffd3243c1b47906",
   "sources": [
     {
       "id": "package-json",
@@ -12,12 +12,12 @@
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-d645f67a07f2504d3cc433efffcb60bc167f69eb5ed376c19bfe1f192ff46a47"
+      "fingerprint": "sha256-537b0ef29e36ce16ab9c86ad7ea351c0057f6964656000dfe487cd1ac6667744"
     },
     {
       "id": "site-data",
       "path": "apps/vanrot-site/src/docs/site-data.json",
-      "fingerprint": "sha256-5e985a122d449fc741a2c4b76f32d1b7887aebc61253a26182e201181f886a87"
+      "fingerprint": "sha256-86ce0f69351c5a45a6935e746e85ef473d44324626fe9ecde9c462ca23c7b7d1"
     },
     {
       "id": "cli-command-metadata",
@@ -27,27 +27,27 @@
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-f770c0857300da966e9e47e46b6fc51f0506607e4ce377578e178d62bcc76b64"
+      "fingerprint": "sha256-edadebbe981f4d074bb7ac9c1e70d5c0269cb9878d0fa1aa4b74f37abef4c309"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-38ba8db0defd26d068a0cde3ecc0a82af8f690652f7af720deeb26144f3d5acf"
+      "fingerprint": "sha256-3f4d3542eefd7f07d81c1f15b6ffb252b9d57fe66ee5829754e5d61ce0aa207f"
     }
   ],
   "counts": {
-    "packages": 15,
-    "publicExports": 94,
+    "packages": 16,
+    "publicExports": 104,
     "commands": 16,
-    "diagnostics": 20,
-    "generatedFiles": 7,
+    "diagnostics": 32,
+    "generatedFiles": 8,
     "conventions": 5,
-    "examples": 12,
+    "examples": 13,
     "components": 51,
-    "routes": 5,
+    "routes": 6,
     "limitations": 2,
     "deployment": 1,
-    "docs": 109
+    "docs": 110
   },
   "coverageStatus": "complete"
 }

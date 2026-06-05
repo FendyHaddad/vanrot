@@ -20,6 +20,13 @@ export type DiagnosticCode =
   | 'VR019'
   | 'VR020'
   | 'VR021'
+  | 'VR_PIPE_UNKNOWN'
+  | 'VR_PIPE_UNKNOWN_VARIANT'
+  | 'VR_PIPE_DUPLICATE_NAME'
+  | 'VR_PIPE_DUPLICATE_PRESET'
+  | 'VR_PIPE_INVALID_ARGUMENT'
+  | 'VR_PIPE_INVALID_DEFINITION'
+  | 'VR_PIPE_ASYNC'
   | 'VR_ROUTER_MULTIPLE_ROOTS'
   | 'VR_ROUTER_OUTSIDE_APP_LAYOUT'
   | 'VR_LAYOUT_MISSING_OUTLET'
@@ -41,6 +48,31 @@ export interface ComponentSource {
 export interface CompileOptions {
   componentImportSpecifier?: string;
   target?: 'browser' | 'server';
+  pipeRegistry?: CompilePipeRegistry;
+  pipeContext?: CompilePipeContext;
+}
+
+export interface CompilePipeRegistry {
+  pipes: CompilePipeDefinition[];
+  presets: CompilePipePreset[];
+}
+
+export interface CompilePipeDefinition {
+  name: string;
+  sourcePath: string;
+}
+
+export interface CompilePipePreset {
+  namespace: string;
+  name: string;
+  pattern: string;
+  sourcePath: string;
+}
+
+export interface CompilePipeContext {
+  locale: string;
+  timezone: string;
+  currency: string;
 }
 
 export interface CompileDiagnostic {
@@ -73,6 +105,7 @@ export type CompileFeature =
   | 'router-root'
   | 'router-outlet'
   | 'router-link'
+  | 'template-pipe'
   | 'ui-button'
   | 'ui-card'
   | 'ui-badge'

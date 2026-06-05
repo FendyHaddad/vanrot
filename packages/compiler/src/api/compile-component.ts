@@ -14,6 +14,7 @@ import { createScopeAttribute } from '../styles/scope-id.js';
 import { scopeCss } from '../styles/scope-css.js';
 import { generateComponent } from '../codegen/generate-component.js';
 import { diagnoseRouterTemplateUsage } from '../router/router-template-diagnostics.js';
+import { diagnoseInterpolationPipes } from '../template/pipe-diagnostics.js';
 
 const featureOrder: CompileFeature[] = [
   'file-convention',
@@ -30,6 +31,7 @@ const featureOrder: CompileFeature[] = [
   'router-root',
   'router-outlet',
   'router-link',
+  'template-pipe',
   'ui-button',
   'ui-popover',
   'ui-tooltip',
@@ -74,6 +76,13 @@ export function compileComponent(source: ComponentSource, options: CompileOption
   const parsedTemplate = parseTemplate(source.templateSource, source.templatePath);
   const routerDiagnostics = diagnoseRouterTemplateUsage(parsedTemplate.nodes, source.templatePath);
   const templateBindings = extractTemplateBindings(parsedTemplate.nodes, source.templatePath);
+  const pipeDiagnostics = templateBindings.bindings.flatMap((binding) => {
+    if (binding.kind !== 'interpolation') {
+      return [];
+    }
+
+    return diagnoseInterpolationPipes(binding, source.templatePath, source.templateSource, options.pipeRegistry);
+  });
   const scopeAttribute = createScopeAttribute(source.componentPath, source.styleSource);
   const scopedCss = scopeCss(source.styleSource, scopeAttribute, source.stylePath);
   const generated = generateComponent({
@@ -88,6 +97,7 @@ export function compileComponent(source: ComponentSource, options: CompileOption
     ...parsedTemplate.diagnostics,
     ...routerDiagnostics,
     ...templateBindings.diagnostics,
+    ...pipeDiagnostics,
     ...scopedCss.diagnostics,
     ...generated.diagnostics,
   );

@@ -168,13 +168,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-05 2:26pm GMT+8
+# [vanrot] recent context, 2026-06-05 7:54pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (14,404t read) | 1,860,969t work | 99% savings
+Stats: 50 obs (13,791t read) | 1,791,826t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -188,18 +188,8 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-### May 29, 2026
-2272 3:37p 🔵 Gradle Build Failure - Kotlin/Java Module Issue
-2276 " 🔴 Java Version Mismatch in IntelliJ Plugin Build
-2286 " 🔵 Installed Java Versions Identified
-2297 " ✅ IntelliJ Plugin Build Successful with Java 21
-2309 " 🔵 IntelliJ Plugin ZIP Metadata Verification Failed
-2319 3:38p 🔵 IntelliJ Plugin ZIP Contents Listed
-2330 " 🔵 IntelliJ Plugin Metadata Extracted Successfully
-2342 9:51p 🟣 Welcome Screen Documentation
 ### May 30, 2026
-2343 7:04p ✅ Improve Component Documentation Structure
-2344 " 🔵 Context Search for Runtime Docs and Signals
+2344 7:04p 🔵 Context Search for Runtime Docs and Signals
 2345 7:05p 🔵 Vanrot Documentation and Development Protocols
 2346 " ✅ Initialize Claude-Mem Session for Runtime Docs Task
 2347 " 🔵 Search for Vanrot Runtime Docs, Signals, and Site-Data
@@ -243,6 +233,16 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2756 5:00a ✅ README added to vanrot repository
 ### Jun 4, 2026
 2831 10:54p 🔵 Future pipeline tasks identified
+### Jun 5, 2026
+2835 3:00p ✅ Test file content extracted
+2836 " 🔵 Package and route references identified in tests
+2834 " ✅ Plan execution initiated
+2837 " ✅ Added '@vanrot/forms' package to test assertions
+2838 " ✅ Added '@vanrot/forms' package and documentation route to tests
+2839 " ✅ Updated test assertions for '@vanrot/forms' and documentation routes
+2841 " ✅ Updated test assertions to include '@vanrot/forms' and '/docs/forms' route
+2843 " ✅ Updated test assertions for '@vanrot/forms' and '/docs/forms' route
+2947 6:10p 🔵 User requested information about the future pipeline
 
-Access 1861k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1792k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

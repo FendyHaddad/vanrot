@@ -1,0 +1,8 @@
+<section>
+  <h1>{{ customerName | fallback("Unknown") | uppercase }}</h1>
+  <p>{{ claimStatus | claimStatus }}</p>
+  <p>{{ createdAt | date.invoice }}</p>
+  <p>{{ amount | currency }}</p>
+  <p>{{ phone | mask.malaysiaPhone }}</p>
+  <p>{{ description | truncate(20) }}</p>
+</section>

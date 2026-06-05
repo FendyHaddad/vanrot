@@ -510,6 +510,12 @@ Docs: /docs/testing/strategy
 
 Docs: /docs/forms
 
+## Formatters And Template Pipes
+
+Vanrot template pipes are compiler-known interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, typed presets, locale context, and terminal diagnostics.
+
+Docs: /docs/formatters
+
 ## Devtools And Project Intelligence
 
 @vanrot/devtools reads project map manifests, runtime graph metadata, Vite plugin metadata, panel state, stale-state diagnostics, and AI-adjacent project intelligence without becoming the source of truth.

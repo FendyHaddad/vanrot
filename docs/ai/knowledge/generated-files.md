@@ -41,3 +41,9 @@ Docs: /docs/devtools
 Reusable form role files discoverable by Vite, future Forge, editor diagnostics, and AI-readable reports.
 
 Docs: /docs/forms
+
+## src/**/*.pipe.ts
+
+Reusable formatter role files discoverable by Vite for custom pipes, enum pipes, named presets, terminal diagnostics, and AI-readable reports.
+
+Docs: /docs/formatters

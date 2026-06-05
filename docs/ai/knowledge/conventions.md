@@ -2,7 +2,7 @@
 
 ## Role suffixes
 
-Components, pages, dialogs, layouts, widgets, and forms use explicit role-based file suffixes.
+Components, pages, dialogs, layouts, widgets, forms, and pipes use explicit role-based file suffixes.
 
 Docs: /docs/conventions
 

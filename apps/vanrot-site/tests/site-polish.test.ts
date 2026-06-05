@@ -161,6 +161,7 @@ describe('site polish', () => {
       '/',
       '/docs',
       '/docs/forms',
+      '/docs/formatters',
       '/docs/components',
       '/changelog',
     ]);

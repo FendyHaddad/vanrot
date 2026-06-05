@@ -22,6 +22,7 @@ export interface GenerateState {
   usesRouterOutlet: boolean;
   usesRouteLink: boolean;
   usesSlots: boolean;
+  usesPipes: boolean;
   templatePath: string;
   templateSource: string;
   localIdentifiers: string[];
@@ -50,6 +51,7 @@ export function createGenerateState(input: CreateGenerateStateInput): GenerateSt
     usesRouterOutlet: false,
     usesRouteLink: false,
     usesSlots: false,
+    usesPipes: false,
     templatePath: input.templatePath,
     templateSource: input.templateSource,
     localIdentifiers: [],

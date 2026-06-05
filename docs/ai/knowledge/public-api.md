@@ -540,6 +540,66 @@ Freezes a schema adapter contract so forms can consume domain schemas without ow
 
 Docs: /docs/forms
 
+## @vanrot/formatters *
+
+All public exports from @vanrot/formatters are covered by the formatters and public API documentation.
+
+Docs: /docs/public-api
+
+## @vanrot/formatters applyVanrotPipeChain
+
+Applies a compiler-generated pipe chain with the configured pipe context and registry options.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters createPipeContext
+
+Normalizes locale, timezone, and currency defaults for built-in and custom formatters.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters createPipeRegistry
+
+Creates the runtime registry for built-in pipes, custom pipes, enum pipes, presets, and pipe diagnostics.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters definePipe
+
+Defines a custom synchronous display pipe for .pipe.ts role files.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters enumPipe
+
+Defines a custom enum-backed display pipe for backend status values and domain enums.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters datePattern
+
+Defines a reusable named date or time preset for namespace pipe syntax.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters numberPattern
+
+Defines a reusable named number, currency, percent, compact, or filesize preset.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters maskPattern
+
+Defines a reusable named display mask preset for country-specific or business-specific values.
+
+Docs: /docs/formatters
+
+## @vanrot/formatters createPipeTest
+
+Creates a focused test helper for custom pipe handlers and presets.
+
+Docs: /docs/formatters
+
 ## @vanrot/devtools *
 
 All public exports from @vanrot/devtools are covered by devtools and public API documentation.

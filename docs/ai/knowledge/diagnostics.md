@@ -8,9 +8,63 @@ Docs: /docs/diagnostics
 
 ## VR019
 
-Compiler diagnostic for the final current compiler catalog entry.
+Compiler diagnostic for invalid Vanrot UI primitive variants.
 
-Docs: /docs/diagnostics
+Docs: /docs/ui/primitives
+
+## VR020
+
+Compiler diagnostic for duplicate Vanrot UI dotted tokens.
+
+Docs: /docs/ui/dotted-token-attributes
+
+## VR021
+
+Compiler diagnostic for unknown Vanrot UI dotted tokens.
+
+Docs: /docs/ui/dotted-token-attributes
+
+## VR_PIPE_UNKNOWN
+
+Template pipe diagnostic for a pipe name that is not built in and not exported from a .pipe.ts role file.
+
+Docs: /docs/formatters
+
+## VR_PIPE_UNKNOWN_VARIANT
+
+Template pipe diagnostic for an unknown namespace preset such as date.invoice or mask.malaysiaPhone.
+
+Docs: /docs/formatters
+
+## VR_PIPE_DUPLICATE_NAME
+
+Template pipe diagnostic for duplicate custom pipe names discovered across .pipe.ts files.
+
+Docs: /docs/formatters
+
+## VR_PIPE_DUPLICATE_PRESET
+
+Template pipe diagnostic for duplicate custom presets in the same formatter namespace.
+
+Docs: /docs/formatters
+
+## VR_PIPE_INVALID_ARGUMENT
+
+Template pipe diagnostic for argument shapes the compiler cannot lower safely.
+
+Docs: /docs/formatters
+
+## VR_PIPE_INVALID_DEFINITION
+
+Template pipe diagnostic for custom pipe exports that do not use the supported formatter helpers.
+
+Docs: /docs/formatters
+
+## VR_PIPE_ASYNC
+
+Template pipe diagnostic for async pipe handlers, which are unsupported because pipes must stay pure and synchronous.
+
+Docs: /docs/formatters
 
 ## VRSSR_BROWSER_API
 
@@ -71,6 +125,24 @@ Docs: /docs/diagnostics
 Config diagnostic for AI rule source validation.
 
 Docs: /docs/diagnostics
+
+## VRCFG_FORMATTING_LOCALE_EMPTY
+
+Config diagnostic for an empty formatting.locale value in vanrot.config.ts.
+
+Docs: /docs/formatters
+
+## VRCFG_FORMATTING_TIMEZONE_EMPTY
+
+Config diagnostic for an empty formatting.timezone value in vanrot.config.ts.
+
+Docs: /docs/formatters
+
+## VRCFG_FORMATTING_CURRENCY_EMPTY
+
+Config diagnostic for an empty formatting.currency value in vanrot.config.ts.
+
+Docs: /docs/formatters
 
 ## VR_CHILD_BEFORE_PARENT
 

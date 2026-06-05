@@ -16,6 +16,7 @@ PUBLISH_PACKAGES=(
   runtime
   behavior
   forms
+  formatters
   ui
   compiler
   router

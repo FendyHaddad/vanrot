@@ -60,6 +60,12 @@ No summary provided.
 
 Docs: /docs/forms
 
+## Formatters And Template Pipes
+
+No summary provided.
+
+Docs: /docs/formatters
+
 ## WebGL And three.js Lifecycle
 
 No summary provided.

@@ -112,6 +112,41 @@ export const diagnosticCatalog: Record<DiagnosticCode, DiagnosticInfo> = {
     suggestion: 'Use a dotted token listed by the primitive metadata in @vanrot/ui.',
     docsPath: '/docs/ui/dotted-token-attributes',
   },
+  VR_PIPE_UNKNOWN: {
+    message: 'Unknown template pipe.',
+    suggestion: 'Use a built-in pipe or export a custom pipe from a .pipe.ts file.',
+    docsPath: '/docs/formatters',
+  },
+  VR_PIPE_UNKNOWN_VARIANT: {
+    message: 'Unknown template pipe variant.',
+    suggestion: 'Use a built-in variant or export a custom preset from a .pipe.ts file.',
+    docsPath: '/docs/formatters',
+  },
+  VR_PIPE_DUPLICATE_NAME: {
+    message: 'Duplicate template pipe name.',
+    suggestion: 'Keep pipe names globally unique across .pipe.ts files.',
+    docsPath: '/docs/formatters',
+  },
+  VR_PIPE_DUPLICATE_PRESET: {
+    message: 'Duplicate template pipe preset.',
+    suggestion: 'Keep each preset name unique inside its pipe namespace.',
+    docsPath: '/docs/formatters',
+  },
+  VR_PIPE_INVALID_ARGUMENT: {
+    message: 'Invalid template pipe argument.',
+    suggestion: 'Use arguments supported by the pipe contract.',
+    docsPath: '/docs/formatters',
+  },
+  VR_PIPE_INVALID_DEFINITION: {
+    message: 'Invalid template pipe definition.',
+    suggestion: 'Export pipes with definePipe, enumPipe, datePattern, numberPattern, or maskPattern.',
+    docsPath: '/docs/formatters',
+  },
+  VR_PIPE_ASYNC: {
+    message: 'Async template pipes are not supported.',
+    suggestion: 'Use forms or async resources for asynchronous work, then pipe the resolved value.',
+    docsPath: '/docs/formatters',
+  },
   VR_ROUTER_MULTIPLE_ROOTS: {
     message: 'App layout templates can contain only one <vr-router />.',
     suggestion: 'Keep one root <vr-router /> in app.layout.html.',

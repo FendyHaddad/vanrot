@@ -1023,4 +1023,22 @@ describe('generateComponent', () => {
       },
     ]);
   });
+
+  it('lowers interpolation pipe chains into formatter calls', () => {
+    const templateSource = '{{ name | fallback("Unknown") | uppercase }}';
+    const result = generateComponent({
+      metadata,
+      nodes: parseNodes(templateSource),
+      scopeAttribute: 'data-vr-a1b2c3',
+      templatePath: 'customer.page.html',
+      templateSource,
+    });
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.features).toContain('template-pipe');
+    expect(result.js).toContain("from '@vanrot/formatters'");
+    expect(result.js).toContain('applyVanrotPipeChain');
+    expect(result.js).toContain('fallback');
+    expect(result.js).toContain('uppercase');
+  });
 });

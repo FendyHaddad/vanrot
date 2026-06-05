@@ -17,5 +17,6 @@ export const configDomain = {
   docs: 'docs',
   ai: 'ai',
   seo: 'seo',
+  formatting: 'formatting',
   conventions: 'conventions',
 } as const;

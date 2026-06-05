@@ -465,6 +465,7 @@ async function verifySiteDocs() {
     'theming',
     'vanrotstyles',
     'testing',
+    'formatters',
     'devtools',
     'examples',
     'exampleMatrix',
@@ -483,14 +484,36 @@ async function verifySiteDocs() {
     ...checkPublicExportCoverage(workspaceExports, frameworkReference.publicExports),
     ...checkCommandCoverage(cli.cliCommands.map((command) => command.name), frameworkReference.commands),
     ...checkDiagnosticCoverage(
-      ['VR001', 'VR019'],
+      [
+        'VR001',
+        'VR019',
+        'VR020',
+        'VR021',
+        'VR_PIPE_UNKNOWN',
+        'VR_PIPE_UNKNOWN_VARIANT',
+        'VR_PIPE_DUPLICATE_NAME',
+        'VR_PIPE_DUPLICATE_PRESET',
+        'VR_PIPE_INVALID_ARGUMENT',
+        'VR_PIPE_INVALID_DEFINITION',
+        'VR_PIPE_ASYNC',
+      ],
       frameworkReference.diagnostics
-        .filter((item) => item.family === 'compiler')
+        .filter((item) => item.family === 'compiler' || item.family === 'formatters')
         .map((item) => item.code),
-      'compiler',
+      'compiler/formatters',
     ),
     ...checkDiagnosticCoverage(
-      ['VRCFG001', 'VRCFG008', 'VRCFG009', 'VRCFG010', 'VRCFG011', 'VRCFG012'],
+      [
+        'VRCFG001',
+        'VRCFG008',
+        'VRCFG009',
+        'VRCFG010',
+        'VRCFG011',
+        'VRCFG012',
+        'VRCFG_FORMATTING_LOCALE_EMPTY',
+        'VRCFG_FORMATTING_TIMEZONE_EMPTY',
+        'VRCFG_FORMATTING_CURRENCY_EMPTY',
+      ],
       frameworkReference.diagnostics
         .filter((item) => item.family === 'config')
         .map((item) => item.code),

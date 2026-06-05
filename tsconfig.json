@@ -2,6 +2,7 @@
   "files": [],
   "references": [
     { "path": "./packages/runtime" },
+    { "path": "./packages/formatters" },
     { "path": "./packages/ui" },
     { "path": "./packages/router" },
     { "path": "./packages/testing" },

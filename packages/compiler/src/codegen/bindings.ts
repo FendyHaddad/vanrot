@@ -6,6 +6,8 @@ import {
 import { createSourceSpan } from '../source/location.js';
 import type { TemplateAttribute, TextNode } from '../template/ast.js';
 import { parseInterpolation } from '../template/bindings.js';
+import { parsePipeExpression } from '../template/pipes.js';
+import { buildPipeChainExpression } from './pipe-chain.js';
 import type { GenerateState } from './state.js';
 
 export function generateText(node: TextNode, parentName: string, state: GenerateState): void {
@@ -22,8 +24,10 @@ export function generateText(node: TextNode, parentName: string, state: Generate
     return;
   }
 
+  const pipeExpression = parsePipeExpression(interpolation.expression);
+  const expressionToRewrite = pipeExpression?.baseExpression ?? interpolation.expression;
   const rewritten = rewriteExpression(
-    interpolation.expression,
+    expressionToRewrite,
     createInterpolationSourceContext(node, interpolation.expressionStart, interpolation.expressionEnd, state),
   );
 
@@ -36,12 +40,27 @@ export function generateText(node: TextNode, parentName: string, state: Generate
   state.usesEffect = true;
   state.features.add('text-interpolation');
   state.features.add('expression-rewriting');
+  const expression = pipeExpression === null
+    ? rewritten.expression
+    : buildPipeChainExpression(rewritten.expression, pipeExpression, state, (arg) => {
+        const rewrittenArg = rewriteExpression(
+          arg,
+          createInterpolationSourceContext(node, interpolation.expressionStart, interpolation.expressionEnd, state),
+        );
+        state.diagnostics.push(...rewrittenArg.diagnostics);
+        return rewrittenArg.expression;
+      });
+
+  if (expression === null) {
+    return;
+  }
+
   state.lines.push(`  const ${textName} = document.createTextNode('');`);
   state.lines.push(`  ${parentName}.append(${textName});`);
   state.lines.push('  effect(() => {');
   state.lines.push(
     `    ${textName}.data = \`${escapeTemplatePart(interpolation.staticParts[0] ?? '')}\${${
-      rewritten.expression
+      expression
     }}${escapeTemplatePart(interpolation.staticParts[1] ?? '')}\`;`,
   );
   state.lines.push('  });');

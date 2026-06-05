@@ -25,6 +25,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
   const dependencyVersion = options.workspace ? 'workspace:*' : createRegistryDependencyVersion();
   const dependencies: Record<string, string> = {
     '@vanrot/config': dependencyVersion,
+    '@vanrot/formatters': dependencyVersion,
     '@vanrot/runtime': dependencyVersion,
     '@vanrot/router': dependencyVersion,
     '@vanrot/ui': dependencyVersion,

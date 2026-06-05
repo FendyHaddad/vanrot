@@ -186,6 +186,24 @@ describe('validateVanrotConfig', () => {
     );
   });
 
+  it('reports empty formatting values', () => {
+    const diagnostics = validateVanrotConfig({
+      formatting: {
+        locale: '',
+        timezone: '',
+        currency: '',
+      },
+    });
+
+    expect(diagnostics).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ code: configDiagnosticCode.formattingLocaleEmpty }),
+        expect.objectContaining({ code: configDiagnosticCode.formattingTimezoneEmpty }),
+        expect.objectContaining({ code: configDiagnosticCode.formattingCurrencyEmpty }),
+      ]),
+    );
+  });
+
   it('warns when SEO is enabled before the production site URL is known', () => {
     const diagnostics = validateVanrotConfig({
       seo: {
