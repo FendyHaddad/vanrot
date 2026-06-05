@@ -2043,7 +2043,7 @@
     {
       "id": "doc:formatters",
       "title": "Formatters And Template Pipes",
-      "summary": "Vanrot template pipes are compiler-known interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, typed presets, locale context, and terminal diagnostics.",
+      "summary": "Vanrot template pipes are compiler-owned interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, named presets, locale context, terminal diagnostics, and focused pipe tests.",
       "docsPath": "/docs/formatters"
     },
     {

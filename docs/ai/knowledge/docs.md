@@ -512,7 +512,7 @@ Docs: /docs/forms
 
 ## Formatters And Template Pipes
 
-Vanrot template pipes are compiler-known interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, typed presets, locale context, and terminal diagnostics.
+Vanrot template pipes are compiler-owned interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, named presets, locale context, terminal diagnostics, and focused pipe tests.
 
 Docs: /docs/formatters
 
