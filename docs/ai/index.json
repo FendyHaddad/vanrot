@@ -1987,6 +1987,42 @@
       "docsPath": "/docs/ssr-hydration"
     },
     {
+      "id": "doc:ssrPackageBoundary",
+      "title": "SSR Package Boundary",
+      "summary": "@vanrot/ssr owns server-only rendering APIs so runtime, compiler, router, and app code keep clean browser and server responsibilities.",
+      "docsPath": "/docs/ssr-hydration/package-boundary"
+    },
+    {
+      "id": "doc:ssrRenderDocument",
+      "title": "Render Document",
+      "summary": "renderDocument owns the final HTML shell: title, head entries, body markup, assets, base paths, and serialized hydration state.",
+      "docsPath": "/docs/ssr-hydration/render-document"
+    },
+    {
+      "id": "doc:ssrHydrationContract",
+      "title": "Hydration Contract",
+      "summary": "Hydration attaches behavior to server markup and reports deterministic mismatches instead of silently replacing user-visible HTML.",
+      "docsPath": "/docs/ssr-hydration/hydration-contract"
+    },
+    {
+      "id": "doc:ssrStateSerialization",
+      "title": "State Serialization",
+      "summary": "Hydration state is serialized and escaped by @vanrot/ssr so the client can resume with safe route, data, and diagnostic context.",
+      "docsPath": "/docs/ssr-hydration/state-serialization"
+    },
+    {
+      "id": "doc:ssrRouter",
+      "title": "Router SSR",
+      "summary": "SSR route rendering uses route refs, params, query parsing, guards, redirects, and lazy boundaries from the same router contract as client navigation.",
+      "docsPath": "/docs/ssr-hydration/router-ssr"
+    },
+    {
+      "id": "doc:ssrDeferredStreaming",
+      "title": "Deferred Streaming",
+      "summary": "Streaming, event replay, partial hydration, islands, and resumability stay future work until the base SSR and hydration contract is stable.",
+      "docsPath": "/docs/ssr-hydration/deferred-streaming"
+    },
+    {
       "id": "doc:uiOctober",
       "title": "UI October",
       "summary": "October is Vanrot's dark-first, light-capable UI foundation with source-owned primitives, tokens, and vanrotstyles.",
@@ -2041,10 +2077,118 @@
       "docsPath": "/docs/forms"
     },
     {
+      "id": "doc:formsBoundary",
+      "title": "Forms Package Boundary",
+      "summary": "@vanrot/forms owns form state, validation, form resources, field arrays, wizards, server errors, draft persistence, diagnostics, and test helpers without moving app logic into templates.",
+      "docsPath": "/docs/forms/package-boundary"
+    },
+    {
+      "id": "doc:formsFieldRefs",
+      "title": "Named Field Refs",
+      "summary": "Named field refs give forms a stable source of truth for labels, paths, messages, diagnostics, generated form bindings, and tests.",
+      "docsPath": "/docs/forms/field-refs"
+    },
+    {
+      "id": "doc:formsValidationLifecycle",
+      "title": "Validation Lifecycle",
+      "summary": "Validation runs through predictable sync and async stages with typed messages, dirty and touched state, submit guards, and line-numbered diagnostics.",
+      "docsPath": "/docs/forms/validation-lifecycle"
+    },
+    {
+      "id": "doc:formsAsyncResources",
+      "title": "Form Async Resources",
+      "summary": "Form resources load option data, dependent fields, submit state, and server checks while keeping cancellation and stale response handling inside form orchestration.",
+      "docsPath": "/docs/forms/async-resources"
+    },
+    {
+      "id": "doc:formsArraysWizardsErrors",
+      "title": "Arrays, Wizards, And Server Errors",
+      "summary": "Forms support repeated groups, wizard steps, and backend error hydration with stable refs instead of ad hoc index strings.",
+      "docsPath": "/docs/forms/arrays-wizards-server-errors"
+    },
+    {
+      "id": "doc:formsDraftPersistence",
+      "title": "Draft Persistence",
+      "summary": "Draft persistence saves recoverable form state while protecting sensitive fields and keeping restore behavior explicit.",
+      "docsPath": "/docs/forms/draft-persistence"
+    },
+    {
+      "id": "doc:formsToolingTests",
+      "title": "Forms Tooling And Tests",
+      "summary": "Forms ship diagnostics, Vite discovery hooks, and test helpers so generated form behavior can be proved without clicking through every field manually.",
+      "docsPath": "/docs/forms/tooling-tests"
+    },
+    {
       "id": "doc:formatters",
       "title": "Formatters And Template Pipes",
       "summary": "Vanrot template pipes are compiler-owned interpolation formatters backed by @vanrot/formatters, .pipe.ts role files, named presets, locale context, terminal diagnostics, and focused pipe tests.",
       "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "doc:formattersCompilerOwned",
+      "title": "Compiler-Owned Formatting",
+      "summary": "Template pipes are a compiler feature backed by @vanrot/formatters, not a runtime trick or template-side business-logic escape hatch.",
+      "docsPath": "/docs/formatters/compiler-owned-formatting"
+    },
+    {
+      "id": "doc:formattersTemplatePipes",
+      "title": "Template Pipes",
+      "summary": "Pipe syntax uses readable interpolation calls such as {{ createdAt | date.monthDayYear }} and {{ row.description | truncate(20) }}.",
+      "docsPath": "/docs/formatters/template-pipes"
+    },
+    {
+      "id": "doc:formattersBuiltInSuite",
+      "title": "Built-In Pipe Suite",
+      "summary": "@vanrot/formatters ships the common display helpers most screens need before users define custom pipes.",
+      "docsPath": "/docs/formatters/built-in-suite"
+    },
+    {
+      "id": "doc:formattersBuiltInArguments",
+      "title": "Built-In Arguments And Variants",
+      "summary": "Built-in pipes accept readable arguments and named variants for date, number, currency, plural, masks, and message formats.",
+      "docsPath": "/docs/formatters/built-in-arguments"
+    },
+    {
+      "id": "doc:formattersPipeRoleFiles",
+      "title": ".pipe.ts Role Files",
+      "summary": "Custom pipes live in .pipe.ts role files so Vite discovery, compiler validation, diagnostics, and tests can all see them.",
+      "docsPath": "/docs/formatters/pipe-role-files"
+    },
+    {
+      "id": "doc:formattersNamedPresets",
+      "title": "Named Presets",
+      "summary": "Named presets let teams replace repeated string masks and option objects with readable constants.",
+      "docsPath": "/docs/formatters/named-presets"
+    },
+    {
+      "id": "doc:formattersEnumPipes",
+      "title": "Enum And Backend Value Display",
+      "summary": "Enum-backed custom pipes convert backend codes into user-facing labels without leaking backend strings into templates.",
+      "docsPath": "/docs/formatters/enum-pipes"
+    },
+    {
+      "id": "doc:formattersContext",
+      "title": "Formatting Context",
+      "summary": "Pipe context provides locale, time zone, numbering system, currency defaults, message catalog access, and safe app-defined metadata.",
+      "docsPath": "/docs/formatters/context"
+    },
+    {
+      "id": "doc:formattersCompilerDiagnostics",
+      "title": "Compiler Diagnostics",
+      "summary": "The compiler reports invalid pipe names, arguments, variants, presets, duplicate definitions, and bad async handlers with file and line number.",
+      "docsPath": "/docs/formatters/compiler-diagnostics"
+    },
+    {
+      "id": "doc:formattersViteTooling",
+      "title": "Vite Discovery And Rebuilds",
+      "summary": "The Vite plugin discovers .pipe.ts files, rebuilds the formatter registry, reports terminal diagnostics, and invalidates affected templates.",
+      "docsPath": "/docs/formatters/vite-tooling"
+    },
+    {
+      "id": "doc:formattersTesting",
+      "title": "Testing Formatter Behavior",
+      "summary": "Formatter tests cover built-ins, custom pipes, context, diagnostics, generated imports, and compiled template behavior.",
+      "docsPath": "/docs/formatters/testing"
     },
     {
       "id": "doc:devtools",

@@ -1,14 +1,20 @@
+import { readFileSync } from 'node:fs';
 import { uiPrimitiveOrder } from '@vanrot/ui';
+import { getCurrentMatch, navigate, provideRouter } from '@vanrot/router';
+import { resetRouterForTests } from '@vanrot/router/internal';
 import { describe, expect, it } from 'vitest';
 import { componentDocs } from '../src/docs/component-docs.ts';
 import { siteNavigationGroups } from '../src/docs/site-navigation.ts';
 import {
   cliCommandDocs,
+  getSiteArticle,
   packageReferenceDocs,
   primitiveDocCopy,
+  siteArticleKey,
   siteArticleKeys,
   siteArticles,
 } from '../src/docs/site-data.ts';
+import { route } from '../src/routes.ts';
 
 describe('vanrot site docs data', () => {
   it('documents the required framework learning pages', () => {
@@ -89,6 +95,12 @@ describe('vanrot site docs data', () => {
       'routingNavigation',
       'routingPreloadingKeepAlive',
       'ssrHydration',
+      'ssrPackageBoundary',
+      'ssrRenderDocument',
+      'ssrHydrationContract',
+      'ssrStateSerialization',
+      'ssrRouter',
+      'ssrDeferredStreaming',
       'uiOctober',
       'theming',
       'vanrotstyles',
@@ -98,7 +110,25 @@ describe('vanrot site docs data', () => {
       'testingRouting',
       'testingStrategy',
       'forms',
+      'formsBoundary',
+      'formsFieldRefs',
+      'formsValidationLifecycle',
+      'formsAsyncResources',
+      'formsArraysWizardsErrors',
+      'formsDraftPersistence',
+      'formsToolingTests',
       'formatters',
+      'formattersCompilerOwned',
+      'formattersTemplatePipes',
+      'formattersBuiltInSuite',
+      'formattersBuiltInArguments',
+      'formattersPipeRoleFiles',
+      'formattersNamedPresets',
+      'formattersEnumPipes',
+      'formattersContext',
+      'formattersCompilerDiagnostics',
+      'formattersViteTooling',
+      'formattersTesting',
       'devtools',
       'devtoolsProjectMap',
       'devtoolsRuntimeGraph',
@@ -607,6 +637,14 @@ describe('vanrot site docs data', () => {
         'routingNavigation',
         'routingPreloadingKeepAlive',
       ],
+      ssrHydration: [
+        'ssrPackageBoundary',
+        'ssrRenderDocument',
+        'ssrHydrationContract',
+        'ssrStateSerialization',
+        'ssrRouter',
+        'ssrDeferredStreaming',
+      ],
       testing: ['testingComponent', 'testingScreen', 'testingRouting', 'testingStrategy'],
       devtools: [
         'devtoolsProjectMap',
@@ -787,15 +825,238 @@ describe('vanrot site docs data', () => {
       componentDocs.map((doc) => doc.href),
     );
     const frameworkGroup = siteNavigationGroups.find((group) => group.label === 'Framework');
-    const formattersArticle = siteArticles.formatters;
+    const packageParentRoutes = [
+      {
+        key: 'forms',
+        label: 'Forms',
+        route: route.docsForms,
+        childKeys: [
+          siteArticleKey.formsBoundary,
+          siteArticleKey.formsFieldRefs,
+          siteArticleKey.formsValidationLifecycle,
+          siteArticleKey.formsAsyncResources,
+          siteArticleKey.formsArraysWizardsErrors,
+          siteArticleKey.formsDraftPersistence,
+          siteArticleKey.formsToolingTests,
+        ],
+      },
+      {
+        key: 'formatters',
+        label: 'Formatters',
+        route: route.docsFormatters,
+        childKeys: [
+          siteArticleKey.formattersCompilerOwned,
+          siteArticleKey.formattersTemplatePipes,
+          siteArticleKey.formattersBuiltInSuite,
+          siteArticleKey.formattersBuiltInArguments,
+          siteArticleKey.formattersPipeRoleFiles,
+          siteArticleKey.formattersNamedPresets,
+          siteArticleKey.formattersEnumPipes,
+          siteArticleKey.formattersContext,
+          siteArticleKey.formattersCompilerDiagnostics,
+          siteArticleKey.formattersViteTooling,
+          siteArticleKey.formattersTesting,
+        ],
+      },
+    ] as const;
+
+    for (const packageParentRoute of packageParentRoutes) {
+      const article = siteArticles[packageParentRoute.key];
+      const item = frameworkGroup?.items.find((navItem) => navItem.href === article.path);
+      const children = packageParentRoute.childKeys.map((childKey) => siteArticles[childKey]);
+
+      expect(packageParentRoute.route.path).toBe(article.path.replace('/docs/', ''));
+      expect(item?.label).toBe(packageParentRoute.label);
+      expect(item?.children.map((child) => child.href)).toEqual(children.map((child) => child.path));
+      expect(item?.children.map((child) => child.href).some((href) => href.includes('#'))).toBe(false);
+      expect(item?.children.map((child) => child.label)).toEqual(children.map((child) => child.label));
+    }
+
     const formattersItem = frameworkGroup?.items.find((item) => item.href === '/docs/formatters');
     expect(formattersItem?.label).toBe('Formatters');
-    expect(formattersItem?.children.map((child) => child.href)).toEqual(
-      formattersArticle?.sections.map((section) => `/docs/formatters#${section.id}`),
-    );
     expect(formattersItem?.children.map((child) => child.label)).toContain('Template pipes');
 
     const referenceGroup = siteNavigationGroups.find((group) => group.label === 'Reference');
     expect(referenceGroup?.items.map((item) => item.href)).toContain('/docs/changelog');
+  });
+
+  it('renders package parent articles from their registered docs routes', async () => {
+    resetRouterForTests();
+    await provideRouter(route);
+    const articlePageSource = readFileSync('src/pages/docs/docs-article.page.ts', 'utf8');
+
+    const packageParentRoutes = [
+      {
+        path: '/docs/forms',
+        articleMapping: 'docsForms: siteArticleKey.forms',
+        articleKey: siteArticleKey.forms,
+        route: route.docsForms,
+      },
+      {
+        path: '/docs/forms/package-boundary',
+        articleMapping: 'docsFormsBoundary: siteArticleKey.formsBoundary',
+        articleKey: siteArticleKey.formsBoundary,
+        route: route.docsFormsBoundary,
+      },
+      {
+        path: '/docs/forms/field-refs',
+        articleMapping: 'docsFormsFieldRefs: siteArticleKey.formsFieldRefs',
+        articleKey: siteArticleKey.formsFieldRefs,
+        route: route.docsFormsFieldRefs,
+      },
+      {
+        path: '/docs/forms/validation-lifecycle',
+        articleMapping: 'docsFormsValidationLifecycle: siteArticleKey.formsValidationLifecycle',
+        articleKey: siteArticleKey.formsValidationLifecycle,
+        route: route.docsFormsValidationLifecycle,
+      },
+      {
+        path: '/docs/forms/async-resources',
+        articleMapping: 'docsFormsAsyncResources: siteArticleKey.formsAsyncResources',
+        articleKey: siteArticleKey.formsAsyncResources,
+        route: route.docsFormsAsyncResources,
+      },
+      {
+        path: '/docs/forms/arrays-wizards-server-errors',
+        articleMapping: 'docsFormsArraysWizardsErrors: siteArticleKey.formsArraysWizardsErrors',
+        articleKey: siteArticleKey.formsArraysWizardsErrors,
+        route: route.docsFormsArraysWizardsErrors,
+      },
+      {
+        path: '/docs/forms/draft-persistence',
+        articleMapping: 'docsFormsDraftPersistence: siteArticleKey.formsDraftPersistence',
+        articleKey: siteArticleKey.formsDraftPersistence,
+        route: route.docsFormsDraftPersistence,
+      },
+      {
+        path: '/docs/forms/tooling-tests',
+        articleMapping: 'docsFormsToolingTests: siteArticleKey.formsToolingTests',
+        articleKey: siteArticleKey.formsToolingTests,
+        route: route.docsFormsToolingTests,
+      },
+      {
+        path: '/docs/formatters',
+        articleMapping: 'docsFormatters: siteArticleKey.formatters',
+        articleKey: siteArticleKey.formatters,
+        route: route.docsFormatters,
+      },
+      {
+        path: '/docs/formatters/compiler-owned-formatting',
+        articleMapping: 'docsFormattersCompilerOwned: siteArticleKey.formattersCompilerOwned',
+        articleKey: siteArticleKey.formattersCompilerOwned,
+        route: route.docsFormattersCompilerOwned,
+      },
+      {
+        path: '/docs/formatters/template-pipes',
+        articleMapping: 'docsFormattersTemplatePipes: siteArticleKey.formattersTemplatePipes',
+        articleKey: siteArticleKey.formattersTemplatePipes,
+        route: route.docsFormattersTemplatePipes,
+      },
+      {
+        path: '/docs/formatters/built-in-suite',
+        articleMapping: 'docsFormattersBuiltInSuite: siteArticleKey.formattersBuiltInSuite',
+        articleKey: siteArticleKey.formattersBuiltInSuite,
+        route: route.docsFormattersBuiltInSuite,
+      },
+      {
+        path: '/docs/formatters/built-in-arguments',
+        articleMapping: 'docsFormattersBuiltInArguments: siteArticleKey.formattersBuiltInArguments',
+        articleKey: siteArticleKey.formattersBuiltInArguments,
+        route: route.docsFormattersBuiltInArguments,
+      },
+      {
+        path: '/docs/formatters/pipe-role-files',
+        articleMapping: 'docsFormattersPipeRoleFiles: siteArticleKey.formattersPipeRoleFiles',
+        articleKey: siteArticleKey.formattersPipeRoleFiles,
+        route: route.docsFormattersPipeRoleFiles,
+      },
+      {
+        path: '/docs/formatters/named-presets',
+        articleMapping: 'docsFormattersNamedPresets: siteArticleKey.formattersNamedPresets',
+        articleKey: siteArticleKey.formattersNamedPresets,
+        route: route.docsFormattersNamedPresets,
+      },
+      {
+        path: '/docs/formatters/enum-pipes',
+        articleMapping: 'docsFormattersEnumPipes: siteArticleKey.formattersEnumPipes',
+        articleKey: siteArticleKey.formattersEnumPipes,
+        route: route.docsFormattersEnumPipes,
+      },
+      {
+        path: '/docs/formatters/context',
+        articleMapping: 'docsFormattersContext: siteArticleKey.formattersContext',
+        articleKey: siteArticleKey.formattersContext,
+        route: route.docsFormattersContext,
+      },
+      {
+        path: '/docs/formatters/compiler-diagnostics',
+        articleMapping: 'docsFormattersCompilerDiagnostics: siteArticleKey.formattersCompilerDiagnostics',
+        articleKey: siteArticleKey.formattersCompilerDiagnostics,
+        route: route.docsFormattersCompilerDiagnostics,
+      },
+      {
+        path: '/docs/formatters/vite-tooling',
+        articleMapping: 'docsFormattersViteTooling: siteArticleKey.formattersViteTooling',
+        articleKey: siteArticleKey.formattersViteTooling,
+        route: route.docsFormattersViteTooling,
+      },
+      {
+        path: '/docs/formatters/testing',
+        articleMapping: 'docsFormattersTesting: siteArticleKey.formattersTesting',
+        articleKey: siteArticleKey.formattersTesting,
+        route: route.docsFormattersTesting,
+      },
+      {
+        path: '/docs/ssr-hydration',
+        articleMapping: 'docsSsrHydration: siteArticleKey.ssrHydration',
+        articleKey: siteArticleKey.ssrHydration,
+        route: route.docsSsrHydration,
+      },
+      {
+        path: '/docs/ssr-hydration/package-boundary',
+        articleMapping: 'docsSsrPackageBoundary: siteArticleKey.ssrPackageBoundary',
+        articleKey: siteArticleKey.ssrPackageBoundary,
+        route: route.docsSsrPackageBoundary,
+      },
+      {
+        path: '/docs/ssr-hydration/render-document',
+        articleMapping: 'docsSsrRenderDocument: siteArticleKey.ssrRenderDocument',
+        articleKey: siteArticleKey.ssrRenderDocument,
+        route: route.docsSsrRenderDocument,
+      },
+      {
+        path: '/docs/ssr-hydration/hydration-contract',
+        articleMapping: 'docsSsrHydrationContract: siteArticleKey.ssrHydrationContract',
+        articleKey: siteArticleKey.ssrHydrationContract,
+        route: route.docsSsrHydrationContract,
+      },
+      {
+        path: '/docs/ssr-hydration/state-serialization',
+        articleMapping: 'docsSsrStateSerialization: siteArticleKey.ssrStateSerialization',
+        articleKey: siteArticleKey.ssrStateSerialization,
+        route: route.docsSsrStateSerialization,
+      },
+      {
+        path: '/docs/ssr-hydration/router-ssr',
+        articleMapping: 'docsSsrRouter: siteArticleKey.ssrRouter',
+        articleKey: siteArticleKey.ssrRouter,
+        route: route.docsSsrRouter,
+      },
+      {
+        path: '/docs/ssr-hydration/deferred-streaming',
+        articleMapping: 'docsSsrDeferredStreaming: siteArticleKey.ssrDeferredStreaming',
+        articleKey: siteArticleKey.ssrDeferredStreaming,
+        route: route.docsSsrDeferredStreaming,
+      },
+    ] as const;
+
+    for (const packageParentRoute of packageParentRoutes) {
+      await navigate(packageParentRoute.path);
+
+      expect(getCurrentMatch()?.route).toBe(packageParentRoute.route);
+      expect(articlePageSource).toContain(packageParentRoute.articleMapping);
+      expect(getSiteArticle(packageParentRoute.articleKey).path).toBe(packageParentRoute.path);
+      expect(getSiteArticle(packageParentRoute.articleKey).sections.length).toBeGreaterThan(0);
+    }
   });
 });

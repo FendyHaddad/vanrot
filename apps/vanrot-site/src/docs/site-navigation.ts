@@ -43,17 +43,6 @@ function navItem(
   };
 }
 
-function articleSectionNavItems(key: SiteArticleKey): readonly SiteNavigationItem[] {
-  const article = getSiteArticle(key);
-
-  return article.sections.map((section) => ({
-    key: `${key}-${section.id}`,
-    href: `${article.path}#${section.id}`,
-    label: section.title,
-    children: [],
-  }));
-}
-
 function componentNavItem(doc: ComponentDoc): SiteNavigationItem {
   return {
     key: doc.primitive,
@@ -151,6 +140,15 @@ const routingNavigationChildren = [
   navItem(siteArticleKey.routingPreloadingKeepAlive),
 ] as const;
 
+const ssrNavigationChildren = [
+  navItem(siteArticleKey.ssrPackageBoundary),
+  navItem(siteArticleKey.ssrRenderDocument),
+  navItem(siteArticleKey.ssrHydrationContract),
+  navItem(siteArticleKey.ssrStateSerialization),
+  navItem(siteArticleKey.ssrRouter),
+  navItem(siteArticleKey.ssrDeferredStreaming),
+] as const;
+
 const testingNavigationChildren = [
   navItem(siteArticleKey.testingComponent),
   navItem(siteArticleKey.testingScreen),
@@ -158,7 +156,29 @@ const testingNavigationChildren = [
   navItem(siteArticleKey.testingStrategy),
 ] as const;
 
-const formattersNavigationChildren = articleSectionNavItems(siteArticleKey.formatters);
+const formsNavigationChildren = [
+  navItem(siteArticleKey.formsBoundary),
+  navItem(siteArticleKey.formsFieldRefs),
+  navItem(siteArticleKey.formsValidationLifecycle),
+  navItem(siteArticleKey.formsAsyncResources),
+  navItem(siteArticleKey.formsArraysWizardsErrors),
+  navItem(siteArticleKey.formsDraftPersistence),
+  navItem(siteArticleKey.formsToolingTests),
+] as const;
+
+const formattersNavigationChildren = [
+  navItem(siteArticleKey.formattersCompilerOwned),
+  navItem(siteArticleKey.formattersTemplatePipes),
+  navItem(siteArticleKey.formattersBuiltInSuite),
+  navItem(siteArticleKey.formattersBuiltInArguments),
+  navItem(siteArticleKey.formattersPipeRoleFiles),
+  navItem(siteArticleKey.formattersNamedPresets),
+  navItem(siteArticleKey.formattersEnumPipes),
+  navItem(siteArticleKey.formattersContext),
+  navItem(siteArticleKey.formattersCompilerDiagnostics),
+  navItem(siteArticleKey.formattersViteTooling),
+  navItem(siteArticleKey.formattersTesting),
+] as const;
 
 const devtoolsNavigationChildren = [
   navItem(siteArticleKey.devtoolsProjectMap),
@@ -199,8 +219,9 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.cli, cliNavigationChildren),
       navItem(siteArticleKey.configuration, configurationNavigationChildren),
       navItem(siteArticleKey.routing, routingNavigationChildren),
-      navItem(siteArticleKey.ssrHydration),
+      navItem(siteArticleKey.ssrHydration, ssrNavigationChildren),
       navItem(siteArticleKey.testing, testingNavigationChildren),
+      navItem(siteArticleKey.forms, formsNavigationChildren),
       navItem(siteArticleKey.formatters, formattersNavigationChildren),
       navItem(siteArticleKey.devtools, devtoolsNavigationChildren),
       navItem(siteArticleKey.conventions, conventionsNavigationChildren),

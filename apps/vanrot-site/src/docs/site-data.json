@@ -3708,7 +3708,7 @@
         {
           "id": "package-boundary",
           "title": "Package Boundary",
-          "body": "SSR ships as @vanrot/ssr so server rendering, shell generation, serialized state, and mismatch diagnostics stay out of the tiny browser runtime.",
+          "body": "SSR ships as @vanrot/ssr so server rendering, shell generation, serialized state, and mismatch diagnostics stay out of the tiny browser runtime while still using compiler-owned page output.",
           "points": [
             "Keep @vanrot/runtime browser-first and below the gzip cap.",
             "Use renderToString for component modules that expose renderToHtml.",
@@ -3733,6 +3733,11 @@
           "id": "router-ssr",
           "title": "Router SSR",
           "body": "resolveSsrRoute reuses the route table and route refs so params, query values, redirects, guards, and lazy page boundaries behave like router-owned navigation instead of string literal routing.",
+          "points": [
+            "Resolve the same route refs used by the client router.",
+            "Report redirect and guard outcomes before rendering a body.",
+            "Carry route divergence diagnostics into hydration checks."
+          ],
           "code": {
             "title": "Render a route",
             "code": "const body = await renderRouteToString(routes, '/account/42');\\nconst html = renderDocument({\\n  title: 'Account',\\n  body,\\n  state: { route: '/account/42' },\\n  assets: { scripts: ['main.js'] },\\n});"
@@ -3741,7 +3746,282 @@
         {
           "id": "deferred-streaming",
           "title": "Deferred Streaming",
-          "body": "Streaming, event replay, partial hydration, islands, and resumability are deliberately deferred until the non-streaming render, hydration, diagnostics, router integration, shell, and serialized-state contracts stay stable."
+          "body": "Streaming, event replay, partial hydration, islands, and resumability are deliberately deferred until the non-streaming render, hydration, diagnostics, router integration, shell, and serialized-state contracts stay stable.",
+          "points": [
+            "Ship deterministic static render and hydration before streaming.",
+            "Keep event replay out until listener timing is diagnosable.",
+            "Treat islands and resumability as separate future pipeline work."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ssrPackageBoundary",
+      "section": "framework",
+      "path": "/docs/ssr-hydration/package-boundary",
+      "label": "Package boundary",
+      "title": "SSR Package Boundary",
+      "summary": "@vanrot/ssr owns server-only rendering APIs so runtime, compiler, router, and app code keep clean browser and server responsibilities.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "server-package",
+          "title": "Server package",
+          "body": "@vanrot/ssr is the only package that should own server document rendering, hydration state serialization, and server diagnostics. Application code imports it at the server entry, not inside browser components.",
+          "points": [
+            "Keep render helpers out of @vanrot/runtime.",
+            "Import @vanrot/ssr only from server entries or server tests.",
+            "Expose server-safe helpers with explicit names."
+          ],
+          "code": {
+            "title": "Server entry",
+            "code": "import { renderDocument, renderToString } from '@vanrot/ssr';\\nimport { ProfilePage } from './profile.page';\\n\\nconst body = await renderToString(ProfilePage, { userId: '42' });\\nconst html = renderDocument({ title: 'Profile', body });"
+          }
+        },
+        {
+          "id": "runtime-boundary",
+          "title": "Runtime boundary",
+          "body": "The browser runtime remains responsible for signals, inputs, mounting, and client lifecycle. The SSR package may call into compiled output, but it must not add server-only branches to the runtime budget.",
+          "points": [
+            "onMount stays client-only.",
+            "SSR diagnostics stay in the server package.",
+            "The runtime size cap remains unchanged."
+          ]
+        },
+        {
+          "id": "compiler-boundary",
+          "title": "Compiler boundary",
+          "body": "Compiled pages expose renderable HTML and hydration hooks in a predictable shape. The compiler describes what can render on the server; @vanrot/ssr decides how the document is assembled.",
+          "points": [
+            "Generated render output stays deterministic.",
+            "Client-only APIs receive diagnostics when used during SSR.",
+            "Hydration metadata is generated from compiler-owned sources."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ssrRenderDocument",
+      "section": "framework",
+      "path": "/docs/ssr-hydration/render-document",
+      "label": "Render document",
+      "title": "Render Document",
+      "summary": "renderDocument owns the final HTML shell: title, head entries, body markup, assets, base paths, and serialized hydration state.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "html-shell",
+          "title": "HTML shell",
+          "body": "renderDocument is the single place where the server builds the document shell. It keeps page markup, asset tags, head entries, and hydration data in one escaped output path.",
+          "points": [
+            "Set the page title at the document layer.",
+            "Append style and script assets through structured options.",
+            "Keep app body markup separate from shell metadata."
+          ],
+          "code": {
+            "title": "Document shell",
+            "code": "const html = renderDocument({\\n  title: 'Claims',\\n  body: await renderToString(ClaimsPage),\\n  assets: { styles: ['claims.css'], scripts: ['claims.js'] },\\n  state: { route: '/claims' },\\n});"
+          }
+        },
+        {
+          "id": "head-entries",
+          "title": "Head entries",
+          "body": "Head entries use structured fields instead of concatenated strings. That keeps escaping consistent and makes later SEO or adapter work easier to verify.",
+          "points": [
+            "Use named head entries for meta tags.",
+            "Keep unsafe raw HTML out of regular document options.",
+            "Prefer asset base paths over repeated URL literals."
+          ]
+        },
+        {
+          "id": "asset-output",
+          "title": "Asset output",
+          "body": "Document rendering should emit predictable asset URLs for Vite, Forge, or future adapters. The server entry passes the asset manifest; the document renderer formats links and modules.",
+          "points": [
+            "Keep script output module-aware.",
+            "Allow an asset base path for deployed subpaths.",
+            "Report missing entry assets before returning HTML."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ssrHydrationContract",
+      "section": "framework",
+      "path": "/docs/ssr-hydration/hydration-contract",
+      "label": "Hydration contract",
+      "title": "Hydration Contract",
+      "summary": "Hydration attaches behavior to server markup and reports deterministic mismatches instead of silently replacing user-visible HTML.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "attach-client",
+          "title": "Attach client behavior",
+          "body": "hydrate runs on the client after server markup already exists. It attaches listeners and component state to the current DOM instead of rendering a second copy of the page.",
+          "points": [
+            "Client lifecycle starts after hydration begins.",
+            "Server markup remains the initial source of truth.",
+            "Hydration receives the expected HTML or metadata from SSR."
+          ],
+          "code": {
+            "title": "Hydrate a page",
+            "code": "const result = hydrate(ProfilePage, document.querySelector('#app'), {\\n  expectedHtml: window.__vanrot_hydration_state__.html,\\n  source: 'profile.page.html',\\n});\\n\\nfor (const diagnostic of result.diagnostics) console.warn(diagnostic);"
+          }
+        },
+        {
+          "id": "mismatch-diagnostics",
+          "title": "Mismatch diagnostics",
+          "body": "Mismatch diagnostics name the node, attribute, route, or serialized state that diverged. That makes SSR failures visible in terminals, test output, and future devtool surfaces.",
+          "points": [
+            "Report text and attribute mismatch locations.",
+            "Report missing and extra nodes.",
+            "Include file and route metadata when available."
+          ]
+        },
+        {
+          "id": "client-only-work",
+          "title": "Client-only work",
+          "body": "Client-only work such as onMount, browser storage, focus management, and measurement must wait until hydration starts. SSR should warn when those APIs run during server render.",
+          "points": [
+            "Keep DOM measurement out of server render.",
+            "Defer subscriptions that require browser globals.",
+            "Preserve terminal diagnostics for compiler-owned mistakes."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ssrStateSerialization",
+      "section": "framework",
+      "path": "/docs/ssr-hydration/state-serialization",
+      "label": "State serialization",
+      "title": "State Serialization",
+      "summary": "Hydration state is serialized and escaped by @vanrot/ssr so the client can resume with safe route, data, and diagnostic context.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "safe-state",
+          "title": "Safe state",
+          "body": "serializeHydrationState writes JSON that can live inside a script tag without creating an injection path. Values are encoded before they reach the document shell.",
+          "points": [
+            "Escape HTML-sensitive characters.",
+            "Keep state JSON deterministic for tests.",
+            "Reject functions, symbols, and unsupported values."
+          ],
+          "code": {
+            "title": "Serialize state",
+            "code": "const state = serializeHydrationState({\\n  route: '/claims/42',\\n  claim: { id: '42', status: 'PENDING_REVIEW' },\\n});\\n\\nconst html = renderDocument({ title: 'Claim', body, state });"
+          }
+        },
+        {
+          "id": "escaping",
+          "title": "Escaping",
+          "body": "escapeHtml and escapeAttribute cover normal document output, while state serialization covers script-safe payloads. The API names make the escaping boundary explicit.",
+          "points": [
+            "Use escapeHtml for text nodes.",
+            "Use escapeAttribute for attributes.",
+            "Use serializeHydrationState for script payloads."
+          ]
+        },
+        {
+          "id": "state-policy",
+          "title": "State policy",
+          "body": "Only data needed to hydrate should enter the payload. Sensitive fields, one-time secrets, and large server caches should stay on the server and reload through app-owned resources.",
+          "points": [
+            "Prefer narrow route and resource snapshots.",
+            "Do not serialize secrets or access tokens.",
+            "Keep payload size visible in SSR diagnostics."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ssrRouter",
+      "section": "framework",
+      "path": "/docs/ssr-hydration/router-ssr",
+      "label": "Router SSR",
+      "title": "Router SSR",
+      "summary": "SSR route rendering uses route refs, params, query parsing, guards, redirects, and lazy boundaries from the same router contract as client navigation.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "route-resolution",
+          "title": "Route resolution",
+          "body": "resolveSsrRoute matches a URL against the route table before rendering. The result carries params, query values, matched route metadata, redirects, and guard outcomes.",
+          "points": [
+            "Use route refs rather than string-only matching.",
+            "Preserve params and query behavior from the client router.",
+            "Return diagnostics when no SSR route matches."
+          ],
+          "code": {
+            "title": "Resolve then render",
+            "code": "const match = await resolveSsrRoute(routes, '/account/42?tab=billing');\\n\\nif (match.kind === 'page') {\\n  return renderRouteToString(match.route, match.params);\\n}"
+          }
+        },
+        {
+          "id": "guards-redirects",
+          "title": "Guards and redirects",
+          "body": "Server routing must respect guard and redirect results before page rendering. That keeps private routes, login redirects, and canonical URLs consistent between server and client.",
+          "points": [
+            "Return redirect responses before rendering a body.",
+            "Expose guard diagnostics for terminal output.",
+            "Keep route policy in the route table."
+          ]
+        },
+        {
+          "id": "lazy-boundaries",
+          "title": "Lazy boundaries",
+          "body": "Lazy route modules can load on the server, but unresolved modules should produce a clear SSR diagnostic. The first release should prefer deterministic failure over silent fallback HTML.",
+          "points": [
+            "Await lazy page modules before render.",
+            "Report missing server exports with file context.",
+            "Keep preloading behavior separate from SSR rendering."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "ssrDeferredStreaming",
+      "section": "framework",
+      "path": "/docs/ssr-hydration/deferred-streaming",
+      "label": "Deferred streaming",
+      "title": "Deferred Streaming",
+      "summary": "Streaming, event replay, partial hydration, islands, and resumability stay future work until the base SSR and hydration contract is stable.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "defer-streaming",
+          "title": "Defer streaming",
+          "body": "The first SSR release should return complete deterministic HTML. Streaming adds timing, flushing, suspense, and resource-ordering complexity that belongs after static SSR is proven.",
+          "points": [
+            "Finish renderDocument and hydration diagnostics first.",
+            "Keep streamed chunks out of the initial package contract.",
+            "Add streaming as a future pipeline slice."
+          ],
+          "code": {
+            "title": "Base render stays complete",
+            "code": "const body = await renderRouteToString(routes, request.url);\\nreturn new Response(renderDocument({ title, body, state }), {\\n  headers: { 'Content-Type': 'text/html' },\\n});"
+          }
+        },
+        {
+          "id": "event-replay",
+          "title": "Event replay",
+          "body": "Event replay is valuable only when delayed hydration can be measured and diagnosed. Until that is true, clicks and input events should attach after hydration starts.",
+          "points": [
+            "Avoid queueing user events before the listener contract exists.",
+            "Make delayed hydration visible in diagnostics first.",
+            "Keep event replay separate from ordinary hydrate."
+          ]
+        },
+        {
+          "id": "future-islands",
+          "title": "Future islands",
+          "body": "Partial hydration, islands, and resumability are larger architecture choices. They should be planned as explicit phases with compiler output, router behavior, resources, and devtools coverage.",
+          "points": [
+            "Do not mix islands into the base SSR release.",
+            "Require compiler and devtools support before implementation.",
+            "Keep future pipeline language honest about what has shipped."
+          ]
         }
       ]
     },
@@ -4167,6 +4447,187 @@
       ]
     },
     {
+      "key": "formsBoundary",
+      "section": "framework",
+      "path": "/docs/forms/package-boundary",
+      "label": "Package boundary",
+      "title": "Forms Package Boundary",
+      "summary": "@vanrot/forms owns form state, validation, form resources, field arrays, wizards, server errors, draft persistence, diagnostics, and test helpers without moving app logic into templates.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "package-boundary",
+          "title": "What belongs in forms",
+          "body": "Use @vanrot/forms when a screen needs coordinated field state, validation messages, async submit state, backend errors, or draft persistence. Keep form schemas and controllers in role files, keep markup in the template, and keep business workflow decisions in page or component code.",
+          "points": [
+            "Use forms for field state, dirty and touched state, validation, arrays, wizards, and server error hydration.",
+            "Use resources inside forms only when the value belongs to the form workflow.",
+            "Do not put business branching, fetch orchestration, or mutation logic in HTML.",
+            "Keep @vanrot/runtime small by leaving form behavior in this package."
+          ],
+          "code": {
+            "title": "Form boundary",
+            "code": "export const profileForm = defineForm({\\n  fields: {\\n    email: field.email().required(),\\n    displayName: field.text().required(),\\n  },\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formsFieldRefs",
+      "section": "framework",
+      "path": "/docs/forms/field-refs",
+      "label": "Named field refs",
+      "title": "Named Field Refs",
+      "summary": "Named field refs give forms a stable source of truth for labels, paths, messages, diagnostics, generated form bindings, and tests.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "named-field-refs",
+          "title": "Field refs as the source of truth",
+          "body": "Define field refs once and reuse them in controllers, templates, messages, and tests. The compiler and Vite tooling can then catch repeated string paths, stale field names, and unsafe generated bindings before the page reaches the browser.",
+          "points": [
+            "Prefer named refs over repeated string paths.",
+            "Use refs for nested objects, arrays, wizard steps, and server error mapping.",
+            "Expose readable helpers so templates stay clear without hiding logic inside HTML."
+          ],
+          "code": {
+            "title": "Field refs",
+            "code": "export const claimFields = defineFieldRefs({\\n  claimantName: 'claimant.name',\\n  receiptAmount: 'receipt.amount',\\n  receiptDate: 'receipt.date',\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formsValidationLifecycle",
+      "section": "framework",
+      "path": "/docs/forms/validation-lifecycle",
+      "label": "Validation lifecycle",
+      "title": "Validation Lifecycle",
+      "summary": "Validation runs through predictable sync and async stages with typed messages, dirty and touched state, submit guards, and line-numbered diagnostics.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "validation-lifecycle",
+          "title": "Validation states",
+          "body": "Validation should be explicit enough for enterprise forms and small enough for daily screens. Required, email, length, custom predicate, async uniqueness, and backend-returned errors all flow into the same message surface so templates render messages instead of deciding validation policy.",
+          "points": [
+            "Run synchronous validators before async validators.",
+            "Track dirty, touched, pending, valid, invalid, and submitted state.",
+            "Normalize backend errors into the same field message model.",
+            "Report invalid validator definitions through terminal diagnostics with source line numbers."
+          ],
+          "code": {
+            "title": "Validation rules",
+            "code": "const email = field.email()\\n  .required('Email is required.')\\n  .validateUnique(checkEmailAvailable);"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formsAsyncResources",
+      "section": "framework",
+      "path": "/docs/forms/async-resources",
+      "label": "Async resources",
+      "title": "Form Async Resources",
+      "summary": "Form resources load option data, dependent fields, submit state, and server checks while keeping cancellation and stale response handling inside form orchestration.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "async-resources",
+          "title": "Form-scoped async work",
+          "body": "Use form resources when async state is part of a form workflow: dependent dropdowns, preview totals, server validation, draft restore, or submit. Resources should cancel stale requests, preserve current field state, and expose terminal diagnostics when a resource is wired incorrectly.",
+          "points": [
+            "Scope resources to the form controller so cleanup follows the form lifecycle.",
+            "Cancel stale requests when controlling fields change.",
+            "Keep fetch implementation outside the template.",
+            "Surface pending, success, failure, and stale states as signals."
+          ],
+          "code": {
+            "title": "Dependent options",
+            "code": "const branches = form.resource({\\n  dependsOn: [claimFields.country],\\n  load: ({ value }) => loadBranches(value.country),\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formsArraysWizardsErrors",
+      "section": "framework",
+      "path": "/docs/forms/arrays-wizards-server-errors",
+      "label": "Arrays and server errors",
+      "title": "Arrays, Wizards, And Server Errors",
+      "summary": "Forms support repeated groups, wizard steps, and backend error hydration with stable refs instead of ad hoc index strings.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "arrays-wizards-errors",
+          "title": "Complex form flows",
+          "body": "Enterprise forms need arrays, staged workflows, and server-returned validation without losing source-of-truth discipline. Array helpers keep keys stable, wizard helpers keep step validity explicit, and server error hydration maps backend paths back onto field refs.",
+          "points": [
+            "Use field arrays for repeatable records instead of hand-built index state.",
+            "Use wizard helpers for step validity, step navigation, and blocked submit state.",
+            "Map backend error payloads into typed field messages.",
+            "Keep generated diagnostics precise enough to show the broken form line."
+          ],
+          "code": {
+            "title": "Server errors",
+            "code": "form.applyServerErrors(response.errors, {\\n  claimantName: claimFields.claimantName,\\n  receiptAmount: claimFields.receiptAmount,\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formsDraftPersistence",
+      "section": "framework",
+      "path": "/docs/forms/draft-persistence",
+      "label": "Draft persistence",
+      "title": "Draft Persistence",
+      "summary": "Draft persistence saves recoverable form state while protecting sensitive fields and keeping restore behavior explicit.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "draft-persistence",
+          "title": "Recoverable form state",
+          "body": "Draft persistence belongs to the form package because it depends on form refs, dirty state, schema shape, and sensitive-field policy. Users can persist safe fields, exclude sensitive values, restore drafts after navigation, and clear drafts after a successful submit.",
+          "points": [
+            "Persist only fields marked safe for drafts.",
+            "Exclude passwords, tokens, payment details, and other sensitive values by default.",
+            "Version draft payloads so schema changes do not restore invalid shapes.",
+            "Clear drafts on successful submit or explicit reset."
+          ],
+          "code": {
+            "title": "Draft policy",
+            "code": "form.persistDraft({\\n  key: 'claim-draft',\\n  include: [claimFields.claimantName, claimFields.receiptAmount],\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formsToolingTests",
+      "section": "framework",
+      "path": "/docs/forms/tooling-tests",
+      "label": "Tooling and tests",
+      "title": "Forms Tooling And Tests",
+      "summary": "Forms ship diagnostics, Vite discovery hooks, and test helpers so generated form behavior can be proved without clicking through every field manually.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "tooling-tests",
+          "title": "Diagnostics and focused tests",
+          "body": "The forms package should tell users when refs, validators, resources, arrays, or server error maps are wrong. Tests should exercise the form controller directly and then keep one compiled-template test for critical generated bindings.",
+          "points": [
+            "Report duplicate refs, missing refs, unsupported async validators, and invalid server error maps.",
+            "Use form test helpers for values, dirty state, touched state, validation, and messages.",
+            "Use one compiled template test for critical generated form bindings.",
+            "Keep diagnostic output terminal-friendly with file path and line number."
+          ],
+          "code": {
+            "title": "Form test helper",
+            "code": "const testForm = createFormTest(profileForm);\\n\\ntestForm.set('email', 'bad-email');\\ntestForm.touch('email');\\nexpect(testForm.field('email').messages()).toEqual(['Email is invalid.']);"
+          }
+        }
+      ]
+    },
+    {
       "key": "formatters",
       "section": "framework",
       "path": "/docs/formatters",
@@ -4343,6 +4804,291 @@
             "Use compiler tests when a template depends on chaining, arguments, source spans, or diagnostics.",
             "Use Vite plugin tests for discovery, duplicate reporting, async rejection, watched files, and terminal diagnostics.",
             "Use one realistic compiled template test for custom pipes that are central to a user workflow."
+          ],
+          "code": {
+            "title": "Focused pipe test",
+            "code": "import { createPipeTest } from '@vanrot/formatters/testing';\\nimport { claimStatus } from '../src/business.pipe';\\n\\nconst testPipe = createPipeTest(claimStatus);\\n\\nexpect(testPipe('APPROVED')).toBe('Approved');\\nexpect(testPipe('PENDING_REVIEW')).toBe('Pending review');"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersCompilerOwned",
+      "section": "framework",
+      "path": "/docs/formatters/compiler-owned-formatting",
+      "label": "Compiler-owned formatting",
+      "title": "Compiler-Owned Formatting",
+      "summary": "Template pipes are a compiler feature backed by @vanrot/formatters, not a runtime trick or template-side business-logic escape hatch.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "compiler-owned-formatting",
+          "title": "Compiler boundary",
+          "body": "A component template can request display-only formatting inside interpolation. The compiler validates the pipe name, arguments, variant, and source span, then generated output imports @vanrot/formatters only when the template actually uses pipe expressions.",
+          "points": [
+            "Use template pipes for display-only formatting inside interpolation.",
+            "Keep data fetching, async work, mutation, validation decisions, and business workflows outside pipes.",
+            "Use @vanrot/forms or form resources for asynchronous state, then pipe the resolved value.",
+            "Keep @vanrot/runtime small by keeping formatter helpers in @vanrot/formatters."
+          ],
+          "code": {
+            "title": "Template interpolation",
+            "code": "<td>{{ row.amount | currency }}</td>\\n<td>{{ row.description | truncate(20) }}</td>\\n<td>{{ claim.status | claimStatus }}</td>"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersTemplatePipes",
+      "section": "framework",
+      "path": "/docs/formatters/template-pipes",
+      "label": "Template pipes",
+      "title": "Template Pipes",
+      "summary": "Pipe syntax uses readable interpolation calls such as {{ createdAt | date.monthDayYear }} and {{ row.description | truncate(20) }}.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "template-pipes",
+          "title": "Syntax",
+          "body": "Pipe syntax is available only inside interpolation. The compiler parses the base expression first, then applies pipe calls from left to right so each pipe receives the previous pipe result. Arguments use a JavaScript-call shape for readability and constants can replace strings when teams want cleaner templates.",
+          "points": [
+            "Use property variants for common presets such as date.monthDayYear or mask.malaysiaPhone.",
+            "Use call arguments for values such as truncate(20), date('dd/MM/yyyy'), or currency('MYR').",
+            "Allow string arguments for one-off formats and named constants for shared enterprise formats.",
+            "Use chaining only when each step clearly consumes the previous output."
+          ],
+          "code": {
+            "title": "Syntax shapes",
+            "code": "{{ createdAt | date.monthDayYear }}\\n{{ createdAt | date('dd/MM/yyyy') }}\\n{{ total | number.thousands }}\\n{{ invoiceTotal | currency('MYR') }}\\n{{ description | fallback('No description') | truncate(80) }}"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersBuiltInSuite",
+      "section": "framework",
+      "path": "/docs/formatters/built-in-suite",
+      "label": "Built-in pipe suite",
+      "title": "Built-In Pipe Suite",
+      "summary": "@vanrot/formatters ships the common display helpers most screens need before users define custom pipes.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "built-in-suite",
+          "title": "Included pipes",
+          "body": "The built-in suite should cover the high-frequency display work in dashboards, tables, forms, and admin screens. Users can still define custom pipes for domain values, but they should not need to build date, number, currency, fallback, mask, plural, or text helpers from scratch.",
+          "points": [
+            "Text: upper, lower, title, sentence, trim, fallback, truncate, initials, and mask.",
+            "Date and time: date, time, dateTime, relativeTime, duration, and named date presets.",
+            "Numbers: number, integer, decimal, thousands, compact, percent, fileSize, and currency.",
+            "Messages: plural, count, list, message format, and form-message helpers."
+          ],
+          "code": {
+            "title": "Built-ins",
+            "code": "{{ user.name | title }}\\n{{ uploadedBytes | fileSize }}\\n{{ selectedCount | plural('item', 'items') }}\\n{{ phone | mask.malaysiaPhone }}"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersBuiltInArguments",
+      "section": "framework",
+      "path": "/docs/formatters/built-in-arguments",
+      "label": "Built-in arguments",
+      "title": "Built-In Arguments And Variants",
+      "summary": "Built-in pipes accept readable arguments and named variants for date, number, currency, plural, masks, and message formats.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "built-in-arguments",
+          "title": "Arguments and variants",
+          "body": "Many formatting needs are business-specific. Date formats can use variants or string masks, numbers can opt into grouping and decimal behavior, and masks can use built-in or application-defined constants for countries or industry-specific identifiers.",
+          "points": [
+            "Support date variants such as monthDayYear, dayMonthYear, monthYear, and shortYear forms.",
+            "Support number grouping, decimal precision, cents, compact notation, and percent display.",
+            "Support currency code, locale, symbol, narrow symbol, and accounting-style options.",
+            "Support masks through built-in variants, named constants, or direct masks."
+          ],
+          "code": {
+            "title": "Argument examples",
+            "code": "{{ createdAt | date.dayMonthYear }}\\n{{ amount | number({ grouping: true, decimals: 2 }) }}\\n{{ price | currency('MYR', { accounting: true }) }}\\n{{ taxId | mask(BUSINESS_TAX_ID_MASK) }}"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersPipeRoleFiles",
+      "section": "framework",
+      "path": "/docs/formatters/pipe-role-files",
+      "label": ".pipe.ts role files",
+      "title": ".pipe.ts Role Files",
+      "summary": "Custom pipes live in .pipe.ts role files so Vite discovery, compiler validation, diagnostics, and tests can all see them.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "pipe-role-files",
+          "title": "Custom pipe files",
+          "body": "Domain display rules belong in .pipe.ts files instead of scattered template code. The Vite plugin discovers these files, extracts exported pipe metadata, watches them during development, and passes the registry to the compiler.",
+          "points": [
+            "Export custom pipes with definePipe from a role file such as claims.pipe.ts.",
+            "Keep enums and backend constants in separate files when that is cleaner, then import them into the pipe.",
+            "Reject unsupported async handlers because template pipes are display-only and synchronous.",
+            "Report duplicate names, invalid definitions, and missing exports in the terminal."
+          ],
+          "code": {
+            "title": "Custom pipe",
+            "code": "export const claimStatus = definePipe((status) => {\\n  switch (status) {\\n    case ClaimStatus.APPROVED:\\n      return 'Approved';\\n    case ClaimStatus.REJECTED:\\n      return 'Rejected';\\n    case ClaimStatus.PENDING_REVIEW:\\n      return 'Pending review';\\n    default:\\n      return 'Unknown';\\n  }\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersNamedPresets",
+      "section": "framework",
+      "path": "/docs/formatters/named-presets",
+      "label": "Named presets",
+      "title": "Named Presets",
+      "summary": "Named presets let teams replace repeated string masks and option objects with readable constants.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "named-presets",
+          "title": "Cleaner shared formats",
+          "body": "Enterprise apps often repeat the same date, currency, mask, or number formats everywhere. Named presets keep templates readable while still allowing direct strings for one-off screens.",
+          "points": [
+            "Use constants for country-specific masks, business identifiers, common dates, and money options.",
+            "Allow direct strings for one-off formats so simple apps are not forced into ceremony.",
+            "Let the compiler validate preset names and report the exact template line when a preset is missing."
+          ],
+          "code": {
+            "title": "Preset constants",
+            "code": "export const BUSINESS_TAX_ID_MASK = defineFormatPreset('99-9999999');\\n\\n{{ vendor.taxId | mask(BUSINESS_TAX_ID_MASK) }}"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersEnumPipes",
+      "section": "framework",
+      "path": "/docs/formatters/enum-pipes",
+      "label": "Enum display pipes",
+      "title": "Enum And Backend Value Display",
+      "summary": "Enum-backed custom pipes convert backend codes into user-facing labels without leaking backend strings into templates.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "enum-display-pipes",
+          "title": "Backend values to labels",
+          "body": "Backend values often arrive as enum-like strings. A custom pipe can import the enum or constant map from a separate file, then use a switch or lookup table to return display labels. This keeps backend contracts explicit and templates readable.",
+          "points": [
+            "Use switch cases when labels need special handling or fallbacks.",
+            "Use enum or constant imports when the backend contract already has a source of truth.",
+            "Return a safe fallback for unknown backend values.",
+            "Keep translation or locale-aware decisions in the pipe context when needed."
+          ],
+          "code": {
+            "title": "Enum pipe",
+            "code": "export const claimStatus = definePipe((status) => {\\n  switch (status) {\\n    case 'APPROVED':\\n      return 'Approved';\\n    case 'REJECTED':\\n      return 'Rejected';\\n    case 'PENDING_REVIEW':\\n      return 'Pending review';\\n    default:\\n      return 'Unknown';\\n  }\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersContext",
+      "section": "framework",
+      "path": "/docs/formatters/context",
+      "label": "Formatting context",
+      "title": "Formatting Context",
+      "summary": "Pipe context provides locale, time zone, numbering system, currency defaults, message catalog access, and safe app-defined metadata.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "formatting-context",
+          "title": "Context-aware formatting",
+          "body": "Some formatting needs app context. Built-ins and custom pipes can read locale, time zone, numbering system, currency defaults, message catalogs, and safe metadata from context instead of hard-coding those values in templates.",
+          "points": [
+            "Use context for locale, time zone, default currency, and message catalog access.",
+            "Keep context serializable and safe for SSR and hydration.",
+            "Do not use context to hide business workflow decisions inside pipes.",
+            "Let tests pass explicit context so formatter behavior is deterministic."
+          ],
+          "code": {
+            "title": "Context-aware pipe",
+            "code": "export const money = definePipe((value, ctx) => {\\n  return new Intl.NumberFormat(ctx.locale, {\\n    style: 'currency',\\n    currency: ctx.currency,\\n  }).format(value);\\n});"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersCompilerDiagnostics",
+      "section": "framework",
+      "path": "/docs/formatters/compiler-diagnostics",
+      "label": "Compiler diagnostics",
+      "title": "Compiler Diagnostics",
+      "summary": "The compiler reports invalid pipe names, arguments, variants, presets, duplicate definitions, and bad async handlers with file and line number.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "compiler-diagnostics",
+          "title": "Terminal errors",
+          "body": "Pipe errors should be visible in the terminal and tied to the template source span. Users should know exactly which pipe failed, which argument or preset was invalid, and which file and line need work.",
+          "points": [
+            "Report unknown pipe names and unknown pipe variants.",
+            "Report invalid argument counts and unsupported argument shapes.",
+            "Report duplicate custom pipe names and async pipe definitions.",
+            "Include file path, line number, column, and a short fix hint."
+          ],
+          "code": {
+            "title": "Diagnostic shape",
+            "code": "VRCFG_PIPE_UNKNOWN app/pages/claims.page.html:18:34\\nUnknown pipe \"claimStats\". Did you mean \"claimStatus\"?"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersViteTooling",
+      "section": "framework",
+      "path": "/docs/formatters/vite-tooling",
+      "label": "Vite tooling",
+      "title": "Vite Discovery And Rebuilds",
+      "summary": "The Vite plugin discovers .pipe.ts files, rebuilds the formatter registry, reports terminal diagnostics, and invalidates affected templates.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "vite-tooling",
+          "title": "Registry discovery",
+          "body": "Formatter tooling belongs in the compiler/Vite pipeline because templates need compile-time knowledge of pipes. The Vite plugin watches pipe files, rebuilds the registry, reports errors, and invalidates only affected templates where possible.",
+          "points": [
+            "Discover .pipe.ts role files from the project source graph.",
+            "Build a typed registry for compiler validation and generated imports.",
+            "Invalidate affected templates when a pipe changes.",
+            "Keep diagnostics in the terminal and in any future Forge/Vite overlay."
+          ],
+          "code": {
+            "title": "Role file discovery",
+            "code": "src/claims/claims.pipe.ts -> registry.claimStatus\\nsrc/billing/money.pipe.ts -> registry.money"
+          }
+        }
+      ]
+    },
+    {
+      "key": "formattersTesting",
+      "section": "framework",
+      "path": "/docs/formatters/testing",
+      "label": "Testing",
+      "title": "Testing Formatter Behavior",
+      "summary": "Formatter tests cover built-ins, custom pipes, context, diagnostics, generated imports, and compiled template behavior.",
+      "status": "production-ready",
+      "sections": [
+        {
+          "id": "testing-formatters",
+          "title": "Focused pipe tests",
+          "body": "Test custom pipes directly for domain mappings, test context-aware pipes with explicit locale and currency, and keep at least one compiled-template test for important formatter workflows. Compiler diagnostic tests should assert line numbers for broken templates.",
+          "points": [
+            "Use direct pipe tests for enum labels, masks, and formatting options.",
+            "Use context fixtures for locale, currency, time zone, and message catalogs.",
+            "Use compiler tests for invalid syntax and generated imports.",
+            "Use one realistic compiled template test for custom pipes central to a user workflow."
           ],
           "code": {
             "title": "Focused pipe test",

@@ -567,6 +567,12 @@ const docsRoutingGuards = articlePage(siteArticleKey.routingGuards);
 const docsRoutingNavigation = articlePage(siteArticleKey.routingNavigation);
 const docsRoutingPreloadingKeepAlive = articlePage(siteArticleKey.routingPreloadingKeepAlive);
 const docsSsrHydration = articlePage(siteArticleKey.ssrHydration);
+const docsSsrPackageBoundary = articlePage(siteArticleKey.ssrPackageBoundary);
+const docsSsrRenderDocument = articlePage(siteArticleKey.ssrRenderDocument);
+const docsSsrHydrationContract = articlePage(siteArticleKey.ssrHydrationContract);
+const docsSsrStateSerialization = articlePage(siteArticleKey.ssrStateSerialization);
+const docsSsrRouter = articlePage(siteArticleKey.ssrRouter);
+const docsSsrDeferredStreaming = articlePage(siteArticleKey.ssrDeferredStreaming);
 const docsUi = articlePage(siteArticleKey.uiOctober);
 const docsTheming = articlePage(siteArticleKey.theming);
 const docsVanrotstyles = articlePage(siteArticleKey.vanrotstyles);
@@ -575,6 +581,26 @@ const docsTestingComponent = articlePage(siteArticleKey.testingComponent);
 const docsTestingScreen = articlePage(siteArticleKey.testingScreen);
 const docsTestingRouting = articlePage(siteArticleKey.testingRouting);
 const docsTestingStrategy = articlePage(siteArticleKey.testingStrategy);
+const docsForms = articlePage(siteArticleKey.forms);
+const docsFormsBoundary = articlePage(siteArticleKey.formsBoundary);
+const docsFormsFieldRefs = articlePage(siteArticleKey.formsFieldRefs);
+const docsFormsValidationLifecycle = articlePage(siteArticleKey.formsValidationLifecycle);
+const docsFormsAsyncResources = articlePage(siteArticleKey.formsAsyncResources);
+const docsFormsArraysWizardsErrors = articlePage(siteArticleKey.formsArraysWizardsErrors);
+const docsFormsDraftPersistence = articlePage(siteArticleKey.formsDraftPersistence);
+const docsFormsToolingTests = articlePage(siteArticleKey.formsToolingTests);
+const docsFormatters = articlePage(siteArticleKey.formatters);
+const docsFormattersCompilerOwned = articlePage(siteArticleKey.formattersCompilerOwned);
+const docsFormattersTemplatePipes = articlePage(siteArticleKey.formattersTemplatePipes);
+const docsFormattersBuiltInSuite = articlePage(siteArticleKey.formattersBuiltInSuite);
+const docsFormattersBuiltInArguments = articlePage(siteArticleKey.formattersBuiltInArguments);
+const docsFormattersPipeRoleFiles = articlePage(siteArticleKey.formattersPipeRoleFiles);
+const docsFormattersNamedPresets = articlePage(siteArticleKey.formattersNamedPresets);
+const docsFormattersEnumPipes = articlePage(siteArticleKey.formattersEnumPipes);
+const docsFormattersContext = articlePage(siteArticleKey.formattersContext);
+const docsFormattersCompilerDiagnostics = articlePage(siteArticleKey.formattersCompilerDiagnostics);
+const docsFormattersViteTooling = articlePage(siteArticleKey.formattersViteTooling);
+const docsFormattersTesting = articlePage(siteArticleKey.formattersTesting);
 const docsDevtools = articlePage(siteArticleKey.devtools);
 const docsDevtoolsProjectMap = articlePage(siteArticleKey.devtoolsProjectMap);
 const docsDevtoolsRuntimeGraph = articlePage(siteArticleKey.devtoolsRuntimeGraph);
@@ -818,6 +844,12 @@ export const route = defineRoutes({
   docsRoutingNavigation,
   docsRoutingPreloadingKeepAlive,
   docsSsrHydration,
+  docsSsrPackageBoundary,
+  docsSsrRenderDocument,
+  docsSsrHydrationContract,
+  docsSsrStateSerialization,
+  docsSsrRouter,
+  docsSsrDeferredStreaming,
   docsUi,
   docsTheming,
   docsVanrotstyles,
@@ -826,6 +858,26 @@ export const route = defineRoutes({
   docsTestingScreen,
   docsTestingRouting,
   docsTestingStrategy,
+  docsForms,
+  docsFormsBoundary,
+  docsFormsFieldRefs,
+  docsFormsValidationLifecycle,
+  docsFormsAsyncResources,
+  docsFormsArraysWizardsErrors,
+  docsFormsDraftPersistence,
+  docsFormsToolingTests,
+  docsFormatters,
+  docsFormattersCompilerOwned,
+  docsFormattersTemplatePipes,
+  docsFormattersBuiltInSuite,
+  docsFormattersBuiltInArguments,
+  docsFormattersPipeRoleFiles,
+  docsFormattersNamedPresets,
+  docsFormattersEnumPipes,
+  docsFormattersContext,
+  docsFormattersCompilerDiagnostics,
+  docsFormattersViteTooling,
+  docsFormattersTesting,
   docsDevtools,
   docsDevtoolsProjectMap,
   docsDevtoolsRuntimeGraph,

@@ -100,8 +100,9 @@ When a Vanrot phase is completed:
 4. Update `docs/superpowers/final-tdd-inventory.md` whenever a phase adds or changes a package, feature, component, command, convention, helper, example, or generated file.
 5. Update `docs/superpowers/future-pipeline.md` whenever a future pipeline item changes status, ships, is deferred, is dropped, or is superseded by real implementation.
 6. If requirements changed, update the matching spec or plan under `docs/superpowers/`.
-7. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
-8. When committing, stage the maturity ledger, final TDD inventory, post-production ideas when status changed, plan, and requirement docs together.
+7. For every feature, package, compiler feature, or planned phase, include the docs information architecture in the spec and plan before implementation: package parent vs child placement, sidebar/menu label, route path, child guide or section structure, generated AI-doc impact, public route metadata when relevant, and tests that prove the menu entry cannot disappear. If a sidebar child looks like a page, it must be a real child page with its own article key, route/path, route-to-article mapping, content source entry, generated AI-doc entry when applicable, and route/render test coverage. Do not ship fake child pages by compiling children into one parent article and linking them through `#section` anchors. Do not ship a package feature that is only reachable by URL search or guide metadata.
+8. Run `pnpm verify`, which includes `verify:phase-docs` and the runtime size budget.
+9. When committing, stage the maturity ledger, final TDD inventory, post-production ideas when status changed, plan, and requirement docs together.
 
 Do not mark a phase done until its verification criteria pass.
 
@@ -168,7 +169,7 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-05 9:52pm GMT+8
+# [vanrot] recent context, 2026-06-05 10:57pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE

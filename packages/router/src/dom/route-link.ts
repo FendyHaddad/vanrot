@@ -197,7 +197,7 @@ function readRouterPath(anchor: HTMLAnchorElement): string | null {
     return null;
   }
 
-  return `${url.pathname}${url.search}`;
+  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 function isExternal(href: string): boolean {

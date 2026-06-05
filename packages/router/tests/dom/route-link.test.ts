@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { beforeEach, describe, expect, it } from 'vitest';
-import { setupRouteLink } from '../../src/dom/route-link.js';
+import { setupRouteLink, setupRouteLinkBoundary } from '../../src/dom/route-link.js';
 import { defineRoutes } from '../../src/route/define-routes.js';
 import { provideRouter, resetRouterForTests } from '../../src/route/router-state.js';
 import { createTestPage } from '../../src/test/test-pages.js';
@@ -93,6 +93,21 @@ describe('setupRouteLink', () => {
     );
 
     expect(window.location.pathname).toBe(routePath.home);
+  });
+
+  it('preserves cross-page hash links handled by a route link boundary', async () => {
+    const root = document.createElement('div');
+    const anchor = document.createElement('a');
+
+    anchor.setAttribute('href', `${routePath.about}#overview`);
+    root.append(anchor);
+    setupRouteLinkBoundary(root);
+
+    anchor.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, button: 0 }));
+    await flushNavigation();
+
+    expect(window.location.pathname).toBe(routePath.about);
+    expect(window.location.hash).toBe('#overview');
   });
 
   it('throws for parameterized route links without params', () => {
