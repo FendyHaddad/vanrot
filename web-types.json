@@ -18,6 +18,11 @@
             { "name": "route.reference", "description": "Vanrot reference route reference.", "value": { "kind": "no-value" } }
           ]
         },
+        { "name": "docs-article-shell", "description": "Use <docs-article-shell> inside Vanrot site docs pages to render the shared article frame, summary, section grid, and bookmarks without duplicating page chrome.", "attributes": [{ "name": "[title]", "description": "Bind the docs article title." }, { "name": "[summary]", "description": "Bind the docs article summary." }, { "name": "[sectionLinks]", "description": "Bind the docs article section link list." }], "source": { "file": "apps/vanrot-site/src/pages/docs/shared/docs-article-shell.component.ts", "offset": 0 } },
+        { "name": "docs-code-block", "description": "Use <docs-code-block> inside Vanrot site docs pages to render syntax-highlighted code examples with the shared docs code block layout.", "attributes": [{ "name": "[title]", "description": "Bind the code block title." }, { "name": "[code]", "description": "Bind the code example text." }], "source": { "file": "apps/vanrot-site/src/pages/docs/shared/docs-code-block.component.ts", "offset": 0 } },
+        { "name": "docs-note", "description": "Use <docs-note> inside Vanrot site docs pages for the shared inline note treatment.", "source": { "file": "apps/vanrot-site/src/pages/docs/shared/docs-note.component.ts", "offset": 0 } },
+        { "name": "docs-points-list", "description": "Use <docs-points-list> inside Vanrot site docs pages to render repeated docs bullet lists from page-owned data.", "attributes": [{ "name": "[points]", "description": "Bind the docs point strings." }], "source": { "file": "apps/vanrot-site/src/pages/docs/shared/docs-points-list.component.ts", "offset": 0 } },
+        { "name": "docs-section", "description": "Use <docs-section> inside Vanrot site docs pages to render a shared docs article section with stable anchors and heading treatment.", "attributes": [{ "name": "[sectionId]", "description": "Bind the stable docs section anchor id." }, { "name": "[title]", "description": "Bind the docs section title." }], "source": { "file": "apps/vanrot-site/src/pages/docs/shared/docs-section.component.ts", "offset": 0 } },
         { "name": "vr-alert", "description": "Use <vr-alert> for important feedback messages. Variants such as variant.info and variant.danger are available as no-value Vanrot attributes." },
         { "name": "vr-avatar", "description": "Use <vr-avatar> for a person, team, or account image/fallback. Variants such as variant.soft and variant.outline are available as no-value Vanrot attributes." },
         { "name": "vr-badge", "description": "Use <vr-badge> for small status labels, counts, and metadata. Variants such as variant.success, variant.warning, and variant.outline are available as no-value Vanrot attributes." },
@@ -118,6 +123,8 @@
       ],
       "attributes": [
         { "name": "route.*", "description": "Route reference generated from src/routes.ts.", "value": { "kind": "no-value" }, "pattern": { "regex": "^route\\.[A-Za-z][A-Za-z0-9_]*$" } },
+        { "name": "[*]", "description": "Vanrot bracket binding syntax for native, Vanrot, and docs component attributes.", "pattern": { "regex": "^\\[[A-Za-z_][A-Za-z0-9_.:-]*\\]$" } },
+        { "name": "value.*", "description": "Vanrot no-value shorthand for named command-menu and tabs values.", "value": { "kind": "no-value" }, "pattern": { "regex": "^value\\.[A-Za-z][A-Za-z0-9_-]*$" } },
         { "name": "route.about", "description": "Basic app fixture About route reference.", "value": { "kind": "no-value" } },
         { "name": "route.changelog", "description": "Vanrot changelog route reference.", "value": { "kind": "no-value" } },
         { "name": "route.components", "description": "Vanrot component documentation route reference.", "value": { "kind": "no-value" } },

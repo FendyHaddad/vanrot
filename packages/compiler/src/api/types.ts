@@ -47,6 +47,7 @@ export interface ComponentSource {
 
 export interface CompileOptions {
   componentImportSpecifier?: string;
+  childComponentImportMap?: Readonly<Record<string, string>>;
   target?: 'browser' | 'server';
   pipeRegistry?: CompilePipeRegistry;
   pipeContext?: CompilePipeContext;

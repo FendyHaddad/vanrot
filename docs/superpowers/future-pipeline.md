@@ -34,9 +34,11 @@ into the matching spec and writing plan using the normal repo naming convention.
 
 ## Editor Tooling
 
-The IntelliJ plugin foundation already exists. This section is now only for the deeper editor experience that should
-arrive after the framework metadata, compiler diagnostics, and distribution story are stable. Future work should extend
-the shipped foundation instead of planning it again.
+Editor Tooling has moved from a loose future candidate into the one-shot Phase 31 release spec:
+`docs/superpowers/specs/Phase-31.md`.
+
+Do not split this work into separate Web Types, Intelligence Export, Template Navigation, Editor Fixes, and Plugin
+Packaging phases. Those are workstreams inside the single JetBrains/editor tooling release.
 
 Done:
 
@@ -50,8 +52,10 @@ Done:
 - [x] JetBrains Web Types support for route shorthand also shipped separately through global `html.attributes` metadata in
   the root, site, and router Web Types files, including the current `route.docs`, `route.components`, and
   `route.changelog` no-value route references.
+- [x] Phase 31 now owns the full release spec for richer Web Types, project intelligence, template navigation,
+  rename-safe route references, diagnostics, code actions, completions, docs IA, and JetBrains packaging checks.
 
-Needs attention:
+Phase 31 release scope:
 
 - [ ] Richer Web Types and editor metadata for Vanrot tags, attributes, variants, router elements, UI primitives, and route
   references.
@@ -67,13 +71,22 @@ Needs attention:
   and framework-owned attributes.
 - [ ] Compatibility checks across IntelliJ IDEA Ultimate, WebStorm, and future editor adapters where practical.
 
-Possible slices:
+Non-issues to carry into the next brainstorm:
 
-- [ ] Web Types
-- [ ] Intelligence Export
-- [ ] Template Navigation
-- [ ] Editor Fixes
-- [ ] Plugin Packaging
+- Native-looking bracket bindings, such as `[hidden]`, `[href]`, `[disabled]`, and `[id]`, are not Vanrot compiler/runtime
+  failures when authored templates compile correctly. Treat new reports as JetBrains Web Types coverage unless the compiler
+  or language server reproduces a real parse/codegen error.
+- Docs shared component bindings, such as `[title]`, `[summary]`, `[sectionLinks]`, `[sectionId]`, `[points]`, and `[code]`,
+  are not page-authoring defects. They belong in the shared docs component contract and must stay declared in both
+  `web-types.json` and `apps/vanrot-site/web-types.json`.
+- Dotted no-value shortcuts, such as `value.settings` or `value.activity`, are not invalid templates by default. They need
+  no-value Web Types metadata before an IDE should flag them.
+- Web Types solve recognition, completion, and attribute warnings. They do not own Go to Definition for `<docs-section>` or
+  other component tags; that belongs to the language server definition provider and its workspace component index.
+- The IntelliJ plugin should remain a thin bridge. Future work should extend the bundled language server, project
+  intelligence, metadata generation, and packaging smoke tests instead of rebuilding editor features in Kotlin first.
+- If an IDE still shows old warnings after metadata or bundled-server changes, first check project reload, indexing, and
+  plugin/server rebuild state before treating the source page as broken.
 
 ## Store Foundation
 

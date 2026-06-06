@@ -23,6 +23,7 @@ export interface GenerateState {
   usesRouteLink: boolean;
   usesSlots: boolean;
   usesPipes: boolean;
+  childComponentImportMap: Readonly<Record<string, string>>;
   templatePath: string;
   templateSource: string;
   localIdentifiers: string[];
@@ -30,6 +31,7 @@ export interface GenerateState {
 }
 
 export interface CreateGenerateStateInput {
+  childComponentImportMap?: Readonly<Record<string, string>>;
   templatePath: string;
   templateSource: string;
 }
@@ -52,6 +54,7 @@ export function createGenerateState(input: CreateGenerateStateInput): GenerateSt
     usesRouteLink: false,
     usesSlots: false,
     usesPipes: false,
+    childComponentImportMap: input.childComponentImportMap ?? {},
     templatePath: input.templatePath,
     templateSource: input.templateSource,
     localIdentifiers: [],

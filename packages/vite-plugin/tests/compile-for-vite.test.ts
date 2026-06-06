@@ -22,10 +22,42 @@ describe('compileForVite', () => {
       componentImportSpecifier: 'virtual:vanrot-source:%2Frepo%2Fsrc%2Fapp.component.ts',
     });
     expect(result.code).toContain("import 'virtual:vanrot-css:%2Frepo%2Fsrc%2Fapp.component.ts';");
+    expect(result.code).toContain(
+      "export * from 'virtual:vanrot-source:%2Frepo%2Fsrc%2Fapp.component.ts';",
+    );
     expect(result.code).toContain('const component = { createComponent };');
     expect(result.code).toContain('export default component;');
+    expect(result.code).toContain('export { createComponent as createAppComponent };');
     expect(result.code).toContain('export { component as AppComponent };');
     expect(result.css).toBe('p[data-vr-app]{color:red}');
+  });
+
+  it('passes child component import maps through compiler options', async () => {
+    const compile = vi.fn(async () => ({
+      js: 'export function createComponent() { return { node: document.createTextNode("ok"), ctx: {} }; }',
+      css: '',
+      diagnostics: [],
+      metadata: {
+        componentName: 'AppComponent',
+        scopeAttribute: 'data-vr-app',
+        features: [],
+        componentDependencies: [],
+        mappings: [],
+      },
+    }));
+
+    await compileForVite('/repo/src/app.component.ts', compile, {
+      childComponentImportMap: {
+        'docs-section': '/src/pages/docs/shared/docs-section.component.ts',
+      },
+    });
+
+    expect(compile).toHaveBeenCalledWith('/repo/src/app.component.ts', {
+      childComponentImportMap: {
+        'docs-section': '/src/pages/docs/shared/docs-section.component.ts',
+      },
+      componentImportSpecifier: 'virtual:vanrot-source:%2Frepo%2Fsrc%2Fapp.component.ts',
+    });
   });
 
   it.each([
@@ -54,6 +86,7 @@ describe('compileForVite', () => {
     }));
 
     expect(result.code).toContain(expectedExport);
+    expect(result.code).toContain(`export { createComponent as create${componentName} };`);
     expect(result.code).toContain('export default component;');
   });
 

@@ -41,7 +41,6 @@ export function generateChildComponent(
   generateNode: GenerateTemplateNode,
 ): void {
   const componentName = toComponentName(node.tagName);
-  const factoryName = toComponentFactoryName(componentName);
   const instanceName = state.ids.next(node.tagName);
   const inputs = collectComponentInputs(node, state);
   const initialInputsName = generateInitialInputObject(node.tagName, inputs, state);
@@ -51,12 +50,12 @@ export function generateChildComponent(
   recordComponentDependency(state, {
     tagName: node.tagName,
     componentName,
-    importPath: toComponentImportPath(node.tagName),
+    importPath: resolveComponentImportPath(node.tagName, state),
     inputs: toDependencyInputs(inputs),
   });
 
   state.lines.push(
-    `  const ${instanceName} = ${factoryName}(${createFactoryArguments(initialInputsName, projectedSlotsName)});`,
+    `  const ${instanceName} = ${componentName}.createComponent(${createFactoryArguments(initialInputsName, projectedSlotsName)});`,
   );
   state.lines.push(`  ${parentName}.append(${instanceName}.node);`);
   generateChildComponentInputEffects(inputs, instanceName, state);
@@ -68,11 +67,9 @@ export function generateChildComponentImports(
   const importsBySpecifier = new Map<string, string>();
 
   for (const dependency of dependencies) {
-    const factoryName = toComponentFactoryName(dependency.componentName);
-
     importsBySpecifier.set(
-      `${factoryName}:${dependency.importPath}`,
-      `import { ${factoryName} } from ${quoteString(dependency.importPath)};`,
+      `${dependency.componentName}:${dependency.importPath}`,
+      `import { ${dependency.componentName} } from ${quoteString(dependency.importPath)};`,
     );
   }
 
@@ -345,6 +342,10 @@ function createAttributeSourceContext(
 
 export function toComponentImportPath(tagName: string): string {
   return `./${tagName}${componentFileSuffix}`;
+}
+
+export function resolveComponentImportPath(tagName: string, state: GenerateState): string {
+  return state.childComponentImportMap[tagName] ?? toComponentImportPath(tagName);
 }
 
 function toTitleCase(value: string): string {

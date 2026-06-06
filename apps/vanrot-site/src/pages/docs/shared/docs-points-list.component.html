@@ -1,0 +1,5 @@
+<ul [hidden]="points().length === 0">
+  @for (point of points(); track point) {
+    <li>{{ point }}</li>
+  }
+</ul>

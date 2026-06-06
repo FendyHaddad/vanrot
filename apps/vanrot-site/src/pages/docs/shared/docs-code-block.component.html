@@ -1,0 +1,8 @@
+<div class="code-snippet" [hidden]="isEmpty()">
+  <span class="docs-code-title">{{ title() }}</span>
+  <pre class="code-block"><code>@for (line of codeLines(); track line.number) {
+<span class="code-line"><span class="code-line-number">{{ line.number }}</span><span class="code-line-content">@for (token of line.tokens; track token.id) {
+<span class="token keyword" [hidden]="token.kind !== 'keyword'">{{ token.text }}</span><span class="token function" [hidden]="token.kind !== 'function'">{{ token.text }}</span><span class="token string" [hidden]="token.kind !== 'string'">{{ token.text }}</span><span class="token comment" [hidden]="token.kind !== 'comment'">{{ token.text }}</span><span class="token number" [hidden]="token.kind !== 'number'">{{ token.text }}</span><span class="token operator" [hidden]="token.kind !== 'operator'">{{ token.text }}</span><span class="token property" [hidden]="token.kind !== 'property'">{{ token.text }}</span><span class="token punctuation" [hidden]="token.kind !== 'punctuation'">{{ token.text }}</span><span class="token text" [hidden]="token.kind !== 'text'">{{ token.text }}</span>
+}</span></span>
+}</code></pre>
+</div>

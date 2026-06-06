@@ -30,7 +30,9 @@ export async function compileForVite(
   const code = [
     `import '${cssModuleId}';`,
     result.js,
+    `export * from '${sourceModuleId}';`,
     'const component = { createComponent };',
+    `export { createComponent as create${result.metadata.componentName} };`,
     `export { component as ${result.metadata.componentName} };`,
     'export default component;',
   ].join('\n\n');

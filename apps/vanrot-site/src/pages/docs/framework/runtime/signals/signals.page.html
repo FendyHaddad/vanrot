@@ -1,0 +1,32 @@
+<docs-article-shell [title]="title()" [summary]="summary()" [sectionLinks]="sectionLinks()">
+  <docs-section [sectionId]="sectionLinks()[0].id" [title]="sectionLinks()[0].title">
+    <p>{{ section0Body }}</p>
+  <docs-points-list [points]="section0Points"></docs-points-list>
+  <docs-code-block [title]="'Signal read model'" [code]="section0Code"></docs-code-block>
+  </docs-section>
+
+  <docs-section [sectionId]="sectionLinks()[1].id" [title]="sectionLinks()[1].title">
+    <p>{{ section1Body }}</p>
+  <docs-points-list [points]="section1Points"></docs-points-list>
+  <docs-code-block [title]="'Writable state'" [code]="section1Code"></docs-code-block>
+  </docs-section>
+
+  <docs-section [sectionId]="sectionLinks()[2].id" [title]="sectionLinks()[2].title">
+    <p>{{ section2Body }}</p>
+  <docs-points-list [points]="section2Points"></docs-points-list>
+  <docs-code-block [title]="'Derived state'" [code]="section2Code"></docs-code-block>
+  </docs-section>
+
+  <docs-section [sectionId]="sectionLinks()[3].id" [title]="sectionLinks()[3].title">
+    <p>{{ section3Body }}</p>
+  <docs-points-list [points]="section3Points"></docs-points-list>
+  <docs-code-block [title]="'Side effects with cleanup'" [code]="section3Code"></docs-code-block>
+  <docs-note>{{ section3Note }}</docs-note>
+  </docs-section>
+
+  <docs-section [sectionId]="sectionLinks()[4].id" [title]="sectionLinks()[4].title">
+    <p>{{ section4Body }}</p>
+  <docs-points-list [points]="section4Points"></docs-points-list>
+  <docs-code-block [title]="'Cart total flow'" [code]="section4Code"></docs-code-block>
+  </docs-section>
+</docs-article-shell>

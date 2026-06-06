@@ -5,6 +5,9 @@ import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const projectRoot = dirname(dirname(fileURLToPath(import.meta.url)));
 const siteDataPath = join(projectRoot, 'apps/vanrot-site/src/docs/site-data.json');
+const siteDataSourcePath = join(projectRoot, 'apps/vanrot-site/src/docs/site-data.ts');
+const docsPageTreePath = join(projectRoot, 'apps/vanrot-site/src/docs/docs-page-tree.ts');
+const sharedDocsCssPath = join(projectRoot, 'apps/vanrot-site/src/pages/docs/shared/docs.css');
 const frameworkReferencePath = join(
   projectRoot,
   'apps/vanrot-site/src/docs/framework-reference.json',
@@ -299,6 +302,102 @@ export function checkComponentDocsShellVisualContract(appLayoutCss, siteCss, com
   return failures;
 }
 
+export function checkDocsPageComponentCoverage(treeSource, root = projectRoot) {
+  const failures = [];
+
+  if (!treeSource.includes('export const docsPageTree')) {
+    failures.push('Docs page tree must export docsPageTree.');
+  }
+
+  if (!treeSource.includes('componentName:')) {
+    failures.push('Docs page tree must record componentName metadata.');
+  }
+
+  const sourceFileEntries = [...treeSource.matchAll(
+    /sourceFiles:\s*\{\s*ts:\s*"([^"]+)",\s*html:\s*"([^"]+)",\s*css:\s*"([^"]+)"/g,
+  )];
+
+  if (sourceFileEntries.length === 0) {
+    failures.push('Docs page tree must record sourceFiles for page triplets.');
+  }
+
+  for (const match of sourceFileEntries) {
+    const [, tsPath, htmlPath, cssPath] = match;
+    const paths = [
+      [tsPath, '.page.ts'],
+      [htmlPath, '.page.html'],
+      [cssPath, '.page.css'],
+    ];
+
+    for (const [filePath, suffix] of paths) {
+      if (!filePath.endsWith(suffix)) {
+        failures.push(`Docs page source file must end with ${suffix}: ${filePath}`);
+      }
+
+      if (!existsSync(join(root, 'apps/vanrot-site', filePath))) {
+        failures.push(`Docs page source file is missing: ${filePath}`);
+      }
+    }
+  }
+
+  return failures;
+}
+
+export function checkDocsArticleSource(siteDataSource) {
+  const failures = [];
+
+  if (!siteDataSource.includes("from './docs-page-tree.ts'")) {
+    failures.push('site-data.ts must import narrative docs articles from docs-page-tree.ts.');
+  }
+
+  if (!siteDataSource.includes('docsPageArticleKeys.map')) {
+    failures.push('site-data.ts must derive narrative article order from docsPageArticleKeys.');
+  }
+
+  if (/const\s+rawArticles\s*=\s*siteDataJson\.articles/.test(siteDataSource)) {
+    failures.push('site-data.ts must not derive narrative framework articles from site-data.json.');
+  }
+
+  return failures;
+}
+
+export function checkSharedDocsCssOwnership(sharedDocsCss, siteCss) {
+  const failures = [];
+  const requiredClasses = [
+    'docs-article-layout',
+    'docs-article',
+    'docs-summary',
+    'docs-section-grid',
+    'docs-section',
+    'code-snippet',
+    'docs-code-title',
+    'code-block',
+    'code-line',
+    'code-line-number',
+    'code-line-content',
+    'docs-note',
+    'docs-article-bookmarks',
+  ];
+
+  for (const className of requiredClasses) {
+    const classPattern = new RegExp(`\\.${escapeRegExp(className)}(?:[^A-Za-z0-9_-]|$)`);
+
+    if (!classPattern.test(sharedDocsCss)) {
+      failures.push(`Shared docs CSS missing class: ${className}`);
+    }
+  }
+
+  if (!siteCss.includes('@import "../pages/docs/shared/docs.css";')) {
+    failures.push('Site CSS must import the shared docs stylesheet.');
+  }
+
+  return failures;
+}
+
+function escapeRegExp(value) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export function readJsonFile(path) {
   return JSON.parse(readFileSync(path, 'utf8'));
 }
@@ -424,6 +523,9 @@ async function verifySiteDocs() {
     join(projectRoot, 'apps/vanrot-site/src/pages/home/home.page.ts'),
     'utf8',
   );
+  const siteDataSource = readFileSync(siteDataSourcePath, 'utf8');
+  const docsPageTreeSource = readFileSync(docsPageTreePath, 'utf8');
+  const sharedDocsCss = readFileSync(sharedDocsCssPath, 'utf8');
   const docsLayoutHtml = readFileSync(
     join(projectRoot, 'apps/vanrot-site/src/layouts/docs/docs.layout.html'),
     'utf8',
@@ -540,6 +642,9 @@ async function verifySiteDocs() {
     ...checkRouteMetadataCoverage(['/', '/docs', '/docs/components', '/changelog'], frameworkReference.routeMetadata),
     ...checkDocsShellVisualContract(docsLayoutHtml, docsLayoutCss),
     ...checkComponentDocsShellVisualContract(appLayoutCss, siteCss, componentHtmlFiles),
+    ...checkDocsPageComponentCoverage(docsPageTreeSource),
+    ...checkDocsArticleSource(siteDataSource),
+    ...checkSharedDocsCssOwnership(sharedDocsCss, siteCss),
   ];
 
   if (failures.length > 0) {

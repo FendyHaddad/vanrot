@@ -31,4 +31,16 @@ describe('normalizeOptions', () => {
       false,
     );
   });
+
+  it('preserves configured child component import paths', () => {
+    const options = normalizeOptions({
+      childComponentImportMap: {
+        'docs-section': '/src/pages/docs/shared/docs-section.component.ts',
+      },
+    }, '/repo/app');
+
+    expect(options.childComponentImportMap).toEqual({
+      'docs-section': '/src/pages/docs/shared/docs-section.component.ts',
+    });
+  });
 });

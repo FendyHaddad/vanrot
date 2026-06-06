@@ -1,0 +1,17 @@
+<docs-article-shell [title]="title()" [summary]="summary()" [sectionLinks]="sectionLinks()">
+  <docs-section [sectionId]="sectionLinks()[0].id" [title]="sectionLinks()[0].title">
+    <p>{{ section0Body }}</p>
+  <docs-points-list [points]="section0Points"></docs-points-list>
+  <docs-code-block [title]="'Mount and assert'" [code]="section0Code"></docs-code-block>
+  </docs-section>
+
+  <docs-section [sectionId]="sectionLinks()[1].id" [title]="sectionLinks()[1].title">
+    <p>{{ section1Body }}</p>
+  <docs-points-list [points]="section1Points"></docs-points-list>
+  </docs-section>
+
+  <docs-section [sectionId]="sectionLinks()[2].id" [title]="sectionLinks()[2].title">
+    <p>{{ section2Body }}</p>
+  <docs-points-list [points]="section2Points"></docs-points-list>
+  </docs-section>
+</docs-article-shell>

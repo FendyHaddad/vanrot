@@ -54,7 +54,12 @@ export function generateComponent(
     return generateServerComponent(input, options);
   }
 
-  const state = createGenerateState(input);
+  const state = createGenerateState({
+    ...input,
+    ...(options.childComponentImportMap === undefined
+      ? {}
+      : { childComponentImportMap: options.childComponentImportMap }),
+  });
   state.usesPipes = templateContainsPipes(input.nodes);
 
   state.lines.push('export function createComponent(initialInputs = {}, projectedSlots = {}) {');

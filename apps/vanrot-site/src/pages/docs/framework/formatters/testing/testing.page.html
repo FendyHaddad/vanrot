@@ -1,0 +1,7 @@
+<docs-article-shell [title]="title()" [summary]="summary()" [sectionLinks]="sectionLinks()">
+  <docs-section [sectionId]="sectionLinks()[0].id" [title]="sectionLinks()[0].title">
+    <p>{{ section0Body }}</p>
+  <docs-points-list [points]="section0Points"></docs-points-list>
+  <docs-code-block [title]="'Focused pipe test'" [code]="section0Code"></docs-code-block>
+  </docs-section>
+</docs-article-shell>

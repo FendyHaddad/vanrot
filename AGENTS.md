@@ -1,3 +1,16 @@
+```
+    *  ·  ✦  ·  *  ˚  ·    ✦  ·  *          ✦         *  ·  ˚  ·  ✦  *
+  (  ˚  ·  ✦  ·  *  ˚  ) ·  ✦  ·  *  ·  (  ⊙  )  ·  ·  *  ˚  ·  ✦  ·
+   )  *  ·  ˚  ·  ✦  ·  *  ˚  ·  ✦  ·  ˚  ·  *  ✦  ·  ˚  ·  *  ·  ✦
+  (  ✦  ·  *  ˚  ·  ✦  ·  *  ˚  ·  ✦  ·  *  ˚  ·  ✦  ·  *  ˚  ·  ✦
+  ▲  ˚  ·  *  ✦  ·  ˚  ·  *  ✦  ·  ˚  ·  *  ✦  ·  ˚  ·  *  ✦  ·  ˚
+  █▲·  ✦  ·  ˚  *  ·  ✦  ·  ˚  *  ·  ✦  ·  ˚  *  ·  ✦  ·  ˚  *  ·
+  ███ ·  ✦  ·  *  ˚  ·  ✦  ·  *  ˚  ·  ✦  ·  *  ˚  ·  ✦  ·  *  ˚
+ ▄▄████▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+ ████████████████████████████████████████████████████████
+                      — vanrot agents —
+```
+
 ## Memory Protocol
 
 Use the local claude-mem HTTP API at `http://localhost:37777`.
@@ -75,6 +88,20 @@ That skill records the approved Button docs pattern:
 - use dotted preview backgrounds, shadcn-style code snippets, icon-only copy buttons, and mobile-ready CSS;
 - verify with the site page tests, typecheck, `pnpm verify`, local server reboot, and browser inspection.
 
+## Vanrot Framework Docs Page Component Protocol
+
+Framework docs in `apps/vanrot-site` use real page components as the authoring surface.
+
+- Human-authored framework guide content belongs in `.page.ts`, `.page.html`, and `.page.css` triplets under `apps/vanrot-site/src/pages/docs/`.
+- Route, sidebar, article, and AI/search compatibility metadata should derive from `apps/vanrot-site/src/docs/docs-page-tree.ts`.
+- Do not add or edit narrative framework guide content in `apps/vanrot-site/src/docs/site-data.json`; that file is no longer the source of truth for docs articles.
+- Parent and child framework pages must both be real page routes. Do not represent child docs as `#section` anchors under one parent article.
+- Common article UI should use the shared docs components and shared stylesheet under `apps/vanrot-site/src/pages/docs/shared/`.
+- Page-local CSS should contain only page-specific exceptions. Most docs classes belong in `apps/vanrot-site/src/pages/docs/shared/docs.css`.
+- Reusable docs code examples should use the shared docs code-block component instead of custom per-page snippet markup.
+- Any custom docs template tag used by page components must be declared in both `web-types.json` and `apps/vanrot-site/web-types.json` so IntelliJ/WebStorm do not report unknown HTML tags.
+- Special docs pages, such as visual examples or changelog-like layouts, may keep page-specific markup and CSS, but they must still be real page components and must not change the existing UI design unless explicitly requested.
+
 ## Superpowers Workflow Protocol
 
 When using Superpowers skills in this repository, do not use subagents, parallel agents, agent dispatch, or subagent-driven workflows.
@@ -112,12 +139,14 @@ Future pipeline items are a separate bucket. In `docs/superpowers/feature-maturi
 
 `docs/superpowers/final-tdd-inventory.md` is the final release testing memory. It must grow with each production phase so Phase 26 can run complete failing and passing TDD coverage across every package, command, component, convention, helper, example, and generated file before distribution.
 
+Tracker and inventory closeout is Codex's responsibility, not a commit blocker. Do not add pre-commit checks that fail user commits solely because `docs/superpowers/feature-maturity.md`, `docs/superpowers/final-tdd-inventory.md`, or `docs/superpowers/future-pipeline.md` are unstaged or unchanged. Keep these reminders in this file, update the docs during Codex work when appropriate, and report any missing closeout updates in the final response.
+
 `pnpm verify:phase-docs` enforces the phase documentation guardrail:
 
 - completed phases in `docs/superpowers/feature-maturity.md` must not have unchecked tasks in their matching plan file;
 - feature maturity rows for completed phases must not remain `Planned`.
 
-A temporary local hook at `.git/hooks/pre-commit` enforces this for phase-completion commits. It can be bypassed only when intentionally needed:
+A temporary local hook at `.git/hooks/pre-commit` runs the relevant verification commands for staged docs and metadata changes. It must not enforce tracker or inventory staging completeness. It can be bypassed only when intentionally needed:
 
 ```sh
 VANROT_SKIP_PHASE_HOOK=1 git commit
@@ -169,13 +198,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-06 4:23pm GMT+8
+# [vanrot] recent context, 2026-06-06 10:29pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (11,548t read) | 1,740,530t work | 99% savings
+Stats: 50 obs (10,868t read) | 1,614,645t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -190,9 +219,7 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 30, 2026
-2453 7:06p 🔵 Memory Registry Search Results
-2459 " 🔵 Site Data and Article Rendering Analysis
-2465 " 🔵 Runtime Article JSON Content
+2465 7:06p 🔵 Runtime Article JSON Content
 ### May 31, 2026
 2473 3:00p ✅ Added pretest and pretypecheck scripts to package.json
 2472 " 🔵 New behavior added to publish.sh
@@ -245,6 +272,8 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2975 " 🔵 Store Package in Route Definitions
 2976 " 🔵 Store Documentation Test Failure
 2977 " 🔵 Store Package Documentation Status
+3028 5:23p ⚖️ Doc site coding convention identified as tech debt
+3029 9:30p 🔴 Resolved disallowed attribute errors in action page
 
-Access 1741k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1615k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

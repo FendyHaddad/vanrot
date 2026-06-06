@@ -1,8 +1,13 @@
+import type { CompileOptions } from '@vanrot/compiler';
+
+export type ChildComponentImportMap = NonNullable<CompileOptions['childComponentImportMap']>;
+
 export interface VanrotPluginOptions {
   include?: RegExp | RegExp[];
   exclude?: RegExp | RegExp[];
   root?: string;
   sourceRoot?: string;
+  childComponentImportMap?: ChildComponentImportMap;
 }
 
 export interface NormalizedVanrotPluginOptions {
@@ -10,6 +15,7 @@ export interface NormalizedVanrotPluginOptions {
   exclude: RegExp[];
   root: string;
   sourceRoot: string;
+  childComponentImportMap: ChildComponentImportMap;
 }
 
 function defaultInclude(sourceRoot: string): RegExp {
@@ -29,6 +35,7 @@ export function normalizeOptions(
     exclude: normalizePatterns(options.exclude, []),
     root: options.root ?? fallbackRoot,
     sourceRoot,
+    childComponentImportMap: options.childComponentImportMap ?? {},
   };
 }
 

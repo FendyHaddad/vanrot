@@ -6,6 +6,9 @@ import {
   checkDiagnosticCoverage,
   checkComponentDocsShellVisualContract,
   checkDocsShellVisualContract,
+  checkDocsArticleSource,
+  checkDocsPageComponentCoverage,
+  checkSharedDocsCssOwnership,
   checkExampleFreshness,
   checkExampleRegistration,
   checkGeneratedFileCoverage,
@@ -239,6 +242,59 @@ describe('expanded site docs verification', () => {
       'Component docs must not duplicate the Vanrot brand: button',
       'Component docs must not duplicate global top navigation: button',
       'Component docs missing Design Components header: checkbox',
+    ]);
+  });
+
+  it('fails when docs page component files are missing from the page tree', () => {
+    const failures = checkDocsPageComponentCoverage(
+      [
+        'export const docsPageTree = [];',
+        'componentName: "RuntimePage",',
+        'sourceFiles: {',
+        '  ts: "src/pages/docs/runtime/runtime.page.ts",',
+        '  html: "src/pages/docs/runtime/runtime.page.html",',
+        '  css: "src/pages/docs/runtime/runtime.page.css",',
+        '}',
+      ].join('\n'),
+      new URL('../', import.meta.url).pathname,
+    );
+
+    expect(failures).toEqual([
+      'Docs page source file is missing: src/pages/docs/runtime/runtime.page.ts',
+      'Docs page source file is missing: src/pages/docs/runtime/runtime.page.html',
+      'Docs page source file is missing: src/pages/docs/runtime/runtime.page.css',
+    ]);
+  });
+
+  it('fails when site-data owns narrative framework articles again', () => {
+    const failures = checkDocsArticleSource(
+      'import siteDataJson from "./site-data.json";\nconst rawArticles = siteDataJson.articles;',
+    );
+
+    expect(failures).toEqual([
+      'site-data.ts must import narrative docs articles from docs-page-tree.ts.',
+      'site-data.ts must derive narrative article order from docsPageArticleKeys.',
+      'site-data.ts must not derive narrative framework articles from site-data.json.',
+    ]);
+  });
+
+  it('fails when shared docs CSS is not wired', () => {
+    const failures = checkSharedDocsCssOwnership('.docs-article-layout {}', '');
+
+    expect(failures).toEqual([
+      'Shared docs CSS missing class: docs-article',
+      'Shared docs CSS missing class: docs-summary',
+      'Shared docs CSS missing class: docs-section-grid',
+      'Shared docs CSS missing class: docs-section',
+      'Shared docs CSS missing class: code-snippet',
+      'Shared docs CSS missing class: docs-code-title',
+      'Shared docs CSS missing class: code-block',
+      'Shared docs CSS missing class: code-line',
+      'Shared docs CSS missing class: code-line-number',
+      'Shared docs CSS missing class: code-line-content',
+      'Shared docs CSS missing class: docs-note',
+      'Shared docs CSS missing class: docs-article-bookmarks',
+      'Site CSS must import the shared docs stylesheet.',
     ]);
   });
 });

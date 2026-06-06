@@ -5,6 +5,8 @@ const selector = {
   typedTarget: '[data-vr-home-typed]',
   packageBadge: '[data-vr-package-badge]',
   revealSection: '[data-vr-reveal-section]',
+  aiSpotlight: '[data-vr-ai-spotlight]',
+  aiTilt: '[data-ai-tilt]',
 } as const;
 
 const noop: Dispose = () => {};
@@ -13,7 +15,12 @@ const prefersReducedMotion = (): boolean =>
 
 export function setupHomeInteractions(): void {
   onMount(() => {
-    const disposers = [setupHeroAnimation(), setupPackageBadgeTones(), setupScrollReveal()];
+    const disposers = [
+      setupHeroAnimation(),
+      setupPackageBadgeTones(),
+      setupScrollReveal(),
+      setupAiSpotlight(),
+    ];
 
     return () => {
       for (const dispose of disposers) {
@@ -264,6 +271,39 @@ function setupTypedSubtitle(): Dispose {
   return () => {
     window.clearTimeout(startTimer);
     window.clearTimeout(timer);
+  };
+}
+
+function setupAiSpotlight(): Dispose {
+  const section = document.querySelector<HTMLElement>(selector.aiSpotlight);
+
+  if (section === null || prefersReducedMotion()) {
+    return noop;
+  }
+
+  const cells = Array.from(section.querySelectorAll<HTMLElement>(selector.aiTilt));
+  let frame = 0;
+
+  const onMove = (event: PointerEvent): void => {
+    window.cancelAnimationFrame(frame);
+    frame = window.requestAnimationFrame(() => {
+      const rect = section.getBoundingClientRect();
+      section.style.setProperty('--mx', `${event.clientX - rect.left}px`);
+      section.style.setProperty('--my', `${event.clientY - rect.top}px`);
+
+      for (const cell of cells) {
+        const box = cell.getBoundingClientRect();
+        cell.style.setProperty('--cx', `${event.clientX - box.left}px`);
+        cell.style.setProperty('--cy', `${event.clientY - box.top}px`);
+      }
+    });
+  };
+
+  section.addEventListener('pointermove', onMove);
+
+  return () => {
+    window.cancelAnimationFrame(frame);
+    section.removeEventListener('pointermove', onMove);
   };
 }
 

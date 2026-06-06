@@ -15,8 +15,24 @@ const routeShorthandAttributes = [
   'route.home',
   'route.reference',
 ];
+const docsSharedElements = [
+  'docs-article-shell',
+  'docs-code-block',
+  'docs-note',
+  'docs-points-list',
+  'docs-section',
+];
+const docsSharedElementAttributes = {
+  'docs-article-shell': ['[sectionLinks]', '[summary]', '[title]'],
+  'docs-code-block': ['[code]', '[title]'],
+  'docs-note': [],
+  'docs-points-list': ['[points]'],
+  'docs-section': ['[sectionId]', '[title]'],
+};
 const vagueVanrotDescriptionPattern = /^Vanrot (UI element|.+ primitive|.+ element)\.$/;
 const routeShorthandPattern = { regex: '^route\\.[A-Za-z][A-Za-z0-9_]*$' };
+const bracketedBindingPattern = { regex: '^\\[[A-Za-z_][A-Za-z0-9_.:-]*\\]$' };
+const valueShorthandPattern = { regex: '^value\\.[A-Za-z][A-Za-z0-9_-]*$' };
 
 function readJson(path) {
   return JSON.parse(readFileSync(join(root, path), 'utf8'));
@@ -65,9 +81,149 @@ function collectHtmlFiles(directory, files = []) {
   return files;
 }
 
+function extractHtmlTags(template) {
+  const tags = [];
+
+  for (let index = 0; index < template.length; index += 1) {
+    if (template[index] !== '<') {
+      continue;
+    }
+
+    const nextCharacter = template[index + 1];
+
+    if (nextCharacter === '!' || nextCharacter === '?') {
+      continue;
+    }
+
+    let quote = null;
+    let tagEnd = -1;
+
+    for (let cursor = index + 1; cursor < template.length; cursor += 1) {
+      const character = template[cursor];
+
+      if (quote !== null) {
+        if (character === quote) {
+          quote = null;
+        }
+
+        continue;
+      }
+
+      if (character === '"' || character === "'") {
+        quote = character;
+        continue;
+      }
+
+      if (character === '>') {
+        tagEnd = cursor;
+        break;
+      }
+    }
+
+    if (tagEnd === -1) {
+      break;
+    }
+
+    tags.push(template.slice(index + 1, tagEnd));
+    index = tagEnd;
+  }
+
+  return tags;
+}
+
+function parseHtmlTag(rawTag) {
+  let cursor = 0;
+
+  while (/\s/.test(rawTag[cursor] ?? '')) {
+    cursor += 1;
+  }
+
+  if (rawTag[cursor] === '/') {
+    cursor += 1;
+  }
+
+  const tagNameStart = cursor;
+
+  while (/[A-Za-z0-9:._-]/.test(rawTag[cursor] ?? '')) {
+    cursor += 1;
+  }
+
+  const tagName = rawTag.slice(tagNameStart, cursor);
+
+  if (tagName.length === 0) {
+    return null;
+  }
+
+  const attributes = [];
+
+  while (cursor < rawTag.length) {
+    while (/\s/.test(rawTag[cursor] ?? '')) {
+      cursor += 1;
+    }
+
+    if (cursor >= rawTag.length || rawTag[cursor] === '/') {
+      break;
+    }
+
+    const attributeNameStart = cursor;
+
+    while (cursor < rawTag.length && !/[\s=/>]/.test(rawTag[cursor])) {
+      cursor += 1;
+    }
+
+    const attributeName = rawTag.slice(attributeNameStart, cursor);
+
+    if (attributeName.length === 0) {
+      cursor += 1;
+      continue;
+    }
+
+    while (/\s/.test(rawTag[cursor] ?? '')) {
+      cursor += 1;
+    }
+
+    const hasValue = rawTag[cursor] === '=';
+
+    if (hasValue) {
+      cursor += 1;
+
+      while (/\s/.test(rawTag[cursor] ?? '')) {
+        cursor += 1;
+      }
+
+      const quote = rawTag[cursor];
+
+      if (quote === '"' || quote === "'") {
+        cursor += 1;
+
+        while (cursor < rawTag.length && rawTag[cursor] !== quote) {
+          cursor += 1;
+        }
+
+        if (rawTag[cursor] === quote) {
+          cursor += 1;
+        }
+      } else {
+        while (cursor < rawTag.length && !/\s/.test(rawTag[cursor])) {
+          cursor += 1;
+        }
+      }
+    }
+
+    attributes.push({ name: attributeName, hasValue });
+  }
+
+  return { tagName, attributes };
+}
+
+function isVanrotTemplateElement(tagName) {
+  return tagName === 'vr' || tagName.includes('-');
+}
+
 function collectVanrotTemplateUsage() {
   const tagUsages = new Map();
   const dottedAttributeUsages = new Map();
+  const bracketedAttributeUsages = new Map();
   const valuelessDottedAttributeUsages = new Map();
   const htmlFiles = scannedHtmlRoots.flatMap((directory) => collectHtmlFiles(join(root, directory)));
 
@@ -75,36 +231,50 @@ function collectVanrotTemplateUsage() {
     const template = readFileSync(file, 'utf8');
     const relativePath = relative(root, file);
 
-    for (const tagMatch of template.matchAll(/<\/?(vr(?:-[A-Za-z0-9]+)*)\b([^>]*)>/g)) {
-      const tagName = tagMatch[1];
+    for (const rawTag of extractHtmlTags(template)) {
+      const tag = parseHtmlTag(rawTag);
 
-      rememberUsage(tagUsages, tagName, relativePath);
+      if (tag === null) {
+        continue;
+      }
 
-      for (const attributeMatch of tagMatch[2].matchAll(/\s([:@#A-Za-z_][\w:.-]*)\b(?:\s*(=)|\s|\/|>)/g)) {
-        const attributeName = attributeMatch[1];
-        const hasValue = attributeMatch[2] === '=';
+      if (isVanrotTemplateElement(tag.tagName)) {
+        rememberUsage(tagUsages, tag.tagName, relativePath);
+      }
+
+      for (const attribute of tag.attributes) {
+        const attributeName = attribute.name;
 
         if (attributeName.includes('.')) {
-          rememberUsage(dottedAttributeUsages, `${tagName}|${attributeName}`, relativePath);
+          rememberUsage(dottedAttributeUsages, `${tag.tagName}|${attributeName}`, relativePath);
 
-          if (!hasValue) {
-            rememberUsage(valuelessDottedAttributeUsages, `${tagName}|${attributeName}`, relativePath);
+          if (!attribute.hasValue) {
+            rememberUsage(valuelessDottedAttributeUsages, `${tag.tagName}|${attributeName}`, relativePath);
           }
+        }
+
+        if (attributeName.startsWith('[') && attributeName.endsWith(']')) {
+          rememberUsage(bracketedAttributeUsages, `${tag.tagName}|${attributeName}`, relativePath);
         }
       }
     }
   }
 
-  return { tagUsages, dottedAttributeUsages, valuelessDottedAttributeUsages };
+  return { tagUsages, dottedAttributeUsages, bracketedAttributeUsages, valuelessDottedAttributeUsages };
 }
 
 function collectWebTypesSymbols(webTypesFiles) {
   const elements = new Map();
   const globalAttributes = new Map();
+  const globalAttributePatterns = [];
 
   for (const { document } of webTypesFiles) {
     for (const attribute of document.contributions?.html?.attributes ?? []) {
       globalAttributes.set(attribute.name, attribute);
+
+      if (attribute.pattern?.regex !== undefined) {
+        globalAttributePatterns.push(attribute);
+      }
     }
 
     for (const element of document.contributions?.html?.elements ?? []) {
@@ -118,11 +288,19 @@ function collectWebTypesSymbols(webTypesFiles) {
     }
   }
 
-  return { elements, globalAttributes };
+  return { elements, globalAttributes, globalAttributePatterns };
 }
 
 function getWebTypesAttribute(symbols, tagName, attributeName) {
-  return symbols.elements.get(tagName)?.get(attributeName) ?? symbols.globalAttributes.get(attributeName);
+  const exactAttribute = symbols.elements.get(tagName)?.get(attributeName) ?? symbols.globalAttributes.get(attributeName);
+
+  if (exactAttribute !== undefined) {
+    return exactAttribute;
+  }
+
+  return symbols.globalAttributePatterns.find((attribute) => {
+    return new RegExp(attribute.pattern.regex).test(attributeName);
+  });
 }
 
 function collectGlobalAttributeMap(document) {
@@ -184,6 +362,33 @@ describe('project Web Types coverage', () => {
     }
   });
 
+  it('exposes Vanrot bracket binding attributes as project-global Web Types symbols', () => {
+    const documents = [
+      readJson('web-types.json'),
+      readJson('apps/vanrot-site/web-types.json'),
+    ];
+
+    for (const document of documents) {
+      const globalAttributes = collectGlobalAttributeMap(document);
+
+      expect(globalAttributes.get('[*]')?.pattern).toEqual(bracketedBindingPattern);
+    }
+  });
+
+  it('exposes value shorthand attributes as project-global no-value Web Types symbols', () => {
+    const documents = [
+      readJson('web-types.json'),
+      readJson('apps/vanrot-site/web-types.json'),
+    ];
+
+    for (const document of documents) {
+      const globalAttributes = collectGlobalAttributeMap(document);
+
+      expect(globalAttributes.get('value.*')?.value?.kind).toBe('no-value');
+      expect(globalAttributes.get('value.*')?.pattern).toEqual(valueShorthandPattern);
+    }
+  });
+
   it('covers every Vanrot element used in authored HTML templates', () => {
     const { tagUsages } = collectVanrotTemplateUsage();
     const { elements } = collectWebTypesSymbols(readProjectWebTypesFiles());
@@ -193,6 +398,33 @@ describe('project Web Types coverage', () => {
       .map((tagName) => formatMissing(tagUsages, tagName));
 
     expect(missingTags).toEqual([]);
+  });
+
+  it('declares shared docs page components in root and site Web Types', () => {
+    const rootElements = new Set(collectHtmlElements(readJson('web-types.json')).map((element) => element.name));
+    const siteElements = new Set(
+      collectHtmlElements(readJson('apps/vanrot-site/web-types.json')).map((element) => element.name),
+    );
+
+    expect(docsSharedElements.filter((element) => !rootElements.has(element))).toEqual([]);
+    expect(docsSharedElements.filter((element) => !siteElements.has(element))).toEqual([]);
+  });
+
+  it('declares shared docs page component inputs in root and site Web Types', () => {
+    const documents = [readJson('web-types.json'), readJson('apps/vanrot-site/web-types.json')];
+
+    for (const document of documents) {
+      const elements = new Map(collectHtmlElements(document).map((element) => [element.name, element]));
+      const missingAttributes = Object.entries(docsSharedElementAttributes).flatMap(([elementName, attributes]) => {
+        const declaredAttributes = new Set((elements.get(elementName)?.attributes ?? []).map((attribute) => attribute.name));
+
+        return attributes
+          .filter((attributeName) => !declaredAttributes.has(attributeName))
+          .map((attributeName) => `${elementName}|${attributeName}`);
+      });
+
+      expect(missingAttributes).toEqual([]);
+    }
   });
 
   it('keeps Web Types element descriptions instructional instead of placeholder text', () => {
@@ -246,6 +478,21 @@ describe('project Web Types coverage', () => {
       })
       .sort()
       .map((key) => formatMissing(dottedAttributeUsages, key));
+
+    expect(missingAttributes).toEqual([]);
+  });
+
+  it('covers every Vanrot bracket binding used in authored HTML templates', () => {
+    const { bracketedAttributeUsages } = collectVanrotTemplateUsage();
+    const symbols = collectWebTypesSymbols(readProjectWebTypesFiles());
+    const missingAttributes = [...bracketedAttributeUsages.keys()]
+      .filter((key) => {
+        const [tagName, attributeName] = key.split('|');
+
+        return getWebTypesAttribute(symbols, tagName, attributeName) === undefined;
+      })
+      .sort()
+      .map((key) => formatMissing(bracketedAttributeUsages, key));
 
     expect(missingAttributes).toEqual([]);
   });

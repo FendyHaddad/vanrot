@@ -16,6 +16,7 @@
 @import "../../../../packages/ui/src/primitives/command-menu/ui.command-menu.css";
 @import "../pages/components/component-phase16e.css";
 @import "../pages/components/component-phase16g.css";
+@import "../pages/docs/shared/docs.css";
 
 :root {
   color-scheme: dark;

@@ -1,4 +1,4 @@
-import { createRoutes, defineRoutes } from '@vanrot/router';
+import { createRoutes, defineRoutes, type RouteRef } from '@vanrot/router';
 import { DocsLayout } from './layouts/docs/docs.layout.ts';
 import { ComponentAlertPage } from './pages/components/component-alert.page.ts';
 import { ComponentArticlePage } from './pages/components/component-article.page.ts';
@@ -53,10 +53,7 @@ import { ComponentTablePage } from './pages/components/component-table.page.ts';
 import { ComponentTextareaPage } from './pages/components/component-textarea.page.ts';
 import { ComponentTooltipPage } from './pages/components/component-tooltip.page.ts';
 import { ComponentToastPage } from './pages/components/component-toast.page.ts';
-import { DocsArticlePage } from './pages/docs/docs-article.page.ts';
 import { DocsChangelogPage } from './pages/docs/docs-changelog.page.ts';
-import { DocsExampleMatrixPage } from './pages/docs/docs-example-matrix.page.ts';
-import { DocsReferencePage } from './pages/docs/docs-reference.page.ts';
 import { OctoberShowcasePage } from './pages/examples/october-showcase.page.ts';
 import { HomePage } from './pages/home/home.page.ts';
 import { ReferencePage } from './pages/reference/reference.page.ts';
@@ -66,9 +63,11 @@ import {
   type SiteArticleKey,
 } from './docs/site-data.ts';
 import { componentDocPath } from './docs/component-doc-paths.ts';
+import { flattenDocsPageTree, type DocsPageTreeItem } from './docs/docs-page-tree.ts';
 
 const routes = createRoutes();
 const docsBasePath = '/docs';
+type DocsRouteKey = `docs${Capitalize<SiteArticleKey>}`;
 const routePath = {
   home: '/',
   docs: docsBasePath,
@@ -194,15 +193,6 @@ const docs = routes.layout({
   layout: DocsLayout,
   nav: routes.nav.primary(),
   breadcrumb: routes.breadcrumb.root(),
-});
-
-const docsIntroduction = docs.page({
-  path: articleChildPath(siteArticleKey.introduction),
-  label: getSiteArticle(siteArticleKey.introduction).label,
-  ...articleDocument(siteArticleKey.introduction),
-  page: DocsArticlePage,
-  nav: routes.nav.hidden(),
-  breadcrumb: routes.breadcrumb.parent(docs),
 });
 
 const componentButtons = routes.page({
@@ -492,184 +482,13 @@ const componentCommandMenu = componentDocsPage(
   ComponentCommandMenuPage,
 );
 
-const docsInstallation = articlePage(siteArticleKey.installation);
-const docsProjectStructure = articlePage(siteArticleKey.projectStructure);
-const docsRuntime = articlePage(siteArticleKey.runtime);
-const docsRuntimeSignals = articlePage(siteArticleKey.runtimeSignals);
-const docsRuntimeInputs = articlePage(siteArticleKey.runtimeInputs);
-const docsRuntimeForms = articlePage(siteArticleKey.runtimeForms);
-const docsRuntimeControllers = articlePage(siteArticleKey.runtimeControllers);
-const docsRuntimeDevtoolsGraph = articlePage(siteArticleKey.runtimeDevtoolsGraph);
-const docsRuntimeLifecycle = articlePage(siteArticleKey.runtimeLifecycle);
-const docsRuntimeMounting = articlePage(siteArticleKey.runtimeMounting);
-const docsBehavior = articlePage(siteArticleKey.behavior);
-const docsBehaviorForm = articlePage(siteArticleKey.behaviorForm);
-const docsBehaviorOverlay = articlePage(siteArticleKey.behaviorOverlay);
-const docsBehaviorTooltip = articlePage(siteArticleKey.behaviorTooltip);
-const docsBehaviorTabs = articlePage(siteArticleKey.behaviorTabs);
-const docsBehaviorTable = articlePage(siteArticleKey.behaviorTable);
-const docsBehaviorToast = articlePage(siteArticleKey.behaviorToast);
-const docsBehaviorCommandMenu = articlePage(siteArticleKey.behaviorCommandMenu);
-const docsBehaviorPositionedLayer = articlePage(siteArticleKey.behaviorPositionedLayer);
-const docsSeo = articlePage(siteArticleKey.seo);
-const docsSeoPackageBoundary = articlePage(siteArticleKey.seoPackageBoundary);
-const docsSeoMetadataLadder = articlePage(siteArticleKey.seoMetadataLadder);
-const docsSeoConfigControlPlane = articlePage(siteArticleKey.seoConfigControlPlane);
-const docsSeoCreateAndAddFlows = articlePage(siteArticleKey.seoCreateAndAddFlows);
-const docsSeoDoctorAndBuildOutput = articlePage(siteArticleKey.seoDoctorAndBuildOutput);
-const docsSeoSocialImages = articlePage(siteArticleKey.seoSocialImages);
-const docsCompiler = articlePage(siteArticleKey.compiler);
-const docsCompilerFileConventions = articlePage(siteArticleKey.compilerFileConventions);
-const docsCompilerComponentClass = articlePage(siteArticleKey.compilerComponentClass);
-const docsCompilerTemplateSyntax = articlePage(siteArticleKey.compilerTemplateSyntax);
-const docsCompilerExpressions = articlePage(siteArticleKey.compilerExpressions);
-const docsCompilerEventBinding = articlePage(siteArticleKey.compilerEventBinding);
-const docsCompilerScopedCss = articlePage(siteArticleKey.compilerScopedCss);
-const docsCompilerChildComponents = articlePage(siteArticleKey.compilerChildComponents);
-const docsCompilerSlots = articlePage(siteArticleKey.compilerSlots);
-const docsCompilerIfElse = articlePage(siteArticleKey.compilerIfElse);
-const docsCompilerFor = articlePage(siteArticleKey.compilerFor);
-const docsCompilerInputs = articlePage(siteArticleKey.compilerInputs);
-const docsCompilerSourceMaps = articlePage(siteArticleKey.compilerSourceMaps);
-const docsCompilerCompilationApi = articlePage(siteArticleKey.compilerCompilationApi);
-const docsVitePlugin = articlePage(siteArticleKey.vitePlugin);
-const docsVitePluginSetup = articlePage(siteArticleKey.vitePluginSetup);
-const docsVitePluginOptions = articlePage(siteArticleKey.vitePluginOptions);
-const docsVitePluginTransform = articlePage(siteArticleKey.vitePluginTransform);
-const docsVitePluginHotReload = articlePage(siteArticleKey.vitePluginHotReload);
-const docsVitePluginVirtualModules = articlePage(siteArticleKey.vitePluginVirtualModules);
-const docsVitePluginDiagnostics = articlePage(siteArticleKey.vitePluginDiagnostics);
-const docsVitePluginSourceMaps = articlePage(siteArticleKey.vitePluginSourceMaps);
-const docsVitePluginDevtoolsMetadata = articlePage(siteArticleKey.vitePluginDevtoolsMetadata);
-const docsCli = articlePage(siteArticleKey.cli);
-const docsCliCommandSurface = articlePage(siteArticleKey.cliCommandSurface);
-const docsCliProjectCreation = articlePage(siteArticleKey.cliProjectCreation);
-const docsCliRoleGeneration = articlePage(siteArticleKey.cliRoleGeneration);
-const docsCliUiPrimitiveAdd = articlePage(siteArticleKey.cliUiPrimitiveAdd);
-const docsCliConfigMaintenance = articlePage(siteArticleKey.cliConfigMaintenance);
-const docsCliProjectIntelligence = articlePage(siteArticleKey.cliProjectIntelligence);
-const docsCliTaskRunners = articlePage(siteArticleKey.cliTaskRunners);
-const docsCliDevServer = articlePage(siteArticleKey.cliDevServer);
-const docsCliBuild = articlePage(siteArticleKey.cliBuild);
-const docsCliTest = articlePage(siteArticleKey.cliTest);
-const docsConfiguration = articlePage(siteArticleKey.configuration);
-const docsConfigurationFile = articlePage(siteArticleKey.configurationFile);
-const docsConfigurationDefaults = articlePage(siteArticleKey.configurationDefaults);
-const docsConfigurationUi = articlePage(siteArticleKey.configurationUi);
-const docsConfigurationRouter = articlePage(siteArticleKey.configurationRouter);
-const docsConfigurationAi = articlePage(siteArticleKey.configurationAi);
-const docsConfigurationMaintenance = articlePage(siteArticleKey.configurationMaintenance);
-const docsRouting = articlePage(siteArticleKey.routing);
-const docsRoutingRouteTable = articlePage(siteArticleKey.routingRouteTable);
-const docsRoutingParamsQuery = articlePage(siteArticleKey.routingParamsQuery);
-const docsRoutingLayoutsRedirects = articlePage(siteArticleKey.routingLayoutsRedirects);
-const docsRoutingGuards = articlePage(siteArticleKey.routingGuards);
-const docsRoutingNavigation = articlePage(siteArticleKey.routingNavigation);
-const docsRoutingPreloadingKeepAlive = articlePage(siteArticleKey.routingPreloadingKeepAlive);
-const docsSsrHydration = articlePage(siteArticleKey.ssrHydration);
-const docsSsrPackageBoundary = articlePage(siteArticleKey.ssrPackageBoundary);
-const docsSsrRenderDocument = articlePage(siteArticleKey.ssrRenderDocument);
-const docsSsrHydrationContract = articlePage(siteArticleKey.ssrHydrationContract);
-const docsSsrStateSerialization = articlePage(siteArticleKey.ssrStateSerialization);
-const docsSsrRouter = articlePage(siteArticleKey.ssrRouter);
-const docsSsrDeferredStreaming = articlePage(siteArticleKey.ssrDeferredStreaming);
-const docsUi = articlePage(siteArticleKey.uiOctober);
-const docsTheming = articlePage(siteArticleKey.theming);
-const docsVanrotstyles = articlePage(siteArticleKey.vanrotstyles);
-const docsTesting = articlePage(siteArticleKey.testing);
-const docsTestingComponent = articlePage(siteArticleKey.testingComponent);
-const docsTestingScreen = articlePage(siteArticleKey.testingScreen);
-const docsTestingRouting = articlePage(siteArticleKey.testingRouting);
-const docsTestingStrategy = articlePage(siteArticleKey.testingStrategy);
-const docsForms = articlePage(siteArticleKey.forms);
-const docsFormsBoundary = articlePage(siteArticleKey.formsBoundary);
-const docsFormsFieldRefs = articlePage(siteArticleKey.formsFieldRefs);
-const docsFormsValidationLifecycle = articlePage(siteArticleKey.formsValidationLifecycle);
-const docsFormsAsyncResources = articlePage(siteArticleKey.formsAsyncResources);
-const docsFormsArraysWizardsErrors = articlePage(siteArticleKey.formsArraysWizardsErrors);
-const docsFormsDraftPersistence = articlePage(siteArticleKey.formsDraftPersistence);
-const docsFormsToolingTests = articlePage(siteArticleKey.formsToolingTests);
-const docsStore = articlePage(siteArticleKey.store);
-const docsStoreActions = articlePage(siteArticleKey.storeActions);
-const docsStoreSelectors = articlePage(siteArticleKey.storeSelectors);
-const docsStoreReducers = articlePage(siteArticleKey.storeReducers);
-const docsStoreEffects = articlePage(siteArticleKey.storeEffects);
-const docsStorePageUsage = articlePage(siteArticleKey.storePageUsage);
-const docsStoreInspection = articlePage(siteArticleKey.storeInspection);
-const docsStoreReplay = articlePage(siteArticleKey.storeReplay);
-const docsFormatters = articlePage(siteArticleKey.formatters);
-const docsFormattersCompilerOwned = articlePage(siteArticleKey.formattersCompilerOwned);
-const docsFormattersTemplatePipes = articlePage(siteArticleKey.formattersTemplatePipes);
-const docsFormattersBuiltInSuite = articlePage(siteArticleKey.formattersBuiltInSuite);
-const docsFormattersBuiltInArguments = articlePage(siteArticleKey.formattersBuiltInArguments);
-const docsFormattersPipeRoleFiles = articlePage(siteArticleKey.formattersPipeRoleFiles);
-const docsFormattersNamedPresets = articlePage(siteArticleKey.formattersNamedPresets);
-const docsFormattersEnumPipes = articlePage(siteArticleKey.formattersEnumPipes);
-const docsFormattersContext = articlePage(siteArticleKey.formattersContext);
-const docsFormattersCompilerDiagnostics = articlePage(siteArticleKey.formattersCompilerDiagnostics);
-const docsFormattersViteTooling = articlePage(siteArticleKey.formattersViteTooling);
-const docsFormattersTesting = articlePage(siteArticleKey.formattersTesting);
-const docsDevtools = articlePage(siteArticleKey.devtools);
-const docsDevtoolsProjectMap = articlePage(siteArticleKey.devtoolsProjectMap);
-const docsDevtoolsRuntimeGraph = articlePage(siteArticleKey.devtoolsRuntimeGraph);
-const docsDevtoolsViteMetadata = articlePage(siteArticleKey.devtoolsViteMetadata);
-const docsDevtoolsPanelState = articlePage(siteArticleKey.devtoolsPanelState);
-const docsDevtoolsStaleState = articlePage(siteArticleKey.devtoolsStaleState);
-const docsExamples = articlePage(siteArticleKey.examples);
-const docsExampleMatrix = docs.page({
-  path: docsChildPath(routePath.docsExampleMatrix),
-  label: getSiteArticle(siteArticleKey.exampleMatrix).label,
-  ...articleDocument(siteArticleKey.exampleMatrix),
-  page: DocsExampleMatrixPage,
-  breadcrumb: routes.breadcrumb.parent(docs),
-});
-const docsWebglThreejs = articlePage(siteArticleKey.webglThreejs);
+const docsPageRoutes = createDocsPageRoutes();
+
 const docsOctoberShowcase = docs.page({
-  path: articleChildPath(siteArticleKey.octoberShowcase),
+  path: docsChildPath('/docs/examples/october-showcase'),
   label: getSiteArticle(siteArticleKey.octoberShowcase).label,
   ...articleDocument(siteArticleKey.octoberShowcase),
   page: OctoberShowcasePage,
-  breadcrumb: routes.breadcrumb.parent(docs),
-});
-const docsConventions = articlePage(siteArticleKey.conventions);
-const docsConventionsRoleFiles = articlePage(siteArticleKey.conventionsRoleFiles);
-const docsConventionsTemplatesStyles = articlePage(siteArticleKey.conventionsTemplatesStyles);
-const docsConventionsStateLogic = articlePage(siteArticleKey.conventionsStateLogic);
-const docsConventionsRoutingStrings = articlePage(siteArticleKey.conventionsRoutingStrings);
-const docsConventionsScopedCss = articlePage(siteArticleKey.conventionsScopedCss);
-const docsConventionsAiReadable = articlePage(siteArticleKey.conventionsAiReadable);
-const docsDeployment = articlePage(siteArticleKey.deployment);
-const docsChangelog = docs.page({
-  path: articleChildPath(siteArticleKey.changelog),
-  label: getSiteArticle(siteArticleKey.changelog).label,
-  ...articleDocument(siteArticleKey.changelog),
-  page: DocsChangelogPage,
-  breadcrumb: routes.breadcrumb.parent(docs),
-});
-const docsLimitations = articlePage(siteArticleKey.limitations);
-const docsReferenceStatus = articlePage(siteArticleKey.referenceStatus);
-
-const docsPublicApi = docs.page({
-  path: docsChildPath(routePath.docsPublicApi),
-  label: getSiteArticle(siteArticleKey.publicApi).label,
-  ...articleDocument(siteArticleKey.publicApi),
-  page: DocsReferencePage,
-  breadcrumb: routes.breadcrumb.parent(docs),
-});
-
-const docsDiagnostics = docs.page({
-  path: docsChildPath(routePath.docsDiagnostics),
-  label: getSiteArticle(siteArticleKey.diagnostics).label,
-  ...articleDocument(siteArticleKey.diagnostics),
-  page: DocsReferencePage,
-  breadcrumb: routes.breadcrumb.parent(docs),
-});
-
-const docsGeneratedFiles = docs.page({
-  path: docsChildPath(routePath.docsGeneratedFiles),
-  label: getSiteArticle(siteArticleKey.generatedFiles).label,
-  ...articleDocument(siteArticleKey.generatedFiles),
-  page: DocsReferencePage,
   breadcrumb: routes.breadcrumb.parent(docs),
 });
 
@@ -776,148 +595,8 @@ export const route = defineRoutes({
   componentTextareas,
   componentTooltips,
   componentToasts,
-  docsIntroduction,
-  docsInstallation,
-  docsProjectStructure,
-  docsRuntime,
-  docsRuntimeSignals,
-  docsRuntimeInputs,
-  docsRuntimeForms,
-  docsRuntimeControllers,
-  docsRuntimeDevtoolsGraph,
-  docsRuntimeLifecycle,
-  docsRuntimeMounting,
-  docsBehavior,
-  docsBehaviorForm,
-  docsBehaviorOverlay,
-  docsBehaviorTooltip,
-  docsBehaviorTabs,
-  docsBehaviorTable,
-  docsBehaviorToast,
-  docsBehaviorCommandMenu,
-  docsBehaviorPositionedLayer,
-  docsSeo,
-  docsSeoPackageBoundary,
-  docsSeoMetadataLadder,
-  docsSeoConfigControlPlane,
-  docsSeoCreateAndAddFlows,
-  docsSeoDoctorAndBuildOutput,
-  docsSeoSocialImages,
-  docsCompiler,
-  docsCompilerFileConventions,
-  docsCompilerComponentClass,
-  docsCompilerTemplateSyntax,
-  docsCompilerExpressions,
-  docsCompilerEventBinding,
-  docsCompilerScopedCss,
-  docsCompilerChildComponents,
-  docsCompilerSlots,
-  docsCompilerIfElse,
-  docsCompilerFor,
-  docsCompilerInputs,
-  docsCompilerSourceMaps,
-  docsCompilerCompilationApi,
-  docsVitePlugin,
-  docsVitePluginSetup,
-  docsVitePluginOptions,
-  docsVitePluginTransform,
-  docsVitePluginHotReload,
-  docsVitePluginVirtualModules,
-  docsVitePluginDiagnostics,
-  docsVitePluginSourceMaps,
-  docsVitePluginDevtoolsMetadata,
-  docsCli,
-  docsCliCommandSurface,
-  docsCliProjectCreation,
-  docsCliRoleGeneration,
-  docsCliUiPrimitiveAdd,
-  docsCliConfigMaintenance,
-  docsCliProjectIntelligence,
-  docsCliTaskRunners,
-  docsCliDevServer,
-  docsCliBuild,
-  docsCliTest,
-  docsConfiguration,
-  docsConfigurationFile,
-  docsConfigurationDefaults,
-  docsConfigurationUi,
-  docsConfigurationRouter,
-  docsConfigurationAi,
-  docsConfigurationMaintenance,
-  docsRouting,
-  docsRoutingRouteTable,
-  docsRoutingParamsQuery,
-  docsRoutingLayoutsRedirects,
-  docsRoutingGuards,
-  docsRoutingNavigation,
-  docsRoutingPreloadingKeepAlive,
-  docsSsrHydration,
-  docsSsrPackageBoundary,
-  docsSsrRenderDocument,
-  docsSsrHydrationContract,
-  docsSsrStateSerialization,
-  docsSsrRouter,
-  docsSsrDeferredStreaming,
-  docsUi,
-  docsTheming,
-  docsVanrotstyles,
-  docsTesting,
-  docsTestingComponent,
-  docsTestingScreen,
-  docsTestingRouting,
-  docsTestingStrategy,
-  docsForms,
-  docsFormsBoundary,
-  docsFormsFieldRefs,
-  docsFormsValidationLifecycle,
-  docsFormsAsyncResources,
-  docsFormsArraysWizardsErrors,
-  docsFormsDraftPersistence,
-  docsFormsToolingTests,
-  docsStore,
-  docsStoreActions,
-  docsStoreSelectors,
-  docsStoreReducers,
-  docsStoreEffects,
-  docsStorePageUsage,
-  docsStoreInspection,
-  docsStoreReplay,
-  docsFormatters,
-  docsFormattersCompilerOwned,
-  docsFormattersTemplatePipes,
-  docsFormattersBuiltInSuite,
-  docsFormattersBuiltInArguments,
-  docsFormattersPipeRoleFiles,
-  docsFormattersNamedPresets,
-  docsFormattersEnumPipes,
-  docsFormattersContext,
-  docsFormattersCompilerDiagnostics,
-  docsFormattersViteTooling,
-  docsFormattersTesting,
-  docsDevtools,
-  docsDevtoolsProjectMap,
-  docsDevtoolsRuntimeGraph,
-  docsDevtoolsViteMetadata,
-  docsDevtoolsPanelState,
-  docsDevtoolsStaleState,
-  docsExamples,
-  docsExampleMatrix,
-  docsWebglThreejs,
+  ...docsPageRoutes,
   docsOctoberShowcase,
-  docsConventions,
-  docsConventionsRoleFiles,
-  docsConventionsTemplatesStyles,
-  docsConventionsStateLogic,
-  docsConventionsRoutingStrings,
-  docsConventionsScopedCss,
-  docsConventionsAiReadable,
-  docsDeployment,
-  docsPublicApi,
-  docsDiagnostics,
-  docsGeneratedFiles,
-  docsChangelog,
-  docsLimitations,
-  docsReferenceStatus,
   reference,
   changelogPackage,
   uiButton,
@@ -941,18 +620,6 @@ export const route = defineRoutes({
   uiSrc,
 });
 
-function articlePage(key: SiteArticleKey) {
-  const article = getSiteArticle(key);
-
-  return docs.page({
-    path: articleChildPath(key),
-    label: article.label,
-    ...articleDocument(key),
-    page: DocsArticlePage,
-    breadcrumb: routes.breadcrumb.parent(docs),
-  });
-}
-
 function componentPage(primitive: string, label: string) {
   return docs.page({
     path: `ui/${primitive}`,
@@ -963,16 +630,26 @@ function componentPage(primitive: string, label: string) {
   });
 }
 
+function createDocsPageRoutes(): Record<DocsRouteKey, RouteRef> {
+  return Object.fromEntries(
+    flattenDocsPageTree().map((page) => [page.routeKey, docsPage(page)]),
+  ) as Record<DocsRouteKey, RouteRef>;
+}
+
+function docsPage(page: DocsPageTreeItem) {
+  return docs.page({
+    path: docsChildPath(page.path),
+    label: page.label,
+    ...siteDocument(page.title, page.summary),
+    page: page.component,
+    breadcrumb: routes.breadcrumb.parent(docs),
+  });
+}
+
 function articleDocument(key: SiteArticleKey) {
   const article = getSiteArticle(key);
 
   return siteDocument(article.title, article.summary);
-}
-
-function articleChildPath(key: SiteArticleKey): string {
-  const path = getSiteArticle(key).path;
-
-  return docsChildPath(path);
 }
 
 function docsChildPath(path: string): string {

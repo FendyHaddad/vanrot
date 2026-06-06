@@ -31,7 +31,7 @@ describe('compiler production integration', () => {
         ],
       },
     ]);
-    expect(result.js).toContain('createProfileCardComponent');
+    expect(result.js).toContain('ProfileCardComponent.createComponent');
     expect(result.metadata.features).toContain('child-component');
   });
 

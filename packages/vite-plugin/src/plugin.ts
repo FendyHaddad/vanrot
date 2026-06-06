@@ -67,6 +67,7 @@ function createVanrotPlugin(
   const readSource = internals.readSource ?? ((filePath: string) => readFile(filePath, 'utf8'));
   const compile = internals.compile ?? ((componentPath: string) => {
     const compileOptions = {
+      childComponentImportMap: normalizedOptions.childComponentImportMap,
       pipeRegistry,
       ...(formattingConfig === undefined ? {} : { pipeContext: formattingConfig }),
     };

@@ -238,11 +238,25 @@ function toTemplateAttribute(
   const span = createNodeSpan(context, location);
 
   return {
-    name: attribute.name,
+    name: readRawAttributeName(location, context) ?? attribute.name,
     value: attribute.value,
     span,
     valueSpan: createAttributeValueSpan(attribute, location, context),
   };
+}
+
+function readRawAttributeName(
+  location: Token.Location | null | undefined,
+  context: ParseContext,
+): string | null {
+  if (location === null || location === undefined) {
+    return null;
+  }
+
+  const attributeSource = context.sourceForParsing.slice(location.startOffset, location.endOffset);
+  const match = /^([^\s=]+)/.exec(attributeSource);
+
+  return match?.[1] ?? null;
 }
 
 function createNodeSpan(

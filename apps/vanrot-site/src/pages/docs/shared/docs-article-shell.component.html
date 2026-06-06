@@ -1,0 +1,21 @@
+<div class="docs-article-layout">
+  <article class="docs-article">
+    <h1>{{ title() }}</h1>
+    <p class="docs-summary">{{ summary() }}</p>
+
+    <vr-separator orientation.horizontal></vr-separator>
+
+    <div class="docs-section-grid">
+      <slot></slot>
+    </div>
+  </article>
+
+  <aside class="docs-article-bookmarks" aria-label="Page sections">
+    <span class="docs-article-bookmarks-title">On this page</span>
+    <nav>
+      @for (section of sectionLinks(); track section.id) {
+        <a data-vr-docs-article-bookmark [href]="'#' + section.id">{{ section.title }}</a>
+      }
+    </nav>
+  </aside>
+</div>

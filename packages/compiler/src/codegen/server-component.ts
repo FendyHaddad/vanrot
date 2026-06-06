@@ -18,8 +18,8 @@ import { parsePipeExpression } from '../template/pipes.js';
 import { quoteString } from './bindings.js';
 import {
   isChildComponentTag,
+  resolveComponentImportPath,
   toComponentFactoryName,
-  toComponentImportPath,
   toComponentName,
 } from './components.js';
 import { createGeneratedMapping } from './mappings.js';
@@ -82,7 +82,12 @@ export function generateServerComponent(
   input: GenerateServerComponentInput,
   options: CompileOptions = {},
 ): GenerateServerComponentResult {
-  const state = createGenerateState(input);
+  const state = createGenerateState({
+    ...input,
+    ...(options.childComponentImportMap === undefined
+      ? {}
+      : { childComponentImportMap: options.childComponentImportMap }),
+  });
 
   state.features.add('server-rendering');
   state.usesPipes = templateContainsPipes(input.nodes);
@@ -465,7 +470,13 @@ function generateServerChildComponent(
   const inputs = collectServerInputs(node, state);
 
   state.features.add('child-component');
-  recordServerDependency(state, node.tagName, componentName, inputs);
+  recordServerDependency(
+    state,
+    node.tagName,
+    componentName,
+    resolveComponentImportPath(node.tagName, state),
+    inputs,
+  );
   state.lines.push(`  html += ${factoryName}.renderToHtml({`);
 
   for (const input of inputs) {
@@ -504,6 +515,7 @@ function recordServerDependency(
   state: GenerateState,
   tagName: string,
   componentName: string,
+  importPath: string,
   inputs: readonly RewrittenInput[],
 ): void {
   const existing = state.componentDependencies.find((dependency) => dependency.tagName === tagName);
@@ -515,7 +527,7 @@ function recordServerDependency(
   state.componentDependencies.push({
     tagName,
     componentName,
-    importPath: toComponentImportPath(tagName),
+    importPath,
     inputs: inputs.map((input) => ({ name: input.name, expression: input.expression })),
   });
 }

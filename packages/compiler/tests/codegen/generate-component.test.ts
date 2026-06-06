@@ -49,7 +49,9 @@ type ChildComponentFactory = (
 
 interface GeneratedFactoryOptions<TContext> {
   component?: ComponentConstructor<TContext>;
-  createProfileCardComponent?: ChildComponentFactory;
+  ProfileCardComponent?: {
+    createComponent: ChildComponentFactory;
+  };
 }
 
 class CounterComponent {
@@ -76,7 +78,7 @@ function createGeneratedComponentFactory<TContext = CounterComponent>(
     );
   const createFactory = new Function(
     'CounterComponent',
-    'createProfileCardComponent',
+    'ProfileCardComponent',
     'effect',
     'signal',
     'createCleanupScope',
@@ -86,7 +88,7 @@ function createGeneratedComponentFactory<TContext = CounterComponent>(
     `${executableCode}\nreturn createComponent;`,
   ) as <TFactoryContext>(
     component: ComponentConstructor<TFactoryContext>,
-    profileCardFactory: ChildComponentFactory,
+    ProfileCardComponent: { createComponent: ChildComponentFactory },
     effectFn: typeof effect,
     signalFn: typeof signal,
     createScopeFn: typeof createCleanupScope,
@@ -97,7 +99,7 @@ function createGeneratedComponentFactory<TContext = CounterComponent>(
 
   return createFactory(
     (options.component ?? CounterComponent) as ComponentConstructor<TContext>,
-    options.createProfileCardComponent ?? createEmptyProfileCardComponent,
+    options.ProfileCardComponent ?? { createComponent: createEmptyProfileCardComponent },
     effect,
     signal,
     createCleanupScope,
@@ -322,11 +324,13 @@ describe('generateComponent', () => {
     });
 
     expect(result.diagnostics).toEqual([]);
-    expect(result.js).toContain("import { createProfileCardComponent } from './profile-card.component.js';");
+    expect(result.js).toContain("import { ProfileCardComponent } from './profile-card.component.js';");
     expect(result.js).toContain('const profileCardInputs0 = {');
     expect(result.js).toContain("'user': ctx.selectedUser(),");
     expect(result.js).toContain("'compact': ctx.isCompact(),");
-    expect(result.js).toContain('const profileCard0 = createProfileCardComponent(profileCardInputs0);');
+    expect(result.js).toContain(
+      'const profileCard0 = ProfileCardComponent.createComponent(profileCardInputs0);',
+    );
     expect(result.js).toContain('fragment.append(profileCard0.node);');
     expect(result.js).toContain('profileCard0.ctx.user.set(ctx.selectedUser());');
     expect(result.js).toContain('profileCard0.ctx.compact.set(ctx.isCompact());');
@@ -345,6 +349,44 @@ describe('generateComponent', () => {
           {
             name: 'compact',
             expression: 'isCompact()',
+          },
+        ],
+      },
+    ]);
+  });
+
+  it('uses configured child component import paths before sibling conventions', () => {
+    const templateSource = '<docs-section [sectionId]="sectionId()"></docs-section>';
+
+    const result = generateComponent(
+      {
+        metadata,
+        nodes: parseNodes(templateSource, 'docs.page.html'),
+        scopeAttribute: 'data-vr-a1b2c3',
+        templatePath: 'docs.page.html',
+        templateSource,
+      },
+      {
+        childComponentImportMap: {
+          'docs-section': '../shared/docs-section.component.js',
+        },
+      },
+    );
+
+    expect(result.diagnostics).toEqual([]);
+    expect(result.js).toContain(
+      "import { DocsSectionComponent } from '../shared/docs-section.component.js';",
+    );
+    expect(result.js).not.toContain("from './docs-section.component.js'");
+    expect(result.componentDependencies).toEqual([
+      {
+        tagName: 'docs-section',
+        componentName: 'DocsSectionComponent',
+        importPath: '../shared/docs-section.component.js',
+        inputs: [
+          {
+            name: 'sectionId',
+            expression: 'sectionId()',
           },
         ],
       },
@@ -398,7 +440,7 @@ describe('generateComponent', () => {
     };
     const createComponent = createGeneratedComponentFactory<ChildParentComponent>(result.js, {
       component: ChildParentComponent,
-      createProfileCardComponent,
+      ProfileCardComponent: { createComponent: createProfileCardComponent },
     });
     const instance = createComponent();
 

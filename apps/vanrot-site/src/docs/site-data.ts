@@ -1,5 +1,9 @@
 import siteDataJson from './site-data.json';
 import {
+  docsPageArticleKeys,
+  docsPageArticles,
+} from './docs-page-tree.ts';
+import {
   commandReferenceDocs as frameworkCommandReferenceDocs,
   diagnosticReferenceDocs as frameworkDiagnosticReferenceDocs,
   packageReferenceDocs as frameworkPackageReferenceDocs,
@@ -208,7 +212,7 @@ export type SiteArticleKey = (typeof siteArticleKey)[keyof typeof siteArticleKey
 
 export const siteArticleKeys = Object.values(siteArticleKey);
 
-const rawArticles = siteDataJson.articles as SiteArticle[];
+const rawArticles = docsPageArticleKeys.map((key) => docsPageArticles[key]) as SiteArticle[];
 
 export const siteArticles = Object.fromEntries(
   rawArticles.map((article) => [article.key, article]),
