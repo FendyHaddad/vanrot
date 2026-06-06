@@ -29,6 +29,7 @@ intellijPlatform {
   pluginConfiguration {
     ideaVersion {
       sinceBuild = "232"
+      untilBuild = provider { null }
     }
   }
   pluginVerification {
@@ -146,6 +147,17 @@ val verifyVanrotPluginPackage by tasks.registering {
 
         require(jarNames.any { it == "META-INF/plugin.xml" }) {
           "Plugin implementation JAR is missing META-INF/plugin.xml."
+        }
+
+        val pluginXml = jar.getInputStream(jar.getEntry("META-INF/plugin.xml")).use { input ->
+          input.bufferedReader().readText()
+        }
+
+        require(pluginXml.contains("""since-build="232"""")) {
+          "Plugin XML must keep JetBrains since-build 232 compatibility."
+        }
+        require(!pluginXml.contains("until-build")) {
+          "Plugin XML must not set until-build; Marketplace should allow future IDE builds."
         }
       }
     }
