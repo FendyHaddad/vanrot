@@ -590,7 +590,7 @@ Docs: /docs/forms/tooling-tests
 
 ## Store
 
-@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.
+@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, page-facing useStore composition, and headless inspection for snapshots and replay.
 
 Docs: /docs/store
 
@@ -623,6 +623,18 @@ Docs: /docs/store/effects
 Pages use useStore(store), expose selector reads and action methods from TypeScript, and keep Vanrot HTML quote-free for TS-bound attributes and method calls.
 
 Docs: /docs/store/page-usage
+
+## Store Inspection
+
+inspectStore(store) exposes a Vanrot-native event timeline for actions, reducers, state changes, effects, snapshots, and observer failures without RxJS, Redux, or devtools UI coupling.
+
+Docs: /docs/store/inspection
+
+## Store Snapshots and Replay
+
+Store snapshots and replay let apps capture review checkpoints, replay action history through the store reducer, and inspect each replay step without exposing reducer internals on the public store instance.
+
+Docs: /docs/store/replay
 
 ## Formatters And Template Pipes
 

@@ -17,6 +17,7 @@ import {
   traceName,
   useStore,
 } from "../src/index.ts";
+import * as storePublic from "../src/index.ts";
 
 const packageRoot = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
@@ -25,6 +26,15 @@ const packageRoot = path.resolve(
 const repoRoot = path.resolve(packageRoot, "../..");
 
 describe("@vanrot/store package", () => {
+  it("exports store inspection contracts", () => {
+    expect(storePublic.inspectStore).toBeTypeOf("function");
+    expect(storePublic.storeInspectionProtocol).toBe("vanrot.store.inspection.v1");
+    expect(storePublic.storeInspectionEventKind.dispatchStarted).toBe(
+      "store.dispatch.started",
+    );
+    expect(storePublic.storeInspectionSnapshotMode.manual).toBe("manual");
+  });
+
   it("exports the Phase 19 public API", () => {
     expect(typeof actionSet).toBe("function");
     expect(typeof defineActions).toBe("function");

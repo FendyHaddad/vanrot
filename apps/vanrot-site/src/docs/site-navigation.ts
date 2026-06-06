@@ -172,6 +172,8 @@ const storeNavigationChildren = [
   navItem(siteArticleKey.storeReducers),
   navItem(siteArticleKey.storeEffects),
   navItem(siteArticleKey.storePageUsage),
+  navItem(siteArticleKey.storeInspection),
+  navItem(siteArticleKey.storeReplay),
 ] as const;
 
 const formattersNavigationChildren = [

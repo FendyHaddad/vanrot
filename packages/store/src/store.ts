@@ -1,5 +1,11 @@
 import { computed } from "@vanrot/runtime";
 
+import { storeInspectionEventKind } from "./constants.js";
+import {
+  createStoreInspectionController,
+  storeInspectionControllerKey,
+  type StoreInspectionController,
+} from "./inspection.js";
 import type {
   AnyStoreSelector,
   StoreAction,
@@ -105,15 +111,28 @@ export function useStore<
   definition: StoreDefinition<TState, TActions, TSelectors, TEffects>,
 ): StoreInstance<TState, TActions, TSelectors, TEffects> {
   const activeEffects: ActiveEffectControllers = new Map();
+  const inspection = createStoreInspectionController(
+    definition.name,
+    definition.state.current,
+    definition.reducer,
+  );
 
   const dispatch = (action: StoreAction<any>) => {
     const previousState = definition.state.current();
+    inspection.emitDispatch(action, previousState);
 
-    definition.state.set(
-      definition.reducer.reduce(previousState, action),
+    const nextState = definition.reducer.reduce(previousState, action);
+
+    inspection.emitReducerCompleted(action, previousState, nextState);
+    definition.state.set(nextState);
+    inspection.emitStateChanged(action, previousState, nextState);
+
+    cancelMatchingEffects(
+      definition.effects,
+      activeEffects,
+      action,
+      inspection,
     );
-
-    cancelMatchingEffects(definition.effects, activeEffects, action);
 
     void runEffects(
       definition,
@@ -121,17 +140,23 @@ export function useStore<
       action,
       previousState,
       activeEffects,
+      inspection,
     );
   };
 
-  return {
+  const storeInstance = {
     name: definition.name,
     state: definition.state,
     action: bindActions(definition.actions, dispatch),
     select: bindSelectors(definition.state, definition.selectors),
     dispatch,
     effects: definition.effects,
+    [storeInspectionControllerKey]: inspection,
+  } as StoreInstance<TState, TActions, TSelectors, TEffects> & {
+    readonly [storeInspectionControllerKey]: StoreInspectionController<TState>;
   };
+
+  return storeInstance;
 }
 
 function bindActions<
@@ -202,6 +227,7 @@ async function runEffects<TState extends object>(
   action: StoreAction<any>,
   previousState: TState,
   activeEffects: ActiveEffectControllers,
+  inspection: StoreInspectionController<TState>,
 ): Promise<void> {
   const matchingEffects = Object.values(definition.effects).filter(
     (effectDefinition) => effectDefinition.trigger.type === action.type,
@@ -216,7 +242,16 @@ async function runEffects<TState extends object>(
       state: previousState as Record<string, unknown>,
     };
 
+    const effectName = readEffectName(effectDefinition);
+
     if (effectDefinition.policies.skipWhen?.(context)) {
+      inspection.emitEvent({
+        kind: storeInspectionEventKind.actionSkipped,
+        action,
+        actionType: action.type,
+        effectName,
+        message: "Effect skipped by skipWhen policy",
+      });
       continue;
     }
 
@@ -224,7 +259,14 @@ async function runEffects<TState extends object>(
       defaultEffectRunKey;
 
     if (runKey !== defaultEffectRunKey) {
-      abortEffectRun(effectDefinition, activeEffects, runKey);
+      abortEffectRun(
+        effectDefinition,
+        activeEffects,
+        runKey,
+        inspection,
+        action,
+        "latestBy",
+      );
     }
 
     const releaseEffectRun = registerEffectRun(
@@ -233,25 +275,87 @@ async function runEffects<TState extends object>(
       runKey,
       controller,
     );
+    const concurrencyKey = readConcurrencyKey(runKey);
+    const startedAt = Date.now();
+
+    inspection.emitEvent({
+      kind: storeInspectionEventKind.effectStarted,
+      action,
+      actionType: action.type,
+      effectName,
+      concurrencyKey,
+    });
 
     try {
-      const result = await runWithRetry(effectDefinition, context);
+      const result = await runWithRetry(effectDefinition, context, inspection);
 
       if (context.signal.aborted) {
+        inspection.emitEvent({
+          kind: storeInspectionEventKind.staleWritePrevented,
+          action,
+          actionType: action.type,
+          effectName,
+          concurrencyKey,
+          cancellationReason: "aborted-before-success-dispatch",
+          durationMs: Date.now() - startedAt,
+        });
         continue;
       }
 
       const successAction = effectDefinition.success?.(result, context);
+
+      inspection.emitEvent({
+        kind: storeInspectionEventKind.effectSucceeded,
+        action,
+        actionType: action.type,
+        effectName,
+        concurrencyKey,
+        durationMs: Date.now() - startedAt,
+      });
 
       if (successAction) {
         dispatch(successAction);
       }
     } catch (error) {
       if (context.signal.aborted) {
+        inspection.emitEvent({
+          kind: storeInspectionEventKind.staleWritePrevented,
+          action,
+          actionType: action.type,
+          effectName,
+          concurrencyKey,
+          cancellationReason: "aborted-before-error-dispatch",
+          durationMs: Date.now() - startedAt,
+        });
         continue;
       }
 
       const errorAction = effectDefinition.error?.(error, context);
+
+      inspection.emitEvent({
+        kind: storeInspectionEventKind.effectFailed,
+        action,
+        actionType: action.type,
+        effectName,
+        concurrencyKey,
+        durationMs: Date.now() - startedAt,
+        message: error instanceof Error ? error.message : String(error),
+        timeoutMs: isStoreTimeoutError(error)
+          ? effectDefinition.policies.timeoutMs
+          : undefined,
+      });
+
+      if (isStoreTimeoutError(error)) {
+        inspection.emitEvent({
+          kind: storeInspectionEventKind.effectTimedOut,
+          action,
+          actionType: action.type,
+          effectName,
+          concurrencyKey,
+          timeoutMs: effectDefinition.policies.timeoutMs,
+          durationMs: Date.now() - startedAt,
+        });
+      }
 
       if (errorAction) {
         dispatch(errorAction);
@@ -266,13 +370,20 @@ function cancelMatchingEffects(
   effects: Record<string, StoreEffect<any>>,
   activeEffects: ActiveEffectControllers,
   action: StoreAction<any>,
+  inspection: StoreInspectionController<any>,
 ): void {
   for (const effectDefinition of Object.values(effects)) {
     if (effectDefinition.policies.cancelWhen?.type !== action.type) {
       continue;
     }
 
-    abortEffect(effectDefinition, activeEffects);
+    abortEffect(
+      effectDefinition,
+      activeEffects,
+      inspection,
+      action,
+      `cancelWhen:${action.type}`,
+    );
   }
 }
 
@@ -316,6 +427,9 @@ function registerEffectRun(
 function abortEffect(
   effectDefinition: StoreEffect<any>,
   activeEffects: ActiveEffectControllers,
+  inspection: StoreInspectionController<any>,
+  action: StoreAction<any>,
+  reason: string,
 ): void {
   const keyedControllers = activeEffects.get(effectDefinition);
 
@@ -329,6 +443,14 @@ function abortEffect(
     }
   }
 
+  inspection.emitEvent({
+    kind: storeInspectionEventKind.effectCanceled,
+    action,
+    actionType: action.type,
+    effectName: readEffectName(effectDefinition),
+    cancellationReason: reason,
+  });
+
   activeEffects.delete(effectDefinition);
 }
 
@@ -336,6 +458,9 @@ function abortEffectRun(
   effectDefinition: StoreEffect<any>,
   activeEffects: ActiveEffectControllers,
   runKey: EffectRunKey,
+  inspection: StoreInspectionController<any>,
+  action: StoreAction<any>,
+  reason: string,
 ): void {
   const keyedControllers = activeEffects.get(effectDefinition);
   const controllers = keyedControllers?.get(runKey);
@@ -348,6 +473,15 @@ function abortEffectRun(
     controller.abort();
   }
 
+  inspection.emitEvent({
+    kind: storeInspectionEventKind.effectCanceled,
+    action,
+    actionType: action.type,
+    effectName: readEffectName(effectDefinition),
+    concurrencyKey: readConcurrencyKey(runKey),
+    cancellationReason: reason,
+  });
+
   keyedControllers.delete(runKey);
 
   if (keyedControllers.size === 0) {
@@ -355,9 +489,27 @@ function abortEffectRun(
   }
 }
 
+function readEffectName(effectDefinition: StoreEffect<any>): string {
+  return effectDefinition.policies.trace ?? effectDefinition.trigger.type;
+}
+
+function readConcurrencyKey(runKey: EffectRunKey): string | undefined {
+  if (typeof runKey !== "string") {
+    return undefined;
+  }
+
+  return runKey;
+}
+
+function isStoreTimeoutError(error: unknown): boolean {
+  return error instanceof Error &&
+    error.message.startsWith("Store effect timed out after ");
+}
+
 async function runWithRetry(
   effectDefinition: StoreEffect<any>,
   context: StoreEffectContext,
+  inspection: StoreInspectionController<any>,
 ): Promise<unknown> {
   const retry = effectDefinition.policies.retry;
   const attempts = retry?.attempts ?? 1;
@@ -381,6 +533,18 @@ async function runWithRetry(
       ) {
         break;
       }
+
+      inspection.emitEvent({
+        kind: storeInspectionEventKind.effectRetried,
+        action: context.action,
+        actionType: context.action.type,
+        effectName: readEffectName(effectDefinition),
+        retryAttempt: attempt,
+        timeoutMs: isStoreTimeoutError(error)
+          ? effectDefinition.policies.timeoutMs
+          : undefined,
+        message: error instanceof Error ? error.message : String(error),
+      });
 
       await wait(retry.delay, context.signal);
     }

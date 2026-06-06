@@ -112,6 +112,8 @@ const routeKeyToArticleKey = {
   docsStoreReducers: siteArticleKey.storeReducers,
   docsStoreEffects: siteArticleKey.storeEffects,
   docsStorePageUsage: siteArticleKey.storePageUsage,
+  docsStoreInspection: siteArticleKey.storeInspection,
+  docsStoreReplay: siteArticleKey.storeReplay,
   docsFormatters: siteArticleKey.formatters,
   docsFormattersCompilerOwned: siteArticleKey.formattersCompilerOwned,
   docsFormattersTemplatePipes: siteArticleKey.formattersTemplatePipes,

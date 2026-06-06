@@ -595,6 +595,8 @@ const docsStoreSelectors = articlePage(siteArticleKey.storeSelectors);
 const docsStoreReducers = articlePage(siteArticleKey.storeReducers);
 const docsStoreEffects = articlePage(siteArticleKey.storeEffects);
 const docsStorePageUsage = articlePage(siteArticleKey.storePageUsage);
+const docsStoreInspection = articlePage(siteArticleKey.storeInspection);
+const docsStoreReplay = articlePage(siteArticleKey.storeReplay);
 const docsFormatters = articlePage(siteArticleKey.formatters);
 const docsFormattersCompilerOwned = articlePage(siteArticleKey.formattersCompilerOwned);
 const docsFormattersTemplatePipes = articlePage(siteArticleKey.formattersTemplatePipes);
@@ -878,6 +880,8 @@ export const route = defineRoutes({
   docsStoreReducers,
   docsStoreEffects,
   docsStorePageUsage,
+  docsStoreInspection,
+  docsStoreReplay,
   docsFormatters,
   docsFormattersCompilerOwned,
   docsFormattersTemplatePipes,

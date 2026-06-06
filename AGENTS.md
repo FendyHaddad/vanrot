@@ -169,13 +169,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-06 4:27am GMT+8
+# [vanrot] recent context, 2026-06-06 4:23pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (13,226t read) | 1,826,565t work | 99% savings
+Stats: 50 obs (11,548t read) | 1,740,530t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -190,20 +190,7 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 30, 2026
-2346 7:05p ✅ Initialize Claude-Mem Session for Runtime Docs Task
-2347 " 🔵 Search for Vanrot Runtime Docs, Signals, and Site-Data
-2349 " 🔵 Browser Skill Instructions and Tool Names
-2351 " 🔵 Browser Skill Usage and Setup
-2355 " 🔵 Browser Skill Outline and Searchable Terms
-2359 " ✅ Browser Connection Established for Runtime Docs Polish
-2368 " 🔵 Browser Tab and Page Interaction Examples
-2374 " 🔵 Tab API Properties
-2389 " 🔵 Playwright API Properties
-2423 7:06p 🔵 Tab API Deep Inspection
-2431 " ✅ Runtime Documentation Loaded
-2441 " 🔵 Timeline Around Anchor Point
-2443 " 🔵 Timeline Around Anchor Point
-2453 " 🔵 Memory Registry Search Results
+2453 7:06p 🔵 Memory Registry Search Results
 2459 " 🔵 Site Data and Article Rendering Analysis
 2465 " 🔵 Runtime Article JSON Content
 ### May 31, 2026
@@ -245,6 +232,19 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2948 9:06p 🔵 Execution of Plans Tool Identified
 ### Jun 6, 2026
 2950 12:29a 🔵 Unclear Future Pipeline Tasks
+2953 2:36p ✅ Initiated Store Hardening Brainstorm
+2965 3:08p 🔵 RxJS Bridges for Redux
+2966 " ⚖️ Prioritize Vanrot-Native RxJS Bridges
+2968 " 🔵 Store Documentation and Routing
+2969 " 🔵 Framework Reference Documentation
+2970 " 🔵 Phase 24 Documentation and Web Presence
+2971 " 🔵 Store Package in AI Knowledge Graph
+2972 " 🔵 Store Route Documentation
+2973 " 🔵 Store Package in Site Data
+2974 " 🔵 Store Package in Site Navigation
+2975 " 🔵 Store Package in Route Definitions
+2976 " 🔵 Store Documentation Test Failure
+2977 " 🔵 Store Package Documentation Status
 
-Access 1827k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1741k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

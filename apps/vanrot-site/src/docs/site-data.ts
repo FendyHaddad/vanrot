@@ -164,6 +164,8 @@ export const siteArticleKey = {
   storeReducers: 'storeReducers',
   storeEffects: 'storeEffects',
   storePageUsage: 'storePageUsage',
+  storeInspection: 'storeInspection',
+  storeReplay: 'storeReplay',
   formatters: 'formatters',
   formattersCompilerOwned: 'formattersCompilerOwned',
   formattersTemplatePipes: 'formattersTemplatePipes',

@@ -1,5 +1,10 @@
 export { actionSet, defineActions } from "./actions.js";
 export {
+  defaultStoreInspectionHistoryLimit,
+  storeInspectionEventKind,
+  storeInspectionProtocol,
+  storeInspectionSnapshotIdPrefix,
+  storeInspectionSnapshotMode,
   storeActionTypeSeparator,
   storeEffectPhase,
   storePackageName,
@@ -7,6 +12,7 @@ export {
 } from "./constants.js";
 export { defineEffects, effect, retryPolicy, traceName } from "./effects.js";
 export { storeError } from "./errors.js";
+export { inspectStore } from "./inspection.js";
 export { defineReducer } from "./reducers.js";
 export { defineSelectors } from "./selectors.js";
 export { defineState } from "./state.js";
@@ -26,6 +32,19 @@ export type {
   StoreInstance,
   StoreSelectFacade,
 } from "./store.js";
+
+export type {
+  StoreInspectionEvent,
+  StoreInspectionEventKind,
+  StoreInspectionHistory,
+  StoreInspectionObserver,
+  StoreInspectionOptions,
+  StoreInspectionSnapshot,
+  StoreInspectionSnapshotMode,
+  StoreInspector,
+  StoreReplayResult,
+  StoreReplayStep,
+} from "./inspection-types.js";
 
 export type {
   StoreAction,

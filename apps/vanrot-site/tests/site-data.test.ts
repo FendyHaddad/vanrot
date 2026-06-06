@@ -127,6 +127,8 @@ describe('vanrot site docs data', () => {
       'storeReducers',
       'storeEffects',
       'storePageUsage',
+      'storeInspection',
+      'storeReplay',
       'formatters',
       'formattersCompilerOwned',
       'formattersTemplatePipes',
@@ -313,12 +315,15 @@ describe('vanrot site docs data', () => {
     expect(siteArticleKey.storeReducers).toBe('storeReducers');
     expect(siteArticleKey.storeEffects).toBe('storeEffects');
     expect(siteArticleKey.storePageUsage).toBe('storePageUsage');
+    expect(siteArticleKey.storeInspection).toBe('storeInspection');
+    expect(siteArticleKey.storeReplay).toBe('storeReplay');
     expect(siteArticles.store.path).toBe('/docs/store');
     expect(siteArticles.store.summary).toContain('@vanrot/store');
-    expect(siteArticles.store.status).toBe('production-ready-through-phase-19');
+    expect(siteArticles.store.status).toBe('production-ready-through-phase-20');
     const storeDocs = JSON.stringify(siteArticles.store);
     expect(storeDocs).toContain('signal-native');
     expect(storeDocs).toContain('useStore');
+    expect(storeDocs).toContain('inspectStore');
     expect(storeDocs).toContain('Full fluent store stack');
     expect(storeDocs).toContain('actionSet()\\\\n    .start');
     expect(storeDocs).toContain('defineSelectors(claimsState)\\\\n  .claimType');
@@ -332,6 +337,8 @@ describe('vanrot site docs data', () => {
       'storeReducers',
       'storeEffects',
       'storePageUsage',
+      'storeInspection',
+      'storeReplay',
     ] as const;
 
     expect(childKeys.map((key) => siteArticles[key].path)).toEqual([
@@ -340,6 +347,8 @@ describe('vanrot site docs data', () => {
       '/docs/store/reducers',
       '/docs/store/effects',
       '/docs/store/page-usage',
+      '/docs/store/inspection',
+      '/docs/store/replay',
     ]);
     expect(childKeys.every((key) => siteArticles[key].sections.length >= 2)).toBe(true);
     const childDocs = JSON.stringify(childKeys.map((key) => siteArticles[key]));
@@ -348,6 +357,9 @@ describe('vanrot site docs data', () => {
     expect(childDocs).toContain('defineReducer');
     expect(childDocs).toContain('latestBy');
     expect(childDocs).toContain('@click=loadClaims');
+    expect(childDocs).toContain('vanrot.store.inspection.v1');
+    expect(childDocs).toContain('effectRetried');
+    expect(childDocs).toContain('inspector.replayFrom');
   });
 
   it('keeps generated AI docs aware of Store package and article routes', () => {
@@ -361,6 +373,8 @@ describe('vanrot site docs data', () => {
     expect(aiDocArticleKeys).toContain('store');
     expect(aiDocArticleKeys).toContain('storeActions');
     expect(aiDocArticleKeys).toContain('storeEffects');
+    expect(aiDocArticleKeys).toContain('storeInspection');
+    expect(aiDocArticleKeys).toContain('storeReplay');
     expect(aiDocPackageNames).toContain('@vanrot/store');
   });
 
@@ -380,7 +394,7 @@ describe('vanrot site docs data', () => {
     expect(collapsedPreviewSources).toEqual([]);
   });
 
-  it('groups Behavior and SEO child guides below their package parents in the framework sidebar', () => {
+  it('groups package child guides below their package parents in the framework sidebar', () => {
     type NestedNavigationItem = {
       key: string;
       href: string;
@@ -393,6 +407,9 @@ describe('vanrot site docs data', () => {
       | NestedNavigationItem
       | undefined;
     const seoItem = frameworkGroup?.items.find((item) => item.key === 'seo') as
+      | NestedNavigationItem
+      | undefined;
+    const storeItem = frameworkGroup?.items.find((item) => item.key === 'store') as
       | NestedNavigationItem
       | undefined;
 
@@ -419,6 +436,24 @@ describe('vanrot site docs data', () => {
       'seoCreateAndAddFlows',
       'seoDoctorAndBuildOutput',
       'seoSocialImages',
+    ]);
+    expect(storeItem?.children?.map((item) => item.key)).toEqual([
+      'storeActions',
+      'storeSelectors',
+      'storeReducers',
+      'storeEffects',
+      'storePageUsage',
+      'storeInspection',
+      'storeReplay',
+    ]);
+    expect(storeItem?.children?.map((item) => item.href)).toEqual([
+      '/docs/store/actions',
+      '/docs/store/selectors',
+      '/docs/store/reducers',
+      '/docs/store/effects',
+      '/docs/store/page-usage',
+      '/docs/store/inspection',
+      '/docs/store/replay',
     ]);
   });
 
@@ -935,6 +970,8 @@ describe('vanrot site docs data', () => {
           siteArticleKey.storeReducers,
           siteArticleKey.storeEffects,
           siteArticleKey.storePageUsage,
+          siteArticleKey.storeInspection,
+          siteArticleKey.storeReplay,
         ],
       },
       {

@@ -2256,10 +2256,10 @@
             "Use generate when adding a role file because it applies Vanrot naming and suffix conventions.",
             "Use doctor when the workspace feels wrong, doctor --inspect when you need to see Vanrot's project model, and cache clean when generated local metadata needs a reset."
           ],
-      "code": {
-        "title": "Common project commands",
-        "code": "vr create admin-console\\nvr generate page settings\\nvr add button card dialog\\nvr doctor --inspect\\nvr cache clean --dry-run"
-      }
+          "code": {
+            "title": "Common project commands",
+            "code": "vr create admin-console\\nvr generate page settings\\nvr add button card dialog\\nvr doctor --inspect\\nvr cache clean --dry-run"
+          }
         },
         {
           "id": "command-map",
@@ -2288,12 +2288,12 @@
         {
           "id": "child-guides",
           "title": "Child guides",
-      "body": "The child pages explain each practical CLI surface in detail: command discovery, project creation, role generation, UI primitive installation, configuration maintenance, project intelligence, cache maintenance, task-runner overview, and separate deep dives for vr dev, vr build, and vr test.",
-      "points": [
-        "Start with Command Surface when you need the full command inventory.",
-        "Use Project Intelligence when doctor --inspect, devtools, AI bundles, or graph metadata need to agree.",
-        "Use the Dev Server, Build, and Test pages when one lifecycle command needs detailed debugging."
-      ]
+          "body": "The child pages explain each practical CLI surface in detail: command discovery, project creation, role generation, UI primitive installation, configuration maintenance, project intelligence, cache maintenance, task-runner overview, and separate deep dives for vr dev, vr build, and vr test.",
+          "points": [
+            "Start with Command Surface when you need the full command inventory.",
+            "Use Project Intelligence when doctor --inspect, devtools, AI bundles, or graph metadata need to agree.",
+            "Use the Dev Server, Build, and Test pages when one lifecycle command needs detailed debugging."
+          ]
         }
       ]
     },
@@ -4633,8 +4633,8 @@
       "path": "/docs/store",
       "label": "Store",
       "title": "Store",
-      "summary": "@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.",
-      "status": "production-ready-through-phase-19",
+      "summary": "@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, page-facing useStore composition, and headless inspection for snapshots and replay.",
+      "status": "production-ready-through-phase-20",
       "sections": [
         {
           "id": "store-boundary",
@@ -4644,7 +4644,8 @@
             "Use @vanrot/store when state needs named workflows, derived reads, reducer rules, or async effects.",
             "Keep local one-off component state in runtime signals when no shared workflow exists.",
             "Do not move service calls, reducer logic, or selector decisions into HTML templates.",
-            "Treat the store package as optional application structure, not a hidden runtime requirement."
+            "Treat the store package as optional application structure, not a hidden runtime requirement.",
+            "Enable inspectStore only when a page, test, or future devtools bridge needs action timelines, snapshots, or replay."
           ],
           "code": {
             "title": "Store import surface",
@@ -4900,6 +4901,110 @@
             "title": "Template",
             "code": "<button disabled={{ isLoading() }} @click=loadClaims>\\n  {{ copy.loadClaims }}\\n</button>\\n\\n<ul>\\n  @for row of claimRows()\\n    <li @click=selectClaim(row.id)>\\n      {{ row.label }}\\n    </li>\\n  @end\\n</ul>"
           }
+        }
+      ]
+    },
+    {
+      "key": "storeInspection",
+      "section": "framework",
+      "path": "/docs/store/inspection",
+      "label": "Inspection",
+      "title": "Store Inspection",
+      "summary": "inspectStore(store) exposes a Vanrot-native event timeline for actions, reducers, state changes, effects, snapshots, and observer failures without RxJS, Redux, or devtools UI coupling.",
+      "status": "production-ready-through-phase-20",
+      "sections": [
+        {
+          "id": "headless-inspector",
+          "title": "Headless inspector",
+          "body": "Store inspection is opt-in and headless. Calling inspectStore on a useStore instance activates a bounded event history for that store instance. The store package owns the protocol and event shape; the existing devtools package can later render those events without moving UI concerns into @vanrot/store.",
+          "points": [
+            "Use inspectStore(store) from page code, tests, examples, or future devtools bridges.",
+            "Keep the default store path small by leaving inspection disabled until it is requested.",
+            "Read history through inspector.history() and subscribe through inspector.observe(observer).",
+            "Use the protocol value vanrot.store.inspection.v1 when bridging events outside the store package."
+          ],
+          "code": {
+            "title": "Enable inspection",
+            "code": "import { inspectStore, useStore } from '@vanrot/store';\n\nexport class ClaimsPage {\n  private store = useStore(claimsStore);\n  private inspector = inspectStore(this.store, { historyLimit: 24 });\n\n  inspectionEvents() {\n    return this.inspector.history();\n  }\n}"
+          }
+        },
+        {
+          "id": "event-kinds",
+          "title": "Event kinds",
+          "body": "The inspection timeline records named events for dispatch, reducer completion, state changes, skipped actions, effect starts, retries, timeouts, success, failure, cancellation, stale-write prevention, snapshots, replay, history reset, and observer isolation.",
+          "points": [
+            "Dispatch events include the action type and a summarized payload.",
+            "Reducer and state events include previous and next snapshot ids when snapshots are enabled.",
+            "Effect events include trace name, concurrency key, retry attempt, timeout, duration, and cancellation reason when available.",
+            "Observer failures are captured as inspection events so one observer cannot break store workflows."
+          ],
+          "code": {
+            "title": "Read timeline labels",
+            "code": "import { storeInspectionEventKind } from '@vanrot/store';\n\nconst labels = inspector.history().map((event) => event.kind);\n\nif (labels.includes(storeInspectionEventKind.effectRetried)) {\n  showRetryMetadata();\n}"
+          }
+        },
+        {
+          "id": "safe-summaries",
+          "title": "Safe summaries",
+          "body": "Inspection events summarize payloads and state by default so a timeline can explain what changed without requiring UI code to render full application objects. Full state is available through explicit snapshots and replay paths that are created by the inspector.",
+          "points": [
+            "Primitive values are recorded directly in summaries.",
+            "Arrays record their length and object values record their keys.",
+            "Changed state keys are captured when previous and next states are objects.",
+            "Inspection APIs stay Vanrot-native; applications do not need Observable adapters or Redux middleware."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "storeReplay",
+      "section": "framework",
+      "path": "/docs/store/replay",
+      "label": "Snapshots and replay",
+      "title": "Store Snapshots and Replay",
+      "summary": "Store snapshots and replay let apps capture review checkpoints, replay action history through the store reducer, and inspect each replay step without exposing reducer internals on the public store instance.",
+      "status": "production-ready-through-phase-20",
+      "sections": [
+        {
+          "id": "manual-checkpoints",
+          "title": "Manual checkpoints",
+          "body": "Snapshots are created automatically around dispatch when inspection is enabled, and apps can also create named manual checkpoints. Manual checkpoints are useful in tests, debug drawers, and future devtools flows where a user wants to replay from a known state.",
+          "points": [
+            "Call inspector.snapshot(label) before a workflow starts.",
+            "Store the snapshot id if the user needs to replay from that exact checkpoint.",
+            "Snapshots use deterministic ids with the store inspection snapshot prefix.",
+            "Snapshot creation is recorded in the same inspection event history."
+          ],
+          "code": {
+            "title": "Capture checkpoint",
+            "code": "const checkpoint = inspector.snapshot('Claims review checkpoint');\n\nstore.action.loadClaims.start({\n  accountId: this.accountId(),\n  filters: this.filters(),\n});"
+          }
+        },
+        {
+          "id": "replay-actions",
+          "title": "Replay actions",
+          "body": "Replay runs the recorded action log through the store reducer from a selected snapshot. The reducer remains hidden behind the inspection controller, so app code gets replay results without reaching into store internals.",
+          "points": [
+            "Use inspector.replayFrom(snapshot.id) to produce replay steps.",
+            "Each step records the input state, action, output state, and changed state keys.",
+            "Replay reports ok: false when the requested snapshot is missing.",
+            "Replay emits started and completed events so future devtools panels can show replay activity."
+          ],
+          "code": {
+            "title": "Replay from checkpoint",
+            "code": "const replay = inspector.replayFrom(checkpoint.id);\n\nif (replay.ok) {\n  const changedKeys = replay.steps.flatMap((step) => step.changedKeys);\n}"
+          }
+        },
+        {
+          "id": "effect-hardening",
+          "title": "Effect hardening",
+          "body": "Phase 20 also records effect lifecycle events for retry, timeout, latest-by cancellation, cancelWhen cancellation, and stale-write prevention. These events make async store behavior inspectable without teaching new users RxJS streams.",
+          "points": [
+            "effectStarted and effectSucceeded bracket successful async work.",
+            "effectRetried records retry attempt and action metadata.",
+            "effectTimedOut and effectFailed separate timeout facts from general failure facts.",
+            "effectCanceled and staleWritePrevented explain why outdated async results did not write state."
+          ]
         }
       ]
     },
@@ -5653,9 +5758,9 @@
         }
       ]
     },
-  {
-    "key": "examples",
-    "section": "examples",
+    {
+      "key": "examples",
+      "section": "examples",
       "path": "/docs/examples",
       "label": "Examples",
       "title": "Examples",
@@ -5671,186 +5776,186 @@
           "id": "site",
           "title": "Vanrot Site",
           "body": "apps/vanrot-site becomes the framework's living documentation example."
-      }
-    ]
-  },
-  {
-    "key": "exampleMatrix",
-    "section": "examples",
-    "path": "/docs/example-matrix",
-    "label": "Example Matrix",
-    "title": "Runnable Example Matrix",
-    "summary": "Use verified example workspaces as the source of truth for framework workflows and docs snippets.",
-    "status": "phase-24-active",
-    "sections": [
-      {
-        "id": "source-of-truth",
-        "title": "Source Of Truth",
-        "body": "Runnable example workspaces own the real code for guide snippets. Documentation should reference or mirror these examples so snippets stay connected to tests and package behavior."
-      },
-      {
-        "id": "workflow-coverage",
-        "title": "Workflow Coverage",
-        "body": "The matrix covers starter creation, runtime lifecycle, compiler templates, routing, config diagnostics, CLI commands, UI usage, testing helpers, devtools intelligence, WebGL lifecycle recipes, and build deployment preparation."
-      },
-      {
-        "id": "package-coverage",
-        "title": "Package Coverage",
-        "body": "Every workspace package appears in at least one registered example. Packages without a browser-facing workflow still appear through command, config, devtools, or build examples."
-      }
-    ]
-  },
-  {
-    "key": "webglThreejs",
-    "section": "examples",
-    "path": "/docs/examples/webgl-threejs",
-    "label": "WebGL And three.js",
-    "title": "WebGL And three.js Lifecycle",
-    "summary": "Use Vanrot lifecycle hooks and signals around an app-owned WebGL or three.js scene without adding three.js to the core runtime.",
-    "status": "demo-capable",
-    "sections": [
-      {
-        "id": "boundary",
-        "title": "Boundary",
-        "body": "The shipped shape is recipe-only. Vanrot owns lifecycle, cleanup, signal binding, docs, and verified example code. The application owns three.js as an app dependency when it chooses to render with three.",
-        "points": [
-          "Do not add three.js to @vanrot/runtime.",
-          "Do not create a renderer abstraction that hides three.js.",
-          "Keep the canvas in a template and pass the element into TypeScript during onMount()."
-        ]
-      },
-      {
-        "id": "widget-recipe",
-        "title": "Widget Recipe",
-        "body": "examples/webgl-threejs/src/scene-preview.widget.ts creates a renderer after mount, binds signals to scene state with effect cleanup, handles context loss and restore, and disposes render loops, resize hooks, renderer resources, geometries, materials, textures, and controls.",
-        "code": {
-          "title": "Lifecycle-safe canvas controller",
-          "code": "import { onDestroy, onMount, signal } from '@vanrot/runtime';\nimport { bindSignalToScene, createWebglCanvasController } from './scene-preview.widget';\n\nconst color = signal('#ff5a3d');\n\nonMount(() => {\n  const canvas = document.querySelector('canvas');\n  const container = canvas?.parentElement;\n\n  if (!(canvas instanceof HTMLCanvasElement) || container === null) {\n    return;\n  }\n\n  const controller = createWebglCanvasController({\n    canvas,\n    container,\n    createRenderer(context) {\n      return createAppOwnedThreeRenderer(context);\n    },\n    signalBindings: [\n      bindSignalToScene(color, (nextColor) => material.color.set(nextColor)),\n    ],\n  });\n\n  onDestroy(controller.destroy);\n});"
         }
-      },
-      {
-        "id": "fallbacks",
-        "title": "Fallbacks",
-        "body": "The recipe treats WebGL as progressive enhancement. Missing WebGL, compact/mobile fallback, context loss, context restore, and prefers-reduced-motion each produce deterministic behavior that tests can verify.",
-        "points": [
-          "Reduced motion renders one static frame instead of starting an animation loop.",
-          "Context loss cancels the pending animation frame and keeps cleanup idempotent until restore.",
-          "Fallback copy remains visible when WebGL is unavailable or intentionally disabled."
-        ]
-      },
-      {
-        "id": "assets",
-        "title": "Assets",
-        "body": "Fixture assets stay local and centralized through webglAssetPaths. Examples should load textures and models from known local paths so build and browser verification are repeatable.",
-        "points": [
-          "Use local deterministic fixtures for docs examples.",
-          "Surface asset load errors instead of hiding failed network or CORS paths.",
-          "Dispose textures, geometries, materials, controls, loaders, and renderer-owned resources on teardown."
-        ]
-      }
-    ]
-  },
-  {
-    "key": "deployment",
-    "section": "reference",
-    "path": "/docs/deployment",
-    "label": "Deployment",
-    "title": "Build And Deployment Preparation",
-    "summary": "Prepare a Vanrot site for production hosting without pretending this repository controls DNS, credentials, analytics, or live deployment.",
-    "status": "phase-24-active",
-    "sections": [
-      {
-        "id": "target-host",
-        "title": "Target Host",
-        "body": "Phase 24 prepares the public site for vanrot.vankode.com. The documentation describes hosting assumptions, production build commands, and public route expectations, while DNS records, hosting credentials, analytics setup, and live launch remain outside this phase."
-      },
-      {
-        "id": "production-build",
-        "title": "Production Build",
-        "body": "Use pnpm --filter @vanrot/vanrot-site build to run the site production build through the Vanrot CLI. This verifies the Vite plugin, runtime, router, UI package, and docs data together in the deployment target app."
-      },
-      {
-        "id": "route-readiness",
-        "title": "Route Readiness",
-        "body": "The public routes must clearly connect the landing page, Framework Documentation, and Design Component surfaces. Route metadata must include titles and descriptions so the site is ready for a hosting layer to expose useful previews."
-      }
-    ]
-  },
-  {
-    "key": "publicApi",
-    "section": "reference",
-    "path": "/docs/public-api",
-    "label": "Public API",
-    "title": "Public API Reference",
-    "summary": "Read the documented public exports for each current Vanrot package and see which guide owns the behavior.",
-    "status": "phase-24-active",
-    "sections": [
-      {
-        "id": "export-coverage",
-        "title": "Export Coverage",
-        "body": "Every public export from package index files must have structured reference coverage. The verification script compares package source exports with the registry before Phase 24 can close."
-      },
-      {
-        "id": "status-language",
-        "title": "Status Language",
-        "body": "Each export uses explicit status language such as production-ready, demo-capable, limited, deferred, or not-browser-facing. The docs explain capability without overstating unfinished work."
-      },
-      {
-        "id": "docs-links",
-        "title": "Docs Links",
-        "body": "Each export points to the guide or reference route that explains it. This keeps the registry useful for humans and keeps Phase 25 free to build AI-readable output from clean data."
-      }
-    ]
-  },
-  {
-    "key": "diagnostics",
-    "section": "reference",
-    "path": "/docs/diagnostics",
-    "label": "Diagnostics",
-    "title": "Diagnostics Reference",
-    "summary": "Find the current compiler, config, router, CLI, and Vite-plugin diagnostic codes with user-facing explanations.",
-    "status": "phase-24-active",
-    "sections": [
-      {
-        "id": "families",
-        "title": "Families",
-        "body": "Diagnostics are grouped by owning package so users know whether an error comes from the compiler, config loader, router contract, CLI command, or Vite integration."
-      },
-      {
-        "id": "coverage-check",
-        "title": "Coverage Check",
-        "body": "verify:site-docs fails when a known diagnostic code is missing from the public reference. That keeps new compiler, config, and router errors from shipping without docs."
-      },
-      {
-        "id": "reader-guidance",
-        "title": "Reader Guidance",
-        "body": "Diagnostic descriptions explain what happened, where the user should look, and whether the behavior is production-ready, limited, or deferred to a later phase."
-      }
-    ]
-  },
+      ]
+    },
+    {
+      "key": "exampleMatrix",
+      "section": "examples",
+      "path": "/docs/example-matrix",
+      "label": "Example Matrix",
+      "title": "Runnable Example Matrix",
+      "summary": "Use verified example workspaces as the source of truth for framework workflows and docs snippets.",
+      "status": "phase-24-active",
+      "sections": [
+        {
+          "id": "source-of-truth",
+          "title": "Source Of Truth",
+          "body": "Runnable example workspaces own the real code for guide snippets. Documentation should reference or mirror these examples so snippets stay connected to tests and package behavior."
+        },
+        {
+          "id": "workflow-coverage",
+          "title": "Workflow Coverage",
+          "body": "The matrix covers starter creation, runtime lifecycle, compiler templates, routing, config diagnostics, CLI commands, UI usage, testing helpers, devtools intelligence, WebGL lifecycle recipes, and build deployment preparation."
+        },
+        {
+          "id": "package-coverage",
+          "title": "Package Coverage",
+          "body": "Every workspace package appears in at least one registered example. Packages without a browser-facing workflow still appear through command, config, devtools, or build examples."
+        }
+      ]
+    },
+    {
+      "key": "webglThreejs",
+      "section": "examples",
+      "path": "/docs/examples/webgl-threejs",
+      "label": "WebGL And three.js",
+      "title": "WebGL And three.js Lifecycle",
+      "summary": "Use Vanrot lifecycle hooks and signals around an app-owned WebGL or three.js scene without adding three.js to the core runtime.",
+      "status": "demo-capable",
+      "sections": [
+        {
+          "id": "boundary",
+          "title": "Boundary",
+          "body": "The shipped shape is recipe-only. Vanrot owns lifecycle, cleanup, signal binding, docs, and verified example code. The application owns three.js as an app dependency when it chooses to render with three.",
+          "points": [
+            "Do not add three.js to @vanrot/runtime.",
+            "Do not create a renderer abstraction that hides three.js.",
+            "Keep the canvas in a template and pass the element into TypeScript during onMount()."
+          ]
+        },
+        {
+          "id": "widget-recipe",
+          "title": "Widget Recipe",
+          "body": "examples/webgl-threejs/src/scene-preview.widget.ts creates a renderer after mount, binds signals to scene state with effect cleanup, handles context loss and restore, and disposes render loops, resize hooks, renderer resources, geometries, materials, textures, and controls.",
+          "code": {
+            "title": "Lifecycle-safe canvas controller",
+            "code": "import { onDestroy, onMount, signal } from '@vanrot/runtime';\nimport { bindSignalToScene, createWebglCanvasController } from './scene-preview.widget';\n\nconst color = signal('#ff5a3d');\n\nonMount(() => {\n  const canvas = document.querySelector('canvas');\n  const container = canvas?.parentElement;\n\n  if (!(canvas instanceof HTMLCanvasElement) || container === null) {\n    return;\n  }\n\n  const controller = createWebglCanvasController({\n    canvas,\n    container,\n    createRenderer(context) {\n      return createAppOwnedThreeRenderer(context);\n    },\n    signalBindings: [\n      bindSignalToScene(color, (nextColor) => material.color.set(nextColor)),\n    ],\n  });\n\n  onDestroy(controller.destroy);\n});"
+          }
+        },
+        {
+          "id": "fallbacks",
+          "title": "Fallbacks",
+          "body": "The recipe treats WebGL as progressive enhancement. Missing WebGL, compact/mobile fallback, context loss, context restore, and prefers-reduced-motion each produce deterministic behavior that tests can verify.",
+          "points": [
+            "Reduced motion renders one static frame instead of starting an animation loop.",
+            "Context loss cancels the pending animation frame and keeps cleanup idempotent until restore.",
+            "Fallback copy remains visible when WebGL is unavailable or intentionally disabled."
+          ]
+        },
+        {
+          "id": "assets",
+          "title": "Assets",
+          "body": "Fixture assets stay local and centralized through webglAssetPaths. Examples should load textures and models from known local paths so build and browser verification are repeatable.",
+          "points": [
+            "Use local deterministic fixtures for docs examples.",
+            "Surface asset load errors instead of hiding failed network or CORS paths.",
+            "Dispose textures, geometries, materials, controls, loaders, and renderer-owned resources on teardown."
+          ]
+        }
+      ]
+    },
+    {
+      "key": "deployment",
+      "section": "reference",
+      "path": "/docs/deployment",
+      "label": "Deployment",
+      "title": "Build And Deployment Preparation",
+      "summary": "Prepare a Vanrot site for production hosting without pretending this repository controls DNS, credentials, analytics, or live deployment.",
+      "status": "phase-24-active",
+      "sections": [
+        {
+          "id": "target-host",
+          "title": "Target Host",
+          "body": "Phase 24 prepares the public site for vanrot.vankode.com. The documentation describes hosting assumptions, production build commands, and public route expectations, while DNS records, hosting credentials, analytics setup, and live launch remain outside this phase."
+        },
+        {
+          "id": "production-build",
+          "title": "Production Build",
+          "body": "Use pnpm --filter @vanrot/vanrot-site build to run the site production build through the Vanrot CLI. This verifies the Vite plugin, runtime, router, UI package, and docs data together in the deployment target app."
+        },
+        {
+          "id": "route-readiness",
+          "title": "Route Readiness",
+          "body": "The public routes must clearly connect the landing page, Framework Documentation, and Design Component surfaces. Route metadata must include titles and descriptions so the site is ready for a hosting layer to expose useful previews."
+        }
+      ]
+    },
+    {
+      "key": "publicApi",
+      "section": "reference",
+      "path": "/docs/public-api",
+      "label": "Public API",
+      "title": "Public API Reference",
+      "summary": "Read the documented public exports for each current Vanrot package and see which guide owns the behavior.",
+      "status": "phase-24-active",
+      "sections": [
+        {
+          "id": "export-coverage",
+          "title": "Export Coverage",
+          "body": "Every public export from package index files must have structured reference coverage. The verification script compares package source exports with the registry before Phase 24 can close."
+        },
+        {
+          "id": "status-language",
+          "title": "Status Language",
+          "body": "Each export uses explicit status language such as production-ready, demo-capable, limited, deferred, or not-browser-facing. The docs explain capability without overstating unfinished work."
+        },
+        {
+          "id": "docs-links",
+          "title": "Docs Links",
+          "body": "Each export points to the guide or reference route that explains it. This keeps the registry useful for humans and keeps Phase 25 free to build AI-readable output from clean data."
+        }
+      ]
+    },
+    {
+      "key": "diagnostics",
+      "section": "reference",
+      "path": "/docs/diagnostics",
+      "label": "Diagnostics",
+      "title": "Diagnostics Reference",
+      "summary": "Find the current compiler, config, router, CLI, and Vite-plugin diagnostic codes with user-facing explanations.",
+      "status": "phase-24-active",
+      "sections": [
+        {
+          "id": "families",
+          "title": "Families",
+          "body": "Diagnostics are grouped by owning package so users know whether an error comes from the compiler, config loader, router contract, CLI command, or Vite integration."
+        },
+        {
+          "id": "coverage-check",
+          "title": "Coverage Check",
+          "body": "verify:site-docs fails when a known diagnostic code is missing from the public reference. That keeps new compiler, config, and router errors from shipping without docs."
+        },
+        {
+          "id": "reader-guidance",
+          "title": "Reader Guidance",
+          "body": "Diagnostic descriptions explain what happened, where the user should look, and whether the behavior is production-ready, limited, or deferred to a later phase."
+        }
+      ]
+    },
     {
       "key": "generatedFiles",
       "section": "reference",
       "path": "/docs/generated-files",
       "label": "Generated Files",
-    "title": "Generated Files And Directories",
-    "summary": "Understand generated files Vanrot users should expect in starter apps, config flows, route workflows, and project intelligence output.",
-    "status": "phase-24-active",
-    "sections": [
-      {
-        "id": "starter-files",
-        "title": "Starter Files",
-        "body": "Starter projects use familiar JavaScript files such as package.json, tsconfig.json, vite.config.ts, and vanrot.config.ts. The docs explain which package owns each file."
-      },
-      {
-        "id": "route-files",
-        "title": "Route Files",
-        "body": "src/routes.ts is the framework-owned convention for route refs, route paths, and route metadata. Docs and examples point users to named route refs instead of repeated strings."
-      },
-      {
-        "id": "project-intelligence",
-        "title": "Project Intelligence",
-        "body": ".vanrot/project-map.json is generated by vr map and belongs to the devtools and project intelligence story. It is documented as local metadata, not as a Phase 25 AI bundle."
+      "title": "Generated Files And Directories",
+      "summary": "Understand generated files Vanrot users should expect in starter apps, config flows, route workflows, and project intelligence output.",
+      "status": "phase-24-active",
+      "sections": [
+        {
+          "id": "starter-files",
+          "title": "Starter Files",
+          "body": "Starter projects use familiar JavaScript files such as package.json, tsconfig.json, vite.config.ts, and vanrot.config.ts. The docs explain which package owns each file."
+        },
+        {
+          "id": "route-files",
+          "title": "Route Files",
+          "body": "src/routes.ts is the framework-owned convention for route refs, route paths, and route metadata. Docs and examples point users to named route refs instead of repeated strings."
+        },
+        {
+          "id": "project-intelligence",
+          "title": "Project Intelligence",
+          "body": ".vanrot/project-map.json is generated by vr map and belongs to the devtools and project intelligence story. It is documented as local metadata, not as a Phase 25 AI bundle."
         }
       ]
     },
@@ -5863,32 +5968,32 @@
       "summary": "Track published Vanrot versions, release notes, and upgrade guidance from the first npm release onward.",
       "status": "available-now",
       "sections": [
-    {
-      "id": "version-0-2-2",
-      "title": "0.2.2",
-      "date": "June 5, 2026",
-      "body": "Behavior Expansion release for the optional @vanrot/behavior package. Adds the Phase 28 headless interaction suite while keeping browser runtime size unchanged.",
-      "changes": [
-        "Added collapsible, accordion, disclosure, selection, listbox, select, combobox, multi-selection, menu, context-menu, menubar, navigation-menu, toggle-group, toolbar, scroll-area, portal, focus, calendar, date-picker, drag-drop, and table-resize controllers.",
-        "Added subpath exports so apps can import only the behavior family they need.",
-        "Updated behavior config validation and vr create behavior scaffolding for the expanded family names.",
-        "Updated behavior docs, framework reference metadata, AI-readable docs, the future pipeline checklist, and the final TDD inventory for Phase 28."
-      ]
-    },
-    {
-      "id": "version-0-2-0",
-      "title": "0.2.0",
-      "date": "June 4, 2026",
-      "body": "CLI maintenance release for project inspection and generated metadata cleanup. Consolidates inspection into doctor, adds cache cleaning, and updates public documentation for the new command surface.",
-      "changes": [
-        "Added vr doctor --inspect to include read-only project intelligence in the health report.",
-        "Removed standalone vr inspect from the command surface and redirects that mental model to vr doctor --inspect.",
-        "Added vr cache clean with --dry-run support for Vanrot-owned generated metadata.",
-        "Updated public CLI docs, project intelligence docs, command references, and AI-readable docs for the new maintenance workflow."
-      ]
-    },
-    {
-      "id": "version-0-1-1",
+        {
+          "id": "version-0-2-2",
+          "title": "0.2.2",
+          "date": "June 5, 2026",
+          "body": "Behavior Expansion release for the optional @vanrot/behavior package. Adds the Phase 28 headless interaction suite while keeping browser runtime size unchanged.",
+          "changes": [
+            "Added collapsible, accordion, disclosure, selection, listbox, select, combobox, multi-selection, menu, context-menu, menubar, navigation-menu, toggle-group, toolbar, scroll-area, portal, focus, calendar, date-picker, drag-drop, and table-resize controllers.",
+            "Added subpath exports so apps can import only the behavior family they need.",
+            "Updated behavior config validation and vr create behavior scaffolding for the expanded family names.",
+            "Updated behavior docs, framework reference metadata, AI-readable docs, the future pipeline checklist, and the final TDD inventory for Phase 28."
+          ]
+        },
+        {
+          "id": "version-0-2-0",
+          "title": "0.2.0",
+          "date": "June 4, 2026",
+          "body": "CLI maintenance release for project inspection and generated metadata cleanup. Consolidates inspection into doctor, adds cache cleaning, and updates public documentation for the new command surface.",
+          "changes": [
+            "Added vr doctor --inspect to include read-only project intelligence in the health report.",
+            "Removed standalone vr inspect from the command surface and redirects that mental model to vr doctor --inspect.",
+            "Added vr cache clean with --dry-run support for Vanrot-owned generated metadata.",
+            "Updated public CLI docs, project intelligence docs, command references, and AI-readable docs for the new maintenance workflow."
+          ]
+        },
+        {
+          "id": "version-0-1-1",
           "title": "0.1.1",
           "date": "May 30, 2026",
           "body": "CLI release for project update and upgrade workflows. Adds framework-aware project sync, package upgrade automation, and stable upgrade diagnostics.",
@@ -5928,28 +6033,28 @@
       "key": "octoberShowcase",
       "section": "examples",
       "path": "/docs/examples/october-showcase",
-    "label": "October Showcase",
-    "title": "October Showcase",
-    "summary": "A broad Phase 16G composition surface for admin, dashboard, and mobile patterns.",
-    "status": "demo-capable",
-    "sections": [
-      {
-        "id": "admin",
-        "title": "Admin",
-        "body": "Admin examples compose layout, sidebar, nav, popover actions, tooltips, dialogs, dropdowns, and command-menu search without adding new admin-specific primitives."
-      },
-      {
-        "id": "dashboard",
-        "title": "Dashboard",
-        "body": "Dashboard examples use cards, stats, tables, tabs, toasts, and compact popovers to prove production-density surfaces remain readable."
-      },
-      {
-        "id": "mobile",
-        "title": "Mobile",
-        "body": "Mobile examples keep actions reachable with drawers, tooltips on compact controls, and responsive command-menu navigation."
-      }
-    ]
-  },
+      "label": "October Showcase",
+      "title": "October Showcase",
+      "summary": "A broad Phase 16G composition surface for admin, dashboard, and mobile patterns.",
+      "status": "demo-capable",
+      "sections": [
+        {
+          "id": "admin",
+          "title": "Admin",
+          "body": "Admin examples compose layout, sidebar, nav, popover actions, tooltips, dialogs, dropdowns, and command-menu search without adding new admin-specific primitives."
+        },
+        {
+          "id": "dashboard",
+          "title": "Dashboard",
+          "body": "Dashboard examples use cards, stats, tables, tabs, toasts, and compact popovers to prove production-density surfaces remain readable."
+        },
+        {
+          "id": "mobile",
+          "title": "Mobile",
+          "body": "Mobile examples keep actions reachable with drawers, tooltips on compact controls, and responsive command-menu navigation."
+        }
+      ]
+    },
     {
       "key": "conventions",
       "section": "framework",
@@ -6683,36 +6788,148 @@
     }
   ],
   "commands": [
-    { "name": "create", "usage": "vr create <name>", "status": "demo-capable" },
-    { "name": "generate", "usage": "vr generate <role> <name>", "status": "demo-capable" },
-    { "name": "add", "usage": "vr add <primitive>", "status": "demo-capable-through-phase-16f" },
-    { "name": "remove", "usage": "vr remove behavior", "status": "production-ready-through-phase-16h" },
-    { "name": "ui", "usage": "vr ui <component> --help", "status": "Phase 16F" },
-    { "name": "config", "usage": "vr config <action>", "status": "production-ready-through-phase-13" },
-    { "name": "update", "usage": "vr update <target>", "status": "available-now" },
-    { "name": "upgrade", "usage": "vr upgrade [version]", "status": "available-now" },
-    { "name": "doctor", "usage": "vr doctor --inspect", "status": "demo-capable" },
-    { "name": "cache", "usage": "vr cache clean", "status": "demo-capable" },
-    { "name": "map", "usage": "vr map", "status": "production-ready-through-phase-23" },
-    { "name": "init-ai", "usage": "vr init-ai", "status": "demo-capable" },
-    { "name": "ai", "usage": "vr ai <action>", "status": "production-ready-through-phase-25" },
-    { "name": "dev", "usage": "vr dev", "status": "demo-capable" },
-    { "name": "build", "usage": "vr build", "status": "demo-capable" },
-    { "name": "test", "usage": "vr test", "status": "demo-capable" }
+    {
+      "name": "create",
+      "usage": "vr create <name>",
+      "status": "demo-capable"
+    },
+    {
+      "name": "generate",
+      "usage": "vr generate <role> <name>",
+      "status": "demo-capable"
+    },
+    {
+      "name": "add",
+      "usage": "vr add <primitive>",
+      "status": "demo-capable-through-phase-16f"
+    },
+    {
+      "name": "remove",
+      "usage": "vr remove behavior",
+      "status": "production-ready-through-phase-16h"
+    },
+    {
+      "name": "ui",
+      "usage": "vr ui <component> --help",
+      "status": "Phase 16F"
+    },
+    {
+      "name": "config",
+      "usage": "vr config <action>",
+      "status": "production-ready-through-phase-13"
+    },
+    {
+      "name": "update",
+      "usage": "vr update <target>",
+      "status": "available-now"
+    },
+    {
+      "name": "upgrade",
+      "usage": "vr upgrade [version]",
+      "status": "available-now"
+    },
+    {
+      "name": "doctor",
+      "usage": "vr doctor --inspect",
+      "status": "demo-capable"
+    },
+    {
+      "name": "cache",
+      "usage": "vr cache clean",
+      "status": "demo-capable"
+    },
+    {
+      "name": "map",
+      "usage": "vr map",
+      "status": "production-ready-through-phase-23"
+    },
+    {
+      "name": "init-ai",
+      "usage": "vr init-ai",
+      "status": "demo-capable"
+    },
+    {
+      "name": "ai",
+      "usage": "vr ai <action>",
+      "status": "production-ready-through-phase-25"
+    },
+    {
+      "name": "dev",
+      "usage": "vr dev",
+      "status": "demo-capable"
+    },
+    {
+      "name": "build",
+      "usage": "vr build",
+      "status": "demo-capable"
+    },
+    {
+      "name": "test",
+      "usage": "vr test",
+      "status": "demo-capable"
+    }
   ],
   "packages": [
-    { "name": "@vanrot/runtime", "area": "Runtime", "status": "production-ready-through-phase-12" },
-    { "name": "@vanrot/behavior", "area": "Optional behavior helpers", "status": "production-ready-through-phase-16h" },
-    { "name": "@vanrot/compiler", "area": "Compiler", "status": "production-ready-through-phase-12" },
-    { "name": "@vanrot/config", "area": "Configuration", "status": "production-ready-through-phase-13" },
-    { "name": "@vanrot/language-server", "area": "Language server", "status": "demo-capable-through-intellij-m4" },
-    { "name": "@vanrot/router", "area": "Router", "status": "production-ready-through-phase-15" },
-    { "name": "@vanrot/vite-plugin", "area": "Vite", "status": "production-ready-through-phase-12" },
-    { "name": "@vanrot/cli", "area": "CLI", "status": "demo-capable-through-phase-14" },
-    { "name": "@vanrot/ui", "area": "UI", "status": "in-progress-through-phase-16g" },
-    { "name": "@vanrot/testing", "area": "Testing", "status": "demo-capable" },
-    { "name": "@vanrot/devtools", "area": "Devtools", "status": "production-ready-through-phase-23" },
-    { "name": "@vanrot/ai", "area": "AI consumption", "status": "production-ready-through-phase-25" }
+    {
+      "name": "@vanrot/runtime",
+      "area": "Runtime",
+      "status": "production-ready-through-phase-12"
+    },
+    {
+      "name": "@vanrot/behavior",
+      "area": "Optional behavior helpers",
+      "status": "production-ready-through-phase-16h"
+    },
+    {
+      "name": "@vanrot/compiler",
+      "area": "Compiler",
+      "status": "production-ready-through-phase-12"
+    },
+    {
+      "name": "@vanrot/config",
+      "area": "Configuration",
+      "status": "production-ready-through-phase-13"
+    },
+    {
+      "name": "@vanrot/language-server",
+      "area": "Language server",
+      "status": "demo-capable-through-intellij-m4"
+    },
+    {
+      "name": "@vanrot/router",
+      "area": "Router",
+      "status": "production-ready-through-phase-15"
+    },
+    {
+      "name": "@vanrot/vite-plugin",
+      "area": "Vite",
+      "status": "production-ready-through-phase-12"
+    },
+    {
+      "name": "@vanrot/cli",
+      "area": "CLI",
+      "status": "demo-capable-through-phase-14"
+    },
+    {
+      "name": "@vanrot/ui",
+      "area": "UI",
+      "status": "in-progress-through-phase-16g"
+    },
+    {
+      "name": "@vanrot/testing",
+      "area": "Testing",
+      "status": "demo-capable"
+    },
+    {
+      "name": "@vanrot/devtools",
+      "area": "Devtools",
+      "status": "production-ready-through-phase-23"
+    },
+    {
+      "name": "@vanrot/ai",
+      "area": "AI consumption",
+      "status": "production-ready-through-phase-25"
+    }
   ],
   "diagnostics": {
     "compiler": [

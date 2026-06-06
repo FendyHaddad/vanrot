@@ -2144,7 +2144,7 @@
     {
       "id": "doc:store",
       "title": "Store",
-      "summary": "@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, and page-facing useStore composition.",
+      "summary": "@vanrot/store is the first-party signal-native state package for readable actions, selectors, reducers, full effects, StoreError normalization, page-facing useStore composition, and headless inspection for snapshots and replay.",
       "docsPath": "/docs/store"
     },
     {
@@ -2176,6 +2176,18 @@
       "title": "Store Page Usage",
       "summary": "Pages use useStore(store), expose selector reads and action methods from TypeScript, and keep Vanrot HTML quote-free for TS-bound attributes and method calls.",
       "docsPath": "/docs/store/page-usage"
+    },
+    {
+      "id": "doc:storeInspection",
+      "title": "Store Inspection",
+      "summary": "inspectStore(store) exposes a Vanrot-native event timeline for actions, reducers, state changes, effects, snapshots, and observer failures without RxJS, Redux, or devtools UI coupling.",
+      "docsPath": "/docs/store/inspection"
+    },
+    {
+      "id": "doc:storeReplay",
+      "title": "Store Snapshots and Replay",
+      "summary": "Store snapshots and replay let apps capture review checkpoints, replay action history through the store reducer, and inspect each replay step without exposing reducer internals on the public store instance.",
+      "docsPath": "/docs/store/replay"
     },
     {
       "id": "doc:formatters",

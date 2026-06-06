@@ -101,25 +101,70 @@ Possible slices:
 
 ## Store Hardening
 
-Store hardening should add the enterprise features that teams expect from a mature state package while keeping the
-default store mental model signal-first.
+Store hardening added the enterprise features that teams expect from a mature state package while keeping the
+default store mental model signal-first. Phase 20 shipped the headless store package contract; devtools panel UI stays
+in the separate `@vanrot/devtools` repair pipeline.
 
-Ideas to carry forward:
+Ideas shipped in Phase 20:
 
-- [ ] Deepen cancellation and concurrency inspection beyond the Phase 19 `latestBy` and `cancelWhen` runtime behavior.
-- [ ] Add action tracing in a way that can feed future devtools without coupling store to devtools.
-- [ ] Explore time travel only after state snapshots and replay rules are deterministic.
-- [ ] Provide Redux mental-model interop for teams migrating from Redux-like systems.
-- [ ] Provide RxJS interop as an opt-in bridge, not the default dependency or teaching path.
-- [ ] Keep examples honest about when the enterprise layer is useful and when plain signals are enough.
+- [x] Deepen cancellation and concurrency inspection beyond the Phase 19 `latestBy` and `cancelWhen` runtime behavior.
+- [x] Add action tracing in a way that can feed future devtools without coupling store to devtools UI.
+- [x] Ship deterministic state snapshots and replay rules as the foundation for future time-travel UI.
+- [x] Provide Vanrot-native observation for actions, state snapshots, and effect lifecycle events instead of RxJS interop.
+- [x] Keep action history and replay as Vanrot-native concepts instead of Redux compatibility helpers.
+- [x] Keep examples honest about when the enterprise layer is useful and when plain signals are enough.
 
 Possible slices:
 
-- [ ] Effects Cancellation
-- [ ] Concurrency Tracing
-- [ ] Time Travel
-- [ ] Redux Compatibility
-- [ ] RxJS Interop
+- [x] Effects Cancellation
+- [x] Concurrency Tracing
+- [x] Snapshot And Replay Foundation
+- [x] Vanrot-Native Observation
+- [x] Replay Contracts
+
+## Devtools Shell Repair
+
+`@vanrot/devtools` already exists from Phase 23. It should be repaired and extended as a first-party Vanrot Devtools
+experience after the store inspection contracts are stable.
+
+Needs attention:
+
+- [ ] Audit the existing `@vanrot/devtools` panel and extension shell before adding more runtime panels.
+- [ ] Add a Store panel that consumes `vanrot.store.inspection.v1` events from `@vanrot/store`.
+- [ ] Route store inspection data through the existing Vite/devtools bridge instead of putting UI inside `@vanrot/store`.
+- [ ] Keep store package APIs headless so future router, compiler, forms, hydration, and diagnostics panels can use the
+  same devtools shell.
+- [ ] Verify the browser extension panel, local dev endpoint, panel empty states, and unsupported-schema states.
+
+Possible slices:
+
+- [ ] Shell Audit
+- [ ] Store Panel
+- [ ] Runtime Bridge
+- [ ] Panel QA
+
+## Framework Annotation Metadata
+
+Vanrot should eventually support clear framework annotations such as `@Observable`, `@Deprecated`, `@Experimental`,
+`@Internal`, and `@Docs`. This is not part of Phase 20 store hardening.
+
+Needs attention:
+
+- [ ] Decide which existing package should own framework annotation metadata instead of creating a standalone
+  `@vanrot/metadata` package by default.
+- [ ] Design `@Deprecated` with message, replacement, removal phase/version, and docs path fields.
+- [ ] Define `@Observable` in Vanrot terms, not RxJS terms.
+- [ ] Make annotations descriptive by default so they feed docs, diagnostics, AI docs, language-server hints, and future
+  devtools without changing runtime behavior unexpectedly.
+- [ ] Provide a plain object/function API alongside decorators so TypeScript decorator edge cases do not block adoption.
+- [ ] Keep annotation vocabulary small enough for new programmers to understand.
+
+Possible slices:
+
+- [ ] Ownership Decision
+- [ ] Deprecation Metadata
+- [ ] Observable Metadata
+- [ ] Docs And Editor Consumption
 
 ## Forms And Resources
 
