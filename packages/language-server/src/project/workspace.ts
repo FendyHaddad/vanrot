@@ -4,6 +4,8 @@ import { defaultSourceRoot } from '@vanrot/config';
 import { buildComponentIndex, type ComponentEntry } from './component-index.js';
 import { resolveRoutesPath } from './project-root.js';
 import { parseRouteIndex, type RouteEntry } from './route-index.js';
+import { buildTemplateIndex, emptyTemplateIndex, type TemplateIndex } from './template-index.js';
+import { emptyVanrotWebTypes, loadVanrotWebTypes, type VanrotWebTypesSummary } from './web-types.js';
 
 const componentFilePattern = /\.(component|page|layout|button)\.ts$/;
 const appsDirectoryName = 'apps';
@@ -13,11 +15,20 @@ export interface WorkspaceIndex {
   components: ComponentEntry[];
   routesPath: string | null;
   projectRoot: string | null;
+  webTypes?: VanrotWebTypesSummary;
+  templates?: TemplateIndex;
 }
 
 export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
   if (projectRoot === null) {
-    return { routes: [], components: [], routesPath: null, projectRoot: null };
+    return {
+      routes: [],
+      components: [],
+      routesPath: null,
+      projectRoot: null,
+      webTypes: emptyVanrotWebTypes(),
+      templates: emptyTemplateIndex(),
+    };
   }
 
   const routesPath = resolveRoutesPath(projectRoot);
@@ -25,8 +36,10 @@ export function loadWorkspaceIndex(projectRoot: string | null): WorkspaceIndex {
     ? parseRouteIndex(routesPath, readFileSync(routesPath, 'utf8'))
     : [];
   const components = buildComponentIndex(readWorkspaceComponentSources(projectRoot));
+  const webTypes = loadVanrotWebTypes(projectRoot);
+  const templates = buildTemplateIndex(projectRoot);
 
-  return { routes, components, routesPath: existsSync(routesPath) ? routesPath : null, projectRoot };
+  return { routes, components, routesPath: existsSync(routesPath) ? routesPath : null, projectRoot, webTypes, templates };
 }
 
 function readWorkspaceComponentSources(projectRoot: string): Array<{ path: string; source: string }> {

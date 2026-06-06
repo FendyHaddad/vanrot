@@ -14,4 +14,9 @@ describe('buildInitializeResult', () => {
     const result = buildInitializeResult(params);
     expect(result.serverInfo?.name).toBe('vanrot-language-server');
   });
+
+  it('advertises code actions', () => {
+    const result = buildInitializeResult(params);
+    expect(result.capabilities.codeActionProvider).toBe(true);
+  });
 });

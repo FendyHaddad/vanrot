@@ -34,8 +34,10 @@ into the matching spec and writing plan using the normal repo naming convention.
 
 ## Editor Tooling
 
-Editor Tooling has moved from a loose future candidate into the one-shot Phase 31 release spec:
-`docs/superpowers/specs/Phase-31.md`.
+Status: shipped in Phase 31.
+
+Editor Tooling moved from a loose future candidate into the one-shot Phase 31 release spec and implementation:
+`docs/superpowers/specs/Phase-31.md` and `docs/superpowers/plans/Phase-31.md`.
 
 Do not split this work into separate Web Types, Intelligence Export, Template Navigation, Editor Fixes, and Plugin
 Packaging phases. Those are workstreams inside the single JetBrains/editor tooling release.
@@ -55,21 +57,21 @@ Done:
 - [x] Phase 31 now owns the full release spec for richer Web Types, project intelligence, template navigation,
   rename-safe route references, diagnostics, code actions, completions, docs IA, and JetBrains packaging checks.
 
-Phase 31 release scope:
+Phase 31 shipped scope:
 
-- [ ] Richer Web Types and editor metadata for Vanrot tags, attributes, variants, router elements, UI primitives, and route
+- [x] Richer Web Types and editor metadata for Vanrot tags, attributes, variants, router elements, UI primitives, and route
   references.
-- [ ] Project intelligence exports that expose the route graph, component graph, template usage, source locations,
+- [x] Project intelligence exports that expose the route graph, component graph, template usage, source locations,
   diagnostics, and generated metadata to editors.
-- [ ] Jump-to-route, jump-to-page, jump-to-layout, jump-to-component, and route-reference navigation from templates.
-- [ ] Rename-safe route references for syntax such as `<vr route.docs />`.
-- [ ] Template diagnostics for unknown Vanrot elements, invalid variants, repeated route literals, router/outlet misuse, and
+- [x] Jump-to-route, jump-to-page, jump-to-layout, jump-to-component, and route-reference navigation from templates.
+- [x] Rename-safe route references for syntax such as `<vr route.docs />`.
+- [x] Template diagnostics for unknown Vanrot elements, invalid variants, repeated route literals, router/outlet misuse, and
   framework convention violations.
-- [ ] Auto-fixes for simple mistakes, such as adding missing generated metadata, correcting route references, or replacing
+- [x] Auto-fixes for simple mistakes, such as adding missing generated metadata, correcting route references, or replacing
   repeated literals with named route objects.
-- [ ] Completion and inline documentation for `vr-router`, `vr-outlet`, `vr-*` UI primitives, route references, variants,
+- [x] Completion and inline documentation for `vr-router`, `vr-outlet`, `vr-*` UI primitives, route references, variants,
   and framework-owned attributes.
-- [ ] Compatibility checks across IntelliJ IDEA Ultimate, WebStorm, and future editor adapters where practical.
+- [x] Compatibility checks across IntelliJ IDEA Ultimate, WebStorm, and future editor adapters where practical.
 
 Non-issues to carry into the next brainstorm:
 

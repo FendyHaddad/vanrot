@@ -10,10 +10,11 @@ import {
 import { TextDocument } from 'vscode-languageserver-textdocument';
 import { URI } from 'vscode-uri';
 import { enumerateExpressions } from './expressions/enumerate.js';
+import { buildCodeActions } from './features/code-actions.js';
 import { buildCompletions } from './features/completion.js';
 import { classifyCompletionContext } from './features/completion-context.js';
 import { findDefinition, findSlotDefinition } from './features/definition.js';
-import { compileTemplateDiagnostics } from './features/diagnostics.js';
+import { compileTemplateDiagnostics, editorTemplateDiagnostics } from './features/diagnostics.js';
 import { expressionCompletion } from './features/expression-completion.js';
 import { expressionDiagnostics } from './features/expression-diagnostics.js';
 import { expressionHover } from './features/expression-hover.js';
@@ -36,6 +37,7 @@ export function buildInitializeResult(_params: InitializeParams): InitializeResu
       referencesProvider: true,
       hoverProvider: true,
       renameProvider: true,
+      codeActionProvider: true,
     },
     serverInfo: { name: serverInfo.name, version: serverInfo.version },
   };
@@ -44,7 +46,14 @@ export function buildInitializeResult(_params: InitializeParams): InitializeResu
 export function startLanguageServer(connection: Connection): void {
   const documents = new TextDocuments(TextDocument);
   const openedVersions = new Map<string, number>();
-  let index: WorkspaceIndex = { routes: [], components: [], routesPath: null, projectRoot: null };
+  let index: WorkspaceIndex = {
+    routes: [],
+    components: [],
+    routesPath: null,
+    projectRoot: null,
+    webTypes: { sources: [], tags: [], attributes: [] },
+    templates: { templates: [] },
+  };
 
   connection.onInitialize((params) => {
     const root = params.rootUri ? URI.parse(params.rootUri).fsPath : null;
@@ -157,6 +166,7 @@ export function startLanguageServer(connection: Connection): void {
     return findReferences(
       symbol,
       documents.all().map((openDocument) => ({ uri: openDocument.uri, text: openDocument.getText() })),
+      index.templates,
     );
   });
 
@@ -169,6 +179,23 @@ export function startLanguageServer(connection: Connection): void {
 
     const source = document.getText();
     const offset = offsetAt(source, params.position.line, params.position.character);
+    const symbol = resolveSymbolAt(source, offset);
+
+    if (symbol?.kind === 'route-ref') {
+      const changes = new Map<string, Array<{ range: ReturnType<typeof findReferences>[number]['range']; newText: string }>>();
+
+      for (const location of findReferences(
+        symbol,
+        documents.all().map((openDocument) => ({ uri: openDocument.uri, text: openDocument.getText() })),
+        index.templates,
+      )) {
+        const edits = changes.get(location.uri) ?? [];
+        edits.push({ range: location.range, newText: `route.${params.newName}` });
+        changes.set(location.uri, edits);
+      }
+
+      return { changes: Object.fromEntries(changes) };
+    }
 
     if (!isExpressionOffset(source, offset)) {
       return null;
@@ -209,7 +236,8 @@ export function startLanguageServer(connection: Connection): void {
         expressionContext === null
           ? []
           : expressionDiagnostics(document.getText(), expressionContext.componentSource, expressionContext.className);
-      connection.sendDiagnostics({ uri, diagnostics: [...diagnostics, ...expressionResult] });
+      const editorResult = editorTemplateDiagnostics(fsPath, index);
+      connection.sendDiagnostics({ uri, diagnostics: [...diagnostics, ...expressionResult, ...editorResult] });
     });
   };
   const scheduleDiagnostics = debounce(runDiagnostics, 200);
@@ -225,6 +253,15 @@ export function startLanguageServer(connection: Connection): void {
 
     scheduleDiagnostics(event.document.uri);
   });
+
+  connection.onCodeAction((params) =>
+    buildCodeActions({
+      documentUri: params.textDocument.uri,
+      diagnostics: params.context.diagnostics,
+      routes: index.routes.map((route) => ({ name: route.name, path: route.path ?? null })),
+      webTypesSources: (index.webTypes?.sources ?? []).map((source) => source.path),
+    }),
+  );
 
   documents.listen(connection);
   connection.listen();

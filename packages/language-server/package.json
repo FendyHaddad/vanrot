@@ -9,7 +9,8 @@
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "bin": {
-    "vanrot-language-server": "./dist/bin/server.js"
+    "vanrot-language-server": "./dist/bin/server.js",
+    "vanrot-editor-intelligence": "./dist/bin/server.js"
   },
   "exports": {
     ".": {

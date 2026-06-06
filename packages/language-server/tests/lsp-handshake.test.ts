@@ -33,6 +33,7 @@ describe('LSP handshake', () => {
     });
 
     expect(result.serverInfo?.name).toBe('vanrot-language-server');
+    expect(result.capabilities.codeActionProvider).toBe(true);
     client.dispose();
   });
 });

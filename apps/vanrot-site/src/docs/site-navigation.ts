@@ -131,6 +131,13 @@ const configurationNavigationChildren = [
   navItem(siteArticleKey.configurationMaintenance),
 ] as const;
 
+const editorToolingNavigationChildren = [
+  navItem(siteArticleKey.editorToolingWebTypes),
+  navItem(siteArticleKey.editorToolingNavigation),
+  navItem(siteArticleKey.editorToolingDiagnostics),
+  navItem(siteArticleKey.editorToolingJetBrains),
+] as const;
+
 const routingNavigationChildren = [
   navItem(siteArticleKey.routingRouteTable),
   navItem(siteArticleKey.routingParamsQuery),
@@ -228,6 +235,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.vitePlugin, vitePluginNavigationChildren),
       navItem(siteArticleKey.cli, cliNavigationChildren),
       navItem(siteArticleKey.configuration, configurationNavigationChildren),
+      navItem(siteArticleKey.editorTooling, editorToolingNavigationChildren),
       navItem(siteArticleKey.routing, routingNavigationChildren),
       navItem(siteArticleKey.ssrHydration, ssrNavigationChildren),
       navItem(siteArticleKey.testing, testingNavigationChildren),

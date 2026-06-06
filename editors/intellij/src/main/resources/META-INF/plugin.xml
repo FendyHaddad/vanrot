@@ -3,8 +3,9 @@
   <name>Vanrot</name>
   <vendor email="fendyhaddad@vankode.com" url="https://vankode.com">Vankode</vendor>
   <description><![CDATA[
-    Vanrot template language support for WebStorm and IntelliJ IDEA Ultimate.
-    M0: starts the Vanrot language server and silences the empty-tag warning on self-closing custom tags.
+    Vanrot editor tooling for WebStorm and IntelliJ IDEA Ultimate.
+    Starts the bundled Vanrot language server, enables template-file support,
+    and suppresses the known empty-tag warning for valid self-closing Vanrot tags.
   ]]></description>
 
   <depends>com.intellij.modules.platform</depends>

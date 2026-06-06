@@ -11,6 +11,11 @@ const requiredRealDocsPaths = [
   '/docs',
   '/docs/runtime',
   '/docs/runtime/signals',
+  '/docs/editor-tooling',
+  '/docs/editor-tooling/web-types',
+  '/docs/editor-tooling/navigation',
+  '/docs/editor-tooling/diagnostics',
+  '/docs/editor-tooling/jetbrains',
   '/docs/compiler',
   '/docs/compiler/inputs',
   '/docs/cli',
@@ -68,6 +73,32 @@ describe('docs page tree', () => {
     ]);
 
     expect(navigationPaths).toEqual(expect.arrayContaining(frameworkPages));
+  });
+
+  it('models editor tooling as real parent and child pages', () => {
+    const pages = flattenDocsPageTree(docsPageTree);
+    const parent = pages.find((page) => page.path === '/docs/editor-tooling');
+    const childPaths = parent?.children.map((child) => child.path);
+
+    expect(parent).toMatchObject({
+      key: 'editorTooling',
+      label: 'Editor Tooling',
+      section: docsPageSection.framework,
+    });
+    expect(parent?.componentName).toBe('EditorToolingPage');
+    expect(childPaths).toEqual([
+      '/docs/editor-tooling/web-types',
+      '/docs/editor-tooling/navigation',
+      '/docs/editor-tooling/diagnostics',
+      '/docs/editor-tooling/jetbrains',
+    ]);
+
+    for (const path of childPaths ?? []) {
+      const page = pages.find((item) => item.path === path);
+      expect(page?.sourceFiles.ts).toMatch(/editor-tooling/);
+      expect(page?.sourceFiles.html).toMatch(/editor-tooling/);
+      expect(page?.sourceFiles.css).toMatch(/editor-tooling/);
+    }
   });
 
   it('registers each docs page path in routes', () => {

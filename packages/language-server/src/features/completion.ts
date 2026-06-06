@@ -2,12 +2,14 @@ import { CompletionItemKind, type CompletionItem } from 'vscode-languageserver';
 import type { CompletionContext } from './completion-context.js';
 import type { ComponentEntry } from '../project/component-index.js';
 import type { RouteEntry } from '../project/route-index.js';
+import { emptyVanrotWebTypes, type VanrotWebTypesSummary } from '../project/web-types.js';
 
 export const vanrotElements = ['vr', 'vr-outlet', 'vr-router'] as const;
 
 export interface CompletionIndexes {
   routes: readonly RouteEntry[];
   components: readonly ComponentEntry[];
+  webTypes?: VanrotWebTypesSummary;
 }
 
 export function buildCompletions(
@@ -31,8 +33,14 @@ export function buildCompletions(
       kind: CompletionItemKind.Class,
       detail: component.className,
     }));
+    const webTypes = webTypesSummary(indexes).tags.map((tag) => ({
+      label: tag.name,
+      kind: CompletionItemKind.Class,
+      detail: tag.sourcePath,
+      documentation: tag.description ?? undefined,
+    }));
 
-    return [...elements, ...components];
+    return [...elements, ...components, ...webTypes];
   }
 
   if (context.kind === 'attribute-name') {
@@ -41,8 +49,23 @@ export function buildCompletions(
         label: 'route.',
         kind: CompletionItemKind.Property,
       },
+      ...indexes.routes.map((route) => ({
+        label: `route.${route.name}`,
+        kind: CompletionItemKind.Property,
+        detail: route.path ?? route.page ?? route.span.filePath,
+      })),
+      ...webTypesSummary(indexes).attributes.map((attribute) => ({
+        label: attribute.name,
+        kind: CompletionItemKind.Property,
+        detail: attribute.sourcePath,
+        documentation: attribute.description ?? undefined,
+      })),
     ];
   }
 
   return [];
+}
+
+function webTypesSummary(indexes: CompletionIndexes): VanrotWebTypesSummary {
+  return indexes.webTypes ?? emptyVanrotWebTypes();
 }

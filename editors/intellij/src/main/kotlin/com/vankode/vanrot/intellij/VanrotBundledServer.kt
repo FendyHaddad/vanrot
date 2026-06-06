@@ -10,6 +10,15 @@ object VanrotBundledServer {
   fun serverScript(): Path {
     val descriptor = PluginManagerCore.getPlugin(PluginId.getId(PLUGIN_ID))
       ?: error("Vanrot: plugin descriptor not found for $PLUGIN_ID")
-    return descriptor.pluginPath.resolve("server").resolve("bin").resolve("server.js")
+    return serverScript(descriptor.pluginPath)
   }
+
+  fun serverScript(pluginPath: Path): Path =
+    pluginPath.resolve("server").resolve("bin").resolve("server.js")
+
+  fun serverPackage(pluginPath: Path): Path =
+    pluginPath.resolve("server").resolve("package.json")
+
+  fun templateGlobs(pluginPath: Path): Path =
+    pluginPath.resolve("server").resolve("template-globs.json")
 }

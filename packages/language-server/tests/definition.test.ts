@@ -9,6 +9,8 @@ const index = {
   components: [{ tagName: 'user-card', className: 'UserCardComponent', path: '/app/user-card.component.ts' }],
   routesPath: '/app/src/routes.ts',
   projectRoot: null,
+  webTypes: { sources: [], tags: [], attributes: [] },
+  templates: { templates: [] },
 };
 
 function span(filePath: string, line: number, column: number, endLine: number, endColumn: number) {
@@ -56,6 +58,29 @@ describe('findDefinition', () => {
 
   it('returns null for an unknown route', () => {
     expect(findDefinition({ kind: 'route-ref', name: 'nope', span: span('t.html', 1, 1, 1, 1) }, index)).toBeNull();
+  });
+
+  it('points a Web Types tag at the metadata source when no component source exists', () => {
+    const location = findDefinition(
+      { kind: 'component-tag', name: 'docs-page', span: span('/repo/src/pages/home.page.html', 1, 2, 1, 11) },
+      {
+        ...index,
+        projectRoot: '/repo',
+        webTypes: {
+          sources: [{ path: 'apps/vanrot-site/web-types.json', name: 'site' }],
+          tags: [
+            {
+              name: 'docs-page',
+              description: 'Docs shell',
+              sourcePath: 'apps/vanrot-site/web-types.json',
+            },
+          ],
+          attributes: [],
+        },
+      },
+    );
+
+    expect(location?.uri).toBe('file:///repo/apps/vanrot-site/web-types.json');
   });
 });
 

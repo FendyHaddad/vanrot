@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-06-06T08:09:47.194Z",
-  "sourceFingerprint": "sha256-deb03ab3e63da90938199dbe5fce0ec00bc97a76f8c039de608f6f992c964fd5",
+  "generatedAt": "2026-06-06T15:37:21.123Z",
+  "sourceFingerprint": "sha256-3661f0fd51687a5dd42b89fa0e1dd6d580ff0b8845137aeb2b361e5dd5eb6d12",
   "sources": [
     {
       "id": "package-json",
@@ -27,12 +27,12 @@
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-e530ff54d83983d23fe4d8c8d15460fd621bfd38d24e4ccce84df8b5ebae446b"
+      "fingerprint": "sha256-b3280447a9a6ff178945a443d5c26dedc65ade8a547255ac9dac82aa6f7c1dd8"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-5a3104f4e4bdb37a81938620ac76e57f7b2e711e2b888d1abdb035d8ff3dab1b"
+      "fingerprint": "sha256-bfc4074bd9575e68507e0758f7a8d9e54caaa7dd74d4d4178ff2bc822a8b4868"
     }
   ],
   "counts": {

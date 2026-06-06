@@ -66,6 +66,11 @@ import { UiPage as configurationUiPageComponent, configurationUiArticle } from '
 import { RouterPage as configurationRouterPageComponent, configurationRouterArticle } from '../pages/docs/framework/configuration/router/router.page.ts';
 import { AiPage as configurationAiPageComponent, configurationAiArticle } from '../pages/docs/framework/configuration/ai/ai.page.ts';
 import { MaintenancePage as configurationMaintenancePageComponent, configurationMaintenanceArticle } from '../pages/docs/framework/configuration/maintenance/maintenance.page.ts';
+import { EditorToolingPage as editorToolingPageComponent, editorToolingArticle } from '../pages/docs/framework/editor-tooling/editor-tooling.page.ts';
+import { WebTypesPage as editorToolingWebTypesPageComponent, editorToolingWebTypesArticle } from '../pages/docs/framework/editor-tooling/web-types/web-types.page.ts';
+import { NavigationPage as editorToolingNavigationPageComponent, editorToolingNavigationArticle } from '../pages/docs/framework/editor-tooling/navigation/navigation.page.ts';
+import { DiagnosticsPage as editorToolingDiagnosticsPageComponent, editorToolingDiagnosticsArticle } from '../pages/docs/framework/editor-tooling/diagnostics/diagnostics.page.ts';
+import { JetbrainsPage as editorToolingJetBrainsPageComponent, editorToolingJetBrainsArticle } from '../pages/docs/framework/editor-tooling/jetbrains/jetbrains.page.ts';
 import { RoutingPage as routingPageComponent, routingArticle } from '../pages/docs/framework/routing/routing.page.ts';
 import { RouteTablePage as routingRouteTablePageComponent, routingRouteTableArticle } from '../pages/docs/framework/routing/route-table/route-table.page.ts';
 import { ParamsQueryPage as routingParamsQueryPageComponent, routingParamsQueryArticle } from '../pages/docs/framework/routing/params-query/params-query.page.ts';
@@ -1612,6 +1617,110 @@ export const docsPageTree = [
           ts: "src/pages/docs/framework/configuration/maintenance/maintenance.page.ts",
           html: "src/pages/docs/framework/configuration/maintenance/maintenance.page.html",
           css: "src/pages/docs/framework/configuration/maintenance/maintenance.page.css",
+        },
+        children: [
+
+        ],
+      }
+    ],
+  },
+  {
+    key: "editorTooling",
+    routeKey: "docsEditorTooling",
+    section: docsPageSection.framework,
+    path: "/docs/editor-tooling",
+    label: "Editor Tooling",
+    title: "Editor Tooling",
+    summary: "Vanrot editor tooling gives JetBrains IDEs route, component, template, Web Types, diagnostics, code action, and package metadata support through the language server.",
+    status: "available-now",
+    article: editorToolingArticle,
+    componentName: "EditorToolingPage",
+    component: editorToolingPageComponent,
+    sourceFiles: {
+      ts: "src/pages/docs/framework/editor-tooling/editor-tooling.page.ts",
+      html: "src/pages/docs/framework/editor-tooling/editor-tooling.page.html",
+      css: "src/pages/docs/framework/editor-tooling/editor-tooling.page.css",
+    },
+    children: [
+      {
+        key: "editorToolingWebTypes",
+        routeKey: "docsEditorToolingWebTypes",
+        section: docsPageSection.framework,
+        path: "/docs/editor-tooling/web-types",
+        label: "Web Types",
+        title: "Editor Web Types",
+        summary: "Web Types metadata teaches IntelliJ and WebStorm which Vanrot tags and attributes are valid before language-server behavior runs.",
+        status: "available-now",
+        article: editorToolingWebTypesArticle,
+        componentName: "WebTypesPage",
+        component: editorToolingWebTypesPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/editor-tooling/web-types/web-types.page.ts",
+          html: "src/pages/docs/framework/editor-tooling/web-types/web-types.page.html",
+          css: "src/pages/docs/framework/editor-tooling/web-types/web-types.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "editorToolingNavigation",
+        routeKey: "docsEditorToolingNavigation",
+        section: docsPageSection.framework,
+        path: "/docs/editor-tooling/navigation",
+        label: "Navigation",
+        title: "Editor Navigation",
+        summary: "Vanrot navigation covers definitions, references, and rename for route refs, component tags, docs tags, and Web Types-backed UI tags.",
+        status: "available-now",
+        article: editorToolingNavigationArticle,
+        componentName: "NavigationPage",
+        component: editorToolingNavigationPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/editor-tooling/navigation/navigation.page.ts",
+          html: "src/pages/docs/framework/editor-tooling/navigation/navigation.page.html",
+          css: "src/pages/docs/framework/editor-tooling/navigation/navigation.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "editorToolingDiagnostics",
+        routeKey: "docsEditorToolingDiagnostics",
+        section: docsPageSection.framework,
+        path: "/docs/editor-tooling/diagnostics",
+        label: "Diagnostics",
+        title: "Editor Diagnostics",
+        summary: "Vanrot editor diagnostics flag unknown route refs, unknown metadata, and stale intelligence without treating valid bracket bindings or docs bindings as bugs.",
+        status: "available-now",
+        article: editorToolingDiagnosticsArticle,
+        componentName: "DiagnosticsPage",
+        component: editorToolingDiagnosticsPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/editor-tooling/diagnostics/diagnostics.page.ts",
+          html: "src/pages/docs/framework/editor-tooling/diagnostics/diagnostics.page.html",
+          css: "src/pages/docs/framework/editor-tooling/diagnostics/diagnostics.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "editorToolingJetBrains",
+        routeKey: "docsEditorToolingJetBrains",
+        section: docsPageSection.framework,
+        path: "/docs/editor-tooling/jetbrains",
+        label: "JetBrains",
+        title: "JetBrains Plugin",
+        summary: "The JetBrains plugin packages the Vanrot language server and keeps editor behavior in TypeScript.",
+        status: "available-now",
+        article: editorToolingJetBrainsArticle,
+        componentName: "JetbrainsPage",
+        component: editorToolingJetBrainsPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/editor-tooling/jetbrains/jetbrains.page.ts",
+          html: "src/pages/docs/framework/editor-tooling/jetbrains/jetbrains.page.html",
+          css: "src/pages/docs/framework/editor-tooling/jetbrains/jetbrains.page.css",
         },
         children: [
 

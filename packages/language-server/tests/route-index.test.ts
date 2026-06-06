@@ -24,4 +24,20 @@ describe('parseRouteIndex', () => {
     expect(home?.span.filePath).toBe('src/routes.ts');
     expect(home?.span.line).toBeGreaterThan(0);
   });
+
+  it('records literal path and page metadata when available', () => {
+    const entries = parseRouteIndex(
+      'src/routes.ts',
+      `import { defineRoutes } from '@vanrot/router';
+export const route = defineRoutes({
+  settings: { path: '/settings', page: './pages/settings.page' },
+});`,
+    );
+
+    expect(entries[0]).toMatchObject({
+      name: 'settings',
+      path: '/settings',
+      page: './pages/settings.page',
+    });
+  });
 });

@@ -1,3 +1,4 @@
+import { join } from 'node:path';
 import { parseTemplate, type SourceSpan, type TemplateNode } from '@vanrot/compiler';
 import type { Location } from 'vscode-languageserver';
 import { URI } from 'vscode-uri';
@@ -22,6 +23,12 @@ export function findDefinition(symbol: TemplateSymbol, index: WorkspaceIndex): L
 
     if (component !== undefined) {
       return fileStartLocation(component.path);
+    }
+
+    const webTypeTag = index.webTypes?.tags.find((entry) => entry.name === symbol.name);
+
+    if (webTypeTag !== undefined && index.projectRoot !== null) {
+      return fileStartLocation(join(index.projectRoot, webTypeTag.sourcePath));
     }
 
     return findUiPrimitiveDefinition(symbol.name, index.projectRoot);

@@ -1,6 +1,6 @@
 # Phase 31 Editor Tooling Release Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task in the current Vanrot workspace. Vanrot `AGENTS.md` disables subagents for Superpowers workflows. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:executing-plans` to implement this plan task-by-task in the current Vanrot workspace. Vanrot `AGENTS.md` disables subagents for Superpowers workflows. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Ship the one-shot Phase 31 editor tooling release for JetBrains IDEs, with the JetBrains plugin kept thin and the language server owning recognition, navigation, diagnostics, code actions, project intelligence, and packaging confidence.
 
@@ -146,7 +146,7 @@ Commit steps are written for execution discipline, but Vanrot git ownership rule
 - Read: `packages/language-server/package.json`
 - Read: `editors/intellij/build.gradle.kts`
 
-- [ ] **Step 1: Confirm the spec is one release**
+- [x] **Step 1: Confirm the spec is one release**
 
 Run:
 
@@ -156,7 +156,7 @@ rg -n "one-shot|Do not split|Phase 31" docs/superpowers/specs/Phase-31.md docs/s
 
 Expected: output includes `Phase 31`, `one-shot`, and the no-split instruction.
 
-- [ ] **Step 2: Run current editor tooling tests**
+- [x] **Step 2: Run current editor tooling tests**
 
 Run:
 
@@ -166,7 +166,7 @@ pnpm --filter @vanrot/language-server test
 
 Expected: PASS. If it fails before edits, record the failing test names and fix only the baseline blocker before continuing.
 
-- [ ] **Step 3: Run current Web Types guard**
+- [x] **Step 3: Run current Web Types guard**
 
 Run:
 
@@ -176,7 +176,7 @@ pnpm exec vitest run scripts/verify-web-types-coverage.test.mjs
 
 Expected: PASS.
 
-- [ ] **Step 4: Run current JetBrains template tests**
+- [x] **Step 4: Run current JetBrains template tests**
 
 Run:
 
@@ -186,7 +186,7 @@ cd editors/intellij && ./gradlew test
 
 Expected: PASS.
 
-- [ ] **Step 5: Commit checkpoint**
+- [x] **Step 5: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -210,7 +210,7 @@ Expected: commit succeeds with only the plan file staged from this task.
 - Read: `packages/ui/web-types.json`
 - Read: `packages/router/web-types.json`
 
-- [ ] **Step 1: Write the failing Web Types tests**
+- [x] **Step 1: Write the failing Web Types tests**
 
 Create `packages/language-server/tests/web-types.test.ts`:
 
@@ -311,7 +311,7 @@ describe('loadVanrotWebTypes', () => {
 });
 ```
 
-- [ ] **Step 2: Run the Web Types tests and confirm failure**
+- [x] **Step 2: Run the Web Types tests and confirm failure**
 
 Run:
 
@@ -321,7 +321,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL with an import error for `../src/project/web-types.ts`.
 
-- [ ] **Step 3: Create the Web Types loader**
+- [x] **Step 3: Create the Web Types loader**
 
 Create `packages/language-server/src/project/web-types.ts`:
 
@@ -427,7 +427,7 @@ function stringOrNull(value: unknown): string | null {
 }
 ```
 
-- [ ] **Step 4: Wire Web Types into the workspace index**
+- [x] **Step 4: Wire Web Types into the workspace index**
 
 Modify `packages/language-server/src/project/workspace.ts`:
 
@@ -477,7 +477,7 @@ Update the default `WorkspaceIndex` value in `packages/language-server/src/serve
   };
 ```
 
-- [ ] **Step 5: Export the Web Types API**
+- [x] **Step 5: Export the Web Types API**
 
 Modify `packages/language-server/src/index.ts`:
 
@@ -491,7 +491,7 @@ export {
 } from './project/web-types.js';
 ```
 
-- [ ] **Step 6: Run Web Types tests**
+- [x] **Step 6: Run Web Types tests**
 
 Run:
 
@@ -501,7 +501,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 7: Run workspace tests**
+- [x] **Step 7: Run workspace tests**
 
 Run:
 
@@ -511,7 +511,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 8: Commit checkpoint**
+- [x] **Step 8: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -532,7 +532,7 @@ Expected: commit succeeds with only Web Types loader files staged from this task
 - Modify: `packages/language-server/src/project/workspace.ts`
 - Modify: `packages/language-server/src/index.ts`
 
-- [ ] **Step 1: Write the failing template index tests**
+- [x] **Step 1: Write the failing template index tests**
 
 Create `packages/language-server/tests/template-index.test.ts`:
 
@@ -581,7 +581,7 @@ describe('buildTemplateIndex', () => {
 });
 ```
 
-- [ ] **Step 2: Run the template index test and confirm failure**
+- [x] **Step 2: Run the template index test and confirm failure**
 
 Run:
 
@@ -591,7 +591,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL with an import error for `../src/project/template-index.ts`.
 
-- [ ] **Step 3: Create the template index**
+- [x] **Step 3: Create the template index**
 
 Create `packages/language-server/src/project/template-index.ts`:
 
@@ -751,7 +751,7 @@ function spanForMatch(parent: SourceSpan, match: RegExpMatchArray): SourceSpan {
 }
 ```
 
-- [ ] **Step 4: Write the failing editor intelligence tests**
+- [x] **Step 4: Write the failing editor intelligence tests**
 
 Create `packages/language-server/tests/editor-intelligence.test.ts`:
 
@@ -820,7 +820,7 @@ describe('buildEditorIntelligence', () => {
 });
 ```
 
-- [ ] **Step 5: Run intelligence tests and confirm failure**
+- [x] **Step 5: Run intelligence tests and confirm failure**
 
 Run:
 
@@ -830,7 +830,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL with an import error for `../src/project/editor-intelligence.ts`.
 
-- [ ] **Step 6: Create the editor intelligence contract**
+- [x] **Step 6: Create the editor intelligence contract**
 
 Create `packages/language-server/src/project/editor-intelligence.ts`:
 
@@ -929,7 +929,7 @@ function names(entries: readonly TemplateFileEntry['routeRefs']): string[] {
 }
 ```
 
-- [ ] **Step 7: Wire templates into the workspace index**
+- [x] **Step 7: Wire templates into the workspace index**
 
 Modify `packages/language-server/src/project/workspace.ts`:
 
@@ -981,7 +981,7 @@ Update the default `WorkspaceIndex` value in `packages/language-server/src/serve
   };
 ```
 
-- [ ] **Step 8: Export intelligence APIs**
+- [x] **Step 8: Export intelligence APIs**
 
 Modify `packages/language-server/src/index.ts`:
 
@@ -995,7 +995,7 @@ export {
 } from './project/template-index.js';
 ```
 
-- [ ] **Step 9: Run template and intelligence tests**
+- [x] **Step 9: Run template and intelligence tests**
 
 Run:
 
@@ -1005,7 +1005,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 10: Run all language server tests**
+- [x] **Step 10: Run all language server tests**
 
 Run:
 
@@ -1015,7 +1015,7 @@ pnpm --filter @vanrot/language-server test
 
 Expected: PASS.
 
-- [ ] **Step 11: Commit checkpoint**
+- [x] **Step 11: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -1035,7 +1035,7 @@ Expected: commit succeeds with only template index and intelligence files staged
 - Modify: `packages/language-server/package.json`
 - Modify: `packages/language-server/scripts/bundle-intellij.mjs`
 
-- [ ] **Step 1: Write the failing export tests**
+- [x] **Step 1: Write the failing export tests**
 
 Create `packages/language-server/tests/export-intelligence.test.ts`:
 
@@ -1060,7 +1060,7 @@ describe('exportEditorIntelligence', () => {
 });
 ```
 
-- [ ] **Step 2: Run export tests and confirm failure**
+- [x] **Step 2: Run export tests and confirm failure**
 
 Run:
 
@@ -1070,7 +1070,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL with an import error for `../src/project/export-intelligence.ts`.
 
-- [ ] **Step 3: Create the export helper**
+- [x] **Step 3: Create the export helper**
 
 Create `packages/language-server/src/project/export-intelligence.ts`:
 
@@ -1095,7 +1095,7 @@ export function exportEditorIntelligence(projectRoot: string): string {
 }
 ```
 
-- [ ] **Step 4: Add guarded CLI mode**
+- [x] **Step 4: Add guarded CLI mode**
 
 Modify `packages/language-server/src/bin/server.ts`:
 
@@ -1122,7 +1122,7 @@ if (command === '--export-intelligence') {
 
 Keep the existing `--stdio` path working by treating unknown command arguments as normal LSP startup.
 
-- [ ] **Step 5: Add the explicit bin alias**
+- [x] **Step 5: Add the explicit bin alias**
 
 Modify `packages/language-server/package.json`:
 
@@ -1133,7 +1133,7 @@ Modify `packages/language-server/package.json`:
 }
 ```
 
-- [ ] **Step 6: Bundle the export code for JetBrains**
+- [x] **Step 6: Bundle the export code for JetBrains**
 
 Modify `packages/language-server/scripts/bundle-intellij.mjs` so `dist-intellij` includes the built export helper and package bin metadata. Add these assertions after copy logic:
 
@@ -1155,7 +1155,7 @@ for (const file of requiredBundledFiles) {
 }
 ```
 
-- [ ] **Step 7: Run export and bundle tests**
+- [x] **Step 7: Run export and bundle tests**
 
 Run:
 
@@ -1166,7 +1166,7 @@ pnpm --filter @vanrot/language-server build:intellij
 
 Expected: PASS. `packages/language-server/dist-intellij/bin/server.js` exists.
 
-- [ ] **Step 8: Commit checkpoint**
+- [x] **Step 8: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -1186,7 +1186,7 @@ Expected: commit succeeds with only export-command files staged from this task.
 - Modify: `packages/language-server/src/features/completion.ts`
 - Modify: `packages/language-server/src/server.ts`
 
-- [ ] **Step 1: Add failing completion tests**
+- [x] **Step 1: Add failing completion tests**
 
 Append to `packages/language-server/tests/completion.test.ts`:
 
@@ -1255,7 +1255,7 @@ it('offers route attribute completions from indexed routes', () => {
 });
 ```
 
-- [ ] **Step 2: Run completion tests and confirm failure**
+- [x] **Step 2: Run completion tests and confirm failure**
 
 Run:
 
@@ -1265,7 +1265,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL because `buildCompletions` does not yet use Web Types detail/documentation in the expected shape.
 
-- [ ] **Step 3: Enrich completion items**
+- [x] **Step 3: Enrich completion items**
 
 Modify `packages/language-server/src/features/completion.ts` so `buildCompletions` includes:
 
@@ -1300,7 +1300,7 @@ if (context === 'attribute-name') {
 }
 ```
 
-- [ ] **Step 4: Keep inline docs through the LSP handler**
+- [x] **Step 4: Keep inline docs through the LSP handler**
 
 Append to `packages/language-server/tests/completion-handler.test.ts`:
 
@@ -1332,7 +1332,7 @@ it('returns inline docs for Web Types-backed completions', async () => {
 
 Use the existing completion-handler helper style in the file. If the helper has a different name, keep the same body and call the local helper that initializes the test connection.
 
-- [ ] **Step 5: Run completion handler tests**
+- [x] **Step 5: Run completion handler tests**
 
 Run:
 
@@ -1342,7 +1342,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 6: Commit checkpoint**
+- [x] **Step 6: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -1363,7 +1363,7 @@ Expected: commit succeeds with only completion files staged from this task.
 - Modify: `packages/language-server/src/features/references.ts`
 - Modify: `packages/language-server/src/server.ts`
 
-- [ ] **Step 1: Add failing definition tests**
+- [x] **Step 1: Add failing definition tests**
 
 Append to `packages/language-server/tests/definition.test.ts`:
 
@@ -1407,7 +1407,7 @@ it('points a Web Types tag at the metadata source when no component source exist
 });
 ```
 
-- [ ] **Step 2: Add failing references tests**
+- [x] **Step 2: Add failing references tests**
 
 Append to `packages/language-server/tests/references.test.ts`:
 
@@ -1460,7 +1460,7 @@ it('finds route references in indexed workspace templates', () => {
 });
 ```
 
-- [ ] **Step 3: Run navigation tests and confirm failure**
+- [x] **Step 3: Run navigation tests and confirm failure**
 
 Run:
 
@@ -1470,7 +1470,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL because Web Types definition and indexed template references are not wired yet.
 
-- [ ] **Step 4: Add Web Types definition fallback**
+- [x] **Step 4: Add Web Types definition fallback**
 
 Modify `packages/language-server/src/features/definition.ts`:
 
@@ -1488,7 +1488,7 @@ Inside the `component-tag` branch, after the component lookup and before `findUi
     }
 ```
 
-- [ ] **Step 5: Add indexed template references**
+- [x] **Step 5: Add indexed template references**
 
 Modify `packages/language-server/src/features/references.ts`:
 
@@ -1536,7 +1536,7 @@ function collectFromIndexedTemplate(
 }
 ```
 
-- [ ] **Step 6: Pass indexed templates from the server**
+- [x] **Step 6: Pass indexed templates from the server**
 
 Modify the `connection.onReferences` handler in `packages/language-server/src/server.ts`:
 
@@ -1548,7 +1548,7 @@ Modify the `connection.onReferences` handler in `packages/language-server/src/se
     );
 ```
 
-- [ ] **Step 7: Add route rename server test**
+- [x] **Step 7: Add route rename server test**
 
 Append to `packages/language-server/tests/server.test.ts`:
 
@@ -1576,7 +1576,7 @@ it('renames route refs without touching expression rename', async () => {
 
 Use the existing rename helper style in the file. If the test suite uses absolute temporary URIs, preserve that local URI construction and assert on `newText`.
 
-- [ ] **Step 8: Implement route rename in the server**
+- [x] **Step 8: Implement route rename in the server**
 
 Modify `packages/language-server/src/server.ts` before the expression rename guard:
 
@@ -1605,7 +1605,7 @@ Modify `packages/language-server/src/server.ts` before the expression rename gua
     }
 ```
 
-- [ ] **Step 9: Run navigation tests**
+- [x] **Step 9: Run navigation tests**
 
 Run:
 
@@ -1615,7 +1615,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 10: Commit checkpoint**
+- [x] **Step 10: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -1637,7 +1637,7 @@ Expected: commit succeeds with only navigation files staged from this task.
 - Modify: `packages/language-server/src/features/diagnostics.ts`
 - Modify: `packages/language-server/src/server.ts`
 
-- [ ] **Step 1: Add failing diagnostics tests**
+- [x] **Step 1: Add failing diagnostics tests**
 
 Append to `packages/language-server/tests/diagnostics-compile.test.ts`:
 
@@ -1652,7 +1652,7 @@ it('does not flag valid bracket bindings or dotted no-value attributes', async (
 });
 ```
 
-- [ ] **Step 2: Write failing code action tests**
+- [x] **Step 2: Write failing code action tests**
 
 Create `packages/language-server/tests/code-actions.test.ts`:
 
@@ -1709,7 +1709,7 @@ describe('buildCodeActions', () => {
 });
 ```
 
-- [ ] **Step 3: Run diagnostics and code action tests and confirm failure**
+- [x] **Step 3: Run diagnostics and code action tests and confirm failure**
 
 Run:
 
@@ -1719,7 +1719,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: FAIL because `code-actions.ts` does not exist and initialize does not advertise code actions.
 
-- [ ] **Step 4: Create code actions**
+- [x] **Step 4: Create code actions**
 
 Create `packages/language-server/src/features/code-actions.ts`:
 
@@ -1835,7 +1835,7 @@ function levenshtein(left: string, right: string): number {
 }
 ```
 
-- [ ] **Step 5: Advertise code actions**
+- [x] **Step 5: Advertise code actions**
 
 Modify `packages/language-server/src/server.ts`:
 
@@ -1862,7 +1862,7 @@ Add handler:
   );
 ```
 
-- [ ] **Step 6: Add editor diagnostics without breaking compiler diagnostics**
+- [x] **Step 6: Add editor diagnostics without breaking compiler diagnostics**
 
 Modify `packages/language-server/src/features/diagnostics.ts`:
 
@@ -1937,7 +1937,7 @@ Modify `runDiagnostics` in `packages/language-server/src/server.ts`:
       connection.sendDiagnostics({ uri, diagnostics: [...diagnostics, ...expressionResult, ...editorResult] });
 ```
 
-- [ ] **Step 7: Run diagnostics and code action tests**
+- [x] **Step 7: Run diagnostics and code action tests**
 
 Run:
 
@@ -1947,7 +1947,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 8: Commit checkpoint**
+- [x] **Step 8: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -1970,7 +1970,7 @@ Expected: commit succeeds with only diagnostics and code-action files staged fro
 - Create: `editors/intellij/src/test/kotlin/com/vankode/vanrot/intellij/VanrotBundledServerTest.kt`
 - Create: `editors/intellij/src/test/kotlin/com/vankode/vanrot/intellij/VanrotLspServerDescriptorTest.kt`
 
-- [ ] **Step 1: Add bundled server tests**
+- [x] **Step 1: Add bundled server tests**
 
 Create `editors/intellij/src/test/kotlin/com/vankode/vanrot/intellij/VanrotBundledServerTest.kt`:
 
@@ -1990,7 +1990,7 @@ class VanrotBundledServerTest {
 }
 ```
 
-- [ ] **Step 2: Add descriptor test**
+- [x] **Step 2: Add descriptor test**
 
 Create `editors/intellij/src/test/kotlin/com/vankode/vanrot/intellij/VanrotLspServerDescriptorTest.kt`:
 
@@ -2011,7 +2011,7 @@ class VanrotLspServerDescriptorTest {
 }
 ```
 
-- [ ] **Step 3: Extend template file tests**
+- [x] **Step 3: Extend template file tests**
 
 Add to `editors/intellij/src/test/kotlin/com/vankode/vanrot/intellij/VanrotTemplateFilesTest.kt`:
 
@@ -2023,7 +2023,7 @@ Add to `editors/intellij/src/test/kotlin/com/vankode/vanrot/intellij/VanrotTempl
   }
 ```
 
-- [ ] **Step 4: Run JetBrains tests and confirm failure if role globs are missing**
+- [x] **Step 4: Run JetBrains tests and confirm failure if role globs are missing**
 
 Run:
 
@@ -2033,7 +2033,7 @@ cd editors/intellij && ./gradlew test
 
 Expected: FAIL if `.dialog.html`, `.widget.html`, or `.form.html` are not supported; PASS if current generated globs already cover them.
 
-- [ ] **Step 5: Keep Kotlin support thin**
+- [x] **Step 5: Keep Kotlin support thin**
 
 Modify `editors/intellij/src/main/kotlin/com/vankode/vanrot/intellij/VanrotTemplateFiles.kt` to mirror generated language-server globs:
 
@@ -2048,7 +2048,7 @@ object VanrotTemplateFiles {
 
 Do not add Kotlin-side completion, navigation, diagnostics, or code actions.
 
-- [ ] **Step 6: Update plugin description**
+- [x] **Step 6: Update plugin description**
 
 Modify `editors/intellij/src/main/resources/META-INF/plugin.xml` description:
 
@@ -2060,7 +2060,7 @@ Modify `editors/intellij/src/main/resources/META-INF/plugin.xml` description:
   ]]></description>
 ```
 
-- [ ] **Step 7: Add plugin ZIP inspection task**
+- [x] **Step 7: Add plugin ZIP inspection task**
 
 Modify `editors/intellij/build.gradle.kts`:
 
@@ -2094,7 +2094,7 @@ val verifyVanrotPluginPackage by tasks.registering {
 }
 ```
 
-- [ ] **Step 8: Run JetBrains build and package checks**
+- [x] **Step 8: Run JetBrains build and package checks**
 
 Run:
 
@@ -2104,7 +2104,7 @@ cd editors/intellij && ./gradlew test buildPlugin verifyVanrotPluginPackage
 
 Expected: PASS.
 
-- [ ] **Step 9: Commit checkpoint**
+- [x] **Step 9: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -2124,7 +2124,7 @@ Expected: commit succeeds with only JetBrains files staged from this task.
 - Modify: `packages/router/web-types.json`
 - Modify: `scripts/verify-web-types-coverage.test.mjs`
 
-- [ ] **Step 1: Add failing coverage assertions**
+- [x] **Step 1: Add failing coverage assertions**
 
 Modify `scripts/verify-web-types-coverage.test.mjs` by adding required editor tooling symbols:
 
@@ -2154,7 +2154,7 @@ for (const attributeName of requiredEditorToolingAttributes) {
 
 Use the existing arrays or helper names in the verifier. If the file currently uses different names, create `allWebTypesTags` and `allWebTypesAttributes` from parsed Web Types contributions in that test.
 
-- [ ] **Step 2: Run Web Types coverage and confirm failure**
+- [x] **Step 2: Run Web Types coverage and confirm failure**
 
 Run:
 
@@ -2164,7 +2164,7 @@ pnpm exec vitest run scripts/verify-web-types-coverage.test.mjs
 
 Expected: FAIL for any missing required tag or attribute.
 
-- [ ] **Step 3: Update root Web Types**
+- [x] **Step 3: Update root Web Types**
 
 Modify `web-types.json` to include root recognition for route shorthand:
 
@@ -2196,7 +2196,7 @@ Modify `web-types.json` to include root recognition for route shorthand:
 
 Keep existing Web Types fields and merge these entries rather than replacing unrelated metadata.
 
-- [ ] **Step 4: Update docs-site Web Types**
+- [x] **Step 4: Update docs-site Web Types**
 
 Modify `apps/vanrot-site/web-types.json` with docs shared components:
 
@@ -2226,7 +2226,7 @@ Modify `apps/vanrot-site/web-types.json` with docs shared components:
 
 Keep existing entries and merge these tags.
 
-- [ ] **Step 5: Update UI and router Web Types**
+- [x] **Step 5: Update UI and router Web Types**
 
 Modify `packages/ui/web-types.json` to include `vr-button` if absent:
 
@@ -2248,7 +2248,7 @@ Modify `packages/router/web-types.json` to include `behavior.tooltip` and route 
 
 Merge entries into the existing Web Types shape.
 
-- [ ] **Step 6: Run Web Types coverage**
+- [x] **Step 6: Run Web Types coverage**
 
 Run:
 
@@ -2258,7 +2258,7 @@ pnpm exec vitest run scripts/verify-web-types-coverage.test.mjs
 
 Expected: PASS.
 
-- [ ] **Step 7: Run language-server Web Types tests**
+- [x] **Step 7: Run language-server Web Types tests**
 
 Run:
 
@@ -2268,7 +2268,7 @@ pnpm --filter @vanrot/language-server exec vitest run packages/language-server/t
 
 Expected: PASS.
 
-- [ ] **Step 8: Commit checkpoint**
+- [x] **Step 8: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -2300,7 +2300,7 @@ Expected: commit succeeds with only Web Types metadata files staged from this ta
 - Modify: `apps/vanrot-site/src/docs/docs-page-tree.ts`
 - Modify: `apps/vanrot-site/tests/docs-page-tree.test.ts`
 
-- [ ] **Step 1: Add failing docs tree assertions**
+- [x] **Step 1: Add failing docs tree assertions**
 
 Modify `apps/vanrot-site/tests/docs-page-tree.test.ts`:
 
@@ -2350,7 +2350,7 @@ it('models editor tooling as real parent and child pages', () => {
 });
 ```
 
-- [ ] **Step 2: Run docs tree test and confirm failure**
+- [x] **Step 2: Run docs tree test and confirm failure**
 
 Run:
 
@@ -2360,7 +2360,7 @@ pnpm exec vitest run apps/vanrot-site/tests/docs-page-tree.test.ts
 
 Expected: FAIL because editor tooling routes are not registered.
 
-- [ ] **Step 3: Create parent page component**
+- [x] **Step 3: Create parent page component**
 
 Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/editor-tooling.page.ts`:
 
@@ -2423,7 +2423,7 @@ Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/editor-tooling.
 @import '../../../shared/docs.css';
 ```
 
-- [ ] **Step 4: Create Web Types child page**
+- [x] **Step 4: Create Web Types child page**
 
 Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/web-types/web-types.page.ts`:
 
@@ -2468,7 +2468,7 @@ Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/web-types/web-t
 @import '../../../../shared/docs.css';
 ```
 
-- [ ] **Step 5: Create Navigation child page**
+- [x] **Step 5: Create Navigation child page**
 
 Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/navigation/navigation.page.ts`:
 
@@ -2512,7 +2512,7 @@ Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/navigation/navi
 @import '../../../../shared/docs.css';
 ```
 
-- [ ] **Step 6: Create Diagnostics child page**
+- [x] **Step 6: Create Diagnostics child page**
 
 Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/diagnostics/diagnostics.page.ts`:
 
@@ -2556,7 +2556,7 @@ Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/diagnostics/dia
 @import '../../../../shared/docs.css';
 ```
 
-- [ ] **Step 7: Create JetBrains child page**
+- [x] **Step 7: Create JetBrains child page**
 
 Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/jetbrains/jetbrains.page.ts`:
 
@@ -2600,7 +2600,7 @@ Create `apps/vanrot-site/src/pages/docs/framework/editor-tooling/jetbrains/jetbr
 @import '../../../../shared/docs.css';
 ```
 
-- [ ] **Step 8: Register docs page tree imports and nodes**
+- [x] **Step 8: Register docs page tree imports and nodes**
 
 Modify `apps/vanrot-site/src/docs/docs-page-tree.ts` imports:
 
@@ -2629,7 +2629,7 @@ docsPage({
 
 Use the existing helper shape in `docs-page-tree.ts`; if the helper parameter names differ, preserve the exact local call style and keep the same article/component/children values.
 
-- [ ] **Step 9: Run docs verification**
+- [x] **Step 9: Run docs verification**
 
 Run:
 
@@ -2641,7 +2641,7 @@ pnpm verify:ai-docs
 
 Expected: PASS.
 
-- [ ] **Step 10: Commit checkpoint**
+- [x] **Step 10: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -2661,12 +2661,12 @@ Expected: commit succeeds with only editor tooling docs files staged from this t
 - Modify when requirements changed: `docs/superpowers/specs/Phase-31.md`
 - Modify while executing: `docs/superpowers/plans/Phase-31.md`
 
-- [ ] **Step 1: Mark plan tasks complete as they pass**
+- [x] **Step 1: Mark plan tasks complete as they pass**
 
 Modify this file by replacing each completed task checkbox from:
 
 ```md
-- [ ] **Step N:
+- [x] **Step N:
 ```
 
 to:
@@ -2677,7 +2677,7 @@ to:
 
 Only mark a step after the command or file edit in that step is complete.
 
-- [ ] **Step 2: Update feature maturity**
+- [x] **Step 2: Update feature maturity**
 
 Modify `docs/superpowers/feature-maturity.md` Phase 31 row to production-ready after all Phase 31 gates pass:
 
@@ -2687,7 +2687,7 @@ Modify `docs/superpowers/feature-maturity.md` Phase 31 row to production-ready a
 
 Keep existing table columns if the current file has a different column order.
 
-- [ ] **Step 3: Update future pipeline**
+- [x] **Step 3: Update future pipeline**
 
 Modify the `Editor Tooling` section in `docs/superpowers/future-pipeline.md`:
 
@@ -2701,7 +2701,7 @@ Phase 31 delivered the one-shot editor tooling release: richer Web Types, projec
 
 Preserve older notes only if they are still useful as release history.
 
-- [ ] **Step 4: Update final TDD inventory**
+- [x] **Step 4: Update final TDD inventory**
 
 Add rows to `docs/superpowers/final-tdd-inventory.md`:
 
@@ -2716,7 +2716,7 @@ Add rows to `docs/superpowers/final-tdd-inventory.md`:
 
 Keep existing inventory table columns if the current file has a different column order.
 
-- [ ] **Step 5: Run full Phase 31 verification**
+- [x] **Step 5: Run full Phase 31 verification**
 
 Run:
 
@@ -2736,7 +2736,7 @@ pnpm verify
 
 Expected: every command PASS.
 
-- [ ] **Step 6: Inspect built plugin ZIP**
+- [x] **Step 6: Inspect built plugin ZIP**
 
 Run:
 
@@ -2765,7 +2765,7 @@ PY
 
 Expected: output prints the plugin ZIP path and all three `ok` lines.
 
-- [ ] **Step 7: Restart the docs site server**
+- [x] **Step 7: Restart the docs site server**
 
 Run:
 
@@ -2776,7 +2776,7 @@ pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1964
 
 Expected: Vite starts on `http://127.0.0.1:1964`.
 
-- [ ] **Step 8: Verify editor tooling docs route responds**
+- [x] **Step 8: Verify editor tooling docs route responds**
 
 Run in a separate terminal while the dev server is running:
 
@@ -2790,7 +2790,7 @@ Expected:
 HTTP/1.1 200 OK
 ```
 
-- [ ] **Step 9: Commit checkpoint**
+- [x] **Step 9: Commit checkpoint**
 
 Run only if the user explicitly approved commits:
 
@@ -2805,19 +2805,19 @@ Expected: commit succeeds with tracker and requirement docs staged from this tas
 
 ## Final Verification Checklist
 
-- [ ] `pnpm --filter @vanrot/language-server test`
-- [ ] `pnpm --filter @vanrot/language-server typecheck`
-- [ ] `pnpm --filter @vanrot/language-server build:intellij`
-- [ ] `pnpm exec vitest run scripts/verify-web-types-coverage.test.mjs`
-- [ ] `pnpm exec vitest run scripts/verify-component-cascade.test.mjs`
-- [ ] `pnpm exec vitest run apps/vanrot-site/tests/docs-page-tree.test.ts`
-- [ ] `pnpm verify:site-docs`
-- [ ] `pnpm verify:ai-docs`
-- [ ] `cd editors/intellij && ./gradlew test buildPlugin verifyVanrotPluginPackage`
-- [ ] Plugin ZIP contains `META-INF/plugin.xml`, `server/bin/server.js`, and `server/package.json`.
-- [ ] `pnpm verify`
-- [ ] Docs site restarted on port `1964`.
-- [ ] `http://127.0.0.1:1964/docs/editor-tooling` responds `200`.
+- [x] `pnpm --filter @vanrot/language-server test`
+- [x] `pnpm --filter @vanrot/language-server typecheck`
+- [x] `pnpm --filter @vanrot/language-server build:intellij`
+- [x] `pnpm exec vitest run scripts/verify-web-types-coverage.test.mjs`
+- [x] `pnpm exec vitest run scripts/verify-component-cascade.test.mjs`
+- [x] `pnpm exec vitest run apps/vanrot-site/tests/docs-page-tree.test.ts`
+- [x] `pnpm verify:site-docs`
+- [x] `pnpm verify:ai-docs`
+- [x] `cd editors/intellij && ./gradlew test buildPlugin verifyVanrotPluginPackage`
+- [x] Plugin ZIP contains `META-INF/plugin.xml`, `server/bin/server.js`, and `server/package.json`.
+- [x] `pnpm verify`
+- [x] Docs site restarted on port `1964`.
+- [x] `http://127.0.0.1:1964/docs/editor-tooling` responds `200`.
 
 ## Self-Review
 

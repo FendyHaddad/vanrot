@@ -1,6 +1,8 @@
 import { parseTemplate, type SourceSpan, type TemplateNode } from '@vanrot/compiler';
 import type { Location } from 'vscode-languageserver';
+import { URI } from 'vscode-uri';
 import { spanToRange } from '../lsp/position.js';
+import { emptyTemplateIndex, type TemplateFileEntry, type TemplateIndex } from '../project/template-index.js';
 import type { TemplateSymbol } from './symbol-at.js';
 
 const routeAttributePrefix = 'route.';
@@ -10,7 +12,11 @@ export interface TextDocumentLike {
   text: string;
 }
 
-export function findReferences(symbol: TemplateSymbol, documents: readonly TextDocumentLike[]): Location[] {
+export function findReferences(
+  symbol: TemplateSymbol,
+  documents: readonly TextDocumentLike[],
+  templates: TemplateIndex = emptyTemplateIndex(),
+): Location[] {
   const locations: Location[] = [];
 
   for (const document of documents) {
@@ -21,7 +27,13 @@ export function findReferences(symbol: TemplateSymbol, documents: readonly TextD
     }
   }
 
-  return locations;
+  for (const template of templates.templates) {
+    for (const span of collectFromIndexedTemplate(template, symbol)) {
+      locations.push({ uri: URI.file(template.path).toString(), range: spanToRange(span) });
+    }
+  }
+
+  return uniqueLocations(locations);
 }
 
 function collect(nodes: readonly TemplateNode[], symbol: TemplateSymbol): SourceSpan[] {
@@ -86,4 +98,34 @@ function childrenOf(node: TemplateNode): readonly TemplateNode[] {
   }
 
   return [];
+}
+
+function collectFromIndexedTemplate(template: TemplateFileEntry, symbol: TemplateSymbol): SourceSpan[] {
+  if (symbol.kind === 'route-ref') {
+    return template.routeRefs.filter((ref) => ref.name === symbol.name).map((ref) => ref.span);
+  }
+
+  if (symbol.kind === 'component-tag') {
+    return template.tags.filter((tag) => tag.name === symbol.name).map((tag) => tag.span);
+  }
+
+  return [];
+}
+
+function uniqueLocations(locations: readonly Location[]): Location[] {
+  const seen = new Set<string>();
+  const unique: Location[] = [];
+
+  for (const location of locations) {
+    const key = `${location.uri}:${location.range.start.line}:${location.range.start.character}:${location.range.end.line}:${location.range.end.character}`;
+
+    if (seen.has(key)) {
+      continue;
+    }
+
+    seen.add(key);
+    unique.push(location);
+  }
+
+  return unique;
 }
