@@ -1,16 +1,13 @@
 package com.vankode.vanrot.intellij
 
-import com.intellij.ide.plugins.PluginManagerCore
-import com.intellij.openapi.extensions.PluginId
+import com.intellij.ide.plugins.cl.PluginAwareClassLoader
 import java.nio.file.Path
 
 object VanrotBundledServer {
-  private const val PLUGIN_ID = "com.vankode.vanrot"
-
   fun serverScript(): Path {
-    val descriptor = PluginManagerCore.getPlugin(PluginId.getId(PLUGIN_ID))
-      ?: error("Vanrot: plugin descriptor not found for $PLUGIN_ID")
-    return serverScript(descriptor.pluginPath)
+    val pluginClassLoader = VanrotBundledServer::class.java.classLoader as? PluginAwareClassLoader
+      ?: error("Vanrot: plugin classloader does not expose the plugin descriptor")
+    return serverScript(pluginClassLoader.pluginDescriptor.pluginPath)
   }
 
   fun serverScript(pluginPath: Path): Path =

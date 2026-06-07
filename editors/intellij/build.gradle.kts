@@ -148,8 +148,20 @@ val verifyVanrotPluginPackage by tasks.registering {
         require(jarNames.any { it == "META-INF/plugin.xml" }) {
           "Plugin implementation JAR is missing META-INF/plugin.xml."
         }
+        require(jarNames.any { it == "META-INF/pluginIcon.svg" }) {
+          "Plugin implementation JAR is missing the light JetBrains plugin icon."
+        }
+        require(jarNames.any { it == "META-INF/pluginIcon_dark.svg" }) {
+          "Plugin implementation JAR is missing the dark JetBrains plugin icon."
+        }
 
         val pluginXml = jar.getInputStream(jar.getEntry("META-INF/plugin.xml")).use { input ->
+          input.bufferedReader().readText()
+        }
+        val pluginIcon = jar.getInputStream(jar.getEntry("META-INF/pluginIcon.svg")).use { input ->
+          input.bufferedReader().readText()
+        }
+        val pluginIconDark = jar.getInputStream(jar.getEntry("META-INF/pluginIcon_dark.svg")).use { input ->
           input.bufferedReader().readText()
         }
 
@@ -158,6 +170,12 @@ val verifyVanrotPluginPackage by tasks.registering {
         }
         require(!pluginXml.contains("until-build")) {
           "Plugin XML must not set until-build; Marketplace should allow future IDE builds."
+        }
+        require(pluginIcon.contains("""viewBox="0 0 40 40"""")) {
+          "Light JetBrains plugin icon must use a 40x40 canvas."
+        }
+        require(pluginIconDark.contains("""viewBox="0 0 40 40"""")) {
+          "Dark JetBrains plugin icon must use a 40x40 canvas."
         }
       }
     }

@@ -92,9 +92,30 @@ describe('site polish', () => {
     expect(widget).toContain('const logoYOffset = width < 640 ? -96 : -160;');
     expect(widget).toContain('seed * dense.length + step * 0.5');
     expect(widget).toContain('hash(x * 0.7, y * 1.3)');
-    expect(css).toContain('bottom: 28px;');
+    expect(css).toContain('.hero-title {');
+    expect(css).toContain('display: flex;');
     expect(css).toContain('height: 560px;');
     expect(widget).not.toContain('const step = Math.floor(time * churn)');
+  });
+
+  it('keeps the homepage from shrinking the desktop preview on mobile and tablet', async () => {
+    const html = await readSiteFile('src/pages/home/home.page.html');
+    const css = await readSiteFile('src/pages/home/home.page.css');
+    const source = await readSiteFile('src/pages/home/home.page.ts');
+
+    expect(source).toContain("brand: 'Vanrot'");
+    expect(html).toContain('<h1 class="hero-title">{{ copy.brand }}</h1>');
+    expect(css).toContain('@media (max-width: 980px)');
+    expect(css).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
+    expect(css).toContain('.db-table vr-table-head:nth-child(3),');
+    expect(css).toContain('grid-column: 1 / -1;');
+    expect(css).toContain('@media (max-width: 640px)');
+    expect(css).toContain('.hero-canvas {\n    display: none;');
+    expect(css).toContain('.home-components .section-head {\n    order: 1;');
+    expect(css).toContain('.home-components .browser-frame {\n    order: 2;');
+    expect(css).toContain('.browser-chrome,\n  .db-panel {\n    display: none;');
+    expect(css).toContain('.db-stats {\n    grid-template-columns: 1fr;');
+    expect(css).toContain('margin-top: 0;');
   });
 
   it('aligns the framework docs shell with the component docs sidebar language', async () => {

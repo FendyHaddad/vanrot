@@ -198,13 +198,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-07 12:27am GMT+8
+# [vanrot] recent context, 2026-06-08 1:49am GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (10,868t read) | 1,614,645t work | 99% savings
+Stats: 50 obs (12,936t read) | 1,612,393t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -218,24 +218,8 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-### May 30, 2026
-2465 7:06p 🔵 Runtime Article JSON Content
 ### May 31, 2026
-2473 3:00p ✅ Added pretest and pretypecheck scripts to package.json
-2472 " 🔵 New behavior added to publish.sh
-2475 3:02p 🔵 Publish dry-run timed out
-2477 " ✅ Initiated background publish dry-run
-2479 " 🔵 Publish dry-run is still in progress
-2481 3:03p 🔵 Publish dry-run still in progress, no significant output yet
-2485 " 🔵 Publish dry-run still stuck on initial step
-2491 " 🔵 Publish dry-run process information not found
-2495 3:04p ✅ Restarted publish dry-run, capturing full output
-2501 " 🔵 Publish dry-run timed out again
-2508 3:05p 🔵 Publish dry-run still timing out
-2517 " 🔵 Publish dry-run continues to time out
-2529 3:06p 🔵 Publish dry-run log analysis shows no completion or behavior mention
-2538 " 🔵 Publish dry-run continues to time out
-2552 " 🔵 Publish dry-run log analysis shows script did not complete, but reached verification steps
+2552 3:06p 🔵 Publish dry-run log analysis shows script did not complete, but reached verification steps
 2560 3:07p 🔵 Publish dry-run continues to time out
 2574 " 🔵 Publish dry-run log analysis shows verification scripts completed, but script did not
 2581 3:08p 🔵 Publish dry-run continues to time out with increased timeout
@@ -274,6 +258,22 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 2977 " 🔵 Store Package Documentation Status
 3028 5:23p ⚖️ Doc site coding convention identified as tech debt
 3029 9:30p 🔴 Resolved disallowed attribute errors in action page
+### Jun 7, 2026
+3030 3:24p 🔵 User inquiry about Vanrot plugin and logo upload
+3031 " 🔵 IntelliJ plugin development files and memory references found
+3032 3:25p 🔵 IntelliJ plugin descriptor and icon file checks yield no results
+3033 " 🔵 IntelliJ plugin descriptor missing version, icon tag, and specific icon files
+3036 7:51p 🔵 User reports compatibility issues
+3037 7:52p 🔵 Systematic Debugging Skill Documentation
+3039 " 🔵 Verification Before Completion Skill Documentation
+3042 " 🔵 IntelliJ plugin build artifacts and reports found
+3044 " 🔵 IntelliJ plugin code and configuration details identified
+3048 " 🔵 IntelliJ plugin configuration and API usage extracted
+3054 " 🔵 IntelliJ plugin build configuration and dependencies detailed
+3059 7:53p 🔵 IntelliJ plugin verification report analysis
+3065 " 🔵 claude-mem session initialized for compatibility investigation
+3075 " 🔵 claude-mem observations and summary queued for Vanrot IntelliJ compatibility
+3084 7:56p 🔵 Superpowers skill summaries and AGENTS rules not found
 
-Access 1615k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1612k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>

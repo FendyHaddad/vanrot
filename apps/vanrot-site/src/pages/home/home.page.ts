@@ -33,6 +33,7 @@ const runtimeDashboardPackageNames = new Set([
 ]);
 
 const homeCopy = {
+  brand: 'Vanrot',
   eyebrow: 'AI-first · Signal-based · Secure by design',
   typedLine: 'The only framework you need. Reactivity without the fluff.',
   primaryCta: 'Read the docs',
