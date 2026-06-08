@@ -198,13 +198,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-08 1:49am GMT+8
+# [vanrot] recent context, 2026-06-08 11:54pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (12,936t read) | 1,612,393t work | 99% savings
+Stats: 50 obs (12,599t read) | 1,497,197t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -219,9 +219,6 @@ S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 ### May 31, 2026
-2552 3:06p 🔵 Publish dry-run log analysis shows script did not complete, but reached verification steps
-2560 3:07p 🔵 Publish dry-run continues to time out
-2574 " 🔵 Publish dry-run log analysis shows verification scripts completed, but script did not
 2581 3:08p 🔵 Publish dry-run continues to time out with increased timeout
 2593 " 🔵 Publish dry-run script is still running, but verification scripts have passed
 2601 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
@@ -274,6 +271,10 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 3065 " 🔵 claude-mem session initialized for compatibility investigation
 3075 " 🔵 claude-mem observations and summary queued for Vanrot IntelliJ compatibility
 3084 7:56p 🔵 Superpowers skill summaries and AGENTS rules not found
+### Jun 8, 2026
+3092 1:49a 🔴 Homepage layout not responsive on mobile and tablet
+3093 1:50a 🔵 Project structure and conventions for Vanrot UI framework
+3101 11:31p 🟣 Devtools Shell Enhancement for Future Pipeline
 
-Access 1612k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1497k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
