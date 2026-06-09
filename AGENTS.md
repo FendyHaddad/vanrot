@@ -198,13 +198,13 @@ At the start of significant tasks, read `AGENTS.md` first and follow the current
 <claude-mem-context>
 # Memory Context
 
-# [vanrot] recent context, 2026-06-08 11:54pm GMT+8
+# [vanrot] recent context, 2026-06-09 8:40pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE
 Fetch details: get_observations([IDs]) | Search: mem-search skill
 
-Stats: 50 obs (12,599t read) | 1,497,197t work | 99% savings
+Stats: 50 obs (12,119t read) | 1,315,827t work | 99% savings
 
 ### May 20, 2026
 S596 Write @vanrot/runtime implementation plan phase-by-phase using writing-plans skill — plan only, no code (May 20 at 11:29 PM)
@@ -218,11 +218,6 @@ S655 Clarify Claude-Mem provider billing and restart worker (May 23 at 3:15 AM)
 S656 Address Claude-Mem provider billing and worker status (May 23 at 3:16 AM)
 S657 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:16 AM)
 S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
-### May 31, 2026
-2581 3:08p 🔵 Publish dry-run continues to time out with increased timeout
-2593 " 🔵 Publish dry-run script is still running, but verification scripts have passed
-2601 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
-2603 " 🔵 Publish dry-run script is still running, verification scripts have completed, but no new child processes found
 ### Jun 3, 2026
 2756 5:00a ✅ README added to vanrot repository
 ### Jun 4, 2026
@@ -275,6 +270,11 @@ S658 Clarify billing for Claude Code, Claude-Mem, and Codex (May 23 at 3:19 AM)
 3092 1:49a 🔴 Homepage layout not responsive on mobile and tablet
 3093 1:50a 🔵 Project structure and conventions for Vanrot UI framework
 3101 11:31p 🟣 Devtools Shell Enhancement for Future Pipeline
+### Jun 9, 2026
+3102 2:35p 🔵 Clarification on creative generation and inspiration
+3103 2:37p 🔵 Node.js script execution error in Sondaven artifact analysis
+3104 " 🔵 AGENTS rules for artifact updates and memory interaction
+3130 8:35p 🔵 Future Pipeline Status Check
 
-Access 1497k tokens of past work via get_observations([IDs]) or mem-search skill.
+Access 1316k tokens of past work via get_observations([IDs]) or mem-search skill.
 </claude-mem-context>
