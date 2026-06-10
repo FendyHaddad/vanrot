@@ -49,10 +49,54 @@ const homeCopy = {
   signalsBody: 'No virtual DOM, no reconciliation. Update a signal — only what depends on it recomputes.',
   packagesHeading: 'Every package, one manifest',
   packagesBody: 'Each package ships independently. Pull only what you need.',
-  startHeading: 'Start in one command',
-  startBody: 'No config, no boilerplate. Scaffold a typed, reactive app in seconds.',
-  installCommand: '$ npm create vanrot@latest',
+  anatomyHeading: 'One component, three files',
+  anatomyBody:
+    'Logic, template, and scoped style — each in its own file, each in its own language. Nothing leaks.',
+  railHint: 'Scroll',
 } as const;
+
+const anatomyFiles = [
+  {
+    file: 'counter.component.ts',
+    role: 'logic',
+    code: [
+      "import { signal } from '@vanrot/runtime';",
+      '',
+      'export class Counter {',
+      '  count = signal(0);',
+      '',
+      '  increment() {',
+      '    this.count.set(this.count() + 1);',
+      '  }',
+      '}',
+    ].join('\n'),
+  },
+  {
+    file: 'counter.component.html',
+    role: 'template',
+    code: [
+      '<button class="counter"',
+      '        (click)="increment()">',
+      '  Clicked {{ count() }} times',
+      '</button>',
+    ].join('\n'),
+  },
+  {
+    file: 'counter.component.css',
+    role: 'style',
+    code: [
+      '.counter {',
+      '  padding: 10px 18px;',
+      '  border: 1px solid #2a2a2a;',
+      '  border-radius: 8px;',
+      '  background: #000;',
+      '  color: #fafafa;',
+      '}',
+    ].join('\n'),
+  },
+] as const;
+
+const manifestoLines = ['No virtual DOM.', 'No hydration.', 'No magic.', 'Just signals.'] as const;
 
 const aiFeatures = [
   {
@@ -96,6 +140,11 @@ const packages = packageReferenceDocs.map(pkg => {
     statusLabel: isProductionReady(pkg.status) ? 'stable' : 'demo',
   };
 });
+const railPackages = packages.map((pkg, index) => ({
+  ...pkg,
+  index: String(index + 1).padStart(2, '0'),
+}));
+const railTotal = String(railPackages.length).padStart(2, '0');
 const runtimePackages = packages.filter(pkg => runtimeDashboardPackageNames.has(pkg.name));
 const dashboardPackages = runtimePackages.flatMap(pkg =>
   pkg.name === '@vanrot/behavior' ? [pkg, behaviorAllBundle] : [pkg],
@@ -110,6 +159,10 @@ export class HomePage {
   runtimeSize = runtimeSize;
   aiFeatures = aiFeatures;
   packages = packages;
+  anatomyFiles = anatomyFiles;
+  manifestoLines = manifestoLines;
+  railPackages = railPackages;
+  railTotal = railTotal;
   dashboardPackages = dashboardPackages;
   packageCount = packageReferenceDocs.length;
   packageSummary = packageSummary;
