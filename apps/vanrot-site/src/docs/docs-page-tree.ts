@@ -48,6 +48,12 @@ import { VirtualModulesPage as vitePluginVirtualModulesPageComponent, vitePlugin
 import { DiagnosticsPage as vitePluginDiagnosticsPageComponent, vitePluginDiagnosticsArticle } from '../pages/docs/framework/vite-plugin/diagnostics/diagnostics.page.ts';
 import { SourceMapsPage as vitePluginSourceMapsPageComponent, vitePluginSourceMapsArticle } from '../pages/docs/framework/vite-plugin/source-maps/source-maps.page.ts';
 import { DevtoolsMetadataPage as vitePluginDevtoolsMetadataPageComponent, vitePluginDevtoolsMetadataArticle } from '../pages/docs/framework/vite-plugin/devtools-metadata/devtools-metadata.page.ts';
+import { ForgePage as forgePageComponent, forgeArticle } from '../pages/docs/framework/forge/forge.page.ts';
+import { DevPage as forgeDevPageComponent, forgeDevArticle } from '../pages/docs/framework/forge/dev/dev.page.ts';
+import { BuildPage as forgeBuildPageComponent, forgeBuildArticle } from '../pages/docs/framework/forge/build/build.page.ts';
+import { ConfigPage as forgeConfigPageComponent, forgeConfigArticle } from '../pages/docs/framework/forge/config/config.page.ts';
+import { HooksPage as forgeHooksPageComponent, forgeHooksArticle } from '../pages/docs/framework/forge/hooks/hooks.page.ts';
+import { BenchmarksPage as forgeBenchmarksPageComponent, forgeBenchmarksArticle } from '../pages/docs/framework/forge/benchmarks/benchmarks.page.ts';
 import { CliPage as cliPageComponent, cliArticle } from '../pages/docs/framework/cli/cli.page.ts';
 import { CommandsPage as cliCommandSurfacePageComponent, cliCommandSurfaceArticle } from '../pages/docs/framework/cli/commands/commands.page.ts';
 import { ProjectCreationPage as cliProjectCreationPageComponent, cliProjectCreationArticle } from '../pages/docs/framework/cli/project-creation/project-creation.page.ts';
@@ -1241,6 +1247,131 @@ export const docsPageTree = [
           ts: "src/pages/docs/framework/vite-plugin/devtools-metadata/devtools-metadata.page.ts",
           html: "src/pages/docs/framework/vite-plugin/devtools-metadata/devtools-metadata.page.html",
           css: "src/pages/docs/framework/vite-plugin/devtools-metadata/devtools-metadata.page.css",
+        },
+        children: [
+
+        ],
+      }
+    ],
+  },
+  {
+    key: "forge",
+    routeKey: "docsForge",
+    section: docsPageSection.framework,
+    path: "/docs/forge",
+    label: "Forge",
+    title: "Forge",
+    summary: "@vanrot/forge is the native Vanrot app engine. It runs dev and build without Vite when a project chooses the Forge engine, while keeping Vite available as an explicit compatibility engine.",
+    status: "production-ready-through-phase-32",
+    article: forgeArticle,
+    componentName: "ForgePage",
+    component: forgePageComponent,
+    sourceFiles: {
+      ts: "src/pages/docs/framework/forge/forge.page.ts",
+      html: "src/pages/docs/framework/forge/forge.page.html",
+      css: "src/pages/docs/framework/forge/forge.page.css",
+    },
+    children: [
+      {
+        key: "forgeDev",
+        routeKey: "docsForgeDev",
+        section: docsPageSection.framework,
+        path: "/docs/forge/dev",
+        label: "Dev",
+        title: "Forge Dev",
+        summary: "Forge dev starts the Vanrot-native development server, serves the app shell and source assets, streams reload events, and reports compiler diagnostics without pulling in Vite.",
+        status: "production-ready-through-phase-32",
+        article: forgeDevArticle,
+        componentName: "DevPage",
+        component: forgeDevPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/forge/dev/dev.page.ts",
+          html: "src/pages/docs/framework/forge/dev/dev.page.html",
+          css: "src/pages/docs/framework/forge/dev/dev.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "forgeBuild",
+        routeKey: "docsForgeBuild",
+        section: docsPageSection.framework,
+        path: "/docs/forge/build",
+        label: "Build",
+        title: "Forge Build",
+        summary: "Forge build turns a Vanrot app graph into deterministic static output: app shell, compiled application JavaScript, scoped CSS, route metadata, asset metadata, and optional diagnostics.",
+        status: "production-ready-through-phase-32",
+        article: forgeBuildArticle,
+        componentName: "BuildPage",
+        component: forgeBuildPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/forge/build/build.page.ts",
+          html: "src/pages/docs/framework/forge/build/build.page.html",
+          css: "src/pages/docs/framework/forge/build/build.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "forgeConfig",
+        routeKey: "docsForgeConfig",
+        section: docsPageSection.framework,
+        path: "/docs/forge/config",
+        label: "Config",
+        title: "Forge Config",
+        summary: "Forge config is the engine decision point. vanrot.config.ts selects Forge or Vite, defines the source root, and gives the native engine enough structure to build the Vanrot app graph.",
+        status: "production-ready-through-phase-32",
+        article: forgeConfigArticle,
+        componentName: "ConfigPage",
+        component: forgeConfigPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/forge/config/config.page.ts",
+          html: "src/pages/docs/framework/forge/config/config.page.html",
+          css: "src/pages/docs/framework/forge/config/config.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "forgeHooks",
+        routeKey: "docsForgeHooks",
+        section: docsPageSection.framework,
+        path: "/docs/forge/hooks",
+        label: "Hooks",
+        title: "Forge Hooks",
+        summary: "Forge hooks are first-party metadata and diagnostics hooks for Vanrot tools. They are deliberately not generic bundler plugin hooks.",
+        status: "production-ready-through-phase-32",
+        article: forgeHooksArticle,
+        componentName: "HooksPage",
+        component: forgeHooksPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/forge/hooks/hooks.page.ts",
+          html: "src/pages/docs/framework/forge/hooks/hooks.page.html",
+          css: "src/pages/docs/framework/forge/hooks/hooks.page.css",
+        },
+        children: [
+
+        ],
+      },
+      {
+        key: "forgeBenchmarks",
+        routeKey: "docsForgeBenchmarks",
+        section: docsPageSection.framework,
+        path: "/docs/forge/benchmarks",
+        label: "Benchmarks",
+        title: "Forge Benchmarks",
+        summary: "Forge benchmarks measure the Vanrot-native engine against the equivalent Vanrot Vite path, with a strict rule: public speed claims require measured comparison data.",
+        status: "production-ready-through-phase-32",
+        article: forgeBenchmarksArticle,
+        componentName: "BenchmarksPage",
+        component: forgeBenchmarksPageComponent,
+        sourceFiles: {
+          ts: "src/pages/docs/framework/forge/benchmarks/benchmarks.page.ts",
+          html: "src/pages/docs/framework/forge/benchmarks/benchmarks.page.html",
+          css: "src/pages/docs/framework/forge/benchmarks/benchmarks.page.css",
         },
         children: [
 

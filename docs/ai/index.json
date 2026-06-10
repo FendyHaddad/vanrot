@@ -21,6 +21,11 @@
       "summary": "Typed Vanrot config helpers, defaults, normalization, validation, migrations, diagnostics, and install-aware config edits."
     },
     {
+      "id": "package:@vanrot/forge",
+      "title": "@vanrot/forge",
+      "summary": "Vanrot-native dev and build engine for Forge-selected apps, including app graph creation, role-file discovery, route metadata, reload planning, diagnostics, build output, and first-party metadata hooks."
+    },
+    {
       "id": "package:@vanrot/language-server",
       "title": "@vanrot/language-server",
       "summary": "Vanrot template detection, LSP initialize/completion/navigation/diagnostics/expression-smarts handling, stdio server entry, and IntelliJ-consumed template glob artifact."
@@ -164,6 +169,264 @@
       "title": "@vanrot/config configDiagnosticCode",
       "summary": "Lists config diagnostic codes.",
       "docsPath": "/docs/diagnostics"
+    },
+    {
+      "id": "export:@vanrot/forge:*",
+      "title": "@vanrot/forge *",
+      "summary": "All public exports from @vanrot/forge are covered by Forge and public API documentation.",
+      "docsPath": "/docs/forge"
+    },
+    {
+      "id": "export:@vanrot/forge:forgePackageName",
+      "title": "@vanrot/forge forgePackageName",
+      "summary": "Stable package name constant for Forge metadata and tests.",
+      "docsPath": "/docs/forge"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeBuild",
+      "title": "@vanrot/forge runForgeBuild",
+      "summary": "Runs the Vanrot-native static build and returns generated files plus diagnostics.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeBuildOptions",
+      "title": "@vanrot/forge ForgeBuildOptions",
+      "summary": "Options for cwd, outDir, and reporter behavior in Forge builds.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeBuildResult",
+      "title": "@vanrot/forge ForgeBuildResult",
+      "summary": "Structured Forge build result with output files and diagnostics.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeDev",
+      "title": "@vanrot/forge runForgeDev",
+      "summary": "Runs the Forge dev command path for CLI dispatch.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:startForgeDevServer",
+      "title": "@vanrot/forge startForgeDevServer",
+      "summary": "Starts the native Forge development server.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:collectForgeDevDiagnostics",
+      "title": "@vanrot/forge collectForgeDevDiagnostics",
+      "summary": "Collects compile and role diagnostics for the Forge dev loop.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:planForgeReload",
+      "title": "@vanrot/forge planForgeReload",
+      "summary": "Plans role-aware reload actions for changed Vanrot files.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeDevOptions",
+      "title": "@vanrot/forge ForgeDevOptions",
+      "summary": "Options for running Forge dev from CLI or tests.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeDevResult",
+      "title": "@vanrot/forge ForgeDevResult",
+      "summary": "Result returned by the Forge dev command path.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeDevServer",
+      "title": "@vanrot/forge ForgeDevServer",
+      "summary": "Native dev server handle with URL and close behavior.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:StartForgeDevServerOptions",
+      "title": "@vanrot/forge StartForgeDevServerOptions",
+      "summary": "Options for host, port, and project root when starting the Forge server.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeReloadAction",
+      "title": "@vanrot/forge ForgeReloadAction",
+      "summary": "Union of reload actions such as style patch, route refresh, full reload, and server restart.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeReloadPlan",
+      "title": "@vanrot/forge ForgeReloadPlan",
+      "summary": "Structured reload decision returned by the Forge reload planner.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "export:@vanrot/forge:createForgeAppGraph",
+      "title": "@vanrot/forge createForgeAppGraph",
+      "summary": "Creates the Forge app graph from config, source files, routes, and diagnostics.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:scanForgeSourceFiles",
+      "title": "@vanrot/forge scanForgeSourceFiles",
+      "summary": "Scans source files that can participate in Forge graph creation.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:classifyForgeFileRole",
+      "title": "@vanrot/forge classifyForgeFileRole",
+      "summary": "Classifies Vanrot role files and role-adjacent assets for Forge.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:findOwnerRoleFile",
+      "title": "@vanrot/forge findOwnerRoleFile",
+      "summary": "Finds the owning role file for a sibling template or stylesheet.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:forgeRoleSuffix",
+      "title": "@vanrot/forge forgeRoleSuffix",
+      "summary": "Canonical Forge role suffix map for pages, components, layouts, widgets, and forms.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:discoverForgeRoutes",
+      "title": "@vanrot/forge discoverForgeRoutes",
+      "summary": "Discovers route entries from Forge page role files.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeAppGraph",
+      "title": "@vanrot/forge ForgeAppGraph",
+      "summary": "Forge graph object shared by dev, build, diagnostics, and hooks.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeRoleFile",
+      "title": "@vanrot/forge ForgeRoleFile",
+      "summary": "Role file record with owner and sibling asset metadata.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeRoleFileClassification",
+      "title": "@vanrot/forge ForgeRoleFileClassification",
+      "summary": "Classifier result for a Forge role or role-adjacent file.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeRoleFileKind",
+      "title": "@vanrot/forge ForgeRoleFileKind",
+      "summary": "Union of supported Forge role file kinds.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeRoleSuffix",
+      "title": "@vanrot/forge ForgeRoleSuffix",
+      "summary": "Union of supported Forge role suffix names.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeRouteEntry",
+      "title": "@vanrot/forge ForgeRouteEntry",
+      "summary": "Discovered Forge route entry for page role files.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeRouteGraph",
+      "title": "@vanrot/forge ForgeRouteGraph",
+      "summary": "Route graph metadata produced by Forge route discovery.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeSourceFile",
+      "title": "@vanrot/forge ForgeSourceFile",
+      "summary": "Scanned source file record used by Forge graph creation.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:forgeDiagnosticCode",
+      "title": "@vanrot/forge forgeDiagnosticCode",
+      "summary": "Canonical Forge diagnostic code map.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:formatForgeDiagnostic",
+      "title": "@vanrot/forge formatForgeDiagnostic",
+      "summary": "Formats Forge diagnostics for readable CLI and docs output.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeDiagnostic",
+      "title": "@vanrot/forge ForgeDiagnostic",
+      "summary": "Structured diagnostic record emitted by Forge.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeDiagnosticSeverity",
+      "title": "@vanrot/forge ForgeDiagnosticSeverity",
+      "summary": "Union of Forge diagnostic severity values.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "export:@vanrot/forge:createForgeHookRegistry",
+      "title": "@vanrot/forge createForgeHookRegistry",
+      "summary": "Creates the first-party Forge hook registry and rejects generic bundler hooks.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeDiagnosticsHooks",
+      "title": "@vanrot/forge runForgeDiagnosticsHooks",
+      "summary": "Runs Forge diagnostics hooks against a graph-aware context.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeRouteMetadataHooks",
+      "title": "@vanrot/forge runForgeRouteMetadataHooks",
+      "summary": "Runs route metadata hooks for Forge consumers.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeBuildMetadataHooks",
+      "title": "@vanrot/forge runForgeBuildMetadataHooks",
+      "summary": "Runs build metadata hooks for Forge consumers.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeDevtoolsMetadataHooks",
+      "title": "@vanrot/forge runForgeDevtoolsMetadataHooks",
+      "summary": "Runs devtools metadata hooks for Forge consumers.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:runForgeAiMetadataHooks",
+      "title": "@vanrot/forge runForgeAiMetadataHooks",
+      "summary": "Runs AI metadata hooks for Forge consumers.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeHook",
+      "title": "@vanrot/forge ForgeHook",
+      "summary": "First-party Forge hook contract for diagnostics and metadata.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeHookContext",
+      "title": "@vanrot/forge ForgeHookContext",
+      "summary": "Graph-aware context passed to Forge hooks.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeHookMetadataResult",
+      "title": "@vanrot/forge ForgeHookMetadataResult",
+      "summary": "Metadata result returned by Forge hook channels.",
+      "docsPath": "/docs/forge/hooks"
+    },
+    {
+      "id": "export:@vanrot/forge:ForgeHookRegistry",
+      "title": "@vanrot/forge ForgeHookRegistry",
+      "summary": "Registry of validated first-party Forge hooks.",
+      "docsPath": "/docs/forge/hooks"
     },
     {
       "id": "export:@vanrot/language-server:*",
@@ -722,7 +985,7 @@
     {
       "id": "command:create",
       "title": "vr create <project-name>",
-      "summary": "Creates a routed Vanrot app with the configured package manager and starter files.",
+      "summary": "Creates a routed Vanrot app with the configured package manager, starter files, and selected app engine.",
       "docsPath": "/docs/cli"
     },
     {
@@ -770,7 +1033,7 @@
     {
       "id": "command:doctor",
       "title": "vr doctor",
-      "summary": "Runs local project diagnostics and can include read-only project intelligence with --inspect.",
+      "summary": "Runs local project diagnostics, selected-engine package boundary checks, and optional read-only project intelligence with --inspect.",
       "docsPath": "/docs/cli"
     },
     {
@@ -800,14 +1063,14 @@
     {
       "id": "command:dev",
       "title": "vr dev",
-      "summary": "Starts the configured Vite development server through the Vanrot CLI.",
+      "summary": "Starts the configured Vanrot app engine through the CLI, using Forge or Vite based on project config or engine flags.",
       "docsPath": "/docs/cli"
     },
     {
       "id": "command:build",
       "title": "vr build",
-      "summary": "Runs a production build through the Vanrot CLI.",
-      "docsPath": "/docs/deployment"
+      "summary": "Runs a production build through the configured Vanrot app engine.",
+      "docsPath": "/docs/forge/build"
     },
     {
       "id": "command:test",
@@ -944,6 +1207,12 @@
       "docsPath": "/docs/diagnostics"
     },
     {
+      "id": "diagnostic:VRCFG021",
+      "title": "VRCFG021",
+      "summary": "Config diagnostic for invalid engine values; use forge or vite.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
       "id": "diagnostic:VRCFG_FORMATTING_LOCALE_EMPTY",
       "title": "VRCFG_FORMATTING_LOCALE_EMPTY",
       "summary": "Config diagnostic for an empty formatting.locale value in vanrot.config.ts.",
@@ -960,6 +1229,48 @@
       "title": "VRCFG_FORMATTING_CURRENCY_EMPTY",
       "summary": "Config diagnostic for an empty formatting.currency value in vanrot.config.ts.",
       "docsPath": "/docs/formatters"
+    },
+    {
+      "id": "diagnostic:VRFORGE001",
+      "title": "VRFORGE001",
+      "summary": "Reserved Forge diagnostic for dev command paths that are intentionally not enabled in an earlier engine slice.",
+      "docsPath": "/docs/forge/dev"
+    },
+    {
+      "id": "diagnostic:VRFORGE002",
+      "title": "VRFORGE002",
+      "summary": "Reserved Forge diagnostic for build command paths that are intentionally not enabled in an earlier engine slice.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "diagnostic:VRFORGE003",
+      "title": "VRFORGE003",
+      "summary": "Forge diagnostic for unknown engine command dispatch.",
+      "docsPath": "/docs/forge"
+    },
+    {
+      "id": "diagnostic:VRFORGE004",
+      "title": "VRFORGE004",
+      "summary": "Forge diagnostic for a missing configured source root.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "diagnostic:VRFORGE005",
+      "title": "VRFORGE005",
+      "summary": "Forge diagnostic for a recognized role file that the current native engine slice does not compile yet.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "diagnostic:VRFORGE006",
+      "title": "VRFORGE006",
+      "summary": "Forge diagnostic for route discovery failures in the app graph.",
+      "docsPath": "/docs/forge/config"
+    },
+    {
+      "id": "diagnostic:VRFORGE007",
+      "title": "VRFORGE007",
+      "summary": "Forge diagnostic for compiler diagnostics surfaced through dev or build.",
+      "docsPath": "/docs/forge/dev"
     },
     {
       "id": "diagnostic:VR_CHILD_BEFORE_PARENT",
@@ -1032,14 +1343,38 @@
     {
       "id": "generated-file:vanrot.config.ts",
       "title": "vanrot.config.ts",
-      "summary": "Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.",
-      "docsPath": "/docs/configuration"
+      "summary": "Typed Vanrot config source for engine choice, source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.",
+      "docsPath": "/docs/forge/config"
     },
     {
       "id": "generated-file:src/routes.ts",
       "title": "src/routes.ts",
       "summary": "Named route refs and route metadata for app navigation without repeated route strings.",
       "docsPath": "/docs/routing"
+    },
+    {
+      "id": "generated-file:dist/assets/vanrot-app.js",
+      "title": "dist/assets/vanrot-app.js",
+      "summary": "Compiled JavaScript emitted by the native Forge build path.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "generated-file:dist/assets/vanrot-app.css",
+      "title": "dist/assets/vanrot-app.css",
+      "summary": "Scoped CSS emitted by the native Forge build path.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "generated-file:dist/vanrot-routes.json",
+      "title": "dist/vanrot-routes.json",
+      "summary": "Route manifest emitted by Forge for build inspection and future deploy tooling.",
+      "docsPath": "/docs/forge/build"
+    },
+    {
+      "id": "generated-file:dist/vanrot-assets.json",
+      "title": "dist/vanrot-assets.json",
+      "summary": "Asset manifest emitted by Forge for generated output inspection.",
+      "docsPath": "/docs/forge/build"
     },
     {
       "id": "generated-file:.vanrot/project-map.json",
@@ -1146,6 +1481,12 @@
       "title": "Build And Deploy",
       "summary": "",
       "docsPath": "/docs/deployment"
+    },
+    {
+      "id": "example:Forge Native Engine",
+      "title": "Forge Native Engine",
+      "summary": "",
+      "docsPath": "/docs/forge"
     },
     {
       "id": "example:Forms Checkout",
@@ -1498,6 +1839,12 @@
       "title": "/docs",
       "summary": "Vanrot Framework Documentation Framework documentation for Vanrot packages, APIs, commands, diagnostics, conventions, examples, limitations, and deployment preparation.",
       "docsPath": "/docs"
+    },
+    {
+      "id": "route:/docs/forge",
+      "title": "/docs/forge",
+      "summary": "Vanrot Forge Native Engine Guide to @vanrot/forge, the Vanrot-native app engine for dev, build, engine config, graph diagnostics, first-party hooks, and benchmark guardrails.",
+      "docsPath": "/docs/forge"
     },
     {
       "id": "route:/docs/forms",

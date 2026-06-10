@@ -16,6 +16,10 @@ Template compilation, scoped CSS rewriting, diagnostics, source maps, child comp
 
 Typed Vanrot config helpers, defaults, normalization, validation, migrations, diagnostics, and install-aware config edits.
 
+## @vanrot/forge
+
+Vanrot-native dev and build engine for Forge-selected apps, including app graph creation, role-file discovery, route metadata, reload planning, diagnostics, build output, and first-party metadata hooks.
+
 ## @vanrot/language-server
 
 Vanrot template detection, LSP initialize/completion/navigation/diagnostics/expression-smarts handling, stdio server entry, and IntelliJ-consumed template glob artifact.

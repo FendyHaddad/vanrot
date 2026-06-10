@@ -1,6 +1,7 @@
 import { defineVanrotConfig } from '@vanrot/config';
 
 export default defineVanrotConfig({
+  engine: 'vite',
   schemaVersion: 1,
   project: { name: 'Vanrot Site' },
   source: { root: 'src' },

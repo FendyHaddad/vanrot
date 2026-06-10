@@ -14,6 +14,7 @@ describe('migrateVanrotConfig', () => {
     expect(result.written).toBe(true);
     const next = await readFile(join(cwd, 'vanrot.config.ts'), 'utf8');
     expect(next).toContain('defineVanrotConfig');
+    expect(next).toContain("engine: 'forge'");
     expect(next).toContain('port: 1964');
   });
 
@@ -28,6 +29,7 @@ describe('migrateVanrotConfig', () => {
 
     const overwritten = await migrateVanrotConfig(cwd, { destructive: true });
     expect(overwritten.written).toBe(true);
+    await expect(readFile(configPath, 'utf8')).resolves.toContain("engine: 'forge'");
     await expect(readFile(configPath, 'utf8')).resolves.toContain('port: 1964');
   });
 });

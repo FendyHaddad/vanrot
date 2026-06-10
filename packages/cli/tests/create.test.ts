@@ -31,8 +31,11 @@ describe('vr create', () => {
       `"@vanrot/router": "${dependencyVersion}"`,
     );
     await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain('"dev": "vr dev"');
-    await expect(readFile(join(appRoot, 'vite.config.ts'), 'utf8')).resolves.toContain(
-      '@vanrot/vite-plugin',
+    await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain(
+      `"@vanrot/forge": "${dependencyVersion}"`,
+    );
+    await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
+      "engine: 'forge'",
     );
     await expect(readFile(join(appRoot, 'src', 'main.ts'), 'utf8')).resolves.toContain(
       "import { provideRouter } from '@vanrot/router';",
@@ -172,7 +175,51 @@ describe('vr create', () => {
     });
     expect(packageJson.devDependencies).toMatchObject({
       '@vanrot/cli': dependencyVersion,
+      '@vanrot/forge': dependencyVersion,
+    });
+  });
+
+  it('creates Forge apps by default', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+    const dependencyVersion = await cliPublishedDependencyVersion();
+
+    const result = await runCli(['create', 'forge-app'], { cwd, reporter });
+    const appRoot = join(cwd, 'forge-app');
+    const packageJson = JSON.parse(await readFile(join(appRoot, 'package.json'), 'utf8')) as {
+      scripts: Record<string, string>;
+      devDependencies: Record<string, string>;
+    };
+    const configSource = await readFile(join(appRoot, 'vanrot.config.ts'), 'utf8');
+
+    expect(result.exitCode).toBe(0);
+    expect(configSource).toContain("engine: 'forge'");
+    expect(packageJson.devDependencies).toMatchObject({
+      '@vanrot/forge': dependencyVersion,
+    });
+    expect(packageJson.scripts).toMatchObject({
+      dev: 'vr dev',
+      build: 'vr build',
+    });
+  });
+
+  it('creates Vite apps when requested', async () => {
+    const cwd = await tempRoot();
+    const reporter = createMemoryReporter();
+    const dependencyVersion = await cliPublishedDependencyVersion();
+
+    const result = await runCli(['create', 'vite-app', '--engine', 'vite'], { cwd, reporter });
+    const appRoot = join(cwd, 'vite-app');
+    const packageJson = JSON.parse(await readFile(join(appRoot, 'package.json'), 'utf8')) as {
+      devDependencies: Record<string, string>;
+    };
+    const configSource = await readFile(join(appRoot, 'vanrot.config.ts'), 'utf8');
+
+    expect(result.exitCode).toBe(0);
+    expect(configSource).toContain("engine: 'vite'");
+    expect(packageJson.devDependencies).toMatchObject({
       '@vanrot/vite-plugin': dependencyVersion,
+      vite: '^8.0.10',
     });
   });
 
@@ -240,7 +287,7 @@ describe('vr create', () => {
     const packageJson = await readFile(join(cwd, 'fixture-app', 'package.json'), 'utf8');
     expect(packageJson).toContain('"@vanrot/runtime": "workspace:*"');
     expect(packageJson).toContain('"@vanrot/router": "workspace:*"');
-    expect(packageJson).toContain('"@vanrot/vite-plugin": "workspace:*"');
+    expect(packageJson).toContain('"@vanrot/forge": "workspace:*"');
     expect(packageJson).toContain('"@vanrot/cli": "workspace:*"');
   });
 
@@ -301,6 +348,7 @@ describe('vr create', () => {
     expect(source).toContain("import { defineVanrotConfig } from '@vanrot/config';");
     expect(source).toContain('export default defineVanrotConfig({');
     expect(source).toContain('schemaVersion: 1');
+    expect(source).toContain("engine: 'forge'");
     expect(source).toContain("root: 'src'");
     expect(source).toContain('port: 1964');
     expect(source).toContain("ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },");

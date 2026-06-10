@@ -1,3 +1,10 @@
+export const vanrotEngine = {
+  forge: 'forge',
+  vite: 'vite',
+} as const;
+
+export type VanrotEngine = (typeof vanrotEngine)[keyof typeof vanrotEngine];
+
 export const vanrotUiFlavor = {
   october: 'october',
 } as const;
@@ -239,6 +246,7 @@ export interface NormalizedVanrotSeoConfig {
 
 export interface VanrotConfig {
   schemaVersion?: number;
+  engine?: VanrotEngine;
   project?: { name?: string };
   source?: { root?: string };
   devServer?: { port?: number };
@@ -259,9 +267,19 @@ export interface VanrotConfig {
 export interface NormalizedVanrotConfig
   extends Omit<
     VanrotConfig,
-    'schemaVersion' | 'source' | 'devServer' | 'router' | 'ui' | 'behavior' | 'ai' | 'seo' | 'formatting'
+    | 'schemaVersion'
+    | 'engine'
+    | 'source'
+    | 'devServer'
+    | 'router'
+    | 'ui'
+    | 'behavior'
+    | 'ai'
+    | 'seo'
+    | 'formatting'
   > {
   schemaVersion: number;
+  engine: VanrotEngine;
   source: { root: string };
   devServer: { port: number };
   router: NormalizedVanrotRouterConfig;

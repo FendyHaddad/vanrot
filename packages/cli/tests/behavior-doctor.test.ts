@@ -104,15 +104,23 @@ async function createDoctorProject(options: {
           doctor: 'vr doctor',
         },
         dependencies: options.dependencies,
+        devDependencies: {
+          '@vanrot/vite-plugin': '^0.2.0',
+          vite: '^8.0.10',
+        },
       },
       null,
       2,
     ),
   );
   await writeFile(join(cwd, 'vite.config.ts'), 'export default {};\n');
-  await writeFile(join(cwd, 'vanrot.config.ts'), options.config);
+  await writeFile(join(cwd, 'vanrot.config.ts'), withViteEngine(options.config));
   await writeFile(join(cwd, 'src', 'app.page.ts'), options.source);
   await writeFile(join(cwd, 'src', 'app.page.html'), '<main></main>\n');
   await writeFile(join(cwd, 'src', 'app.page.css'), ':host { display: block; }\n');
   return cwd;
+}
+
+function withViteEngine(source: string): string {
+  return source.replace(/schemaVersion:\s*1,?/, "schemaVersion: 1,\n  engine: 'vite',");
 }

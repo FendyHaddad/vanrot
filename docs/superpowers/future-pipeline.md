@@ -256,22 +256,27 @@ Shipped scope:
 
 ## Vanrot Forge
 
-Vanrot Forge is the parked name for a first-party Vite-like dev server and build tool for Vanrot apps. It should stay
-post-production until the compiler, router, SSR, hydration, and docs/site surfaces are stable enough to dogfood it
-without expanding the core runtime.
+Vanrot Forge is the first-party native app engine, dev server, and build tool for Vanrot apps. Phase 32 moved it out of
+the parked future-pipeline bucket and into the real package surface without expanding the core runtime.
+
+Status: Shipped in Phase 32 through `docs/superpowers/specs/Phase-32.md` and
+`docs/superpowers/plans/Phase-32.md`. `@vanrot/forge` now owns native app graph discovery, dev, build, diagnostics,
+first-party hooks, docs IA, examples, and benchmark guardrails. Vite remains a supported compatibility engine.
 
 Forge should not decommission or replace Vite as a supported integration path. Some teams will still prefer Vite for
 existing tooling, ecosystem plugins, or migration comfort. When Forge becomes available, `vr create` should prompt users
 to choose between Forge and Vite, with Forge presented as the recommended first-party path because it can be tailored to
 Vanrot's compiler, router, SSR, diagnostics, and project conventions.
 
-Possible scope:
+Shipped scope:
 
-- [ ] Fast local dev server for Vanrot apps, including route-aware reloads and useful diagnostics.
-- [ ] Production build pipeline that compiles Vanrot components, handles assets, and emits deployable static or SSR-ready
-  output.
-- [ ] First-party plugin hooks for framework packages without copying Vite's whole plugin surface too early.
-- [ ] `vr create` project setup that offers Forge or Vite and keeps both starter paths maintained.
+- [x] Fast local dev server for Vanrot apps, including route-aware reloads and useful diagnostics.
+- [x] Production build pipeline that compiles Vanrot components, handles app assets, and emits deployable static output.
+- [x] First-party hooks for framework package metadata and diagnostics without copying Vite's plugin surface.
+- [x] `vr create` project setup that offers Forge or Vite and keeps both starter paths maintained.
+
+Future Forge follow-ups remain separate: SSR-ready output, route-level chunking, deploy adapters, measured Vite timing
+comparisons, and package-specific Forge metadata consumption should each get their own focused plan when reopened.
 
 ## CLI Prompt Roadmap
 

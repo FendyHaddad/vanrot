@@ -77,9 +77,13 @@ async function createDoctorProject(options: {
       2,
     ),
   );
-  await writeFile(join(cwd, 'vanrot.config.ts'), options.config);
+  await writeFile(join(cwd, 'vanrot.config.ts'), withViteEngine(options.config));
   await writeFile(join(cwd, 'vite.config.ts'), 'export default {};\n');
   await writeFile(join(cwd, 'src', 'main.ts'), options.source);
 
   return cwd;
+}
+
+function withViteEngine(source: string): string {
+  return source.replace(/schemaVersion:\s*1,?/, "schemaVersion: 1,\n  engine: 'vite',");
 }

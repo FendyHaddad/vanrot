@@ -2,7 +2,7 @@
 
 ## vr create <project-name>
 
-Creates a routed Vanrot app with the configured package manager and starter files.
+Creates a routed Vanrot app with the configured package manager, starter files, and selected app engine.
 
 Docs: /docs/cli
 
@@ -50,7 +50,7 @@ Docs: /docs/cli
 
 ## vr doctor
 
-Runs local project diagnostics and can include read-only project intelligence with --inspect.
+Runs local project diagnostics, selected-engine package boundary checks, and optional read-only project intelligence with --inspect.
 
 Docs: /docs/cli
 
@@ -80,15 +80,15 @@ Docs: /docs/devtools
 
 ## vr dev
 
-Starts the configured Vite development server through the Vanrot CLI.
+Starts the configured Vanrot app engine through the CLI, using Forge or Vite based on project config or engine flags.
 
 Docs: /docs/cli
 
 ## vr build
 
-Runs a production build through the Vanrot CLI.
+Runs a production build through the configured Vanrot app engine.
 
-Docs: /docs/deployment
+Docs: /docs/forge/build
 
 ## vr test
 

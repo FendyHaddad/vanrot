@@ -21,6 +21,14 @@ export function checkRequiredArticleCoverage(requiredKeys, articles) {
     .map((key) => `Missing framework docs article: ${key}`);
 }
 
+export function readDocsPageArticleKeys(docsPageTreeSource) {
+  return [
+    ...new Set(
+      [...docsPageTreeSource.matchAll(/\bkey:\s*"([^"]+)"/g)].map((match) => match[1]),
+    ),
+  ];
+}
+
 export function checkPrimitiveCoverage(requiredPrimitives, componentDocs) {
   const failures = [];
 
@@ -513,7 +521,6 @@ async function verifySiteDocs() {
   const ui = await readUiMetadata();
   const cli = await readCliMetadata();
   const frameworkReference = readFrameworkReference();
-  const articles = siteData.articles ?? [];
   const primitiveDocs = siteData.primitiveDocs ?? [];
   const workspacePackages = readWorkspacePackageNames();
   const workspaceExports = readWorkspacePublicExports();
@@ -525,6 +532,10 @@ async function verifySiteDocs() {
   );
   const siteDataSource = readFileSync(siteDataSourcePath, 'utf8');
   const docsPageTreeSource = readFileSync(docsPageTreePath, 'utf8');
+  const articles = [
+    ...(siteData.articles ?? []),
+    ...readDocsPageArticleKeys(docsPageTreeSource).map((key) => ({ key })),
+  ];
   const sharedDocsCss = readFileSync(sharedDocsCssPath, 'utf8');
   const docsLayoutHtml = readFileSync(
     join(projectRoot, 'apps/vanrot-site/src/layouts/docs/docs.layout.html'),
@@ -560,6 +571,7 @@ async function verifySiteDocs() {
     'runtime',
     'compiler',
     'vitePlugin',
+    'forge',
     'cli',
     'configuration',
     'routing',
@@ -612,6 +624,7 @@ async function verifySiteDocs() {
         'VRCFG010',
         'VRCFG011',
         'VRCFG012',
+        'VRCFG021',
         'VRCFG_FORMATTING_LOCALE_EMPTY',
         'VRCFG_FORMATTING_TIMEZONE_EMPTY',
         'VRCFG_FORMATTING_CURRENCY_EMPTY',
@@ -622,6 +635,21 @@ async function verifySiteDocs() {
       'config',
     ),
     ...checkDiagnosticCoverage(
+      [
+        'VRFORGE001',
+        'VRFORGE002',
+        'VRFORGE003',
+        'VRFORGE004',
+        'VRFORGE005',
+        'VRFORGE006',
+        'VRFORGE007',
+      ],
+      frameworkReference.diagnostics
+        .filter((item) => item.family === 'forge')
+        .map((item) => item.code),
+      'forge',
+    ),
+    ...checkDiagnosticCoverage(
       ['VR_CHILD_BEFORE_PARENT'],
       frameworkReference.diagnostics
         .filter((item) => item.family === 'router')
@@ -629,7 +657,17 @@ async function verifySiteDocs() {
       'router',
     ),
     ...checkGeneratedFileCoverage(
-      ['package.json', 'tsconfig.json', 'vite.config.ts', 'vanrot.config.ts', 'src/routes.ts'],
+      [
+        'package.json',
+        'tsconfig.json',
+        'vite.config.ts',
+        'vanrot.config.ts',
+        'src/routes.ts',
+        'dist/assets/vanrot-app.js',
+        'dist/assets/vanrot-app.css',
+        'dist/vanrot-routes.json',
+        'dist/vanrot-assets.json',
+      ],
       frameworkReference.generatedFiles,
     ),
     ...checkConventionCoverage(
@@ -639,7 +677,10 @@ async function verifySiteDocs() {
     ...checkExampleRegistration(exampleNames, frameworkReference.examples),
     ...checkExampleFreshness(frameworkReference.examples, existingExamplePaths),
     ...checkCtaLabels(homePageSource),
-    ...checkRouteMetadataCoverage(['/', '/docs', '/docs/components', '/changelog'], frameworkReference.routeMetadata),
+    ...checkRouteMetadataCoverage(
+      ['/', '/docs', '/docs/forge', '/docs/components', '/changelog'],
+      frameworkReference.routeMetadata,
+    ),
     ...checkDocsShellVisualContract(docsLayoutHtml, docsLayoutCss),
     ...checkComponentDocsShellVisualContract(appLayoutCss, siteCss, componentHtmlFiles),
     ...checkDocsPageComponentCoverage(docsPageTreeSource),

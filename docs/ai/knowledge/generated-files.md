@@ -20,15 +20,39 @@ Docs: /docs/vite-plugin
 
 ## vanrot.config.ts
 
-Typed Vanrot config source for source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.
+Typed Vanrot config source for engine choice, source roots, dev server defaults, UI configuration, behavior.enabled, and AI rule settings.
 
-Docs: /docs/configuration
+Docs: /docs/forge/config
 
 ## src/routes.ts
 
 Named route refs and route metadata for app navigation without repeated route strings.
 
 Docs: /docs/routing
+
+## dist/assets/vanrot-app.js
+
+Compiled JavaScript emitted by the native Forge build path.
+
+Docs: /docs/forge/build
+
+## dist/assets/vanrot-app.css
+
+Scoped CSS emitted by the native Forge build path.
+
+Docs: /docs/forge/build
+
+## dist/vanrot-routes.json
+
+Route manifest emitted by Forge for build inspection and future deploy tooling.
+
+Docs: /docs/forge/build
+
+## dist/vanrot-assets.json
+
+Asset manifest emitted by Forge for generated output inspection.
+
+Docs: /docs/forge/build
 
 ## .vanrot/project-map.json
 

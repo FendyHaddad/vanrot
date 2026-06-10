@@ -1,6 +1,6 @@
 import { mkdir, readdir, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
-import type { VanrotBehaviorName } from '@vanrot/config';
+import type { VanrotBehaviorName, VanrotEngine } from '@vanrot/config';
 import type { CreateSeoSelection } from '../seo/create-seo.js';
 import { createAppTemplate } from './app-template.js';
 import { createStarterUiAssets } from './starter-ui-assets.js';
@@ -10,6 +10,7 @@ export interface WriteAppOptions {
   appName: string;
   workspace: boolean;
   force: boolean;
+  engine: VanrotEngine;
   behavior: VanrotBehaviorName[];
   seo: CreateSeoSelection;
 }
@@ -31,6 +32,7 @@ export async function writeApp(options: WriteAppOptions): Promise<WriteAppResult
     ...createAppTemplate({
       appName: options.appName,
       workspace: options.workspace,
+      engine: options.engine,
       behavior: options.behavior,
       seo: options.seo,
     }),

@@ -12,6 +12,12 @@ Vanrot Framework Documentation Framework documentation for Vanrot packages, APIs
 
 Docs: /docs
 
+## /docs/forge
+
+Vanrot Forge Native Engine Guide to @vanrot/forge, the Vanrot-native app engine for dev, build, engine config, graph diagnostics, first-party hooks, and benchmark guardrails.
+
+Docs: /docs/forge
+
 ## /docs/forms
 
 Vanrot Forms And Async Resources Guide to @vanrot/forms, signal-native form state, validation, field arrays, wizards, async resources, server errors, drafts, metadata, diagnostics, and tests.

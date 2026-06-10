@@ -78,6 +78,264 @@ Lists config diagnostic codes.
 
 Docs: /docs/diagnostics
 
+## @vanrot/forge *
+
+All public exports from @vanrot/forge are covered by Forge and public API documentation.
+
+Docs: /docs/forge
+
+## @vanrot/forge forgePackageName
+
+Stable package name constant for Forge metadata and tests.
+
+Docs: /docs/forge
+
+## @vanrot/forge runForgeBuild
+
+Runs the Vanrot-native static build and returns generated files plus diagnostics.
+
+Docs: /docs/forge/build
+
+## @vanrot/forge ForgeBuildOptions
+
+Options for cwd, outDir, and reporter behavior in Forge builds.
+
+Docs: /docs/forge/build
+
+## @vanrot/forge ForgeBuildResult
+
+Structured Forge build result with output files and diagnostics.
+
+Docs: /docs/forge/build
+
+## @vanrot/forge runForgeDev
+
+Runs the Forge dev command path for CLI dispatch.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge startForgeDevServer
+
+Starts the native Forge development server.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge collectForgeDevDiagnostics
+
+Collects compile and role diagnostics for the Forge dev loop.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge planForgeReload
+
+Plans role-aware reload actions for changed Vanrot files.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge ForgeDevOptions
+
+Options for running Forge dev from CLI or tests.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge ForgeDevResult
+
+Result returned by the Forge dev command path.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge ForgeDevServer
+
+Native dev server handle with URL and close behavior.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge StartForgeDevServerOptions
+
+Options for host, port, and project root when starting the Forge server.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge ForgeReloadAction
+
+Union of reload actions such as style patch, route refresh, full reload, and server restart.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge ForgeReloadPlan
+
+Structured reload decision returned by the Forge reload planner.
+
+Docs: /docs/forge/dev
+
+## @vanrot/forge createForgeAppGraph
+
+Creates the Forge app graph from config, source files, routes, and diagnostics.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge scanForgeSourceFiles
+
+Scans source files that can participate in Forge graph creation.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge classifyForgeFileRole
+
+Classifies Vanrot role files and role-adjacent assets for Forge.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge findOwnerRoleFile
+
+Finds the owning role file for a sibling template or stylesheet.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge forgeRoleSuffix
+
+Canonical Forge role suffix map for pages, components, layouts, widgets, and forms.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge discoverForgeRoutes
+
+Discovers route entries from Forge page role files.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeAppGraph
+
+Forge graph object shared by dev, build, diagnostics, and hooks.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeRoleFile
+
+Role file record with owner and sibling asset metadata.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeRoleFileClassification
+
+Classifier result for a Forge role or role-adjacent file.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeRoleFileKind
+
+Union of supported Forge role file kinds.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeRoleSuffix
+
+Union of supported Forge role suffix names.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeRouteEntry
+
+Discovered Forge route entry for page role files.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeRouteGraph
+
+Route graph metadata produced by Forge route discovery.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeSourceFile
+
+Scanned source file record used by Forge graph creation.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge forgeDiagnosticCode
+
+Canonical Forge diagnostic code map.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge formatForgeDiagnostic
+
+Formats Forge diagnostics for readable CLI and docs output.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeDiagnostic
+
+Structured diagnostic record emitted by Forge.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge ForgeDiagnosticSeverity
+
+Union of Forge diagnostic severity values.
+
+Docs: /docs/forge/config
+
+## @vanrot/forge createForgeHookRegistry
+
+Creates the first-party Forge hook registry and rejects generic bundler hooks.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge runForgeDiagnosticsHooks
+
+Runs Forge diagnostics hooks against a graph-aware context.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge runForgeRouteMetadataHooks
+
+Runs route metadata hooks for Forge consumers.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge runForgeBuildMetadataHooks
+
+Runs build metadata hooks for Forge consumers.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge runForgeDevtoolsMetadataHooks
+
+Runs devtools metadata hooks for Forge consumers.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge runForgeAiMetadataHooks
+
+Runs AI metadata hooks for Forge consumers.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge ForgeHook
+
+First-party Forge hook contract for diagnostics and metadata.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge ForgeHookContext
+
+Graph-aware context passed to Forge hooks.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge ForgeHookMetadataResult
+
+Metadata result returned by Forge hook channels.
+
+Docs: /docs/forge/hooks
+
+## @vanrot/forge ForgeHookRegistry
+
+Registry of validated first-party Forge hooks.
+
+Docs: /docs/forge/hooks
+
 ## @vanrot/language-server *
 
 All public exports from @vanrot/language-server are covered by editor language-server and public API documentation.

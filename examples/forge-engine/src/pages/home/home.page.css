@@ -1,0 +1,14 @@
+.forge-example {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 42rem;
+  padding: 3rem;
+}
+
+.forge-example__eyebrow {
+  color: #f45b47;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}

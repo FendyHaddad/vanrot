@@ -18,6 +18,7 @@ describe('framework reference registry', () => {
       '@vanrot/behavior',
       '@vanrot/compiler',
       '@vanrot/config',
+      '@vanrot/forge',
       '@vanrot/language-server',
       '@vanrot/router',
       '@vanrot/ssr',
@@ -53,6 +54,7 @@ describe('framework reference registry', () => {
     expect(publicRouteMetadata.map((item) => item.path)).toEqual([
       '/',
       '/docs',
+      '/docs/forge',
       '/docs/forms',
       '/docs/store',
       '/docs/formatters',
@@ -92,6 +94,9 @@ describe('framework reference registry', () => {
         expect.objectContaining({ packageName: '@vanrot/testing', name: 'setupRouterTest' }),
         expect.objectContaining({ packageName: '@vanrot/testing', name: 'createAccessibilityAssertions' }),
         expect.objectContaining({ packageName: '@vanrot/testing', name: 'createFakeTimerBridge' }),
+        expect.objectContaining({ packageName: '@vanrot/forge', name: 'runForgeBuild' }),
+        expect.objectContaining({ packageName: '@vanrot/forge', name: 'startForgeDevServer' }),
+        expect.objectContaining({ packageName: '@vanrot/forge', name: 'createForgeHookRegistry' }),
       ]),
     );
     expect(frameworkReference.commands.map((command) => command.name)).toEqual([
@@ -124,9 +129,19 @@ describe('framework reference registry', () => {
     ).toEqual(['build', 'verify', 'doctor', 'mcp', 'context', 'prompt', 'record', 'summarize']);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'compiler')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'config')).toBe(true);
+    expect(frameworkReference.diagnostics.some((item) => item.family === 'forge')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'router')).toBe(true);
     expect(frameworkReference.diagnostics.some((item) => item.family === 'ssr')).toBe(true);
+    expect(frameworkReference.diagnostics.map((item) => item.code)).toEqual(
+      expect.arrayContaining(['VRCFG021', 'VRFORGE003', 'VRFORGE004', 'VRFORGE005', 'VRFORGE006', 'VRFORGE007']),
+    );
+    expect(frameworkReference.commands.find((command) => command.name === 'dev')?.examples).toEqual(
+      expect.arrayContaining(['vr dev --engine forge', 'vr dev --engine vite']),
+    );
     expect(frameworkReference.generatedFiles.map((item) => item.path)).toContain('src/routes.ts');
+    expect(frameworkReference.generatedFiles.map((item) => item.path)).toEqual(
+      expect.arrayContaining(['dist/assets/vanrot-app.js', 'dist/vanrot-routes.json']),
+    );
     expect(frameworkReference.conventions.map((item) => item.id)).toEqual([
       'role-suffixes',
       'scoped-css',
@@ -160,6 +175,7 @@ describe('example matrix', () => {
       'devtools-intelligence',
       'ai-consumption',
       'build-deploy',
+      'forge-engine',
       'webgl-threejs',
       'ssr-hydration',
     ]);

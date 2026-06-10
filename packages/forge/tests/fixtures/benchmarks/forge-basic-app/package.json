@@ -1,0 +1,15 @@
+{
+  "name": "forge-basic-benchmark",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vr dev",
+    "build": "vr build"
+  },
+  "dependencies": {
+    "@vanrot/router": "workspace:*"
+  },
+  "devDependencies": {
+    "@vanrot/forge": "workspace:*"
+  }
+}

@@ -23,9 +23,10 @@ PUBLISH_PACKAGES=(
   router
   ssr
   testing
-  cli
   language-server
   seo
+  forge
+  cli
   vite-plugin
 )
 

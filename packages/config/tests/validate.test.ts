@@ -2,6 +2,17 @@ import { describe, expect, it } from 'vitest';
 import { configDiagnosticCode, validateVanrotConfig } from '../src/index.js';
 
 describe('validateVanrotConfig', () => {
+  it('reports invalid engines', () => {
+    expect(validateVanrotConfig({ engine: 'webpack' as never })).toEqual([
+      {
+        code: configDiagnosticCode.invalidEngine,
+        severity: 'error',
+        message: 'Invalid engine: webpack',
+        suggestion: 'Use forge or vite.',
+      },
+    ]);
+  });
+
   it('reports invalid port ranges as semantic errors', () => {
     const diagnostics = validateVanrotConfig({
       schemaVersion: 1,

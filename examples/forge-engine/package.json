@@ -1,0 +1,16 @@
+{
+  "name": "@vanrot/example-forge-engine",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@vanrot/config": "file:../../packages/config",
+    "@vanrot/forge": "file:../../packages/forge",
+    "@vanrot/router": "file:../../packages/router",
+    "@vanrot/runtime": "file:../../packages/runtime"
+  },
+  "devDependencies": {
+    "@vanrot/cli": "file:../../packages/cli",
+    "typescript": "^6.0.3"
+  }
+}

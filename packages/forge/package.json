@@ -1,0 +1,42 @@
+{
+  "name": "@vanrot/forge",
+  "version": "0.2.1",
+  "type": "module",
+  "engines": {
+    "node": ">=22.14.0"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "bin": {
+    "vanrot-forge": "./dist/bin.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@vanrot/compiler": "file:../compiler",
+    "@vanrot/config": "file:../config",
+    "@vanrot/devtools": "file:../devtools",
+    "@vanrot/router": "file:../router",
+    "@vanrot/seo": "file:../seo"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.19"
+  },
+  "scripts": {
+    "prebuild": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/compiler build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/devtools build && pnpm --filter @vanrot/seo build",
+    "build": "tsc -p tsconfig.json",
+    "pretypecheck": "pnpm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tests/tsconfig.json --noEmit",
+    "pretest": "pnpm run build",
+    "test": "vitest run",
+    "clean": "node -e \"import('node:fs').then(({ rmSync }) => rmSync('dist', { recursive: true, force: true }))\""
+  }
+}

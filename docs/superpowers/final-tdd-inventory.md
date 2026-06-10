@@ -36,7 +36,7 @@ When a phase adds or changes framework surface area:
 | Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
 |---|---|---|---|---|---|---|
 | [x] | repo | pnpm monorepo workspace | Complete | Fresh clone can install, typecheck, test, build, and verify all packages through root scripts. | Phase 1, Phase 26 | Package manager is `pnpm@11.1.3`. |
-| [x] | repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, behavior, compiler, config, language-server, vite-plugin, cli, router, ssr, ui, testing, ai, and devtools. |
+| [x] | repo | package shells | Complete | Every public package has export checks, typecheck, build, and package metadata coverage. | Phase 1, Phase 26 | Current packages are runtime, behavior, compiler, config, forge, language-server, vite-plugin, cli, router, ssr, ui, testing, forms, store, formatters, ai, seo, and devtools. |
 | [x] | repo | release version bump automation | Production-Ready | Changed public packages and their transitive dependents can be bumped before npm publish, including package-owned Web Types metadata. | Phase 26 | Covered by `scripts/bump-changed-packages.test.mjs`; already bumped manifests are not bumped again, and `publish.sh` skips existing versions by default so only newly bumped package versions publish. |
 | [x] | repo | site opener script | Production-Ready | `pnpm open:site` starts the Vanrot site on the standard local port and opens the root URL from either the repo root or site package; `pnpm open:docs` and `pnpm docs:open` open `/docs`. | Phase 26 | Covered by `scripts/open-docs.test.mjs`; avoids `pnpm docs` because that is a pnpm built-in command. |
 | [x] | repo | TypeScript shared build posture | Complete | Package references and module settings compile cleanly from root and inside package tests. | Phase 1, Phase 26 | Final pass should include clean-machine verification. |
@@ -227,6 +227,18 @@ When a phase adds or changes framework surface area:
 | [x] | dev server | true state-preserving HMR | Production-Ready | HTML/CSS updates preserve state where safe and clean up invalidated generated effects. | Phase 12D | Phase 12D returns owner modules to Vite; generated accept/dispose remains future hardening if needed. |
 | [x] | build | production build fixture | Production-Ready | Build emits correct JS/CSS assets, sourcemaps where configured, and works from a clean fixture install. | Phase 4, Phase 12D, Phase 26 | Phase 12D adds clean app-style package-output fixture coverage; Phase 26 owns final release install. |
 | [x] | typing | transformed component imports | Production-Ready | App authors can import compiled `.component.ts`, `.page.ts`, and `.button.ts` modules without `@ts-expect-error`. | Phase 12E | Named Vite exports, router `ComponentType` page contracts, examples, UI button tests, and CLI generated files are covered. |
+
+## `@vanrot/forge`
+
+| Tested | Area | Item | Current Maturity | Final TDD Expectation | Owner Phase | Notes |
+|---|---|---|---|---|---|---|
+| [x] | package boundary | first-party native engine package | Production-Ready | Package export, build, typecheck, tests, release metadata, docs, AI bundle, and benchmark guardrails cover `@vanrot/forge`. | Phase 32 | Forge is Vanrot-only and does not carry Vite's general frontend ecosystem contract. |
+| [x] | config and CLI | engine selection | Production-Ready | Forge/Vite engine values, defaults, validation, migration, recovery, `vr create`, `vr dev`, `vr build`, one-command overrides, and doctor checks are covered. | Phase 32 | Package scripts stay `vr dev` and `vr build`; config owns the engine choice. |
+| [x] | app graph | role files and routes | Production-Ready | Source scanning, role suffix classification, sibling ownership, missing source-root diagnostics, and route discovery are covered. | Phase 32 | Graph APIs are public so first-party tooling can share the same source of truth. |
+| [x] | dev server | native Forge dev loop | Production-Ready | HTTP serving, Forge client, SSE events, reload planning, compiler diagnostics, and CLI dispatch are covered. | Phase 32 | Reload actions are role-aware and fall back to full reload only when needed. |
+| [x] | build | native Forge static output | Production-Ready | Build writes `index.html`, `assets/vanrot-app.js`, `assets/vanrot-app.css`, `vanrot-routes.json`, `vanrot-assets.json`, and diagnostics output when needed. | Phase 32 | SSR streaming, route chunking, and deploy adapters remain future layers. |
+| [x] | hooks | first-party metadata hooks | Production-Ready | Diagnostics, route metadata, build metadata, devtools metadata, AI metadata, registry validation, and generic bundler-hook rejection are covered. | Phase 32 | Forge hooks are not Vite plugin hooks. |
+| [x] | docs and benchmarks | Forge docs IA and benchmark harness | Production-Ready | Real docs page triplets, sidebar routes, framework reference rows, AI docs, `examples/forge-engine`, benchmark fixtures, and `pnpm benchmark:forge` are covered. | Phase 32 | Public speed claims stay blocked until measured Forge and Vite timing data exists. |
 
 ## `@vanrot/cli`
 
@@ -438,6 +450,7 @@ into isolated audit tests.
 | Component composition | compiler, runtime | Production compiler coverage exists | Red/green tests for child components, lifecycle boundaries, props, slots, and projected content. | Phase 12C |
 | Vite true HMR | vite-plugin | Full reload fallback | Red/green tests for HTML/CSS updates that preserve safe state and invalidate unsafe modules. | Phase 12D |
 | TypeScript import boundary | compiler, vite-plugin | Production coverage exists | Red/green tests proving app authors can import transformed role modules cleanly. | Phase 12E |
+| Forge native engine | forge, cli, config, docs | Production-Ready through Phase 32 | Red/green tests for engine selection, create/dev/build dispatch, native graph/dev/build behavior, hooks, docs IA, AI docs, examples, and benchmark claim gates. | Phase 32 |
 | Config source of truth | config, cli, vite-plugin | Deferred | Red/green tests for `vanrot.config.ts`, schema validation, install-aware config blocks, and port `1010`. | Phase 13 |
 | Beautiful CLI UX | cli | Demo reporter exists | Red/green snapshot/interaction tests for command output that is beautiful, readable, and scriptable. | Phase 14 |
 | Router production 15A | router, compiler | Route contract production slice works | Red/green tests for builder refs, typed params, query strings, URL generation, exact active links, breadcrumb metadata helpers, compiler route-link lowering, and route diagnostics. | Phase 15A |
@@ -484,3 +497,14 @@ into isolated audit tests.
 - `packages/*/package.json`: public package metadata now declares `engines.node` for release compatibility checks.
 - `.vanrot/release-dry-run/report.json` and `report.md`: kept only for `--keep` or failure, with successful default runs cleaning temp artifacts.
 - Tests: `pnpm exec vitest run scripts/verify-release-dry-run.test.mjs`, `pnpm verify:release-dry-run -- --keep`, `pnpm verify:release-dry-run`, full `pnpm verify`, `pnpm audit --audit-level moderate`, `pnpm audit:core`, and `git diff --check`.
+
+### Phase 32 Vanrot Forge Native Engine
+
+- `@vanrot/config`: `engine`, `vanrotEngine`, `defaultVanrotEngine`, validation diagnostics, migration, and recovery defaults for Forge or Vite app lifecycle selection.
+- `@vanrot/cli`: engine-aware `vr create`, `vr dev`, `vr build`, command metadata, package-boundary doctor checks, and starter template dependency selection.
+- `@vanrot/forge`: public package for app graph creation, source scanning, role classification, route discovery, native dev server, reload planner, static build output, diagnostics, and first-party hook metadata channels.
+- `apps/vanrot-site/src/pages/docs/framework/forge/**`: real parent and child docs page triplets for overview, dev, build, config, hooks, and benchmarks.
+- `apps/vanrot-site/src/docs/framework-reference.json`: package, public export, command, diagnostic, generated file, example, maturity, and route metadata coverage for Forge.
+- `examples/forge-engine`: workspace example for the Forge engine file shape and config boundary.
+- `scripts/benchmark-forge.mjs`: repeatable Forge benchmark harness with Vite comparison placeholders and a conservative public-claim gate.
+- Tests: config engine defaults/validation/migration/recovery, CLI engine dispatch/create/doctor, Forge graph/dev/build/hooks, benchmark harness, docs tree/files/reference, `verify:site-docs`, `verify:ai-docs`, `benchmark:forge`, and full `pnpm verify`.

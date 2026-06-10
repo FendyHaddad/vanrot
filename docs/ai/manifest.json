@@ -1,18 +1,18 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-06-06T15:37:21.123Z",
-  "sourceFingerprint": "sha256-3661f0fd51687a5dd42b89fa0e1dd6d580ff0b8845137aeb2b361e5dd5eb6d12",
+  "generatedAt": "2026-06-09T15:57:25.577Z",
+  "sourceFingerprint": "sha256-50d86481df043b91a09f9e0c9b66f4097d65b0aabc18522c4fabfc83c1048d2d",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-a15d1cb292cdbb980ab7691974322c877317d66929efdbf3ac120ed287a0e44e"
+      "fingerprint": "sha256-63d583da4b606e21b1bfed5fa9a63fa4c2a1139e69e78fff659dccb1c0b17d6f"
     },
     {
       "id": "framework-reference",
       "path": "apps/vanrot-site/src/docs/framework-reference.json",
-      "fingerprint": "sha256-ad0bcc00f5a377d17e86ca8bbe318f4e4bafaf40fb2b42747483a37c90600991"
+      "fingerprint": "sha256-d255c3a32212368af6313dcfac785a646866a862e5be11ca62922882d1001528"
     },
     {
       "id": "site-data",
@@ -22,29 +22,29 @@
     {
       "id": "cli-command-metadata",
       "path": "packages/cli/src/commands/metadata.ts",
-      "fingerprint": "sha256-1759fdeca05671360d054483fd5e97dda918b010d0c355e0bcc0d3635f6377b1"
+      "fingerprint": "sha256-fef134c9a9c9741df34670e4e4902697bf9b06ad7555e7428b9432e04914343c"
     },
     {
       "id": "feature-maturity",
       "path": "docs/superpowers/feature-maturity.md",
-      "fingerprint": "sha256-b3280447a9a6ff178945a443d5c26dedc65ade8a547255ac9dac82aa6f7c1dd8"
+      "fingerprint": "sha256-13da280562c70a71e3b28cdc80841cfc66a06accb4365a75a315c3bb37f4af8a"
     },
     {
       "id": "final-tdd-inventory",
       "path": "docs/superpowers/final-tdd-inventory.md",
-      "fingerprint": "sha256-bfc4074bd9575e68507e0758f7a8d9e54caaa7dd74d4d4178ff2bc822a8b4868"
+      "fingerprint": "sha256-3e9858f2c95861b6c35c966ca9476c58c6550a300208ac9cbea22ffc18878a1c"
     }
   ],
   "counts": {
-    "packages": 17,
-    "publicExports": 105,
+    "packages": 18,
+    "publicExports": 148,
     "commands": 16,
-    "diagnostics": 32,
-    "generatedFiles": 8,
+    "diagnostics": 40,
+    "generatedFiles": 12,
     "conventions": 5,
-    "examples": 14,
+    "examples": 15,
     "components": 51,
-    "routes": 7,
+    "routes": 8,
     "limitations": 2,
     "deployment": 1,
     "docs": 142

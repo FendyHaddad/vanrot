@@ -126,6 +126,12 @@ Config diagnostic for AI rule source validation.
 
 Docs: /docs/diagnostics
 
+## VRCFG021
+
+Config diagnostic for invalid engine values; use forge or vite.
+
+Docs: /docs/forge/config
+
 ## VRCFG_FORMATTING_LOCALE_EMPTY
 
 Config diagnostic for an empty formatting.locale value in vanrot.config.ts.
@@ -143,6 +149,48 @@ Docs: /docs/formatters
 Config diagnostic for an empty formatting.currency value in vanrot.config.ts.
 
 Docs: /docs/formatters
+
+## VRFORGE001
+
+Reserved Forge diagnostic for dev command paths that are intentionally not enabled in an earlier engine slice.
+
+Docs: /docs/forge/dev
+
+## VRFORGE002
+
+Reserved Forge diagnostic for build command paths that are intentionally not enabled in an earlier engine slice.
+
+Docs: /docs/forge/build
+
+## VRFORGE003
+
+Forge diagnostic for unknown engine command dispatch.
+
+Docs: /docs/forge
+
+## VRFORGE004
+
+Forge diagnostic for a missing configured source root.
+
+Docs: /docs/forge/config
+
+## VRFORGE005
+
+Forge diagnostic for a recognized role file that the current native engine slice does not compile yet.
+
+Docs: /docs/forge/config
+
+## VRFORGE006
+
+Forge diagnostic for route discovery failures in the app graph.
+
+Docs: /docs/forge/config
+
+## VRFORGE007
+
+Forge diagnostic for compiler diagnostics surfaced through dev or build.
+
+Docs: /docs/forge/dev
 
 ## VR_CHILD_BEFORE_PARENT
 

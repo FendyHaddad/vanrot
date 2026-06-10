@@ -32,6 +32,7 @@ export function renderCanonicalVanrotConfig(): string {
     '',
     'export default defineVanrotConfig({',
     '  schemaVersion: 1,',
+    "  engine: 'forge',",
     "  source: { root: 'src' },",
     '  devServer: { port: 1964 },',
     "  ui: { flavor: 'october', styles: 'vanrotstyles', prefix: 'ui' },",

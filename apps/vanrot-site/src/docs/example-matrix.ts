@@ -13,6 +13,7 @@ export const requiredExampleWorkflows = [
   'devtools-intelligence',
   'ai-consumption',
   'build-deploy',
+  'forge-engine',
   'webgl-threejs',
   'ssr-hydration',
 ] as const;

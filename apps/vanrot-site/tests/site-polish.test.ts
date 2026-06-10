@@ -181,6 +181,7 @@ describe('site polish', () => {
     expect(publicRouteMetadata.map((item) => item.path)).toEqual([
       '/',
       '/docs',
+      '/docs/forge',
       '/docs/forms',
       '/docs/store',
       '/docs/formatters',

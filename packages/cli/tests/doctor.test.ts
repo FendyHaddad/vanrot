@@ -17,12 +17,21 @@ async function tempProject() {
         test: 'vr test',
         doctor: 'vr doctor',
       },
+      dependencies: {
+        '@vanrot/config': '^0.2.0',
+        '@vanrot/runtime': '^0.2.0',
+      },
+      devDependencies: {
+        '@vanrot/cli': '^0.2.0',
+        '@vanrot/vite-plugin': '^0.2.0',
+        vite: '^8.0.10',
+      },
     }),
   );
   await writeFile(join(cwd, 'vite.config.ts'), "import vanrot from '@vanrot/vite-plugin';\n");
   await writeFile(
     join(cwd, 'vanrot.config.ts'),
-    "export default { schemaVersion: 1, source: { root: 'src' }, devServer: { port: 1964 } };",
+    "export default { schemaVersion: 1, engine: 'vite', source: { root: 'src' }, devServer: { port: 1964 } };",
   );
   await writeFile(join(cwd, 'src', 'app.component.ts'), 'export class AppComponent {}\n');
   await writeFile(join(cwd, 'src', 'app.component.html'), '<main>{{ title() }}</main>\n');
@@ -51,7 +60,58 @@ describe('vr doctor', () => {
     expect(result.exitCode).toBe(1);
     expect(reporter.output()).toContain('Missing package.json');
     expect(reporter.output()).toContain('Missing src directory');
-    expect(reporter.output()).toContain('Missing vite.config.ts');
+  });
+
+  it('reports Forge projects missing the Forge package', async () => {
+    const cwd = await tempProject();
+    await writeFile(
+      join(cwd, 'package.json'),
+      JSON.stringify({
+        scripts: {
+          dev: 'vr dev',
+          build: 'vr build',
+          test: 'vr test',
+          doctor: 'vr doctor',
+        },
+        devDependencies: {
+          '@vanrot/cli': '^0.2.0',
+          '@vanrot/vite-plugin': '^0.2.0',
+        },
+      }),
+    );
+    await writeFile(
+      join(cwd, 'vanrot.config.ts'),
+      "export default { schemaVersion: 1, engine: 'forge' };",
+    );
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['doctor'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(1);
+    expect(reporter.output()).toContain('VRTF001');
+    expect(reporter.output()).toContain('VRTF002');
+  });
+
+  it('reports Vite projects missing Vite dependencies', async () => {
+    const cwd = await tempProject();
+    await writeFile(
+      join(cwd, 'package.json'),
+      JSON.stringify({
+        scripts: {
+          dev: 'vr dev',
+          build: 'vr build',
+          test: 'vr test',
+          doctor: 'vr doctor',
+        },
+      }),
+    );
+    const reporter = createMemoryReporter();
+
+    const result = await runCli(['doctor'], { cwd, reporter });
+
+    expect(result.exitCode).toBe(1);
+    expect(reporter.output()).toContain('VRTV001');
+    expect(reporter.output()).toContain('VRTV002');
   });
 
   it('reports missing component sibling files', async () => {
@@ -101,6 +161,21 @@ describe('vr doctor', () => {
 
   it('renders each finding on one labeled line with one next section', async () => {
     const cwd = await mkdtemp(join(tmpdir(), 'vanrot-cli-doctor-format-'));
+    await writeFile(
+      join(cwd, 'package.json'),
+      JSON.stringify({
+        scripts: {
+          dev: 'vr dev',
+          build: 'vr build',
+          test: 'vr test',
+          doctor: 'vr doctor',
+        },
+        devDependencies: {
+          '@vanrot/forge': '^0.2.0',
+        },
+      }),
+    );
+    await writeFile(join(cwd, 'vanrot.config.ts'), "export default { engine: 'forge' };\n");
     const reporter = createMemoryReporter();
 
     const result = await runCli(['doctor'], { cwd, reporter });
@@ -108,8 +183,6 @@ describe('vr doctor', () => {
 
     expect(result.exitCode).toBe(1);
     expect(out).toContain('Vanrot Doctor');
-    expect(out).toContain('error     Missing package.json');
-    expect(out).toContain('          package.json');
     expect(out).toContain('error     Missing src directory');
     expect(out).toContain('          src');
     expect(out).toContain('next      Run vr create <name> to scaffold a Vanrot project.');

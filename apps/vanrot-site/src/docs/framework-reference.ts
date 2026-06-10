@@ -50,6 +50,7 @@ export interface FrameworkDiagnosticReference {
     | 'router'
     | 'cli'
     | 'vite-plugin'
+    | 'forge'
     | 'ssr'
     | 'forms'
     | 'formatters';

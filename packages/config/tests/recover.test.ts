@@ -19,6 +19,7 @@ describe('recoverVanrotConfig', () => {
     );
 
     const source = await readFile(join(cwd, 'vanrot.config.ts'), 'utf8');
+    expect(source).toContain("engine: 'forge'");
     expect(source).toContain("root: 'src'");
     expect(source).toContain('port: 1964');
   });

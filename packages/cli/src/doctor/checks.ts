@@ -1,4 +1,5 @@
 import { checkBehaviorUsage } from './behavior.js';
+import { checkEngineUsage } from './engine.js';
 import { checkProjectHealth } from './project-health.js';
 import { checkSeoUsage } from './seo.js';
 import { checkVanrotRules } from './vanrot-rules.js';
@@ -16,6 +17,7 @@ export interface DoctorFinding {
 export async function runDoctorChecks(cwd: string): Promise<DoctorFinding[]> {
   return [
     ...(await checkProjectHealth(cwd)),
+    ...(await checkEngineUsage(cwd)),
     ...(await checkVanrotRules(cwd)),
     ...(await checkBehaviorUsage(cwd)),
     ...(await checkSeoUsage(cwd)),

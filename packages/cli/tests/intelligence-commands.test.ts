@@ -19,10 +19,14 @@ async function tempProject(): Promise<string> {
         test: 'vr test',
         doctor: 'vr doctor',
       },
+      devDependencies: {
+        '@vanrot/vite-plugin': '^0.2.0',
+        vite: '^8.0.10',
+      },
     }),
   );
   await writeFile(join(cwd, 'vite.config.ts'), 'export default {};\n');
-  await writeFile(join(cwd, 'vanrot.config.ts'), 'export default {};\n');
+  await writeFile(join(cwd, 'vanrot.config.ts'), "export default { engine: 'vite' };\n");
   await writeFile(join(cwd, 'src', 'counter', 'counter.component.ts'), 'export class CounterComponent {}\n');
   await writeFile(join(cwd, 'src', 'counter', 'counter.component.html'), '<button>{{ count() }}</button>\n');
   await writeFile(join(cwd, 'src', 'counter', 'counter.component.css'), '.counter { display: block; }\n');

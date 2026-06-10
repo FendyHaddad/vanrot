@@ -109,6 +109,14 @@ const vitePluginNavigationChildren = [
   navItem(siteArticleKey.vitePluginDevtoolsMetadata),
 ] as const;
 
+const forgeNavigationChildren = [
+  navItem(siteArticleKey.forgeDev),
+  navItem(siteArticleKey.forgeBuild),
+  navItem(siteArticleKey.forgeConfig),
+  navItem(siteArticleKey.forgeHooks),
+  navItem(siteArticleKey.forgeBenchmarks),
+] as const;
+
 const cliNavigationChildren = [
   navItem(siteArticleKey.cliCommandSurface),
   navItem(siteArticleKey.cliProjectCreation),
@@ -233,6 +241,7 @@ export const siteNavigationGroups: readonly SiteNavigationGroup[] = [
       navItem(siteArticleKey.seo, seoNavigationChildren),
       navItem(siteArticleKey.compiler, compilerNavigationChildren),
       navItem(siteArticleKey.vitePlugin, vitePluginNavigationChildren),
+      navItem(siteArticleKey.forge, forgeNavigationChildren),
       navItem(siteArticleKey.cli, cliNavigationChildren),
       navItem(siteArticleKey.configuration, configurationNavigationChildren),
       navItem(siteArticleKey.editorTooling, editorToolingNavigationChildren),

@@ -48,8 +48,11 @@ export const cliCommands: readonly CliCommandMetadata[] = [
     help: `vr create <name>
 
 Options
-  --workspace   Use workspace dependencies for repository fixtures
-  --force       Overwrite an existing target directory`,
+  --engine forge|vite  Select the app engine. Forge is recommended; Vite is compatibility.
+  --forge              Create a Forge app
+  --vite               Create a Vite compatibility app
+  --workspace          Use workspace dependencies for repository fixtures
+  --force              Overwrite an existing target directory`,
   },
   {
     name: commandName.generate,
@@ -225,14 +228,22 @@ vr ai summarize`,
     usage: commandInvocation(commandName.dev),
     rootUsage: 'dev',
     description: 'Start dev server with HMR',
-    help: commandInvocation(commandName.dev),
+    help: `vr dev
+
+Options
+  --forge  Run the Forge dev server for this command
+  --vite   Run the Vite compatibility dev server for this command`,
   },
   {
     name: commandName.build,
     usage: commandInvocation(commandName.build),
     rootUsage: 'build',
     description: 'Compile and bundle for production',
-    help: commandInvocation(commandName.build),
+    help: `vr build
+
+Options
+  --forge  Run the Forge production build for this command
+  --vite   Run the Vite compatibility production build for this command`,
   },
   {
     name: commandName.test,

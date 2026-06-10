@@ -1,7 +1,16 @@
 import { describe, expect, it } from 'vitest';
-import { normalizeVanrotConfig, vanrotUiFlavor, vanrotUiStyleMode } from '../src/index.js';
+import {
+  normalizeVanrotConfig,
+  vanrotEngine,
+  vanrotUiFlavor,
+  vanrotUiStyleMode,
+} from '../src/index.js';
 
 describe('normalizeVanrotConfig', () => {
+  it('defaults new projects to the Forge engine', () => {
+    expect(normalizeVanrotConfig().engine).toBe(vanrotEngine.forge);
+  });
+
   it('fills missing required domains with production defaults', () => {
     const normalized = normalizeVanrotConfig({});
 

@@ -1,4 +1,9 @@
-import { configSchemaVersion, defaultDevServerPort, defaultSourceRoot } from './constants.js';
+import {
+  configSchemaVersion,
+  defaultDevServerPort,
+  defaultSourceRoot,
+  defaultVanrotEngine,
+} from './constants.js';
 import {
   vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
@@ -22,6 +27,7 @@ export function normalizeVanrotConfig(config: VanrotConfig = {}): NormalizedVanr
   const normalized: NormalizedVanrotConfig = {
     ...configWithoutSeoAndFormatting,
     schemaVersion: config.schemaVersion ?? configSchemaVersion,
+    engine: config.engine ?? defaultVanrotEngine,
     source: {
       root: config.source?.root ?? defaultSourceRoot,
     },

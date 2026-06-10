@@ -3,6 +3,7 @@ import { configDiagnosticCode, type ConfigDiagnostic } from './diagnostics.js';
 import {
   vanrotBehavior,
   vanrotAiRuleSection,
+  vanrotEngine,
   vanrotRouterDiagnosticLevel,
   vanrotSeoDiagnosticsMode,
   vanrotSeoRobotsDirective,
@@ -13,6 +14,7 @@ import {
 } from './types.js';
 
 const knownTopLevelKeys = new Set<string>(['schemaVersion', ...Object.values(configDomain)]);
+const knownEngines = new Set<string>(Object.values(vanrotEngine));
 const knownRouterDiagnosticLevels = new Set<string>(Object.values(vanrotRouterDiagnosticLevel));
 const knownUiFlavors = new Set<string>(Object.values(vanrotUiFlavor));
 const knownUiStyleModes = new Set<string>(Object.values(vanrotUiStyleMode));
@@ -40,6 +42,16 @@ export function validateVanrotConfig(config: VanrotConfig): ConfigDiagnostic[] {
       severity: 'error',
       message: `Unknown top-level config key: ${key}`,
       suggestion: 'Remove the key or move it under a supported domain.',
+    });
+  }
+
+  const engine = config.engine;
+  if (engine !== undefined && !knownEngines.has(String(engine))) {
+    diagnostics.push({
+      code: configDiagnosticCode.invalidEngine,
+      severity: 'error',
+      message: `Invalid engine: ${String(engine)}`,
+      suggestion: 'Use forge or vite.',
     });
   }
 

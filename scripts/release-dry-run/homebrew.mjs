@@ -31,14 +31,7 @@ export async function createHomebrewStep({
     });
   }
 
-  await runner({
-    name: 'homebrew cleanup stale local tap',
-    command: 'brew',
-    args: ['untap', localTapName],
-    cwd: repositoryRoot,
-    env: homebrewEnv,
-    required: false,
-  });
+  await cleanupLocalTap({ runner, repositoryRoot });
 
   const tapStep = await runner({
     name: 'homebrew create local tap',

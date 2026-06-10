@@ -3,6 +3,7 @@ export {
   configSchemaVersion,
   defaultDevServerPort,
   defaultSourceRoot,
+  defaultVanrotEngine,
   vanrotConfigFileName,
 } from './constants.js';
 export { defineVanrotConfig } from './define-config.js';
@@ -30,6 +31,7 @@ export {
 } from './diagnostics.js';
 export { validateVanrotConfig } from './validate.js';
 export {
+  vanrotEngine,
   vanrotBehavior,
   vanrotAiRuleSection,
   vanrotRouterDiagnosticLevel,
@@ -57,6 +59,7 @@ export type {
   VanrotBehaviorConfig,
   VanrotBehaviorName,
   VanrotConfig,
+  VanrotEngine,
   VanrotFormattingConfig,
   VanrotRouterConfig,
   VanrotRouterDiagnosticLevel,

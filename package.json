@@ -19,6 +19,7 @@
     "open:site": "node scripts/open-docs.mjs",
     "open:docs": "node scripts/open-docs.mjs docs",
     "docs:open": "node scripts/open-docs.mjs docs",
+    "benchmark:forge": "node scripts/benchmark-forge.mjs",
     "verify:phase-docs": "node scripts/verify-phase-docs.mjs",
     "verify:site-docs": "node scripts/verify-site-docs.mjs",
     "verify:site-format": "node scripts/verify-site-format.mjs",

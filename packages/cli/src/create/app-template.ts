@@ -1,5 +1,10 @@
 import { createRequire } from 'node:module';
-import { renderCanonicalVanrotConfig, type VanrotBehaviorName } from '@vanrot/config';
+import {
+  renderCanonicalVanrotConfig,
+  vanrotEngine,
+  type VanrotBehaviorName,
+  type VanrotEngine,
+} from '@vanrot/config';
 import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts, vanrotSitePath, vanrotSiteUrl } from '../commands/metadata.js';
 import { generatedSeoUtilitySource, seoCliPackageName, seoCliUtilityPath } from '../seo/constants.js';
@@ -9,6 +14,7 @@ import { renderSeoConfigSource } from '../seo/add-seo.js';
 export interface AppTemplateOptions {
   appName: string;
   workspace: boolean;
+  engine: VanrotEngine;
   behavior: VanrotBehaviorName[];
   seo: CreateSeoSelection;
 }
@@ -49,13 +55,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           type: 'module',
           scripts: createStarterScripts(),
           dependencies,
-          devDependencies: {
-            '@vanrot/cli': dependencyVersion,
-            '@vanrot/vite-plugin': dependencyVersion,
-            typescript: '^5.9.3',
-            vite: '^8.0.10',
-            vitest: '^4.0.14',
-          },
+          devDependencies: createStarterDevDependencies(options.engine, dependencyVersion),
         },
         null,
         2,
@@ -85,18 +85,8 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
       )}\n`,
     },
     {
-      path: 'vite.config.ts',
-      content: `import { defineConfig } from 'vite';
-import vanrot from '@vanrot/vite-plugin';
-
-export default defineConfig({
-  plugins: [vanrot()],
-});
-`,
-    },
-    {
       path: 'vanrot.config.ts',
-      content: renderAppConfig(options.behavior, options.seo),
+      content: renderAppConfig(options.engine, options.behavior, options.seo),
     },
     {
       path: 'src/main.ts',
@@ -438,6 +428,19 @@ export class HomePage {
     },
   ];
 
+  if (options.engine === vanrotEngine.vite) {
+    template.push({
+      path: 'vite.config.ts',
+      content: `import { defineConfig } from 'vite';
+import vanrot from '@vanrot/vite-plugin';
+
+export default defineConfig({
+  plugins: [vanrot()],
+});
+`,
+    });
+  }
+
   if (options.seo.enabled) {
     template.push({
       path: seoCliUtilityPath,
@@ -448,6 +451,26 @@ export class HomePage {
   return template;
 }
 
+function createStarterDevDependencies(
+  engine: VanrotEngine,
+  dependencyVersion: string,
+): Record<string, string> {
+  const devDependencies: Record<string, string> = {
+    '@vanrot/cli': dependencyVersion,
+    typescript: '^5.9.3',
+    vitest: '^4.0.14',
+  };
+
+  if (engine === vanrotEngine.vite) {
+    devDependencies['@vanrot/vite-plugin'] = dependencyVersion;
+    devDependencies.vite = '^8.0.10';
+    return devDependencies;
+  }
+
+  devDependencies['@vanrot/forge'] = dependencyVersion;
+  return devDependencies;
+}
+
 function createRegistryDependencyVersion(): string {
   if (typeof cliPackage.version !== 'string' || cliPackage.version.trim() === '') {
     throw new Error('Missing @vanrot/cli package version.');
@@ -456,12 +479,21 @@ function createRegistryDependencyVersion(): string {
   return `^${cliPackage.version}`;
 }
 
-function renderAppConfig(behavior: readonly VanrotBehaviorName[], seo: CreateSeoSelection): string {
+function renderAppConfig(
+  engine: VanrotEngine,
+  behavior: readonly VanrotBehaviorName[],
+  seo: CreateSeoSelection,
+): string {
+  const canonicalSource = renderCanonicalVanrotConfig().replace(
+    "engine: 'forge'",
+    `engine: '${engine}'`,
+  );
+
   if (behavior.length === 0 && !seo.enabled) {
-    return renderCanonicalVanrotConfig();
+    return canonicalSource;
   }
 
-  return renderCanonicalVanrotConfig().replace(
+  return canonicalSource.replace(
     '});\n',
     `${renderBehaviorConfig(behavior)}${renderCreateSeoConfig(seo)});\n`,
   );

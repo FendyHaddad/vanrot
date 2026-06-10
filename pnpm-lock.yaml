@@ -165,6 +165,28 @@ importers:
         specifier: ^4.0.14
         version: 4.1.6(@types/node@22.19.19)(jsdom@29.1.1)(vite@8.0.13(@types/node@22.19.19)(esbuild@0.28.0))
 
+  examples/forge-engine:
+    dependencies:
+      '@vanrot/config':
+        specifier: file:../../packages/config
+        version: link:../../packages/config
+      '@vanrot/forge':
+        specifier: file:../../packages/forge
+        version: link:../../packages/forge
+      '@vanrot/router':
+        specifier: file:../../packages/router
+        version: link:../../packages/router
+      '@vanrot/runtime':
+        specifier: file:../../packages/runtime
+        version: link:../../packages/runtime
+    devDependencies:
+      '@vanrot/cli':
+        specifier: file:../../packages/cli
+        version: link:../../packages/cli
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   examples/formatters-pipes:
     dependencies:
       '@vanrot/compiler':
@@ -351,6 +373,9 @@ importers:
       '@vanrot/devtools':
         specifier: file:../devtools
         version: link:../devtools
+      '@vanrot/forge':
+        specifier: file:../forge
+        version: link:../forge
       '@vanrot/ui':
         specifier: file:../ui
         version: link:../ui
@@ -395,6 +420,28 @@ importers:
         version: 22.19.19
 
   packages/devtools:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.19.19
+        version: 22.19.19
+
+  packages/forge:
+    dependencies:
+      '@vanrot/compiler':
+        specifier: file:../compiler
+        version: link:../compiler
+      '@vanrot/config':
+        specifier: file:../config
+        version: link:../config
+      '@vanrot/devtools':
+        specifier: file:../devtools
+        version: link:../devtools
+      '@vanrot/router':
+        specifier: file:../router
+        version: link:../router
+      '@vanrot/seo':
+        specifier: file:../seo
+        version: link:../seo
     devDependencies:
       '@types/node':
         specifier: ^22.19.19

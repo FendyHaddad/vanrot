@@ -1,4 +1,5 @@
 import { resolveCreateBehaviorSelection } from '../create/behavior-prompt.js';
+import { resolveCreateEngineSelection } from '../create/engine-prompt.js';
 import { writeApp } from '../create/write-app.js';
 import { resolveCreateSeoSelection } from '../seo/create-seo.js';
 import type { CommandContext, CommandResult } from '../result.js';
@@ -9,14 +10,24 @@ export async function createCommand(
   args: string[],
   context: CommandContext,
 ): Promise<CommandResult> {
-  const appName = args.find((arg) => !arg.startsWith('-'));
-  const workspace = args.includes('--workspace');
-  const force = args.includes('--force');
-  const behaviorFlag = valueAfter(args, '--behavior');
-  const noBehavior = args.includes('--no-behavior');
-  const seoFlag = args.includes('--seo');
-  const noSeo = args.includes('--no-seo');
-  const seoSiteUrl = valueAfter(args, '--seo-site-url');
+  const engineSelection = resolveCreateEngineSelection(args);
+  if (engineSelection.diagnostic !== undefined) {
+    context.reporter.error(
+      engineSelection.diagnostic.message,
+      engineSelection.diagnostic.suggestion,
+    );
+    return fail();
+  }
+
+  const createArgs = engineSelection.remainingArgs;
+  const appName = createArgs.find((arg) => !arg.startsWith('-'));
+  const workspace = createArgs.includes('--workspace');
+  const force = createArgs.includes('--force');
+  const behaviorFlag = valueAfter(createArgs, '--behavior');
+  const noBehavior = createArgs.includes('--no-behavior');
+  const seoFlag = createArgs.includes('--seo');
+  const noSeo = createArgs.includes('--no-seo');
+  const seoSiteUrl = valueAfter(createArgs, '--seo-site-url');
 
   if (appName === undefined) {
     context.reporter.error('Missing app name.', `Run ${commandUsage(commandName.create)}.`);
@@ -50,6 +61,7 @@ export async function createCommand(
       appName,
       workspace,
       force,
+      engine: engineSelection.engine,
       behavior,
       seo,
     });

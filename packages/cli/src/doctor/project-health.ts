@@ -37,17 +37,6 @@ export async function checkProjectHealth(cwd: string): Promise<DoctorFinding[]> 
     );
   }
 
-  if (!(await exists(join(cwd, 'vite.config.ts')))) {
-    findings.push(
-      error(
-        'VRT0003',
-        'vite.config.ts',
-        'Missing vite.config.ts',
-        SCAFFOLD_NEXT_STEP,
-      ),
-    );
-  }
-
   findings.push(...(await checkSiblingFiles(cwd)));
   return findings;
 }

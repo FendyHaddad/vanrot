@@ -24,6 +24,12 @@ const requiredRealDocsPaths = [
   '/docs/forms/arrays-wizards-server-errors',
   '/docs/formatters',
   '/docs/formatters/enum-pipes',
+  '/docs/forge',
+  '/docs/forge/dev',
+  '/docs/forge/build',
+  '/docs/forge/config',
+  '/docs/forge/hooks',
+  '/docs/forge/benchmarks',
   '/docs/changelog',
 ] as const;
 
@@ -99,6 +105,39 @@ describe('docs page tree', () => {
       expect(page?.sourceFiles.html).toMatch(/editor-tooling/);
       expect(page?.sourceFiles.css).toMatch(/editor-tooling/);
     }
+  });
+
+  it('models Forge docs as real parent and child pages', () => {
+    const pages = flattenDocsPageTree(docsPageTree);
+    const parent = pages.find((page) => page.path === '/docs/forge');
+    const childPaths = parent?.children.map((child) => child.path);
+
+    expect(parent).toMatchObject({
+      key: 'forge',
+      label: 'Forge',
+      section: docsPageSection.framework,
+    });
+    expect(parent?.componentName).toBe('ForgePage');
+    expect(childPaths).toEqual([
+      '/docs/forge/dev',
+      '/docs/forge/build',
+      '/docs/forge/config',
+      '/docs/forge/hooks',
+      '/docs/forge/benchmarks',
+    ]);
+
+    for (const path of childPaths ?? []) {
+      expect(path).not.toContain('#');
+      const page = pages.find((item) => item.path === path);
+      expect(page?.sourceFiles.ts).toMatch(/forge/);
+      expect(page?.sourceFiles.html).toMatch(/forge/);
+      expect(page?.sourceFiles.css).toMatch(/forge/);
+      expect(page?.article.sections.length).toBeGreaterThanOrEqual(4);
+    }
+
+    expect(parent?.article.sections.length).toBeGreaterThanOrEqual(4);
+    const benchmarkPage = pages.find((page) => page.path === '/docs/forge/benchmarks');
+    expect(JSON.stringify(benchmarkPage?.article)).toContain('publicClaimAllowed');
   });
 
   it('registers each docs page path in routes', () => {
