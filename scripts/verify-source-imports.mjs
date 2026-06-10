@@ -6,6 +6,7 @@ import { spawnSync } from 'node:child_process';
 import ts from 'typescript';
 
 const defaultRoot = fileURLToPath(new URL('..', import.meta.url));
+const appDirectoryName = 'apps';
 const packageDirectoryName = 'packages';
 const sourceDirectoryName = 'src';
 const sourceExtensions = ['.ts', '.tsx'];
@@ -13,7 +14,7 @@ const sourceIndexFiles = ['index.ts', 'index.tsx'];
 
 export function verifySourceImports(options = {}) {
   const root = resolve(options.root ?? defaultRoot);
-  const sourceFiles = options.sourceFiles ?? discoverPackageSourceFiles(root);
+  const sourceFiles = options.sourceFiles ?? discoverWorkspaceSourceFiles(root);
   const isIgnored = options.isIgnored ?? createGitIgnoreChecker(root);
 
   return verifySourceImportsForFiles({ root, sourceFiles, isIgnored });
@@ -30,10 +31,10 @@ export function verifySourceImportsForFiles({ root, sourceFiles, isIgnored }) {
     }
 
     const sourceFile = ts.createSourceFile(sourceFilePath, sourceText, ts.ScriptTarget.Latest, true);
-    const specifiers = collectRelativeJsSpecifiers(sourceFile);
+    const specifiers = collectRelativeSourceSpecifiers(sourceFile);
 
     for (const specifier of specifiers) {
-      const resolvedImport = resolveRelativeJsImport(sourceFilePath, specifier.text);
+      const resolvedImport = resolveRelativeSourceImport(sourceFilePath, specifier.text);
 
       if (resolvedImport === null) {
         failures.push(createFailure(root, sourceFile, specifier, null, 'missing'));
@@ -47,6 +48,26 @@ export function verifySourceImportsForFiles({ root, sourceFiles, isIgnored }) {
   }
 
   return failures;
+}
+
+export function discoverWorkspaceSourceFiles(root) {
+  return [
+    ...discoverAppSourceFiles(root),
+    ...discoverPackageSourceFiles(root),
+  ].sort();
+}
+
+export function discoverAppSourceFiles(root) {
+  const appsRoot = join(root, appDirectoryName);
+
+  if (!existsSync(appsRoot)) {
+    return [];
+  }
+
+  return readdirSync(appsRoot, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .flatMap((entry) => walkSourceFiles(join(appsRoot, entry.name, sourceDirectoryName)))
+    .sort();
 }
 
 export function discoverPackageSourceFiles(root) {
@@ -74,7 +95,7 @@ export function formatSourceImportFailures(failures) {
   ].join('\n');
 }
 
-function collectRelativeJsSpecifiers(sourceFile) {
+function collectRelativeSourceSpecifiers(sourceFile) {
   const specifiers = [];
 
   visit(sourceFile);
@@ -105,7 +126,7 @@ function collectRelativeJsSpecifiers(sourceFile) {
       return;
     }
 
-    if (!moduleSpecifier.text.startsWith('.') || !moduleSpecifier.text.endsWith('.js')) {
+    if (!isRelativeSourceSpecifier(moduleSpecifier.text)) {
       return;
     }
 
@@ -113,7 +134,21 @@ function collectRelativeJsSpecifiers(sourceFile) {
   }
 }
 
-function resolveRelativeJsImport(sourceFilePath, specifier) {
+function isRelativeSourceSpecifier(specifier) {
+  if (!specifier.startsWith('.')) {
+    return false;
+  }
+
+  return specifier.endsWith('.js') || specifier.endsWith('.ts') || specifier.endsWith('.tsx');
+}
+
+function resolveRelativeSourceImport(sourceFilePath, specifier) {
+  if (specifier.endsWith('.ts') || specifier.endsWith('.tsx')) {
+    const exactSourcePath = resolve(dirname(sourceFilePath), specifier);
+
+    return existsSync(exactSourcePath) && statSync(exactSourcePath).isFile() ? exactSourcePath : null;
+  }
+
   const withoutJsExtension = specifier.slice(0, -'.js'.length);
   const importBasePath = resolve(dirname(sourceFilePath), withoutJsExtension);
   const candidates = [

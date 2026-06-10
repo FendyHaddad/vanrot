@@ -10,6 +10,8 @@ dist-intellij/
 build/
 !packages/*/src/build/
 !packages/*/src/build/**
+!apps/*/src/**/build/
+!apps/*/src/**/build/**
 out/
 .output/
 .vercel/

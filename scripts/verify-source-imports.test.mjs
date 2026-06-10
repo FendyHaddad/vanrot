@@ -4,6 +4,7 @@ import { dirname, join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import {
   formatSourceImportFailures,
+  verifySourceImports,
   verifySourceImportsForFiles,
 } from './verify-source-imports.mjs';
 
@@ -68,6 +69,43 @@ describe('verify-source-imports', () => {
         isIgnored: () => false,
       }),
     ).toEqual([]);
+  });
+
+  it('checks app source imports by default', async () => {
+    const root = await createTempRoot();
+    const treePath = join(root, 'apps', 'vanrot-site', 'src', 'docs', 'docs-page-tree.ts');
+    const buildPath = join(
+      root,
+      'apps',
+      'vanrot-site',
+      'src',
+      'pages',
+      'docs',
+      'framework',
+      'forge',
+      'build',
+      'build.page.ts',
+    );
+    await writeSourceFile(
+      treePath,
+      "import { BuildPage } from '../pages/docs/framework/forge/build/build.page.ts';\n",
+    );
+    await writeSourceFile(buildPath, 'export class BuildPage {}\n');
+
+    const failures = verifySourceImports({
+      root,
+      isIgnored: (filePath) => filePath === buildPath,
+    });
+
+    expect(failures).toEqual([
+      {
+        file: 'apps/vanrot-site/src/docs/docs-page-tree.ts',
+        line: 1,
+        specifier: '../pages/docs/framework/forge/build/build.page.ts',
+        resolvedImport: 'apps/vanrot-site/src/pages/docs/framework/forge/build/build.page.ts',
+        reason: 'ignored',
+      },
+    ]);
   });
 
   it('formats readable failures', () => {
