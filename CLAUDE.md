@@ -1,111 +1,110 @@
-# CLAUDE.md
+# Vanrot Agent Rules
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file must stay byte-identical to its mirror file. Codex and Claude share the same rulebook.
 
-## Commands
+## Project AI Source
+
+Use `.vanrot-ai/` as the Vanrot-owned AI control plane.
+
+- Load `.vanrot-ai/README.md` and `.vanrot-ai/skills/vanrot-workflow/SKILL.md` for Vanrot coding, docs, cleanup, hooks, verification, commit-readiness, and publish-readiness work.
+- `.vanrot-ai/hooks/` is the versioned hook source. Local `.git/hooks/*` should delegate there.
+- `.vanrot-ai/diagnostics/` contains read-only workflow hygiene and spec/plan cleanup checks.
+- Do not use old `docs/superpowers/specs/**` or `docs/superpowers/plans/**` as default context. Use them only for phase planning, archaeology, or cleanup.
+
+## Memory Protocol
+
+Use the local claude-mem HTTP API at `http://localhost:37777` for significant tasks.
+
+- Always include a deterministic `contentSessionId`, such as `codex-YYYY-MM-DD-short-task-name`.
+- Initialize with `POST /api/sessions/init`.
+- Queue observations with `POST /api/sessions/observations`; this claude-mem version requires `"tool_name":"codex"`.
+- Queue a summary with `POST /api/sessions/summarize`.
+- Use `GET /api/health` for a fast sanity check.
+- Do not call memory endpoints without `contentSessionId`.
+- Do not use `GET /api/sessions`; it returns the web UI HTML.
+
+## Vanrot Code Rules
+
+- Use guard clauses instead of nested control flow.
+- Use signals for state.
+- Never put UI markup in TypeScript.
+- Never put application logic in HTML.
+- HTML owns user-facing page copy and static labels.
+- TypeScript owns logic, imports, signals, computed values, and structured data needed by logic.
+- CSS owns visuals for the component that renders the DOM.
+- Use role suffixes: `.component.ts`, `.page.ts`, `.dialog.ts`, `.layout.ts`, `.widget.ts`, `.form.ts`.
+- Use scoped CSS for component styling.
+- Large inline visual markup, including large SVG blocks, belongs in a page-local child component.
+- Shared route names, paths, labels, command names, diagnostic codes, file suffixes, and generated copy live in one named source of truth. Literal strings are acceptable at the owning source boundary; page-authored UI copy normally belongs in the HTML template.
+- If a custom site template tag is added, update both `web-types.json` and `apps/vanrot-site/web-types.json`.
+
+## Vanrot Site
+
+When finishing changes to `apps/vanrot-site`, restart the local site dev server so the in-app browser reflects finished work:
 
 ```sh
-pnpm build              # build all packages (tsc, respects pre* scripts)
-pnpm typecheck          # typecheck all packages
-pnpm test               # test all packages + verify-phase-docs
-pnpm lint               # lint all packages
-pnpm verify             # full gate: typecheck + test + build + verify:size + verify:phase-docs
-pnpm audit:core         # run audits (vitest.audit.config.ts)
+pkill -f "vite/bin/vite.js.*--port 1964" || true
+pnpm --filter @vanrot/vanrot-site dev -- --host 127.0.0.1 --port 1964
 ```
 
-Single-package (deps are built automatically via `pre*` scripts):
+Then verify the relevant route responds at `http://localhost:1964` and, for frontend-visible changes, check rendered DOM/page errors rather than HTTP 200 alone.
+
+## Docs And Components
+
+- Vanrot framework docs in `apps/vanrot-site` use real `.page.ts/.page.html/.page.css` page components.
+- Route, sidebar, article, and AI/search metadata should derive from `apps/vanrot-site/src/docs/docs-page-tree.ts`.
+- Do not move narrative framework guide content back into `apps/vanrot-site/src/docs/site-data.json`.
+- Parent and child docs that look like pages must be real routes, not `#section` anchors.
+- Shared docs UI belongs under `apps/vanrot-site/src/pages/docs/shared/`.
+- Use the `vanrot-doc-component` skill for Vanrot component documentation pages.
+
+## Verification Lanes
+
+Start narrow, then escalate only when needed.
+
+- Page/site work: focused page tests or source checks, site build, then rendered route proof.
+- Docs/IA work: route/sidebar/page tests, web-types coverage, site docs verifier, AI docs when generated content changes.
+- Runtime/compiler work: focused package tests, typecheck/build, and runtime size check when `@vanrot/runtime` changes.
+- Package/API work: package-specific tests/build and source-import/export checks.
+- Release or publish readiness: run the broad gate only when the change affects public site/package/docs/release output or the user asks if it is safe to commit, publish, or deploy.
+
+The broad gate is:
+
 ```sh
-pnpm --filter @vanrot/runtime test
-pnpm --filter @vanrot/compiler build
+pnpm verify
 ```
 
-Phase-doc guardrail only:
-```sh
-pnpm verify:phase-docs
-pnpm verify:size         # size-limit budget on @vanrot/runtime
-```
+Avoid repeated broad runs during normal coding. One full run is enough unless a failure is fixed and must be rerun.
 
 ## Runtime Size Budget
 
-`@vanrot/runtime` is the core browser runtime and must stay under `1.98 KB` gzipped for `dist/index.js` plus `dist/internal.js`.
+`@vanrot/runtime` must stay under `1.98 KB` gzipped for `dist/index.js` plus `dist/internal.js`.
 
-Headless UI/application behavior belongs in `@vanrot/behavior`, not `@vanrot/runtime`. If `pnpm verify:size` reaches or breaches the runtime cap, report the exact size and explain which core runtime feature caused it before raising the cap.
+Headless UI/application behavior belongs in `@vanrot/behavior`, not `@vanrot/runtime`. If the runtime size gate reaches or breaches the cap, report the exact size and the feature that caused it before raising the cap.
 
-## Architecture
+## Hooks And Cleanup
 
-Vanrot is a signal-based TypeScript UI framework. Components are authored as three separate files: a `.component.ts` logic file, a `.component.html` template, and a `.component.css` scoped stylesheet.
+- `.git/hooks/pre-commit` should delegate to `.vanrot-ai/hooks/pre-commit.sh`.
+- The hook should be staged-file based and should not run broad release/publish checks by default.
+- Use `.vanrot-ai/diagnostics/workflow-hygiene.mjs` to check agent/hook drift.
+- Use `.vanrot-ai/diagnostics/spec-plan-cleanup.mjs` to classify old specs/plans.
+- Remove executed/obsolete specs/plans only when the current task authorizes file removal and the diagnostic proves the candidate.
+- Never change or delete database/data values unless the user explicitly asks for that exact data operation.
 
-### Package dependency order
+## Superpowers
 
-```
-@vanrot/runtime          ← signals, lifecycle, mounting (no internal deps)
-@vanrot/compiler         ← HTML template → JS codegen (no internal deps; uses parse5 + postcss)
-@vanrot/config           ← project config load/validate/migrate (no internal deps)
-@vanrot/router           ← client-side routing (depends on runtime)
-@vanrot/ui               ← design tokens, CSS primitives, metadata (depends on runtime)
-@vanrot/testing          ← test helpers (depends on runtime)
-@vanrot/vite-plugin      ← dev/build integration (depends on compiler + config + router)
-@vanrot/cli              ← `vr` binary (depends on config + ui)
-```
+When using Superpowers in this repo, do not use subagents, parallel agents, agent dispatch, or subagent-driven workflows. Adapt the workflow inline with explicit plans and checkpoints.
 
-### Key packages
+Brainstorming specs and writing-plan files for Vanrot phases use `docs/superpowers/specs/Phase-XX.md` and `docs/superpowers/plans/Phase-XX.md` names only when phase planning is genuinely needed.
 
-**`@vanrot/runtime`** — reactive primitives: `signal`, `computed`, `effect`, `batch`, `untrack`; lifecycle: `onMount`, `onDestroy`; mounting: `mount`. Exposes a `/internal` subpath for framework internals. Has a size budget enforced by `pnpm verify:size`.
+## Git Ownership
 
-**`@vanrot/compiler`** — parse5 parses `.html` templates into an AST; codegen modules (`bindings`, `control-flow`, `components`, `slots`, `ui-elements`) emit JavaScript. `scope-css` / `scope-id` handle scoped style transforms. Diagnostics live in `diagnostics/catalog.ts`.
+The user owns commits and pushes by default.
 
-**`@vanrot/router`** — `defineRoutes` / `createRoutes` build a typed route table. `RouteOutlet` renders the matched page/layout. `RouteLink` navigates. Supports nested layouts, keep-alive policies, preload policies, path params, query strings, and route guards. Route names/paths/labels must be defined once in `defineRoutes` and referenced from there.
+Unless explicitly asked, do not create branches/worktrees, run `git add`, run `git commit`, or run `git push`. Make changes in the current workspace and leave them for the user to inspect.
 
-**`@vanrot/cli`** — the `vr` binary. Commands: `dev`, `build`, `create`, `generate`, `add`, `config`, `doctor`, `test`, `map`, `metadata`, `ai`, `init-ai`. Doctor checks live in `doctor/checks.ts`; diagnostic codes in `diagnostics/catalog.ts`.
+Default final response after code changes: brief summary plus changed files. Mention verification, git status, unrelated dirty files, skipped proof, or publish safety only when it failed, was skipped, was requested, or affects commit/publish risk.
 
-**`@vanrot/ui`** — design tokens (`src/tokens`), CSS primitives (`src/primitives`), scoped styles (`src/styles`), and component metadata (`src/metadata.ts`). Source files under `src/docs` are published alongside dist.
+## Living Rules
 
-**`@vanrot/testing`** — vitest-based helpers for testing components against the runtime.
-
-### Routing note
-
-Route definition order in `defineRoutes` determines UI menu order. There is no `group` routing construct — layouts are first-class route kinds.
-
-## Code rules
-
-From `AGENTS.md` (authoritative source — read it at the start of significant tasks):
-
-- Guard clauses over nested control flow.
-- Signals for all mutable state.
-- No UI markup in TypeScript; no application logic in HTML.
-- Role-based file suffixes: `.component.ts`, `.page.ts`, `.dialog.ts`, `.layout.ts`, `.widget.ts`, `.form.ts`.
-- Scoped CSS for component styling.
-- Shared strings (route names, paths, labels, command names, diagnostic codes, file suffixes) must have exactly one named source of truth. Literal strings are only acceptable at that owning boundary.
-- English-like APIs; short names only when obvious to non-developers.
-
-Do not spread violations in existing files — fix only the part touched by the current task.
-
-## Workflow rules
-
-- **No subagents or parallel agent dispatch** — adapt Superpowers workflows to inline execution.
-- **Git ownership belongs to the user** — do not `git add`, `git commit`, or `git push` unless explicitly asked. Leave changes in the working tree.
-- **`AGENTS.md` is the durable rulebook** — when rules conflict with older habits, follow `AGENTS.md`.
-
-## Phase documentation
-
-Each production phase has a spec and a plan:
-- Specs: `docs/superpowers/specs/Phase-XX.md` (or `Phase-XXA.md` for sub-phases)
-- Plans: `docs/superpowers/plans/Phase-XX.md`
-- Maturity ledger: `docs/superpowers/feature-maturity.md`
-- TDD inventory: `docs/superpowers/final-tdd-inventory.md`
-
-**Phase completion checklist** (from `AGENTS.md`):
-1. Tick phase in `feature-maturity.md`.
-2. Mark all tasks in `plans/Phase-XX.md`.
-3. Update `feature-maturity.md` for any maturity/scope changes.
-4. Grow `final-tdd-inventory.md` for any new package, command, component, convention, helper, or generated file.
-5. Update spec/plan if requirements changed.
-6. Run `pnpm verify` (must pass, including size budget).
-7. Stage maturity ledger + TDD inventory + plan + spec together in one commit.
-
-`pnpm verify:phase-docs` enforces: completed phases must have all plan tasks checked; maturity rows for completed phases must not be `Planned`; presentation must mark the right phases done/active.
-
-Pre-commit hook bypass (only when intentionally needed):
-```sh
-VANROT_SKIP_PHASE_HOOK=1 git commit
-```
+Treat the mirrored root rulebooks as durable, with `.vanrot-ai/` as the detailed workflow source. Do not silently rewrite rules. If a durable user preference appears, propose the rule or update it only when the user asks.
