@@ -172,19 +172,23 @@ export function checkExampleFreshness(docExamples, existingExamplePaths) {
 export function checkCtaLabels(homePageSource) {
   const failures = [];
 
-  if (!homePageSource.includes("primaryCta: 'Read the docs'")) {
+  if (!homePageSource.includes('<a class="btn-primary" href="/docs">Read the docs</a>')) {
     failures.push('Landing primary CTA must be Read the docs');
   }
 
-  if (!homePageSource.includes("installCta: '$ npm i @vanrot/runtime'")) {
+  if (!homePageSource.includes('<a class="btn-ghost" href="/docs">$ npm i @vanrot/runtime</a>')) {
     failures.push('Landing install CTA must be the runtime install command');
   }
 
-  if (!homePageSource.includes("eyebrow: 'AI-first · Signal-based · Secure by design'")) {
+  if (
+    !homePageSource.includes(
+      '<vr-badge class="hero-badge">AI-first · Signal-based · Secure by design</vr-badge>',
+    )
+  ) {
     failures.push('Landing eyebrow must match the homepage redesign contract');
   }
 
-  if (homePageSource.includes("primaryCta: 'Framework Documentation'")) {
+  if (homePageSource.includes('Framework Documentation')) {
     failures.push('Landing primary CTA must not use the old Framework Documentation label');
   }
 
@@ -527,7 +531,7 @@ async function verifySiteDocs() {
   const exampleNames = readExampleWorkspaceNames();
   const existingExamplePaths = new Set(exampleNames.map((name) => `examples/${name}`));
   const homePageSource = readFileSync(
-    join(projectRoot, 'apps/vanrot-site/src/pages/home/home.page.ts'),
+    join(projectRoot, 'apps/vanrot-site/src/pages/home/home.page.html'),
     'utf8',
   );
   const siteDataSource = readFileSync(siteDataSourcePath, 'utf8');

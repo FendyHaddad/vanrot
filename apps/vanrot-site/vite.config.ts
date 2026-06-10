@@ -1,7 +1,8 @@
 import { defineConfig } from 'vite';
 import vanrot from '@vanrot/vite-plugin';
 
-const docsChildComponentImportMap = {
+const siteChildComponentImportMap = {
+  'home-ai-artwork': '/src/pages/home/home-ai-artwork.component.ts',
   'docs-article-shell': '/src/pages/docs/shared/docs-article-shell.component.ts',
   'docs-section': '/src/pages/docs/shared/docs-section.component.ts',
   'docs-code-block': '/src/pages/docs/shared/docs-code-block.component.ts',
@@ -12,7 +13,7 @@ const docsChildComponentImportMap = {
 export default defineConfig({
   plugins: [
     vanrot({
-      childComponentImportMap: docsChildComponentImportMap,
+      childComponentImportMap: siteChildComponentImportMap,
     }),
   ],
 });

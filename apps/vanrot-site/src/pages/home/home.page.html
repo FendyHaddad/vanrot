@@ -5,13 +5,13 @@
         <div class="hero-scan" aria-hidden="true"></div>
         <div class="hero-vignette" aria-hidden="true"></div>
         <div class="hero-copy">
-            <h1 class="hero-title">{{ copy.brand }}</h1>
-            <vr-badge class="hero-badge">{{ copy.eyebrow }}</vr-badge>
-            <p class="hero-typed"><span data-vr-home-typed>{{ copy.typedLine }}</span><span class="hero-caret"></span>
+            <h1 class="hero-title">Vanrot</h1>
+            <vr-badge class="hero-badge">AI-first · Signal-based · Secure by design</vr-badge>
+            <p class="hero-typed"><span data-vr-home-typed>The only framework you need. Reactivity without the fluff.</span><span class="hero-caret"></span>
             </p>
             <div class="hero-actions">
-                <a class="btn-primary" href="/docs">{{ copy.primaryCta }}</a>
-                <a class="btn-ghost" href="/docs">{{ copy.installCta }}</a>
+                <a class="btn-primary" href="/docs">Read the docs</a>
+                <a class="btn-ghost" href="/docs">$ npm i @vanrot/runtime</a>
             </div>
         </div>
     </section>
@@ -46,17 +46,30 @@
                     </div>
                     <div class="db-content">
                         <div class="db-stats">
-                            @for (stat of stats; track stat.label) {
                             <vr-stat class="db-stat">
-                                <span class="db-stat-label">{{ stat.label }}</span>
-                                <span class="db-stat-num">{{ stat.num }}</span>
-                                <span class="db-stat-detail">{{ stat.detail }}</span>
+                                <span class="db-stat-label">Runtime size</span>
+                                <span class="db-stat-num">{{ runtimeSize }}</span>
+                                <span class="db-stat-detail">gzipped</span>
                             </vr-stat>
-                            }
+                            <vr-stat class="db-stat">
+                                <span class="db-stat-label">Runtime deps</span>
+                                <span class="db-stat-num">0</span>
+                                <span class="db-stat-detail">Vite builds</span>
+                            </vr-stat>
+                            <vr-stat class="db-stat">
+                                <span class="db-stat-label">Runtime entries</span>
+                                <span class="db-stat-num">{{ runtimeEntryCount }}</span>
+                                <span class="db-stat-detail">{{ runtimePackageCount }} packages</span>
+                            </vr-stat>
+                            <vr-stat class="db-stat">
+                                <span class="db-stat-label">Type coverage</span>
+                                <span class="db-stat-num">100%</span>
+                                <span class="db-stat-detail">strict</span>
+                            </vr-stat>
                         </div>
                         <vr-card class="db-panel">
                             <div class="db-panel-head"><h3>Runtime packages</h3>
-                                <p>{{ packageSummary }}</p></div>
+                                <p>{{ runtimeEntryCount }} runtime entries · {{ runtimePackageCount }} packages, {{ bundleProfileCount }} bundle</p></div>
                             <vr-table class="db-table">
                                 <vr-table-header>
                                     <vr-table-row>
@@ -89,231 +102,52 @@
             </div>
         </div>
         <div class="section-head">
-            <h2 class="reveal">{{ copy.componentsHeading }}</h2>
-            <p class="section-lead reveal">{{ copy.componentsBody }}</p>
+            <h2 class="reveal">A component system, not a starter kit</h2>
+            <p class="section-lead reveal">Real blocks built from vr-card, vr-table, vr-sidebar, vr-badge. Monochrome, crisp, production-grade.</p>
         </div>
-        <div class="section-cta reveal"><a class="btn-primary" href="/docs/components">{{ copy.componentsCta }} →</a>
+        <div class="section-cta reveal"><a class="btn-primary" href="/docs/components">Browse UI components →</a>
         </div>
     </section>
 
     <section class="home-ai" data-vr-reveal-section data-vr-ai-spotlight>
         <div class="ai-spot" aria-hidden="true"></div>
         <div class="section-head">
-            <h2 class="reveal">{{ copy.aiHeading }}</h2>
-            <p class="section-lead reveal">{{ copy.aiBody }}</p>
+            <h2 class="reveal">AI-first, secure by design</h2>
+            <p class="section-lead reveal">Vanrot ships a machine-readable manifest your agent reads directly — and a runtime with no eval, scoped styles, and zero supply-chain surface.</p>
         </div>
         <div class="ai-bento">
 
             <vr-card class="ai-cell ai-cell--lead" data-ai-tilt>
-                <div class="ai-viz ai-viz--manifest" aria-hidden="true">
-                    <!-- Starry Night: cosmic knowledge map -->
-                    <svg viewBox="0 0 240 260" preserveAspectRatio="xMidYMid meet">
-                        <defs>
-                            <linearGradient id="vg-sn-sky" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" style="stop-color:#050e3a"/>
-                                <stop offset="100%" style="stop-color:#0d2060"/>
-                            </linearGradient>
-                        </defs>
-                        <rect width="240" height="200" style="fill:url(#vg-sn-sky)"/>
-                        <path d="M0 38 Q60 22 120 36 Q180 50 240 32"
-                              style="fill:none;stroke:#1a3a9e;stroke-width:20;stroke-linecap:round;opacity:0.45"/>
-                        <path d="M0 58 Q70 44 140 56 Q200 68 240 52"
-                              style="fill:none;stroke:#162e88;stroke-width:15;stroke-linecap:round;opacity:0.38"/>
-                        <path d="M0 78 Q50 66 110 74 Q170 82 240 70"
-                              style="fill:none;stroke:#122888;stroke-width:10;stroke-linecap:round;opacity:0.3"/>
-                        <path d="M0 96 Q80 86 160 94 Q210 100 240 88"
-                              style="fill:none;stroke:#0e208a;stroke-width:7;stroke-linecap:round;opacity:0.25"/>
-                        <circle cx="185" cy="50" r="34" style="fill:#f5d76e;opacity:0.12"/>
-                        <circle cx="185" cy="50" r="24" style="fill:#f5d76e;opacity:0.18"/>
-                        <circle cx="185" cy="50" r="14" style="fill:#f8e080"/>
-                        <circle cx="38" cy="28" r="10" style="fill:#fff;opacity:0.08"/>
-                        <circle cx="38" cy="28" r="3.5" style="fill:#fff;opacity:0.65"/>
-                        <circle cx="38" cy="28" r="1.6" style="fill:#fff"/>
-                        <circle cx="80" cy="15" r="8" style="fill:#fff;opacity:0.08"/>
-                        <circle cx="80" cy="15" r="2.8" style="fill:#fff;opacity:0.75"/>
-                        <circle cx="80" cy="15" r="1.3" style="fill:#fff"/>
-                        <circle cx="128" cy="22" r="9" style="fill:#fff;opacity:0.08"/>
-                        <circle cx="128" cy="22" r="3.2" style="fill:#fff;opacity:0.65"/>
-                        <circle cx="128" cy="22" r="1.5" style="fill:#fff"/>
-                        <circle cx="52" cy="62" r="6" style="fill:#fff;opacity:0.08"/>
-                        <circle cx="52" cy="62" r="2" style="fill:#fff;opacity:0.55"/>
-                        <circle cx="52" cy="62" r="1" style="fill:#fff"/>
-                        <circle cx="102" cy="48" r="6" style="fill:#fff;opacity:0.08"/>
-                        <circle cx="102" cy="48" r="2" style="fill:#fff;opacity:0.55"/>
-                        <circle cx="102" cy="48" r="1" style="fill:#fff"/>
-                        <circle cx="152" cy="15" r="7" style="fill:#fff;opacity:0.08"/>
-                        <circle cx="152" cy="15" r="2.3" style="fill:#fff;opacity:0.65"/>
-                        <circle cx="152" cy="15" r="1.1" style="fill:#fff"/>
-                        <ellipse cx="30" cy="148" rx="12" ry="60" style="fill:#081306"/>
-                        <ellipse cx="30" cy="118" rx="9" ry="42" style="fill:#0c1c09"/>
-                        <path d="M0 200 Q60 176 120 192 Q180 208 240 186 L240 260 L0 260 Z" style="fill:#0d2208"/>
-                        <path d="M0 218 Q80 208 160 215 Q200 219 240 211 L240 260 L0 260 Z" style="fill:#081605"/>
-                        <rect x="152" y="186" width="22" height="18" style="fill:#0b1a08"/>
-                        <polygon points="152,186 174,186 163,175" style="fill:#0e220a"/>
-                        <rect x="158" y="191" width="6" height="5" style="fill:#f5c842;opacity:0.65"/>
-                        <rect x="193" y="184" width="14" height="18" style="fill:#091508"/>
-                        <polygon points="193,184 207,184 200,173" style="fill:#0b1e09"/>
-                        <rect x="198" y="177" width="4" height="7" style="fill:#091508"/>
-                    </svg>
-                </div>
+                <home-ai-artwork [variant]="'manifest'"></home-ai-artwork>
                 <div class="ai-cell-body">
                     <span class="ai-kicker">⌥ manifest</span>
-                    <h3 class="ai-title">{{ aiFeatures[0].title }}</h3>
-                    <p class="ai-body">{{ aiFeatures[0].body }}</p>
+                    <h3 class="ai-title">Agent manifest</h3>
+                    <p class="ai-body">Structured docs/ai knowledge. Agents understand Vanrot without guessing.</p>
                 </div>
             </vr-card>
 
             <vr-card class="ai-cell ai-cell--wide" data-ai-tilt>
-                <div class="ai-viz ai-viz--flow" aria-hidden="true">
-                    <!-- The Sower: one command seeds the whole field -->
-                    <svg viewBox="0 0 300 130" preserveAspectRatio="xMidYMid meet">
-                        <defs>
-                            <linearGradient id="vg-sw-sky" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" style="stop-color:#c43508"/>
-                                <stop offset="55%" style="stop-color:#e06018"/>
-                                <stop offset="100%" style="stop-color:#d89030"/>
-                            </linearGradient>
-                            <linearGradient id="vg-sw-field" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" style="stop-color:#8b6914"/>
-                                <stop offset="100%" style="stop-color:#4a2e06"/>
-                            </linearGradient>
-                        </defs>
-                        <rect width="300" height="130" style="fill:url(#vg-sw-sky)"/>
-                        <circle cx="228" cy="56" r="46" style="fill:#ffd700;opacity:0.18"/>
-                        <circle cx="228" cy="56" r="32" style="fill:#ffd700;opacity:0.24"/>
-                        <circle cx="228" cy="56" r="19" style="fill:#ffe040"/>
-                        <line x1="228" y1="16" x2="228" y2="6"
-                              style="stroke:#ffd700;stroke-width:2;stroke-linecap:round;opacity:0.55"/>
-                        <line x1="256" y1="24" x2="263" y2="16"
-                              style="stroke:#ffd700;stroke-width:2;stroke-linecap:round;opacity:0.55"/>
-                        <line x1="270" y1="56" x2="280" y2="56"
-                              style="stroke:#ffd700;stroke-width:2;stroke-linecap:round;opacity:0.55"/>
-                        <line x1="256" y1="88" x2="263" y2="96"
-                              style="stroke:#ffd700;stroke-width:2;stroke-linecap:round;opacity:0.45"/>
-                        <line x1="200" y1="24" x2="193" y2="16"
-                              style="stroke:#ffd700;stroke-width:2;stroke-linecap:round;opacity:0.55"/>
-                        <line x1="186" y1="56" x2="176" y2="56"
-                              style="stroke:#ffd700;stroke-width:2;stroke-linecap:round;opacity:0.5"/>
-                        <path d="M0 88 L300 74 L300 130 L0 130 Z" style="fill:url(#vg-sw-field)"/>
-                        <line x1="20" y1="130" x2="195" y2="80" style="stroke:#3a1e04;stroke-width:1.5;opacity:0.55"/>
-                        <line x1="70" y1="130" x2="212" y2="77" style="stroke:#3a1e04;stroke-width:1.5;opacity:0.55"/>
-                        <line x1="120" y1="130" x2="224" y2="76" style="stroke:#3a1e04;stroke-width:1.5;opacity:0.45"/>
-                        <line x1="170" y1="130" x2="238" y2="75" style="stroke:#3a1e04;stroke-width:1;opacity:0.35"/>
-                        <line x1="220" y1="130" x2="256" y2="75" style="stroke:#3a1e04;stroke-width:1;opacity:0.3"/>
-                        <circle cx="58" cy="82" r="6" style="fill:#1a0c02"/>
-                        <line x1="58" y1="88" x2="56" y2="108"
-                              style="stroke:#1a0c02;stroke-width:3.5;stroke-linecap:round"/>
-                        <line x1="56" y1="108" x2="49" y2="124"
-                              style="stroke:#1a0c02;stroke-width:3;stroke-linecap:round"/>
-                        <line x1="56" y1="108" x2="64" y2="122"
-                              style="stroke:#1a0c02;stroke-width:3;stroke-linecap:round"/>
-                        <line x1="58" y1="96" x2="44" y2="103"
-                              style="stroke:#1a0c02;stroke-width:2.5;stroke-linecap:round"/>
-                        <line x1="58" y1="96" x2="72" y2="90"
-                              style="stroke:#1a0c02;stroke-width:2.5;stroke-linecap:round"/>
-                        <circle cx="80" cy="100" r="1.5" style="fill:#f5d76e;opacity:0.85"/>
-                        <circle cx="88" cy="108" r="1.5" style="fill:#f5d76e;opacity:0.8"/>
-                        <circle cx="95" cy="99" r="1.4" style="fill:#f5d76e;opacity:0.75"/>
-                        <circle cx="83" cy="116" r="1.2" style="fill:#f5d76e;opacity:0.7"/>
-                        <circle cx="73" cy="118" r="1.2" style="fill:#f5d76e;opacity:0.65"/>
-                        <circle cx="100" cy="112" r="1.2" style="fill:#f5d76e;opacity:0.7"/>
-                    </svg>
-                </div>
+                <home-ai-artwork [variant]="'flow'"></home-ai-artwork>
                 <div class="ai-cell-body">
                     <span class="ai-kicker">$_ cli</span>
-                    <h3 class="ai-title">{{ aiFeatures[1].title }}</h3>
-                    <p class="ai-body">{{ aiFeatures[1].body }}</p>
+                    <h3 class="ai-title">vr ai</h3>
+                    <p class="ai-body">One command exposes the whole framework surface to any coding agent.</p>
                 </div>
             </vr-card>
 
             <vr-card class="ai-cell" data-ai-tilt>
-                <div class="ai-viz ai-viz--noeval" aria-hidden="true">
-                    <!-- Sunflowers: pure, natural, nothing artificial -->
-                    <svg viewBox="0 0 120 128" preserveAspectRatio="xMidYMid meet">
-                        <defs>
-                            <linearGradient id="vg-sf-bg" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" style="stop-color:#1a4a8a"/>
-                                <stop offset="100%" style="stop-color:#1a60c8"/>
-                            </linearGradient>
-                        </defs>
-                        <rect width="120" height="96" style="fill:url(#vg-sf-bg)"/>
-                        <rect y="96" width="120" height="32" style="fill:#7a4a14"/>
-                        <line x1="60" y1="52" x2="60" y2="98"
-                              style="stroke:#2a5e10;stroke-width:4;stroke-linecap:round"/>
-                        <path d="M60 76 Q44 64 36 72 Q44 82 60 76 Z" style="fill:#2a6612"/>
-                        <path d="M60 64 Q76 52 84 60 Q76 70 60 64 Z" style="fill:#2a6612"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(0,60,52)" style="fill:#f5c800"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(45,60,52)" style="fill:#e8b400"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(90,60,52)" style="fill:#f5c800"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(135,60,52)" style="fill:#e8b400"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(180,60,52)" style="fill:#f5c800"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(225,60,52)" style="fill:#e8b400"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(270,60,52)" style="fill:#f5c800"/>
-                        <ellipse cx="60" cy="29" rx="5" ry="12" transform="rotate(315,60,52)" style="fill:#e8b400"/>
-                        <circle cx="60" cy="52" r="13" style="fill:#4a2600"/>
-                        <circle cx="60" cy="52" r="9" style="fill:#3a1e00"/>
-                        <circle cx="55" cy="47" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="60" cy="45" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="65" cy="47" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="57" cy="52" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="63" cy="52" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="55" cy="57" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="60" cy="59" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                        <circle cx="65" cy="57" r="1.5" style="fill:#6a3810;opacity:0.65"/>
-                    </svg>
-                </div>
+                <home-ai-artwork [variant]="'noeval'"></home-ai-artwork>
                 <div class="ai-cell-body">
-                    <h3 class="ai-title">{{ aiFeatures[2].title }}</h3>
-                    <p class="ai-body">{{ aiFeatures[2].body }}</p>
+                    <h3 class="ai-title">No eval</h3>
+                    <p class="ai-body">Templates compile to plain JS. CSP-friendly, nothing evaluated at runtime.</p>
                 </div>
             </vr-card>
 
             <vr-card class="ai-cell" data-ai-tilt>
-                <div class="ai-viz ai-viz--deps" aria-hidden="true">
-                    <!-- Wheat Field with Crows: open, nothing extra -->
-                    <svg viewBox="0 0 120 128" preserveAspectRatio="xMidYMid meet">
-                        <defs>
-                            <linearGradient id="vg-wf-sky" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" style="stop-color:#0a1e6e"/>
-                                <stop offset="100%" style="stop-color:#1438a8"/>
-                            </linearGradient>
-                            <linearGradient id="vg-wf-wheat" x1="0" y1="0" x2="0" y2="1">
-                                <stop offset="0%" style="stop-color:#d4a020"/>
-                                <stop offset="100%" style="stop-color:#a07010"/>
-                            </linearGradient>
-                        </defs>
-                        <rect width="120" height="76" style="fill:url(#vg-wf-sky)"/>
-                        <path d="M0 20 Q40 14 80 20 Q100 24 120 18"
-                              style="fill:none;stroke:#0c2890;stroke-width:8;opacity:0.4;stroke-linecap:round"/>
-                        <path d="M0 36 Q30 28 60 34 Q90 40 120 32"
-                              style="fill:none;stroke:#0a2278;stroke-width:5;opacity:0.35;stroke-linecap:round"/>
-                        <path d="M0 76 Q30 68 60 72 Q90 76 120 70 L120 128 L0 128 Z" style="fill:url(#vg-wf-wheat)"/>
-                        <path d="M0 90 Q40 84 80 88 Q100 90 120 86 L120 128 L0 128 Z" style="fill:#c09018"/>
-                        <path d="M0 106 Q30 100 60 104 Q90 107 120 103 L120 128 L0 128 Z" style="fill:#b07e14"/>
-                        <line x1="15" y1="128" x2="18" y2="76" style="stroke:#8a6010;stroke-width:1;opacity:0.4"/>
-                        <line x1="35" y1="128" x2="38" y2="74" style="stroke:#8a6010;stroke-width:1;opacity:0.4"/>
-                        <line x1="55" y1="128" x2="57" y2="72" style="stroke:#8a6010;stroke-width:1;opacity:0.4"/>
-                        <line x1="75" y1="128" x2="78" y2="74" style="stroke:#8a6010;stroke-width:1;opacity:0.4"/>
-                        <line x1="95" y1="128" x2="97" y2="75" style="stroke:#8a6010;stroke-width:1;opacity:0.4"/>
-                        <path d="M18 18 Q22 13 26 18"
-                              style="fill:none;stroke:#040410;stroke-width:1.8;stroke-linecap:round"/>
-                        <path d="M38 10 Q43 5 48 10"
-                              style="fill:none;stroke:#040410;stroke-width:1.8;stroke-linecap:round"/>
-                        <path d="M58 16 Q63 11 68 16"
-                              style="fill:none;stroke:#040410;stroke-width:1.8;stroke-linecap:round"/>
-                        <path d="M78 8 Q83 3 88 8"
-                              style="fill:none;stroke:#040410;stroke-width:1.8;stroke-linecap:round"/>
-                        <path d="M94 19 Q98 14 102 19"
-                              style="fill:none;stroke:#040410;stroke-width:1.8;stroke-linecap:round"/>
-                        <path d="M28 30 Q32 25 36 30"
-                              style="fill:none;stroke:#040410;stroke-width:1.4;stroke-linecap:round;opacity:0.7"/>
-                        <path d="M70 26 Q74 21 78 26"
-                              style="fill:none;stroke:#040410;stroke-width:1.4;stroke-linecap:round;opacity:0.7"/>
-                    </svg>
-                </div>
+                <home-ai-artwork [variant]="'deps'"></home-ai-artwork>
                 <div class="ai-cell-body">
-                    <h3 class="ai-title">{{ aiFeatures[3].title }}</h3>
-                    <p class="ai-body">{{ aiFeatures[3].body }}</p>
+                    <h3 class="ai-title">Zero runtime deps</h3>
+                    <p class="ai-body">Vite powers dev/build. The browser runtime ships dependency-free.</p>
                 </div>
             </vr-card>
 
@@ -322,17 +156,17 @@
 
     <section class="home-signals" data-vr-reveal-section>
         <div class="section-head">
-            <h2 class="reveal">{{ copy.signalsHeading }}</h2>
-            <p class="section-lead reveal">{{ copy.signalsBody }}</p>
+            <h2 class="reveal">Signals that make sense</h2>
+            <p class="section-lead reveal">No virtual DOM, no reconciliation. Update a signal — only what depends on it recomputes.</p>
         </div>
         <div class="signals-demo reveal">
             <vr-card class="code-panel">
                 <div class="code-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span
                         class="browser-dot"></span><span class="code-file">counter.ts</span></div>
                 <pre class="code-block"><span class="cc">// no magic, no diffing</span><br>
-<span class="ck">const</span> count = <span class="cf">signal</span>(0);
-<span class="ck">const</span> doubled = <span class="cf">computed</span>(() =&gt; count() * 2);
-<span class="cf">effect</span>(() =&gt; console.<span class="cf">log</span>(doubled()));
+                <span class="ck">const</span> count = <span class="cf">signal</span>(0);
+                <span class="ck">const</span> doubled = <span class="cf">computed</span>(() =&gt; count() * 2);
+                <span class="cf">effect</span>(() =&gt; console.<span class="cf">log</span>(doubled()));
 
 count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></pre>
             </vr-card>
@@ -346,8 +180,8 @@ count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></p
 
     <section class="home-anatomy" data-vr-reveal-section>
         <div class="section-head">
-            <h2 class="reveal">{{ copy.anatomyHeading }}</h2>
-            <p class="section-lead reveal">{{ copy.anatomyBody }}</p>
+            <h2 class="reveal">One component, three files</h2>
+            <p class="section-lead reveal">Logic, template, and scoped style — each in its own file, each in its own language. Nothing leaks.</p>
         </div>
         <div class="anatomy-triptych">
             @for (item of anatomyFiles; track item.file) {
@@ -365,9 +199,10 @@ count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></p
         <div class="manifesto-viewport">
             <canvas class="manifesto-canvas" data-vr-manifesto-canvas aria-hidden="true"></canvas>
             <div class="manifesto-lines">
-                @for (line of manifestoLines; track line) {
-                <p class="manifesto-line">{{ line }}</p>
-                }
+                <p class="manifesto-line">No virtual DOM.</p>
+                <p class="manifesto-line">No hydration.</p>
+                <p class="manifesto-line">No magic.</p>
+                <p class="manifesto-line">Just signals.</p>
             </div>
         </div>
     </section>
@@ -375,8 +210,8 @@ count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></p
     <section class="home-packages" data-vr-reveal-section data-vr-package-rail>
         <div class="rail-viewport" data-vr-rail-viewport>
             <div class="section-head">
-                <h2 class="reveal">{{ copy.packagesHeading }}</h2>
-                <p class="section-lead reveal">{{ copy.packagesBody }}</p>
+                <h2 class="reveal">Every package, one manifest</h2>
+                <p class="section-lead reveal">Each package ships independently. Pull only what you need.</p>
             </div>
             <div class="rail-track" data-vr-rail-track>
                 @for (item of railPackages; track item.name) {
@@ -393,7 +228,7 @@ count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></p
             </div>
             <div class="rail-footer">
                 <span class="rail-counter"><span data-vr-rail-counter>01</span> / {{ railTotal }}</span>
-                <span class="rail-hint">{{ copy.railHint }} ↓</span>
+                <span class="rail-hint">Scroll ↓</span>
             </div>
         </div>
     </section>

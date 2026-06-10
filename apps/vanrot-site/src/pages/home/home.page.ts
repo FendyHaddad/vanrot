@@ -32,29 +32,6 @@ const runtimeDashboardPackageNames = new Set([
   '@vanrot/ui',
 ]);
 
-const homeCopy = {
-  brand: 'Vanrot',
-  eyebrow: 'AI-first · Signal-based · Secure by design',
-  typedLine: 'The only framework you need. Reactivity without the fluff.',
-  primaryCta: 'Read the docs',
-  installCta: '$ npm i @vanrot/runtime',
-  componentsHeading: 'A component system, not a starter kit',
-  componentsBody:
-    'Real blocks built from vr-card, vr-table, vr-sidebar, vr-badge. Monochrome, crisp, production-grade.',
-  componentsCta: 'Browse UI components',
-  aiHeading: 'AI-first, secure by design',
-  aiBody:
-    'Vanrot ships a machine-readable manifest your agent reads directly — and a runtime with no eval, scoped styles, and zero supply-chain surface.',
-  signalsHeading: 'Signals that make sense',
-  signalsBody: 'No virtual DOM, no reconciliation. Update a signal — only what depends on it recomputes.',
-  packagesHeading: 'Every package, one manifest',
-  packagesBody: 'Each package ships independently. Pull only what you need.',
-  anatomyHeading: 'One component, three files',
-  anatomyBody:
-    'Logic, template, and scoped style — each in its own file, each in its own language. Nothing leaks.',
-  railHint: 'Scroll',
-} as const;
-
 const anatomyFiles = [
   {
     file: 'counter.component.ts',
@@ -96,31 +73,6 @@ const anatomyFiles = [
   },
 ] as const;
 
-const manifestoLines = ['No virtual DOM.', 'No hydration.', 'No magic.', 'Just signals.'] as const;
-
-const aiFeatures = [
-  {
-    icon: '⌥',
-    title: 'Agent manifest',
-    body: 'Structured docs/ai knowledge. Agents understand Vanrot without guessing.',
-  },
-  {
-    icon: '$_',
-    title: 'vr ai',
-    body: 'One command exposes the whole framework surface to any coding agent.',
-  },
-  {
-    icon: '⊘',
-    title: 'No eval',
-    body: 'Templates compile to plain JS. CSP-friendly, nothing evaluated at runtime.',
-  },
-  {
-    icon: '▣',
-    title: 'Zero runtime deps',
-    body: 'Vite powers dev/build. The browser runtime ships dependency-free.',
-  },
-] as const;
-
 function isProductionReady(status: string): boolean {
   return status.startsWith('production-ready');
 }
@@ -149,29 +101,19 @@ const runtimePackages = packages.filter(pkg => runtimeDashboardPackageNames.has(
 const dashboardPackages = runtimePackages.flatMap(pkg =>
   pkg.name === '@vanrot/behavior' ? [pkg, behaviorAllBundle] : [pkg],
 );
-const stablePackageCount = packages.filter(pkg => pkg.statusLabel === 'stable').length;
-const demoPackageCount = packages.length - stablePackageCount;
 const bundleProfileCount = dashboardPackages.length - runtimePackages.length;
-const packageSummary = `${dashboardPackages.length} runtime entries · ${runtimePackages.length} packages, ${bundleProfileCount} bundle`;
+const runtimeEntryCount = dashboardPackages.length;
+const runtimePackageCount = runtimePackages.length;
 
 export class HomePage {
-  copy = homeCopy;
   runtimeSize = runtimeSize;
-  aiFeatures = aiFeatures;
-  packages = packages;
   anatomyFiles = anatomyFiles;
-  manifestoLines = manifestoLines;
   railPackages = railPackages;
   railTotal = railTotal;
   dashboardPackages = dashboardPackages;
-  packageCount = packageReferenceDocs.length;
-  packageSummary = packageSummary;
-  stats = [
-    { num: runtimeSize, label: 'Runtime size', detail: 'gzipped' },
-    { num: '0', label: 'Runtime deps', detail: 'Vite builds' },
-    { num: String(dashboardPackages.length), label: 'Runtime entries', detail: `${runtimePackages.length} packages` },
-    { num: '100%', label: 'Type coverage', detail: 'strict' },
-  ];
+  runtimeEntryCount = runtimeEntryCount;
+  runtimePackageCount = runtimePackageCount;
+  bundleProfileCount = bundleProfileCount;
 
   constructor() {
     setupHomeInteractions();

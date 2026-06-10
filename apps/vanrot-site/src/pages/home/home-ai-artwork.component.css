@@ -1,0 +1,37 @@
+:host {
+  display: contents;
+}
+
+.ai-viz {
+  position: relative;
+  z-index: 1;
+}
+
+.ai-viz svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ai-viz--manifest,
+.ai-viz--flow,
+.ai-viz--noeval,
+.ai-viz--deps {
+  flex: 1;
+  min-height: 0;
+}
+
+.ai-viz--manifest svg {
+  max-height: 300px;
+  margin-inline: auto;
+}
+
+.ai-viz--flow svg {
+  max-height: 160px;
+}
+
+.ai-viz--noeval svg,
+.ai-viz--deps svg {
+  max-height: 145px;
+  margin-inline: auto;
+}

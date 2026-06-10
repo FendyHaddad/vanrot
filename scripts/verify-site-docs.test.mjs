@@ -155,6 +155,16 @@ describe('expanded site docs verification', () => {
     ]);
   });
 
+  it('passes when homepage template labels match the landing contract', () => {
+    const failures = checkCtaLabels(`
+      <vr-badge class="hero-badge">AI-first · Signal-based · Secure by design</vr-badge>
+      <a class="btn-primary" href="/docs">Read the docs</a>
+      <a class="btn-ghost" href="/docs">$ npm i @vanrot/runtime</a>
+    `);
+
+    expect(failures).toEqual([]);
+  });
+
   it('fails when public route metadata is missing', () => {
     const failures = checkRouteMetadataCoverage(
       ['/', '/docs', '/docs/components', '/changelog'],

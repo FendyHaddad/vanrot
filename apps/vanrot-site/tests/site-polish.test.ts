@@ -15,16 +15,17 @@ async function readSiteFile(path: string): Promise<string> {
 
 describe('site polish', () => {
   it('uses approved landing CTA labels', async () => {
+    const html = await readSiteFile('src/pages/home/home.page.html');
     const source = await readSiteFile('src/pages/home/home.page.ts');
 
-    expect(source).toContain("primaryCta: 'Read the docs'");
-    expect(source).toContain("installCta: '$ npm i @vanrot/runtime'");
-    expect(source).toContain("eyebrow: 'AI-first · Signal-based · Secure by design'");
-    expect(source).toContain(
-      "typedLine: 'The only framework you need. Reactivity without the fluff.'",
-    );
-    expect(source).not.toContain("primaryCta: 'Framework Documentation'");
-    expect(source).not.toContain('Reactivity without the magic.');
+    expect(html).toContain('<a class="btn-primary" href="/docs">Read the docs</a>');
+    expect(html).toContain('<a class="btn-ghost" href="/docs">$ npm i @vanrot/runtime</a>');
+    expect(html).toContain('<vr-badge class="hero-badge">AI-first · Signal-based · Secure by design</vr-badge>');
+    expect(html).toContain('The only framework you need. Reactivity without the fluff.');
+    expect(html).not.toContain('Framework Documentation');
+    expect(html).not.toContain('Reactivity without the magic.');
+    expect(source).not.toContain('primaryCta');
+    expect(source).not.toContain('homeCopy');
   });
 
   it('keeps the landing page focused on framework docs and design components', async () => {
@@ -38,8 +39,8 @@ describe('site polish', () => {
     expect(html).toContain('data-vr-reveal-section');
     expect(html).toContain('<vr-table');
     // Component-system section appears before the AI section.
-    expect(html.indexOf('{{ copy.componentsHeading }}')).toBeLessThan(
-      html.indexOf('{{ copy.aiHeading }}'),
+    expect(html.indexOf('A component system, not a starter kit')).toBeLessThan(
+      html.indexOf('AI-first, secure by design'),
     );
     expect(css).not.toContain('min-height: calc(100vh');
   });
@@ -51,8 +52,9 @@ describe('site polish', () => {
     const widget = await readSiteFile('src/pages/home/home-interactions.widget.ts');
 
     expect(html).toContain('<span class="cc">// no magic, no diffing</span><br>');
-    expect(html).toContain('<span class="db-stat-detail">{{ stat.detail }}</span>');
-    expect(source).toContain("detail: 'gzipped'");
+    expect(html).toContain('<span class="db-stat-detail">gzipped</span>');
+    expect(html).toContain('<home-ai-artwork [variant]="\'manifest\'"></home-ai-artwork>');
+    expect(html).toContain('<home-ai-artwork [variant]="\'deps\'"></home-ai-artwork>');
     expect(source).toContain("const runtimeSize = '1.8kb';");
     expect(source).toContain("'@vanrot/runtime': { version: '0.1.0', size: runtimeSize }");
     expect(source).toContain("'@vanrot/behavior': { version: '0.1.0', size: '4.1kb' }");
@@ -62,19 +64,18 @@ describe('site polish', () => {
     expect(source).not.toContain('4.1kb all');
     expect(source).not.toContain("const runtimeSize = '5.68kb';");
     expect(packageReferenceDocs.map(pkg => pkg.name)).toContain('@vanrot/behavior');
-    expect(source).toContain("title: 'Zero runtime deps'");
-    expect(source).toContain(
-      "body: 'Vite powers dev/build. The browser runtime ships dependency-free.'",
-    );
-    expect(source).not.toContain("title: 'Zero deps'");
-    expect(source).toContain('packageSummary');
+    expect(html).toContain('<h3 class="ai-title">Zero runtime deps</h3>');
+    expect(html).toContain('Vite powers dev/build. The browser runtime ships dependency-free.');
+    expect(source).not.toContain('aiFeatures');
+    expect(source).toContain('runtimeEntryCount');
+    expect(source).toContain('runtimePackageCount');
     expect(source).toContain('const runtimeDashboardPackageNames = new Set([');
     expect(source).toContain("'@vanrot/runtime'");
     expect(source).toContain("'@vanrot/behavior'");
     expect(source).toContain("'@vanrot/router'");
     expect(source).toContain("'@vanrot/ui'");
     expect(source).toContain('runtimePackages');
-    expect(source).toContain('runtime entries');
+    expect(html).toContain('{{ runtimeEntryCount }} runtime entries');
     expect(source).not.toContain("runtimeDashboardPackageNames = new Set(['@vanrot/compiler'");
     expect(html).toContain('<div class="db-panel-head"><h3>Runtime packages</h3>');
     expect(html).toContain('@for (item of dashboardPackages; track item.name)');
@@ -103,8 +104,8 @@ describe('site polish', () => {
     const css = await readSiteFile('src/pages/home/home.page.css');
     const source = await readSiteFile('src/pages/home/home.page.ts');
 
-    expect(source).toContain("brand: 'Vanrot'");
-    expect(html).toContain('<h1 class="hero-title">{{ copy.brand }}</h1>');
+    expect(source).not.toContain("brand: 'Vanrot'");
+    expect(html).toContain('<h1 class="hero-title">Vanrot</h1>');
     expect(css).toContain('@media (max-width: 980px)');
     expect(css).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
     expect(css).toContain('.db-table vr-table-head:nth-child(3),');

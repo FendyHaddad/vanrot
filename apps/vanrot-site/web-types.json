@@ -125,6 +125,20 @@
           ]
         },
         {
+          "name": "home-ai-artwork",
+          "description": "Use <home-ai-artwork> inside the Vanrot home page AI cards to render the page-local SVG artwork variants outside the page template.",
+          "attributes": [
+            {
+              "name": "[variant]",
+              "description": "Bind the home AI artwork variant: manifest, flow, noeval, or deps."
+            }
+          ],
+          "source": {
+            "file": "src/pages/home/home-ai-artwork.component.ts",
+            "offset": 0
+          }
+        },
+        {
           "name": "docs-article-shell",
           "description": "Use <docs-article-shell> inside Vanrot site docs pages to render the shared article frame, summary, section grid, and bookmarks without duplicating page chrome.",
           "attributes": [
