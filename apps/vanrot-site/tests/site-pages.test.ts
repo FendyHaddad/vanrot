@@ -222,7 +222,7 @@ describe('vanrot site pages', () => {
     expect(appLayout).toContain('<vr-layout class="site-shell">');
     expect(appLayout).toContain('<vr-header class="site-header">');
     expect(appLayout).toContain('<vr-nav class="site-top-nav" aria-label="Primary">');
-    expect(appLayout).toContain('<vr route.docs />');
+    expect(appLayout).toMatch(/<vr route\.docs\s*\/>/);
     expect(appLayout).toContain('<vr route.components></vr>');
     expect(appLayout).toContain('<vr route.changelog></vr>');
     expect(appLayout).not.toContain('route.reference');

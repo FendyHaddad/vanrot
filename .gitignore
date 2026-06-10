@@ -8,6 +8,8 @@ node_modules/
 dist/
 dist-intellij/
 build/
+!packages/*/src/build/
+!packages/*/src/build/**
 out/
 .output/
 .vercel/

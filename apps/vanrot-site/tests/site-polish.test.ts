@@ -78,7 +78,7 @@ describe('site polish', () => {
     expect(source).not.toContain("runtimeDashboardPackageNames = new Set(['@vanrot/compiler'");
     expect(html).toContain('<div class="db-panel-head"><h3>Runtime packages</h3>');
     expect(html).toContain('@for (item of dashboardPackages; track item.name)');
-    expect(html).toContain('@for (item of packages; track item.name)');
+    expect(html).toContain('@for (item of railPackages; track item.name)');
     expect(html).toContain('<vr-table-head class="num">Version</vr-table-head>');
     expect(html).toContain('<vr-table-head class="num">Size</vr-table-head>');
     expect(html).toContain('<vr-table-cell class="m num">{{ item.version }}</vr-table-cell>');

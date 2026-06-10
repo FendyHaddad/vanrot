@@ -6,12 +6,17 @@ on:
       - main
     paths:
       - apps/vanrot-site/**
+      - packages/ai/**
       - packages/behavior/**
       - packages/cli/**
+      - packages/compiler/**
       - packages/config/**
+      - packages/devtools/**
+      - packages/forge/**
       - packages/formatters/**
       - packages/runtime/**
       - packages/router/**
+      - packages/seo/**
       - packages/ui/**
       - packages/vite-plugin/**
       - package.json
@@ -51,7 +56,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Verify site
-        run: pnpm --filter @vanrot/vanrot-site typecheck && pnpm --filter @vanrot/vanrot-site test
+        run: pnpm verify:source-imports && pnpm --filter @vanrot/vanrot-site typecheck && pnpm --filter @vanrot/vanrot-site test
 
       - name: Build site
         run: pnpm --filter @vanrot/vanrot-site build

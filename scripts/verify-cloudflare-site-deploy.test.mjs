@@ -24,9 +24,14 @@ describe('cloudflare site deploy wiring', () => {
 
     expect(workflow).toContain('paths:');
     expect(workflow).toContain('apps/vanrot-site/**');
+    expect(workflow).toContain('packages/ai/**');
     expect(workflow).toContain('packages/runtime/**');
     expect(workflow).toContain('packages/behavior/**');
+    expect(workflow).toContain('packages/compiler/**');
     expect(workflow).toContain('packages/router/**');
+    expect(workflow).toContain('packages/devtools/**');
+    expect(workflow).toContain('packages/forge/**');
+    expect(workflow).toContain('packages/seo/**');
     expect(workflow).toContain('packages/ui/**');
     expect(workflow).toContain('packages/vite-plugin/**');
     expect(workflow).toContain('packages/cli/**');
