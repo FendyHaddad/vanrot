@@ -96,7 +96,6 @@ const railPackages = packages.map((pkg, index) => ({
   ...pkg,
   index: String(index + 1).padStart(2, '0'),
 }));
-const railTotal = String(railPackages.length).padStart(2, '0');
 const runtimePackages = packages.filter(pkg => runtimeDashboardPackageNames.has(pkg.name));
 const dashboardPackages = runtimePackages.flatMap(pkg =>
   pkg.name === '@vanrot/behavior' ? [pkg, behaviorAllBundle] : [pkg],
@@ -109,7 +108,6 @@ export class HomePage {
   runtimeSize = runtimeSize;
   anatomyFiles = anatomyFiles;
   railPackages = railPackages;
-  railTotal = railTotal;
   dashboardPackages = dashboardPackages;
   runtimeEntryCount = runtimeEntryCount;
   runtimePackageCount = runtimePackageCount;

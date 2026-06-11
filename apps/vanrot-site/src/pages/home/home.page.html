@@ -109,6 +109,45 @@
         </div>
     </section>
 
+    <section class="home-finale" data-vr-finale>
+        <div class="finale-viewport" data-vr-finale-viewport>
+            <canvas class="manifesto-canvas" data-vr-manifesto-canvas aria-hidden="true"></canvas>
+            <div class="manifesto-lines" data-vr-manifesto-lines>
+                <p class="manifesto-line">No virtual DOM.</p>
+                <p class="manifesto-line">Tiny runtime.</p>
+                <p class="manifesto-line">Tiny core.</p>
+                <p class="manifesto-line">Endless Possibility.</p>
+            </div>
+            <div class="finale-wall" data-vr-package-wall>
+                <div class="section-head package-wall-head">
+                    <h2>Every package, one manifest</h2>
+                    <p class="section-lead">Each package ships independently. Pull only what you need.</p>
+                </div>
+                <div class="package-wall-frame">
+                    <div class="package-wall-grid" data-vr-package-wall-grid></div>
+                    <div class="package-wall-source" data-vr-package-wall-source aria-hidden="true">
+                        @for (item of railPackages; track item.name) {
+                        <vr-card class="package-wall-source-card">
+                            <div class="wall-card-top">
+                                <span class="wall-card-name">{{ item.name }}</span>
+                                <span class="wall-card-area">{{ item.area }}</span>
+                            </div>
+                            <span class="wall-card-index" aria-hidden="true">{{ item.index }}</span>
+                            <div class="wall-card-bottom">
+                                <div class="wall-card-tags">
+                                    <vr-badge class="pkg-badge wall-card-chip" data-vr-package-badge>{{ item.statusLabel }}</vr-badge>
+                                    <span class="wall-card-chip">{{ item.version }}</span>
+                                </div>
+                                <span class="wall-card-size">{{ item.size }}</span>
+                            </div>
+                        </vr-card>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <section class="home-ai" data-vr-reveal-section data-vr-ai-spotlight>
         <div class="ai-spot" aria-hidden="true"></div>
         <div class="section-head">
@@ -192,44 +231,6 @@ count.<span class="cf">set</span>(21); <span class="cc">// → logs 42</span></p
                 <span class="anatomy-role">{{ item.role }}</span>
             </vr-card>
             }
-        </div>
-    </section>
-
-    <section class="home-manifesto" data-vr-manifesto>
-        <div class="manifesto-viewport">
-            <canvas class="manifesto-canvas" data-vr-manifesto-canvas aria-hidden="true"></canvas>
-            <div class="manifesto-lines">
-                <p class="manifesto-line">No virtual DOM.</p>
-                <p class="manifesto-line">No hydration.</p>
-                <p class="manifesto-line">No magic.</p>
-                <p class="manifesto-line">Just signals.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="home-packages" data-vr-reveal-section data-vr-package-rail>
-        <div class="rail-viewport" data-vr-rail-viewport>
-            <div class="section-head">
-                <h2 class="reveal">Every package, one manifest</h2>
-                <p class="section-lead reveal">Each package ships independently. Pull only what you need.</p>
-            </div>
-            <div class="rail-track" data-vr-rail-track>
-                @for (item of railPackages; track item.name) {
-                <vr-card class="rail-card">
-                    <span class="rail-index" aria-hidden="true">{{ item.index }}</span>
-                    <div class="pkg-top">
-                        <span class="pkg-name">{{ item.name }}</span>
-                        <vr-badge class="pkg-badge" data-vr-package-badge>{{ item.statusLabel }}</vr-badge>
-                    </div>
-                    <p class="pkg-area">{{ item.area }}</p>
-                    <div class="rail-meta"><span>{{ item.version }}</span><span>{{ item.size }}</span></div>
-                </vr-card>
-                }
-            </div>
-            <div class="rail-footer">
-                <span class="rail-counter"><span data-vr-rail-counter>01</span> / {{ railTotal }}</span>
-                <span class="rail-hint">Scroll ↓</span>
-            </div>
         </div>
     </section>
 
