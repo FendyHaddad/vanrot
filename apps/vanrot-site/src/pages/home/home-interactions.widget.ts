@@ -1,13 +1,14 @@
 import { onMount, type Dispose } from '@vanrot/runtime';
 import { setupFinaleScene, setupPackageWallScene } from './home-spiral.widget.ts';
+import { setupSystemTerrain } from './home-terrain.widget.ts';
 
 const selector = {
   heroCanvas: '[data-vr-home-hero]',
   typedTarget: '[data-vr-home-typed]',
   packageBadge: '[data-vr-package-badge]',
   revealSection: '[data-vr-reveal-section]',
-  aiSpotlight: '[data-vr-ai-spotlight]',
-  aiTilt: '[data-ai-tilt]',
+  systemSection: '[data-vr-system]',
+  systemCell: '[data-sys-cell]',
 } as const;
 
 const noop: Dispose = () => {};
@@ -20,7 +21,8 @@ export function setupHomeInteractions(): void {
       setupHeroAnimation(),
       setupPackageBadgeTones(),
       setupScrollReveal(),
-      setupAiSpotlight(),
+      setupSystemSpotlight(),
+      setupSystemTerrain(),
       setupFinaleScene(),
       setupPackageWallScene(),
     ];
@@ -279,14 +281,14 @@ function setupTypedSubtitle(): Dispose {
   };
 }
 
-function setupAiSpotlight(): Dispose {
-  const section = document.querySelector<HTMLElement>(selector.aiSpotlight);
+function setupSystemSpotlight(): Dispose {
+  const section = document.querySelector<HTMLElement>(selector.systemSection);
 
   if (section === null || prefersReducedMotion()) {
     return noop;
   }
 
-  const cells = Array.from(section.querySelectorAll<HTMLElement>(selector.aiTilt));
+  const cells = Array.from(section.querySelectorAll<HTMLElement>(selector.systemCell));
   let frame = 0;
 
   const onMove = (event: PointerEvent): void => {

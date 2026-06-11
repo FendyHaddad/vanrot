@@ -1,3 +1,4 @@
+import { computed, signal } from '@vanrot/runtime';
 import { packageReferenceDocs } from '../../docs/site-data.ts';
 import { setupHomeInteractions } from './home-interactions.widget.ts';
 
@@ -112,6 +113,13 @@ export class HomePage {
   runtimeEntryCount = runtimeEntryCount;
   runtimePackageCount = runtimePackageCount;
   bundleProfileCount = bundleProfileCount;
+  demoCount = signal(0);
+  demoDoubled = computed(() => this.demoCount() * 2);
+  demoNext = computed(() => this.demoCount() + 1);
+
+  incrementDemo(): void {
+    this.demoCount.set(this.demoCount() + 1);
+  }
 
   constructor() {
     setupHomeInteractions();
