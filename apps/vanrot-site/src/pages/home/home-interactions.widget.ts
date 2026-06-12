@@ -7,8 +7,6 @@ const selector = {
   typedTarget: '[data-vr-home-typed]',
   packageBadge: '[data-vr-package-badge]',
   revealSection: '[data-vr-reveal-section]',
-  systemSection: '[data-vr-system]',
-  systemCell: '[data-sys-cell]',
 } as const;
 
 const noop: Dispose = () => {};
@@ -21,7 +19,6 @@ export function setupHomeInteractions(): void {
       setupHeroAnimation(),
       setupPackageBadgeTones(),
       setupScrollReveal(),
-      setupSystemSpotlight(),
       setupSystemTerrain(),
       setupFinaleScene(),
       setupPackageWallScene(),
@@ -278,39 +275,6 @@ function setupTypedSubtitle(): Dispose {
   return () => {
     window.clearTimeout(startTimer);
     window.clearTimeout(timer);
-  };
-}
-
-function setupSystemSpotlight(): Dispose {
-  const section = document.querySelector<HTMLElement>(selector.systemSection);
-
-  if (section === null || prefersReducedMotion()) {
-    return noop;
-  }
-
-  const cells = Array.from(section.querySelectorAll<HTMLElement>(selector.systemCell));
-  let frame = 0;
-
-  const onMove = (event: PointerEvent): void => {
-    window.cancelAnimationFrame(frame);
-    frame = window.requestAnimationFrame(() => {
-      const rect = section.getBoundingClientRect();
-      section.style.setProperty('--mx', `${event.clientX - rect.left}px`);
-      section.style.setProperty('--my', `${event.clientY - rect.top}px`);
-
-      for (const cell of cells) {
-        const box = cell.getBoundingClientRect();
-        cell.style.setProperty('--cx', `${event.clientX - box.left}px`);
-        cell.style.setProperty('--cy', `${event.clientY - box.top}px`);
-      }
-    });
-  };
-
-  section.addEventListener('pointermove', onMove);
-
-  return () => {
-    window.cancelAnimationFrame(frame);
-    section.removeEventListener('pointermove', onMove);
   };
 }
 

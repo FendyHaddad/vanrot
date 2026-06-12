@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vanrot-site",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "@vanrot/vanrot-site", "dev", "--", "--host", "127.0.0.1", "--port", "1964"],
+      "port": 1964,
+      "autoPort": false
+    }
+  ]
+}

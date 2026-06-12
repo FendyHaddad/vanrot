@@ -7,7 +7,9 @@
         <div class="hero-copy">
             <h1 class="hero-title">Vanrot</h1>
             <vr-badge class="hero-badge">AI-first · Signal-based · Secure by design</vr-badge>
-            <p class="hero-typed"><span data-vr-home-typed>The only framework you need. Reactivity without the fluff.</span><span class="hero-caret"></span>
+            <p class="hero-typed"><span
+                    data-vr-home-typed>The only framework you need. Reactivity without the fluff.</span><span
+                    class="hero-caret"></span>
             </p>
             <div class="hero-actions">
                 <a class="btn-primary" href="/docs">Read the docs</a>
@@ -69,7 +71,8 @@
                         </div>
                         <vr-card class="db-panel">
                             <div class="db-panel-head"><h3>Runtime packages</h3>
-                                <p>{{ runtimeEntryCount }} runtime entries · {{ runtimePackageCount }} packages, {{ bundleProfileCount }} bundle</p></div>
+                                <p>{{ runtimeEntryCount }} runtime entries · {{ runtimePackageCount }} packages, {{
+                                    bundleProfileCount }} bundle</p></div>
                             <vr-table class="db-table">
                                 <vr-table-header>
                                     <vr-table-row>
@@ -103,7 +106,8 @@
         </div>
         <div class="section-head">
             <h2 class="reveal">A component system, not a starter kit</h2>
-            <p class="section-lead reveal">Real blocks built from vr-card, vr-table, vr-sidebar, vr-badge. Monochrome, crisp, production-grade.</p>
+            <p class="section-lead reveal">Real blocks built from vr-card, vr-table, vr-sidebar, vr-badge. Monochrome,
+                crisp, production-grade.</p>
         </div>
         <div class="section-cta reveal"><a class="btn-primary" href="/docs/components">Browse UI components →</a>
         </div>
@@ -135,7 +139,9 @@
                             <span class="wall-card-index" aria-hidden="true">{{ item.index }}</span>
                             <div class="wall-card-bottom">
                                 <div class="wall-card-tags">
-                                    <vr-badge class="pkg-badge wall-card-chip" data-vr-package-badge>{{ item.statusLabel }}</vr-badge>
+                                    <vr-badge class="pkg-badge wall-card-chip" data-vr-package-badge>{{ item.statusLabel
+                                        }}
+                                    </vr-badge>
                                     <span class="wall-card-chip">{{ item.version }}</span>
                                 </div>
                                 <span class="wall-card-size">{{ item.size }}</span>
@@ -151,108 +157,107 @@
     <section class="home-system" data-vr-reveal-section data-vr-system>
         <canvas class="system-terrain" data-vr-system-terrain aria-hidden="true"></canvas>
         <div class="system-shell reveal">
-            <div class="system-chrome" aria-hidden="true">
-                <span class="system-chrome-id">SYS.VANROT</span>
-                <span class="system-chrome-coords" data-vr-system-coords>LAT --.--- · LON --.--- · ELEV --</span>
-            </div>
-            <div class="system-inner">
-                <div class="section-head">
-                    <h2 class="reveal">The whole system, one panel</h2>
-                    <p class="section-lead reveal">Surgical reactivity, a machine-readable manifest for agents, an eval-free runtime, and three-file components — every guarantee on one board.</p>
-                </div>
-                <div class="system-bento">
 
-                    <vr-card class="sys-cell sys-cell--lead" data-sys-cell>
-                        <span class="sys-index" aria-hidden="true">01</span>
-                        <div class="sys-cell-body">
-                            <span class="sys-kicker">~/signals · live</span>
-                            <h3 class="sys-title">Signals that make sense</h3>
-                            <p class="sys-body">No virtual DOM, no reconciliation. Update a signal — only what depends on it recomputes. This one runs on Vanrot, right here.</p>
-                        </div>
-                        <div class="sys-live">
-                            <div class="code-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span
-                                    class="browser-dot"></span><span class="code-file">counter.ts</span></div>
-                            <pre class="code-block sys-live-code"><span class="ck">const</span> count = <span class="cf">signal</span>(0);
+            <header class="spec-stamp">
+                <span class="spec-stamp-item">Vanrot — System</span>
+                <span class="spec-stamp-item">Spec No. 001–004</span>
+                <span class="spec-stamp-item" data-vr-system-coords>LAT — · LON — · ELEV —</span>
+                <span class="spec-stamp-item">Runtime {{ runtimeSize }} gzip</span>
+                <span class="spec-stamp-item">Scale 1:1</span>
+            </header>
+
+            <div class="spec-headline">
+                <h2>One signal moves the whole system</h2>
+                <p class="spec-lead">Update a signal and the change propagates — no virtual DOM, no reconciliation.
+                    Every guarantee below is tethered to the core.</p>
+            </div>
+
+            <div class="spec-demo">
+                <div class="spec-demo-meta">
+                    <span class="spec-fig">Fig. 01 — Reactive graph</span>
+                    <h3 class="spec-demo-title">Signals that make sense</h3>
+                    <p class="spec-demo-note">Press the button. Only what depends on the signal recomputes. This runs
+                        on Vanrot, right here.</p>
+                    <span class="spec-binary" aria-hidden="true">{{ demoBinary() }}</span>
+                </div>
+                <div class="spec-terminal">
+                    <div class="spec-terminal-head">
+                        <span>~/signals/counter.ts</span>
+                        <span class="spec-terminal-live">live<span class="spec-blink" aria-hidden="true">▮</span></span>
+                    </div>
+                    <pre class="code-block"><span class="ck">const</span> count = <span
+                            class="cf">signal</span>(0);
 <span class="ck">const</span> doubled = <span class="cf">computed</span>(() =&gt; count() * 2);
 <span class="cf">effect</span>(() =&gt; console.<span class="cf">log</span>(doubled()));</pre>
-                            <div class="sys-flow">
-                                <span class="sys-flow-node"><span class="sys-flow-label">signal</span><span class="sys-flow-value">{{ demoCount() }}</span></span>
-                                <span class="sys-flow-arrow" aria-hidden="true">→</span>
-                                <span class="sys-flow-node"><span class="sys-flow-label">computed</span><span class="sys-flow-value">{{ demoDoubled() }}</span></span>
-                                <span class="sys-flow-arrow" aria-hidden="true">→</span>
-                                <span class="sys-flow-node"><span class="sys-flow-label">effect</span><span class="sys-flow-value">logs {{ demoDoubled() }}</span></span>
-                            </div>
-                            <button class="sys-live-btn" type="button" (click)="incrementDemo()">count.set({{ demoNext() }})</button>
-                        </div>
-                    </vr-card>
-
-                    <vr-card class="sys-cell" data-sys-cell>
-                        <span class="sys-index" aria-hidden="true">02</span>
-                        <home-ai-artwork [variant]="'manifest'"></home-ai-artwork>
-                        <div class="sys-cell-body">
-                            <span class="sys-kicker">⌥ manifest</span>
-                            <h3 class="sys-title">Agent manifest</h3>
-                            <p class="sys-body">Structured docs/ai knowledge. Agents understand Vanrot without guessing.</p>
-                        </div>
-                    </vr-card>
-
-                    <vr-card class="sys-cell" data-sys-cell>
-                        <span class="sys-index" aria-hidden="true">03</span>
-                        <home-ai-artwork [variant]="'flow'"></home-ai-artwork>
-                        <div class="sys-cell-body">
-                            <span class="sys-kicker">$_ cli</span>
-                            <h3 class="sys-title">vr ai</h3>
-                            <p class="sys-body">One command exposes the whole framework surface to any coding agent.</p>
-                        </div>
-                    </vr-card>
-
-                    <vr-card class="sys-cell" data-sys-cell>
-                        <span class="sys-index" aria-hidden="true">04</span>
-                        <home-ai-artwork [variant]="'noeval'"></home-ai-artwork>
-                        <div class="sys-cell-body">
-                            <span class="sys-kicker">⌗ csp</span>
-                            <h3 class="sys-title">No eval</h3>
-                            <p class="sys-body">Templates compile to plain JS. CSP-friendly, nothing evaluated at runtime.</p>
-                        </div>
-                    </vr-card>
-
-                    <vr-card class="sys-cell" data-sys-cell>
-                        <span class="sys-index" aria-hidden="true">05</span>
-                        <home-ai-artwork [variant]="'deps'"></home-ai-artwork>
-                        <div class="sys-cell-body">
-                            <span class="sys-kicker">∅ deps</span>
-                            <h3 class="sys-title">Zero runtime deps</h3>
-                            <p class="sys-body">Vite powers dev/build. The browser runtime ships dependency-free.</p>
-                        </div>
-                    </vr-card>
-
-                    <vr-card class="sys-cell sys-cell--anatomy" data-sys-cell>
-                        <span class="sys-index" aria-hidden="true">06</span>
-                        <div class="sys-cell-body">
-                            <span class="sys-kicker">⌥ anatomy</span>
-                            <h3 class="sys-title">One component, three files</h3>
-                            <p class="sys-body">Logic, template, and scoped style — each in its own file, each in its own language. Nothing leaks.</p>
-                        </div>
-                        <div class="sys-anatomy">
-                            @for (item of anatomyFiles; track item.file) {
-                            <div class="sys-pane">
-                                <div class="code-bar"><span class="browser-dot"></span><span class="browser-dot"></span><span
-                                        class="browser-dot"></span><span class="code-file">{{ item.file }}</span></div>
-                                <pre class="anatomy-code">{{ item.code }}</pre>
-                                <span class="anatomy-role">{{ item.role }}</span>
-                            </div>
-                            }
-                        </div>
-                    </vr-card>
-
+                    <div class="spec-readout">
+                        <span class="spec-readout-cell"><span class="spec-readout-label">signal</span><span
+                                class="spec-readout-value">{{ demoCount() }}</span></span>
+                        <span class="spec-readout-cell"><span class="spec-readout-label">computed</span><span
+                                class="spec-readout-value">{{ demoDoubled() }}</span></span>
+                        <span class="spec-readout-cell"><span class="spec-readout-label">effect</span><span
+                                class="spec-readout-value">logs {{ demoDoubled() }}</span></span>
+                    </div>
+                    <button class="spec-btn" type="button" (click)="incrementDemo()">
+                        count.set({{ demoNext() }}) ↵
+                    </button>
                 </div>
             </div>
-            <div class="system-status" aria-hidden="true">
-                <span class="system-status-item">runtime {{ runtimeSize }} gzip</span>
-                <span class="system-status-item">0 deps</span>
-                <span class="system-status-item">100% strict</span>
-                <span class="system-status-caret"></span>
+
+            <ol class="spec-ledger">
+                <li class="spec-row">
+                    <span class="spec-row-index" aria-hidden="true">01</span>
+                    <div class="spec-row-main">
+                        <h3 class="spec-row-title">Agent manifest</h3>
+                        <span class="spec-row-code">#mnf-0001/04</span>
+                    </div>
+                    <p class="spec-row-body">Structured docs/ai knowledge. Agents understand Vanrot without
+                        guessing.</p>
+                </li>
+                <li class="spec-row">
+                    <span class="spec-row-index" aria-hidden="true">02</span>
+                    <div class="spec-row-main">
+                        <h3 class="spec-row-title">vr ai</h3>
+                        <span class="spec-row-code">#cli-0002/04</span>
+                    </div>
+                    <p class="spec-row-body">One command exposes the whole framework surface to any coding agent.</p>
+                </li>
+                <li class="spec-row">
+                    <span class="spec-row-index" aria-hidden="true">03</span>
+                    <div class="spec-row-main">
+                        <h3 class="spec-row-title">No eval</h3>
+                        <span class="spec-row-code">#csp-0003/04</span>
+                    </div>
+                    <p class="spec-row-body">Templates compile to plain JS. CSP-friendly, nothing evaluated at
+                        runtime.</p>
+                </li>
+                <li class="spec-row">
+                    <span class="spec-row-index" aria-hidden="true">04</span>
+                    <div class="spec-row-main">
+                        <h3 class="spec-row-title">Zero runtime deps</h3>
+                        <span class="spec-row-code">#dep-0004/04</span>
+                    </div>
+                    <p class="spec-row-body">Vite powers dev/build. The browser runtime ships dependency-free.</p>
+                </li>
+            </ol>
+
+            <div class="spec-anatomy">
+                <div class="spec-anatomy-head">
+                    <span class="spec-fig">Fig. 02 — Component anatomy</span>
+                    <span class="spec-anatomy-note">One component · three files · nothing leaks</span>
+                </div>
+                <div class="spec-anatomy-grid">
+                    @for (item of anatomyFiles; track item.file) {
+                    <div class="spec-pane">
+                        <div class="spec-pane-head">
+                            <span>{{ item.file }}</span>
+                            <span class="spec-pane-role">{{ item.role }}</span>
+                        </div>
+                        <pre class="anatomy-code">{{ item.code }}</pre>
+                    </div>
+                    }
+                </div>
             </div>
+
         </div>
     </section>
 

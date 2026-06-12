@@ -35,6 +35,9 @@ const dollyBlurMax = 18;
 const dollyGlowRadius = 26;
 const dollyGlowAlpha = 0.35;
 const progressFollow = 0.2;
+/* Viewport fraction of pre-pin scroll that already reveals the manifesto, so
+   the finale teases itself while the section is still entering the fold. */
+const manifestoLead = 0.5;
 const streakSettleSpan = 0.35;
 const wallFadeSpan = 0.08;
 
@@ -107,6 +110,7 @@ export function setupFinaleScene(): Dispose {
   let raf = 0;
   let progress = 0;
   let targetProgress = 0;
+  let manifestoProgress = 0;
   let progressReady = false;
   let width = 0;
   let height = 0;
@@ -129,22 +133,32 @@ export function setupFinaleScene(): Dispose {
 
   const syncProgress = (): void => {
     const rect = section.getBoundingClientRect();
-    const distance = rect.height - window.innerHeight;
+    const viewportHeight = window.innerHeight;
+    const distance = rect.height - viewportHeight;
     targetProgress = distance <= 0 ? 1 : clamp01(-rect.top / distance);
+    const lead = viewportHeight * manifestoLead;
+    const manifestoTravel = lead + Math.max(distance, 0) * phase.manifestoEnd;
+    const targetManifesto = clamp01((lead - rect.top) / manifestoTravel);
 
     if (!progressReady) {
       progress = targetProgress;
+      manifestoProgress = targetManifesto;
       progressReady = true;
     } else {
       progress += (targetProgress - progress) * progressFollow;
+      manifestoProgress += (targetManifesto - manifestoProgress) * progressFollow;
     }
 
     if (Math.abs(targetProgress - progress) < 0.0008) {
       progress = targetProgress;
     }
 
+    if (Math.abs(targetManifesto - manifestoProgress) < 0.0008) {
+      manifestoProgress = targetManifesto;
+    }
+
     section.style.setProperty('--p', progress.toFixed(4));
-    section.style.setProperty('--mp', clamp01(progress / phase.manifestoEnd).toFixed(4));
+    section.style.setProperty('--mp', manifestoProgress.toFixed(4));
     section.style.setProperty('--wp', clamp01((progress - phase.zoomEnd) / wallFadeSpan).toFixed(4));
   };
 
@@ -218,7 +232,7 @@ export function setupFinaleScene(): Dispose {
     const centerX = cols / 2;
     const centerY = rows / 2;
     const maxDist = Math.hypot(centerX, centerY);
-    const reveal = clamp01(progress / phase.manifestoEnd);
+    const reveal = manifestoProgress;
     const rise = smooth(clamp01(zoomProgress * 1.3));
     const settle = 1 - smooth(clamp01(wallProgress() / streakSettleSpan));
     const streak = zoomProgress > 0 ? rise * settle : 0;
