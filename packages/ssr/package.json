@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/ssr",
   "version": "0.2.0",
+  "description": "Server-side rendering support for Vanrot applications.",
+  "keywords": ["vanrot", "ssr"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/ssr#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/ssr"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"

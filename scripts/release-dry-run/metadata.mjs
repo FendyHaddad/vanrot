@@ -95,6 +95,14 @@ function validateSinglePackage(releasePackage, packageVersions, options) {
     failures.push(`${label} is missing engines.node.`);
   }
 
+  if (!isNonEmptyString(manifest.license)) {
+    failures.push(`${label} is missing license.`);
+  }
+
+  if (manifest.publishConfig?.access !== 'public') {
+    failures.push(`${label} must set publishConfig.access to public.`);
+  }
+
   if (manifest.bin !== undefined) {
     failures.push(...validateBins(label, manifest.bin));
   }

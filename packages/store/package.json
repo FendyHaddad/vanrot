@@ -1,8 +1,23 @@
 {
   "name": "@vanrot/store",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "type": "module",
-  "private": false,
+  "description": "Signal-based state store for Vanrot.",
+  "keywords": ["vanrot", "store", "state"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/store#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/store"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=22.14.0"
   },

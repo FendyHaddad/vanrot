@@ -2,6 +2,22 @@
   "name": "@vanrot/seo",
   "type": "module",
   "version": "0.1.0",
+  "description": "SEO and metadata helpers for Vanrot pages.",
+  "keywords": ["vanrot", "seo"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/seo#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/seo"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "engines": {
     "node": ">=22.14.0"
   },

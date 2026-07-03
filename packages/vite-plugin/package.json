@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/vite-plugin",
   "version": "0.2.1",
+  "description": "Vite plugin that compiles and serves Vanrot applications.",
+  "keywords": ["vanrot", "vite", "plugin"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/vite-plugin#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/vite-plugin"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"

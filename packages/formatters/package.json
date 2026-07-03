@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/formatters",
   "version": "0.1.0",
+  "description": "Formatting utilities for Vanrot source and templates.",
+  "keywords": ["vanrot", "formatter"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/formatters#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/formatters"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"

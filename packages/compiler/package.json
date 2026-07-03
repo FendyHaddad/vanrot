@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/compiler",
   "version": "0.2.0",
+  "description": "Template and component compiler for the Vanrot framework.",
+  "keywords": ["vanrot", "compiler"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/compiler#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/compiler"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"

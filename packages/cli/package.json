@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/cli",
   "version": "0.2.2",
+  "description": "Vanrot command-line interface: dev server, build, doctor, and scaffolding.",
+  "keywords": ["vanrot", "cli"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/cli#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"

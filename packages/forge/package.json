@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/forge",
   "version": "0.2.1",
+  "description": "Project and component scaffolding engine for Vanrot.",
+  "keywords": ["vanrot", "scaffolding", "generator"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/forge#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/forge"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"

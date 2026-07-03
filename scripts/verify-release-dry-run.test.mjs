@@ -195,6 +195,10 @@ describe('verify-release-dry-run metadata', () => {
 
     expect(failures).toEqual([
       '@vanrot/runtime is missing engines.node.',
+      '@vanrot/runtime is missing license.',
+      '@vanrot/runtime must set publishConfig.access to public.',
+      '@vanrot/cli is missing license.',
+      '@vanrot/cli must set publishConfig.access to public.',
       '@vanrot/cli dependency @vanrot/runtime must not use workspace:* for release packaging.',
     ]);
   });
@@ -206,6 +210,8 @@ describe('verify-release-dry-run metadata', () => {
         name: '@vanrot/cli',
         version: '0.1.0',
         type: 'module',
+        license: 'MIT',
+        publishConfig: { access: 'public' },
         exports: './dist/index.js',
         files: ['dist'],
         engines: { node: '>=22.14.0' },
@@ -230,6 +236,8 @@ describe('verify-release-dry-run metadata', () => {
               name: '@vanrot/config',
               version: '0.1.0',
               type: 'module',
+              license: 'MIT',
+              publishConfig: { access: 'public' },
               exports: './dist/index.js',
               files: ['dist'],
               engines: { node: '>=22.14.0' },

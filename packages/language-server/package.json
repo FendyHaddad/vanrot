@@ -1,6 +1,22 @@
 {
   "name": "@vanrot/language-server",
   "version": "0.2.1",
+  "description": "Language server providing editor intelligence for Vanrot templates.",
+  "keywords": ["vanrot", "language-server", "lsp"],
+  "license": "MIT",
+  "author": "Fendy Haddad",
+  "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/language-server#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FendyHaddad/vanrot.git",
+    "directory": "packages/language-server"
+  },
+  "bugs": {
+    "url": "https://github.com/FendyHaddad/vanrot/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "engines": {
     "node": ">=22.14.0"
