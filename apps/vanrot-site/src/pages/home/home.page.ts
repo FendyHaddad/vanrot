@@ -116,11 +116,6 @@ export class HomePage {
   demoCount = signal(0);
   demoDoubled = computed(() => this.demoCount() * 2);
   demoNext = computed(() => this.demoCount() + 1);
-  demoBinary = computed(() => {
-    const bits = this.demoCount().toString(2).padStart(8, '0');
-
-    return Array.from({ length: 6 }, () => bits).join(' ');
-  });
 
   incrementDemo(): void {
     this.demoCount.set(this.demoCount() + 1);

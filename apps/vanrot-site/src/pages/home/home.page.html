@@ -118,9 +118,9 @@
             <canvas class="manifesto-canvas" data-vr-manifesto-canvas aria-hidden="true"></canvas>
             <div class="manifesto-lines" data-vr-manifesto-lines>
                 <p class="manifesto-line">No virtual DOM.</p>
-                <p class="manifesto-line">Tiny runtime.</p>
-                <p class="manifesto-line">Tiny core.</p>
-                <p class="manifesto-line">Endless Possibility.</p>
+                <p class="manifesto-line">No dependencies.</p>
+                <p class="manifesto-line">A {{ runtimeSize }} runtime.</p>
+                <p class="manifesto-line">Endless possibility.</p>
             </div>
             <div class="finale-wall" data-vr-package-wall>
                 <div class="section-head package-wall-head">
@@ -134,7 +134,6 @@
                         <vr-card class="package-wall-source-card">
                             <div class="wall-card-top">
                                 <span class="wall-card-name">{{ item.name }}</span>
-                                <span class="wall-card-area">{{ item.area }}</span>
                             </div>
                             <span class="wall-card-index" aria-hidden="true">{{ item.index }}</span>
                             <div class="wall-card-bottom">
@@ -158,27 +157,17 @@
         <canvas class="system-terrain" data-vr-system-terrain aria-hidden="true"></canvas>
         <div class="system-shell reveal">
 
-            <header class="spec-stamp">
-                <span class="spec-stamp-item">Vanrot — System</span>
-                <span class="spec-stamp-item">Spec No. 001–004</span>
-                <span class="spec-stamp-item" data-vr-system-coords>LAT — · LON — · ELEV —</span>
-                <span class="spec-stamp-item">Runtime {{ runtimeSize }} gzip</span>
-                <span class="spec-stamp-item">Scale 1:1</span>
-            </header>
-
-            <div class="spec-headline">
+            <div class="section-head">
                 <h2>One signal moves the whole system</h2>
-                <p class="spec-lead">Update a signal and the change propagates — no virtual DOM, no reconciliation.
-                    Every guarantee below is tethered to the core.</p>
+                <p class="section-lead">Update a signal and the change propagates — no virtual DOM, no reconciliation,
+                    no re-render.</p>
             </div>
 
-            <div class="spec-demo">
-                <div class="spec-demo-meta">
-                    <span class="spec-fig">Fig. 01 — Reactive graph</span>
-                    <h3 class="spec-demo-title">Signals that make sense</h3>
-                    <p class="spec-demo-note">Press the button. Only what depends on the signal recomputes. This runs
+            <div class="system-demo">
+                <div class="system-demo-meta">
+                    <h3 class="system-demo-title">Signals that make sense</h3>
+                    <p class="system-demo-note">Press the button. Only what depends on the signal recomputes — running
                         on Vanrot, right here.</p>
-                    <span class="spec-binary" aria-hidden="true">{{ demoBinary() }}</span>
                 </div>
                 <div class="spec-terminal">
                     <div class="spec-terminal-head">
@@ -203,47 +192,33 @@
                 </div>
             </div>
 
-            <ol class="spec-ledger">
-                <li class="spec-row">
-                    <span class="spec-row-index" aria-hidden="true">01</span>
-                    <div class="spec-row-main">
-                        <h3 class="spec-row-title">Agent manifest</h3>
-                        <span class="spec-row-code">#mnf-0001/04</span>
-                    </div>
-                    <p class="spec-row-body">Structured docs/ai knowledge. Agents understand Vanrot without
+            <ul class="system-points">
+                <li class="system-point">
+                    <h3 class="system-point-title">Agent manifest</h3>
+                    <p class="system-point-body">Structured docs/ai knowledge. Agents understand Vanrot without
                         guessing.</p>
                 </li>
-                <li class="spec-row">
-                    <span class="spec-row-index" aria-hidden="true">02</span>
-                    <div class="spec-row-main">
-                        <h3 class="spec-row-title">vr ai</h3>
-                        <span class="spec-row-code">#cli-0002/04</span>
-                    </div>
-                    <p class="spec-row-body">One command exposes the whole framework surface to any coding agent.</p>
+                <li class="system-point">
+                    <h3 class="system-point-title">vr ai</h3>
+                    <p class="system-point-body">One command exposes the whole framework surface to any coding
+                        agent.</p>
                 </li>
-                <li class="spec-row">
-                    <span class="spec-row-index" aria-hidden="true">03</span>
-                    <div class="spec-row-main">
-                        <h3 class="spec-row-title">No eval</h3>
-                        <span class="spec-row-code">#csp-0003/04</span>
-                    </div>
-                    <p class="spec-row-body">Templates compile to plain JS. CSP-friendly, nothing evaluated at
+                <li class="system-point">
+                    <h3 class="system-point-title">No eval</h3>
+                    <p class="system-point-body">Templates compile to plain JS. CSP-friendly, nothing evaluated at
                         runtime.</p>
                 </li>
-                <li class="spec-row">
-                    <span class="spec-row-index" aria-hidden="true">04</span>
-                    <div class="spec-row-main">
-                        <h3 class="spec-row-title">Zero runtime deps</h3>
-                        <span class="spec-row-code">#dep-0004/04</span>
-                    </div>
-                    <p class="spec-row-body">Vite powers dev/build. The browser runtime ships dependency-free.</p>
+                <li class="system-point">
+                    <h3 class="system-point-title">Zero runtime deps</h3>
+                    <p class="system-point-body">Vite powers dev/build. The browser runtime ships dependency-free.</p>
                 </li>
-            </ol>
+            </ul>
 
-            <div class="spec-anatomy">
-                <div class="spec-anatomy-head">
-                    <span class="spec-fig">Fig. 02 — Component anatomy</span>
-                    <span class="spec-anatomy-note">One component · three files · nothing leaks</span>
+            <div class="system-anatomy">
+                <div class="system-anatomy-head">
+                    <h3 class="system-anatomy-title">One component, three files</h3>
+                    <p class="system-anatomy-note">Logic, template, and style stay in their own lanes — nothing
+                        leaks.</p>
                 </div>
                 <div class="spec-anatomy-grid">
                     @for (item of anatomyFiles; track item.file) {

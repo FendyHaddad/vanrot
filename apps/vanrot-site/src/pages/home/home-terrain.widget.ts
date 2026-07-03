@@ -3,7 +3,6 @@ import type { Dispose } from '@vanrot/runtime';
 const selector = {
   section: '[data-vr-system]',
   canvas: '[data-vr-system-terrain]',
-  coords: '[data-vr-system-coords]',
 } as const;
 
 const noop: Dispose = () => {};
@@ -156,7 +155,7 @@ export function setupSystemTerrain(): Dispose {
     }
   });
 
-  const disposePointer = setupCoordsReadout(section, (x, y) => {
+  const disposePointer = setupPointerSpotlight(section, (x, y) => {
     const rect = canvas.getBoundingClientRect();
     mouseX = x - rect.left;
     mouseY = y - rect.top;
@@ -175,12 +174,10 @@ export function setupSystemTerrain(): Dispose {
   };
 }
 
-function setupCoordsReadout(
+function setupPointerSpotlight(
   section: HTMLElement,
   onPointer: (x: number, y: number) => void,
 ): Dispose {
-  const readout = section.querySelector<HTMLElement>(selector.coords);
-
   if (prefersReducedMotion()) {
     return noop;
   }
@@ -191,18 +188,6 @@ function setupCoordsReadout(
     window.cancelAnimationFrame(frame);
     frame = window.requestAnimationFrame(() => {
       onPointer(event.clientX, event.clientY);
-
-      if (readout === null) {
-        return;
-      }
-
-      const rect = section.getBoundingClientRect();
-      const u = Math.min(1, Math.max(0, (event.clientX - rect.left) / Math.max(1, rect.width)));
-      const v = Math.min(1, Math.max(0, (event.clientY - rect.top) / Math.max(1, rect.height)));
-      const lat = (4 + v * 2.4).toFixed(3);
-      const lon = (101 + u * 3.6).toFixed(3);
-      const elev = Math.round(elevation(u * 96, v * 64, 0) * 1980);
-      readout.textContent = `LAT ${lat} · LON ${lon} · ELEV ${elev}m`;
     });
   };
 

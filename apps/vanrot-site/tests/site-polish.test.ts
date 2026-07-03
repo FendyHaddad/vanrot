@@ -38,9 +38,9 @@ describe('site polish', () => {
     expect(html).toContain('data-vr-home-hero');
     expect(html).toContain('data-vr-reveal-section');
     expect(html).toContain('<vr-table');
-    // Component-system section appears before the AI section.
+    // Component-system section appears before the system section.
     expect(html.indexOf('A component system, not a starter kit')).toBeLessThan(
-      html.indexOf('AI-first, secure by design'),
+      html.indexOf('One signal moves the whole system'),
     );
     expect(css).not.toContain('min-height: calc(100vh');
   });
@@ -51,10 +51,7 @@ describe('site polish', () => {
     const source = await readSiteFile('src/pages/home/home.page.ts');
     const widget = await readSiteFile('src/pages/home/home-interactions.widget.ts');
 
-    expect(html).toContain('<span class="cc">// no magic, no diffing</span><br>');
     expect(html).toContain('<span class="db-stat-detail">gzipped</span>');
-    expect(html).toContain('<home-ai-artwork [variant]="\'manifest\'"></home-ai-artwork>');
-    expect(html).toContain('<home-ai-artwork [variant]="\'deps\'"></home-ai-artwork>');
     expect(source).toContain("const runtimeSize = '1.8kb';");
     expect(source).toContain("'@vanrot/runtime': { version: '0.1.0', size: runtimeSize }");
     expect(source).toContain("'@vanrot/behavior': { version: '0.1.0', size: '4.1kb' }");
@@ -64,7 +61,7 @@ describe('site polish', () => {
     expect(source).not.toContain('4.1kb all');
     expect(source).not.toContain("const runtimeSize = '5.68kb';");
     expect(packageReferenceDocs.map(pkg => pkg.name)).toContain('@vanrot/behavior');
-    expect(html).toContain('<h3 class="ai-title">Zero runtime deps</h3>');
+    expect(html).toContain('<h3 class="system-point-title">Zero runtime deps</h3>');
     expect(html).toContain('Vite powers dev/build. The browser runtime ships dependency-free.');
     expect(source).not.toContain('aiFeatures');
     expect(source).toContain('runtimeEntryCount');
@@ -109,7 +106,6 @@ describe('site polish', () => {
     expect(css).toContain('@media (max-width: 980px)');
     expect(css).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
     expect(css).toContain('.db-table vr-table-head:nth-child(3),');
-    expect(css).toContain('grid-column: 1 / -1;');
     expect(css).toContain('@media (max-width: 640px)');
     expect(css).toContain('.hero-canvas {\n    display: none;');
     expect(css).toContain('.home-components .section-head {\n    order: 1;');

@@ -23,21 +23,11 @@ const glyphCell = 9;
 const starGlyphs = '01:.+=*';
 const canvasDprCap = 1;
 const starDensity = 0.055;
-const dollyPerspective = 1000;
-const dollyLineGap = 620;
-const dollyFanInSpan = 0.3;
-const dollyPassStart = 0.55;
-const dollyPassSpan = 0.32;
-const dollyFogDepth = 2.4;
-const dollyFogDim = 0.6;
-const dollyFogBlur = 2.5;
-const dollyBlurMax = 18;
-const dollyGlowRadius = 26;
-const dollyGlowAlpha = 0.35;
 const progressFollow = 0.2;
 /* Viewport fraction of pre-pin scroll that already reveals the manifesto, so
    the finale teases itself while the section is still entering the fold. */
 const manifestoLead = 0.5;
+const streakRiseStart = 0.6;
 const streakSettleSpan = 0.35;
 const wallFadeSpan = 0.08;
 
@@ -49,9 +39,11 @@ const packageWallLaneSpeed = 0.000016;
 const packageWallScrollLaneSpeed = 0.0018;
 const packageWallGutter = 8;
 const packageWallFlatColumns = 5.2;
-const packageWallFlatRows = 3.39;
+/* Row height divisor > row count keeps the distorted top row inside the
+   frame so package names stay visible below the wall heading. */
+const packageWallFlatRows = 4.2;
 const packageWallLensZoom = 0.88;
-const packageWallLensDistortion = -0.07;
+const packageWallLensDistortion = -0.05;
 
 const noop: Dispose = () => {};
 const prefersReducedMotion = (): boolean =>
@@ -62,7 +54,6 @@ const hash = (x: number, y: number): number => {
   return n - Math.floor(n);
 };
 const smooth = (t: number): number => t * t * (3 - 2 * t);
-const cameraEase = (t: number): number => t * t * (0.35 + 0.65 * t);
 const clamp01 = (value: number): number => Math.min(1, Math.max(0, value));
 const positiveModulo = (value: number, modulus: number): number => ((value % modulus) + modulus) % modulus;
 
@@ -96,12 +87,6 @@ export function setupFinaleScene(): Dispose {
     return noop;
   }
 
-  const lineElements = Array.from(linesHost.children).filter(
-    (node): node is HTMLElement => node instanceof HTMLElement,
-  );
-  const dollyTravel =
-    dollyLineGap * (lineElements.length - 1) + dollyPerspective * (dollyPassStart + dollyPassSpan);
-  section.style.setProperty('--dolly-perspective', `${dollyPerspective}px`);
   const mobileQuery = window.matchMedia('(max-width: 760px)');
 
   let mode: 'desktop' | 'mobile' = mobileQuery.matches ? 'mobile' : 'desktop';
@@ -116,7 +101,6 @@ export function setupFinaleScene(): Dispose {
   let height = 0;
   let cols = 0;
   let rows = 0;
-  let linesStyled = false;
 
   const sizeGlyphCanvas = (): void => {
     const dpr = Math.min(window.devicePixelRatio || 1, canvasDprCap);
@@ -137,7 +121,7 @@ export function setupFinaleScene(): Dispose {
     const distance = rect.height - viewportHeight;
     targetProgress = distance <= 0 ? 1 : clamp01(-rect.top / distance);
     const lead = viewportHeight * manifestoLead;
-    const manifestoTravel = lead + Math.max(distance, 0) * phase.manifestoEnd;
+    const manifestoTravel = lead + Math.max(distance, 0) * phase.zoomEnd;
     const targetManifesto = clamp01((lead - rect.top) / manifestoTravel);
 
     if (!progressReady) {
@@ -162,69 +146,6 @@ export function setupFinaleScene(): Dispose {
     section.style.setProperty('--wp', clamp01((progress - phase.zoomEnd) / wallFadeSpan).toFixed(4));
   };
 
-  const clearLineStyles = (): void => {
-    if (!linesStyled) {
-      return;
-    }
-
-    for (const line of lineElements) {
-      line.style.transform = '';
-      line.style.filter = '';
-      line.style.opacity = '';
-      line.style.visibility = '';
-      line.style.textShadow = '';
-    }
-
-    linesStyled = false;
-  };
-
-  /* Dolly fly-through: lines fan out into a depth corridor, the camera pushes
-     past each one; perspective projection owns the scale so the DOM text stays
-     GPU-composited and crisp until the intentional pass-blur takes over. */
-  const updateLines = (): void => {
-    const zoomProgress = (progress - phase.manifestoEnd) / (phase.zoomEnd - phase.manifestoEnd);
-
-    if (zoomProgress <= 0) {
-      clearLineStyles();
-      return;
-    }
-
-    linesStyled = true;
-    const cameraZ = cameraEase(clamp01(zoomProgress)) * dollyTravel;
-    const fanOut = smooth(clamp01(zoomProgress / dollyFanInSpan));
-
-    for (let i = 0; i < lineElements.length; i++) {
-      const line = lineElements[i];
-
-      if (line === undefined) {
-        continue;
-      }
-
-      const z = cameraZ - i * dollyLineGap * fanOut;
-      const passT = smooth(clamp01((z - dollyPerspective * dollyPassStart) / (dollyPerspective * dollyPassSpan)));
-      const fogT = smooth(clamp01(-z / (dollyLineGap * dollyFogDepth)));
-      const opacity = (1 - passT) * (1 - dollyFogDim * fogT);
-
-      if (opacity <= 0.015) {
-        line.style.visibility = 'hidden';
-        line.style.opacity = '0';
-        continue;
-      }
-
-      const blur = Math.min(dollyBlurMax, passT * dollyBlurMax + fogT * dollyFogBlur);
-      const glow = smooth(clamp01(z / (dollyPerspective * dollyPassStart)));
-
-      line.style.visibility = '';
-      line.style.transform = `translateZ(${z.toFixed(1)}px)`;
-      line.style.opacity = opacity.toFixed(3);
-      line.style.filter = blur > 0.05 ? `blur(${blur.toFixed(2)}px)` : '';
-      line.style.textShadow =
-        glow > 0.02
-          ? `0 0 ${(glow * dollyGlowRadius).toFixed(1)}px rgba(255, 255, 255, ${(glow * dollyGlowAlpha).toFixed(3)})`
-          : '';
-    }
-  };
-
   const wallProgress = (): number =>
     clamp01((progress - phase.zoomEnd) / (phase.wallSettleEnd - phase.zoomEnd));
 
@@ -233,7 +154,7 @@ export function setupFinaleScene(): Dispose {
     const centerY = rows / 2;
     const maxDist = Math.hypot(centerX, centerY);
     const reveal = manifestoProgress;
-    const rise = smooth(clamp01(zoomProgress * 1.3));
+    const rise = smooth(clamp01((zoomProgress - streakRiseStart) / (1 - streakRiseStart)));
     const settle = 1 - smooth(clamp01(wallProgress() / streakSettleSpan));
     const streak = zoomProgress > 0 ? rise * settle : 0;
     const pixelCenterX = width / 2;
@@ -298,7 +219,6 @@ export function setupFinaleScene(): Dispose {
     const time = now / 1000;
     syncProgress();
     drawGlyphScene(time);
-    updateLines();
     raf = window.requestAnimationFrame(frame);
   };
 
@@ -318,7 +238,6 @@ export function setupFinaleScene(): Dispose {
   };
 
   const onModeChange = (event: MediaQueryListEvent): void => {
-    clearLineStyles();
     mode = event.matches ? 'mobile' : 'desktop';
     phase = mode === 'mobile' ? mobilePhase : desktopPhase;
     sizeGlyphCanvas();
@@ -355,7 +274,6 @@ export function setupFinaleScene(): Dispose {
     mobileQuery.removeEventListener('change', onModeChange);
     window.removeEventListener('resize', onResize);
     window.cancelAnimationFrame(resizeFrame);
-    clearLineStyles();
   };
 }
 
