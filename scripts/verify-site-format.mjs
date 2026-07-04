@@ -1,6 +1,5 @@
-import { readFile } from 'node:fs/promises';
-import { join } from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { readFile, readdir } from 'node:fs/promises';
+import { join, relative, sep } from 'node:path';
 
 const htmlTagPattern = /^( *)(<\/([a-z][a-z0-9-]*)>\s*)$/i;
 
@@ -18,7 +17,7 @@ export function formatSiteFormatFailures(failures) {
 export async function verifySiteFormat(root = process.cwd()) {
   const failures = [];
 
-  for (const file of listSiteHtmlFiles(root)) {
+  for (const file of await listSiteHtmlFiles(root)) {
     const source = await readFile(join(root, file), 'utf8');
     failures.push(...scanTemplateIndentation(file, source));
   }
@@ -60,13 +59,37 @@ export function scanTemplateIndentation(file, source) {
   return failures;
 }
 
-function listSiteHtmlFiles(root) {
-  return execFileSync('rg', ['--files', 'apps/vanrot-site/src', '-g', '*.html'], {
-    cwd: root,
-    encoding: 'utf8',
-  })
-    .split('\n')
-    .filter((file) => file.length > 0);
+async function listSiteHtmlFiles(root) {
+  const searchRoot = join(root, 'apps/vanrot-site/src');
+  const files = [];
+
+  for (const absolutePath of await walkFiles(searchRoot)) {
+    if (!absolutePath.endsWith('.html')) {
+      continue;
+    }
+
+    files.push(relative(root, absolutePath).split(sep).join('/'));
+  }
+
+  return files.sort();
+}
+
+async function walkFiles(directory) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    const entryPath = join(directory, entry.name);
+
+    if (entry.isDirectory()) {
+      files.push(...(await walkFiles(entryPath)));
+      continue;
+    }
+
+    files.push(entryPath);
+  }
+
+  return files;
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {

@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "vanrotVersion": "0.0.0",
-  "generatedAt": "2026-06-10T19:37:36.519Z",
-  "sourceFingerprint": "sha256-ddb0e470c31f5e4122267b39aaa460f2a96a28bceb382d7f0d7e3060c2d57a58",
+  "generatedAt": "2026-07-04T05:17:23.636Z",
+  "sourceFingerprint": "sha256-871ebee69202e022b895dce893932d29fbcf9f91f05776526fd3f29771ef72d1",
   "sources": [
     {
       "id": "package-json",
       "path": "package.json",
-      "fingerprint": "sha256-128680a37c6fb2687d92e72b56b0dcbab82751155e846c09bf4fe98c6022518d"
+      "fingerprint": "sha256-5d781da2bfbef093585bc459fc12d433f74e0cd6469857edc01b58c9606c45f7"
     },
     {
       "id": "framework-reference",

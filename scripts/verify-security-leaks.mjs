@@ -1,10 +1,10 @@
-import { readFile } from 'node:fs/promises';
-import { join, relative } from 'node:path';
-import { execFileSync } from 'node:child_process';
+import { readFile, readdir } from 'node:fs/promises';
+import { join, relative, sep } from 'node:path';
 
 const ignoredDirectories = [
   'node_modules',
   '.git',
+  '.pnpm-store',
   'dist',
   'build',
   '.turbo',
@@ -59,7 +59,7 @@ export function formatSecurityLeakFailures(hits) {
 export async function verifySecurityLeaks(root = process.cwd()) {
   const hits = [];
 
-  for (const file of listTextFiles(root)) {
+  for (const file of await listTextFiles(root)) {
     const source = await readFile(join(root, file), 'utf8');
     hits.push(...scanText(file, source));
   }
@@ -97,19 +97,45 @@ export function redactSecretLine(line) {
   });
 }
 
-function listTextFiles(root) {
-  const rgArgs = [
-    '--files',
-    '--hidden',
-    ...ignoredDirectories.flatMap((directory) => ['-g', `!${directory}`, '-g', `!**/${directory}/**`]),
-  ];
+async function listTextFiles(root) {
+  const ignoredDirectorySet = new Set(ignoredDirectories);
+  const files = [];
 
-  return execFileSync('rg', rgArgs, { cwd: root, encoding: 'utf8' })
-    .split('\n')
-    .filter((file) => file.length > 0)
-    .filter((file) => !ignoredFiles.has(file))
-    .filter((file) => !binaryFilePattern.test(file))
-    .map((file) => relative(root, join(root, file)));
+  for (const absolutePath of await walkFiles(root, ignoredDirectorySet)) {
+    const file = relative(root, absolutePath).split(sep).join('/');
+
+    if (ignoredFiles.has(file) || binaryFilePattern.test(file)) {
+      continue;
+    }
+
+    files.push(file);
+  }
+
+  return files.sort();
+}
+
+async function walkFiles(directory, ignoredDirectorySet) {
+  const entries = await readdir(directory, { withFileTypes: true });
+  const files = [];
+
+  for (const entry of entries) {
+    if (entry.isDirectory()) {
+      if (ignoredDirectorySet.has(entry.name)) {
+        continue;
+      }
+
+      files.push(...(await walkFiles(join(directory, entry.name), ignoredDirectorySet)));
+      continue;
+    }
+
+    if (!entry.isFile()) {
+      continue;
+    }
+
+    files.push(join(directory, entry.name));
+  }
+
+  return files;
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
