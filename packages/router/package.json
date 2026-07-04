@@ -1,8 +1,11 @@
 {
   "name": "@vanrot/router",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Client-side router for Vanrot applications.",
-  "keywords": ["vanrot", "router"],
+  "keywords": [
+    "vanrot",
+    "router"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/router#readme",

@@ -1,8 +1,12 @@
 {
   "name": "@vanrot/runtime",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Tiny reactive runtime for Vanrot: signals, mounting, and lifecycle.",
-  "keywords": ["vanrot", "runtime", "signals"],
+  "keywords": [
+    "vanrot",
+    "runtime",
+    "signals"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/runtime#readme",

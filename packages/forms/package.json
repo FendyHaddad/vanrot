@@ -1,8 +1,11 @@
 {
   "name": "@vanrot/forms",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Form state, validation, and binding helpers for Vanrot.",
-  "keywords": ["vanrot", "forms"],
+  "keywords": [
+    "vanrot",
+    "forms"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/forms#readme",

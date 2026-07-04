@@ -1,8 +1,12 @@
 {
   "name": "@vanrot/behavior",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Headless UI and application behavior helpers for Vanrot.",
-  "keywords": ["vanrot", "headless", "behavior"],
+  "keywords": [
+    "vanrot",
+    "headless",
+    "behavior"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/behavior#readme",

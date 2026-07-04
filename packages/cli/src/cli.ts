@@ -13,15 +13,16 @@ import { removeCommand } from './commands/remove.js';
 import {
   cliCommands,
   commandAlias,
-  commandGroups,
   commandInvocation,
   commandName,
 } from './commands/metadata.js';
+import { readCliVersion, renderIntro } from './intro/intro.js';
 import { testCommand } from './commands/test.js';
 import { uiCommand } from './commands/ui.js';
 import { updateCommand } from './commands/update.js';
 import { upgradeCommand } from './commands/upgrade.js';
 import { parseOutputMode, renderJsonEvent, renderJsonLineEvent } from './reporter/modes.js';
+import type { OutputMode } from './reporter/modes.js';
 import type { CommandContext, CommandResult } from './result.js';
 import { fail, ok } from './result.js';
 
@@ -53,36 +54,16 @@ const commandHelp = new Map<string, string>(
   cliCommands.map((command) => [command.name, command.help]),
 );
 
-const commandByName = new Map(cliCommands.map((command) => [command.name, command]));
-
-const rootHelp = [
-  'VANROT',
-  '',
-  'Usage   vr <command> [options]',
-  '',
-  ...commandGroups.flatMap((group) => renderCommandGroup(group)),
-  'Run vr <command> --help for flags and examples.',
-].join('\n');
-
-function renderCommandGroup(group: (typeof commandGroups)[number]): string[] {
-  const lines = [group.label.toUpperCase()];
-
-  for (const commandNameInGroup of group.commands) {
-    const metadata = commandByName.get(commandNameInGroup);
-
-    if (metadata === undefined) {
-      continue;
-    }
-
-    lines.push(`${metadata.rootUsage.padEnd(26)} ${metadata.description}`);
+function introColorEnabled(mode: OutputMode): boolean {
+  if (!mode.color) {
+    return false;
   }
 
-  if (group.label === 'Scaffold') {
-    lines.push('e.g.  vr create my-app  ·  vr generate component header  ·  vr add button');
+  if (process.env.NO_COLOR !== undefined) {
+    return false;
   }
 
-  lines.push('');
-  return lines;
+  return process.stdout.isTTY === true;
 }
 
 export async function runCli(args: string[], context: CommandContext): Promise<CommandResult> {
@@ -99,7 +80,14 @@ export async function runCli(args: string[], context: CommandContext): Promise<C
   }
 
   if (command === undefined || command === '--help' || command === '-h') {
-    context.reporter.line(rootHelp);
+    context.reporter.line(
+      renderIntro({ version: readCliVersion(), color: introColorEnabled(outputMode) }),
+    );
+    return ok();
+  }
+
+  if (command === '--version' || command === '-v') {
+    context.reporter.line(readCliVersion());
     return ok();
   }
 

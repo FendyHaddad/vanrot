@@ -150,32 +150,53 @@ mount(CounterComponent, target);
 
 ## CLI
 
-The CLI is exposed as `vr` by `@vanrot/cli`.
+The CLI is exposed as `vr` by `@vanrot/cli`. Run `vr` with no arguments for the full guided intro.
+
+Start your journey:
 
 ```sh
+vr create my-app          # 1. Scaffold a fresh Vanrot app
+cd my-app && npm install  # 2. Step in and install dependencies
+vr dev                    # 3. Start the dev server with instant HMR
+vr generate page about    # 4. Grow with pages and components
+vr add button             # 5. Pull in accessible UI primitives
+vr doctor                 # 6. Check project health and intelligence
+vr build                  # 7. Ship a production build
+```
+
+Command groups:
+
+```sh
+# Scaffold
 vr create my-app
 vr generate component header --test
 vr generate page dashboard
 vr add button
 vr remove behavior tooltip --package
 vr ui list
+
+# Development
+vr dev
+vr build
+vr test
+
+# Maintenance
+vr doctor
+vr cache clean
 vr config migrate
 vr config recover
 vr update
 vr upgrade --latest
-vr doctor
 vr map
 vr init-ai
 vr ai context
-vr dev
-vr build
-vr test
 ```
 
 Run command help for flags and examples:
 
 ```sh
 vr <command> --help
+vr --version
 ```
 
 ## Examples

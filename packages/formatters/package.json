@@ -1,8 +1,11 @@
 {
   "name": "@vanrot/formatters",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Formatting utilities for Vanrot source and templates.",
-  "keywords": ["vanrot", "formatter"],
+  "keywords": [
+    "vanrot",
+    "formatter"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/formatters#readme",

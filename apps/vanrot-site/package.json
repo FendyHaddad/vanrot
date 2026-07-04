@@ -4,7 +4,6 @@
   "private": true,
   "type": "module",
   "web-types": "./web-types.json",
-  "packageManager": "pnpm@11.1.3",
   "scripts": {
     "prepare:deps": "pnpm --filter @vanrot/config build && pnpm --filter @vanrot/runtime build && pnpm --filter @vanrot/behavior build && pnpm --filter @vanrot/router build && pnpm --filter @vanrot/ui build && pnpm --filter @vanrot/vite-plugin build && pnpm --filter @vanrot/cli build",
     "dev": "vr dev",

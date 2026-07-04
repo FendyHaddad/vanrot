@@ -1,8 +1,11 @@
 {
   "name": "@vanrot/devtools",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Development-time tooling and diagnostics for Vanrot.",
-  "keywords": ["vanrot", "devtools"],
+  "keywords": [
+    "vanrot",
+    "devtools"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/devtools#readme",
@@ -33,7 +36,9 @@
       "default": "./dist/node/index.js"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc -p tsconfig.json && node scripts/copy-assets.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",

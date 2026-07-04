@@ -2,19 +2,12 @@ import { mkdir, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
+import { createRegistryDependencyVersion } from '../src/create/package-versions.js';
 import { runCli } from '../src/index.js';
 import { createMemoryReporter } from '../src/reporter/reporter.js';
 
 async function tempRoot() {
   return mkdtemp(join(tmpdir(), 'vanrot-cli-create-'));
-}
-
-async function cliPublishedDependencyVersion() {
-  const packageJson = JSON.parse(
-    await readFile(new URL('../package.json', import.meta.url), 'utf8'),
-  ) as { version: string };
-
-  return `^${packageJson.version}`;
 }
 
 describe('vr create', () => {
@@ -24,15 +17,14 @@ describe('vr create', () => {
 
     const result = await runCli(['create', 'demo-app'], { cwd, reporter });
     const appRoot = join(cwd, 'demo-app');
-    const dependencyVersion = await cliPublishedDependencyVersion();
 
     expect(result.exitCode).toBe(0);
     await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain(
-      `"@vanrot/router": "${dependencyVersion}"`,
+      `"@vanrot/router": "${createRegistryDependencyVersion('@vanrot/router')}"`,
     );
     await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain('"dev": "vr dev"');
     await expect(readFile(join(appRoot, 'package.json'), 'utf8')).resolves.toContain(
-      `"@vanrot/forge": "${dependencyVersion}"`,
+      `"@vanrot/forge": "${createRegistryDependencyVersion('@vanrot/forge')}"`,
     );
     await expect(readFile(join(appRoot, 'vanrot.config.ts'), 'utf8')).resolves.toContain(
       "engine: 'forge'",
@@ -153,7 +145,7 @@ describe('vr create', () => {
     expect(reporter.output()).toContain('Unknown behavior helper');
   });
 
-  it('uses the CLI package version for registry dependencies', async () => {
+  it('uses each published package version for registry dependencies', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
 
@@ -164,25 +156,23 @@ describe('vr create', () => {
       dependencies: Record<string, string>;
       devDependencies: Record<string, string>;
     };
-    const dependencyVersion = await cliPublishedDependencyVersion();
 
     expect(result.exitCode).toBe(0);
     expect(packageJson.dependencies).toMatchObject({
-      '@vanrot/config': dependencyVersion,
-      '@vanrot/runtime': dependencyVersion,
-      '@vanrot/router': dependencyVersion,
-      '@vanrot/ui': dependencyVersion,
+      '@vanrot/config': createRegistryDependencyVersion('@vanrot/config'),
+      '@vanrot/runtime': createRegistryDependencyVersion('@vanrot/runtime'),
+      '@vanrot/router': createRegistryDependencyVersion('@vanrot/router'),
+      '@vanrot/ui': createRegistryDependencyVersion('@vanrot/ui'),
     });
     expect(packageJson.devDependencies).toMatchObject({
-      '@vanrot/cli': dependencyVersion,
-      '@vanrot/forge': dependencyVersion,
+      '@vanrot/cli': createRegistryDependencyVersion('@vanrot/cli'),
+      '@vanrot/forge': createRegistryDependencyVersion('@vanrot/forge'),
     });
   });
 
   it('creates Forge apps by default', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
-    const dependencyVersion = await cliPublishedDependencyVersion();
 
     const result = await runCli(['create', 'forge-app'], { cwd, reporter });
     const appRoot = join(cwd, 'forge-app');
@@ -195,7 +185,7 @@ describe('vr create', () => {
     expect(result.exitCode).toBe(0);
     expect(configSource).toContain("engine: 'forge'");
     expect(packageJson.devDependencies).toMatchObject({
-      '@vanrot/forge': dependencyVersion,
+      '@vanrot/forge': createRegistryDependencyVersion('@vanrot/forge'),
     });
     expect(packageJson.scripts).toMatchObject({
       dev: 'vr dev',
@@ -206,7 +196,6 @@ describe('vr create', () => {
   it('creates Vite apps when requested', async () => {
     const cwd = await tempRoot();
     const reporter = createMemoryReporter();
-    const dependencyVersion = await cliPublishedDependencyVersion();
 
     const result = await runCli(['create', 'vite-app', '--engine', 'vite'], { cwd, reporter });
     const appRoot = join(cwd, 'vite-app');
@@ -218,7 +207,7 @@ describe('vr create', () => {
     expect(result.exitCode).toBe(0);
     expect(configSource).toContain("engine: 'vite'");
     expect(packageJson.devDependencies).toMatchObject({
-      '@vanrot/vite-plugin': dependencyVersion,
+      '@vanrot/vite-plugin': createRegistryDependencyVersion('@vanrot/vite-plugin'),
       vite: '^8.0.10',
     });
   });

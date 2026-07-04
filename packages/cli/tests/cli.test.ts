@@ -66,6 +66,41 @@ describe('runCli', () => {
     expect(out).toContain('Run vr <command> --help for flags and examples.');
   });
 
+  it('prints the journey intro on bare invocation', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli([], {
+      cwd: process.cwd(),
+      reporter,
+    });
+
+    const out = reporter.output();
+
+    expect(result.exitCode).toBe(0);
+    expect(out).toContain('VANROT');
+    expect(out).toContain('Signal-first web framework');
+    expect(out).toContain('START YOUR JOURNEY');
+    expect(out).toContain('vr create my-app');
+    expect(out).toContain('cd my-app && npm install');
+    expect(out).toContain('vr dev');
+    expect(out).toContain('THE FRAMEWORK');
+    expect(out).toContain('@vanrot/runtime');
+    expect(out).toContain('@vanrot/ai');
+    expect(out).toContain('LEARN');
+    expect(out).toContain('https://vanrot.vankode.com/docs');
+    expect(out).toContain('https://vanrot.vankode.com/components');
+  });
+
+  it('prints the cli version', async () => {
+    const reporter = createMemoryReporter();
+    const result = await runCli(['--version'], {
+      cwd: process.cwd(),
+      reporter,
+    });
+
+    expect(result.exitCode).toBe(0);
+    expect(reporter.output()).toMatch(/^\d+\.\d+\.\d+/);
+  });
+
   it('keeps every root command in exactly one help group with a description', () => {
     const groupedCommands = commandGroups.flatMap((group) => group.commands);
     const commandNames = cliCommands.map((command) => command.name);

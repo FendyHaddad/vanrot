@@ -1,8 +1,12 @@
 {
   "name": "@vanrot/ui",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Accessible UI primitives and design tokens for Vanrot.",
-  "keywords": ["vanrot", "ui", "components"],
+  "keywords": [
+    "vanrot",
+    "ui",
+    "components"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/ui#readme",

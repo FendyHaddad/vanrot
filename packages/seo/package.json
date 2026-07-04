@@ -1,9 +1,12 @@
 {
   "name": "@vanrot/seo",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "SEO and metadata helpers for Vanrot pages.",
-  "keywords": ["vanrot", "seo"],
+  "keywords": [
+    "vanrot",
+    "seo"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/seo#readme",

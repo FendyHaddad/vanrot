@@ -1,4 +1,3 @@
-import { createRequire } from 'node:module';
 import {
   renderCanonicalVanrotConfig,
   vanrotEngine,
@@ -7,6 +6,7 @@ import {
 } from '@vanrot/config';
 import { uiAppFile } from '@vanrot/ui';
 import { createStarterScripts, vanrotSitePath, vanrotSiteUrl } from '../commands/metadata.js';
+import { createRegistryDependencyVersion, type CreatePackageName } from './package-versions.js';
 import { generatedSeoUtilitySource, seoCliPackageName, seoCliUtilityPath } from '../seo/constants.js';
 import { type CreateSeoSelection } from '../seo/create-seo.js';
 import { renderSeoConfigSource } from '../seo/add-seo.js';
@@ -24,25 +24,23 @@ export interface TemplateFile {
   content: string;
 }
 
-const requirePackage = createRequire(import.meta.url);
-const cliPackage = requirePackage('../../package.json') as { version?: unknown };
-
 export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
-  const dependencyVersion = options.workspace ? 'workspace:*' : createRegistryDependencyVersion();
+  const dependencyVersionFor = (name: CreatePackageName): string =>
+    options.workspace ? 'workspace:*' : createRegistryDependencyVersion(name);
   const dependencies: Record<string, string> = {
-    '@vanrot/config': dependencyVersion,
-    '@vanrot/formatters': dependencyVersion,
-    '@vanrot/runtime': dependencyVersion,
-    '@vanrot/router': dependencyVersion,
-    '@vanrot/ui': dependencyVersion,
+    '@vanrot/config': dependencyVersionFor('@vanrot/config'),
+    '@vanrot/formatters': dependencyVersionFor('@vanrot/formatters'),
+    '@vanrot/runtime': dependencyVersionFor('@vanrot/runtime'),
+    '@vanrot/router': dependencyVersionFor('@vanrot/router'),
+    '@vanrot/ui': dependencyVersionFor('@vanrot/ui'),
   };
 
   if (options.behavior.length > 0) {
-    dependencies['@vanrot/behavior'] = dependencyVersion;
+    dependencies['@vanrot/behavior'] = dependencyVersionFor('@vanrot/behavior');
   }
 
   if (options.seo.enabled) {
-    dependencies[seoCliPackageName] = dependencyVersion;
+    dependencies[seoCliPackageName] = dependencyVersionFor(seoCliPackageName);
   }
 
   const template: TemplateFile[] = [
@@ -55,7 +53,7 @@ export function createAppTemplate(options: AppTemplateOptions): TemplateFile[] {
           type: 'module',
           scripts: createStarterScripts(),
           dependencies,
-          devDependencies: createStarterDevDependencies(options.engine, dependencyVersion),
+          devDependencies: createStarterDevDependencies(options.engine, dependencyVersionFor),
         },
         null,
         2,
@@ -453,30 +451,22 @@ export default defineConfig({
 
 function createStarterDevDependencies(
   engine: VanrotEngine,
-  dependencyVersion: string,
+  dependencyVersionFor: (name: CreatePackageName) => string,
 ): Record<string, string> {
   const devDependencies: Record<string, string> = {
-    '@vanrot/cli': dependencyVersion,
+    '@vanrot/cli': dependencyVersionFor('@vanrot/cli'),
     typescript: '^5.9.3',
     vitest: '^4.0.14',
   };
 
   if (engine === vanrotEngine.vite) {
-    devDependencies['@vanrot/vite-plugin'] = dependencyVersion;
+    devDependencies['@vanrot/vite-plugin'] = dependencyVersionFor('@vanrot/vite-plugin');
     devDependencies.vite = '^8.0.10';
     return devDependencies;
   }
 
-  devDependencies['@vanrot/forge'] = dependencyVersion;
+  devDependencies['@vanrot/forge'] = dependencyVersionFor('@vanrot/forge');
   return devDependencies;
-}
-
-function createRegistryDependencyVersion(): string {
-  if (typeof cliPackage.version !== 'string' || cliPackage.version.trim() === '') {
-    throw new Error('Missing @vanrot/cli package version.');
-  }
-
-  return `^${cliPackage.version}`;
 }
 
 function renderAppConfig(

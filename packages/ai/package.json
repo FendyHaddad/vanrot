@@ -1,8 +1,12 @@
 {
   "name": "@vanrot/ai",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "AI-consumption tooling and MCP server for Vanrot applications.",
-  "keywords": ["vanrot", "ai", "mcp"],
+  "keywords": [
+    "vanrot",
+    "ai",
+    "mcp"
+  ],
   "license": "MIT",
   "author": "Fendy Haddad",
   "homepage": "https://github.com/FendyHaddad/vanrot/tree/main/packages/ai#readme",
