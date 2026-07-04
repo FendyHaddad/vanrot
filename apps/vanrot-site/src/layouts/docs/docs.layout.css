@@ -149,11 +149,47 @@
   z-index: 10;
   display: flex;
   align-items: center;
+  gap: 12px;
   height: 56px;
   padding: 0 32px;
   border-bottom: 1px solid var(--vr-color-line);
   background: color-mix(in srgb, #000 88%, transparent);
   backdrop-filter: blur(14px);
+}
+
+.docs-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-left: -8px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--docs-sidebar-muted);
+  cursor: pointer;
+  transition: color 0.12s, background 0.12s;
+}
+
+.docs-menu-toggle:hover {
+  background: var(--docs-sidebar-panel);
+  color: var(--vr-color-text);
+}
+
+/* Inline template SVGs render in the wrong namespace, so the icon is CSS-drawn. */
+.docs-menu-toggle::before {
+  content: '';
+  width: 16px;
+  height: 2px;
+  border-radius: 1px;
+  background: currentColor;
+  box-shadow: 0 -5px 0 currentColor, 0 5px 0 currentColor;
+}
+
+.docs-sidebar-backdrop {
+  display: none;
 }
 
 .docs-content {
@@ -166,10 +202,43 @@
   }
 
   .docs-sidebar {
-    position: relative;
+    position: fixed;
+    top: 56px;
+    bottom: 0;
+    left: 0;
+    z-index: 40;
+    width: min(300px, 84vw);
     height: auto;
-    border-right: 0;
-    border-bottom: 1px solid var(--vr-color-line);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    visibility: hidden;
+  }
+
+  .docs-sidebar-open .docs-sidebar {
+    transform: translateX(0);
+    visibility: visible;
+  }
+
+  .docs-sidebar-backdrop {
+    position: fixed;
+    inset: 56px 0 0;
+    z-index: 30;
+    display: block;
+    border: 0;
+    background: rgba(0, 0, 0, 0.6);
+    cursor: pointer;
+  }
+
+  .docs-sidebar-backdrop[hidden] {
+    display: none;
+  }
+
+  .docs-menu-toggle {
+    display: inline-flex;
+  }
+
+  .docs-topbar {
+    padding: 0 18px;
   }
 
   .docs-content {

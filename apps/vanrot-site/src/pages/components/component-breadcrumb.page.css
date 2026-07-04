@@ -757,10 +757,31 @@
 
         .sidebar {
           position: relative;
+          top: 0;
+          display: flex;
+          align-items: center;
+          gap: 6px;
           height: auto;
-          overflow: visible;
+          overflow: auto hidden;
+          padding: 10px 14px;
           border-right: 0;
           border-bottom: 1px solid var(--border-soft);
+        }
+
+        .sidebar .brand,
+        .sidebar .search,
+        .sidebar .nav-title {
+          display: none;
+        }
+
+        .sidebar .nav-link {
+          flex: 0 0 auto;
+          height: 30px;
+          padding: 0 12px;
+          border: 1px solid var(--border);
+          border-radius: 999px;
+          font-size: 13px;
+          white-space: nowrap;
         }
 
         .content { padding: 32px 20px 72px; }
@@ -780,7 +801,7 @@
       }
 
       @media (max-width: 640px) {
-        .sidebar { padding: 16px; }
+        .sidebar { padding: 10px 14px; }
 
         .brand { margin-bottom: 12px; }
 

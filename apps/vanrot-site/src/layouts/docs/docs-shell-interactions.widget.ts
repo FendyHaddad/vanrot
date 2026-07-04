@@ -3,6 +3,10 @@ import { createOverlayController } from '@vanrot/behavior/overlay';
 import { onMount, type Dispose } from '@vanrot/runtime';
 
 const docsShellSelector = {
+  layout: '.docs-layout',
+  sidebar: '.docs-sidebar',
+  menuToggle: '[data-vr-docs-menu-toggle]',
+  menuBackdrop: '[data-vr-docs-menu-backdrop]',
   commandMenu: '[data-vr-docs-command-menu]',
   commandInput: '[data-vr-docs-command-input]',
   commandItem: '[data-vr-docs-command-item]',
@@ -17,6 +21,7 @@ const docsShellSelector = {
 } as const;
 
 const noop: Dispose = () => {};
+const sidebarOpenClass = 'docs-sidebar-open';
 const activeArticleBookmarkClass = 'docs-article-bookmark-active';
 const activeArticleSectionOffset = 156;
 const pageBottomThreshold = 4;
@@ -24,6 +29,7 @@ const pageBottomThreshold = 4;
 export function setupDocsShellInteractions(): void {
   onMount(() => {
     const disposers = [
+      setupMobileSidebar(),
       setupCommandMenu(),
       setupArticleBookmarks(),
       ...setupNestedOverlayPreviews(),
@@ -36,6 +42,58 @@ export function setupDocsShellInteractions(): void {
       }
     };
   });
+}
+
+function setupMobileSidebar(): Dispose {
+  const layout = queryElement(document, docsShellSelector.layout);
+  const sidebar = queryElement(document, docsShellSelector.sidebar);
+  const toggle = queryElement(document, docsShellSelector.menuToggle);
+  const backdrop = queryElement(document, docsShellSelector.menuBackdrop);
+
+  if (layout === null || sidebar === null || toggle === null || backdrop === null) {
+    return noop;
+  }
+
+  const syncOpen = (open: boolean) => {
+    layout.classList.toggle(sidebarOpenClass, open);
+    toggle.setAttribute('aria-expanded', String(open));
+    backdrop.hidden = !open;
+  };
+
+  const close = () => syncOpen(false);
+  const onToggleClick = () => syncOpen(!layout.classList.contains(sidebarOpenClass));
+
+  const onKeydown = (event: KeyboardEvent) => {
+    if (event.key !== 'Escape') {
+      return;
+    }
+
+    close();
+  };
+
+  const onSidebarClick = (event: Event) => {
+    if (!(event.target instanceof Element)) {
+      return;
+    }
+
+    if (event.target.closest('a[href]') === null) {
+      return;
+    }
+
+    close();
+  };
+
+  toggle.addEventListener('click', onToggleClick);
+  backdrop.addEventListener('click', close);
+  sidebar.addEventListener('click', onSidebarClick);
+  document.addEventListener('keydown', onKeydown);
+
+  return () => {
+    toggle.removeEventListener('click', onToggleClick);
+    backdrop.removeEventListener('click', close);
+    sidebar.removeEventListener('click', onSidebarClick);
+    document.removeEventListener('keydown', onKeydown);
+  };
 }
 
 function setupArticleBookmarks(): Dispose {

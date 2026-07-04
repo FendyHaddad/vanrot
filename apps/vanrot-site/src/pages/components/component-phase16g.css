@@ -402,9 +402,31 @@
 
   .component-phase16g-app .sidebar {
     position: static;
+    top: 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
     height: auto;
+    overflow: auto hidden;
+    padding: 10px 14px;
     border-right: 0;
     border-bottom: 1px solid var(--border-soft);
+  }
+
+  .component-phase16g-app .sidebar .brand,
+  .component-phase16g-app .sidebar .search,
+  .component-phase16g-app .sidebar .nav-title {
+    display: none;
+  }
+
+  .component-phase16g-app .sidebar .nav-link {
+    flex: 0 0 auto;
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    font-size: 13px;
+    white-space: nowrap;
   }
 
   .component-phase16g-app .topbar {

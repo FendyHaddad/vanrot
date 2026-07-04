@@ -61,8 +61,23 @@
     </vr-nav>
   </vr-sidebar>
 
+  <button
+    class="docs-sidebar-backdrop"
+    type="button"
+    data-vr-docs-menu-backdrop
+    aria-label="Close documentation menu"
+    hidden
+  ></button>
+
   <main class="docs-main">
     <vr-header class="docs-topbar">
+      <button
+        class="docs-menu-toggle"
+        type="button"
+        data-vr-docs-menu-toggle
+        aria-label="Toggle documentation menu"
+        aria-expanded="false"
+      ></button>
       <span>Framework Documentation</span>
     </vr-header>
     <section class="docs-content">

@@ -59,11 +59,16 @@ pre {
 }
 
 .component-gallery-app .sidebar {
-  top: var(--vr-site-header-height) !important;
-  height: calc(100vh - var(--vr-site-header-height)) !important;
-  padding: 18px 12px !important;
-  border-right: 1px solid var(--vr-color-line) !important;
   background: #000 !important;
+}
+
+@media (min-width: 861px) {
+  .component-gallery-app .sidebar {
+    top: var(--vr-site-header-height) !important;
+    height: calc(100vh - var(--vr-site-header-height)) !important;
+    padding: 18px 12px !important;
+    border-right: 1px solid var(--vr-color-line) !important;
+  }
 }
 
 .component-gallery-app .brand,
@@ -72,13 +77,19 @@ pre {
 }
 
 .component-gallery-app .topbar {
-  top: var(--vr-site-header-height) !important;
   justify-content: flex-start !important;
   height: 56px !important;
   padding: 0 32px !important;
   border-bottom: 1px solid var(--vr-color-line) !important;
   background: color-mix(in srgb, #000 88%, transparent) !important;
   backdrop-filter: blur(14px);
+}
+
+/* Only offset the sticky topbar under the site header; on mobile it is position: relative. */
+@media (min-width: 641px) {
+  .component-gallery-app .topbar {
+    top: var(--vr-site-header-height) !important;
+  }
 }
 
 .component-gallery-app .topbar-right {
